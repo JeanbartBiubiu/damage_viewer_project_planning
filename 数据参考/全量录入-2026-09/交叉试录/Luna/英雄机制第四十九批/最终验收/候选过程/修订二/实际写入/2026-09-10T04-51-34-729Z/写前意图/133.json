@@ -1,0 +1,31 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 133,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_e/parameters",
+    "detailRoute": "/skills/quinn_e/parameters/damage_base",
+    "skillKey": "quinn_e",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "旋翔掠杀基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 65,
+        "3": 90,
+        "4": 115,
+        "5": 140
+      },
+      "description": "BaseDamage索引1至5为40/65/90/115/140。",
+      "sortOrder": 10
+    }
+  }
+}

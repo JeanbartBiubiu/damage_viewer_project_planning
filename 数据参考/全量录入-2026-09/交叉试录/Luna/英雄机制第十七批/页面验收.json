@@ -1,0 +1,1469 @@
+{
+  "at": "2026-09-09T12:38:54.714Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "vladimir_w",
+      "observed": "代表图片、额外生命系数、生命消耗及持续总伤害/持续总回复公式可见；持续总量不写成每个伤害节拍。"
+    },
+    {
+      "skillKey": "rumble_w",
+      "observed": "四项普通/危险温度自身护盾和自身移速均显示生命周期。打开普通护盾详情，作用对象为施法者，持续时间引用shield_duration_ms，数值引用普通护盾公式。"
+    },
+    {
+      "skillKey": "aurelionsol_e",
+      "observed": "代表图片、星尘无默认运行输入、处决基础0.05和每星尘增长0.00026，以及当前处决生命阈值公式可见。"
+    }
+  ],
+  "GETs": 21,
+  "requests": [
+    {
+      "route": "/skills/vladimir_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:03.215932Z",
+        "description": "弗拉基米尔潜入血泊之中，变得不可被选取，持续2秒。血泊上的敌人被减速，同时弗拉基米尔会从他们身上吸取生命。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "弗拉基米尔·血红之池",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vladimir_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:03.215932Z"
+      }
+    },
+    {
+      "route": "/skills/vladimir_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vladimir_w",
+          "name": "vladimir_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/vladimir_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:14:52.405309Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "vladimir_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:14:52.405309Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:14:53.415998Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5；正文 TotalDamage 为血池持续期间总量，不表示每个节拍或每次命中量。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 135,
+            "3": 190,
+            "4": 245,
+            "5": 300
+          },
+          "name": "血池持续总伤害基础值",
+          "parameterKey": "base_damage",
+          "skillKey": "vladimir_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:14:53.415998Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:14:54.432944Z",
+          "description": "客户端当前根绑定 DataValues.BonusHealthRatio 取索引1至5",
+          "fixedValue": 0.15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外生命值伤害系数",
+          "parameterKey": "bonus_health_ratio",
+          "skillKey": "vladimir_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:14:54.432944Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:14:55.373496Z",
+          "description": "客户端当前根绑定 DataValues.HealthCost 取索引1至5",
+          "fixedValue": 0.15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前生命值消耗比例",
+          "parameterKey": "health_cost_ratio",
+          "skillKey": "vladimir_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:14:55.373496Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:14:56.317661Z",
+          "description": "客户端当前根绑定 DataValues.MoveSpeedMod 取索引1至5；单位负减速修正转为正比例；按来源单位换算为系统比例或毫秒",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "血池内敌方减速比例",
+          "parameterKey": "enemy_slow_ratio",
+          "skillKey": "vladimir_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T12:14:56.317661Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:14:57.298547Z",
+          "description": "客户端当前根绑定 DataValues.VampPercent 取索引1至5；正文 TotalHeal 为血池持续期间回复总量，不推断每个节拍或每次命中分配。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "血池持续总回复比例",
+          "parameterKey": "vamp_ratio",
+          "skillKey": "vladimir_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T12:14:57.298547Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:14:58.295862Z",
+          "description": "客户端当前根绑定 DataValues.HasteBoost 取索引1至5",
+          "fixedValue": 0.375,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "自身持续衰减移速起始比例",
+          "parameterKey": "self_move_speed_ratio",
+          "skillKey": "vladimir_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T12:14:58.295862Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:14:59.285854Z",
+          "description": "客户端当前根绑定 DataValues.HasteDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "自身移速持续（毫秒）",
+          "parameterKey": "haste_duration_ms",
+          "skillKey": "vladimir_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T12:14:59.285854Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:51.698761Z",
+          "description": "DDragon16.17.1 Vladimir.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 28000,
+            "2": 25000,
+            "3": 22000,
+            "4": 19000,
+            "5": 16000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vladimir_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:51.698761Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:15:00.263773Z",
+          "description": "当前中文正文明确持续2秒；不能与减速/吸血命中节拍混为一项。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "血池持续（毫秒）",
+          "parameterKey": "pool_duration_ms",
+          "skillKey": "vladimir_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T12:15:00.263773Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:15:01.235311Z",
+          "description": "血池消耗按施放时当前生命值计算；缺输入不能默认0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施放时当前生命值输入",
+          "parameterKey": "source_current_hp_for_cost",
+          "skillKey": "vladimir_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T12:15:01.235311Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/vladimir_w/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:15:02.210706Z",
+          "description": "TotalDamage = BaseDamage + BonusHealthRatio×来源额外生命值；正文 TotalDamage 为持续期间总魔法伤害量，不表示每个节拍或每次命中。",
+          "formulaKey": "pool_damage",
+          "gameId": "lol",
+          "name": "血池持续总魔法伤害量",
+          "skillKey": "vladimir_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:15:02.210706Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:15:03.364376Z",
+          "description": "TotalHeal = VampPercent×TotalDamage；正文 TotalHeal 为持续期间回复总量，不推断每个节拍或每次命中分配，不创建瞬时治疗结果。",
+          "formulaKey": "pool_heal",
+          "gameId": "lol",
+          "name": "血池持续总回复量",
+          "skillKey": "vladimir_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:15:03.364376Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:15:04.380879Z",
+          "description": "HealthCost×施放时当前生命值；资源扣除时点与施放资格待接线。",
+          "formulaKey": "health_cost",
+          "gameId": "lol",
+          "name": "血池当前生命值消耗",
+          "skillKey": "vladimir_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:15:04.380879Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/rumble_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:07.060476Z",
+        "description": "兰博制造一个护盾，保护自己免受伤害，并短时间内增加移动速度。在危险温度时，兰博增加护盾强度和速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "兰博·破碎护盾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "rumble_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:07.060476Z"
+      }
+    },
+    {
+      "route": "/skills/rumble_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_rumble_w",
+          "name": "rumble_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/rumble_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:16:52.454432Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "rumble_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:16:52.454432Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:16:53.368589Z",
+          "description": "客户端当前根绑定 DataValues.HeatCost 取索引1至5",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "破碎护盾热量消耗",
+          "parameterKey": "heat_cost",
+          "skillKey": "rumble_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:16:53.368589Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:16:54.399342Z",
+          "description": "客户端当前根绑定 DataValues.BaseShield 取索引1至5",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 25,
+            "2": 55,
+            "3": 85,
+            "4": 115,
+            "5": 145
+          },
+          "name": "破碎护盾基础值",
+          "parameterKey": "base_shield",
+          "skillKey": "rumble_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:16:54.399342Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:16:55.426979Z",
+          "description": "客户端当前根绑定 DataValues.HealthShield 取索引1至5",
+          "fixedValue": 0.04,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "来源生命值护盾系数",
+          "parameterKey": "health_shield_ratio",
+          "skillKey": "rumble_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:16:55.426979Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:16:56.490589Z",
+          "description": "客户端当前根绑定 DataValues.MoveSpeed 取索引1至5",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.1,
+            "2": 0.15,
+            "3": 0.2,
+            "4": 0.25,
+            "5": 0.3
+          },
+          "name": "破碎护盾移速比例",
+          "parameterKey": "move_speed_ratio",
+          "skillKey": "rumble_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T12:16:56.490589Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:16:57.576398Z",
+          "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "破碎护盾法强系数",
+          "parameterKey": "shield_ap_ratio",
+          "skillKey": "rumble_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T12:16:57.576398Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:16:58.598953Z",
+          "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续（毫秒）",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "rumble_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T12:16:58.598953Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:16:59.696348Z",
+          "description": "客户端当前根绑定 DataValues.MoveSpeedDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "移速持续（毫秒）",
+          "parameterKey": "move_speed_duration_ms",
+          "skillKey": "rumble_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T12:16:59.696348Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:17:00.726556Z",
+          "description": "当前根EmpoweredShield树明确危险温度护盾为普通值1.5倍。",
+          "fixedValue": 1.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "危险温度护盾倍率",
+          "parameterKey": "empowered_shield_multiplier",
+          "skillKey": "rumble_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T12:17:00.726556Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:39:00.671969Z",
+          "description": "DDragon16.17.1 Rumble.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rumble_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:39:00.671969Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:17:01.713786Z",
+          "description": "当前根EmpoweredMS树明确危险温度移速为普通值1.5倍。",
+          "fixedValue": 1.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "危险温度移速倍率",
+          "parameterKey": "empowered_move_speed_multiplier",
+          "skillKey": "rumble_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T12:17:01.713786Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:17:02.717665Z",
+          "description": "当前HealthShield树的属性选择器没有完整所有者和值类型证据；外供实际来源生命值，不默认0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾计算用来源生命值输入",
+          "parameterKey": "source_health_for_shield",
+          "skillKey": "rumble_w",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T12:17:02.717665Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/rumble_w/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:17:03.92965Z",
+          "description": "TotalShield = BaseShield + APRatio×法强 + HealthShield×来源生命值；缺输入不默认0。",
+          "formulaKey": "shield_amount",
+          "gameId": "lol",
+          "name": "普通破碎护盾值",
+          "skillKey": "rumble_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:17:03.92965Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:17:04.998268Z",
+          "description": "EmpoweredShield = 1.5×普通护盾；危险温度资格待接线。",
+          "formulaKey": "empowered_shield_amount",
+          "gameId": "lol",
+          "name": "危险温度破碎护盾值",
+          "skillKey": "rumble_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:17:04.998268Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:17:06.083898Z",
+          "description": "EmpoweredMS = 1.5×普通移速比例。",
+          "formulaKey": "empowered_move_speed_ratio",
+          "gameId": "lol",
+          "name": "危险温度破碎护盾移速比例",
+          "skillKey": "rumble_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:17:06.083898Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/aurelionsol_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:28.913408Z",
+        "description": "奥瑞利安·索尔召唤一个黑洞，对敌人们造成伤害并缓慢地将他们拉拽向黑洞的中心。每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，这个技能都会提供【星尘】。黑洞的中心会处决低于一定百分比最大生命值的敌人。【星尘】会提升【星芒凝汇】的区域以及处决阈值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥瑞利安·索尔·星芒凝汇",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "aurelionsol_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:28.913408Z"
+      }
+    },
+    {
+      "route": "/skills/aurelionsol_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_aurelionsol_e",
+          "name": "aurelionsol_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/aurelionsol_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:18:17.868942Z",
+          "description": "客户端当前根绑定 DataValues.ChampionMassPerSecond 取索引1至5",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "范围内英雄每秒星尘进度",
+          "parameterKey": "champion_mass_per_second",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:18:17.868942Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:18.799256Z",
+          "description": "客户端当前根绑定 DataValues.MinionMassDeath 取索引1至5",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "小兵死亡星尘进度",
+          "parameterKey": "minion_mass_on_death",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:18:18.799256Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:19.72506Z",
+          "description": "客户端当前根绑定 DataValues.LargeMinionCountBonus 取索引1至5",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "大型小兵额外星尘进度",
+          "parameterKey": "large_minion_mass_bonus",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:18:19.72506Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:20.618569Z",
+          "description": "客户端当前根绑定 DataValues.LargeMonsterCountBonus 取索引1至5",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "大型野怪额外星尘进度",
+          "parameterKey": "large_monster_mass_bonus",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T12:18:20.618569Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:22.060861Z",
+          "description": "客户端当前根绑定 DataValues.ChampionCountBonus 取索引1至5",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "英雄额外星尘进度",
+          "parameterKey": "champion_mass_bonus",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T12:18:22.060861Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:23.085021Z",
+          "description": "客户端当前根绑定 DataValues.EpicMonsterCountBonus 取索引1至5",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "史诗野怪额外星尘进度",
+          "parameterKey": "epic_monster_mass_bonus",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T12:18:23.085021Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:24.210616Z",
+          "description": "客户端当前根绑定 DataValues.StartingRadius 取索引1至5",
+          "fixedValue": 275,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "星芒凝汇初始半径",
+          "parameterKey": "starting_radius",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T12:18:24.210616Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:35:57.226581Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:57.226581Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:25.178886Z",
+          "description": "客户端当前根绑定 DataValues.StartingInnerRadius 取索引1至5",
+          "fixedValue": 120,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "星芒凝汇初始内圈半径",
+          "parameterKey": "starting_inner_radius",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T12:18:25.178886Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:26.118823Z",
+          "description": "客户端当前根绑定 DataValues.StartingGravity 取索引1至5",
+          "fixedValue": 150,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "初始引力",
+          "parameterKey": "starting_gravity",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T12:18:26.118823Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:35:57.730154Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 90,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:35:57.730154Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:27.096336Z",
+          "description": "客户端当前根绑定 DataValues.Duration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "星芒凝汇持续（毫秒）",
+          "parameterKey": "duration_ms",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T12:18:27.096336Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:28.080094Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamagePerSecond 取索引1至5",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10,
+            "2": 15,
+            "3": 20,
+            "4": 25,
+            "5": 30
+          },
+          "name": "每秒基础魔法伤害",
+          "parameterKey": "damage_per_second_base",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 140,
+          "updatedAt": "2026-09-09T12:18:28.080094Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:29.07841Z",
+          "description": "客户端当前根绑定 DataValues.DamageperSecondAPRatio 取索引1至5",
+          "fixedValue": 0.12,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每秒伤害法强系数",
+          "parameterKey": "damage_per_second_ap_ratio",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 150,
+          "updatedAt": "2026-09-09T12:18:29.07841Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:30.018331Z",
+          "description": "客户端当前根绑定 DataValues.BaseExecutionThreshold 取索引1至5；单位百分数点转比例；按来源单位换算为系统比例或毫秒",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础处决生命阈值",
+          "parameterKey": "execute_base_threshold_ratio",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 160,
+          "updatedAt": "2026-09-09T12:18:30.018331Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:31.04104Z",
+          "description": "客户端当前根绑定 DataValues.ExecutionGrowthPerBreakpoint 取索引1至5；单位百分数点转比例；按来源单位换算为系统比例或毫秒",
+          "fixedValue": 0.00026,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层星尘处决阈值增量",
+          "parameterKey": "execute_growth_per_stardust_ratio",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 170,
+          "updatedAt": "2026-09-09T12:18:31.04104Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:32.020632Z",
+          "description": "星尘为战前和战斗中进度；实际数量外供，不自动累积。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "E计算用星尘数量",
+          "parameterKey": "stardust_count",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 180,
+          "updatedAt": "2026-09-09T12:18:32.020632Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:33.043133Z",
+          "description": "客户端只给等级节点，实际射程外供，不猜曲线。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "星芒凝汇等级射程（实际值外供）",
+          "parameterKey": "level_based_range",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 190,
+          "updatedAt": "2026-09-09T12:18:33.043133Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/aurelionsol_e/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:18:34.004495Z",
+          "description": "DamagePerSecond = BaseDamagePerSecond + DamageperSecondAPRatio×法强；保存每秒量，不创建周期伤害。",
+          "formulaKey": "damage_per_second",
+          "gameId": "lol",
+          "name": "星芒凝汇每秒魔法伤害",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:18:34.004495Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:18:35.086204Z",
+          "description": "CurrentExecutionThreshold = 基础阈值 + 星尘数量×成长增量；正文直接在该值后追加百分号，基础5%与每层0.026个百分点统一换算为比例；不创建处决结果。",
+          "formulaKey": "current_execute_threshold_ratio",
+          "gameId": "lol",
+          "name": "星芒凝汇当前处决生命阈值",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:18:35.086204Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/vladimir_w/formulas/pool_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:15:02.210706Z",
+        "description": "TotalDamage = BaseDamage + BonusHealthRatio×来源额外生命值；正文 TotalDamage 为持续期间总魔法伤害量，不表示每个节拍或每次命中。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "pool_damage",
+        "gameId": "lol",
+        "name": "血池持续总魔法伤害量",
+        "skillKey": "vladimir_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:15:02.210706Z"
+      }
+    },
+    {
+      "route": "/skills/vladimir_w/formulas/pool_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:15:03.364376Z",
+        "description": "TotalHeal = VampPercent×TotalDamage；正文 TotalHeal 为持续期间回复总量，不推断每个节拍或每次命中分配，不创建瞬时治疗结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "vamp_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_health_ratio"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "pool_heal",
+        "gameId": "lol",
+        "name": "血池持续总回复量",
+        "skillKey": "vladimir_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:15:03.364376Z"
+      }
+    },
+    {
+      "route": "/skills/rumble_w/formulas/shield_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:17:03.92965Z",
+        "description": "TotalShield = BaseShield + APRatio×法强 + HealthShield×来源生命值；缺输入不默认0。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_shield"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "health_shield_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_health_for_shield"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "shield_amount",
+        "gameId": "lol",
+        "name": "普通破碎护盾值",
+        "skillKey": "rumble_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:17:03.92965Z"
+      }
+    },
+    {
+      "route": "/skills/rumble_w/formulas/empowered_shield_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:17:04.998268Z",
+        "description": "EmpoweredShield = 1.5×普通护盾；危险温度资格待接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_shield_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_shield"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "shield_ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "health_shield_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_health_for_shield"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "empowered_shield_amount",
+        "gameId": "lol",
+        "name": "危险温度破碎护盾值",
+        "skillKey": "rumble_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:17:04.998268Z"
+      }
+    },
+    {
+      "route": "/skills/aurelionsol_e/formulas/current_execute_threshold_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:18:35.086204Z",
+        "description": "CurrentExecutionThreshold = 基础阈值 + 星尘数量×成长增量；正文直接在该值后追加百分号，基础5%与每层0.026个百分点统一换算为比例；不创建处决结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "execute_base_threshold_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "stardust_count"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "execute_growth_per_stardust_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "current_execute_threshold_ratio",
+        "gameId": "lol",
+        "name": "星芒凝汇当前处决生命阈值",
+        "skillKey": "aurelionsol_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:18:35.086204Z"
+      }
+    },
+    {
+      "route": "/skills/rumble_w/effects/shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:17:07.106645Z",
+        "description": "当前正文明确自身获得护盾；只表达可独立定义的自身护盾，危险温度分支和实际触发尚未接线。",
+        "effectKey": "shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "普通破碎护盾自身护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "普通破碎护盾自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield_amount",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "rumble_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:17:07.106645Z"
+      }
+    },
+    {
+      "route": "/skills/rumble_w/effects/empowered_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:17:08.231742Z",
+        "description": "当前正文明确危险温度强化护盾；只表达可独立定义的自身护盾，危险温度分支和实际触发尚未接线。",
+        "effectKey": "empowered_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "危险温度破碎护盾自身护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "危险温度破碎护盾自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "empowered_shield_amount",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "rumble_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:17:08.231742Z"
+      }
+    },
+    {
+      "route": "/skills/rumble_w/effects/move_speed",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:17:09.341261Z",
+        "description": "当前正文明确普通破碎护盾提供自身移动速度；危险温度资格和实际施放尚未接线。",
+        "effectKey": "move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "普通破碎护盾自身移速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "普通破碎护盾自身移速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "rumble_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T12:17:09.341261Z"
+      }
+    },
+    {
+      "route": "/skills/rumble_w/effects/empowered_move_speed",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:17:10.451455Z",
+        "description": "当前正文明确危险温度强化移速；不借mana表示热量，也不自动触发。",
+        "effectKey": "empowered_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "危险温度破碎护盾自身移速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "危险温度破碎护盾自身移速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "empowered_move_speed_ratio",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "rumble_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T12:17:10.451455Z"
+      }
+    }
+  ],
+  "mathCases": 10,
+  "cases": [
+    {
+      "skillKey": "vladimir_w",
+      "formulaKey": "pool_damage",
+      "input": {
+        "rank": 1,
+        "SOURCE.hp.BONUS": 1000
+      },
+      "actual": 230,
+      "expected": 230,
+      "passed": true
+    },
+    {
+      "skillKey": "vladimir_w",
+      "formulaKey": "pool_damage",
+      "input": {
+        "rank": 5,
+        "SOURCE.hp.BONUS": 1000
+      },
+      "actual": 450,
+      "expected": 450,
+      "passed": true
+    },
+    {
+      "skillKey": "vladimir_w",
+      "formulaKey": "pool_heal",
+      "input": {
+        "rank": 1,
+        "SOURCE.hp.BONUS": 1000
+      },
+      "actual": 69,
+      "expected": 69,
+      "passed": true
+    },
+    {
+      "skillKey": "vladimir_w",
+      "formulaKey": "pool_heal",
+      "input": {
+        "rank": 5,
+        "SOURCE.hp.BONUS": 1000
+      },
+      "actual": 135,
+      "expected": 135,
+      "passed": true
+    },
+    {
+      "skillKey": "rumble_w",
+      "formulaKey": "shield_amount",
+      "input": {
+        "rank": 1,
+        "SOURCE.ability_power.TOTAL": 100,
+        "source_health_for_shield": 2000
+      },
+      "actual": 135,
+      "expected": 135,
+      "passed": true
+    },
+    {
+      "skillKey": "rumble_w",
+      "formulaKey": "shield_amount",
+      "input": {
+        "rank": 5,
+        "SOURCE.ability_power.TOTAL": 100,
+        "source_health_for_shield": 2000
+      },
+      "actual": 255,
+      "expected": 255,
+      "passed": true
+    },
+    {
+      "skillKey": "rumble_w",
+      "formulaKey": "empowered_shield_amount",
+      "input": {
+        "rank": 1,
+        "SOURCE.ability_power.TOTAL": 100,
+        "source_health_for_shield": 2000
+      },
+      "actual": 202.5,
+      "expected": 202.5,
+      "passed": true
+    },
+    {
+      "skillKey": "rumble_w",
+      "formulaKey": "empowered_shield_amount",
+      "input": {
+        "rank": 5,
+        "SOURCE.ability_power.TOTAL": 100,
+        "source_health_for_shield": 2000
+      },
+      "actual": 382.5,
+      "expected": 382.5,
+      "passed": true
+    },
+    {
+      "skillKey": "aurelionsol_e",
+      "formulaKey": "current_execute_threshold_ratio",
+      "input": {
+        "rank": 1,
+        "stardust_count": 0
+      },
+      "actual": 0.05,
+      "expected": 0.05,
+      "passed": true
+    },
+    {
+      "skillKey": "aurelionsol_e",
+      "formulaKey": "current_execute_threshold_ratio",
+      "input": {
+        "rank": 5,
+        "stardust_count": 100
+      },
+      "actual": 0.076,
+      "expected": 0.076,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

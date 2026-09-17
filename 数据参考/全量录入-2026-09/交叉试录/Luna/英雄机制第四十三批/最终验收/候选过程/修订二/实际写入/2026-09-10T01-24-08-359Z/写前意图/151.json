@@ -1,0 +1,28 @@
+{
+  "i": 150,
+  "intent": {
+    "sequence": 151,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/parameters",
+    "detailRoute": "/skills/naafiri_r/parameters/base_damage",
+    "skillKey": "naafiri_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "猎狗血性本体基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 125,
+        "2": 200,
+        "3": 275
+      },
+      "description": "TotalDamage使用当前根DataValues.BaseDamage索引1至3：125/200/275。",
+      "sortOrder": 10
+    }
+  }
+}

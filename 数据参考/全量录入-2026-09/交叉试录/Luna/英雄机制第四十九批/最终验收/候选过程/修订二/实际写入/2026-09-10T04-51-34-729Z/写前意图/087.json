@@ -1,0 +1,25 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_e/parameters",
+    "detailRoute": "/skills/kled_e/parameters/recast_window_ms",
+    "skillKey": "kled_e",
+    "kind": "parameters",
+    "stableKey": "recast_window_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_window_ms",
+      "name": "再次施放窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "源值3秒。",
+      "sortOrder": 50
+    }
+  }
+}

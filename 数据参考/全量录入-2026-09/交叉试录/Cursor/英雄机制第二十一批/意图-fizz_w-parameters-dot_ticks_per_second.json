@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:38.780Z",
+  "method": "POST",
+  "skillKey": "fizz_w",
+  "kind": "parameters",
+  "stableKey": "dot_ticks_per_second",
+  "route": "/skills/fizz_w/parameters",
+  "readRoute": "/skills/fizz_w/parameters/dot_ticks_per_second",
+  "body": {
+    "parameterKey": "dot_ticks_per_second",
+    "name": "流血每秒跳数",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 2,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.DoTTicksPerSecond 取索引1至5。次数用整数。不把总量除以跳数冒充每次伤害公式。",
+    "sortOrder": 60
+  }
+}

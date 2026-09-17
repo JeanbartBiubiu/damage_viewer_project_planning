@@ -1,0 +1,20 @@
+{
+  "i": 8,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_q/parameters",
+    "skillKey": "maokai_q",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.99,
+      "levelValues": null,
+      "description": "当前根DataValues.SlowAmount取索引1至5均为0.99；正文描述短暂减速，资格和应用时点未接线。",
+      "sortOrder": 50
+    }
+  }
+}

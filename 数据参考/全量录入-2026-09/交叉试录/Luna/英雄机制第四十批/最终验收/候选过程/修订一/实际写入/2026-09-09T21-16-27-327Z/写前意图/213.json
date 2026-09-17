@@ -1,0 +1,67 @@
+{
+  "i": 212,
+  "intent": {
+    "sequence": 213,
+    "method": "POST",
+    "route": "/skills/twistedfate_e/formulas",
+    "detailRoute": "/skills/twistedfate_e/formulas/fourth_attack_magic_damage",
+    "skillKey": "twistedfate_e",
+    "kind": "formulas",
+    "stableKey": "fourth_attack_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "fourth_attack_magic_damage",
+      "name": "卡牌骗术第四次攻击单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前BonusDamage=Damage+0.2×来源额外攻击力+0.4×来源总法强；触发次数由事件层接线。",
+      "sortOrder": 10
+    }
+  }
+}

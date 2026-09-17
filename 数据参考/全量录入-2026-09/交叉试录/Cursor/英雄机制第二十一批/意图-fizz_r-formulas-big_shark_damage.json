@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-09T12:38:19.645Z",
+  "method": "POST",
+  "skillKey": "fizz_r",
+  "kind": "formulas",
+  "stableKey": "big_shark_damage",
+  "route": "/skills/fizz_r/formulas",
+  "readRoute": "/skills/fizz_r/formulas/big_shark_damage",
+  "body": {
+    "formulaKey": "big_shark_damage",
+    "name": "大鲨鱼魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "large_damage_multiplier"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "small_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "small_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "BigSharkDamage = LargeDamageMulti × SmallSharkDamage。长距分支；上限倍率在表达式内，不冒充飞行距离插值函数。",
+    "sortOrder": 30
+  }
+}

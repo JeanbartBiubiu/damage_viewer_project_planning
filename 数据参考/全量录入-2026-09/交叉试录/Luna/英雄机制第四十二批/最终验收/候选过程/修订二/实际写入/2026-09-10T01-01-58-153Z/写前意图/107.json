@@ -1,0 +1,21 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "skillKey": "mel_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_q/parameters",
+    "stableKey": "unit_count",
+    "body": {
+      "parameterKey": "unit_count",
+      "name": "总式固定减一单位",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "AllDamageHit树中的固定1，用于爆炸数量减一。",
+      "sortOrder": 70
+    }
+  }
+}

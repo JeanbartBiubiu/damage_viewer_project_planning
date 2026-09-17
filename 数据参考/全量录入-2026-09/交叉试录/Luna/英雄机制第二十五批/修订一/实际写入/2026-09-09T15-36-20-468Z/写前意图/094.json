@@ -1,0 +1,45 @@
+{
+  "sequence": 94,
+  "intent": {
+    "sequence": 94,
+    "method": "POST",
+    "route": "/skills/tryndamere_w/parameters",
+    "detailRoute": "/skills/tryndamere_w/parameters/attack_damage_reduction",
+    "skillKey": "tryndamere_w",
+    "kind": "parameters",
+    "stableKey": "attack_damage_reduction",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_damage_reduction",
+      "name": "目标攻击力降低值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 35,
+        "3": 50,
+        "4": 65,
+        "5": 80
+      },
+      "description": "客户端原始ADReduction为-20至-80，当前正文使用ADReduction*-1显示；候选保存正的20至80并使用DECREASE，避免双重负号。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 484,
+    "method": "GET",
+    "route": "/skills/tryndamere_w/parameters/attack_damage_reduction",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "attack_damage_reduction"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:12.712Z"
+  }
+}

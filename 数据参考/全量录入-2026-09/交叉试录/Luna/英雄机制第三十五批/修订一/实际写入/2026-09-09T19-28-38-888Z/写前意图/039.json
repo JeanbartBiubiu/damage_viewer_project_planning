@@ -1,0 +1,23 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 38,
+    "method": "POST",
+    "route": "/skills/rell_p/parameters",
+    "detailRoute": "/skills/rell_p/parameters/shred_duration_ms",
+    "skillKey": "rell_p",
+    "kind": "parameters",
+    "stableKey": "shred_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shred_duration_ms",
+      "name": "偷取双抗持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "客户端ShredDuration=5秒；转换为5000毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

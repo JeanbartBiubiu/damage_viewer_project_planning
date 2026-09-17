@@ -1,0 +1,23 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "method": "POST",
+    "route": "/skills/skarner_w/parameters",
+    "detailRoute": "/skills/skarner_w/parameters/slow_ratio",
+    "skillKey": "skarner_w",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "震地壁垒减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "正文使用SlowEffect*-100显示正减速；保存0.20比例并记录来源为-0.20。",
+      "sortOrder": 50
+    }
+  }
+}

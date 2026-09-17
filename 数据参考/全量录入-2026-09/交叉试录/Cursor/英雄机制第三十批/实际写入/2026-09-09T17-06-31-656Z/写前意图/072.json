@@ -1,0 +1,87 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 72,
+    "method": "POST",
+    "route": "/skills/yone_w/formulas",
+    "detailRoute": "/skills/yone_w/formulas/first_champion_shield_value",
+    "skillKey": "yone_w",
+    "kind": "formulas",
+    "stableKey": "first_champion_shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "first_champion_shield_value",
+      "name": "命中首个敌方英雄的完整护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_level_base_value"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_bonus_attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_level_base_value"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "shield_bonus_attack_damage_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "first_champion_shield_increase_ratio"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "首个敌方英雄使完整护盾额外提升100%，即完整护盾×2；不把提升只施加在基础值上。",
+      "sortOrder": 40
+    }
+  }
+}

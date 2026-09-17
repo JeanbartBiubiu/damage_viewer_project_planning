@@ -1,0 +1,55 @@
+{
+  "i": 146,
+  "intent": {
+    "sequence": 147,
+    "method": "POST",
+    "route": "/skills/yuumi_e/formulas",
+    "detailRoute": "/skills/yuumi_e/formulas/attack_speed_ratio",
+    "skillKey": "yuumi_e",
+    "kind": "formulas",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "attack_speed_ratio",
+      "name": "旺盛精力自身攻击速度增加",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "attack_speed_percent_scale"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_speed_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "attack_speed_ap_points_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "攻击速度=(25/27.5/30/32.5/35+0.08×法强)×0.01；效果使用bonus_attack_speed_percent的平加区。",
+      "sortOrder": 20
+    }
+  }
+}

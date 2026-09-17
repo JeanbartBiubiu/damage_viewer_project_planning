@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T12:15:17.902Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_e/effects/max_health_cost",
+  "id": "max_health_cost",
+  "method": "POST",
+  "body": {
+    "effectKey": "max_health_cost",
+    "name": "蓄力生命值消耗",
+    "description": "只表达明确的非即时资源代价；蓄力中断、自动释放和扣除时点未接线。",
+    "sortOrder": 10,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "resource",
+        "name": "蓄力生命值消耗",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "charge_health_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "hp",
+          "operation": "CONSUME"
+        }
+      }
+    ]
+  }
+}

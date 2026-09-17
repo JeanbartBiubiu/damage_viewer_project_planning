@@ -1,0 +1,24 @@
+{
+  "i": 91,
+  "intent": {
+    "sequence": 92,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/parameters",
+    "detailRoute": "/skills/nilah_q/parameters/ad_ratio",
+    "skillKey": "nilah_q",
+    "kind": "parameters",
+    "stableKey": "ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ad_ratio",
+      "name": "游刃万变总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "DamageCalc的mStat=2且未给formula，读取来源总攻击力；QADRatio=1。",
+      "sortOrder": 20
+    }
+  }
+}

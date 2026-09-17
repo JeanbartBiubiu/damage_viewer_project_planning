@@ -1,0 +1,72 @@
+{
+  "at": "2026-09-09T06:45:09.009Z",
+  "success": true,
+  "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "writePlanSha256": "efbe71e316fdf71b7ee2250a9357a906501072abe0fd94a9e7a9fe6d95da7382",
+  "actualPostCount": 189,
+  "writtenCounts": {
+    "parameters": 130,
+    "formulas": 34,
+    "effects": 25
+  },
+  "reusedFullParameters": 24,
+  "totalComposition": 213,
+  "allPost201": true,
+  "allWriteAfterGET200": true,
+  "independentFullRead": {
+    "runId": "2026-09-09T06-43-06-106Z",
+    "HTTPMethods": {
+      "GET": 385
+    },
+    "actualGETs": 385,
+    "detailObjects": 213,
+    "businessLeafFields": 2526,
+    "conflicts": 0,
+    "missing": 0,
+    "allProtectedOriginalsUnchanged": true
+  },
+  "independentActualMath": {
+    "actualGETs": 188,
+    "parameters": 154,
+    "formulas": 34,
+    "sourceCases": 102,
+    "manualCases": 52,
+    "checks": 1132,
+    "failures": 0
+  },
+  "applyHTTP": {
+    "total": 1148,
+    "methods": {
+      "GET": 959,
+      "POST": 189
+    },
+    "statuses": {
+      "200": 770,
+      "201": 189,
+      "404": 189
+    }
+  },
+  "guards": {
+    "finalCandidateFrozen": true,
+    "oldCandidateAndLockPreserved": true,
+    "completedApplyRejectedBeforeHTTP": true
+  },
+  "experience": [
+    "接口按25个独立效果保存；没有伤害结果、过程或自动触发。",
+    "凯南E初始攻速固定4秒，延长总时长公式未绑定为剩余时间；未知等级/属性/充能及其他资格仍未补默认值。",
+    "四角色主体、20技能主体、20技能代表图、4挂载列表、原24完整参数及原字典行均保护。",
+    "本次写入结果全部201并逐GET确认；没有重试或重放未知写。"
+  ],
+  "scope": "本批实际确定组成录入与独立API/数学验收；不含浏览器或完整战斗运行。",
+  "evidence": {
+    "applyDirectory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十四批\\执行记录\\2026-09-09T06-38-56-670Z",
+    "applyReportSha256": "0fa13580186e3cb4a3b27fda11d6c639ed325916f3a0c6add429a9f88c65921c",
+    "independentDirectory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十四批\\执行记录\\2026-09-09T06-43-06-106Z",
+    "independentReportSha256": "0cffd7d7baf4eb8f468e06d442aca6943b278baeaa23b3ffb0ba6366208b9daa",
+    "fullSnapshotSha256": "2a3ca44ab47016a7928f3fc6f1a4e2a0cd0aa594ddfc8cd7fc2818ad8244859a",
+    "mathDirectory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十四批\\实值核算记录\\2026-09-09T06-44-07-524Z",
+    "mathReportSha256": "7da715fc8b564dbc887c4888b5ec1ec599797ad4064a7658d2902f0e9346bade",
+    "mathResultsSha256": "14dcca1c96d3c1a46b6f361dd41d1d6e72dfc48fc7631d7fa1a9ed1ea941054f",
+    "guardSha256": "a79b501e03ab20676d68080d038d9b13eff746ff4dcb701e1bd3d4878e368b91"
+  }
+}

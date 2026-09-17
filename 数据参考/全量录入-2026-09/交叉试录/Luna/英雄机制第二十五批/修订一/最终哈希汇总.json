@@ -1,0 +1,110 @@
+{
+  "generatedAt": "2026-09-09T15:34:38.431Z",
+  "status": "第二十五批修订一候选已收口，未调用业务接口",
+  "batch": "英雄机制第二十五批",
+  "revision": "hero25-source-v1-candidate-revision-1",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "counts": {
+    "parameters": 76,
+    "formulas": 23,
+    "effects": 10,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "candidateNewParameterCount": 76,
+  "currentParameterCountAfterSevenPublicReuse": 83,
+  "requestCount": 109,
+  "businessWrites": 0,
+  "apiCalls": 0,
+  "strictMath": {
+    "formulas": 23,
+    "formulaCases": 46,
+    "rejectionCases": 23,
+    "runtimeInputRejectionCases": 13,
+    "boundaryCases": 21,
+    "sourceSeriesChecks": 38,
+    "passed": true
+  },
+  "hashes": {
+    "完整候选.json": {
+      "sha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
+      "bytes": 338178
+    },
+    "写前请求计划.json": {
+      "sha256": "b22ce20986991a7bf2d3f0db372f2265e3b7f9098e30957722f62c3c112d4cb2",
+      "bytes": 110395
+    },
+    "独立源值与算例.json": {
+      "sha256": "f973c4092defc937e81465623d5525e3693d0d92c8f1b1d4f0052ff628288055",
+      "bytes": 61085
+    },
+    "来源哈希汇总.json": {
+      "sha256": "cb6b0911c384a745112b9d880033ab3c0f376528a56d3a4a560e3eeb4f66755e",
+      "bytes": 6193
+    },
+    "严格数学.json": {
+      "sha256": "4ea728f815d04ac02bf164b3317ddc90be88d7f42eaee6ef072d3091b382be7d",
+      "bytes": 42474
+    },
+    "候选版本.json": {
+      "sha256": "f6c9c397dcab41e6e6ef775ca551211c4ca2d2430d88eb8b37c9a1b6d641d785",
+      "bytes": 1751
+    },
+    "冻结候选锁.json": {
+      "sha256": "a29a6f4929e53cffdaa9e0fdabe4dd5265bdfb5cb1d38089058eb21ecf10dd67",
+      "bytes": 2516
+    },
+    "修订差异.json": {
+      "sha256": "3ce539c1e1e50e1d68a59c49a562ad967c1f254d4c2ff0f70db2626ff5245cd9",
+      "bytes": 3288
+    },
+    "README.md": {
+      "sha256": "753870930817b64a4310e6a66c76d375b0bb33a758dcc0d32fbe777d48a8f05b",
+      "bytes": 1579
+    },
+    "体验报告.md": {
+      "sha256": "858af95431a2f951ebaf028a4ae7705a073a88f4e48f110fcf6687048c5df44f",
+      "bytes": 1045
+    },
+    "生成修订候选.mjs": {
+      "sha256": "939f46f28c8c3266af3d5d72f5d3efc0a619cc2af338653a879ac50496ba8346",
+      "bytes": 32474
+    },
+    "严格数学修订一.mjs": {
+      "sha256": "0e8e63fceceff0bd2f28d1b82c32aa72e1219ae43870a25587c91744f885a48d",
+      "bytes": 34510
+    },
+    "受保护写入器.mjs": {
+      "sha256": "359bea39ec5bbe5e9fd1d83c4664b526d7341b102abb8c94a3e703ef0e9cfb47",
+      "bytes": 29926
+    },
+    "独立回读-实际GET.mjs": {
+      "sha256": "f55ee9727fc331c34b71a741c4658daf0d14ac57b35d2d81c30a7fcf476ca27b",
+      "bytes": 53884
+    },
+    "收口修订一.mjs": {
+      "sha256": "a46356836ea776d3c66f082e7e805c6e6caffba533c6327b4d105cacd3e05fe1",
+      "bytes": 5157
+    }
+  },
+  "artifactDirectory": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero25-luna-candidate\\修订一",
+  "batchDirectory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第二十五批\\修订一",
+  "originalPreserved": {
+    "candidateSha256": "138db432d3e380d7b46222916f84d3ee6101a3fd79dde77704d82675a52a1228",
+    "requestPlanSha256": "8edb06a5b9b16693d57eeb48f5d1ebf083adddb2eb68ac8719b6e474f30b4f77",
+    "sourceValuesSha256": "660c3c4b897e1c65a5bddc53560998254fca2c7d2fb9ccfc10e36907825d0342",
+    "sourceManifestSha256": "d4da9c2e97323d9b6b6eeb4f5fc02142a723693f99d0177af7bcca817b832107",
+    "originalDirectoriesUntouched": true
+  },
+  "protectedCoverage": {
+    "subjects": 10,
+    "compositionLists": 60,
+    "reusedPublicParameters": 7
+  },
+  "noApiCalls": true
+}

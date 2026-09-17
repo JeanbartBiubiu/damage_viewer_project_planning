@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T10:35:42.403Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/anivia_q/parameters/stun_duration_ms",
+  "id": "stun_duration_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "stun_duration_ms",
+    "name": "爆炸眩晕持续（毫秒）",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 1100.000024,
+      "2": 1200.000048,
+      "3": 1299.999952,
+      "4": 1399.999976,
+      "5": 1500
+    },
+    "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 60
+  }
+}

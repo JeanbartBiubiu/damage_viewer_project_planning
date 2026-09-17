@@ -1,0 +1,24 @@
+{
+  "i": 184,
+  "intent": {
+    "sequence": 185,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_w/parameters",
+    "detailRoute": "/skills/smolder_w/parameters/slow_duration_ms",
+    "skillKey": "smolder_w",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "阿嚏减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "SlowDuration=1.5秒，转换为1500毫秒。",
+      "sortOrder": 70
+    }
+  }
+}

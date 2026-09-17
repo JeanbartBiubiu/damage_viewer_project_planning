@@ -1,0 +1,24 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/lightning_level_ratio_actual",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "lightning_level_ratio_actual",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lightning_level_ratio_actual",
+      "name": "实际角色等级闪电生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "由运行层按角色等级提供LightningDamageLevel1至18之间的实际值；源曲线未知且无默认。",
+      "sortOrder": 250
+    }
+  }
+}

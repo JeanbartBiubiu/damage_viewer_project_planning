@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "status": "PASS",
+  "generatedAt": "2026-09-13T06:36:56.602Z",
+  "batchSha256": "80061c717b08433a02fbce43781f0796281eab3736ad43ce3b7265c96b7f32a7",
+  "targets": [
+    {
+      "id": "azir_r",
+      "skillKey": "azir_r",
+      "ruleKey": "actual_hit",
+      "effectKey": "charge_damage",
+      "formulaKey": "magic_damage",
+      "bodySha256": "f6446d3bfb27792d2b82c97f6efd10188e8b70b63cd059dbae9c9ec9efbd4a34"
+    },
+    {
+      "id": "azir_e",
+      "skillKey": "azir_e",
+      "ruleKey": "actual_hit",
+      "effectKey": "dash_damage",
+      "formulaKey": "magic_damage",
+      "bodySha256": "3bd36d2c842a78e7a6cb4036c1c6bb9fca90d45bf3ecafb4728dbdfb6d57010f"
+    },
+    {
+      "id": "yorick_e",
+      "skillKey": "yorick_e",
+      "ruleKey": "actual_hit",
+      "effectKey": "max_health_damage",
+      "formulaKey": "max_health_magic_damage",
+      "bodySha256": "443bfd7b90b092eb79692716bbf74a294eda36451f76e9015a648ecb1121c95b"
+    },
+    {
+      "id": "viego_w",
+      "skillKey": "viego_w",
+      "ruleKey": "actual_hit",
+      "effectKey": "damage",
+      "formulaKey": "magic_damage",
+      "bodySha256": "939b1f69fedae18021eda8cf85afed37d6edf2cdc4eb56b8ed8c8aaf19a36085"
+    }
+  ],
+  "preparation": {
+    "getCount": 1302,
+    "businessWrites": 0,
+    "skillCount": 1062,
+    "priorRuleCount": 126,
+    "sourceInitializedCount": 24,
+    "expected404": 4,
+    "sharedFullBaselineCount": 1,
+    "repeatedFullBaselineCount": 0
+  },
+  "writer": {
+    "getCount": 121,
+    "businessWrites": 4,
+    "postCount": 4,
+    "status201": 4,
+    "immediateReadbacks": 4,
+    "replayedWrites": 0
+  },
+  "independentReadback": {
+    "getCount": 1306,
+    "businessWrites": 0,
+    "skillCount": 1062,
+    "finalRuleCount": 130,
+    "sourceInitializedCount": 24,
+    "priorRulesUnchanged": 126,
+    "newRulesMatched": 4,
+    "targetNonRuleSnapshotsUnchanged": 4
+  },
+  "browser": {
+    "methods": {
+      "GET": 267
+    },
+    "businessWrites": 0,
+    "checks": 5,
+    "listImagesVisible": 4,
+    "imageNaturalSize": "64x64",
+    "formulaDetailsVisible": 4,
+    "effectDetailsVisible": 4,
+    "triggerDetailsVisible": 4,
+    "screenshots": 16,
+    "diagnostics": {
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "failedRequests": 0,
+      "errorResponses": 0
+    },
+    "liveFrontend": "127.0.0.1:5173",
+    "liveBackend": "127.0.0.1:8080"
+  },
+  "process": {
+    "cursorReview": "SKIPPED_LOW_RISK",
+    "tokenRecorded": false,
+    "apiFlow": "稳定接口批量写入加真实页面只读抽样",
+    "recovery": "写入报告存在即拒绝重放；中断后按稳定键确认，只为仍缺失项重新冻结。"
+  },
+  "systemConclusion": "现有技能、公式、效果与触发规则结构能够承载本批四项，不需要新增表或专用字段。",
+  "validationBoundary": {
+    "managementSave": "PASS",
+    "independentDatabaseReadback": "PASS",
+    "browserManagementView": "PASS",
+    "wasmAssembly": "NOT_RUN",
+    "hostEventProduction": "NOT_PROVEN",
+    "battleRuntime": "NOT_RUN"
+  },
+  "files": [
+    {
+      "relativePath": "01-合并方案.md",
+      "sha256": "c628354518e4496c79518b20a390aa9cd5ba6c7b697ba45174ef67519337c206",
+      "bytes": 1460
+    },
+    {
+      "relativePath": "02-合并冻结请求.json",
+      "sha256": "13753a81eaf34527802a24c6cc7a34e6f7d31e60a7c65f77bae4a4b42d5721df",
+      "bytes": 9860
+    },
+    {
+      "relativePath": "03-来源散列快照.json",
+      "sha256": "700944dc8a51ab367fe136432f9c5125f189773064cffcce1369ce2c198b354c",
+      "bytes": 4327
+    },
+    {
+      "relativePath": "04-共享写前现值.json",
+      "sha256": "f1cfe847603c0bc7be40a00d83a94ceefe306aa7762f1ee6269f421c166d707f",
+      "bytes": 1221417
+    },
+    {
+      "relativePath": "05-写入与即时回读.json",
+      "sha256": "54db4c48e77356a80c5e92d436fa2b50ad21d5687f21613e3ce519fcd2eaa746",
+      "bytes": 4131
+    },
+    {
+      "relativePath": "06-独立GET回读.json",
+      "sha256": "e5e94784a5e162f957e57a5a872850b3a7af5195b7a28943487c0bca222cf5b1",
+      "bytes": 2749
+    },
+    {
+      "relativePath": "07-页面验收.json",
+      "sha256": "1023e0c97a3cece6c33130b3ab8aa2f23e0c0a921644c9444138294e5915b963",
+      "bytes": 3792
+    },
+    {
+      "relativePath": "独立GET回读.mjs",
+      "sha256": "80629b4f643d0cd3ba5757bfac3018cdb1c860c495311991627e05634dbdab4d",
+      "bytes": 12542
+    },
+    {
+      "relativePath": "录入体验报告.md",
+      "sha256": "6a80565178bd92c46e7458ac3b55233d19733134479113951e70aa981add2a41",
+      "bytes": 2094
+    },
+    {
+      "relativePath": "批次配置.mjs",
+      "sha256": "6075e9345f27c3f35073b2f164b81459f9c57350cd2b25c73bb2da0faf99510c",
+      "bytes": 6216
+    },
+    {
+      "relativePath": "生成证据清单.mjs",
+      "sha256": "6a34535f389a45b6de3ef6c8c3ecfb4c562192a61f7b9c612086c64e02c76080",
+      "bytes": 5458
+    },
+    {
+      "relativePath": "受保护写入.mjs",
+      "sha256": "1e5cf93c20119db3695c53092674f263ef3c5dc0df40b4ed26471c6e17aecc96",
+      "bytes": 12916
+    },
+    {
+      "relativePath": "只读页面验收.mjs",
+      "sha256": "3a2f5b7548d4efc04e9a59add87f437371a90622036e608b08a9e87a368e75fd",
+      "bytes": 12573
+    },
+    {
+      "relativePath": "准备合并只读.mjs",
+      "sha256": "504cb9367aeeb644e97979a7f3c282750b3f1a6eeca60b48286a6cdff134ab2c",
+      "bytes": 17359
+    },
+    {
+      "relativePath": "README.md",
+      "sha256": "2c19a8148375c98bd4740dc35249b3af5d23cdffb75ceaa57573ff08b601e23f",
+      "bytes": 1492
+    },
+    {
+      "relativePath": "页面截图/azir_e-列表图片.png",
+      "sha256": "4921526a9bde52abd4af6f8c1b5f21d2bd35b3561f626978a762480e5e631d28",
+      "bytes": 102795
+    },
+    {
+      "relativePath": "页面截图/azir_e-actual_hit规则.png",
+      "sha256": "08dce7456279ad9f0b9258ca43216783488dc1f4c363eb50f5539bc30cbde496",
+      "bytes": 107686
+    },
+    {
+      "relativePath": "页面截图/azir_e-dash_damage结果.png",
+      "sha256": "08077f9c3d71d4c78e1d1a0fcc4dc298626050af5d6a58ea6efd4b49a280d6ac",
+      "bytes": 106087
+    },
+    {
+      "relativePath": "页面截图/azir_e-magic_damage公式.png",
+      "sha256": "b107603226611759df9f4045d2746bd1ab09226a5d1d02d79be0854f41fc4a5a",
+      "bytes": 162206
+    },
+    {
+      "relativePath": "页面截图/azir_r-列表图片.png",
+      "sha256": "2f49ee65d4c70b30ad43286b899b1685ce9643f57319514aa911e7375681a319",
+      "bytes": 100801
+    },
+    {
+      "relativePath": "页面截图/azir_r-actual_hit规则.png",
+      "sha256": "e3711286e6e492d98479f1330a4fde875670a1ba0bfacb14aeca7d1cc637a128",
+      "bytes": 112641
+    },
+    {
+      "relativePath": "页面截图/azir_r-charge_damage结果.png",
+      "sha256": "31810334fb3eb336c2892cd97ce640c835a71493e359f3603e776e30f4a3278b",
+      "bytes": 113652
+    },
+    {
+      "relativePath": "页面截图/azir_r-magic_damage公式.png",
+      "sha256": "f87cc2359a3be41744952ecd4e5113e87cc88188f4a95d4f896ed473c6d62e64",
+      "bytes": 149480
+    },
+    {
+      "relativePath": "页面截图/viego_w-列表图片.png",
+      "sha256": "85263177706fec17051a3f863e5fff93a4ebafa553ee060b09985b6b25e964e7",
+      "bytes": 102598
+    },
+    {
+      "relativePath": "页面截图/viego_w-actual_hit规则.png",
+      "sha256": "35acc7438a2378874b463f5d64ad1d1d612198e442b695f17f0853c9cba0760f",
+      "bytes": 114609
+    },
+    {
+      "relativePath": "页面截图/viego_w-damage结果.png",
+      "sha256": "d6097d8c9f8f850bebcad4fabc0a5d090f8950c593a638365406defe11ef0631",
+      "bytes": 112137
+    },
+    {
+      "relativePath": "页面截图/viego_w-magic_damage公式.png",
+      "sha256": "9be6f2d57069d401d6df5a861717a8df6fe587e023057fd7a15ef44e5a18431e",
+      "bytes": 144671
+    },
+    {
+      "relativePath": "页面截图/yorick_e-列表图片.png",
+      "sha256": "0c099a89fb08d25fa3bf5b0569c3f67fab0f8f6690a58089de6c5d2bd770eece",
+      "bytes": 102344
+    },
+    {
+      "relativePath": "页面截图/yorick_e-actual_hit规则.png",
+      "sha256": "1f401fe985fbbdb373faf67a9cd8a36a11ba437fb3814c0ddef710ccb290f909",
+      "bytes": 116037
+    },
+    {
+      "relativePath": "页面截图/yorick_e-max_health_damage结果.png",
+      "sha256": "21c76cccb87163f5be2184efd233d4dda01bc58182c8c5b42b18bae9ed5ada5a",
+      "bytes": 117756
+    },
+    {
+      "relativePath": "页面截图/yorick_e-max_health_magic_damage公式.png",
+      "sha256": "b1a378b042db14f118d0c5c9ddfbc2702bae8361ca63d4208ac8e0bed2618a11",
+      "bytes": 140516
+    }
+  ]
+}

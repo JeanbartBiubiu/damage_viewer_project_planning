@@ -1,0 +1,60 @@
+{
+  "at": "2026-09-10T15:03:03.068Z",
+  "apiWrites": 1,
+  "writeStatus": 201,
+  "immediateReadbackGets": 8,
+  "expected": {
+    "parameterKey": "mana_cost",
+    "name": "法力消耗",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 90,
+    "levelValues": null,
+    "sortOrder": 20,
+    "description": "官方 DDragon 16.17.1 为全等级 90；Riot 26.13 官方补丁说明将旧值 70/75/80/85/90 调整为 90。客户端 16.17 的 70/75/80/85/90 仅作为旧版本来源差异记录。"
+  },
+  "saved": {
+    "createdAt": "2026-09-10T15:03:01.258897Z",
+    "description": "官方 DDragon 16.17.1 为全等级 90；Riot 26.13 官方补丁说明将旧值 70/75/80/85/90 调整为 90。客户端 16.17 的 70/75/80/85/90 仅作为旧版本来源差异记录。",
+    "fixedValue": 90,
+    "gameId": "lol",
+    "levelValues": null,
+    "name": "法力消耗",
+    "parameterKey": "mana_cost",
+    "skillKey": "brand_e",
+    "sortOrder": 20,
+    "updatedAt": "2026-09-10T15:03:01.258897Z",
+    "valueMode": "FIXED",
+    "valueType": "INTEGER"
+  },
+  "detailAfter": {
+    "createdAt": "2026-09-10T15:03:01.258897Z",
+    "description": "官方 DDragon 16.17.1 为全等级 90；Riot 26.13 官方补丁说明将旧值 70/75/80/85/90 调整为 90。客户端 16.17 的 70/75/80/85/90 仅作为旧版本来源差异记录。",
+    "fixedValue": 90,
+    "gameId": "lol",
+    "levelValues": null,
+    "name": "法力消耗",
+    "parameterKey": "mana_cost",
+    "skillKey": "brand_e",
+    "sortOrder": 20,
+    "updatedAt": "2026-09-10T15:03:01.258897Z",
+    "valueMode": "FIXED",
+    "valueType": "INTEGER"
+  },
+  "listCountBefore": 4,
+  "listCountAfter": 5,
+  "protectedKeys": [
+    "cooldown_ms",
+    "cast_time_ms",
+    "base_damage",
+    "ap_ratio"
+  ],
+  "protectedUnchanged": true,
+  "formulaUnchanged": true,
+  "effectUnchanged": true,
+  "sourceHashes": {
+    "official": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+    "client": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d"
+  },
+  "runtimeValidation": "未执行"
+}

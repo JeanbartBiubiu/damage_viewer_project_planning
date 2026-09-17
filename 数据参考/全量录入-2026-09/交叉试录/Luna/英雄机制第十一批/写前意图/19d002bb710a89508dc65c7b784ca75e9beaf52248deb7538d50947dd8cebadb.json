@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T04:54:10.775Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_r/parameters/cooldown_reduction_amount",
+  "id": "cooldown_reduction_amount",
+  "method": "POST",
+  "body": {
+    "parameterKey": "cooldown_reduction_amount",
+    "name": "根冷却修正字段",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.5,
+      "2": 1,
+      "3": 1.5
+    },
+    "description": "客户端当前根绑定 DataValues.CooldownAmount 取索引1至3。",
+    "sortOrder": 100
+  }
+}

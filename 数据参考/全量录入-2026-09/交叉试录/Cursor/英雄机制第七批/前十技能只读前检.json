@@ -1,0 +1,2322 @@
+{
+  "at": "2026-09-08T17:22:23.994Z",
+  "mode": "全部请求为GET，原始写前快照不改",
+  "planSha256": "d69597a942ec9c62b1c693d8cff0e0f11e5ff00d88c1ce2d7f41198af85f651d",
+  "catalogs": {
+    "attributes": {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    "modifier-zones": {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    "statuses": {
+      "route": "/statuses",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-28T14:55:06.53067Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "眩晕",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "statusKey": "vertigo",
+            "updatedAt": "2026-08-28T14:55:06.53067Z"
+          }
+        ],
+        "total": 1
+      }
+    },
+    "damage-types": {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    }
+  },
+  "subjects": [
+    {
+      "route": "/skills/vi_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:58.648234Z",
+        "description": "蔚持续为护盾充能。护盾会在蔚的技能命中一名敌人后激活。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "蔚·爆裂护盾",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "vi_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:58.648234Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vi_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:58.94264Z",
+        "description": "蔚对她的拳套进行充能，并且释放一记粉碎性的勾拳，同时带着她前冲。被她命中的敌人会被击退，同时会被施加一层爆弹重拳的效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蔚·强能冲拳",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vi_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:58.94264Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vi_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:59.215844Z",
+        "description": "蔚的出拳会打破她对手的护甲，造成额外伤害并为她提供额外攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蔚·爆弹重拳",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vi_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:59.215844Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vi_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:59.502246Z",
+        "description": "蔚的下次攻击会爆裂，并透过她的目标，对目标身后的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蔚·透体之劲",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vi_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:59.502246Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vi_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:59.750615Z",
+        "description": "蔚撞向一名敌人，将途中的人击退到两边。当她接触到目标时，她会将目标击飞到空中，然后跳上去，将目标轰到地面上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "蔚·天霸横空烈轰",
+        "skillCategoryKeys": [],
+        "skillKey": "vi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:59.750615Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:43.62861Z",
+        "description": "奥拉夫基于已损失生命值获得攻击速度和生命偷取。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "奥拉夫·狂战之怒",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "olaf_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:43.62861Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:43.926471Z",
+        "description": "奥拉夫将战斧投至目标区域，对所有被战斧穿过的敌人造成伤害并削减他们的护甲和移动速度。如果奥拉夫捡起斧头，那么该技能冷却时间就会重置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥拉夫·逆流投掷",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "olaf_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:43.926471Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:44.174023Z",
+        "description": "奥拉夫的攻击速度得到提升，并获得一层护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥拉夫·挺过去",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "olaf_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:44.174023Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:44.472887Z",
+        "description": "奥拉夫以破釜沉舟之势发动进攻，对目标造成真实伤害（不受护甲与魔抗减免），同时，自身也会根据敌方所受的伤害而受到真实伤害的反噬。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥拉夫·鲁莽挥击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "olaf_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:44.472887Z"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:44.745208Z",
+        "description": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奥拉夫·诸神黄昏",
+        "skillCategoryKeys": [],
+        "skillKey": "olaf_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:44.745208Z"
+      },
+      "match": true
+    }
+  ],
+  "relations": [
+    {
+      "route": "/character-skill-relations?characterKey=champion_vi",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_vi",
+            "characterName": "蔚",
+            "gameId": "lol",
+            "skillKey": "vi_p",
+            "skillName": "蔚·爆裂护盾",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_vi",
+            "characterName": "蔚",
+            "gameId": "lol",
+            "skillKey": "vi_q",
+            "skillName": "蔚·强能冲拳",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_vi",
+            "characterName": "蔚",
+            "gameId": "lol",
+            "skillKey": "vi_w",
+            "skillName": "蔚·爆弹重拳",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_vi",
+            "characterName": "蔚",
+            "gameId": "lol",
+            "skillKey": "vi_e",
+            "skillName": "蔚·透体之劲",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_vi",
+            "characterName": "蔚",
+            "gameId": "lol",
+            "skillKey": "vi_r",
+            "skillName": "蔚·天霸横空烈轰",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      },
+      "match": true
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_olaf",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_olaf",
+            "characterName": "奥拉夫",
+            "gameId": "lol",
+            "skillKey": "olaf_p",
+            "skillName": "奥拉夫·狂战之怒",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_olaf",
+            "characterName": "奥拉夫",
+            "gameId": "lol",
+            "skillKey": "olaf_q",
+            "skillName": "奥拉夫·逆流投掷",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_olaf",
+            "characterName": "奥拉夫",
+            "gameId": "lol",
+            "skillKey": "olaf_w",
+            "skillName": "奥拉夫·挺过去",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_olaf",
+            "characterName": "奥拉夫",
+            "gameId": "lol",
+            "skillKey": "olaf_e",
+            "skillName": "奥拉夫·鲁莽挥击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_olaf",
+            "characterName": "奥拉夫",
+            "gameId": "lol",
+            "skillKey": "olaf_r",
+            "skillName": "奥拉夫·诸神黄昏",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      },
+      "match": true
+    }
+  ],
+  "images": [
+    {
+      "route": "/skills/vi_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vi_p",
+          "name": "vi_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/vi_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vi_q",
+          "name": "vi_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/vi_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vi_w",
+          "name": "vi_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/vi_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vi_e",
+          "name": "vi_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/vi_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vi_r",
+          "name": "vi_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/olaf_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_olaf_p",
+          "name": "olaf_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/olaf_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_olaf_q",
+          "name": "olaf_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/olaf_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_olaf_w",
+          "name": "olaf_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/olaf_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_olaf_e",
+          "name": "olaf_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/olaf_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_olaf_r",
+          "name": "olaf_r"
+        }
+      }
+    }
+  ],
+  "collections": [
+    {
+      "route": "/skills/vi_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:42.803736Z",
+          "description": "DDragon16.17.1 Vi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 10500,
+            "3": 9000,
+            "4": 7500,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vi_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:42.803736Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:43.253812Z",
+          "description": "DDragon16.17.1 Vi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vi_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:43.253812Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/vi_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_w/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:43.702181Z",
+          "description": "DDragon16.17.1 Vi.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 26,
+            "2": 32,
+            "3": 38,
+            "4": 44,
+            "5": 50
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vi_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:43.702181Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/vi_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:44.526265Z",
+          "description": "DDragon16.17.1 Vi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 140000,
+            "2": 115000,
+            "3": 90000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vi_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:44.526265Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:45.010515Z",
+          "description": "DDragon16.17.1 Vi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vi_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:45.010515Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/vi_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/vi_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:26.390995Z",
+          "description": "DDragon16.17.1 Olaf.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 9000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "olaf_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:26.390995Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:26.813067Z",
+          "description": "DDragon16.17.1 Olaf.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "olaf_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:26.813067Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/olaf_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:27.192219Z",
+          "description": "DDragon16.17.1 Olaf.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "olaf_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:27.192219Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:27.598941Z",
+          "description": "DDragon16.17.1 Olaf.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "olaf_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:27.598941Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/olaf_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:28.016173Z",
+          "description": "DDragon16.17.1 Olaf.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 11000,
+            "2": 10000,
+            "3": 9000,
+            "4": 8000,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "olaf_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:28.016173Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/olaf_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:28.447949Z",
+          "description": "DDragon16.17.1 Olaf.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100000,
+            "2": 90000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "olaf_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:28.447949Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:28.805571Z",
+          "description": "DDragon16.17.1 Olaf.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "olaf_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:28.805571Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/olaf_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/olaf_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "details": [
+    {
+      "route": "/skills/vi_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:42.803736Z",
+        "description": "DDragon16.17.1 Vi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 10500,
+          "3": 9000,
+          "4": 7500,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vi_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:42.803736Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vi_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:43.253812Z",
+        "description": "DDragon16.17.1 Vi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vi_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:43.253812Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vi_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:43.702181Z",
+        "description": "DDragon16.17.1 Vi.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 26,
+          "2": 32,
+          "3": 38,
+          "4": 44,
+          "5": 50
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vi_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:43.702181Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vi_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:44.526265Z",
+        "description": "DDragon16.17.1 Vi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 140000,
+          "2": 115000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vi_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:44.526265Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/vi_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:45.010515Z",
+        "description": "DDragon16.17.1 Vi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vi_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:45.010515Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:26.390995Z",
+        "description": "DDragon16.17.1 Olaf.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 9000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:26.390995Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:26.813067Z",
+        "description": "DDragon16.17.1 Olaf.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "olaf_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:26.813067Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:27.192219Z",
+        "description": "DDragon16.17.1 Olaf.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:27.192219Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:27.598941Z",
+        "description": "DDragon16.17.1 Olaf.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "olaf_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:27.598941Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:28.016173Z",
+        "description": "DDragon16.17.1 Olaf.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:28.016173Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:28.447949Z",
+        "description": "DDragon16.17.1 Olaf.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 90000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:28.447949Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    },
+    {
+      "route": "/skills/olaf_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:28.805571Z",
+        "description": "DDragon16.17.1 Olaf.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "olaf_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:28.805571Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "match": true
+    }
+  ],
+  "missing": [
+    {
+      "skill": "vi_p",
+      "kind": "parameters",
+      "key": "shield_max_hp_ratio"
+    },
+    {
+      "skill": "vi_p",
+      "kind": "parameters",
+      "key": "shield_duration_ms"
+    },
+    {
+      "skill": "vi_p",
+      "kind": "parameters",
+      "key": "cd_reduction_on_3_hit_ms"
+    },
+    {
+      "skill": "vi_p",
+      "kind": "parameters",
+      "key": "shield_cooldown_ms"
+    },
+    {
+      "skill": "vi_p",
+      "kind": "formulas",
+      "key": "shield"
+    },
+    {
+      "skill": "vi_p",
+      "kind": "effects",
+      "key": "blast_shield"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "parameters",
+      "key": "min_damage"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "parameters",
+      "key": "bonus_ad_ratio"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "parameters",
+      "key": "max_damage_multiplier"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "parameters",
+      "key": "self_slow_percent_points"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "parameters",
+      "key": "charge_window_ms"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "parameters",
+      "key": "vfx_charge_ms"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "parameters",
+      "key": "cancel_cooldown_ms"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "parameters",
+      "key": "cancel_mana_refund_ratio"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "parameters",
+      "key": "knockback_duration_ms"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "formulas",
+      "key": "min_damage"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "formulas",
+      "key": "max_damage"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "effects",
+      "key": "min_damage"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "effects",
+      "key": "max_damage"
+    },
+    {
+      "skill": "vi_q",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "parameters",
+      "key": "max_health_damage_percent_points"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "parameters",
+      "key": "bonus_ad_health_coefficient"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "parameters",
+      "key": "tooltip_percent_scale"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "parameters",
+      "key": "attack_speed_ratio"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "parameters",
+      "key": "armor_shred_ratio"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "parameters",
+      "key": "buff_duration_ms"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "parameters",
+      "key": "stacks_before_effect"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "parameters",
+      "key": "marker_duration_ms"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "parameters",
+      "key": "trigger_hit_count"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "formulas",
+      "key": "damage"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "effects",
+      "key": "third_hit_damage"
+    },
+    {
+      "skill": "vi_w",
+      "kind": "effects",
+      "key": "attack_speed"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "parameters",
+      "key": "base_damage"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "parameters",
+      "key": "total_ad_ratio"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "parameters",
+      "key": "attack_window_ms"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "parameters",
+      "key": "static_cooldown_ms"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "parameters",
+      "key": "bonus_range"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "parameters",
+      "key": "max_ammo"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "parameters",
+      "key": "ammo_recharge_ms"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "parameters",
+      "key": "omitted_stat_coefficient"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "parameters",
+      "key": "omitted_stat_value"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "formulas",
+      "key": "attack_damage"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "vi_e",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "parameters",
+      "key": "base_damage"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "parameters",
+      "key": "bonus_ad_ratio"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "parameters",
+      "key": "primary_knockup_ms"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "parameters",
+      "key": "secondary_stun_ms"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "parameters",
+      "key": "secondary_damage_multiplier"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "parameters",
+      "key": "cast_time_ms"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "formulas",
+      "key": "primary_damage"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "effects",
+      "key": "primary_damage"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "vi_r",
+      "kind": "triggerRules",
+      "key": "actual_hit"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "parameters",
+      "key": "max_stats_threshold"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "parameters",
+      "key": "max_attack_speed_start"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "parameters",
+      "key": "max_attack_speed_end"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "parameters",
+      "key": "max_lifesteal_start"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "parameters",
+      "key": "max_lifesteal_end"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "parameters",
+      "key": "one"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "parameters",
+      "key": "actual_max_attack_speed"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "parameters",
+      "key": "actual_max_lifesteal"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "formulas",
+      "key": "attack_speed"
+    },
+    {
+      "skill": "olaf_p",
+      "kind": "formulas",
+      "key": "life_steal"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "base_damage"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "bonus_ad_ratio"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "slow_ratio"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "armor_shred_ratio"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "shred_duration_ms"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "min_slow_duration_ms"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "max_slow_duration_ms"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "min_slow_distance"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "max_slow_distance"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "pickup_cooldown_floor_ms"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "parameters",
+      "key": "cast_time_ms"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "formulas",
+      "key": "damage"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "effects",
+      "key": "axe_damage"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "olaf_q",
+      "kind": "triggerRules",
+      "key": "actual_hit"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "parameters",
+      "key": "attack_speed_ratio"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "parameters",
+      "key": "attack_speed_duration_ms"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "parameters",
+      "key": "base_shield"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "parameters",
+      "key": "missing_hp_ratio"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "parameters",
+      "key": "shield_duration_ms"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "parameters",
+      "key": "max_shield_hp_threshold"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "parameters",
+      "key": "one"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "formulas",
+      "key": "uncapped_shield"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "formulas",
+      "key": "max_shield"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "formulas",
+      "key": "shield"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "effects",
+      "key": "cast_shield"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "effects",
+      "key": "attack_speed"
+    },
+    {
+      "skill": "olaf_w",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "parameters",
+      "key": "base_damage"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "parameters",
+      "key": "total_ad_ratio"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "parameters",
+      "key": "health_cost_ratio"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "parameters",
+      "key": "champion_attack_cdr_ms"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "parameters",
+      "key": "cast_time_base_ms"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "parameters",
+      "key": "cast_time_min_ms"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "parameters",
+      "key": "cast_time_bonus_as_cap"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "formulas",
+      "key": "damage"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "formulas",
+      "key": "health_cost"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "effects",
+      "key": "reckless_damage"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "effects",
+      "key": "health_cost"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "processes",
+      "key": "cast"
+    },
+    {
+      "skill": "olaf_e",
+      "kind": "triggerRules",
+      "key": "actual_hit"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "parameters",
+      "key": "passive_resist"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "parameters",
+      "key": "base_attack_damage"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "parameters",
+      "key": "total_ad_ratio"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "parameters",
+      "key": "active_duration_ms"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "parameters",
+      "key": "champion_hit_extension_ms"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "parameters",
+      "key": "move_speed_ratio"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "parameters",
+      "key": "move_speed_duration_ms"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "formulas",
+      "key": "active_attack_damage"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "effects",
+      "key": "mana_cost"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "effects",
+      "key": "passive_armor"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "effects",
+      "key": "passive_magic_resistance"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "effects",
+      "key": "active_attack_damage"
+    },
+    {
+      "skill": "olaf_r",
+      "kind": "processes",
+      "key": "cast"
+    }
+  ],
+  "conflicts": [],
+  "references": [],
+  "success": true,
+  "finishedAt": "2026-09-08T17:22:29.142Z"
+}

@@ -1,0 +1,3330 @@
+{
+  "generatedAt": "2026-09-09T15:17:41.764Z",
+  "status": "PASS",
+  "businessMathReady": true,
+  "apiWrites": 0,
+  "readerReportSha256": "46c4a6f77b7846460efc33cda136d3d356716333977e0c719fe0a56dd1eed804",
+  "readerReportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero27-root-candidate\\独立回读\\2026-09-09T15-13-17.444Z\\独立全量回读.json",
+  "sourceBindingSha256": "37a25d9cf21276968b5c72c9655e93eb7f6b7ceaabbaf451242dccf5fa14180c",
+  "candidateSha256": "046f2671121092a906008b6b07909156a90d4bc241e18ce646fc12480f3303cf",
+  "planSha256": "562b5c4060671668e4fc9fd116e35cf6c8cedac8c1b96f3ffed9bc2535f57ae9",
+  "sourceBasis": "期望值全部从冻结16.17客户端绑定的DataValues、计算树分段和根修饰倍率独立读取；实际值全部从本次写后GET详情的expression求值。没有读取候选表达式，也没有用候选散列代替数学检查。",
+  "scopes": "测试属性仅使用实际公式出现的SOURCE/TARGET与TOTAL/BONUS；当前批没有把CURRENT当作公式输入。",
+  "expected": {
+    "formulaCount": 18,
+    "positiveCaseCount": 36,
+    "missingValueRejections": 20,
+    "boundaryChecks": 12
+  },
+  "actual": {
+    "formulaCount": 18,
+    "positiveCaseCount": 36,
+    "positivePassed": 36,
+    "missingValueChecks": 20,
+    "missingValueRejected": 20,
+    "boundaryChecks": 12,
+    "boundaryPassed": 12
+  },
+  "actualExpressions": [
+    {
+      "skillKey": "gragas_p",
+      "formulaKey": "heal_amount",
+      "expressionSha256": "9f88facf0ce291ea4cb66cdc3f78b03ad77de03c906c96018f9bfe58b8bd94a6",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "heal_ratio"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "minimum_damage",
+      "expressionSha256": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      }
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "maximum_damage",
+      "expressionSha256": "4555ed8b28e390817c1cd11ca4cab95f56931db4a09d88efa07541761cb8be8b",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "maximum_slow_percent_points",
+      "expressionSha256": "337a8958b4565c2eae0ee6bb9a7ea2b18b862c73d4be889ebdbf15776ea861ab",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "slow_percent_points"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_multiplier"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "damage_reduction_ratio",
+      "expressionSha256": "f2860ddb75208e697046e369ba1527aafaeacb4281814d6108d241946c23ed08",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_point_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "reduction_base_percent_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "reduction_ap_percent_points"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "empowered_bonus_damage",
+      "expressionSha256": "4428bff7b1117b00dbda86c27d2c15f18e8de62e0e8e27fcce3bd1e4918dca6a",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_point_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "target_max_health_percent_points"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "TARGET",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      }
+    },
+    {
+      "skillKey": "gragas_e",
+      "formulaKey": "magic_damage",
+      "expressionSha256": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      }
+    },
+    {
+      "skillKey": "gragas_r",
+      "formulaKey": "magic_damage",
+      "expressionSha256": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      }
+    },
+    {
+      "skillKey": "hecarim_p",
+      "formulaKey": "bonus_attack_damage",
+      "expressionSha256": "a10d2c3d96bdfbb9b1279f879ca51947936ef43ca586b81794b1ade3755c1c53",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_bonus_move_speed"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_to_ad_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "base_physical_damage",
+      "expressionSha256": "795e19608d27a3e7af505998e0b3dbe3b32055e00e8aad2f4122658e46238b7c",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      }
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "damage_boost_per_stack_percent_points",
+      "expressionSha256": "ec5c81b8d29e512e60b0e52d07c80b2d647ca93ccb338b522fc6efcfb1128bc0",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "boost_base_percent_points"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "boost_bonus_ad_percent_points"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      }
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "physical_damage_at_stacks",
+      "expressionSha256": "5ad54e17dfa43682e5494f1cd60fcb8211d20208b7a2eef56a24854d45f09e09",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "actual_stacks"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "max_stacks"
+                          }
+                        ],
+                        "operation": "MIN"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "boost_base_percent_points"
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "boost_bonus_ad_percent_points"
+                              },
+                              {
+                                "attributeKey": "attack_damage",
+                                "attributeOwner": "SOURCE",
+                                "attributeValueKind": "BONUS",
+                                "nodeType": "ATTRIBUTE"
+                              }
+                            ],
+                            "operation": "MULTIPLY"
+                          }
+                        ],
+                        "operation": "ADD"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_point_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "expressionSha256": "c9feab650f22e8e278c0f8745f261b93e5930047942c0ca9200e815c329ac9a4",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "zero"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_stacks"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "max_stacks"
+                      }
+                    ],
+                    "operation": "MIN"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "cooldown_reduction_per_stack_ms"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "SUBTRACT"
+          }
+        ],
+        "operation": "MAX"
+      }
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "magic_damage_total",
+      "expressionSha256": "4e7be09ba1d6235b1e75d9c187602df11bb60f29e5da2dcc3d03c8e5f760db07",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage_total"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      }
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "self_healing_from_damage",
+      "expressionSha256": "bd8b5949db6f077096f5fca1b3f744f898ff837229d48c1bd5708d92bae6ebdf",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_damage_heal_percent_points"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_point_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_self_damage_dealt"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "minimum_damage",
+      "expressionSha256": "52bb0cccfd426932a20b5d640a1e35571a5cdbb2a2e6c49699854ceb3e4f7223",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "minimum_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      }
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "maximum_damage",
+      "expressionSha256": "b5d3afec1f49c2e952eddb8b86ed535021756c1469fa968568129d486d57fccd",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "minimum_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    },
+    {
+      "skillKey": "hecarim_r",
+      "formulaKey": "magic_damage",
+      "expressionSha256": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      }
+    }
+  ],
+  "sourceTreeChecks": [
+    {
+      "skillKey": "gragas_p",
+      "calculation": "HealAmount",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "gragas_q",
+      "calculation": "MinDamage",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "gragas_q",
+      "calculation": "MaxDamage",
+      "present": true,
+      "type": "GameCalculationModified"
+    },
+    {
+      "skillKey": "gragas_w",
+      "calculation": "DamageReduction",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "gragas_w",
+      "calculation": "TotalDamage",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "gragas_e",
+      "calculation": "TotalDamage",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "gragas_r",
+      "calculation": "DamageDone",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "hecarim_p",
+      "calculation": "BonusAD",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "hecarim_q",
+      "calculation": "Damage",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "hecarim_q",
+      "calculation": "RampageBonusDamagePerc",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "hecarim_w",
+      "calculation": "TotalDamage",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "hecarim_w",
+      "calculation": "LeechAmount",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "hecarim_e",
+      "calculation": "MinDamage",
+      "present": true,
+      "type": "GameCalculation"
+    },
+    {
+      "skillKey": "hecarim_e",
+      "calculation": "MaxDamage",
+      "present": true,
+      "type": "GameCalculationModified"
+    },
+    {
+      "skillKey": "hecarim_r",
+      "calculation": "DamageDone",
+      "present": true,
+      "type": "GameCalculation"
+    }
+  ],
+  "sourceShapeChecks": [
+    {
+      "label": "古拉加斯W根修饰作用于整个减伤和",
+      "passed": true,
+      "detail": {
+        "mNumber": 0.009999999776482582
+      }
+    },
+    {
+      "label": "古拉加斯Q最大伤害根倍率为1.5",
+      "passed": true,
+      "detail": {
+        "mNumber": 1.5
+      }
+    },
+    {
+      "label": "赫卡里姆E最高伤害根倍率为2",
+      "passed": true,
+      "detail": {
+        "mNumber": 2
+      }
+    },
+    {
+      "label": "赫卡里姆P保留mStat7与mStatFormula2",
+      "passed": true,
+      "detail": {
+        "mStat": 7,
+        "mStatFormula": 2
+      }
+    }
+  ],
+  "formulas": [
+    {
+      "skillKey": "gragas_p",
+      "formulaKey": "heal_amount",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.hp.TOTAL"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 192.5,
+          "expected": 192.49999895691872,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 286,
+          "expected": 285.99999845027924,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "minimum_damage",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.ability_power.TOTAL"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 218.4,
+          "expected": 218.4000020623207,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 492,
+          "expected": 492.0000037550926,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "maximum_damage",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.ability_power.TOTAL"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 327.6,
+          "expected": 327.60000309348106,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 738,
+          "expected": 738.0000056326389,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "maximum_slow_percent_points",
+      "runtimeDependencies": [],
+      "attributeDependencies": [],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 60,
+          "expected": 60,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 90,
+          "expected": 90,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "damage_reduction_ratio",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.ability_power.TOTAL"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 0.16920000000000002,
+          "expected": 0.16919999467134478,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 0.386,
+          "expected": 0.3859999885559083,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "empowered_bonus_damage",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.ability_power.TOTAL",
+        "TARGET.hp.TOTAL"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 323.1,
+          "expected": 323.0999979376793,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 647.5,
+          "expected": 647.4999962449074,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gragas_e",
+      "formulaKey": "magic_damage",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.ability_power.TOTAL"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 183.8,
+          "expected": 183.80000412464142,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 449,
+          "expected": 449.00000751018524,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gragas_r",
+      "formulaKey": "magic_damage",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.ability_power.TOTAL"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 338.4,
+          "expected": 338.4000020623207,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 3,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 652,
+          "expected": 652.0000037550926,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_p",
+      "formulaKey": "bonus_attack_damage",
+      "runtimeDependencies": [
+        "actual_bonus_move_speed",
+        "move_speed_to_ad_ratio"
+      ],
+      "attributeDependencies": [],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {
+            "actual_bonus_move_speed": 40,
+            "move_speed_to_ad_ratio": 0.14
+          },
+          "actual": 5.6000000000000005,
+          "expected": 5.6000000000000005,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {
+            "actual_bonus_move_speed": 105,
+            "move_speed_to_ad_ratio": 0.24
+          },
+          "actual": 25.2,
+          "expected": 25.2,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "base_physical_damage",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.attack_damage.BONUS"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {
+            "actual_stacks": 0
+          },
+          "actual": 127.5,
+          "expected": 127.49999821186066,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {
+            "actual_stacks": 3
+          },
+          "actual": 297,
+          "expected": 296.9999969005585,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "damage_boost_per_stack_percent_points",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.attack_damage.BONUS"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {
+            "actual_stacks": 0
+          },
+          "actual": 5.25,
+          "expected": 5.249999949708581,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {
+            "actual_stacks": 3
+          },
+          "actual": 6.9,
+          "expected": 6.899999912828207,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "physical_damage_at_stacks",
+      "runtimeDependencies": [
+        "actual_stacks"
+      ],
+      "attributeDependencies": [
+        "SOURCE.attack_damage.BONUS"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {
+            "actual_stacks": 0
+          },
+          "actual": 127.5,
+          "expected": 127.49999821186066,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {
+            "actual_stacks": 3
+          },
+          "actual": 358.47900000000004,
+          "expected": 358.47899548227343,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "runtimeDependencies": [
+        "actual_stacks"
+      ],
+      "attributeDependencies": [],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {
+            "actual_stacks": 0
+          },
+          "actual": 4000,
+          "expected": 4000,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {
+            "actual_stacks": 3
+          },
+          "actual": 1750,
+          "expected": 1750,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "magic_damage_total",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.ability_power.TOTAL"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {
+            "actual_self_damage_dealt": 400
+          },
+          "actual": 218.4,
+          "expected": 218.4000020623207,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {
+            "actual_self_damage_dealt": 890
+          },
+          "actual": 492,
+          "expected": 492.0000037550926,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "self_healing_from_damage",
+      "runtimeDependencies": [
+        "actual_self_damage_dealt"
+      ],
+      "attributeDependencies": [],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {
+            "actual_self_damage_dealt": 400
+          },
+          "actual": 100,
+          "expected": 100,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {
+            "actual_self_damage_dealt": 890
+          },
+          "actual": 222.5,
+          "expected": 222.5,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "minimum_damage",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.attack_damage.BONUS"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 67.5,
+          "expected": 67.5,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 155,
+          "expected": 155,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "maximum_damage",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.attack_damage.BONUS"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 135,
+          "expected": 135,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 5,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 310,
+          "expected": 310,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "hecarim_r",
+      "formulaKey": "magic_damage",
+      "runtimeDependencies": [],
+      "attributeDependencies": [
+        "SOURCE.ability_power.TOTAL"
+      ],
+      "cases": [
+        {
+          "caseId": "A-技能等级1",
+          "rank": 1,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 3500,
+                "BONUS": 700
+              },
+              "ability_power": {
+                "TOTAL": 173
+              },
+              "attack_damage": {
+                "BONUS": 75
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 2600
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 323,
+          "expected": 323,
+          "passed": true
+        },
+        {
+          "caseId": "B-最高技能等级",
+          "rank": 3,
+          "attributes": {
+            "SOURCE": {
+              "hp": {
+                "TOTAL": 5200,
+                "BONUS": 1400
+              },
+              "ability_power": {
+                "TOTAL": 315
+              },
+              "attack_damage": {
+                "BONUS": 130
+              }
+            },
+            "TARGET": {
+              "hp": {
+                "TOTAL": 4100
+              }
+            }
+          },
+          "runtime": {},
+          "actual": 665,
+          "expected": 665,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "positiveCases": [
+    {
+      "skillKey": "gragas_p",
+      "formulaKey": "heal_amount",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 192.5,
+      "expected": 192.49999895691872,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_p",
+      "formulaKey": "heal_amount",
+      "caseId": "B-最高技能等级",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 286,
+      "expected": 285.99999845027924,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "minimum_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 218.4,
+      "expected": 218.4000020623207,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "minimum_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 492,
+      "expected": 492.0000037550926,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "maximum_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 327.6,
+      "expected": 327.60000309348106,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "maximum_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 738,
+      "expected": 738.0000056326389,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "maximum_slow_percent_points",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 60,
+      "expected": 60,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "maximum_slow_percent_points",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 90,
+      "expected": 90,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "damage_reduction_ratio",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 0.16920000000000002,
+      "expected": 0.16919999467134478,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "damage_reduction_ratio",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 0.386,
+      "expected": 0.3859999885559083,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "empowered_bonus_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 323.1,
+      "expected": 323.0999979376793,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "empowered_bonus_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 647.5,
+      "expected": 647.4999962449074,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_e",
+      "formulaKey": "magic_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 183.8,
+      "expected": 183.80000412464142,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_e",
+      "formulaKey": "magic_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 449,
+      "expected": 449.00000751018524,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_r",
+      "formulaKey": "magic_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 338.4,
+      "expected": 338.4000020623207,
+      "passed": true
+    },
+    {
+      "skillKey": "gragas_r",
+      "formulaKey": "magic_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 3,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 652,
+      "expected": 652.0000037550926,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_p",
+      "formulaKey": "bonus_attack_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {
+        "actual_bonus_move_speed": 40,
+        "move_speed_to_ad_ratio": 0.14
+      },
+      "actual": 5.6000000000000005,
+      "expected": 5.6000000000000005,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_p",
+      "formulaKey": "bonus_attack_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {
+        "actual_bonus_move_speed": 105,
+        "move_speed_to_ad_ratio": 0.24
+      },
+      "actual": 25.2,
+      "expected": 25.2,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "base_physical_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {
+        "actual_stacks": 0
+      },
+      "actual": 127.5,
+      "expected": 127.49999821186066,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "base_physical_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {
+        "actual_stacks": 3
+      },
+      "actual": 297,
+      "expected": 296.9999969005585,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "damage_boost_per_stack_percent_points",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {
+        "actual_stacks": 0
+      },
+      "actual": 5.25,
+      "expected": 5.249999949708581,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "damage_boost_per_stack_percent_points",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {
+        "actual_stacks": 3
+      },
+      "actual": 6.9,
+      "expected": 6.899999912828207,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "physical_damage_at_stacks",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {
+        "actual_stacks": 0
+      },
+      "actual": 127.5,
+      "expected": 127.49999821186066,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "physical_damage_at_stacks",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {
+        "actual_stacks": 3
+      },
+      "actual": 358.47900000000004,
+      "expected": 358.47899548227343,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {
+        "actual_stacks": 0
+      },
+      "actual": 4000,
+      "expected": 4000,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {
+        "actual_stacks": 3
+      },
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "magic_damage_total",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {
+        "actual_self_damage_dealt": 400
+      },
+      "actual": 218.4,
+      "expected": 218.4000020623207,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "magic_damage_total",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {
+        "actual_self_damage_dealt": 890
+      },
+      "actual": 492,
+      "expected": 492.0000037550926,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "self_healing_from_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {
+        "actual_self_damage_dealt": 400
+      },
+      "actual": 100,
+      "expected": 100,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "self_healing_from_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {
+        "actual_self_damage_dealt": 890
+      },
+      "actual": 222.5,
+      "expected": 222.5,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "minimum_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 67.5,
+      "expected": 67.5,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "minimum_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 155,
+      "expected": 155,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "maximum_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 135,
+      "expected": 135,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "maximum_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 310,
+      "expected": 310,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_r",
+      "formulaKey": "magic_damage",
+      "caseId": "A-技能等级1",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 3500,
+            "BONUS": 700
+          },
+          "ability_power": {
+            "TOTAL": 173
+          },
+          "attack_damage": {
+            "BONUS": 75
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2600
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 323,
+      "expected": 323,
+      "passed": true
+    },
+    {
+      "skillKey": "hecarim_r",
+      "formulaKey": "magic_damage",
+      "caseId": "B-最高技能等级",
+      "rank": 3,
+      "attributes": {
+        "SOURCE": {
+          "hp": {
+            "TOTAL": 5200,
+            "BONUS": 1400
+          },
+          "ability_power": {
+            "TOTAL": 315
+          },
+          "attack_damage": {
+            "BONUS": 130
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 4100
+          }
+        }
+      },
+      "runtime": {},
+      "actual": 665,
+      "expected": 665,
+      "passed": true
+    }
+  ],
+  "missingValueChecks": [
+    {
+      "skillKey": "gragas_p",
+      "formulaKey": "heal_amount",
+      "dependency": "ATTRIBUTE:SOURCE.hp.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.hp.TOTAL"
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "minimum_damage",
+      "dependency": "ATTRIBUTE:SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "gragas_q",
+      "formulaKey": "maximum_damage",
+      "dependency": "ATTRIBUTE:SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "damage_reduction_ratio",
+      "dependency": "ATTRIBUTE:SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "empowered_bonus_damage",
+      "dependency": "ATTRIBUTE:SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "gragas_w",
+      "formulaKey": "empowered_bonus_damage",
+      "dependency": "ATTRIBUTE:TARGET.hp.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:TARGET.hp.TOTAL"
+    },
+    {
+      "skillKey": "gragas_e",
+      "formulaKey": "magic_damage",
+      "dependency": "ATTRIBUTE:SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "gragas_r",
+      "formulaKey": "magic_damage",
+      "dependency": "ATTRIBUTE:SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "hecarim_p",
+      "formulaKey": "bonus_attack_damage",
+      "dependency": "PARAMETER:actual_bonus_move_speed",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:hecarim_p/actual_bonus_move_speed"
+    },
+    {
+      "skillKey": "hecarim_p",
+      "formulaKey": "bonus_attack_damage",
+      "dependency": "PARAMETER:move_speed_to_ad_ratio",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:hecarim_p/move_speed_to_ad_ratio"
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "base_physical_damage",
+      "dependency": "ATTRIBUTE:SOURCE.attack_damage.BONUS",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.attack_damage.BONUS"
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "damage_boost_per_stack_percent_points",
+      "dependency": "ATTRIBUTE:SOURCE.attack_damage.BONUS",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.attack_damage.BONUS"
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "physical_damage_at_stacks",
+      "dependency": "PARAMETER:actual_stacks",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:hecarim_q/actual_stacks"
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "physical_damage_at_stacks",
+      "dependency": "ATTRIBUTE:SOURCE.attack_damage.BONUS",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.attack_damage.BONUS"
+    },
+    {
+      "skillKey": "hecarim_q",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "dependency": "PARAMETER:actual_stacks",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:hecarim_q/actual_stacks"
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "magic_damage_total",
+      "dependency": "ATTRIBUTE:SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "hecarim_w",
+      "formulaKey": "self_healing_from_damage",
+      "dependency": "PARAMETER:actual_self_damage_dealt",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:hecarim_w/actual_self_damage_dealt"
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "minimum_damage",
+      "dependency": "ATTRIBUTE:SOURCE.attack_damage.BONUS",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.attack_damage.BONUS"
+    },
+    {
+      "skillKey": "hecarim_e",
+      "formulaKey": "maximum_damage",
+      "dependency": "ATTRIBUTE:SOURCE.attack_damage.BONUS",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.attack_damage.BONUS"
+    },
+    {
+      "skillKey": "hecarim_r",
+      "formulaKey": "magic_damage",
+      "dependency": "ATTRIBUTE:SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "kind": "上限边界",
+      "formulaKey": "physical_damage_at_stacks",
+      "count": 0,
+      "actual": 127.5,
+      "expected": 127.49999821186066,
+      "passed": true
+    },
+    {
+      "kind": "上限边界",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "count": 0,
+      "actual": 4000,
+      "expected": 4000,
+      "passed": true
+    },
+    {
+      "kind": "上限边界",
+      "formulaKey": "physical_damage_at_stacks",
+      "count": 1,
+      "actual": 134.19375,
+      "expected": 134.19374805386178,
+      "passed": true
+    },
+    {
+      "kind": "上限边界",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "count": 1,
+      "actual": 3250,
+      "expected": 3250,
+      "passed": true
+    },
+    {
+      "kind": "上限边界",
+      "formulaKey": "physical_damage_at_stacks",
+      "count": 3,
+      "actual": 147.58124999999998,
+      "expected": 147.58124773786403,
+      "passed": true
+    },
+    {
+      "kind": "上限边界",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "count": 3,
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "kind": "上限边界",
+      "formulaKey": "physical_damage_at_stacks",
+      "count": 4,
+      "actual": 147.58124999999998,
+      "expected": 147.58124773786403,
+      "passed": true
+    },
+    {
+      "kind": "上限边界",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "count": 4,
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "kind": "上限边界",
+      "formulaKey": "physical_damage_at_stacks",
+      "count": 20,
+      "actual": 147.58124999999998,
+      "expected": 147.58124773786403,
+      "passed": true
+    },
+    {
+      "kind": "上限边界",
+      "formulaKey": "cooldown_at_stacks_ms",
+      "count": 20,
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "kind": "非法整数输入",
+      "formulaKey": "physical_damage_at_stacks",
+      "count": -1,
+      "rejected": true,
+      "error": "RUNTIME_INPUT_MUST_BE_NONNEGATIVE:hecarim_q/actual_stacks",
+      "passed": true
+    },
+    {
+      "kind": "非法整数输入",
+      "formulaKey": "physical_damage_at_stacks",
+      "count": 0.5,
+      "rejected": true,
+      "error": "INTEGER_PARAMETER_REQUIRES_INTEGER:hecarim_q/actual_stacks",
+      "passed": true
+    }
+  ],
+  "failures": []
+}

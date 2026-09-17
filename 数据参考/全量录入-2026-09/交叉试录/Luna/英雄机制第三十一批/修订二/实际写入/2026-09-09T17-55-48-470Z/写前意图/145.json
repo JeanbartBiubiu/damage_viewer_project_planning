@@ -1,0 +1,23 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 145,
+    "method": "POST",
+    "route": "/skills/nami_r/parameters",
+    "detailRoute": "/skills/nami_r/parameters/distance_to_slow_ratio",
+    "skillKey": "nami_r",
+    "kind": "parameters",
+    "stableKey": "distance_to_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "distance_to_slow_ratio",
+      "name": "距离到减速持续时间比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.002,
+      "levelValues": null,
+      "description": "客户端DistToSlowRatio为0.002；距离单位和实际曲线待接，不能自行取整。",
+      "sortOrder": 70
+    }
+  }
+}

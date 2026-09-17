@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T18:40:00+08:00",
+  "status": "PASS",
+  "browser": "Codex内置Chromium",
+  "title": "Damage Viewer Web",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 4,
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": null,
+  "requestAudit": {
+    "exactBrowserGetCountAvailable": false,
+    "reason": "当前浏览器控制能力未暴露网络方法流水；不猜GET数量。",
+    "writeActionAudit": "只执行关键词查询、打开效果详情、打开规则列表与编辑查看；没有点击保存、删除、新增或停用。",
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 1067,
+      "skillCount": 1062,
+      "ruleCount": 135,
+      "sourceInitializedCount": 25,
+      "targetDetailCount": 4,
+      "businessWrites": 0
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "targets": [
+    {
+      "id": "rakan_r_initial_move_speed",
+      "skillKey": "rakan_r",
+      "matched": true,
+      "list": {
+        "name": "洛·惊鸿过隙",
+        "status": "启用",
+        "maxLevel": 3,
+        "imageAlt": "洛·惊鸿过隙代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effect": {
+        "effectKey": "self_initial_move_speed",
+        "name": "惊鸿过隙自身初始移动速度",
+        "resultCount": 1,
+        "hasLifecycle": true,
+        "durationParameter": "self_speed_duration_ms",
+        "resultType": "属性变化",
+        "target": "施法者",
+        "valueParameter": "initial_move_speed_percent",
+        "fixedMultiplier": 0.01,
+        "attribute": "移动速度加成比例",
+        "operation": "增加",
+        "modifierZone": "属性固定加算",
+        "moment": "持续生效"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "惊鸿过隙主动初始移速",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "洛·惊鸿过隙（rakan_r）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "执行惊鸿过隙初始移动速度",
+        "actionTarget": "当前目标",
+        "effectKey": "self_initial_move_speed"
+      }
+    },
+    {
+      "id": "volibear_r_attack_range",
+      "skillKey": "volibear_r",
+      "matched": true,
+      "list": {
+        "name": "沃利贝尔·天声震落",
+        "status": "启用",
+        "maxLevel": 3,
+        "imageAlt": "沃利贝尔·天声震落代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effect": {
+        "effectKey": "attack_range",
+        "name": "天声震落自身额外攻击距离",
+        "resultCount": 1,
+        "hasLifecycle": true
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "天声震落主动攻击距离",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "沃利贝尔·天声震落（volibear_r）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "执行天声震落额外攻击距离",
+        "actionTarget": "当前目标",
+        "effectKey": "attack_range"
+      }
+    },
+    {
+      "id": "akshan_q_champion_hit_move_speed",
+      "skillKey": "akshan_q",
+      "matched": true,
+      "list": {
+        "name": "阿克尚·去而复还",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "阿克尚·去而复还代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effect": {
+        "effectKey": "champion_hit_move_speed",
+        "name": "去而复还命中英雄自身移动速度",
+        "resultCount": 1,
+        "hasLifecycle": true
+      },
+      "rule": {
+        "ruleKey": "actual_champion_hit",
+        "name": "命中英雄触发去而复还移速",
+        "event": "技能命中",
+        "conditionGroupCount": 1,
+        "actionCount": 1,
+        "action": "执行去而复还命中英雄自身移速",
+        "actionTarget": "当前目标",
+        "effectKey": "champion_hit_move_speed"
+      }
+    },
+    {
+      "id": "jarvaniv_e_self_attack_speed",
+      "skillKey": "jarvaniv_e",
+      "matched": true,
+      "list": {
+        "name": "嘉文四世·德邦军旗",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "嘉文四世·德邦军旗代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effect": {
+        "effectKey": "self_attack_speed",
+        "name": "德邦军旗自身被动攻击速度",
+        "resultCount": 1,
+        "hasLifecycle": true
+      },
+      "rule": {
+        "ruleKey": "initialize_self_attack_speed",
+        "name": "初始化德邦军旗被动攻击速度",
+        "event": "来源对象初始化完成",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "执行德邦军旗自身被动攻击速度",
+        "actionTarget": "事件来源对象",
+        "effectKey": "self_attack_speed"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "target": "rakan_r",
+      "sha256": "1651cad86bdf6ba34ef296196c7c1a4d11ca405012f4d6ccb81d442ca0e755af",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "volibear_r",
+      "sha256": "e9024bc63813c618d510cc3837acfee6c32b4881a1db6be945198f863475657e",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "akshan_q",
+      "sha256": "4f0ad7559e3cc94deab1a897e8338a2a4555f42e8e877627014c545ccf2429f3",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "jarvaniv_e",
+      "sha256": "cb5995514e0a71d993875fa13bfd4cc764a0d37f2ebf7057fb466ee822ced43a",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    }
+  ],
+  "readOnlyCorrections": [
+    "关键词控件实际使用可访问名称而不是placeholder；首次无匹配时没有页面或业务请求。",
+    "效果结果页面术语为“移动速度加成比例”，不是内部属性键直译；按实际页面术语核对。",
+    "嵌套弹窗关闭后必须等待控件消失再关闭父弹窗，避免读取尚未更新的控件树。",
+    "动作标题包含序号前缀，改为核对动作名称及效果摘要，不要求整行完全相等。",
+    "浏览器只读执行环境没有提供性能请求条目，未把不可见的网络信息伪造成精确计数。"
+  ],
+  "boundary": "真实页面确认四个目标保存后可重新打开，列表图、效果、规则事件和动作一致；未点击任何页面写入按钮。Wasm、宿主事件生产和真实战斗未执行。"
+}

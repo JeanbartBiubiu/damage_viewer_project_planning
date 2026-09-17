@@ -1,0 +1,30 @@
+{
+  "i": 68,
+  "intent": {
+    "sequence": 69,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_w/parameters",
+    "detailRoute": "/skills/heimerdinger_w/parameters/initial_base_damage",
+    "skillKey": "heimerdinger_w",
+    "kind": "parameters",
+    "stableKey": "initial_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_base_damage",
+      "name": "首颗导弹基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "description": "Damage的BaseDamage索引1至5为50/75/100/125/150；首颗命中。",
+      "sortOrder": 10
+    }
+  }
+}

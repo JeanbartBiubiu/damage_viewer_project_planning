@@ -1,0 +1,29 @@
+{
+  "i": 158,
+  "intent": {
+    "sequence": 159,
+    "method": "POST",
+    "route": "/skills/seraphine_e/parameters",
+    "detailRoute": "/skills/seraphine_e/parameters/slow_duration_ms",
+    "skillKey": "seraphine_e",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "减速持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1100,
+        "2": 1200,
+        "3": 1300,
+        "4": 1400,
+        "5": 1500
+      },
+      "description": "当前SlowDuration技能等级1至5的秒值转换为毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

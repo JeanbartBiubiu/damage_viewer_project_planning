@@ -1,0 +1,40 @@
+{
+  "sequence": 35,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 35,
+    "method": "POST",
+    "route": "/skills/blitzcrank_p/parameters",
+    "detailRoute": "/skills/blitzcrank_p/parameters/health_threshold_ratio",
+    "skillKey": "blitzcrank_p",
+    "kind": "parameters",
+    "stableKey": "health_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_threshold_ratio",
+      "name": "低生命触发比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "当前正文为低于30%生命值；DataValues.HealthThreshold=0.3，保留比例并等待触发事件。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 282,
+    "method": "GET",
+    "route": "/skills/blitzcrank_p/parameters/health_threshold_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "health_threshold_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:21.073Z"
+  }
+}

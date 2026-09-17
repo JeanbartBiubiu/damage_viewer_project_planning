@@ -1,0 +1,45 @@
+{
+  "i": 196,
+  "intent": {
+    "sequence": 197,
+    "method": "POST",
+    "route": "/skills/briar_p/formulas",
+    "detailRoute": "/skills/briar_p/formulas/bleed_damage_per_second",
+    "skillKey": "briar_p",
+    "kind": "formulas",
+    "stableKey": "bleed_damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bleed_damage_per_second",
+      "name": "猩红诅咒每秒流血伤害基础量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bleed_base_damage_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bleed_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前{15da76ad}=角色等级基础值+0.1×来源额外攻击力；中间等级基础值运行提供。",
+      "sortOrder": 10
+    }
+  }
+}

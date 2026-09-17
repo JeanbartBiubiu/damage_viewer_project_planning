@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-09-13T07:34:37.830Z",
+  "status": "PASS",
+  "allowedOperations": [
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/trigger-rules"
+    }
+  ],
+  "approvedBatchSha256": "1c614bb258283f36852de2365064fc98f44bd7db4390548201788de4d1518092",
+  "authorizationValueRecorded": false,
+  "getCount": 32,
+  "postCount": 1,
+  "statusCounts": {
+    "200": 31,
+    "201": 1,
+    "404": 1
+  },
+  "replayedWrites": 0,
+  "recoveryReadPerformed": false,
+  "completedAt": "2026-09-13T07:34:40.498Z",
+  "postResponse": {
+    "method": "POST",
+    "route": "/skills/hecarim_w/trigger-rules",
+    "status": 201,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "execute_armor_gain",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "armor_gain"
+          },
+          "name": "执行恐惧之灵自身护甲",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        },
+        {
+          "actionKey": "execute_magic_resistance_gain",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "magic_resistance_gain"
+          },
+          "name": "执行恐惧之灵自身魔抗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 20,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 hecarim_w 主动使用；依次执行已有 armor_gain 与 magic_resistance_gain 自身双抗效果。持续伤害、实际伤害治疗、周期节拍、附近目标、法力消耗、冷却和施法资格继续暂缓。管理保存不证明宿主已生产该事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "hecarim_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "恐惧之灵主动使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    }
+  },
+  "immediateReadback": {
+    "method": "GET",
+    "route": "/skills/hecarim_w/trigger-rules/on_used",
+    "status": 200,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "execute_armor_gain",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "armor_gain"
+          },
+          "name": "执行恐惧之灵自身护甲",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        },
+        {
+          "actionKey": "execute_magic_resistance_gain",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "magic_resistance_gain"
+          },
+          "name": "执行恐惧之灵自身魔抗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 20,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 hecarim_w 主动使用；依次执行已有 armor_gain 与 magic_resistance_gain 自身双抗效果。持续伤害、实际伤害治疗、周期节拍、附近目标、法力消耗、冷却和施法资格继续暂缓。管理保存不证明宿主已生产该事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "hecarim_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "恐惧之灵主动使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    }
+  },
+  "candidateBeforeStatus": 404,
+  "targetNonRuleSnapshotSha256": "b1b59bc003cdf4726b90e06b5324a7b795ee1f06fadff2906867c2c0a7e1cecd",
+  "bodySha256": "cf78066c1eb4222cd7da01cdd15e8627f0134867f8720b234f91bfe15001ae5c",
+  "boundary": "一次受保护写入和即时回读通过；独立最终回读、页面和运行验证另行执行。"
+}

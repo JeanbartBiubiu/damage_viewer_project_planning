@@ -1,0 +1,27 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 133,
+    "method": "POST",
+    "route": "/skills/ambessa_r/parameters",
+    "detailRoute": "/skills/ambessa_r/parameters/armor_penetration_ratio",
+    "skillKey": "ambessa_r",
+    "kind": "parameters",
+    "stableKey": "armor_penetration_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "armor_penetration_ratio",
+      "name": "公开处刑百分比护甲穿透",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.1,
+        "2": 0.2,
+        "3": 0.30000001
+      },
+      "description": "当前Armor_Penetration技能等级1至3为10%/20%/30%，按比例保存。",
+      "sortOrder": 50
+    }
+  }
+}

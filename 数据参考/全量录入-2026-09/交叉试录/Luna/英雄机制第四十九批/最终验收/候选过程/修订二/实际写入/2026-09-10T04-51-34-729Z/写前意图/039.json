@@ -1,0 +1,25 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_e/parameters",
+    "detailRoute": "/skills/gnar_e/parameters/source_max_hp_ratio",
+    "skillKey": "gnar_e",
+    "kind": "parameters",
+    "stableKey": "source_max_hp_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "source_max_hp_ratio",
+      "name": "自身最大生命倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.059999999,
+      "levelValues": null,
+      "description": "MiniTotalDamageHPRatio源值0.06，使用自身最大生命。",
+      "sortOrder": 20
+    }
+  }
+}

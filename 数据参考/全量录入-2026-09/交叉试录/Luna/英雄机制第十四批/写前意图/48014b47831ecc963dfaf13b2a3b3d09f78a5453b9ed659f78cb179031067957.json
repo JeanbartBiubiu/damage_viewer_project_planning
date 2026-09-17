@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T06:42:09.822Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_r/parameters/base_damage",
+  "id": "base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "每次炮击基础伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 170,
+      "2": 220,
+      "3": 270
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+    "sortOrder": 40
+  }
+}

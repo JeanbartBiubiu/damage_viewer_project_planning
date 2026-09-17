@@ -1,0 +1,28 @@
+{
+  "i": 204,
+  "intent": {
+    "sequence": 205,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_r/parameters",
+    "detailRoute": "/skills/smolder_r/parameters/heal_base",
+    "skillKey": "smolder_r",
+    "kind": "parameters",
+    "stableKey": "heal_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_base",
+      "name": "妈----！自身治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 135,
+        "3": 170
+      },
+      "description": "MomHeal取索引1至3的100/135/170；索引0=65是占位。",
+      "sortOrder": 50
+    }
+  }
+}

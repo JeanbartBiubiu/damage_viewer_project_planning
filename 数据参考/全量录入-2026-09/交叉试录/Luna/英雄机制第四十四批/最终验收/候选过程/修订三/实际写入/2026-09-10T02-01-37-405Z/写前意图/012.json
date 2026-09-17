@@ -1,0 +1,87 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "method": "POST",
+    "route": "/skills/illaoi_q/formulas",
+    "detailRoute": "/skills/illaoi_q/formulas/tentacle_damage",
+    "skillKey": "illaoi_q",
+    "kind": "formulas",
+    "stableKey": "tentacle_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "tentacle_damage",
+      "name": "本体主动触手猛击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "tentacle_damage_base_at_character_level"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "total_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "tentacle_damage_amp"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "主动Q是本体施放载体，完整树为(1+技能放大)×(角色等级基础+1.1×总攻击力+0.4×法强)；自主触手结果另列排除。",
+      "sortOrder": 10
+    }
+  }
+}

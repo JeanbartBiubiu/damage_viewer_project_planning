@@ -1,0 +1,54 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/formulas",
+    "detailRoute": "/skills/belveth_e/formulas/source_counted_strikes",
+    "skillKey": "belveth_e",
+    "kind": "formulas",
+    "stableKey": "source_counted_strikes",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "source_counted_strikes",
+      "name": "搠面皇锋来源攻击次数",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_strike_count"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_strike_count"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "attack_speed_strike_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_attack_speed_stat_formula_2"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "来源树=6+6×0.4×实际mStat4/formula2；不替代实际整数次数。",
+      "sortOrder": 130
+    }
+  }
+}

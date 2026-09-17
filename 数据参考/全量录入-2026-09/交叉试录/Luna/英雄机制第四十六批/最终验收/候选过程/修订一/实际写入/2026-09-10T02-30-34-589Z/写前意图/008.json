@@ -1,0 +1,24 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/actual_temporary_attack_speed_ratio",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "actual_temporary_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_temporary_attack_speed_ratio",
+      "name": "当前幽灵临时攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "SheenSpeedPerStack虽起止皆0.2但带角色等级乘数语义，提供实际比例，不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

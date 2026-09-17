@@ -1,0 +1,46 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_p/formulas",
+    "detailRoute": "/skills/shaco_p/formulas/backstab_shiv_magic_damage",
+    "skillKey": "shaco_p",
+    "kind": "formulas",
+    "stableKey": "backstab_shiv_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "backstab_shiv_magic_damage",
+      "name": "背刺E附加魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shivs_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shivs_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ShivDamage=角色等级插值基础值+0.1×法强。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/yasuo_e/parameters",
+    "detailRoute": "/skills/yasuo_e/parameters/bonus_damage_per_stack_ratio",
+    "skillKey": "yasuo_e",
+    "kind": "parameters",
+    "stableKey": "bonus_damage_per_stack_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_damage_per_stack_ratio",
+      "name": "每层追加完整伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "客户端BonusDamagePerStack为完整TotalDamage×0.25；当前公式按完整基数乘(1+层数×0.25)，比例1代表100%。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "sequence": 8,
+  "intent": {
+    "sequence": 8,
+    "method": "POST",
+    "route": "/skills/drmundo_p/formulas",
+    "detailRoute": "/skills/drmundo_p/formulas/health_loss_amount",
+    "skillKey": "drmundo_p",
+    "kind": "formulas",
+    "stableKey": "health_loss_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "health_loss_amount",
+      "name": "抵抗定身当前生命损失量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_health_loss_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "CURRENT"
+          }
+        ]
+      },
+      "description": "当前正文 CurrentHealthLoss*100%当前生命值；实际当前生命由属性输入提供。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 226,
+    "method": "GET",
+    "route": "/skills/drmundo_p/formulas/health_loss_amount",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "health_loss_amount"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:36:38.971Z"
+  }
+}

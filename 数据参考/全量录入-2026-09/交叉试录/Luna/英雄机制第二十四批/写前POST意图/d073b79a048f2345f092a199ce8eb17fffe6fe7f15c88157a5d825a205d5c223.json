@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-09T14:37:20.269Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_w/formulas",
+  "detailRoute": "/skills/nunu_w/formulas/maximum_stun_duration_ms",
+  "skillKey": "nunu_w",
+  "kind": "formulas",
+  "stableKey": "maximum_stun_duration_ms",
+  "body": {
+    "formulaKey": "maximum_stun_duration_ms",
+    "name": "史上最大雪球最高击飞时间",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_knockup_duration_ms"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "additional_stun_duration_ms"
+        }
+      ]
+    },
+    "description": "MaximumStunDuration = BaseKnockupDuration + AdditionalStunDurationOverTime；按源树保留毫秒单位。",
+    "sortOrder": 30
+  }
+}

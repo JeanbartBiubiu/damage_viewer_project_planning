@@ -1,0 +1,29 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "method": "POST",
+    "route": "/skills/seraphine_e/parameters",
+    "detailRoute": "/skills/seraphine_e/parameters/base_damage",
+    "skillKey": "seraphine_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "增幅节拍基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 100,
+        "3": 130,
+        "4": 160,
+        "5": 190
+      },
+      "description": "当前BaseDamage技能等级1至5。",
+      "sortOrder": 10
+    }
+  }
+}

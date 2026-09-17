@@ -1,0 +1,145 @@
+{
+  "method": "DELETE",
+  "route": "/skills/garen_p/effects/perseverance_regen",
+  "before": {
+    "createdAt": "2026-09-06T16:57:13.125128Z",
+    "description": "仅被动生效期间挂载，动态按最大生命计算每5秒额外回复；受击暂停与恢复事件、回复执行节拍仍待配置。",
+    "effectKey": "perseverance_regen",
+    "gameId": "lol",
+    "lifecycle": {
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "durationValue": null,
+      "expiryMode": "EXPLICIT_ONLY",
+      "firstPeriodicExecution": null,
+      "instanceScope": "SOURCE",
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "periodicIntervalValue": null,
+      "reapplicationDurationMode": null,
+      "reapplicationStackMode": "KEEP"
+    },
+    "name": "坚韧持续生命回复",
+    "results": [
+      {
+        "description": null,
+        "detail": {
+          "attributeKey": "hp_regen",
+          "modifierZoneKey": "attribute_flat_add",
+          "operation": "INCREASE"
+        },
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "periodicExecutionMode": null,
+          "reapplicationValueMode": null,
+          "stackValueMode": "SHARED",
+          "valueReadMode": "MOMENT_EVALUATION"
+        },
+        "name": "提高生命回复",
+        "resultKey": "regen",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "sortOrder": 0,
+        "spellShieldBlockScope": null,
+        "target": "SOURCE",
+        "valueRule": {
+          "fixedMaxValue": null,
+          "fixedMinValue": null,
+          "fixedMultiplier": 1,
+          "value": {
+            "formulaKey": "regen_per_5s",
+            "kind": "FORMULA"
+          }
+        }
+      }
+    ],
+    "skillKey": "garen_p",
+    "sortOrder": 0,
+    "updatedAt": "2026-09-06T16:57:13.125128Z"
+  },
+  "reason": "原MOMENT_EVALUATION持续效果经regen_per_5s引用待转RUNTIME_INPUT参数，必须保持原语义并撤除未证动态效果，不能改快照绕过。",
+  "currentIncomingReferences": [],
+  "currentProcesses": [],
+  "currentTriggerRules": [],
+  "representativeImage": {
+    "image": null
+  },
+  "chain": [
+    {
+      "kind": "EFFECT",
+      "key": "perseverance_regen",
+      "field": "results[0].valueRule.value",
+      "mode": "PERSISTENT + MOMENT_EVALUATION"
+    },
+    {
+      "kind": "FORMULA",
+      "key": "regen_per_5s",
+      "fullObject": {
+        "createdAt": "2026-09-06T15:53:56.378958Z",
+        "description": "总生命值×等级回复比例；此值是每5秒回复量，不是每秒治疗，也不是瞬时直接治疗。来源：16.17固定资料。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "regen_ratio_per_5s"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "regen_per_5s",
+        "gameId": "lol",
+        "name": "被动提供的每5秒生命回复",
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:53:56.378958Z"
+      }
+    },
+    {
+      "kind": "PARAMETER",
+      "key": "regen_ratio_per_5s",
+      "fullObject": {
+        "createdAt": "2026-09-06T15:36:25.759918Z",
+        "description": "当前16.17客户端分段曲线；每5秒单位由官方9.20说明与补证确认。仅1～18级，自动启停规则尚待录入。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.015,
+          "2": 0.017,
+          "3": 0.019,
+          "4": 0.021,
+          "5": 0.023,
+          "6": 0.025,
+          "7": 0.033,
+          "8": 0.041,
+          "9": 0.049,
+          "10": 0.057,
+          "11": 0.065,
+          "12": 0.073,
+          "13": 0.081,
+          "14": 0.085,
+          "15": 0.089,
+          "16": 0.093,
+          "17": 0.097,
+          "18": 0.101
+        },
+        "name": "每5秒最大生命回复比例",
+        "parameterKey": "regen_ratio_per_5s",
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:36:25.759918Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    }
+  ]
+}

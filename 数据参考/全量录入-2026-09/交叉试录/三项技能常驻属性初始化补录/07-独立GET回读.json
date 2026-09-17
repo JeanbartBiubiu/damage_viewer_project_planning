@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T11:43:26.788Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 1271,
+  "statusCounts": {
+    "200": 1271
+  },
+  "skillCount": 1062,
+  "ruleCount": 142,
+  "sourceInitializedCount": 29,
+  "oldRulesCount": 139,
+  "oldRulesSha256": "c3715fa2d4c4057463be66020812d9e01f5901df8719cec6b3795b19b56446f2",
+  "allRulesSha256": "d757852a68bd74ccbd145c10829b1ba2a5a700d43c3f8652574699dea205fae0",
+  "targetChecks": [
+    {
+      "id": "kogmaw_q_passive_attack_speed",
+      "skillKey": "kogmaw_q",
+      "ruleKey": "initialize_passive_attack_speed",
+      "effectKeys": [
+        "passive_attack_speed"
+      ],
+      "nonRuleSha256": "0923f74adc6a8a6a82ff73329ca978c097ecdce0779d11a70ca0ab27abfadbe4",
+      "ruleSha256": "c2ff52f2d5e15a27de4f26dd38df7f78a4283856f25280cfc37543935f46f6c7"
+    },
+    {
+      "id": "olaf_r_passive_resists",
+      "skillKey": "olaf_r",
+      "ruleKey": "initialize_passive_resists",
+      "effectKeys": [
+        "passive_armor",
+        "passive_magic_resistance"
+      ],
+      "nonRuleSha256": "53519b45c72399840e6f5b3f077cd2aaa26e312e3abdc67462f4e59f1361fb43",
+      "ruleSha256": "3e8f8ec7545d45d63e2ea8afef948cff5f80c24af2ce40ae9e56a432bc597f82"
+    },
+    {
+      "id": "zaahen_r_armor_penetration",
+      "skillKey": "zaahen_r",
+      "ruleKey": "initialize_armor_penetration",
+      "effectKeys": [
+        "armor_penetration"
+      ],
+      "nonRuleSha256": "7f1986181766338ac28d097c2c6b8bbc170582fe210ce86d9490ea6be7de6b24",
+      "ruleSha256": "ea5efb247342998ca8899c4d2ce00be111cb04f58f15358d7795c0e169f01094"
+    }
+  ],
+  "requestPathsSha256": "e64fc36f78ecea2e5243843a17aa18e02874e9297e1e810422f5b6c52367c02d",
+  "boundary": "独立检查器只发GET；既有139条规则与三项非规则组成不变，三条新增规则精确匹配冻结请求。来源初始化后的Wasm、宿主和真实战斗未执行。"
+}

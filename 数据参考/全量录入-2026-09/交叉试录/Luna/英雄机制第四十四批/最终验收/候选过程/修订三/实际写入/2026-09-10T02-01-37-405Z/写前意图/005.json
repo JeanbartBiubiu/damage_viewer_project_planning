@@ -1,0 +1,29 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "method": "POST",
+    "route": "/skills/illaoi_q/parameters",
+    "detailRoute": "/skills/illaoi_q/parameters/tentacle_damage_amp",
+    "skillKey": "illaoi_q",
+    "kind": "parameters",
+    "stableKey": "tentacle_damage_amp",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tentacle_damage_amp",
+      "name": "触手伤害提升比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.1000000015,
+        "2": 0.150000006,
+        "3": 0.200000003,
+        "4": 0.25,
+        "5": 0.3000000119
+      },
+      "description": "当前完整公式使用技能等级1至5的0.10至0.30；比例本身按1表示100%。",
+      "sortOrder": 10
+    }
+  }
+}

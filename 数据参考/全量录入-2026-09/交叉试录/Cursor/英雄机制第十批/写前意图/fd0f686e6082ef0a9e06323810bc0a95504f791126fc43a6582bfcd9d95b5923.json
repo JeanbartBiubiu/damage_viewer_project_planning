@@ -1,0 +1,38 @@
+{
+  "at": "2026-09-09T04:28:48.760Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_w/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "q_empower_max_missing_damage",
+    "name": "主动强化Q满蓄力魔法增伤",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_q_empower_multiplier"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "q_empower_missing_hp_ratio"
+            }
+          ]
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "TARGET",
+          "attributeKey": "hp",
+          "attributeValueKind": "MISSING"
+        }
+      ]
+    },
+    "description": "目标已损生命乘满蓄力上限，不自动判断蓄力完成。",
+    "sortOrder": 80
+  }
+}

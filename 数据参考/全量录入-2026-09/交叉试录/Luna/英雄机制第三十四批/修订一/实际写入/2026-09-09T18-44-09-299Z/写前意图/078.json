@@ -1,0 +1,23 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 81,
+    "method": "POST",
+    "route": "/skills/leblanc_r/parameters",
+    "detailRoute": "/skills/leblanc_r/parameters/mark_duration_ms",
+    "skillKey": "leblanc_r",
+    "kind": "parameters",
+    "stableKey": "mark_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_duration_ms",
+      "name": "复制Q魔印持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3500,
+      "levelValues": null,
+      "description": "客户端RQMarkDuration取索引1的3.5秒，转换为3500毫秒。",
+      "sortOrder": 70
+    }
+  }
+}

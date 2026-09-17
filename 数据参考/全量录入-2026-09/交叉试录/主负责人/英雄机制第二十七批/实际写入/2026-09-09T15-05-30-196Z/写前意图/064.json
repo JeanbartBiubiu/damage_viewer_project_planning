@@ -1,0 +1,26 @@
+{
+  "i": 63,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_w/parameters",
+    "skillKey": "hecarim_w",
+    "kind": "parameters",
+    "stableKey": "base_damage_total",
+    "body": {
+      "parameterKey": "base_damage_total",
+      "name": "四秒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "description": "当前根DataValues.Damage取索引1至5。",
+      "sortOrder": 20
+    }
+  }
+}

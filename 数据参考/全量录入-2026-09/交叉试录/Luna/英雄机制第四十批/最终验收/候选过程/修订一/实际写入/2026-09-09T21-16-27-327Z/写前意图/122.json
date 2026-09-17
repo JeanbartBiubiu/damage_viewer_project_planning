@@ -1,0 +1,23 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "method": "POST",
+    "route": "/skills/pyke_p/parameters",
+    "detailRoute": "/skills/pyke_p/parameters/lethality_points_input",
+    "skillKey": "pyke_p",
+    "kind": "parameters",
+    "stableKey": "lethality_points_input",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lethality_points_input",
+      "name": "派克固定穿甲点数输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前OneEnemyCalc与W/E/R树消费mStat29；实际点数由运行层外供，无默认。",
+      "sortOrder": 30
+    }
+  }
+}

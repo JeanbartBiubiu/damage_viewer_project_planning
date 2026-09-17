@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 2,
+  "capturedAt": "2026-09-13T15:03:44.877Z",
+  "status": "PASS",
+  "files": [
+    {
+      "id": "zhonyasReview",
+      "root": "web",
+      "relativePath": "数据参考/全量录入-2026-09/装备技能实录/Luna下一批装备触发候选/候选汇总.json",
+      "sha256": "04b06e69d7de5890f556f9cda8d5e2e462a39caa6e9b28a2d7314b960d70eb62",
+      "actualSha256": "04b06e69d7de5890f556f9cda8d5e2e462a39caa6e9b28a2d7314b960d70eb62",
+      "byteSize": 127243
+    },
+    {
+      "id": "qssReview",
+      "root": "web",
+      "relativePath": "数据参考/全量录入-2026-09/装备技能实录/Luna第二轮装备触发候选/候选汇总.json",
+      "sha256": "2997714badb1efbe4270f370789e6f2343ec46f30969887d42faa3751a151dcb",
+      "actualSha256": "2997714badb1efbe4270f370789e6f2343ec46f30969887d42faa3751a151dcb",
+      "byteSize": 102242
+    },
+    {
+      "id": "redemptionSource",
+      "root": "planning",
+      "relativePath": "数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/冻结来源.json",
+      "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+      "actualSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+      "byteSize": 186640
+    }
+  ],
+  "batchSha256": "746060f71187145cacb6cbd07ff95b326d407f36a22d0e7e74c34afc0031e7db",
+  "correctionBasis": {
+    "parentPrepareSha256": "4dc30d72cdf97ba1e5fe5a30bd1826c8404167b07531ffc1a5d190c98625f7a0",
+    "parentFailureSha256": "d7116b89f299d296aee9b514b40d6881fe478712de71de0570a57de33fb96fee",
+    "directAttributePattern": {
+      "formula": "nasus_r/damage_per_second",
+      "node": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "TARGET",
+        "attributeKey": "hp",
+        "attributeValueKind": "TOTAL"
+      }
+    }
+  }
+}

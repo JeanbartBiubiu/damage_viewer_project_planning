@@ -1,0 +1,29 @@
+{
+  "at": "2026-09-09T04:55:10.138Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_q/formulas/bonus_damage",
+  "id": "bonus_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "bonus_damage",
+    "name": "精准礼仪额外物理伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "total_ad_ratio"
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "attack_damage",
+          "attributeValueKind": "TOTAL"
+        }
+      ]
+    },
+    "description": "BonusDamage=tADRatio×总攻击力。",
+    "sortOrder": 10
+  }
+}

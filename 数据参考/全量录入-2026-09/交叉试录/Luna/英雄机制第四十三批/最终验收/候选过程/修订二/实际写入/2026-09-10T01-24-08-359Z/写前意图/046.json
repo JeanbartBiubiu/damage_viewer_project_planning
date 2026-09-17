@@ -1,0 +1,56 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_r/formulas",
+    "detailRoute": "/skills/gangplank_r/formulas/full_magic_damage",
+    "skillKey": "gangplank_r",
+    "kind": "formulas",
+    "stableKey": "full_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "full_magic_damage",
+      "name": "加农炮幕基础全程魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "total_waves"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_wave"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "8秒12波全程值=12×每波伤害；不编每波命中时钟。",
+      "sortOrder": 20
+    }
+  }
+}

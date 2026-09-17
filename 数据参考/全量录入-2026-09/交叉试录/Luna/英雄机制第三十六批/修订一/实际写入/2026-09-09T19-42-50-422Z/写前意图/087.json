@@ -1,0 +1,45 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "method": "POST",
+    "route": "/skills/lillia_r/formulas",
+    "detailRoute": "/skills/lillia_r/formulas/break_magic_damage",
+    "skillKey": "lillia_r",
+    "kind": "formulas",
+    "stableKey": "break_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "break_magic_damage",
+      "name": "梦魇之尘唤醒魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "break_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "仅非周期性伤害打醒时消费：BreakDamageBase + 0.4×来源总法强；自然睡醒不自动补伤。",
+      "sortOrder": 10
+    }
+  }
+}

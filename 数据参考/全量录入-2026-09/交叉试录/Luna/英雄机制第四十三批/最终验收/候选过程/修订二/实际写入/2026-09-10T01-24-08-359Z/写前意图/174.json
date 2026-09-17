@@ -1,0 +1,30 @@
+{
+  "i": 173,
+  "intent": {
+    "sequence": 174,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_q/parameters",
+    "detailRoute": "/skills/zed_q/parameters/base_damage",
+    "skillKey": "zed_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "诸刃本体首目标基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "description": "TotalDamage使用DataValues.BaseDamage索引1至5：80/120/160/200/240。",
+      "sortOrder": 10
+    }
+  }
+}

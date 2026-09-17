@@ -1,0 +1,24 @@
+{
+  "i": 197,
+  "intent": {
+    "sequence": 198,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/parameters",
+    "detailRoute": "/skills/locke_w/parameters/decay_time_ms",
+    "skillKey": "locke_w",
+    "kind": "parameters",
+    "stableKey": "decay_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "decay_time_ms",
+      "name": "衰减第一段时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "DecayTime=1秒。",
+      "sortOrder": 70
+    }
+  }
+}

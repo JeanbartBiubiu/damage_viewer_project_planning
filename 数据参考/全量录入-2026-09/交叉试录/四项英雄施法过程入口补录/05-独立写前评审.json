@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T12:19:02.949Z",
+  "status": "APPROVED",
+  "reviewer": "既有独立来源复核加新进程完整事件明细GET契约检查",
+  "approvedBatchSha256": "726c7cccbf116154e50d6ba2a747851d374abc1e8a746f524ca94c6d5c25e0d8",
+  "preflightSha256": "cb6c1c2d81f568dbf98f19c61583895cba0da46bb1d5e8c526b13ad73e090ec9",
+  "bodyRulesSha256": "d01675343140f192fec6d73a3fa44031f912094db22ab2af7fa2c8cc98066a25",
+  "metadataRulesSha256": "803d62c5f965b9c2e0cbbe57dd89de4f9bac24ce9354e8be55e7c2ad40c6b6d2",
+  "targetNonRuleSha256": [
+    {
+      "id": "ahri_q_start_cast",
+      "sha256": "c2cbc2aa9d7cf17974048002c70c555cb441cc9db956ce672d27fbf2f576843e"
+    },
+    {
+      "id": "brand_w_start_cast",
+      "sha256": "4a910ba6c9c60f0f92a0333dfe3c7d46e168f94bcca2d35950628ac6cf7142fe"
+    },
+    {
+      "id": "darius_e_start_cast",
+      "sha256": "deb130c200e079818401f6c7f8baec3f58b9d5df6f65459ef27da2155fb568cd"
+    },
+    {
+      "id": "xinzhao_w_start_cast",
+      "sha256": "6990b6f8e7f2a70d7a0907e868ab33e2e8ad532b0943c67e65baf99b954cc03f"
+    }
+  ],
+  "approvalDecisionSha256": "ab4c0e65f0a64e26aaabcf6d781998ab8903c37691d6680406dc9c17d1f665c3",
+  "getCount": 1298,
+  "statusCounts": {
+    "200": 1294,
+    "404": 4
+  },
+  "skillCount": 1062,
+  "ruleCount": 142,
+  "sourceInitializedCount": 29,
+  "businessWrites": 0,
+  "requestPathsSha256": "3497f12c83b2494a6b34a12bedb7ea7c4352b8ea53d315d76028982753644460",
+  "boundary": "独立批准只覆盖冻结的四个主动使用入口；不批准伤害、命中、灼烧、穿透、拖拽、减速、挑战或其他阶段。"
+}

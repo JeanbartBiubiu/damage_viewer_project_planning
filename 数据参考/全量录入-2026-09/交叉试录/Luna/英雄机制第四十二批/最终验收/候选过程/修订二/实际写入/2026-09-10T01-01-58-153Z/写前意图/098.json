@@ -1,0 +1,21 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "skillKey": "mel_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_p/parameters",
+    "stableKey": "unlearned_r_stack_ap_ratio",
+    "body": {
+      "parameterKey": "unlearned_r_stack_ap_ratio",
+      "name": "未学R被动每层法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.007499999832361937,
+      "levelValues": null,
+      "description": "当前P消费MelR完整被动计算；技能未学习时索引0只改变基础值，法强项仍然保留。",
+      "sortOrder": 110
+    }
+  }
+}

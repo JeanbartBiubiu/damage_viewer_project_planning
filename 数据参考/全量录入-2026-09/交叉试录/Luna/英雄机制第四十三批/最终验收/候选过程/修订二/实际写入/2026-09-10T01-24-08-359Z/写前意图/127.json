@@ -1,0 +1,46 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 127,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_q/formulas",
+    "detailRoute": "/skills/naafiri_q/formulas/first_cast_physical_damage",
+    "skillKey": "naafiri_q",
+    "kind": "formulas",
+    "stableKey": "first_cast_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "first_cast_physical_damage",
+      "name": "暗裔犬牙第一刀物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "first_cast_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "first_cast_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "第一刀=基础值+0.2×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

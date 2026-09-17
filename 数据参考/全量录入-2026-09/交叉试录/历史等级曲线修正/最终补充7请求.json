@@ -1,0 +1,643 @@
+{
+  "at": "2026-09-09T06:18:57.555Z",
+  "status": "最终7请求待核对，未执行",
+  "originalPlanSha256": "d9d238981202cf8a8cb57c50592568b01fc6659f510e4f7db86ca07d4a72e17e",
+  "partialReportSha256": "ebfd985396d1586216e9f719e0f148b6b70565f75dcb125fdae2eab471aef458",
+  "currentSnapshotSha256": "b08ab0978763afebaec307674892438de9b47aba5b882b52da8d5578de89919c",
+  "alreadyConfirmed": [
+    {
+      "method": "DELETE",
+      "route": "/skills/diana_p/trigger-rules/initialize_passive_attack_speed"
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/diana_p/trigger-rules/after_q_attack_speed"
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/diana_p/trigger-rules/after_w_attack_speed"
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/diana_p/trigger-rules/after_e_attack_speed"
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/diana_p/trigger-rules/after_r_attack_speed"
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/warwick_p/trigger-rules/basic_attack_hit"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/annie_e/parameters/move_speed_ratio"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/brand_p/parameters/explosion_base_max_hp_ratio"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ahri_p/parameters/champion_base_heal"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/darius_p/parameters/bleed_base_total"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/darius_p/parameters/noxian_might_bonus_ad"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/diana_p/parameters/cleave_base_damage"
+    }
+  ],
+  "reason": "按当前时点持续读取的效果禁止计算时传入参数；不改成施加时快照来绕过。六条自动规则已撤下，继续撤下两个仅依赖未证等级数值的独立效果，保留其完整对象和公式，随后完成剩余四参数更新。独立复核使用实际后端生产校验确认盖伦同类动态持续效果也必须撤下。",
+  "requests": [
+    {
+      "method": "DELETE",
+      "route": "/skills/diana_p/effects/passive_attack_speed",
+      "before": {
+        "createdAt": "2026-09-07T18:53:26.682733Z",
+        "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+        "effectKey": "passive_attack_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "月银之刃常态攻速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "月银之刃常态攻速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_attack_speed_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T19:23:16.739395Z"
+      },
+      "reason": "当前等级算法缺乏依据，持续按当前时点求值不能绑定外供输入；保留原完整对象供后续补证。"
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/diana_p/effects/cast_attack_speed",
+      "before": {
+        "createdAt": "2026-09-07T18:53:27.257173Z",
+        "description": null,
+        "effectKey": "cast_attack_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "empowered_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "施法后月银攻速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "临时额外攻速",
+            "resultKey": "attack_speed",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "additional_attack_speed",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T19:23:17.996122Z"
+      },
+      "reason": "当前等级算法缺乏依据，持续按当前时点求值不能绑定外供输入；保留原完整对象供后续补证。"
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/garen_p/effects/perseverance_regen",
+      "before": {
+        "createdAt": "2026-09-06T16:57:13.125128Z",
+        "description": "仅被动生效期间挂载，动态按最大生命计算每5秒额外回复；受击暂停与恢复事件、回复执行节拍仍待配置。",
+        "effectKey": "perseverance_regen",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "坚韧持续生命回复",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "hp_regen",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "提高生命回复",
+            "resultKey": "regen",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 0,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "regen_per_5s",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T16:57:13.125128Z"
+      },
+      "reason": "间接引用未证等级回复比例且持续按当前时点求值，禁止用施加快照绕过。"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/diana_p/parameters/passive_attack_speed_ratio",
+      "skillKey": "diana_p",
+      "parameterKey": "passive_attack_speed_ratio",
+      "before": {
+        "createdAt": "2026-09-07T18:53:23.278944Z",
+        "description": "当前完整计算树的1至18级线性插值，端点均明确。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.15,
+          "2": 0.161764706,
+          "3": 0.173529412,
+          "4": 0.185294118,
+          "5": 0.197058824,
+          "6": 0.208823529,
+          "7": 0.220588235,
+          "8": 0.232352941,
+          "9": 0.244117647,
+          "10": 0.255882353,
+          "11": 0.267647059,
+          "12": 0.279411765,
+          "13": 0.291176471,
+          "14": 0.302941176,
+          "15": 0.314705882,
+          "16": 0.326470588,
+          "17": 0.338235294,
+          "18": 0.35
+        },
+        "name": "常态额外攻击速度",
+        "parameterKey": "passive_attack_speed_ratio",
+        "skillKey": "diana_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:23.278944Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "after": {
+        "createdAt": "2026-09-07T18:53:23.278944Z",
+        "description": "当前等级月银之刃的常态额外攻击速度比例，1表示100%。固定16.17原节点只有0.15/0.35端点，等级插值算法未证；实际比例必须外供。施法后强化攻速仍基于此值计算；现有初始化及施法规则未绑定此输入，不得缺值默认为0或继续套用原推定18级表。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "常态额外攻击速度",
+        "parameterKey": "passive_attack_speed_ratio",
+        "skillKey": "diana_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:23.278944Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      "body": {
+        "name": "常态额外攻击速度",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前等级月银之刃的常态额外攻击速度比例，1表示100%。固定16.17原节点只有0.15/0.35端点，等级插值算法未证；实际比例必须外供。施法后强化攻速仍基于此值计算；现有初始化及施法规则未绑定此输入，不得缺值默认为0或继续套用原推定18级表。",
+        "sortOrder": 30
+      },
+      "changedFields": [
+        "description",
+        "levelValues",
+        "valueMode"
+      ],
+      "sourceCategory": "端点推定1至18线性",
+      "candidateSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "source": [
+        {
+          "raw": {
+            "mStartValue": 0.15000000596046448,
+            "mEndValue": 0.3499999940395355,
+            "__type": "ByCharLevelInterpolationCalculationPart"
+          },
+          "matches": [
+            {
+              "path": "mSpell.mSpellCalculations.BonusAS.mFormulaParts.0",
+              "raw": {
+                "mStartValue": 0.15000000596046448,
+                "mEndValue": 0.3499999940395355,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/trundle_p/parameters/dead_enemy_hp_heal_ratio",
+      "skillKey": "trundle_p",
+      "parameterKey": "dead_enemy_hp_heal_ratio",
+      "before": {
+        "createdAt": "2026-09-08T14:37:40.208389Z",
+        "description": "完整计算树1至18级端点线性插值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.018,
+          "2": 0.020176,
+          "3": 0.022353,
+          "4": 0.024529,
+          "5": 0.026706,
+          "6": 0.028882,
+          "7": 0.031059,
+          "8": 0.033235,
+          "9": 0.035412,
+          "10": 0.037588,
+          "11": 0.039765,
+          "12": 0.041941,
+          "13": 0.044118,
+          "14": 0.046294,
+          "15": 0.048471,
+          "16": 0.050647,
+          "17": 0.052824,
+          "18": 0.055
+        },
+        "name": "阵亡敌人最大生命治疗比例",
+        "parameterKey": "dead_enemy_hp_heal_ratio",
+        "skillKey": "trundle_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:40.208389Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "after": {
+        "createdAt": "2026-09-08T14:37:40.208389Z",
+        "description": "当前等级国王的贡品按附近死亡敌人的最大生命值计算的自身恢复比例，1表示100%。固定16.17原节点只有0.018/0.055端点，等级插值算法未证；必须提供已确认实际比例。缺值不能默认为0，不使用原推定18级表。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "阵亡敌人最大生命治疗比例",
+        "parameterKey": "dead_enemy_hp_heal_ratio",
+        "skillKey": "trundle_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:40.208389Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      "body": {
+        "name": "阵亡敌人最大生命治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前等级国王的贡品按附近死亡敌人的最大生命值计算的自身恢复比例，1表示100%。固定16.17原节点只有0.018/0.055端点，等级插值算法未证；必须提供已确认实际比例。缺值不能默认为0，不使用原推定18级表。",
+        "sortOrder": 10
+      },
+      "changedFields": [
+        "description",
+        "levelValues",
+        "valueMode"
+      ],
+      "sourceCategory": "端点推定1至18线性",
+      "candidateSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "source": [
+        {
+          "raw": {
+            "mStartValue": 0.017999999225139618,
+            "mEndValue": 0.054999999701976776,
+            "__type": "ByCharLevelInterpolationCalculationPart"
+          },
+          "matches": [
+            {
+              "path": "mSpell.mSpellCalculations.RegenPercent.mFormulaParts.0",
+              "raw": {
+                "mStartValue": 0.017999999225139618,
+                "mEndValue": 0.054999999701976776,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/warwick_p/parameters/on_hit_base",
+      "skillKey": "warwick_p",
+      "parameterKey": "on_hit_base",
+      "before": {
+        "createdAt": "2026-09-08T14:38:10.48706Z",
+        "description": "完整计算树1至18级端点线性插值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6,
+          "2": 8.882353,
+          "3": 11.764706,
+          "4": 14.647059,
+          "5": 17.529412,
+          "6": 20.411765,
+          "7": 23.294118,
+          "8": 26.176471,
+          "9": 29.058824,
+          "10": 31.941176,
+          "11": 34.823529,
+          "12": 37.705882,
+          "13": 40.588235,
+          "14": 43.470588,
+          "15": 46.352941,
+          "16": 49.235294,
+          "17": 52.117647,
+          "18": 55
+        },
+        "name": "普攻附带基础魔法伤害",
+        "parameterKey": "on_hit_base",
+        "skillKey": "warwick_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:38:10.48706Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "after": {
+        "createdAt": "2026-09-08T14:38:10.48706Z",
+        "description": "当前等级血之饥渴攻击命中附带魔法伤害的基础点数，不含另算的攻击力/法强项。固定16.17原节点只有6/55端点，等级插值算法未证；实际基础点数必须外供。现有攻击命中规则未绑定此输入，不得缺值默认为0或继续套用原推定18级表。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "普攻附带基础魔法伤害",
+        "parameterKey": "on_hit_base",
+        "skillKey": "warwick_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:38:10.48706Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      "body": {
+        "name": "普攻附带基础魔法伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前等级血之饥渴攻击命中附带魔法伤害的基础点数，不含另算的攻击力/法强项。固定16.17原节点只有6/55端点，等级插值算法未证；实际基础点数必须外供。现有攻击命中规则未绑定此输入，不得缺值默认为0或继续套用原推定18级表。",
+        "sortOrder": 10
+      },
+      "changedFields": [
+        "description",
+        "levelValues",
+        "valueMode"
+      ],
+      "sourceCategory": "端点推定1至18线性",
+      "candidateSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "source": [
+        {
+          "raw": {
+            "mStartValue": 6,
+            "mEndValue": 55,
+            "__type": "ByCharLevelInterpolationCalculationPart"
+          },
+          "matches": [
+            {
+              "path": "mSpell.mSpellCalculations.OnHitDamage.mFormulaParts.0",
+              "raw": {
+                "mStartValue": 6,
+                "mEndValue": 55,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/garen_p/parameters/regen_ratio_per_5s",
+      "skillKey": "garen_p",
+      "parameterKey": "regen_ratio_per_5s",
+      "before": {
+        "createdAt": "2026-09-06T15:36:25.759918Z",
+        "description": "当前16.17客户端分段曲线；每5秒单位由官方9.20说明与补证确认。仅1～18级，自动启停规则尚待录入。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.015,
+          "2": 0.017,
+          "3": 0.019,
+          "4": 0.021,
+          "5": 0.023,
+          "6": 0.025,
+          "7": 0.033,
+          "8": 0.041,
+          "9": 0.049,
+          "10": 0.057,
+          "11": 0.065,
+          "12": 0.073,
+          "13": 0.081,
+          "14": 0.085,
+          "15": 0.089,
+          "16": 0.093,
+          "17": 0.097,
+          "18": 0.101
+        },
+        "name": "每5秒最大生命回复比例",
+        "parameterKey": "regen_ratio_per_5s",
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:36:25.759918Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "after": {
+        "createdAt": "2026-09-06T15:36:25.759918Z",
+        "description": "当前等级坚韧每5秒恢复最大生命值的比例，1表示100%，不是每秒比例。固定16.17原节点的起始1.5百分比点、初始每级0.2及7/14级斜率断点保留来源，但断点当级及斜率求值算法未证；实际每5秒比例须外供。缺值不能默认为0，不使用原推定18级表。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每5秒最大生命回复比例",
+        "parameterKey": "regen_ratio_per_5s",
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:36:25.759918Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      "body": {
+        "name": "每5秒最大生命回复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前等级坚韧每5秒恢复最大生命值的比例，1表示100%，不是每秒比例。固定16.17原节点的起始1.5百分比点、初始每级0.2及7/14级斜率断点保留来源，但断点当级及斜率求值算法未证；实际每5秒比例须外供。缺值不能默认为0，不使用原推定18级表。",
+        "sortOrder": 0
+      },
+      "changedFields": [
+        "description",
+        "levelValues",
+        "valueMode"
+      ],
+      "sourceCategory": "断点斜率/当级求值未证",
+      "candidateSha256": "a593bd1f49c1ab6f424bd76b7ad4dbef1e0e7154f00d0347dc90c7c1e39126ac",
+      "source": [
+        {
+          "raw": {
+            "mLevel1Value": 1.5,
+            "mInitialBonusPerLevel": 0.20000000298023224,
+            "mBreakpoints": [
+              {
+                "mLevel": 7,
+                "mBonusPerLevelAtAndAfter": 0.800000011920929,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 14,
+                "mBonusPerLevelAtAndAfter": 0.4000000059604645,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "matches": [
+            {
+              "path": "mSpell.mSpellCalculations.RegenCalc.mFormulaParts.0",
+              "raw": {
+                "mLevel1Value": 1.5,
+                "mInitialBonusPerLevel": 0.20000000298023224,
+                "mBreakpoints": [
+                  {
+                    "mLevel": 7,
+                    "mBonusPerLevelAtAndAfter": 0.800000011920929,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 14,
+                    "mBonusPerLevelAtAndAfter": 0.4000000059604645,
+                    "__type": "Breakpoint"
+                  }
+                ],
+                "__type": "ByCharLevelBreakpointsCalculationPart"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "alreadyConfirmed": 12,
+    "newDeletes": 3,
+    "remainingUpdates": 4,
+    "newRequests": 7
+  },
+  "readOnlyReferences": {
+    "scope": "原8技能完整详情与列表，148GET；跨技能引用仍由后端删除校验阻止",
+    "matches": []
+  },
+  "acceptance": "原76组成最终67组成；10参数更新、6自动规则与3动态效果撤下；其他57组成及8主体、图、挂载不变。未执行战斗运行。",
+  "supersedesSha256": "50342518c542cc96aac3af2d78e1e27b3c1953a98577d64225562cf154443d45"
+}

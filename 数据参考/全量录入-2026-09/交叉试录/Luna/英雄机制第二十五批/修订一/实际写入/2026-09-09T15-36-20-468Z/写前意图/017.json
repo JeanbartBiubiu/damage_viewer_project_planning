@@ -1,0 +1,45 @@
+{
+  "sequence": 17,
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/drmundo_q/parameters",
+    "detailRoute": "/skills/drmundo_q/parameters/health_cost",
+    "skillKey": "drmundo_q",
+    "kind": "parameters",
+    "stableKey": "health_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_cost",
+      "name": "生命值消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 60,
+        "3": 70,
+        "4": 80,
+        "5": 90
+      },
+      "description": "客户端当前根绑定 DataValues.HealthCost，等级1至5取索引1至5；正文明确生命值代价。",
+      "sortOrder": 60
+    }
+  },
+  "before": {
+    "sequence": 253,
+    "method": "GET",
+    "route": "/skills/drmundo_q/parameters/health_cost",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "health_cost"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:36:48.819Z"
+  }
+}

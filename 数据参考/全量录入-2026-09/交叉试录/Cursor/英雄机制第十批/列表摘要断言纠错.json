@@ -1,0 +1,1699 @@
+{
+  "at": "2026-09-09T04:31:50.380Z",
+  "businessHttp": 0,
+  "businessWrites": 0,
+  "pass": true,
+  "originalReport": "执行记录/2026-09-09T04-26-26-132Z/执行结果.json",
+  "originalReportSha256": "8955ef4c06d2869fd1f51643e67deb3bdc99e47e2c57ad9da5e763d97eace5db",
+  "confirmedWrites": 213,
+  "actualDetailMatches": 240,
+  "previousFalseConflicts": {
+    "formulas": 49,
+    "effects": 21
+  },
+  "cause": "公式列表无expression，效果列表无results/lifecycle并有派生摘要resultCount/lifecycleEnabled；列表不应与完整详情要求相同字段集合。",
+  "correction": "列表全部实际字段逐项核对详情，效果结果数和生命周期开关从详情独立派生；完整详情仍逐字段对候选及原保护对象核对。",
+  "checks": [
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "crit_damage_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "single_bullet_damage_level_value",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "calculation_constant_1",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "calculation_constant_2",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "source_stat_9_0_value",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "calculation_constant_3",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "normal_pellet_count",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "crit_pellet_count",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "ammo_capacity",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "id": "normal_followup_count",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "formulas",
+      "id": "single_bullet_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "formulas",
+      "id": "subsequent_bullet_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "formulas",
+      "id": "crit_pellet_increase",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "formulas",
+      "id": "four_pellets_same_target",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "id": "bonus_ad_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "id": "detonation_base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "id": "detonation_bonus_ad_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "id": "normal_detonation_delay_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "formulas",
+      "id": "initial_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "formulas",
+      "id": "detonation_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "id": "smoke_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "id": "slow_linger_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "id": "calculation_constant_1",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "formulas",
+      "id": "impact_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "armor_per_stack",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "mr_grant_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "buff_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "max_stacks",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "cooldown_reduction_per_pellet_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "current_grit_stacks",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "normal_dash_stacks",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "toward_enemy_total_stacks",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "id": "ammo_reload_count",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "formulas",
+      "id": "mr_per_stack",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "formulas",
+      "id": "current_grit_armor",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "formulas",
+      "id": "current_grit_mr",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "effects",
+      "id": "grit_armor",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "effects",
+      "id": "grit_mr",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "effects",
+      "id": "pellet_cooldown_reduction",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "id": "explosion_base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "id": "calculation_constant_1",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "id": "calculation_constant_2",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "formulas",
+      "id": "direct_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "formulas",
+      "id": "explosion_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "id": "buff_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "id": "attack_speed_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "id": "initial_move_speed_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "id": "assist_marker_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "id": "champion_max_stacks",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "id": "rocket_total_ad_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "id": "rocket_bonus_range",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "id": "rocket_bonus_attack_speed_penalty",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "id": "minigun_max_attack_speed_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "id": "minigun_stack_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "id": "minigun_max_stacks",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "id": "rocket_mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "formulas",
+      "id": "rocket_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "effects",
+      "id": "rocket_mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "effects",
+      "id": "rocket_range",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "id": "total_ad_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "formulas",
+      "id": "damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "id": "root_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "id": "grenade_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "id": "arm_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "id": "calculation_constant_1",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "formulas",
+      "id": "damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "id": "base_damage_floor",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "id": "base_damage_max",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "id": "missing_health_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "id": "calculation_constant_1",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "id": "calculation_constant_2",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "formulas",
+      "id": "damage_floor",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "formulas",
+      "id": "damage_max",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "formulas",
+      "id": "missing_health_bonus",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "formulas",
+      "id": "max_damage_with_missing_health",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "id": "champion_attack_speed_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "id": "nonchampion_ad_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "id": "nonchampion_ap_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "id": "champion_ad_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "id": "champion_ap_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "id": "ordinary_attack_speed_level_value",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "id": "buff_duration_seconds_level_value_2",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "id": "source_stat_4_2_value",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "id": "ordinary_attack_speed",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "id": "champion_attack_speed",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "id": "buff_duration_seconds",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "id": "ordinary_ad",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "id": "ordinary_ap",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "id": "champion_ad",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "id": "champion_ap",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "channel_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "max_base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "max_bonus_ad_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "minimum_damage_multiplier",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "max_charge_bonus_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "mana_refund_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "cancel_deadline_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "self_slow_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "id": "actual_mana_spent",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "formulas",
+      "id": "damage_max",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "formulas",
+      "id": "damage_min",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "formulas",
+      "id": "cancel_mana_refund",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "base_hp_ratio_per_stack",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "on_hit_base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "on_hit_ap_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "on_hit_bonus_ad_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "q_empower_missing_hp_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "max_q_empower_multiplier",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "base_cooldown_refund_ratio_per_stack",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "blight_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "max_blight_stacks",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "calculation_constant_1",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "calculation_constant_2",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "calculation_constant_3",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "actual_detonated_stacks",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "id": "affected_skill_base_cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "id": "hp_ratio_per_stack",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "id": "on_hit_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "id": "three_stack_hp_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "id": "q_empower_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "id": "q_empower_max_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "id": "detonation_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "id": "q_empower_missing_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "id": "q_empower_max_missing_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "id": "base_cooldown_refund_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "id": "bonus_ad_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "id": "grievous_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "id": "grievous_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "id": "ground_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "formulas",
+      "id": "damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "id": "root_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "id": "passive_stacks_total",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "id": "stack_interval_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "id": "calculation_constant_1",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "formulas",
+      "id": "damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "parameters",
+      "id": "death_move_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "parameters",
+      "id": "max_death_move_speed_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "parameters",
+      "id": "initial_death_move_speed_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "parameters",
+      "id": "death_explosion_damage_level_value",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "formulas",
+      "id": "death_explosion_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "id": "passive_attack_speed_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "id": "resistance_shred_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "id": "shred_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "formulas",
+      "id": "damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "effects",
+      "id": "passive_attack_speed",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "id": "max_health_percent_points",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "id": "ap_percent_points_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "id": "bonus_attack_range",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "id": "duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "id": "calculation_constant_1",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "formulas",
+      "id": "on_hit_max_hp_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "formulas",
+      "id": "on_hit_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "effects",
+      "id": "attack_range",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "id": "trail_duration_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "id": "slow_linger_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "formulas",
+      "id": "damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "low_health_multiplier",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "missing_health_amp_per_point",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "mana_stack_window_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "base_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "mana_cost_cap",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "calculation_constant_1",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "low_health_threshold",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "one",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "id": "actual_prior_cost_stacks",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "formulas",
+      "id": "base_damage_value",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "formulas",
+      "id": "low_health_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "formulas",
+      "id": "normal_missing_health_damage",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "formulas",
+      "id": "actual_mana_cost",
+      "pass": true,
+      "diff": null
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "pass": true,
+      "diff": null
+    }
+  ],
+  "next": "只运行全量独立回读.mjs，禁止重放录入 --apply；原失败报告保留不改。"
+}

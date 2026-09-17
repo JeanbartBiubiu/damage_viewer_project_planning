@@ -1,0 +1,1337 @@
+{
+  "at": "2026-09-08T17:13:51.320Z",
+  "candidateSha256": "6453dc63f7b721f7c71a4815bfa614587907ed0b641aac85629ca1fb600e393d",
+  "boundary": "本地已冻结源与候选独立核算，不是API保存、浏览器或战斗证据。条件效果与未绑定输入仍按清单待配。",
+  "sourceChecks": [
+    {
+      "hero": "Nocturne",
+      "kind": "client",
+      "expected": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+      "actual": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+      "match": true
+    },
+    {
+      "hero": "Nocturne",
+      "kind": "official",
+      "expected": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+      "actual": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+      "match": true
+    },
+    {
+      "hero": "Vayne",
+      "kind": "client",
+      "expected": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+      "actual": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+      "match": true
+    },
+    {
+      "hero": "Vayne",
+      "kind": "official",
+      "expected": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711",
+      "actual": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711",
+      "match": true
+    },
+    {
+      "kind": "当前字符串表",
+      "expected": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "actual": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "match": true
+    }
+  ],
+  "arithmetic": [
+    {
+      "skillKey": "nocturne_p",
+      "name": "非暴击整次伤害TAD=0",
+      "expected": 0,
+      "actual": 0,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "非暴击整次伤害TAD=100",
+      "expected": 120,
+      "actual": 120,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "非暴击整次伤害TAD=200",
+      "expected": 240,
+      "actual": 240,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "非暴击整次伤害TAD=350",
+      "expected": 420,
+      "actual": 420,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "暴击分支1.1仅基础算术，不另乘暴击倍率",
+      "expected": 220,
+      "actual": 220.00000000000003,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "基础13+100法强治疗",
+      "expected": 43,
+      "actual": 43,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "基础32+200法强治疗",
+      "expected": 92,
+      "actual": 92,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "rank1 BAD100且TAD900",
+      "expected": 150,
+      "actual": 150,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "rank2 BAD100且TAD900",
+      "expected": 190,
+      "actual": 190,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "rank3 BAD100且TAD900",
+      "expected": 230,
+      "actual": 230,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "rank4 BAD100且TAD900",
+      "expected": 270,
+      "actual": 270,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "rank5 BAD100且TAD900",
+      "expected": 310,
+      "actual": 310,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank1被动当前ActiveAS",
+      "expected": 0.3,
+      "actual": 0.3,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank1成功格挡合计仅两倍",
+      "expected": 0.6,
+      "actual": 0.6,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank2被动当前ActiveAS",
+      "expected": 0.35,
+      "actual": 0.35,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank2成功格挡合计仅两倍",
+      "expected": 0.7,
+      "actual": 0.7,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank3被动当前ActiveAS",
+      "expected": 0.4,
+      "actual": 0.4,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank3成功格挡合计仅两倍",
+      "expected": 0.8,
+      "actual": 0.8,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank4被动当前ActiveAS",
+      "expected": 0.45,
+      "actual": 0.45,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank4成功格挡合计仅两倍",
+      "expected": 0.9,
+      "actual": 0.9,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank5被动当前ActiveAS",
+      "expected": 0.5,
+      "actual": 0.5,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "rank5成功格挡合计仅两倍",
+      "expected": 1,
+      "actual": 1,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "rank1完整两秒总量，属性输入200",
+      "expected": 280,
+      "actual": 280,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "rank2完整两秒总量，属性输入200",
+      "expected": 325,
+      "actual": 325,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "rank3完整两秒总量，属性输入200",
+      "expected": 370,
+      "actual": 370,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "rank4完整两秒总量，属性输入200",
+      "expected": 415,
+      "actual": 415,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "rank5完整两秒总量，属性输入200",
+      "expected": 460,
+      "actual": 460,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "rank1BAD100抵达一次伤害",
+      "expected": 270,
+      "actual": 270,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "rank2BAD100抵达一次伤害",
+      "expected": 395,
+      "actual": 395,
+      "match": true
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "rank3BAD100抵达一次伤害",
+      "expected": 520,
+      "actual": 520,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "基础固定30移速",
+      "expected": 30,
+      "actual": 30,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "rank1TAD200/AP100的额外量，不含普通攻击本体",
+      "expected": 200,
+      "actual": 200,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "rank2TAD200/AP100的额外量，不含普通攻击本体",
+      "expected": 220,
+      "actual": 220,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "rank3TAD200/AP100的额外量，不含普通攻击本体",
+      "expected": 240,
+      "actual": 240,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "rank4TAD200/AP100的额外量，不含普通攻击本体",
+      "expected": 260,
+      "actual": 260,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "rank5TAD200/AP100的额外量，不含普通攻击本体",
+      "expected": 280,
+      "actual": 280,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank1低生命保底",
+      "expected": 40,
+      "actual": 40,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank12000目标最大生命比例",
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank11001目标最大生命小数",
+      "expected": 40.04,
+      "actual": 40.04,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank2低生命保底",
+      "expected": 55,
+      "actual": 55,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank22000目标最大生命比例",
+      "expected": 110,
+      "actual": 110,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank21001目标最大生命小数",
+      "expected": 55.055,
+      "actual": 55.055,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank3低生命保底",
+      "expected": 70,
+      "actual": 70,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank32000目标最大生命比例",
+      "expected": 140,
+      "actual": 140,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank31001目标最大生命小数",
+      "expected": 70.07000000000001,
+      "actual": 70.07000000000001,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank4低生命保底",
+      "expected": 85,
+      "actual": 85,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank42000目标最大生命比例",
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank41001目标最大生命小数",
+      "expected": 85.08500000000001,
+      "actual": 85.08500000000001,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank5低生命保底",
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank52000目标最大生命比例",
+      "expected": 200,
+      "actual": 200,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "rank51001目标最大生命小数",
+      "expected": 100.10000000000001,
+      "actual": 100.10000000000001,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "rank1BAD100首段",
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "rank1BAD100撞墙额外段",
+      "expected": 150,
+      "actual": 150,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "rank1BAD100两段总量",
+      "expected": 250,
+      "actual": 250,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "rank5BAD100首段",
+      "expected": 240,
+      "actual": 240,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "rank5BAD100撞墙额外段",
+      "expected": 360,
+      "actual": 360,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "rank5BAD100两段总量",
+      "expected": 600,
+      "actual": 600,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "rank1固定AD",
+      "expected": 35,
+      "actual": 35,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "rank1基础时长",
+      "expected": 8000,
+      "actual": 8000,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "rank1Q原6000ms缩短后",
+      "expected": 4200,
+      "actual": 4200,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "rank2固定AD",
+      "expected": 50,
+      "actual": 50,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "rank2基础时长",
+      "expected": 10000,
+      "actual": 10000,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "rank2Q原6000ms缩短后",
+      "expected": 3600,
+      "actual": 3600,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "rank3固定AD",
+      "expected": 65,
+      "actual": 65,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "rank3基础时长",
+      "expected": 12000,
+      "actual": 12000,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "rank3Q原6000ms缩短后",
+      "expected": 3000,
+      "actual": 3000,
+      "match": true
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "P从30替换90的差额为60",
+      "expected": 60,
+      "actual": 60,
+      "match": true
+    }
+  ],
+  "invariants": [
+    {
+      "skillKey": "all",
+      "name": "只含后十槽",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "mana_cost属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "on_trail_attributes属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "on_trail_attributes修正区兼容",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "on_trail_attributes属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "on_trail_attributes修正区兼容",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "cast过程有真实行为",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "cast效果绑定存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "actual_hit动作引用存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "既有公共参数全部字段保留 cooldown_ms",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "既有公共参数全部字段保留 mana_cost",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "mana_cost属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "passive_attack_speed属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "passive_attack_speed修正区兼容",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "on_block_additional_attack_speed属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "on_block_additional_attack_speed修正区兼容",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "cast过程有真实行为",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "cast效果绑定存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "cast效果绑定存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "consume_and_empower_on_block动作引用存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "consume_and_empower_on_block动作引用存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "既有公共参数全部字段保留 cooldown_ms",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "既有公共参数全部字段保留 mana_cost",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "mana_cost属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "toward_feared_move_speed属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "toward_feared_move_speed修正区兼容",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "cast过程有真实行为",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "cast效果绑定存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "既有公共参数全部字段保留 cooldown_ms",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "既有公共参数全部字段保留 mana_cost",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "mana_cost属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "既有公共参数全部字段保留 mana_cost",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "night_hunter_move_speed属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "night_hunter_move_speed修正区兼容",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "mana_cost属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "既有公共参数全部字段保留 cooldown_ms",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "既有公共参数全部字段保留 mana_cost",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "mana_cost属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "cast过程有真实行为",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "cast效果绑定存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "actual_hit动作引用存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "既有公共参数全部字段保留 cooldown_ms",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "既有公共参数全部字段保留 mana_cost",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "参数及公式引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "parameters稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "formulas稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "effects稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "processes稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "internalStates稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "triggerRules稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "mana_cost属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "bonus_attack_damage属性真实目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "bonus_attack_damage修正区兼容",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "cast过程有真实行为",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "cast效果绑定存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "cast效果绑定存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "既有公共参数全部字段保留 cooldown_ms",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "既有公共参数全部字段保留 mana_cost",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "all",
+      "name": "精确保留13公共参数",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "不将未知曲线展开为1至18线性",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_p",
+      "name": "暴击与盾资格待核不创伤害结果",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "影径增益按条件显式移除，不假定离开后5秒",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_q",
+      "name": "实际命中只交付伤害",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "成功格挡只追加一倍",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "屏障1.5秒与增攻速5秒分开",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "成功格挡先消费本盾再加攻速",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_w",
+      "name": "未学被动不以无条件初始化替代",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_e",
+      "name": "无假跳频和未证伤害效果",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "nocturne_r",
+      "name": "没有初施再施各执行一次规则",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_p",
+      "name": "不无条件初始化方向移速",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_q",
+      "name": "未猜CanBonusDamageCrit为0或创建固定不暴击伤害",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_w",
+      "name": "没有普通零冷却/零消耗或野怪专用参数",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_e",
+      "name": "实际普通命中未自动追加撞墙",
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "vayne_r",
+      "name": "不无条件加90且不任意死亡续时",
+      "match": true,
+      "detail": null
+    }
+  ],
+  "failures": []
+}

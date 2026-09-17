@@ -1,0 +1,24 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_e/parameters",
+    "detailRoute": "/skills/yorick_e/parameters/slow_duration_ms",
+    "skillKey": "yorick_e",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "SlowDuration=1.5秒，精确转换为1500毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

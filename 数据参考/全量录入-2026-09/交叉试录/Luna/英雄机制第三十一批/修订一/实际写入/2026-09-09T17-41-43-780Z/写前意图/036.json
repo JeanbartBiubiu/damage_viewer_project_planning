@@ -1,0 +1,23 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "method": "POST",
+    "route": "/skills/janna_e/parameters",
+    "detailRoute": "/skills/janna_e/parameters/decay_grace_period_ms",
+    "skillKey": "janna_e",
+    "kind": "parameters",
+    "stableKey": "decay_grace_period_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "decay_grace_period_ms",
+      "name": "衰减宽限时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "客户端DecayGracePeriod按等级索引1取4秒，转换为4000毫秒；衰减过程不在本轮展开。",
+      "sortOrder": 30
+    }
+  }
+}

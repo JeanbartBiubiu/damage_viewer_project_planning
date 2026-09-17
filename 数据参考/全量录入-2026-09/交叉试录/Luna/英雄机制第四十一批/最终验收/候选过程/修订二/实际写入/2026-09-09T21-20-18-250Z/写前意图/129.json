@@ -1,0 +1,68 @@
+{
+  "i": 128,
+  "intent": {
+    "sequence": 129,
+    "method": "POST",
+    "route": "/skills/rakan_r/effects",
+    "detailRoute": "/skills/rakan_r/effects/self_touch_move_speed",
+    "skillKey": "rakan_r",
+    "kind": "effects",
+    "stableKey": "self_touch_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_touch_move_speed",
+      "name": "惊鸿过隙首次触敌自身移动速度",
+      "description": "正文明确首次敌方英雄触碰后的自身衰减移速。",
+      "sortOrder": 30,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "惊鸿过隙首次触敌自身移动速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只定义自身属性变化，触发条件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "touch_move_speed_percent"
+            },
+            "fixedMultiplier": 0.01,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

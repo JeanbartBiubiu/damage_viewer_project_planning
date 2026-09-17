@@ -1,0 +1,27 @@
+{
+  "i": 84,
+  "intent": {
+    "sequence": 85,
+    "method": "POST",
+    "route": "/skills/leesin_r/parameters",
+    "detailRoute": "/skills/leesin_r/parameters/base_damage",
+    "skillKey": "leesin_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "猛龙摆尾基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 175,
+        "2": 400,
+        "3": 625
+      },
+      "description": "客户端当前根绑定BaseDamage取技能等级索引1至3为175/400/625；索引0的-50不是1级值。",
+      "sortOrder": 10
+    }
+  }
+}

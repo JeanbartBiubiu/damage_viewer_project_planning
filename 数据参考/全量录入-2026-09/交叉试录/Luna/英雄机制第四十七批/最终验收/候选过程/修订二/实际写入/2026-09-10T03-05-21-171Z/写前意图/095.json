@@ -1,0 +1,30 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 96,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/parameters",
+    "detailRoute": "/skills/shyvana_q/parameters/lockout_duration_ms",
+    "skillKey": "shyvana_q",
+    "kind": "parameters",
+    "stableKey": "lockout_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lockout_duration_ms",
+      "name": "再次攻击锁定时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1500,
+        "2": 1500,
+        "3": 1500,
+        "4": 1500,
+        "5": 1500
+      },
+      "description": "当前根LockoutDuration索引1至5均为1.5秒，转换为1500毫秒。",
+      "sortOrder": 90
+    }
+  }
+}

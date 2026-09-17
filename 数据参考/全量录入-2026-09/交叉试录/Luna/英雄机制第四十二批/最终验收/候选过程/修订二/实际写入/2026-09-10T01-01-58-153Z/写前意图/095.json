@@ -1,0 +1,21 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 95,
+    "skillKey": "mel_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_p/parameters",
+    "stableKey": "actual_character_level_passive_missile_base_damage",
+    "body": {
+      "parameterKey": "actual_character_level_passive_missile_base_damage",
+      "name": "当前角色等级额外弹体基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "PassiveBonusMissileDamage仅有8至30插值端点，运行层提供当前基础项，不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

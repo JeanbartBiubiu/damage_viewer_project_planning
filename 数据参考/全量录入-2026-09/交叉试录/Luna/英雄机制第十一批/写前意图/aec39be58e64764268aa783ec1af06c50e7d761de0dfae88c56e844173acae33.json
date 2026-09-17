@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T04:53:32.833Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_q/parameters/base_damage",
+  "id": "base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "英雄命中基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 5,
+      "2": 25,
+      "3": 45,
+      "4": 65,
+      "5": 85
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+    "sortOrder": 30
+  }
+}

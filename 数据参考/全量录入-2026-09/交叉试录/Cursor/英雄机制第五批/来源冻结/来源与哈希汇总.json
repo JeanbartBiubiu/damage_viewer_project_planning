@@ -1,0 +1,218 @@
+{
+  "generatedAt": "2026-09-08T02:08:15.368Z",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；不以名称相似评分选对象。完整原文及SHA位于规划树公共来源。官方16.17.1与客户端16.17分别记录。",
+  "heroes": [
+    {
+      "id": "Sett",
+      "chineseName": "腕豪",
+      "rootPath": "Characters/Sett/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Sett.json.gz",
+        "sha256": "13dbe8579df57977485fd282aec6b03673d39579b9325148079050aafd9960f6",
+        "compressedSha256": "02307985a897af077d579aae85285de7799fbf0e6918db6acb5c643925c87cbf",
+        "byteSize": 55065,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sett/sett.bin.json",
+        "fetchedAt": "2026-09-06T14:26:37.197Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Sett.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sett.json",
+        "fetchedAt": "2026-09-06T14:12:53.163Z",
+        "byteSize": 14882,
+        "sha256": "c9d8782de0f5f0ecaffa770801d2b69e7ee9c4b916a5d09332b89aa311184e7d"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "sett_p",
+          "binding": "Characters/Sett/Spells/SettPassiveAbility/SettPassive",
+          "name": "沙场豪情"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "sett_q",
+          "binding": "Characters/Sett/Spells/SettQAbility/SettQ",
+          "name": "屈人之威"
+        },
+        {
+          "slot": "W",
+          "skillKey": "sett_w",
+          "binding": "Characters/Sett/Spells/SettWAbility/SettW",
+          "name": "蓄意轰拳"
+        },
+        {
+          "slot": "E",
+          "skillKey": "sett_e",
+          "binding": "Characters/Sett/Spells/SettEAbility/SettE",
+          "name": "强手裂颅"
+        },
+        {
+          "slot": "R",
+          "skillKey": "sett_r",
+          "binding": "Characters/Sett/Spells/SettRAbility/SettR",
+          "name": "叹为观止"
+        }
+      ]
+    },
+    {
+      "id": "Trundle",
+      "chineseName": "巨魔之王",
+      "rootPath": "Characters/Trundle/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Trundle.json.gz",
+        "sha256": "af25e7e708a5618bc5d3bc46249950004f97cb789a913c96ef9cb92c047a9fef",
+        "compressedSha256": "7f1e6d977043037976221a4be3514d98fc4dc21dd1ab58f910d8149c9aab5abf",
+        "byteSize": 49357,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/trundle/trundle.bin.json",
+        "fetchedAt": "2026-09-06T14:26:41.893Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Trundle.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Trundle.json",
+        "fetchedAt": "2026-09-06T14:12:54.791Z",
+        "byteSize": 10577,
+        "sha256": "fd892e4b81b95aefe6c478d1ea1a75e09942b596b77984820f4199b259656e8e"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "trundle_p",
+          "binding": "Characters/Trundle/Spells/TrundleDiseaseOverseerAbility/TrundleDiseaseOverseer",
+          "name": "国王的贡品"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "trundle_q",
+          "binding": "Characters/Trundle/Spells/TrundleTrollSmashAbility/TrundleTrollSmash",
+          "name": "利齿撕咬"
+        },
+        {
+          "slot": "W",
+          "skillKey": "trundle_w",
+          "binding": "Characters/Trundle/Spells/trundledesecrateAbility/trundledesecrate",
+          "name": "冰封领域"
+        },
+        {
+          "slot": "E",
+          "skillKey": "trundle_e",
+          "binding": "Characters/Trundle/Spells/TrundleCircleAbility/TrundleCircle",
+          "name": "寒冰之柱"
+        },
+        {
+          "slot": "R",
+          "skillKey": "trundle_r",
+          "binding": "Characters/Trundle/Spells/TrundlePainAbility/TrundlePain",
+          "name": "强权至上"
+        }
+      ]
+    },
+    {
+      "id": "Warwick",
+      "chineseName": "祖安怒兽",
+      "rootPath": "Characters/Warwick/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Warwick.json.gz",
+        "sha256": "edb356788c83b041f25b04d5b59e8d119e6d65852c58d97915dfe70d5b977391",
+        "compressedSha256": "414dc9a97ff574bf10f303d446503a7b23ffa437c837748d6b85799b801c52ad",
+        "byteSize": 69292,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/warwick/warwick.bin.json",
+        "fetchedAt": "2026-09-06T14:26:47.850Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Warwick.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Warwick.json",
+        "fetchedAt": "2026-09-06T14:12:56.172Z",
+        "byteSize": 14299,
+        "sha256": "1dcdc5ac82bc39bea7dadb420f1b6ff0091b5298e5db9a2ba5d962961899a2dd"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "warwick_p",
+          "binding": "Characters/Warwick/Spells/WarwickPAbility/WarwickP",
+          "name": "血之饥渴"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "warwick_q",
+          "binding": "Characters/Warwick/Spells/WarwickQAbility/WarwickQ",
+          "name": "野兽之口"
+        },
+        {
+          "slot": "W",
+          "skillKey": "warwick_w",
+          "binding": "Characters/Warwick/Spells/WarwickWAbility/WarwickW",
+          "name": "鲜血追猎"
+        },
+        {
+          "slot": "E",
+          "skillKey": "warwick_e",
+          "binding": "Characters/Warwick/Spells/WarwickEAbility/WarwickE",
+          "name": "远祖嗥叫"
+        },
+        {
+          "slot": "R",
+          "skillKey": "warwick_r",
+          "binding": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+          "name": "无尽束缚"
+        }
+      ]
+    },
+    {
+      "id": "XinZhao",
+      "chineseName": "德邦总管",
+      "rootPath": "Characters/XinZhao/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/XinZhao.json.gz",
+        "sha256": "9c9f041a01f62dbea5f0e7f26b59b0fc63ed6b08ccdf26f5687b313d1703051f",
+        "compressedSha256": "9841b349f54ea710d0b2774d764c12ef43853df3898371f884f8d947769e6d4c",
+        "byteSize": 61714,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/xinzhao/xinzhao.bin.json",
+        "fetchedAt": "2026-09-06T14:26:49.600Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/XinZhao.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/XinZhao.json",
+        "fetchedAt": "2026-09-06T14:12:57.668Z",
+        "byteSize": 13441,
+        "sha256": "151060d8f973f6fee915bd51a5da20c34b1fd8bb2bbd089ffaa6e4412c7aa334"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "xinzhao_p",
+          "binding": "Characters/XinZhao/Spells/XinZhaoPAbility/XinZhaoP",
+          "name": "果决"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "xinzhao_q",
+          "binding": "Characters/XinZhao/Spells/XinZhaoQAbility/XinZhaoQ",
+          "name": "三重爪击"
+        },
+        {
+          "slot": "W",
+          "skillKey": "xinzhao_w",
+          "binding": "Characters/XinZhao/Spells/XinZhaoWAbility/XinZhaoW",
+          "name": "风斩电刺"
+        },
+        {
+          "slot": "E",
+          "skillKey": "xinzhao_e",
+          "binding": "Characters/XinZhao/Spells/XinZhaoEAbility/XinZhaoE",
+          "name": "无畏冲锋"
+        },
+        {
+          "slot": "R",
+          "skillKey": "xinzhao_r",
+          "binding": "Characters/XinZhao/Spells/XinZhaoRAbility/XinZhaoR",
+          "name": "新月护卫"
+        }
+      ]
+    }
+  ]
+}

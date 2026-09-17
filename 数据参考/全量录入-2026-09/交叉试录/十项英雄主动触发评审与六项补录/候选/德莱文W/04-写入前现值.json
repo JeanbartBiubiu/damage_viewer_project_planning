@@ -1,0 +1,895 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:33.783Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 126
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "0d9e6408186a42a29ef16be122ea7ead87137fe70a75c391fa675ccf3a19968b",
+  "frozenRequestSha256": "1e13e2b47e18aea15ffa7a657354ff3be925705b41c7d2b1f5ffbf7bba67f601",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/draven_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:10.430673Z",
+          "description": "德莱文获得移动速度和攻击速度加成。移动速度加成在持续时间过后会急剧下降。在接到一把旋转飞斧后，血性冲刺会立刻冷却完毕。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "德莱文·血性冲刺",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "draven_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:10.430673Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_draven",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_draven",
+          "createdAt": "2026-09-06T15:41:38.97634Z",
+          "description": "荣耀行刑官·德莱文。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+          "gameId": "lol",
+          "name": "德莱文",
+          "updatedAt": "2026-09-06T15:41:38.97634Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_draven/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_draven",
+          "levelValues": {
+            "1": {
+              "move_speed": 330,
+              "hp": 675,
+              "hp_regen": 3.75,
+              "mana": 361,
+              "mana_regen": 8.05,
+              "armor": 29,
+              "magic_resistance": 33,
+              "attack_damage": 62,
+              "attack_speed": 0.679,
+              "attack_range": 550
+            },
+            "2": {
+              "move_speed": 330,
+              "hp": 749.88,
+              "hp_regen": 4.254,
+              "mana": 389.08,
+              "mana_regen": 8.518,
+              "armor": 32.24,
+              "magic_resistance": 33.792,
+              "attack_damage": 64.448,
+              "attack_speed": 0.6922,
+              "attack_range": 550
+            },
+            "3": {
+              "move_speed": 330,
+              "hp": 828.4,
+              "hp_regen": 4.7825,
+              "mana": 418.525,
+              "mana_regen": 9.00875,
+              "armor": 35.6375,
+              "magic_resistance": 34.6225,
+              "attack_damage": 67.015,
+              "attack_speed": 0.706041,
+              "attack_range": 550
+            },
+            "4": {
+              "move_speed": 330,
+              "hp": 910.56,
+              "hp_regen": 5.3355,
+              "mana": 449.335,
+              "mana_regen": 9.52225,
+              "armor": 39.1925,
+              "magic_resistance": 35.4915,
+              "attack_damage": 69.701,
+              "attack_speed": 0.720524,
+              "attack_range": 550
+            },
+            "5": {
+              "move_speed": 330,
+              "hp": 996.36,
+              "hp_regen": 5.913,
+              "mana": 481.51,
+              "mana_regen": 10.0585,
+              "armor": 42.905,
+              "magic_resistance": 36.399,
+              "attack_damage": 72.506,
+              "attack_speed": 0.735649,
+              "attack_range": 550
+            },
+            "6": {
+              "move_speed": 330,
+              "hp": 1085.8,
+              "hp_regen": 6.515,
+              "mana": 515.05,
+              "mana_regen": 10.6175,
+              "armor": 46.775,
+              "magic_resistance": 37.345,
+              "attack_damage": 75.43,
+              "attack_speed": 0.751415,
+              "attack_range": 550
+            },
+            "7": {
+              "move_speed": 330,
+              "hp": 1178.88,
+              "hp_regen": 7.1415,
+              "mana": 549.955,
+              "mana_regen": 11.19925,
+              "armor": 50.8025,
+              "magic_resistance": 38.3295,
+              "attack_damage": 78.473,
+              "attack_speed": 0.767823,
+              "attack_range": 550
+            },
+            "8": {
+              "move_speed": 330,
+              "hp": 1275.6,
+              "hp_regen": 7.7925,
+              "mana": 586.225,
+              "mana_regen": 11.80375,
+              "armor": 54.9875,
+              "magic_resistance": 39.3525,
+              "attack_damage": 81.635,
+              "attack_speed": 0.784873,
+              "attack_range": 550
+            },
+            "9": {
+              "move_speed": 330,
+              "hp": 1375.96,
+              "hp_regen": 8.468,
+              "mana": 623.86,
+              "mana_regen": 12.431,
+              "armor": 59.33,
+              "magic_resistance": 40.414,
+              "attack_damage": 84.916,
+              "attack_speed": 0.802564,
+              "attack_range": 550
+            },
+            "10": {
+              "move_speed": 330,
+              "hp": 1479.96,
+              "hp_regen": 9.168,
+              "mana": 662.86,
+              "mana_regen": 13.081,
+              "armor": 63.83,
+              "magic_resistance": 41.514,
+              "attack_damage": 88.316,
+              "attack_speed": 0.820897,
+              "attack_range": 550
+            },
+            "11": {
+              "move_speed": 330,
+              "hp": 1587.6,
+              "hp_regen": 9.8925,
+              "mana": 703.225,
+              "mana_regen": 13.75375,
+              "armor": 68.4875,
+              "magic_resistance": 42.6525,
+              "attack_damage": 91.835,
+              "attack_speed": 0.839872,
+              "attack_range": 550
+            },
+            "12": {
+              "move_speed": 330,
+              "hp": 1698.88,
+              "hp_regen": 10.6415,
+              "mana": 744.955,
+              "mana_regen": 14.44925,
+              "armor": 73.3025,
+              "magic_resistance": 43.8295,
+              "attack_damage": 95.473,
+              "attack_speed": 0.859488,
+              "attack_range": 550
+            },
+            "13": {
+              "move_speed": 330,
+              "hp": 1813.8,
+              "hp_regen": 11.415,
+              "mana": 788.05,
+              "mana_regen": 15.1675,
+              "armor": 78.275,
+              "magic_resistance": 45.045,
+              "attack_damage": 99.23,
+              "attack_speed": 0.879746,
+              "attack_range": 550
+            },
+            "14": {
+              "move_speed": 330,
+              "hp": 1932.36,
+              "hp_regen": 12.213,
+              "mana": 832.51,
+              "mana_regen": 15.9085,
+              "armor": 83.405,
+              "magic_resistance": 46.299,
+              "attack_damage": 103.106,
+              "attack_speed": 0.900646,
+              "attack_range": 550
+            },
+            "15": {
+              "move_speed": 330,
+              "hp": 2054.56,
+              "hp_regen": 13.0355,
+              "mana": 878.335,
+              "mana_regen": 16.67225,
+              "armor": 88.6925,
+              "magic_resistance": 47.5915,
+              "attack_damage": 107.101,
+              "attack_speed": 0.922187,
+              "attack_range": 550
+            },
+            "16": {
+              "move_speed": 330,
+              "hp": 2180.4,
+              "hp_regen": 13.8825,
+              "mana": 925.525,
+              "mana_regen": 17.45875,
+              "armor": 94.1375,
+              "magic_resistance": 48.9225,
+              "attack_damage": 111.215,
+              "attack_speed": 0.94437,
+              "attack_range": 550
+            },
+            "17": {
+              "move_speed": 330,
+              "hp": 2309.88,
+              "hp_regen": 14.754,
+              "mana": 974.08,
+              "mana_regen": 18.268,
+              "armor": 99.74,
+              "magic_resistance": 50.292,
+              "attack_damage": 115.448,
+              "attack_speed": 0.967195,
+              "attack_range": 550
+            },
+            "18": {
+              "move_speed": 330,
+              "hp": 2443,
+              "hp_regen": 15.65,
+              "mana": 1024,
+              "mana_regen": 19.1,
+              "armor": 105.5,
+              "magic_resistance": 51.7,
+              "attack_damage": 119.8,
+              "attack_speed": 0.990661,
+              "attack_range": 550
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_draven/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "image_8f42f434-a24e-48ec-86ab-a1e4834406e0",
+            "name": "德莱文代表图片_8f42f434-a24e-48ec-86ab-a1e4834406e0"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_draven",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_draven",
+              "characterName": "德莱文",
+              "gameId": "lol",
+              "skillKey": "draven_p",
+              "skillName": "德莱文·德莱文联盟",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_draven",
+              "characterName": "德莱文",
+              "gameId": "lol",
+              "skillKey": "draven_q",
+              "skillName": "德莱文·旋转飞斧",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_draven",
+              "characterName": "德莱文",
+              "gameId": "lol",
+              "skillKey": "draven_w",
+              "skillName": "德莱文·血性冲刺",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_draven",
+              "characterName": "德莱文",
+              "gameId": "lol",
+              "skillKey": "draven_e",
+              "skillName": "德莱文·开道利斧",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_draven",
+              "characterName": "德莱文",
+              "gameId": "lol",
+              "skillKey": "draven_r",
+              "skillName": "德莱文·冷血追命",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=draven_w",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_draven",
+              "characterName": "德莱文",
+              "gameId": "lol",
+              "skillKey": "draven_w",
+              "skillName": "德莱文·血性冲刺",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/draven_w/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_draven_w",
+            "name": "draven_w"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/draven_w/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/draven_w/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T02:04:23.638862Z",
+              "description": "客户端当前根绑定 DataValues.Temp_AS 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.2,
+                "2": 0.25,
+                "3": 0.3,
+                "4": 0.35,
+                "5": 0.4
+              },
+              "name": "血性冲刺攻击速度加成比例",
+              "parameterKey": "attack_speed_gain_ratio",
+              "skillKey": "draven_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T02:04:23.638862Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T02:04:24.427253Z",
+              "description": "客户端当前根绑定 DataValues.Temp_ASDuration 取索引1至5。",
+              "fixedValue": 3000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血性冲刺攻速持续（毫秒）",
+              "parameterKey": "attack_speed_duration_ms",
+              "skillKey": "draven_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T02:04:24.427253Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T02:04:25.155991Z",
+              "description": "客户端当前根绑定 DataValues.Temp_MSMod 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.5,
+                "2": 0.55,
+                "3": 0.6,
+                "4": 0.65,
+                "5": 0.7
+              },
+              "name": "血性冲刺初始移速加成比例",
+              "parameterKey": "initial_move_speed_ratio",
+              "skillKey": "draven_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T02:04:25.155991Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T02:04:25.933975Z",
+              "description": "客户端当前根绑定 DataValues.Temp_MSDuration 取索引1至5。",
+              "fixedValue": 1500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血性冲刺移速衰减期限（毫秒）",
+              "parameterKey": "move_speed_duration_ms",
+              "skillKey": "draven_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T02:04:25.933975Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:36:18.139547Z",
+              "description": "DDragon16.17.1 Draven.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 12000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "draven_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:36:18.139547Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:36:18.615772Z",
+              "description": "DDragon16.17.1 Draven.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 40,
+                "2": 35,
+                "3": 30,
+                "4": 25,
+                "5": 20
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "draven_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:36:18.615772Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "attack_speed_duration_ms",
+          "attack_speed_gain_ratio",
+          "cooldown_ms",
+          "initial_move_speed_ratio",
+          "mana_cost",
+          "move_speed_duration_ms"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/draven_w/parameters/attack_speed_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T02:04:24.427253Z",
+              "description": "客户端当前根绑定 DataValues.Temp_ASDuration 取索引1至5。",
+              "fixedValue": 3000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血性冲刺攻速持续（毫秒）",
+              "parameterKey": "attack_speed_duration_ms",
+              "skillKey": "draven_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T02:04:24.427253Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/draven_w/parameters/attack_speed_gain_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T02:04:23.638862Z",
+              "description": "客户端当前根绑定 DataValues.Temp_AS 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.2,
+                "2": 0.25,
+                "3": 0.3,
+                "4": 0.35,
+                "5": 0.4
+              },
+              "name": "血性冲刺攻击速度加成比例",
+              "parameterKey": "attack_speed_gain_ratio",
+              "skillKey": "draven_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T02:04:23.638862Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/draven_w/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T18:36:18.139547Z",
+              "description": "DDragon16.17.1 Draven.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 12000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "draven_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:36:18.139547Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/draven_w/parameters/initial_move_speed_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T02:04:25.155991Z",
+              "description": "客户端当前根绑定 DataValues.Temp_MSMod 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.5,
+                "2": 0.55,
+                "3": 0.6,
+                "4": 0.65,
+                "5": 0.7
+              },
+              "name": "血性冲刺初始移速加成比例",
+              "parameterKey": "initial_move_speed_ratio",
+              "skillKey": "draven_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T02:04:25.155991Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/draven_w/parameters/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T18:36:18.615772Z",
+              "description": "DDragon16.17.1 Draven.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 40,
+                "2": 35,
+                "3": 30,
+                "4": 25,
+                "5": 20
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "draven_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:36:18.615772Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/draven_w/parameters/move_speed_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T02:04:25.933975Z",
+              "description": "客户端当前根绑定 DataValues.Temp_MSDuration 取索引1至5。",
+              "fixedValue": 1500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血性冲刺移速衰减期限（毫秒）",
+              "parameterKey": "move_speed_duration_ms",
+              "skillKey": "draven_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T02:04:25.933975Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/draven_w/formulas",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/draven_w/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T02:04:26.748433Z",
+              "description": "仅施放法力消耗；具体过程单独绑定。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "施放法力消耗",
+              "resultCount": 1,
+              "skillKey": "draven_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T02:04:26.748433Z"
+            },
+            {
+              "createdAt": "2026-09-09T02:04:27.550896Z",
+              "description": "本技能自身额外攻速增加20/25/30/35/40个百分点，持续3秒。与1.5秒移速衰减分开，不用移速结束提前移除攻速。本效果独立保存候选，实际施放与刷新接线另核。",
+              "effectKey": "attack_speed_gain",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "血性冲刺独立攻速加成",
+              "resultCount": 1,
+              "skillKey": "draven_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T02:04:27.550896Z"
+            },
+            {
+              "createdAt": "2026-09-09T02:04:28.417069Z",
+              "description": "仅表达已发生接斧时重置本W，不是P任意加层都重置，也没有以命中事件假扮拾取。",
+              "effectKey": "catch_axe_cooldown_reset",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "接住旋转飞斧后W冷却重置",
+              "resultCount": 1,
+              "skillKey": "draven_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T02:04:28.417069Z"
+            }
+          ]
+        },
+        "keys": [
+          "attack_speed_gain",
+          "catch_axe_cooldown_reset",
+          "mana_cost"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/draven_w/effects/attack_speed_gain",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T02:04:27.550896Z",
+              "description": "本技能自身额外攻速增加20/25/30/35/40个百分点，持续3秒。与1.5秒移速衰减分开，不用移速结束提前移除攻速。本效果独立保存候选，实际施放与刷新接线另核。",
+              "effectKey": "attack_speed_gain",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "attack_speed_duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "血性冲刺独立攻速加成",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "bonus_attack_speed_percent",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "血性冲刺独立攻速加成",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "attack_speed_gain_ratio"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "draven_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T02:04:27.550896Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/draven_w/effects/catch_axe_cooldown_reset",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T02:04:28.417069Z",
+              "description": "仅表达已发生接斧时重置本W，不是P任意加层都重置，也没有以命中事件假扮拾取。",
+              "effectKey": "catch_axe_cooldown_reset",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "接住旋转飞斧后W冷却重置",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "affectedSkillScope": {
+                      "mode": "SKILLS",
+                      "skillCategoryKeys": [],
+                      "skillKeys": [
+                        "draven_w"
+                      ]
+                    },
+                    "operation": "RESET"
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "重置血性冲刺冷却",
+                  "resultKey": "reset_w",
+                  "resultType": "COOLDOWN_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": null
+                }
+              ],
+              "skillKey": "draven_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T02:04:28.417069Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/draven_w/effects/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T02:04:26.748433Z",
+              "description": "仅施放法力消耗；具体过程单独绑定。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "施放法力消耗",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "mana",
+                    "operation": "CONSUME"
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "消耗法力",
+                  "resultKey": "consume_mana",
+                  "resultType": "RESOURCE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mana_cost"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "draven_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T02:04:26.748433Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/draven_w/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/draven_w/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/draven_w/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

@@ -1,0 +1,1100 @@
+{
+  "generatedAt": "2026-09-08T17:39:47.933Z",
+  "boundary": "仅冻结来源摘要、候选结构与独立算术；没有业务保存、数据库回读、浏览器或战斗运行证据。独立核算读取前十技能候选.json，不调用生成器生产预期。",
+  "candidateSha256": "40c2d135e1af611eab70fb079ca8930e1f09f44e7b4262b08eabc5b428a6aa29",
+  "reusedPublicParameters": 12,
+  "arithmetic": [
+    {
+      "skill": "vi_p",
+      "formula": "shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 240,
+      "actual": 240,
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "formula": "min_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "formula": "max_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 250,
+      "actual": 250,
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "formula": "min_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 180,
+      "actual": 180,
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "formula": "max_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 450,
+      "actual": 450,
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 150,
+      "actual": 150,
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 0,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 230,
+      "actual": 230,
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 0,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 160,
+      "actual": 160,
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "formula": "attack_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {
+        "omitted_stat_value": 0
+      },
+      "expected": 230,
+      "actual": 230.00000000000003,
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "formula": "attack_damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {
+        "omitted_stat_value": 0
+      },
+      "expected": 310,
+      "actual": 310,
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "formula": "attack_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {
+        "omitted_stat_value": 50
+      },
+      "expected": 280,
+      "actual": 280,
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "formula": "primary_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 240,
+      "actual": 240,
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "formula": "primary_damage",
+      "rank": 3,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 440,
+      "actual": 440,
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 370,
+      "actual": 370,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "formula": "uncapped_shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.MISSING": 1000
+      },
+      "inputs": {},
+      "expected": 185,
+      "actual": 185,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "formula": "max_shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 255,
+      "actual": 254.99999999999997,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "formula": "shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.MISSING": 1000
+      },
+      "inputs": {},
+      "expected": 185,
+      "actual": 185,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "formula": "shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.MISSING": 1600
+      },
+      "inputs": {},
+      "expected": 255,
+      "actual": 254.99999999999997,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "formula": "shield",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.MISSING": 1400
+      },
+      "inputs": {},
+      "expected": 255,
+      "actual": 254.99999999999997,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "formula": "uncapped_shield",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.MISSING": 1000
+      },
+      "inputs": {},
+      "expected": 305,
+      "actual": 305,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "formula": "shield",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.hp.MISSING": 1000
+      },
+      "inputs": {},
+      "expected": 305,
+      "actual": 305,
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "formula": "health_cost",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 68,
+      "actual": 68,
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 350,
+      "actual": 350,
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "formula": "health_cost",
+      "rank": 5,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 140,
+      "actual": 140,
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "formula": "active_attack_damage",
+      "rank": 1,
+      "level": 1,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 60,
+      "actual": 60,
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "formula": "active_attack_damage",
+      "rank": 3,
+      "level": 18,
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skill": "vi_p",
+      "parameter": "shield_duration_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 3000,
+      "actual": 3000,
+      "match": true
+    },
+    {
+      "skill": "vi_p",
+      "parameter": "cd_reduction_on_3_hit_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 4000,
+      "actual": 4000,
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "parameter": "cooldown_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 12000,
+      "actual": 12000,
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "parameter": "mana_cost",
+      "rank": 5,
+      "level": 1,
+      "expected": 90,
+      "actual": 90,
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "parameter": "max_damage_multiplier",
+      "rank": 1,
+      "level": 1,
+      "expected": 2.5,
+      "actual": 2.5,
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "parameter": "tooltip_percent_scale",
+      "rank": 1,
+      "level": 1,
+      "expected": 0.01,
+      "actual": 0.01,
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "parameter": "buff_duration_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 4000,
+      "actual": 4000,
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "parameter": "trigger_hit_count",
+      "rank": 1,
+      "level": 1,
+      "expected": 3,
+      "actual": 3,
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "parameter": "mana_cost",
+      "rank": 1,
+      "level": 1,
+      "expected": 26,
+      "actual": 26,
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "parameter": "max_ammo",
+      "rank": 1,
+      "level": 1,
+      "expected": 2,
+      "actual": 2,
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "parameter": "ammo_recharge_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 12000,
+      "actual": 12000,
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "parameter": "ammo_recharge_ms",
+      "rank": 5,
+      "level": 1,
+      "expected": 8000,
+      "actual": 8000,
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "parameter": "static_cooldown_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 1000,
+      "actual": 1000,
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "parameter": "attack_window_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 6000,
+      "actual": 6000,
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "parameter": "cooldown_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 140000,
+      "actual": 140000,
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "parameter": "mana_cost",
+      "rank": 1,
+      "level": 1,
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "parameter": "primary_knockup_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 1300,
+      "actual": 1300,
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "parameter": "max_stats_threshold",
+      "rank": 1,
+      "level": 1,
+      "expected": 0.3,
+      "actual": 0.3,
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "parameter": "max_attack_speed_start",
+      "rank": 1,
+      "level": 1,
+      "expected": 0.5,
+      "actual": 0.5,
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "parameter": "max_attack_speed_end",
+      "rank": 1,
+      "level": 1,
+      "expected": 1,
+      "actual": 1,
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "parameter": "max_lifesteal_start",
+      "rank": 1,
+      "level": 1,
+      "expected": 0.08,
+      "actual": 0.08,
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "parameter": "max_lifesteal_end",
+      "rank": 1,
+      "level": 1,
+      "expected": 0.25,
+      "actual": 0.25,
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "parameter": "cooldown_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 9000,
+      "actual": 9000,
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "parameter": "mana_cost",
+      "rank": 1,
+      "level": 1,
+      "expected": 50,
+      "actual": 50,
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "parameter": "pickup_cooldown_floor_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 2500,
+      "actual": 2500,
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "parameter": "slow_ratio",
+      "rank": 1,
+      "level": 1,
+      "expected": 0.3,
+      "actual": 0.3,
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "parameter": "slow_ratio",
+      "rank": 5,
+      "level": 1,
+      "expected": 0.5,
+      "actual": 0.5,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "parameter": "cooldown_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 16000,
+      "actual": 16000,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "parameter": "mana_cost",
+      "rank": 1,
+      "level": 1,
+      "expected": 50,
+      "actual": 50,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "parameter": "attack_speed_duration_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 5000,
+      "actual": 5000,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "parameter": "shield_duration_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 2500,
+      "actual": 2500,
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "parameter": "max_shield_hp_threshold",
+      "rank": 1,
+      "level": 1,
+      "expected": 0.3,
+      "actual": 0.3,
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "parameter": "cooldown_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 11000,
+      "actual": 11000,
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "parameter": "health_cost_ratio",
+      "rank": 1,
+      "level": 1,
+      "expected": 0.4,
+      "actual": 0.4,
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "parameter": "champion_attack_cdr_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 1000,
+      "actual": 1000,
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "parameter": "cast_time_base_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 250,
+      "actual": 250,
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "parameter": "cast_time_min_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 175,
+      "actual": 175,
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "parameter": "cooldown_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 100000,
+      "actual": 100000,
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "parameter": "mana_cost",
+      "rank": 1,
+      "level": 1,
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "parameter": "passive_resist",
+      "rank": 1,
+      "level": 1,
+      "expected": 10,
+      "actual": 10,
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "parameter": "passive_resist",
+      "rank": 3,
+      "level": 1,
+      "expected": 20,
+      "actual": 20,
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "parameter": "active_duration_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 3000,
+      "actual": 3000,
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "parameter": "champion_hit_extension_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 2500,
+      "actual": 2500,
+      "match": true
+    }
+  ],
+  "invariants": [
+    {
+      "check": "公共参数完整保留12项",
+      "expected": 12,
+      "actual": 12,
+      "missing": [],
+      "match": true
+    },
+    {
+      "check": "未夹入魔腾或薇恩",
+      "keys": [
+        "vi_p",
+        "vi_q",
+        "vi_w",
+        "vi_e",
+        "vi_r",
+        "olaf_p",
+        "olaf_q",
+        "olaf_w",
+        "olaf_e",
+        "olaf_r"
+      ],
+      "match": true
+    },
+    {
+      "skill": "vi_p",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "vi_p",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "vi_p",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "vi_p",
+      "check": "禁止假事件",
+      "events": [],
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "check": "禁止假事件",
+      "events": [],
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "check": "禁止假事件",
+      "events": [],
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "check": "禁止假事件",
+      "events": [],
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "check": "禁止假事件",
+      "events": [
+        "SKILL_HIT"
+      ],
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "check": "禁止假事件",
+      "events": [],
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "olaf_q",
+      "check": "禁止假事件",
+      "events": [
+        "SKILL_HIT"
+      ],
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "check": "禁止假事件",
+      "events": [],
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "check": "禁止假事件",
+      "events": [
+        "SKILL_HIT"
+      ],
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "check": "内部引用完整",
+      "missing": [],
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "check": "施法过程有实际行为且不生成敌人命中",
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "check": "无目标持续状态法术护盾绕过",
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "check": "禁止假事件",
+      "events": [],
+      "match": true
+    },
+    {
+      "skill": "olaf_w",
+      "check": "护盾与攻速分期限",
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "check": "外层0.01进入伤害公式",
+      "match": true
+    },
+    {
+      "skill": "vi_e",
+      "check": "整次攻击不重复加一份普通攻击",
+      "match": true
+    },
+    {
+      "skill": "olaf_e",
+      "check": "生命消耗为伤害的40%且非法力",
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "check": "没有把未解码插值写成持续效果",
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "check": "取消返还未接到普通命中",
+      "match": true
+    },
+    {
+      "skill": "vi_p",
+      "check": "默认断点未核不生成冷却表",
+      "match": true
+    },
+    {
+      "skill": "vi_w",
+      "check": "第三次伤害护盾与暴击资格未核不创建效果",
+      "match": true
+    },
+    {
+      "skill": "vi_r",
+      "check": "纯沿途次目标不进入write",
+      "match": true
+    },
+    {
+      "skill": "olaf_p",
+      "check": "缺血中间映射未核不造公式",
+      "match": true
+    },
+    {
+      "skill": "olaf_r",
+      "check": "读取时点未核不绑定主动AD",
+      "match": true
+    },
+    {
+      "skill": "vi_q",
+      "check": "视觉参数撤出且开始蓄力不启动普通CD",
+      "match": true
+    }
+  ],
+  "failures": []
+}

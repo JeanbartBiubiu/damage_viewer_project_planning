@@ -1,0 +1,28 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/rw_bonus_root_ms",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "rw_bonus_root_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rw_bonus_root_ms",
+      "name": "梵咒W额外禁锢时间",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 500,
+        "2": 750,
+        "3": 1000,
+        "4": 1250
+      },
+      "description": "RWBonusRoot原值0.5/0.75/1/1.25秒，按R等级1至4转毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

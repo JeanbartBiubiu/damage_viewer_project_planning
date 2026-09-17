@@ -1,0 +1,24 @@
+{
+  "i": 183,
+  "intent": {
+    "sequence": 184,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_r/parameters",
+    "detailRoute": "/skills/viego_r/parameters/crit_base_multiplier",
+    "skillKey": "viego_r",
+    "kind": "parameters",
+    "stableKey": "crit_base_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_base_multiplier",
+      "name": "暴击倍率基准",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "TotalDamage树mSubparts第一项固定1。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "generatedAt": "2026-09-09T02:50:32.595Z",
+  "sourceIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Graves",
+      "chineseName": "法外狂徒",
+      "rootPath": "Characters/Graves/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Graves.json.gz",
+        "sha256": "77bf8e202e55753f7f2d17378841202bf4389bef35fdca33d9c645599f616d78",
+        "compressedSha256": "435bc1b1de464ae4837e2c5fb3ec4648da2039440265fd202b3a45608da18509",
+        "byteSize": 73878,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/graves/graves.bin.json",
+        "fetchedAt": "2026-09-06T14:26:18.746Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Graves.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Graves.json",
+        "fetchedAt": "2026-09-06T14:12:47.744Z",
+        "byteSize": 13502,
+        "sha256": "2bffed5c33c68bf1cd792a4bf371d2c94483c72295242a7633e99d539b9b8afa"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "graves_p",
+          "binding": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+          "name": "新命运",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "graves_q",
+          "binding": "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+          "name": "穷途末路",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "graves_w",
+          "binding": "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+          "name": "烟幕弹",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "graves_e",
+          "binding": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+          "name": "快速拔枪",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "graves_r",
+          "binding": "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot",
+          "name": "终极爆弹",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Jinx",
+      "chineseName": "暴走萝莉",
+      "rootPath": "Characters/Jinx/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Jinx.json.gz",
+        "sha256": "418b979131b28130d8ae588ea8bc5490338394acb294c9efd233ae69bad533ca",
+        "compressedSha256": "2aab6400e3c69cba912025158da537785b16a0c90108e216095639e0b16ff638",
+        "byteSize": 75261,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jinx/jinx.bin.json",
+        "fetchedAt": "2026-09-06T14:26:22.210Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Jinx.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jinx.json",
+        "fetchedAt": "2026-09-06T14:12:48.301Z",
+        "byteSize": 15887,
+        "sha256": "4d1dcfe5c41eba2941f2bd883569c246e1a7409c76a0fc62358d0bf04aebf77f"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "jinx_p",
+          "binding": "Characters/Jinx/Spells/JinxPassiveMarkerAbility/JinxPassiveMarker",
+          "name": "罪恶快感",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "jinx_q",
+          "binding": "Characters/Jinx/Spells/JinxQAbility/JinxQ",
+          "name": "枪炮交响曲！",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "jinx_w",
+          "binding": "Characters/Jinx/Spells/JinxWAbility/JinxW",
+          "name": "震荡电磁波！",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "jinx_e",
+          "binding": "Characters/Jinx/Spells/JinxEAbility/JinxE",
+          "name": "嚼火者手雷！",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "jinx_r",
+          "binding": "Characters/Jinx/Spells/JinxRAbility/JinxR",
+          "name": "超究极死神飞弹！",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Varus",
+      "chineseName": "惩戒之箭",
+      "rootPath": "Characters/Varus/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Varus.json.gz",
+        "sha256": "a8974d2f907d29235a63d94f8628b8b2892037f203a91b71816bc824356d9eb7",
+        "compressedSha256": "057f1dbe200a53c97e7e4c4b784eace82fd5a41dd5e3f4851ae41d33c659598b",
+        "byteSize": 105148,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/varus/varus.bin.json",
+        "fetchedAt": "2026-09-06T14:26:44.524Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Varus.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Varus.json",
+        "fetchedAt": "2026-09-06T14:12:56.879Z",
+        "byteSize": 16443,
+        "sha256": "619d6e042b1adcfcf8b81ef731e3014c270d5662dc05cb07b0c10cfed751d1ba"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "varus_p",
+          "binding": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+          "name": "复仇之欲",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "varus_q",
+          "binding": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+          "name": "穿刺之箭",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "varus_w",
+          "binding": "Characters/Varus/Spells/VarusWAbility/VarusW",
+          "name": "枯萎箭袋",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "varus_e",
+          "binding": "Characters/Varus/Spells/VarusEAbility/VarusE",
+          "name": "恶灵箭雨",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "varus_r",
+          "binding": "Characters/Varus/Spells/VarusRAbility/VarusR",
+          "name": "腐败锁链",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "KogMaw",
+      "chineseName": "深渊巨口",
+      "rootPath": "Characters/KogMaw/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/KogMaw.json.gz",
+        "sha256": "a9f72b07de44dcad18624d61daa4dcaaabe7d4990103c0c7dbc3a7b36026749a",
+        "compressedSha256": "5eafce97815062a4cc8ef819967257c625a487ff560347eeb4dc810a859e8c5c",
+        "byteSize": 59135,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kogmaw/kogmaw.bin.json",
+        "fetchedAt": "2026-09-06T14:26:24.487Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/KogMaw.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/KogMaw.json",
+        "fetchedAt": "2026-09-06T14:12:49.058Z",
+        "byteSize": 13986,
+        "sha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "kogmaw_p",
+          "binding": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurpriseReady",
+          "name": "来自艾卡西亚的惊喜",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "kogmaw_q",
+          "binding": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+          "name": "腐蚀唾液",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "kogmaw_w",
+          "binding": "Characters/KogMaw/Spells/KogMawBioArcaneBarrageAbility/KogMawBioArcaneBarrage",
+          "name": "生化弹幕",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "kogmaw_e",
+          "binding": "Characters/KogMaw/Spells/KogMawVoidOozeAbility/KogMawVoidOoze",
+          "name": "虚空淤泥",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "kogmaw_r",
+          "binding": "Characters/KogMaw/Spells/KogMawLivingArtilleryAbility/KogMawLivingArtillery",
+          "name": "活体大炮",
+          "maxrank": 3
+        }
+      ]
+    }
+  ]
+}

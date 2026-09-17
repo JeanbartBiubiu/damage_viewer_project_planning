@@ -1,0 +1,23 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "method": "POST",
+    "route": "/skills/katarina_p/parameters",
+    "detailRoute": "/skills/katarina_p/parameters/bonus_ad_ratio",
+    "skillKey": "katarina_p",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "匕首额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.6,
+      "levelValues": null,
+      "description": "TotalDamage树的mStat=2、mStatFormula=2窄口径；按来源额外攻击力读取。",
+      "sortOrder": 50
+    }
+  }
+}

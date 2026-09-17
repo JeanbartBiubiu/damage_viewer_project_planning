@@ -1,0 +1,29 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "method": "POST",
+    "route": "/skills/janna_w/parameters",
+    "detailRoute": "/skills/janna_w/parameters/slow_percent_points",
+    "skillKey": "janna_w",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 24,
+        "3": 28,
+        "4": 32,
+        "5": 36
+      },
+      "description": "客户端DataValues.SlowPercent取等级索引1至5，得到20/24/28/32/36；TotalSlow树再乘0.01。",
+      "sortOrder": 50
+    }
+  }
+}

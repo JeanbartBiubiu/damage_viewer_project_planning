@@ -1,0 +1,41 @@
+{
+  "generatedAt": "2026-09-09T15:50:07.610Z",
+  "runId": "2026-09-09T15-49-58-987Z",
+  "status": "独立全量GET通过",
+  "mode": "独立fresh-GET",
+  "expectation": "auto",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "planSha256": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+  "baselineSnapshotSha256": "bd549959bc5c976dfc4f2209df6c2edee7c98fc0643a7cc192356f2e72e51d19",
+  "counts": {
+    "GET": 179,
+    "baselineRoutes": 101,
+    "candidateDetailRoutes": 78,
+    "totalFreshGET": 179,
+    "catalogs": 4,
+    "characters": 2,
+    "relations": 2,
+    "subjects": 10,
+    "images": 10,
+    "lists": 60,
+    "existingDetails": 13,
+    "candidateDetailsPresent": 0,
+    "candidateDetailsMissing": 78
+  },
+  "baseline": {
+    "checked": 101,
+    "passed": 101,
+    "failures": 0
+  },
+  "candidates": {
+    "checked": 78,
+    "passed": 78,
+    "failures": 0,
+    "state": "allMissing"
+  },
+  "apiWrites": 0,
+  "noBusinessWrites": true,
+  "passed": true,
+  "outputDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\独立回读\\2026-09-09T15-49-58-987Z"
+}

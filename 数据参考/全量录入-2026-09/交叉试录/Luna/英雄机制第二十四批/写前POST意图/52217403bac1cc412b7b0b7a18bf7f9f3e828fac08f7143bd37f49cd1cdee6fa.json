@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-09T14:40:41.486Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_w/formulas",
+  "detailRoute": "/skills/volibear_w/formulas/total_damage",
+  "skillKey": "volibear_w",
+  "kind": "formulas",
+  "stableKey": "total_damage",
+  "body": {
+    "formulaKey": "total_damage",
+    "name": "暴怒撕咬首次物理伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_hp_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalDamage = BaseDamage + 1.1×来源总攻击力 + BonusHealthRatio×来源额外生命值。",
+    "sortOrder": 10
+  }
+}

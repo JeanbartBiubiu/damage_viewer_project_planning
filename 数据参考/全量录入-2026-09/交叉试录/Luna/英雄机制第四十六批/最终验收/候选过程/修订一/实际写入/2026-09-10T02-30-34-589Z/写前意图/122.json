@@ -1,0 +1,30 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/parameters",
+    "detailRoute": "/skills/hwei_e/parameters/eq_flee_duration_ms",
+    "skillKey": "hwei_e",
+    "kind": "parameters",
+    "stableKey": "eq_flee_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "eq_flee_duration_ms",
+      "name": "阴沉变意逃跑持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1000,
+        "2": 1125,
+        "3": 1250,
+        "4": 1375,
+        "5": 1500
+      },
+      "description": "逃跑1/1.125/1.25/1.375/1.5秒。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,27 @@
+import fs from 'node:fs';import crypto from 'node:crypto';import assert from 'node:assert/strict';
+const a='C:/project/damage_web_dev/.agents/artifacts',base=a+'/hero44-luna-candidate/修订一',d=a+'/hero44-luna-candidate/修订二',read=p=>JSON.parse(fs.readFileSync(p)),sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+assert(!fs.existsSync(d));assert.equal(sha(base+'/完整候选.json'),'79ba3c162208f18bccc164b4e7080ab93a56bbe08ae9b7e0a94721ce61519fc3');
+const c=read(base+'/完整候选.json'),p=read(base+'/请求计划.json'),b=read(a+'/hero44-root-entry-20260910/来源绑定与当前文本.json'),changes=[];
+function drop(sk,kind,id,reason){const field={parameters:'parameterKey',formulas:'formulaKey',effects:'effectKey'}[kind],arr=c.skills[sk].write[kind],x=arr.find(x=>x[field]===id);assert(x,id);c.skills[sk].write[kind]=arr.filter(x=>x[field]!==id);changes.push({skillKey:sk,kind,key:id,original:x,reason});}
+for(const x of [...c.skills.illaoi_e.write.parameters])drop('illaoi_e','parameters',x.parameterKey,'独立灵魂整个技能按既定范围排除，不新增该技能专用公共参数。');
+for(const x of [...c.skills.illaoi_e.write.effects])drop('illaoi_e','effects',x.effectKey,'独立灵魂整个技能按既定范围排除，不新增其法力效果。');
+drop('neeko_r','parameters','passive_removal_delay_ms','只服务已排除的伪装移除，不能混入本体R伤害组成。');
+drop('yuumi_e','effects','self_shield','护盾移除条件及寿命未证，不能用EXPLICIT_ONLY把未知持续配成永久；保留护盾公式。');
+drop('yuumi_e','effects','self_move_speed','移速与护盾存续绑定，寿命未证；保留比例公式与有明确3秒源值的攻速效果。');
+const monkey=b.heroes.find(x=>x.id==='MonkeyKing'),ps=monkey.skills.find(x=>x.slot==='P'),es=monkey.skills.find(x=>x.slot==='E');
+assert(ps.object.mSpell.DataValues.find(x=>x.name==='CombatDuration').values.every(x=>x===3));assert(!JSON.stringify(ps.currentTexts).includes('CombatDuration'));
+drop('monkeyking_p','parameters','combat_duration_ms','CombatDuration=3存在但未被当前正文或计算树消费；不能替代明确的5秒叠层持续。');
+const speed=es.object.mSpell.DataValues.find(x=>x.name==='DashSpeed').values[1];assert.equal(speed,1050);
+const dash={parameterKey:'dash_speed',name:'本体突进速度',valueType:'INTEGER',valueMode:'FIXED',fixedValue:speed,levelValues:null,description:'当前E单目标本体突进DataValues.DashSpeed=1050；不是导弹速度2200，额外目标分身排除。',sortOrder:80};
+assert(!c.skills.monkeyking_e.write.parameters.some(x=>x.parameterKey===dash.parameterKey));c.skills.monkeyking_e.write.parameters.push(dash);changes.push({skillKey:'monkeyking_e',kind:'parameters',key:'dash_speed',added:dash,reason:'补齐已证实的本体突进源值。'});
+let descriptions=0;for(const x of [...c.skills.monkeyking_r.write.parameters,...c.skills.monkeyking_r.write.formulas])if(x.description?.includes('2/4/6%')){x.description=x.description.replaceAll('2/4/6%','4/6/8%');descriptions++;}assert(descriptions>=2);
+for(const x of [...c.skills.illaoi_p.write.parameters,...c.skills.illaoi_p.write.formulas])if(x.description?.includes('施放时'))x.description=x.description.replaceAll('施放时','猛击命中时');
+c.skills.yuumi_e.pending.push({item:'自身护盾和关联移速的移除规则',reason:'保留盾量与移速公式；未知寿命不使用仅显式移除效果，已证3秒攻速单独保留。'});
+c.skills.monkeyking_p.pending.push({item:'未消费的CombatDuration字段',reason:'原始3秒仅保存为来源证据，不等同叠层5秒。'});
+const entries=[];for(const sk of c.order)for(const[k,id]of [['parameters','parameterKey'],['formulas','formulaKey'],['effects','effectKey'],['processes','processKey'],['internalStates','stateKey'],['triggerRules','ruleKey']])for(const body of c.skills[sk].write[k])entries.push({sk,k,id:body[id],body});
+p.requests=entries.map((y,i)=>{const original=p.requests.find(x=>x.skillKey===y.sk&&x.kind===y.k&&x.stableKey===y.id);return {...(original||{method:'POST',route:'/skills/'+y.sk+'/'+y.k,detailRoute:'/skills/'+y.sk+'/'+y.k+'/'+y.id,skillKey:y.sk,kind:y.k,stableKey:y.id,status:'仅意图，未调用'}),sequence:i+1,body:y.body};});
+const counts={newParameters:entries.filter(x=>x.k==='parameters').length,newFormulas:entries.filter(x=>x.k==='formulas').length,newEffects:entries.filter(x=>x.k==='effects').length,newProcesses:0,newInternalStates:0,newTriggerRules:0,newTotal:entries.length,reusedPublicParameters:26,plannedTotalIncludingReused:entries.length+26,protectedCurrentCompositionLists:120};assert.deepEqual([counts.newParameters,counts.newFormulas,counts.newEffects,counts.newTotal],[113,36,19,168]);
+c.counts=counts;c.meta.revision='hero44-root-revision-2';c.meta.generatedAt=new Date().toISOString();p.revision=c.meta.revision;p.requestCount=entries.length;p.requestCounts={parameters:113,formulas:36,effects:19,processes:0,internalStates:0,triggerRules:0};p.currentTotalComponents=194;
+fs.mkdirSync(d);const write=(n,v)=>fs.writeFileSync(d+'/'+n,JSON.stringify(v,null,2)+'\n',{flag:'wx'});write('完整候选.json',c);p.candidateSha256=sha(d+'/完整候选.json');write('写前请求计划.json',p);write('修订记录.json',{at:new Date().toISOString(),changes,descriptionCorrections:descriptions,apiWrites:0});
+let s=fs.readFileSync(base+'/独立数学核算.mjs','utf8');s=s.split(/\r?\n/).filter(x=>!x.includes('["yuumi_e", "self_move_speed",')).join('\n');const end=s.indexOf('fs.mkdirSync(OUTPUT_DURABLE,');assert(end>0);s=s.slice(0,end)+'console.log(JSON.stringify({passed:report.candidateMathReady,formulaCount:report.formulaCount,cases:report.caseCount,effects:report.effectValueCheckCount,ratios:report.ratioEffectCheckCount,missing:report.missingInputCaseCount,structural:report.structural,reportSha256:shaFile(artifactReport)}));\n';fs.writeFileSync(d+'/独立数学核算.mjs',s,{flag:'wx'});
+write('候选版本.json',{revision:c.meta.revision,candidateSha256:sha(d+'/完整候选.json'),planSha256:sha(d+'/写前请求计划.json'),counts,apiWrites:0});console.log(JSON.stringify({counts,candidateSha256:sha(d+'/完整候选.json'),planSha256:sha(d+'/写前请求计划.json')}));

@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:39:55.564Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_r/parameters",
+  "detailRoute": "/skills/sion_r/parameters/maximum_base_damage",
+  "skillKey": "sion_r",
+  "kind": "parameters",
+  "stableKey": "maximum_base_damage",
+  "body": {
+    "parameterKey": "maximum_base_damage",
+    "name": "蛮横冲撞最高基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 400,
+      "2": 800,
+      "3": 1200
+    },
+    "description": "当前根绑定 DataValues.MaxDamage 取索引1至3",
+    "sortOrder": 50
+  }
+}

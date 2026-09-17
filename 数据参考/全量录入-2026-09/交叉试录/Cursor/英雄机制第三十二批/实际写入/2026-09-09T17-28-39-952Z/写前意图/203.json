@@ -1,0 +1,23 @@
+{
+  "i": 202,
+  "intent": {
+    "sequence": 203,
+    "method": "POST",
+    "route": "/skills/zeri_r/parameters",
+    "detailRoute": "/skills/zeri_r/parameters/q_hypercharge_missile_count",
+    "skillKey": "zeri_r",
+    "kind": "parameters",
+    "stableKey": "q_hypercharge_missile_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_hypercharge_missile_count",
+      "name": "超负荷期间Q连发数量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文明确超负荷期间Q变为快速3连发；链向额外目标另行排除。",
+      "sortOrder": 100
+    }
+  }
+}

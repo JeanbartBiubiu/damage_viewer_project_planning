@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/flip_stun_duration_ms",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "flip_stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "flip_stun_duration_ms",
+      "name": "上马后攻击晕眩时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "当前FlipStunDuration=0.6秒；转换为600毫秒，不与击飞简单相加。",
+      "sortOrder": 160
+    }
+  }
+}

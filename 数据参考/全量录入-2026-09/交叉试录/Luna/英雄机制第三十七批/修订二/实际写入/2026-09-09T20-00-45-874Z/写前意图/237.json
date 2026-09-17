@@ -1,0 +1,27 @@
+{
+  "i": 236,
+  "intent": {
+    "sequence": 237,
+    "method": "POST",
+    "route": "/skills/briar_r/parameters",
+    "detailRoute": "/skills/briar_r/parameters/base_damage",
+    "skillKey": "briar_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "毙除着陆基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "当前BaseDamage技能等级1至3为150/250/350；索引0为旧占位50。",
+      "sortOrder": 10
+    }
+  }
+}

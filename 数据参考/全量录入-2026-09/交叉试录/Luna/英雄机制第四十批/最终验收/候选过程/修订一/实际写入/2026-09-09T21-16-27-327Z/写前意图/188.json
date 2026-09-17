@@ -1,0 +1,29 @@
+{
+  "i": 187,
+  "intent": {
+    "sequence": 188,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/parameters",
+    "detailRoute": "/skills/twistedfate_w/parameters/red_base_damage",
+    "skillKey": "twistedfate_w",
+    "kind": "parameters",
+    "stableKey": "red_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "red_base_damage",
+      "name": "红牌基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 45,
+        "3": 60,
+        "4": 75,
+        "5": 90
+      },
+      "description": "当前RedBase技能等级1至5为30/45/60/75/90。",
+      "sortOrder": 20
+    }
+  }
+}

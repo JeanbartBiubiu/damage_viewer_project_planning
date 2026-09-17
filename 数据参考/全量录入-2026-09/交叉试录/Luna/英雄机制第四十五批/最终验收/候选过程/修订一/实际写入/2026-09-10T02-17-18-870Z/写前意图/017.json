@@ -1,0 +1,72 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_w/effects",
+    "detailRoute": "/skills/teemo_w/effects/active_move_speed",
+    "skillKey": "teemo_w",
+    "kind": "effects",
+    "stableKey": "active_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "active_move_speed",
+      "name": "小莫快跑主动移动速度",
+      "description": "只定义主动3秒自身总移动速度比例；主动值是被动值的翻倍态，不与被动叠加；主动结束后按资格恢复被动，状态切换由事件层接线。",
+      "sortOrder": 30,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "active_move_speed_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "小莫快跑主动移动速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只定义主动自身属性变化；施放时替代被动值，不能与被动相加成0.36等叠加值；移除/恢复由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "active_move_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "at": "2026-09-09T06:20:05.015Z",
+  "verdict": "READY",
+  "status": "READY",
+  "planSha256": "fe7f22180b233579c1356b0492d689e344c3e2152cda591db6298250c2254cbe",
+  "previousSixRequestVerdict": "REVISE",
+  "previousSixRequestSha256": "50342518c542cc96aac3af2d78e1e27b3c1953a98577d64225562cf154443d45",
+  "scope": "最终7请求完整文件与已通过生产校验的内存修正方案逐对象比对；本次不发HTTP，不执行写入，不代表写后验收。",
+  "requests": 7,
+  "deleteEffects": 3,
+  "parameterUpdates": 4,
+  "alreadyConfirmedNotReplayed": 12,
+  "beforeObjectsMatchIndependentGET": true,
+  "existingSixRequestsUnchanged": true,
+  "onlyAddedGarenDelete": true,
+  "allDeletesBeforeUpdates": true,
+  "productionValidatorSourcesUnchanged": true,
+  "productionCounterexampleChecks": 15,
+  "componentsOriginal": 76,
+  "componentsFinal": 67,
+  "otherComponentsUnchanged": 57,
+  "evidence": {
+    "independentReviewSha256": "8179e5588d581a2c9fe67fc5f40d90d590fd92cb39d0d724cda3c8818d778ec7",
+    "productionChecksSha256": "513d6ab45fa42e8988d5c5f917e440c459b8119c95b28f54c43558b5427942b4",
+    "current148GETSha256": "8ffb72ec6db96ae6d433101201650003eb45c73fd99e5e37d45c0e97df47cf99",
+    "exactGarenObjectSha256": "e2b6ff840073828711a09f48a209b861317340611c94d508ae6b7d79f906cf9c"
+  },
+  "businessWrites": 0,
+  "HTTPCallsThisFinalCheck": 0,
+  "postWriteVerification": "尚未执行；由主负责人写入完成后另行独立GET全量核对。"
+}

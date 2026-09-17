@@ -1,0 +1,23 @@
+{
+  "i": 78,
+  "intent": {
+    "sequence": 79,
+    "method": "POST",
+    "route": "/skills/leesin_e/parameters",
+    "detailRoute": "/skills/leesin_e/parameters/slow_duration_ms",
+    "skillKey": "leesin_e",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "摧筋断骨减速及显形持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前SlowDuration=4秒，转换为4000毫秒；减速衰减曲线未证。",
+      "sortOrder": 40
+    }
+  }
+}

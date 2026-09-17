@@ -1,0 +1,397 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T12:43:24.873Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取规划来源，不用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "规划候选",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\Luna第八批\\录入候选.json",
+      "byteSize": 63257,
+      "sha256": "68a24cfe03525d968b75780d22789555fcf5d5f49c2821460c0cc222b348ae46"
+    },
+    {
+      "kind": "客户端装备原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz",
+      "byteSize": 1577238,
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "decompressedByteSize": 15923188,
+      "decompressedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "kind": "客户端中文文本原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz",
+      "byteSize": 8350124,
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "decompressedByteSize": 32784742,
+      "decompressedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "kind": "官方装备原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\item-16.17.1-zh_CN.json",
+      "byteSize": 691131,
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "kind": "候选未补字段清单",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果候选\\未补字段清单.json",
+      "byteSize": 37542,
+      "sha256": "538d8d3883cf13985df0e834dd4168757e920d9aaacf3609b38a7fb63f93a7b0"
+    },
+    {
+      "kind": "已有装备接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\装备\\item_3071.json",
+      "byteSize": 2180,
+      "sha256": "13700fc12aa91ab55bbd777501faac1cff646296da971c51c2fa60ce3fc9f070"
+    },
+    {
+      "kind": "已有装备图片接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\装备图片\\item_3071.json",
+      "byteSize": 995,
+      "sha256": "a58e88ae4944bf0a9372e28972b9d4cd0952b5cf74bf55f5dc07f710cb4d3df2"
+    },
+    {
+      "kind": "已有装备图片文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\装备图片\\source-images\\3071.png",
+      "byteSize": 6213,
+      "sha256": "fcb008f805d2bfeb63b3ea183d833fd63c2ef13b04c9ae2d67bc6ddfa3e77989"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\Luna第八批\\录入候选.json",
+    "equipment": {
+      "equipmentKey": "item_3071",
+      "equipmentName": "黑色切割者",
+      "directAttributes": {
+        "hp": 400,
+        "attack_damage": 45,
+        "ability_haste": 20
+      },
+      "skill": {
+        "skillKey": "item_3071_passive",
+        "name": "黑色切割者·切割",
+        "description": "保存对英雄造成物理伤害时的6%护甲削减、6秒持续和最多5层目标属性变化；同时保留冻结客户端MSBonusSplit确证的热烈移动速度参数：近战20、远程10、持续2秒。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。护甲削减使用独立目标属性百分比修改区。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "parameters": [
+        {
+          "parameterKey": "armor_shred_ratio_per_stack",
+          "name": "切割每层护甲削减",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.06,
+          "levelValues": null,
+          "description": "每层降低目标护甲6%，小数0.06表示6个百分点。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "armor_shred_duration_ms",
+          "name": "切割持续时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null,
+          "description": "护甲削减持续6秒，单位：毫秒。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "armor_shred_max_stacks",
+          "name": "切割最大层数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null,
+          "description": "最多5层；第五层后再次触发不增加层数。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "damage_internal_cooldown_ms",
+          "name": "切割伤害内部间隔",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "客户端InternalCD=0.01秒，按毫秒记录为10；触发语义仍需伤害事件核对。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "heated_move_speed_client_value",
+          "name": "热烈客户端移动速度值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null,
+          "description": "冻结客户端MSBonusSplit确证近战移动速度20；远程移动速度10另存参数；持续2秒。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "heated_move_speed_duration_ms",
+          "name": "热烈移动速度持续时间",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null,
+          "description": "冻结客户端MSBonusSplit确证热烈移动速度持续2秒；近战20、远程10已分别记录。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "heated_move_speed_ranged_value",
+          "name": "热烈远程移动速度值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null,
+          "description": "冻结客户端MSBonusSplit确证远程移动速度10；近战20、持续2秒分别记录。官方当前说明渲染为0的占位差异保留；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+          "sortOrder": 70
+        }
+      ],
+      "formulas": [],
+      "effects": [
+        {
+          "effectKey": "armor_shred",
+          "name": "切割目标护甲削减",
+          "description": "对确证目标应用每层6%的护甲降低，持续6秒，最多5层；百分比减益使用目标属性百分比修改区。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_shred_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_shred_max_stacks"
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "TARGET",
+            "reapplicationStackMode": "INCREASE",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "armor_reduction",
+              "name": "目标护甲降低",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "TARGET",
+              "description": "每层降低目标护甲6个百分点；第五层后第六次触发保持30%总削减。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "PER_STACK",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "armor_shred_ratio_per_stack"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "armor",
+                "operation": "DECREASE",
+                "modifierZoneKey": "item_3071_armor_reduction"
+              }
+            }
+          ]
+        }
+      ],
+      "triggerRules": [],
+      "pendingRules": [
+        "来源触发是对英雄造成物理伤害，现有DAMAGE_DEALT事件可筛物理伤害但不能同时提供英雄TARGET_CATEGORY_CHECK；不改成只监听普攻，也不写会误伤小兵的无条件触发。",
+        "当前MSBonusSplit.mRangedMultiplier=0.5只用于20×0.5=10的远程移动速度值，不参与6%的护甲削减计算；数值已由当前绑定计算核定，移动速度效果与合法触发待配置。",
+        "数值已由当前绑定计算核定；官方说明渲染0保留占位差异，移动速度效果与合法触发待配置。"
+      ],
+      "pendingEffects": [
+        {
+          "effectKey": "heated_move_speed",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "reason": "数值已由当前绑定计算核定；官方说明渲染0保留占位差异，移动速度效果与合法触发待配置。"
+        }
+      ],
+      "relation": {
+        "equipmentKey": "item_3071",
+        "skillKey": "item_3071_passive",
+        "sortOrder": 10
+      },
+      "sourceRefs": [
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+          "pointer": "Items/3071/mDataValues/DebuffDuration、MoveSpeedBonus、MoveSpeedDuration、InternalCD、MaxStacks、ShredPerStack、RangedMod、mItemCalculations/MSBonusSplit、mFlatHPPoolMod、mFlatPhysicalDamageMod、mAbilityHasteMod",
+          "evidence": "DebuffDuration=6、MoveSpeedBonus=20、MoveSpeedDuration=2、InternalCD=0.01、MaxStacks=5、ShredPerStack=0.06、RangedMod=0.5；MSBonusSplit的mRangedMultiplier只用于20×0.5=10的远程移动速度值，不参与6%的护甲削减计算。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+          "pointer": "entries/item_3071_tooltip、entries/GeneratedTip_Item_3071_Description",
+          "evidence": "对英雄造成物理伤害时将护甲降低6%，持续6秒，可叠加5次；热烈说明当前文本值为0。"
+        },
+        {
+          "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+          "pointer": "/data/3071/description、/data/3071/stats",
+          "evidence": "官方说明与客户端共同确证切割段；热烈移动速度显示0，与客户端20冲突。"
+        }
+      ],
+      "arithmetic": [
+        {
+          "sample": "黑切第五层目标护甲总削减",
+          "expected": 0.3,
+          "actual": 0.3,
+          "unit": "比例；小数0.3表示30%"
+        },
+        {
+          "sample": "第五层后再次触发",
+          "expected": 0.3,
+          "actual": 0.3,
+          "unit": "比例；第六次不超过5层"
+        }
+      ]
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\item-16.17.1-zh_CN.json",
+    "itemKey": "3071",
+    "item": {
+      "name": "黑色切割者",
+      "description": "<mainText><stats><attention>45</attention>攻击力<br><attention>400</attention>生命值<br><attention>20</attention>技能急速</stats><br><br><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低6%</scaleArmor>，持续6秒(可叠加5次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续2秒的<speed>0移动速度</speed>。</mainText>",
+      "colloq": ";黑切;切割者;应对坦克;克制坦克;穿透;Black Cleaver;heiseqiegezhe;hsqgz",
+      "plaintext": "对敌人造成物理伤害时会减少目标的护甲",
+      "from": [
+        "3044",
+        "3067",
+        "1037"
+      ],
+      "image": {
+        "full": "3071.png",
+        "sprite": "item3.png",
+        "group": "item",
+        "x": 96,
+        "y": 240,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 225,
+        "purchasable": true,
+        "total": 3000,
+        "sell": 2100
+      },
+      "tags": [
+        "Health",
+        "Damage",
+        "CooldownReduction",
+        "OnHit",
+        "NonbootsMovement",
+        "ArmorPenetration",
+        "AbilityHaste"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatHPPoolMod": 400,
+        "FlatPhysicalDamageMod": 45
+      },
+      "depth": 3
+    }
+  },
+  "clientExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz",
+    "pointer": "Items/3071",
+    "dataValues": {
+      "DebuffDuration": 6,
+      "MoveSpeedBonus": 20,
+      "MoveSpeedDuration": 2,
+      "InternalCD": 0.009999999776482582,
+      "MaxStacks": 5,
+      "ShredPerStack": 0.05999999865889549,
+      "RangedMod": 0.5
+    },
+    "calculations": {
+      "MSBonusSplit": {
+        "mExpandedTooltipCalculationDisplay": 5,
+        "mFormulaParts": [
+          {
+            "mDataValue": "MoveSpeedBonus",
+            "__type": "NamedDataValueCalculationPart"
+          }
+        ],
+        "mRangedMultiplier": {
+          "mDataValue": "RangedMod",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        "__type": "{e9a3c91d}"
+      }
+    }
+  },
+  "clientStringtableExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz",
+    "version": 5,
+    "pointer": "entries/item_3071_tooltip、entries/generatedtip_item_3071_description",
+    "entries": {
+      "item_3071_tooltip": "<passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。",
+      "generatedtip_item_3071_description": "<section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section><passive>切割</passive><br>对英雄造成<physicalDamage>物理伤害</physicalDamage>时会将该目标的<scaleArmor>护甲降低@ShredPerStack*100@%</scaleArmor>，持续@DebuffDuration@秒(可叠加@MaxStacks@次)。<br><br><passive>热烈</passive><br>造成<physicalDamage>物理伤害</physicalDamage>时会提供持续@MoveSpeedDuration@秒的<speed>@MSBonusSplit@移动速度</speed>。</section><section></section><section><flavorText></flavorText></section>",
+      "game_item_tooltip_3071": "<titleLeft>黑色切割者</titleLeft><titleRight>售价：<gold>@Value@</gold></titleRight><subtitleLeft>+@FlatHPPoolMod@生命值<br>+@FlatPhysicalDamageMod@攻击力<br>+@Effect1Amount*-100@%冷却缩减</subtitleLeft><mainText><unique>唯一被动：</unique>对一名敌方英雄造成物理伤害的同时，还会对该英雄施加“切割”效果，减少目标@Effect2Amount*100@%的护甲，持续@Effect3Amount@秒（最多叠加@Effect4Amount@次，减少@Effect5Amount*100@%护甲）。<br><unique>唯一被动—狂暴：</unique>造成物理伤害的同时会提供@Effect6Amount@移动速度，持续@Effect7Amount@秒。协助击杀被切割的敌方英雄或击杀任何敌对单位时，提供的移动速度加成会变为@Effect8Amount@，持续@Effect9Amount@秒。这个移动速度加成对远程英雄减半。</mainText>",
+      "game_item_plaintext_3071": "对敌人造成物理伤害时会减少目标的护甲"
+    }
+  },
+  "acceptedFacts": {
+    "trigger": {
+      "eventType": "DAMAGE_DEALT",
+      "damageTypeBusinessMeaning": "物理伤害",
+      "damageTypeKeyInCurrentCatalog": "physics",
+      "deliveryKind": "ANY",
+      "originKind": "ANY",
+      "targetCategory": "CHAMPION",
+      "targetContext": "CURRENT_TARGET",
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "armor_shred",
+      "perTargetCooldown": null
+    },
+    "effectBoundary": {
+      "effectKey": "armor_shred",
+      "modifierZoneKey": "item_3071_armor_reduction",
+      "ratioPerStack": 0.06,
+      "durationMs": 6000,
+      "maxStacks": 5
+    },
+    "arithmetic": [
+      {
+        "sample": "第五层总护甲削减",
+        "expected": 0.3,
+        "actual": 0.3
+      },
+      {
+        "sample": "第五层后的再次触发",
+        "expected": 0.3,
+        "actual": 0.3
+      }
+    ]
+  },
+  "excluded": [
+    "不把 damage_internal_cooldown_ms=10 解释为 perTargetCooldown。",
+    "不新增热烈移动速度效果或其触发规则。",
+    "不新增伤害类型、效果、参数、公式或乘区。",
+    "不把静态来源、接口 GET 或本脚本检查当作战斗运行时证明。"
+  ]
+}

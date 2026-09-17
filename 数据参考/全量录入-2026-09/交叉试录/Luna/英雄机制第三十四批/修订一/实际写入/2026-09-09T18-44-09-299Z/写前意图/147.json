@@ -1,0 +1,45 @@
+{
+  "i": 146,
+  "intent": {
+    "sequence": 151,
+    "method": "POST",
+    "route": "/skills/zilean_r/formulas",
+    "detailRoute": "/skills/zilean_r/formulas/revive_heal",
+    "skillKey": "zilean_r",
+    "kind": "formulas",
+    "stableKey": "revive_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "revive_heal",
+      "name": "时光倒流复活治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_heal"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "RTotalHeal = RBaseHeal + 2×来源总法强；治疗应用时点和自身资格待接。",
+      "sortOrder": 10
+    }
+  }
+}

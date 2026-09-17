@@ -1,0 +1,24 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_p/parameters",
+    "detailRoute": "/skills/urgot_p/parameters/leg_count",
+    "skillKey": "urgot_p",
+    "kind": "parameters",
+    "stableKey": "leg_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "leg_count",
+      "name": "可用火焰腿数量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "范围要求保留厄加特六条腿对同一敌人的逐次命中；数量是技能主体事实，不代表事件自动触发。",
+      "sortOrder": 50
+    }
+  }
+}

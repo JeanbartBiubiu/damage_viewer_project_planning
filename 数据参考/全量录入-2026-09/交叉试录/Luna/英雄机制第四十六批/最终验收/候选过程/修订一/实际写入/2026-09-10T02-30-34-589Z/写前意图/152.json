@@ -1,0 +1,24 @@
+{
+  "i": 151,
+  "intent": {
+    "sequence": 152,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_r/parameters",
+    "detailRoute": "/skills/hwei_r/parameters/m_cast_time_ms",
+    "skillKey": "hwei_r",
+    "kind": "parameters",
+    "stableKey": "m_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "m_cast_time_ms",
+      "name": "客户端mCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "与spellCastTime并列保留，不任取唯一施法时间。",
+      "sortOrder": 110
+    }
+  }
+}

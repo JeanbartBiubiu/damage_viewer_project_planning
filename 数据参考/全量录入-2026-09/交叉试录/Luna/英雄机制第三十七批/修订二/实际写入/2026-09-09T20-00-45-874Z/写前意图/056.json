@@ -1,0 +1,23 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/akshan_e/parameters",
+    "detailRoute": "/skills/akshan_e/parameters/critical_stat_offset",
+    "skillKey": "akshan_e",
+    "kind": "parameters",
+    "stableKey": "critical_stat_offset",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_stat_offset",
+      "name": "骄行荡寇暴击属性减一偏移",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": -1,
+      "levelValues": null,
+      "description": "当前CriticalCalc明确计算mStat9-1；用显式偏移保留原树。",
+      "sortOrder": 100
+    }
+  }
+}

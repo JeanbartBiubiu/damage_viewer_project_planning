@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:24:13.342Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "writable": true,
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceSnapshotSha256": "d691e29b369c54b44431fa06fd3b92dd581153d0868bf6753d284a5228bbf70a",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24,
+    "stableTwoPass": true
+  },
+  "targetBefore": {
+    "ownerName": "斯卡纳",
+    "characterKey": "champion_skarner",
+    "skillKey": "skarner_w",
+    "componentKeys": {
+      "parameters": [
+        "base_damage",
+        "damage_ap_ratio",
+        "shield_stat12_ratio",
+        "shield_duration_ms",
+        "slow_ratio",
+        "slow_duration_ms",
+        "cast_time_ms",
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "formulas": [
+        "magic_damage",
+        "shield_value"
+      ],
+      "effects": [
+        "self_shield",
+        "mana_cost"
+      ],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "candidateDetailStatus": 404
+  },
+  "plannedWrites": 1,
+  "writes": [
+    {
+      "id": "skarner_w/on_used",
+      "kind": "新增触发规则",
+      "method": "POST（仅拟议，不由本脚本发送）",
+      "route": "/skills/skarner_w/trigger-rules",
+      "detailRoute": "/skills/skarner_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "e6d202069df7416d5030d10ddc1f17f5e640546d78a14652c3b8f36fdbbe1b3b",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "震地壁垒主动使用",
+        "description": "接收 skarner_w 主动使用；无条件在 CURRENT_TARGET 上执行已有 self_shield。self_shield 结果为 target=SOURCE 的普通护盾，使用 shield_value 公式并持续 shield_duration_ms（2500毫秒）；相关的地震伤害、减速、法力消耗和基础冷却留待后续规则补录。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "skarner_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_self_shield",
+            "name": "执行震地壁垒自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [],
+  "deferred": [
+    "地震魔法伤害",
+    "附近敌人减速",
+    "减速持续时间",
+    "法力消耗和基础冷却",
+    "客户端 mStat 12 的语义只由固定资料与当前实库既有公式共同核对；不在本次触发规则中新增或重写公式。"
+  ],
+  "reviewDecision": null
+}

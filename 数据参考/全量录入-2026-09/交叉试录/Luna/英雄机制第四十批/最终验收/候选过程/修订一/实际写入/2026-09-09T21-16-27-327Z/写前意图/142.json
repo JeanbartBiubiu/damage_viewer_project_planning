@@ -1,0 +1,45 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "method": "POST",
+    "route": "/skills/pyke_q/formulas",
+    "detailRoute": "/skills/pyke_q/formulas/enemy_physical_damage",
+    "skillKey": "pyke_q",
+    "kind": "formulas",
+    "stableKey": "enemy_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "enemy_physical_damage",
+      "name": "透骨尖钉单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "秒放与长蓄共同消费同一TotalDamage，不能叠加两次。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:39:49.950Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_e/formulas",
+  "detailRoute": "/skills/sion_e/formulas/total_damage",
+  "skillKey": "sion_e",
+  "kind": "formulas",
+  "stableKey": "total_damage",
+  "body": {
+    "formulaKey": "total_damage",
+    "name": "杀手怒吼魔法伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalDamage = BaseDamage + APRatio×来源法术强度。",
+    "sortOrder": 10
+  }
+}

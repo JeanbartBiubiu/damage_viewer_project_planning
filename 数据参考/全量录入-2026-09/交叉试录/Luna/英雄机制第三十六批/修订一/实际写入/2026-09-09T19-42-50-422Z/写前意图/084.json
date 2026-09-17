@@ -1,0 +1,27 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "method": "POST",
+    "route": "/skills/lillia_r/parameters",
+    "detailRoute": "/skills/lillia_r/parameters/break_damage_base",
+    "skillKey": "lillia_r",
+    "kind": "parameters",
+    "stableKey": "break_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "break_damage_base",
+      "name": "唤醒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 150,
+        "3": 200
+      },
+      "description": "TotalDamage当前使用BreakDamageBase索引1至3；ImpactDamage=25未进入当前唤醒树。",
+      "sortOrder": 30
+    }
+  }
+}

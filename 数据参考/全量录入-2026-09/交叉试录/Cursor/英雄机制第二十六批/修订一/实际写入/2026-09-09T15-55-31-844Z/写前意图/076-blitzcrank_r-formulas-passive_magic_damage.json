@@ -1,0 +1,82 @@
+{
+  "sequence": 76,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 76,
+    "method": "POST",
+    "route": "/skills/blitzcrank_r/formulas",
+    "detailRoute": "/skills/blitzcrank_r/formulas/passive_magic_damage",
+    "skillKey": "blitzcrank_r",
+    "kind": "formulas",
+    "stableKey": "passive_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_magic_damage",
+      "name": "静电力场被动电击魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_resource_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_ability_resource_value"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前PassiveDamage树=PassiveBaseDamage+PassiveAPRatio×来源总法术强度+0.02×AbilityResource；资源实际值无默认。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 405,
+    "method": "GET",
+    "route": "/skills/blitzcrank_r/formulas/passive_magic_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "passive_magic_damage"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "at": "2026-09-09T15:57:08.262Z"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 35,
+    "method": "POST",
+    "route": "/skills/janna_e/parameters",
+    "detailRoute": "/skills/janna_e/parameters/empower_duration_ms",
+    "skillKey": "janna_e",
+    "kind": "parameters",
+    "stableKey": "empower_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empower_duration_ms",
+      "name": "旧强化字段持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "客户端EmpowerDuration按等级索引1取5秒，转换为5000毫秒；当前候选不把它作为独立攻击力增益生命周期。",
+      "sortOrder": 20
+    }
+  }
+}

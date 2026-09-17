@@ -1,0 +1,2187 @@
+{
+  "at": "2026-09-09T17:40:46.629Z",
+  "passed": true,
+  "browser": "Codex内置浏览器既有tab2，实际查询4技能并打开参数和公式详情，http://127.0.0.1:5173/#/skills",
+  "representativePages": 4,
+  "observations": [
+    {
+      "skillKey": "corki_w",
+      "ui": "150至450基础为路径期间完整最大量，公式不再乘5；2500毫秒和最多5次过程分别记录。"
+    },
+    {
+      "skillKey": "kaisa_e",
+      "ui": "额外攻速比例与施法时长实际攻速值各自无默认，时长MAX(600,1200-400×实际值)，4秒增益分开。"
+    },
+    {
+      "skillKey": "xayah_e",
+      "ui": "1起整数羽毛序号；完整单根伤害乘暴击效能和MAX(0.1,1-0.05×(序号-1))，不设19根上限。"
+    },
+    {
+      "skillKey": "zeri_w",
+      "ui": "过墙完整伤害乘1+0.5×(实际暴击倍率-1)，树中没有额外暴击几率项。"
+    }
+  ],
+  "GETs": 24,
+  "mathCases": 20,
+  "calls": [
+    {
+      "route": "/skills/corki_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:06.267733Z",
+        "description": "库奇飞行一小段距离，同时投下炸弹。炸弹会制造出一条毁灭与死亡的路径，对留在路径中的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "库奇·瓦尔基里俯冲",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "corki_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:06.267733Z"
+      }
+    },
+    {
+      "route": "/skills/corki_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_corki_w",
+          "name": "corki_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/corki_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:29:14.643393Z",
+          "description": "客户端MaximumDamage树BaseDamage取技能等级1至5；当前正文说明是路径整个驻留期间至多总量，不是每跳伤害。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 150,
+            "2": 225,
+            "3": 300,
+            "4": 375,
+            "5": 450
+          },
+          "name": "路径完整最大基础魔法伤害",
+          "parameterKey": "maximum_damage_base",
+          "skillKey": "corki_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:29:14.643393Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:29:15.795138Z",
+          "description": "当前MaximumDamage树APRatio=1.5，比例1代表100%。",
+          "fixedValue": 1.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "路径法强比例",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "corki_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:29:15.795138Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:29:17.115304Z",
+          "description": "当前MaximumDamage树ADRatio带mStat2/mStatFormula2，取来源额外攻击力，比例1代表100%。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "路径额外攻击力比例",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "corki_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:29:17.115304Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:29:18.284636Z",
+          "description": "当前正文和DataValues.TrailDuration=2.5秒，转换为2500毫秒。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "路径持续时间（毫秒）",
+          "parameterKey": "trail_duration_ms",
+          "skillKey": "corki_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:29:18.284636Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:29:19.523062Z",
+          "description": "当前DataValues.TicksPerSecond=2；仅保留来源过程参数，不将完整最大量拆成每跳。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每秒过程次数",
+          "parameterKey": "ticks_per_second",
+          "skillKey": "corki_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:29:19.523062Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:29:20.788899Z",
+          "description": "当前DataValues.MaximumTicks=5；不据此推断每跳均分或首末跳时序。",
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大过程次数",
+          "parameterKey": "maximum_ticks",
+          "skillKey": "corki_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:29:20.788899Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:29:21.939506Z",
+          "description": "当前DashSpeed树基础值为650；属于位移来源参数。",
+          "fixedValue": 650,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础飞行速度",
+          "parameterKey": "dash_speed_base",
+          "skillKey": "corki_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T17:29:21.939506Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:29:23.222067Z",
+          "description": "当前DashSpeed树使用来源移动速度，系数为1。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "移动速度加成系数",
+          "parameterKey": "dash_speed_move_speed_ratio",
+          "skillKey": "corki_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T17:29:23.222067Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:15.187724Z",
+          "description": "DDragon16.17.1 Corki.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20000,
+            "2": 18000,
+            "3": 16000,
+            "4": 14000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "corki_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:15.187724Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:15.457246Z",
+          "description": "DDragon16.17.1 Corki.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 85,
+            "3": 90,
+            "4": 95,
+            "5": 100
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "corki_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:15.457246Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kaisa_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:47.930693Z",
+        "description": "卡莎暂时提升移动速度，随后提升攻击速度。<br><br>活体武器：这个技能得到升级，可短暂提供隐形效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡莎·极限超载",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kaisa_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:47.930693Z"
+      }
+    },
+    {
+      "route": "/skills/kaisa_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kaisa_e",
+          "name": "kaisa_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/kaisa_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:30:41.978654Z",
+          "description": "当前mEffectAmount[0]等级1至5为55/60/65/70/75%，转为0.55至0.75比例。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.550000011920929,
+            "2": 0.6000000238418579,
+            "3": 0.6499999761581421,
+            "4": 0.699999988079071,
+            "5": 0.75
+          },
+          "name": "基础移动速度比例",
+          "parameterKey": "move_speed_base_ratio",
+          "skillKey": "kaisa_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:30:41.978654Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:43.269261Z",
+          "description": "当前TotalMovespeed树Clamp下限为1，比例1代表100%。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "移动速度倍率下限",
+          "parameterKey": "move_speed_clamp_lower",
+          "skillKey": "kaisa_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:30:43.269261Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:44.808328Z",
+          "description": "当前TotalMovespeed树Clamp上限为2，比例2代表200%。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "移动速度倍率上限",
+          "parameterKey": "move_speed_clamp_upper",
+          "skillKey": "kaisa_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:30:44.808328Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:46.019234Z",
+          "description": "当前TotalMovespeed树mStat4/mStatFormula2的运行阶段尚未窄证；真实额外攻击速度无默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际额外攻击速度比例",
+          "parameterKey": "actual_bonus_attack_speed_ratio",
+          "skillKey": "kaisa_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:30:46.019234Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:47.169268Z",
+          "description": "当前mEffectAmount[1]=4秒，转换为4000毫秒。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "超载攻击速度持续时间（毫秒）",
+          "parameterKey": "attack_speed_duration_ms",
+          "skillKey": "kaisa_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:30:47.169268Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:48.309871Z",
+          "description": "当前mEffectAmount[4]等级1至5为40/50/60/70/80%，转为比例。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.4000000059604645,
+            "2": 0.5,
+            "3": 0.6000000238418579,
+            "4": 0.699999988079071,
+            "5": 0.800000011920929
+          },
+          "name": "超载攻击速度比例",
+          "parameterKey": "attack_speed_bonus_ratio",
+          "skillKey": "kaisa_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:30:48.309871Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:49.424576Z",
+          "description": "当前P技能正文引用E的Effect6Amount=100%额外攻击速度；系统比例1代表100%。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "E进化额外攻击速度阈值",
+          "parameterKey": "evolution_bonus_attack_speed_threshold_ratio",
+          "skillKey": "kaisa_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T17:30:49.424576Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:50.713921Z",
+          "description": "当前mEffectAmount[3]=0.5秒，转换为500毫秒。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每次攻击冷却缩短（毫秒）",
+          "parameterKey": "cooldown_reduction_per_attack_ms",
+          "skillKey": "kaisa_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T17:30:50.713921Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:52.210371Z",
+          "description": "当前mEffectAmount[6]=0.5秒，转换为500毫秒。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "进化隐形持续时间（毫秒）",
+          "parameterKey": "evolved_stealth_duration_ms",
+          "skillKey": "kaisa_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T17:30:52.210371Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:39.648946Z",
+          "description": "DDragon16.17.1 Kaisa.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 16000,
+            "2": 14500,
+            "3": 13000,
+            "4": 11500,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kaisa_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:39.648946Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:53.316483Z",
+          "description": "当前TotalCastTime树mEffectIndex=3对应1.2秒，转换为1200毫秒；这里不使用mPrecision进行舍入。",
+          "fixedValue": 1200,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "超载基础时长（毫秒）",
+          "parameterKey": "cast_time_base_ms",
+          "skillKey": "kaisa_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T17:30:53.316483Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:40.236419Z",
+          "description": "DDragon16.17.1 Kaisa.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kaisa_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:40.236419Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:54.520016Z",
+          "description": "当前TotalCastTime树下限为0.6秒，转换为600毫秒。",
+          "fixedValue": 600,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "超载时长下限（毫秒）",
+          "parameterKey": "cast_time_min_ms",
+          "skillKey": "kaisa_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T17:30:54.520016Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:55.645602Z",
+          "description": "当前TotalCastTime树为1.2-0.4×mStat4，转换系数为400毫秒。",
+          "fixedValue": 400,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "攻击速度缩短系数（毫秒）",
+          "parameterKey": "cast_time_attack_speed_coefficient_ms",
+          "skillKey": "kaisa_e",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T17:30:55.645602Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:30:56.819826Z",
+          "description": "当前TotalCastTime使用mStat4但未证具体属性单位；真实值外供，不与TotalMovespeed的mStatFormula2强行共用。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时长实际攻击速度值",
+          "parameterKey": "actual_attack_speed_stat",
+          "skillKey": "kaisa_e",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T17:30:56.819826Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/xayah_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:07.786152Z",
+        "description": "霞唤回她之前掉落的所有羽毛，对敌人造成伤害和禁锢效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "霞·倒钩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "xayah_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:07.786152Z"
+      }
+    },
+    {
+      "route": "/skills/xayah_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xayah_e",
+          "name": "xayah_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/xayah_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:31:34.820379Z",
+          "description": "客户端FeatherDamage树BaseDamage取等级1至5，为50/65/80/95/110。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 65,
+            "3": 80,
+            "4": 95,
+            "5": 110
+          },
+          "name": "每根羽毛基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "xayah_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:31:34.820379Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:36.036534Z",
+          "description": "当前FeatherDamage树bADRatio约0.4，取来源额外攻击力。",
+          "fixedValue": 0.4000000059604645,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力比例",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "xayah_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:31:36.036534Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:37.163275Z",
+          "description": "当前FeatherDamage树CritRatio=0.5；只作用于暴击几率×（暴击倍率-1）部分。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "暴击效能比例",
+          "parameterKey": "critical_effectiveness_ratio",
+          "skillKey": "xayah_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:31:37.163275Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:38.398515Z",
+          "description": "当前FeatherDamage的mStat8阶段未窄证；实际暴击几率无默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际暴击几率",
+          "parameterKey": "actual_critical_chance_ratio",
+          "skillKey": "xayah_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:31:38.398515Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:39.647919Z",
+          "description": "当前FeatherDamage的mStat9阶段未窄证；实际暴击伤害倍率无默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际暴击伤害倍率",
+          "parameterKey": "actual_critical_damage_ratio",
+          "skillKey": "xayah_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:31:39.647919Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:40.83007Z",
+          "description": "当前扩展正文明确每根额外羽毛使后续伤害降低5%，比例0.05。",
+          "fixedValue": 0.05000000074505806,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每根后续衰减比例",
+          "parameterKey": "feather_falloff_ratio",
+          "skillKey": "xayah_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:31:40.83007Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:41.965365Z",
+          "description": "当前扩展正文明确最低降至10%；这是逐根倍率下限，不是总根数上限。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "羽毛伤害最低倍率",
+          "parameterKey": "feather_minimum_multiplier",
+          "skillKey": "xayah_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T17:31:41.965365Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:43.225246Z",
+          "description": "当前正文明确至少3根命中才禁锢。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "禁锢所需羽毛根数",
+          "parameterKey": "feather_root_threshold",
+          "skillKey": "xayah_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T17:31:43.225246Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:44.403261Z",
+          "description": "当前RootDuration=1.25秒，转换为1250毫秒。",
+          "fixedValue": 1250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "禁锢持续时间（毫秒）",
+          "parameterKey": "root_duration_ms",
+          "skillKey": "xayah_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T17:31:44.403261Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:06:03.826259Z",
+          "description": "DDragon16.17.1 Xayah.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "xayah_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:03.826259Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:45.592863Z",
+          "description": "当前FeatherReturnDelay=0.25秒，转换为250毫秒。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "羽毛回收来源延时（毫秒）",
+          "parameterKey": "feather_return_delay_ms",
+          "skillKey": "xayah_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T17:31:45.592863Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:46.774196Z",
+          "description": "逐根计算的1起序号，由实际命中顺序提供；不默认满羽毛、不设置19根上限。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "同一敌人羽毛序号",
+          "parameterKey": "feather_sequence_index",
+          "skillKey": "xayah_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T17:31:46.774196Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:06:04.363575Z",
+          "description": "DDragon16.17.1 Xayah.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "xayah_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:06:04.363575Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:47.969512Z",
+          "description": "当前FeatherDamage树中的常数1，供二元公式显式表示。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "单位倍率常数",
+          "parameterKey": "one_ratio",
+          "skillKey": "xayah_e",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T17:31:47.969512Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/zeri_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:22.242173Z",
+        "description": "泽丽发射一道电能脉冲，来对首个命中的敌人造成减速和伤害。如果脉冲命中了一个墙体，那么它会延伸为一道长程激光。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泽丽·强穿激光",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zeri_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:22.242173Z"
+      }
+    },
+    {
+      "route": "/skills/zeri_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zeri_w",
+          "name": "zeri_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/zeri_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:32:27.504393Z",
+          "description": "当前TotalDamage树Damage取技能等级1至5，为30/70/110/150/190；原数组索引0的-10为哨兵值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 70,
+            "3": 110,
+            "4": 150,
+            "5": 190
+          },
+          "name": "强穿激光基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "zeri_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:32:27.504393Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:28.699707Z",
+          "description": "当前TotalDamage树ADRatio约1.2，取来源总攻击力。",
+          "fixedValue": 1.2000000476837158,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "总攻击力比例",
+          "parameterKey": "total_attack_damage_ratio",
+          "skillKey": "zeri_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:32:28.699707Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:29.832502Z",
+          "description": "当前TotalDamage树APRatio约0.5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度比例",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "zeri_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:32:29.832502Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:30.990074Z",
+          "description": "当前WallDamage树使用CriticalEffectiveness=0.5；只作用于实际暴击倍率增量。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "过墙暴击效能比例",
+          "parameterKey": "critical_effectiveness_ratio",
+          "skillKey": "zeri_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:32:30.990074Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:32.313304Z",
+          "description": "当前WallDamage树mStat9阶段无窄证，不能默认暴击倍率。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际暴击伤害倍率",
+          "parameterKey": "actual_critical_damage_ratio",
+          "skillKey": "zeri_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:32:32.313304Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:33.512452Z",
+          "description": "当前SlowPercent正文直接乘100显示，保存0.3至0.5比例。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.30000001192092896,
+            "2": 0.3499999940395355,
+            "3": 0.4000000059604645,
+            "4": 0.44999998807907104,
+            "5": 0.5
+          },
+          "name": "减速比例",
+          "parameterKey": "slow_ratio",
+          "skillKey": "zeri_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:32:33.512452Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:34.74962Z",
+          "description": "当前SlowDuration=2秒，转换为2000毫秒。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速持续时间（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "zeri_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T17:32:34.74962Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:36.008754Z",
+          "description": "当前BeamCastTime约0.85秒，转换为850毫秒。",
+          "fixedValue": 850,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "过墙激光来源延时（毫秒）",
+          "parameterKey": "beam_cast_time_ms",
+          "skillKey": "zeri_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T17:32:36.008754Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:37.15998Z",
+          "description": "当前MinCastTime约0.3秒，转换为300毫秒。",
+          "fixedValue": 300,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "动态施法最低时间（毫秒）",
+          "parameterKey": "min_cast_time_ms",
+          "skillKey": "zeri_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T17:32:37.15998Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:27.744386Z",
+          "description": "DDragon16.17.1 Zeri.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zeri_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:27.744386Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:38.237233Z",
+          "description": "当前攻击速度施法缩短系数约0.09；不建立未证完整动态式。",
+          "fixedValue": 0.09000000357627869,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "攻击速度施法缩短系数",
+          "parameterKey": "attack_speed_cast_time_scalar",
+          "skillKey": "zeri_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T17:32:38.237233Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:39.432251Z",
+          "description": "当前BaseCastTime约0.55秒，转换为550毫秒。",
+          "fixedValue": 550,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "动态施法基础时间（毫秒）",
+          "parameterKey": "base_cast_time_ms",
+          "skillKey": "zeri_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T17:32:39.432251Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:28.220522Z",
+          "description": "DDragon16.17.1 Zeri.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zeri_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:28.220522Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:32:40.584072Z",
+          "description": "为过墙暴击树提供显式单位倍率；不改变当前树数值。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "单位倍率常数",
+          "parameterKey": "one_ratio",
+          "skillKey": "zeri_w",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T17:32:40.584072Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/corki_w/formulas/maximum_magic_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:29:24.460002Z",
+        "description": "当前MaximumDamage是整个路径期间的完整最大量；不再乘MaximumTicks或5。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "maximum_damage_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_attack_damage_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "maximum_magic_damage",
+        "gameId": "lol",
+        "name": "路径驻留期间最大魔法伤害",
+        "skillKey": "corki_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:29:24.460002Z"
+      }
+    },
+    {
+      "route": "/skills/kaisa_e/formulas/total_move_speed_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:30:59.309511Z",
+        "description": "当前TotalMovespeed=基础移动速度×CLAMP(1+实际额外攻击速度,1,2)，保留无默认运行输入。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "move_speed_base_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "move_speed_clamp_lower"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "move_speed_clamp_upper"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "move_speed_clamp_lower"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_bonus_attack_speed_ratio"
+                        }
+                      ],
+                      "operation": "ADD"
+                    }
+                  ],
+                  "operation": "MIN"
+                }
+              ],
+              "operation": "MAX"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "total_move_speed_ratio",
+        "gameId": "lol",
+        "name": "极限超载移动速度比例",
+        "skillKey": "kaisa_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:30:59.309511Z"
+      }
+    },
+    {
+      "route": "/skills/kaisa_e/formulas/total_cast_time_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:31:00.976635Z",
+        "description": "当前TotalCastTime=MAX(600,1200-400×mStat4)毫秒；与移动速度树的mStatFormula2不混用。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "cast_time_min_ms"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "cast_time_base_ms"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "cast_time_attack_speed_coefficient_ms"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_attack_speed_stat"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "SUBTRACT"
+            }
+          ],
+          "operation": "MAX"
+        },
+        "formulaKey": "total_cast_time_ms",
+        "gameId": "lol",
+        "name": "极限超载实际持续时长（毫秒）",
+        "skillKey": "kaisa_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:31:00.976635Z"
+      }
+    },
+    {
+      "route": "/skills/xayah_e/formulas/base_feather_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:31:49.140773Z",
+        "description": "当前FeatherDamage基础树=基础值+0.4×额外攻击力。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_attack_damage_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "base_feather_damage",
+        "gameId": "lol",
+        "name": "单根羽毛未计暴击物理伤害",
+        "skillKey": "xayah_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:31:49.140773Z"
+      }
+    },
+    {
+      "route": "/skills/xayah_e/formulas/critical_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:31:50.259989Z",
+        "description": "当前树为1+0.5×实际暴击几率×（实际暴击倍率-1）；暴击输入无默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "one_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "critical_effectiveness_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_critical_chance_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_critical_damage_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one_ratio"
+                    }
+                  ],
+                  "operation": "SUBTRACT"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "critical_multiplier",
+        "gameId": "lol",
+        "name": "羽毛暴击效能倍率",
+        "skillKey": "xayah_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:31:50.259989Z"
+      }
+    },
+    {
+      "route": "/skills/xayah_e/formulas/feather_damage_before_falloff",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:31:51.48161Z",
+        "description": "先把暴击效能乘完整单根基础，尚未应用同一敌人的逐根衰减。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_attack_damage_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "critical_effectiveness_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_critical_chance_ratio"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_critical_damage_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one_ratio"
+                        }
+                      ],
+                      "operation": "SUBTRACT"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "feather_damage_before_falloff",
+        "gameId": "lol",
+        "name": "单根羽毛暴击后未计序号伤害",
+        "skillKey": "xayah_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:31:51.48161Z"
+      }
+    },
+    {
+      "route": "/skills/xayah_e/formulas/feather_falloff_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:31:52.759082Z",
+        "description": "按序号k计算MAX(0.1,1-0.05×(k-1))；0.1是下限，19根触底不代表19根封顶。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "feather_minimum_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "feather_falloff_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "feather_sequence_index"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one_ratio"
+                        }
+                      ],
+                      "operation": "SUBTRACT"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "SUBTRACT"
+            }
+          ],
+          "operation": "MAX"
+        },
+        "formulaKey": "feather_falloff_multiplier",
+        "gameId": "lol",
+        "name": "同一敌人逐根伤害倍率",
+        "skillKey": "xayah_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:31:52.759082Z"
+      }
+    },
+    {
+      "route": "/skills/xayah_e/formulas/feather_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:31:53.937107Z",
+        "description": "当前正文的完整单根伤害乘暴击效能和同敌人逐根衰减；实际根数聚合由事件层处理。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_attack_damage_ratio"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BONUS",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "critical_effectiveness_ratio"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "actual_critical_chance_ratio"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "actual_critical_damage_ratio"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "one_ratio"
+                            }
+                          ],
+                          "operation": "SUBTRACT"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "feather_minimum_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "feather_falloff_ratio"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "feather_sequence_index"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "one_ratio"
+                            }
+                          ],
+                          "operation": "SUBTRACT"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "SUBTRACT"
+                }
+              ],
+              "operation": "MAX"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "feather_damage",
+        "gameId": "lol",
+        "name": "同一敌人单根最终物理伤害",
+        "skillKey": "xayah_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T17:31:53.937107Z"
+      }
+    },
+    {
+      "route": "/skills/zeri_w/formulas/normal_physical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:32:41.820549Z",
+        "description": "当前TotalDamage=基础值+1.2×总攻击力+0.5×法强。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_attack_damage_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "normal_physical_damage",
+        "gameId": "lol",
+        "name": "强穿激光普通物理伤害",
+        "skillKey": "zeri_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:32:41.820549Z"
+      }
+    },
+    {
+      "route": "/skills/zeri_w/formulas/wall_physical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:32:43.074344Z",
+        "description": "当前WallDamage=普通完整伤害×[1+0.5×(实际暴击倍率-1)]；树中没有暴击几率项。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "total_attack_damage_ratio"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "critical_effectiveness_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_critical_damage_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one_ratio"
+                        }
+                      ],
+                      "operation": "SUBTRACT"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "wall_physical_damage",
+        "gameId": "lol",
+        "name": "过墙激光物理伤害",
+        "skillKey": "zeri_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:32:43.074344Z"
+      }
+    },
+    {
+      "route": "/skills/kaisa_r/effects/self_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:31:09.688911Z",
+        "description": "只定义当前护盾值和2000毫秒生命周期；有电浆敌方英雄附近的跃迁资格与施放时点待接。",
+        "effectKey": "self_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "猎手本能自身护盾",
+        "results": [
+          {
+            "description": "护盾数值来自当前猎手本能计算树；跃迁和有电浆英雄资格由事件层接线。",
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "kaisa_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:31:09.688911Z"
+      }
+    },
+    {
+      "route": "/skills/kaisa_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:31:02.197928Z",
+          "description": "客户端RCalculatedShieldValue树RBaseValue取等级1至3，为100/150/200。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100,
+            "2": 150,
+            "3": 200
+          },
+          "name": "基础护盾值",
+          "parameterKey": "shield_base_value",
+          "skillKey": "kaisa_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:31:02.197928Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:03.391561Z",
+          "description": "当前RCalculatedShieldValue树RTotalADRatio取等级1至3，为0.9/1.35/1.8，取来源总攻击力。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.8999999761581421,
+            "2": 1.350000023841858,
+            "3": 1.7999999523162842
+          },
+          "name": "总攻击力比例",
+          "parameterKey": "total_attack_damage_ratio",
+          "skillKey": "kaisa_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:31:03.391561Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:04.658875Z",
+          "description": "当前RCalculatedShieldValue树RAPRatio约1.2。",
+          "fixedValue": 1.2000000476837158,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度比例",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "kaisa_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:31:04.658875Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:05.890686Z",
+          "description": "当前正文和RShieldDuration=2秒，转换为2000毫秒。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续时间（毫秒）",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "kaisa_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:31:05.890686Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:40.699955Z",
+          "description": "DDragon16.17.1 Kaisa.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 130000,
+            "2": 100000,
+            "3": 70000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kaisa_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:40.699955Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:41.11564Z",
+          "description": "DDragon16.17.1 Kaisa.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kaisa_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:41.11564Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:31:07.151909Z",
+          "description": "当前根spellCastTime；仅保存来源字段，不代表命中、位移或效果事件已接线。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "kaisa_r",
+          "sortOrder": 1000,
+          "updatedAt": "2026-09-09T17:31:07.151909Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "corki_w",
+      "formulaKey": "maximum_magic_damage",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 100,
+        "SOURCE/attack_damage/BONUS": 50
+      },
+      "runtime": {},
+      "actual": 400,
+      "expected": 400,
+      "passed": true
+    },
+    {
+      "skillKey": "corki_w",
+      "formulaKey": "maximum_magic_damage",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 200,
+        "SOURCE/attack_damage/BONUS": 120
+      },
+      "runtime": {},
+      "actual": 990,
+      "expected": 990,
+      "passed": true
+    },
+    {
+      "skillKey": "kaisa_e",
+      "formulaKey": "total_move_speed_ratio",
+      "skillLevel": 1,
+      "attrs": {},
+      "runtime": {
+        "actual_bonus_attack_speed_ratio": 0.2,
+        "actual_attack_speed_stat": 0.5
+      },
+      "actual": 0.6600000143051147,
+      "expected": 0.66,
+      "passed": true
+    },
+    {
+      "skillKey": "kaisa_e",
+      "formulaKey": "total_cast_time_ms",
+      "skillLevel": 1,
+      "attrs": {},
+      "runtime": {
+        "actual_bonus_attack_speed_ratio": 0.2,
+        "actual_attack_speed_stat": 0.5
+      },
+      "actual": 1000,
+      "expected": 1000,
+      "passed": true
+    },
+    {
+      "skillKey": "kaisa_e",
+      "formulaKey": "total_move_speed_ratio",
+      "skillLevel": 5,
+      "attrs": {},
+      "runtime": {
+        "actual_bonus_attack_speed_ratio": 3,
+        "actual_attack_speed_stat": 2
+      },
+      "actual": 1.5,
+      "expected": 1.5,
+      "passed": true
+    },
+    {
+      "skillKey": "kaisa_e",
+      "formulaKey": "total_cast_time_ms",
+      "skillLevel": 5,
+      "attrs": {},
+      "runtime": {
+        "actual_bonus_attack_speed_ratio": 3,
+        "actual_attack_speed_stat": 2
+      },
+      "actual": 600,
+      "expected": 600,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "base_feather_damage",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 50
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.25,
+        "actual_critical_damage_ratio": 1.75,
+        "feather_sequence_index": 1
+      },
+      "actual": 70.00000029802322,
+      "expected": 70,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "critical_multiplier",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 50
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.25,
+        "actual_critical_damage_ratio": 1.75,
+        "feather_sequence_index": 1
+      },
+      "actual": 1.09375,
+      "expected": 1.09375,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "feather_damage_before_falloff",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 50
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.25,
+        "actual_critical_damage_ratio": 1.75,
+        "feather_sequence_index": 1
+      },
+      "actual": 76.5625003259629,
+      "expected": 76.5625,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "feather_falloff_multiplier",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 50
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.25,
+        "actual_critical_damage_ratio": 1.75,
+        "feather_sequence_index": 1
+      },
+      "actual": 1,
+      "expected": 1,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "feather_damage",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 50
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.25,
+        "actual_critical_damage_ratio": 1.75,
+        "feather_sequence_index": 1
+      },
+      "actual": 76.5625003259629,
+      "expected": 76.5625,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "base_feather_damage",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 120
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.8,
+        "actual_critical_damage_ratio": 2.25,
+        "feather_sequence_index": 20
+      },
+      "actual": 158.00000071525574,
+      "expected": 158,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "critical_multiplier",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 120
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.8,
+        "actual_critical_damage_ratio": 2.25,
+        "feather_sequence_index": 20
+      },
+      "actual": 1.5,
+      "expected": 1.5,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "feather_damage_before_falloff",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 120
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.8,
+        "actual_critical_damage_ratio": 2.25,
+        "feather_sequence_index": 20
+      },
+      "actual": 237.0000010728836,
+      "expected": 237,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "feather_falloff_multiplier",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 120
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.8,
+        "actual_critical_damage_ratio": 2.25,
+        "feather_sequence_index": 20
+      },
+      "actual": 0.1,
+      "expected": 0.1,
+      "passed": true
+    },
+    {
+      "skillKey": "xayah_e",
+      "formulaKey": "feather_damage",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 120
+      },
+      "runtime": {
+        "actual_critical_chance_ratio": 0.8,
+        "actual_critical_damage_ratio": 2.25,
+        "feather_sequence_index": 20
+      },
+      "actual": 23.70000010728836,
+      "expected": 23.7,
+      "passed": true
+    },
+    {
+      "skillKey": "zeri_w",
+      "formulaKey": "normal_physical_damage",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/attack_damage/TOTAL": 100,
+        "SOURCE/ability_power/TOTAL": 100
+      },
+      "runtime": {
+        "actual_critical_damage_ratio": 1.75
+      },
+      "actual": 200.00000476837158,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "zeri_w",
+      "formulaKey": "wall_physical_damage",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/attack_damage/TOTAL": 100,
+        "SOURCE/ability_power/TOTAL": 100
+      },
+      "runtime": {
+        "actual_critical_damage_ratio": 1.75
+      },
+      "actual": 275.0000065565109,
+      "expected": 275,
+      "passed": true
+    },
+    {
+      "skillKey": "zeri_w",
+      "formulaKey": "normal_physical_damage",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/attack_damage/TOTAL": 260,
+        "SOURCE/ability_power/TOTAL": 200
+      },
+      "runtime": {
+        "actual_critical_damage_ratio": 2.25
+      },
+      "actual": 602.0000123977661,
+      "expected": 602,
+      "passed": true
+    },
+    {
+      "skillKey": "zeri_w",
+      "formulaKey": "wall_physical_damage",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/attack_damage/TOTAL": 260,
+        "SOURCE/ability_power/TOTAL": 200
+      },
+      "runtime": {
+        "actual_critical_damage_ratio": 2.25
+      },
+      "actual": 978.2500201463699,
+      "expected": 978.25,
+      "passed": true
+    }
+  ],
+  "apiWrites": 0,
+  "notes": [
+    "部分原始客户端小数保留浮点尾差，页面会显示0.55000001等值；核算使用有界容差，统一录入归整列后续体验改进。"
+  ],
+  "runtimeValidation": "未执行",
+  "scriptSha256": "6133d0fac52f842ccf6587369cc64693066fb309c37270a212c3fe23986f3cb1"
+}

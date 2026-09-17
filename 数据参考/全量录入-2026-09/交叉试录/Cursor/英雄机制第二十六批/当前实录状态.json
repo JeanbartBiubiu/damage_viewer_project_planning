@@ -1,0 +1,89 @@
+{
+  "at": "2026-09-09T16:20:08.909Z",
+  "skills": [
+    "alistar_p",
+    "alistar_q",
+    "alistar_w",
+    "alistar_e",
+    "alistar_r",
+    "blitzcrank_p",
+    "blitzcrank_q",
+    "blitzcrank_w",
+    "blitzcrank_e",
+    "blitzcrank_r"
+  ],
+  "status": "明确组成已保存并完成独立回读、实际公式核算和代表页面；未知资源基准与事件接线继续处理",
+  "counts": {
+    "parameters": 70,
+    "formulas": 10,
+    "effects": 11,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 57,
+    "formulas": 10,
+    "effects": 11
+  },
+  "reusedParameters": 13,
+  "businessWrites": 78,
+  "candidateFileSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "writePlanSha256": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+  "execution": {
+    "file": "修订一/实际写入/2026-09-09T15-55-31-844Z/执行结果.json",
+    "GETs": 514,
+    "successfulPOSTs": 78,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "修订一/独立回读/2026-09-09T15-58-17-510Z/执行结果.json",
+    "GETs": 179,
+    "protectedPaths": 101,
+    "details": 91,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "修订一/实际GET数学/2026-09-09T16-06-30-901Z/实际GET数学.json",
+    "actualFormulas": 10,
+    "formulaCases": 20,
+    "missingInputChecks": 10,
+    "boundaryChecks": 10,
+    "sourceSeriesChecks": 3,
+    "additionalNetworkCalls": 78,
+    "passed": true
+  },
+  "browser": {
+    "file": "修订一/页面验收.json",
+    "representativePages": 3,
+    "GETs": 14,
+    "mathCases": 7,
+    "passed": true
+  },
+  "hashes": {
+    "修订一/完整候选.json": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+    "修订一/写前请求计划.json": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+    "修订一/受保护写入器.mjs": "379ca88bb7f9d0a800097c081a167051b9729c836da9868c4a350bd90eeab206",
+    "修订一/独立全量回读.mjs": "af6d3abe5b09676e5dacfa5e132bea881fc5d7f14bcc06e81a2328e69d211ad8",
+    "修订一/实际GET读后数学.mjs": "34cf7aa0203c217aa89a3b949a631279001ca2398584e661aa1bcdf134b7a795",
+    "修订一/实际写入/2026-09-09T15-55-31-844Z/执行结果.json": "5cb217262a94465978b5119e555869eadbb3f276d2a47461b4c6e14263266ebc",
+    "修订一/独立回读/2026-09-09T15-58-17-510Z/执行结果.json": "078b06b3117e8cefc5ae61fcdf8f6f54d447f00ef6e803652727a0cd95741cec",
+    "修订一/实际GET数学/2026-09-09T16-06-30-901Z/实际GET数学.json": "767bb73b806c38e3a171dcb40412c13207f4eeebc25b18a75497d389a6aa2e1c",
+    "修订一/页面验收.json": "9932e3bfc7f39c05dc3da47e5471ea8a100b57f9b4f3192ff0a347e24dea1145"
+  },
+  "issues": [
+    "布里茨W移速在2.5秒衰减到下限，不能把起始值做成固定5秒效果；5秒攻速与之后1.5秒减速分别保留。",
+    "布里茨E客户端冷却从索引1读取，实际等级值为7000/6500/6000/5500/5000毫秒；初始错位候选在保存前修订。",
+    "布里茨E公式是整次强化攻击总量，不再额外重复完整普攻。",
+    "页面补核脚本最初预期了错误属性键，实际目录为bonus_attack_speed_percent和move_speed_percent，均1代表100%；仅修正补核脚本。",
+    "实际数学原始浮点比较的失败记录保留，最终采用显式容差并重新核对实际GET。",
+    "Cursor本批运行因连接错误未产出来源结论，完整失败审计保留；本批来源复核由主负责人接手，Luna Max生成候选并独立回读。"
+  ],
+  "pending": [
+    "布里茨被动与R的资源取值阶段、阿利斯塔E强化攻击等级曲线尚未补齐，不默认最大资源或猜等级数组。",
+    "技能施放、命中、状态、延迟及减速起算事件仍需后续接线。"
+  ],
+  "runtimeValidation": "未执行"
+}

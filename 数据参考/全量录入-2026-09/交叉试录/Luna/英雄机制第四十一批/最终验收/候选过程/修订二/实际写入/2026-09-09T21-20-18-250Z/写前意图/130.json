@@ -1,0 +1,23 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "method": "POST",
+    "route": "/skills/renata_p/parameters",
+    "detailRoute": "/skills/renata_p/parameters/self_amp_base_at_character_level",
+    "skillKey": "renata_p",
+    "kind": "parameters",
+    "stableKey": "self_amp_base_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_amp_base_at_character_level",
+      "name": "自身标记伤害角色等级基础比例（实际值外供）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "原树1级0.01、6/9级断点，但完整求值算法未证；实际输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}

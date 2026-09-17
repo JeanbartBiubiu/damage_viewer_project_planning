@@ -1,0 +1,30 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/parameters",
+    "detailRoute": "/skills/belveth_e/parameters/life_steal_ratio",
+    "skillKey": "belveth_e",
+    "kind": "parameters",
+    "stableKey": "life_steal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "life_steal_ratio",
+      "name": "额外生命偷取比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.200000003,
+        "2": 0.25,
+        "3": 0.300000012,
+        "4": 0.349999994,
+        "5": 0.400000006
+      },
+      "description": "生命偷取20%/25%/30%/35%/40%，比例单位。",
+      "sortOrder": 70
+    }
+  }
+}

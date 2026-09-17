@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:19.627Z",
+  "method": "POST",
+  "skillKey": "ekko_p",
+  "kind": "parameters",
+  "stableKey": "ap_ratio",
+  "route": "/skills/ekko_p/parameters",
+  "readRoute": "/skills/ekko_p/parameters/ap_ratio",
+  "body": {
+    "parameterKey": "ap_ratio",
+    "name": "三次命中法强倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.8,
+    "levelValues": null,
+    "description": "ThreeHitDamage 第二项 StatByCoefficientCalculationPart mCoefficient 原始 0.800000011920929，按明确设计值归一为0.8。省略 mStat/mStatFormula，按同版本窄口径映射来源总法强。",
+    "sortOrder": 50
+  }
+}

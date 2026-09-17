@@ -1,0 +1,45 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "method": "POST",
+    "route": "/skills/aurora_q/formulas",
+    "detailRoute": "/skills/aurora_q/formulas/first_magic_damage",
+    "skillKey": "aurora_q",
+    "kind": "formulas",
+    "stableKey": "first_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "first_magic_damage",
+      "name": "飞去来咒首次单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Damage=BaseDamage+0.4×来源法强。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 103,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/empowered_attack_count",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_count",
+      "name": "撼地强化攻击次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文明确接下来的3次攻击获得强化；只保存次数，不创建攻击事件。",
+      "sortOrder": 60
+    }
+  }
+}

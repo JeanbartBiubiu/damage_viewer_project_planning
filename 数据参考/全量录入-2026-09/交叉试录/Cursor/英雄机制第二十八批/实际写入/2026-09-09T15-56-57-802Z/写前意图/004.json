@@ -1,0 +1,32 @@
+{
+  "i": 3,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_p/formulas",
+    "skillKey": "maokai_p",
+    "kind": "formulas",
+    "stableKey": "healing_total",
+    "body": {
+      "formulaKey": "healing_total",
+      "name": "吸元秘术自身治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_passive_heal_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "PassiveHealingTotal按实际角色等级比例乘来源总生命值；比例是无默认实际输入。",
+      "sortOrder": 10
+    }
+  }
+}

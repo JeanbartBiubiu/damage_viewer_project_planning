@@ -1,0 +1,35 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 109,
+    "method": "POST",
+    "route": "/skills/taric_w/formulas",
+    "detailRoute": "/skills/taric_w/formulas/self_shield_value",
+    "skillKey": "taric_w",
+    "kind": "formulas",
+    "stableKey": "self_shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_shield_value",
+      "name": "坚毅壁垒自身护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_shield_hp_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前正文护盾值为7/8/9/10/11%最大生命；只保留自身数值候选。",
+      "sortOrder": 20
+    }
+  }
+}

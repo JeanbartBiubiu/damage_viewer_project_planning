@@ -1,0 +1,45 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 90,
+    "method": "POST",
+    "route": "/skills/leblanc_r/formulas",
+    "detailRoute": "/skills/leblanc_r/formulas/replicated_w_damage",
+    "skillKey": "leblanc_r",
+    "kind": "formulas",
+    "stableKey": "replicated_w_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "replicated_w_damage",
+      "name": "故技重施复制W魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "rw_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "rw_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "RWDamage = RWBase + 0.9×来源总法强。",
+      "sortOrder": 30
+    }
+  }
+}

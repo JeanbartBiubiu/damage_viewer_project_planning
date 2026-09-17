@@ -1,0 +1,46 @@
+{
+  "sequence": 55,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 55,
+    "method": "POST",
+    "route": "/skills/blitzcrank_w/parameters",
+    "detailRoute": "/skills/blitzcrank_w/parameters/cooldown_ms",
+    "skillKey": "blitzcrank_w",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "过载运转冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15000,
+        "2": 15000,
+        "3": 15000,
+        "4": 15000,
+        "5": 15000
+      },
+      "description": "当前绑定cooldownTime各等级为15秒，转换为15000毫秒；当前槽只有mana_cost，故新增冷却参数。",
+      "sortOrder": 90
+    }
+  },
+  "before": {
+    "sequence": 342,
+    "method": "GET",
+    "route": "/skills/blitzcrank_w/parameters/cooldown_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "cooldown_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:44.391Z"
+  }
+}

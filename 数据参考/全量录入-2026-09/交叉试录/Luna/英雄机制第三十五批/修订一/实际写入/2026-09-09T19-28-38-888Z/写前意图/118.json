@@ -1,0 +1,23 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 117,
+    "method": "POST",
+    "route": "/skills/taric_r/parameters",
+    "detailRoute": "/skills/taric_r/parameters/initial_delay_ms",
+    "skillKey": "taric_r",
+    "kind": "parameters",
+    "stableKey": "initial_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_delay_ms",
+      "name": "宇宙之辉初始延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "客户端InitialDelay=2.5秒；转换为2500毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T10:37:05.066Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/karthus_q/parameters/actual_target_count",
+  "id": "actual_target_count",
+  "method": "POST",
+  "body": {
+    "parameterKey": "actual_target_count",
+    "name": "本次荒芜命中的实际目标数量（实际值外供）",
+    "valueType": "INTEGER",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "必须由当前命中事件提供；只有数量严格为1才能选择双倍分支，不默认单一目标。",
+    "sortOrder": 50
+  }
+}

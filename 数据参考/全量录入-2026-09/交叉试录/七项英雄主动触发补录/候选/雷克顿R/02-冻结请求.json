@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T04:02:13.936Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "71407e6b0c03f92016b4ac3b9d612116c100e05c1a15eab3674b4be92d463ae8",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "renekton",
+      "method": "POST",
+      "route": "/skills/renekton_r/trigger-rules",
+      "detailRoute": "/skills/renekton_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "aff9bbe31a2de468031db007e08e3f48f7ae544cd80ed9e61d87d2698744ea79",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "终极统治主动使用",
+        "description": "接收 renekton_r 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程统一处理基础冷却和 dominance_health。当前生命随最大生命变更、施放怒气、周期怒气与范围伤害留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "renekton_r"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动终极统治施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "当前生命随最大生命变更",
+    "施放及周期怒气",
+    "周期范围伤害"
+  ]
+}

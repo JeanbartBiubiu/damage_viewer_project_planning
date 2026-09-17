@@ -1,0 +1,45 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/akshan_p/formulas",
+    "detailRoute": "/skills/akshan_p/formulas/passive_proc_magic_damage",
+    "skillKey": "akshan_p",
+    "kind": "formulas",
+    "stableKey": "passive_proc_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_proc_magic_damage",
+      "name": "三次命中额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_proc_base_damage_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_proc_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前PassiveProcDamage=角色等级断点基础值+APRatio×来源总法术强度；断点基础值由运行层提供。",
+      "sortOrder": 20
+    }
+  }
+}

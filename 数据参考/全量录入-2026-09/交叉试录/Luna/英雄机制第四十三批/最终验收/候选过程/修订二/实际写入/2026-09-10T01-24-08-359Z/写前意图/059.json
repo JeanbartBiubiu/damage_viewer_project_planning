@@ -1,0 +1,34 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_p/formulas",
+    "detailRoute": "/skills/kindred_p/formulas/e_mark_missing_health_damage_ratio",
+    "skillKey": "kindred_p",
+    "kind": "formulas",
+    "stableKey": "e_mark_missing_health_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "e_mark_missing_health_damage_ratio",
+      "name": "千珏之印对E的已损生命伤害加成",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mark_count"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "e_missing_health_per_mark_ratio"
+          }
+        ]
+      },
+      "description": "E每层印记增加0.005比例。",
+      "sortOrder": 50
+    }
+  }
+}

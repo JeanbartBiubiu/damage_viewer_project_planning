@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-09-10T02:05:00+08:00",
+  "scope": "英雄机制第三十一批修订三璐璐W减速量单位核对",
+  "conclusion": "无新增阻塞；修订三是最小且有来源依据的替换方案，候选计数保持120参数、35公式、23效果。",
+  "evidence": {
+    "sourceRange": ".agents/artifacts/hero31-root-entry-20260909/来源与范围.json",
+    "sourceRangeSha256": "27f83bd55ed75570921c2482b03a60e336a6df442531fb60bad149557d2c6d47",
+    "skill": "lulu_w",
+    "sourceDataValue": "SlowAmount",
+    "sourceValues": [-60, -60, -60, -60, -60, -60, -60],
+    "currentTextEvidence": "绑定资料记录当前正文使用SlowAmount乘以-1显示60，且没有百分号。",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1"
+  },
+  "revision2Check": {
+    "candidate": ".agents/artifacts/hero31-luna-candidate/修订二/完整候选.json",
+    "candidateSha256": "fed901ff7819c5a2bd1e5238936c7cf1a6916af8116be2bc776e9ade93d256c0",
+    "luluWParameter": "slow_percent_points",
+    "value": -60,
+    "formulaReferences": 0,
+    "effectReferences": 0,
+    "meaning": "旧名只在璐璐W参数定义中出现，未被本技能公式或效果消费；其它技能同名参数属于各自来源，不作为本次替换依据。"
+  },
+  "revision3Check": {
+    "candidate": ".agents/artifacts/hero31-luna-candidate/修订三/完整候选.json",
+    "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+    "replacementParameter": "polymorph_slow_amount",
+    "value": -60,
+    "name": "变形减速原始量",
+    "descriptionRule": "保留有符号原始量；不除以100，不把它命名为百分数点，不创建控制结果。",
+    "candidateCount": {"parameters": 120, "formulas": 35, "effects": 23}
+  },
+  "minimumChange": [
+    "先按修订三计划新增lulu_w/parameters/polymorph_slow_amount。",
+    "确认新详情后删除已落库的lulu_w/parameters/slow_percent_points。",
+    "复查璐璐W六类列表及新旧详情；其它技能的slow_percent_points保持原样。"
+  ],
+  "businessWritesByThisReview": 0,
+  "status": "READY"
+}

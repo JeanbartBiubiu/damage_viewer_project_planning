@@ -1,0 +1,23 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 90,
+    "method": "POST",
+    "route": "/skills/taric_p/parameters",
+    "detailRoute": "/skills/taric_p/parameters/actual_cooldown_multiplier",
+    "skillKey": "taric_p",
+    "kind": "parameters",
+    "stableKey": "actual_cooldown_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_cooldown_multiplier",
+      "name": "基础技能实际冷却倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前CDR树消费CooldownMultiplierCalculationPart；实际倍率由运行输入提供，不默认1或0.5。",
+      "sortOrder": 80
+    }
+  }
+}

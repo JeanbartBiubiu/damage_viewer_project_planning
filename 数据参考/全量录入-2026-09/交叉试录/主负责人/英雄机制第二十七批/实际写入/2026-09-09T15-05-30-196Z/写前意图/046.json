@@ -1,0 +1,30 @@
+{
+  "i": 45,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_p/formulas",
+    "skillKey": "hecarim_p",
+    "kind": "formulas",
+    "stableKey": "bonus_attack_damage",
+    "body": {
+      "formulaKey": "bonus_attack_damage",
+      "name": "征战之路额外攻击力",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_bonus_move_speed"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_to_ad_ratio"
+          }
+        ]
+      },
+      "description": "实际额外移动速度×实际等级倍率；两个输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}

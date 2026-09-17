@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:11.506Z",
+  "method": "POST",
+  "skillKey": "ekko_r",
+  "kind": "parameters",
+  "stableKey": "rewind_window_ms",
+  "route": "/skills/ekko_r/parameters",
+  "readRoute": "/skills/ekko_r/parameters/rewind_window_ms",
+  "body": {
+    "parameterKey": "rewind_window_ms",
+    "name": "回溯时间窗（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 4000,
+    "levelValues": null,
+    "description": "当前根正文写「4秒前」和「最近4秒」，不是 DataValues。只记录时间窗长度。",
+    "sortOrder": 80
+  }
+}

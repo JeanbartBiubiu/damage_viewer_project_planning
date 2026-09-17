@@ -1,0 +1,68 @@
+{
+  "i": 213,
+  "intent": {
+    "sequence": 214,
+    "method": "POST",
+    "route": "/skills/twistedfate_e/effects",
+    "detailRoute": "/skills/twistedfate_e/effects/permanent_attack_speed",
+    "skillKey": "twistedfate_e",
+    "kind": "effects",
+    "stableKey": "permanent_attack_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "permanent_attack_speed",
+      "name": "卡牌骗术自身永久攻击速度",
+      "description": "当前正文明确永久攻击速度增益；不创建临时持续时间或自动攻击事件。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "卡牌骗术自身永久攻击速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只定义来源明确的自身属性变化；触发事件由后续事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_bonus_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

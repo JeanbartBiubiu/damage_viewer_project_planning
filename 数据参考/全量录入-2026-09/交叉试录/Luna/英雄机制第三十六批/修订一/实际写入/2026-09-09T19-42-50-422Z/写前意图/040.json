@@ -1,0 +1,23 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/evelynn_r/parameters",
+    "detailRoute": "/skills/evelynn_r/parameters/passive_reset_ms",
+    "skillKey": "evelynn_r",
+    "kind": "parameters",
+    "stableKey": "passive_reset_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_reset_ms",
+      "name": "施放后被动刷新延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1250,
+      "levelValues": null,
+      "description": "客户端PassiveReset=1.25秒，转换为1250毫秒；事件未接线。",
+      "sortOrder": 50
+    }
+  }
+}

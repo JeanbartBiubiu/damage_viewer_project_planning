@@ -1,0 +1,23 @@
+{
+  "i": 183,
+  "intent": {
+    "sequence": 184,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/pre_mitigation_heal_ratio",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "pre_mitigation_heal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "pre_mitigation_heal_ratio",
+      "name": "猩红诅咒折前伤害治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前正文明确按流血折前伤害的25%治疗；与W已造成伤害治疗分开。",
+      "sortOrder": 40
+    }
+  }
+}

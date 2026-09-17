@@ -1,0 +1,4924 @@
+{
+  "at": "2026-09-09T11:55:47.718Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "stringTableSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "heroes": [
+    {
+      "id": "Ekko",
+      "key": "champion_ekko",
+      "name": "艾克",
+      "source": {
+        "championId": "Ekko",
+        "chineseName": "时间刺客",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Ekko.json.gz",
+          "sha256": "9da31115db46bcf162a739b3dfa1c59ef74838ae6761354bed91cde1a5331a75",
+          "compressedSha256": "e50f8ab582c64f907e11794984e71739696c30488a36226c88e3d3e19b3b50bc",
+          "byteSize": 64623,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ekko/ekko.bin.json",
+          "fetchedAt": "2026-09-06T14:26:16.534Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Ekko.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ekko.json",
+          "fetchedAt": "2026-09-06T14:12:46.269Z",
+          "byteSize": 14892,
+          "sha256": "6aa103ae5915b298061ef9ba0428ba467cd08fc8bf5f0679bbd4df50ad38bdd8"
+        },
+        "rootPath": "Characters/Ekko/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "Z型驱动共振",
+            "clientPath": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": null,
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "ModesMultiplier",
+              "MonsterMod",
+              "LockoutTime"
+            ],
+            "calculationNames": [
+              "BonusMS",
+              "ThreeHitDamage",
+              "SpeedDuration"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "EkkoQ",
+            "name": "时间卷曲器",
+            "clientPath": "Characters/Ekko/Spells/EkkoQAbility/EkkoQ",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              9,
+              8.5,
+              8,
+              7.5,
+              7
+            ],
+            "cost": [
+              50,
+              60,
+              70,
+              80,
+              90
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              9.5,
+              9,
+              8.5,
+              8,
+              7.5,
+              7,
+              7
+            ],
+            "clientMana": [
+              50,
+              60,
+              70,
+              80,
+              90,
+              100
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "OutgoingDamage",
+              "ReturnDamage",
+              "SlowPercent",
+              "SlowAPRatio",
+              "SlowZoneRadius",
+              "ExpandDuration"
+            ],
+            "calculationNames": [
+              "InitialDamage",
+              "RecallDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "EkkoW",
+            "name": "时光交错",
+            "clientPath": "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              22,
+              20,
+              18,
+              16,
+              14
+            ],
+            "cost": [
+              30,
+              35,
+              40,
+              45,
+              50
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              24,
+              22,
+              20,
+              18,
+              16,
+              14,
+              14
+            ],
+            "clientMana": [
+              30,
+              35,
+              40,
+              45,
+              50,
+              50
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseOnHitDamage",
+              "BelowHealthThreshold",
+              "OnHitMinMinionDamage",
+              "OnHitMaxMinionDamage",
+              "AoERadius",
+              "StunDuration",
+              "ShieldBase",
+              "SlowZoneDuration",
+              "DelayBeforeDetonation",
+              "DelayBeforeEnemyCanSee",
+              "SlowPercent"
+            ],
+            "calculationNames": [
+              "MissingHealthPercent",
+              "TotalShield",
+              "{79b6144b}"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "EkkoE",
+            "name": "相位俯冲",
+            "clientPath": "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              9,
+              8.5,
+              8,
+              7.5,
+              7
+            ],
+            "cost": [
+              40,
+              45,
+              50,
+              55,
+              60
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              9.5,
+              9,
+              8.5,
+              8,
+              7.5,
+              7,
+              7
+            ],
+            "clientMana": [
+              40,
+              45,
+              50,
+              55,
+              60,
+              60
+            ],
+            "clientCastTime": null,
+            "dataValueNames": [
+              "BaseDamage",
+              "DashDistance",
+              "BuffDuration",
+              "AttackRangeIncrease"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "EkkoR",
+            "name": "时空断裂",
+            "clientPath": "Characters/Ekko/Spells/EkkoRAbility/EkkoR",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              110,
+              80,
+              50
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              110,
+              110,
+              80,
+              50,
+              50,
+              50,
+              50
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "clientCastTime": null,
+            "dataValueNames": [
+              "Damage",
+              "FlatHeal",
+              "AoERadius",
+              "PercentHealAmpPerPercentMissingHealth"
+            ],
+            "calculationNames": [
+              "TotalDamage",
+              "TotalBaseHeal"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Ekko/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+        "spells": [
+          "Characters/Ekko/Spells/EkkoQAbility/EkkoQ",
+          "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+          "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+          "Characters/Ekko/Spells/EkkoRAbility/EkkoR"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "ekko_p",
+          "binding": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+          "object": {
+            "ObjectName": "EkkoPassive",
+            "objectPath": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+            "mScriptName": "EkkoPassive",
+            "mSpell": {
+              "mEffectAmount": [
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "ModesMultiplier",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MonsterMod",
+                  "values": [
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716,
+                    2.700000047683716
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "LockoutTime",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "ModesMultiplier",
+                      "values": [
+                        1.100000023841858,
+                        1.100000023841858,
+                        1.100000023841858,
+                        1.100000023841858,
+                        1.100000023841858,
+                        1.100000023841858,
+                        1.100000023841858
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "BonusMS": {
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 0.5,
+                      "mBreakpoints": [
+                        {
+                          "mLevel": 6,
+                          "mAdditionalBonusAtThisLevel": 0.10000000149011612,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 11,
+                          "mAdditionalBonusAtThisLevel": 0.10000000149011612,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 16,
+                          "mAdditionalBonusAtThisLevel": 0.10000000149011612,
+                          "__type": "Breakpoint"
+                        }
+                      ],
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "__type": "GameCalculation"
+                },
+                "ThreeHitDamage": {
+                  "mMultiplier": {
+                    "mDataValue": "ModesMultiplier",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 30,
+                      "mInitialBonusPerLevel": 10,
+                      "mBreakpoints": [
+                        {
+                          "mLevel": 7,
+                          "mBonusPerLevelAtAndAfter": 5,
+                          "__type": "Breakpoint"
+                        }
+                      ],
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.800000011920929,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "SpeedDuration": {
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 2,
+                      "mBreakpoints": [
+                        {
+                          "mLevel": 6,
+                          "mAdditionalBonusAtThisLevel": 0.5,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 11,
+                          "mAdditionalBonusAtThisLevel": 0.5,
+                          "__type": "Breakpoint"
+                        }
+                      ],
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "mPrecision": 1,
+                  "__type": "GameCalculation"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/Ekko/HUD/Icons2D/Ekko_P.dds"
+              ],
+              "castRange": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "castRangeValues": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "EkkoPassive",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyName": "game_character_passiveName_Ekko",
+                    "keyTooltip": "Spell_EkkoPassive_Tooltip",
+                    "keySummary": "Spell_EkkoPassive_Summary",
+                    "keyTooltipExtended": "Spell_EkkoPassive_TooltipExtended"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_EkkoPassive",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "__type": "GameCalculation"
+              },
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "game_character_passiveName_Ekko",
+              "text": "Z型驱动共振"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_EkkoPassive_Tooltip",
+              "text": "对相同目标的每第三次攻击或伤害型技能都会造成额外<magicDamage>@ThreeHitDamage@魔法伤害</magicDamage>。如果目标是一个英雄，那么艾克还会获得持续@SpeedDuration@秒的<speed>@BonusMS@移动速度</speed>。这个特效每@LockoutTime@秒只能对相同目标生效一次。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_EkkoPassive_Summary",
+              "text": "每当艾克对相同目标施放第三次普攻或伤害性技能时，都会造成额外魔法伤害，并且如果目标是英雄，那么艾克还会获得爆发性的移动速度加成。<br><br>"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_EkkoPassive_TooltipExtended",
+              "text": "{{Spell_EkkoPassive_Tooltip}}<br><br><rules>这个效果对野怪造成@MonsterMod*100@%伤害。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "ekko_q",
+          "binding": "Characters/Ekko/Spells/EkkoQAbility/EkkoQ",
+          "object": {
+            "ObjectName": "EkkoQ",
+            "objectPath": "Characters/Ekko/Spells/EkkoQAbility/EkkoQ",
+            "mScriptName": "EkkoQ",
+            "mSpell": {
+              "mAffectsTypeFlags": 13327,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_SignatureSpell",
+                "Trait_Ranged_Piercing",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    55,
+                    70,
+                    85,
+                    100,
+                    115,
+                    130,
+                    145
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    -0.25,
+                    -0.4000000059604645,
+                    -0.44999998807907104,
+                    -0.5,
+                    -0.550000011920929,
+                    -0.6000000238418579,
+                    -0.6700000166893005
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    15,
+                    40,
+                    65,
+                    90,
+                    115,
+                    140,
+                    165
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    100,
+                    100,
+                    100,
+                    100,
+                    100,
+                    100,
+                    100
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    165,
+                    165,
+                    165,
+                    165,
+                    165,
+                    165,
+                    165
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1.75,
+                    1.75,
+                    1.75,
+                    1.75,
+                    1.75,
+                    1.75,
+                    1.75
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "OutgoingDamage",
+                  "values": [
+                    65,
+                    80,
+                    95,
+                    110,
+                    125,
+                    140,
+                    155
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ReturnDamage",
+                  "values": [
+                    15,
+                    40,
+                    65,
+                    90,
+                    115,
+                    140,
+                    165
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowPercent",
+                  "values": [
+                    -0.25,
+                    -0.4000000059604645,
+                    -0.44999998807907104,
+                    -0.5,
+                    -0.550000011920929,
+                    -0.6000000238418579,
+                    -0.6700000166893005
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowAPRatio",
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowZoneRadius",
+                  "values": [
+                    165,
+                    165,
+                    165,
+                    165,
+                    165,
+                    165,
+                    165
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ExpandDuration",
+                  "values": [
+                    1.75,
+                    1.75,
+                    1.75,
+                    1.75,
+                    1.75,
+                    1.75,
+                    1.75
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "OutgoingDamage",
+                      "values": [
+                        75,
+                        90,
+                        105,
+                        120,
+                        135,
+                        150,
+                        165
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "ReturnDamage",
+                      "values": [
+                        25,
+                        50,
+                        75,
+                        100,
+                        125,
+                        150,
+                        175
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "InitialDamage": {
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "OutgoingDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.30000001192092896,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "RecallDamage": {
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "ReturnDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.6000000238418579,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.30000001192092896,
+              "mCoefficient2": 0.6000000238418579,
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Ekko/HUD/Icons2D/Ekko_Q.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                9.5,
+                9,
+                8.5,
+                8,
+                7.5,
+                7,
+                7
+              ],
+              "Cooldown": {
+                "values": [
+                  9.5,
+                  9,
+                  8.5,
+                  8,
+                  7.5,
+                  7,
+                  7
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mSpellRevealsChampion": false,
+              "useAnimatorFramerate": true,
+              "castRange": [
+                10000,
+                10000,
+                10000,
+                10000,
+                10000,
+                10000,
+                10000
+              ],
+              "castRangeValues": {
+                "values": [
+                  10000,
+                  10000,
+                  10000,
+                  10000,
+                  10000,
+                  10000,
+                  10000
+                ],
+                "{0a3e0478}": 10000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                1075,
+                1075,
+                1075,
+                1075,
+                1075,
+                1075,
+                1075
+              ],
+              "castRadius": [
+                210,
+                210,
+                210,
+                210,
+                210,
+                210,
+                210
+              ],
+              "castConeDistance": 100,
+              "castFrame": 1.9800000190734863,
+              "missileSpeed": 1200,
+              "mLineWidth": 60,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                50,
+                60,
+                70,
+                80,
+                90,
+                100
+              ],
+              "manaValues": {
+                "values": [
+                  50,
+                  60,
+                  70,
+                  80,
+                  90,
+                  100
+                ],
+                "{0a3e0478}": 50,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 2,
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "EkkoQ",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_EkkoQ_Name",
+                    "keySummary": "Spell_EkkoQ_Summary",
+                    "keyTooltip": "Spell_EkkoQ_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "OutgoingDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_OutgoingDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "SlowPercent",
+                          "multiplier": -100,
+                          "nameOverride": "Spell_ListType_Slow",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "ReturnDamage",
+                          "typeIndex": 3,
+                          "nameOverride": "Spell_ListType_ReturnDamage",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "startLocator": {
+                      "orientationType": 1,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "fallbackDirection": 3,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        160,
+                        160,
+                        160,
+                        160,
+                        160,
+                        160
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        1100,
+                        1100,
+                        1100,
+                        1100,
+                        1100,
+                        1100
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureBaseOverrideName": "assets/characters/ekko/hud/textures/ekko_base_q_ui.tex",
+                    "textureTargetOverrideName": "assets/characters/ekko/hud/textures/ekko_base_q_tip_ui.tex",
+                    "__type": "TargeterDefinitionLine"
+                  },
+                  {
+                    "hideWithLineIndicator": true,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSubparts": [
+                      {
+                        "mSpellCalculationKey": "InitialDamage",
+                        "__type": "{f3cbe7b2}"
+                      },
+                      {
+                        "mSpellCalculationKey": "RecallDamage",
+                        "__type": "{f3cbe7b2}"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "ExpandDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_EkkoQ_Name",
+              "text": "时间卷曲器"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_EkkoQ_Summary",
+              "text": "艾克扔出一个时光手雷，这个手雷会在命中一个敌方英雄后扩展为一个时间扭曲的力场，对场内的所有敌方单位造成伤害和减速效果。然后它会在短暂的延迟后返回到艾克手上，返回途中会对沿途的敌人造成伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_EkkoQ_Tooltip",
+              "text": "艾克投出一个设备，造成<magicDamage>@InitialDamage@魔法伤害</magicDamage>。在命中一名英雄或到达它的距离终点后，它会扩展为一个领域来使其中的敌人<status>减速</status>@SlowPercent*-100@%。在它扩展后，艾克会将其召回，造成<magicDamage>@RecallDamage@魔法伤害</magicDamage>。"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "ekko_w",
+          "binding": "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+          "object": {
+            "ObjectName": "EkkoW",
+            "objectPath": "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+            "mScriptName": "EkkoW",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "Trait_ImmobilizingCCSpell",
+                "Trait_Shield",
+                "Trait_Target_Area",
+                "Trait_Ranged_Zone",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    80,
+                    100,
+                    120,
+                    140,
+                    160,
+                    180,
+                    200
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseOnHitDamage",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BelowHealthThreshold",
+                  "values": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "OnHitMinMinionDamage",
+                  "values": [
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "OnHitMaxMinionDamage",
+                  "values": [
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "AoERadius",
+                  "values": [
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "StunDuration",
+                  "values": [
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ShieldBase",
+                  "values": [
+                    80,
+                    100,
+                    120,
+                    140,
+                    160,
+                    180,
+                    200
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowZoneDuration",
+                  "values": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DelayBeforeDetonation",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DelayBeforeEnemyCanSee",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowPercent",
+                  "values": [
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "BaseOnHitDamage",
+                      "values": [
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    14,
+                    14,
+                    13,
+                    12,
+                    11,
+                    10,
+                    10
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "MissingHealthPercent": {
+                  "mMultiplier": {
+                    "mNumber": 0.009999999776482582,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseOnHitDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.029999999329447746,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "__type": "GameCalculation"
+                },
+                "TotalShield": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "ShieldBase",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 1.5,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "{79b6144b}": {
+                  "mMultiplier": {
+                    "{a8cb9c14}": true,
+                    "mStat": 15,
+                    "mCoefficient": 1,
+                    "__type": "StatByCoefficientCalculationPart"
+                  },
+                  "{72c5c2a8}": 1,
+                  "mModifiedGameCalculation": "MissingHealthPercent",
+                  "__type": "GameCalculationModified"
+                }
+              },
+              "{fe87f21e}": [
+                {
+                  "{6166b756}": "{79b6144b}",
+                  "{644e252f}": "OnHitMinMinionDamage",
+                  "{39ab689d}": "OnHitMaxMinionDamage",
+                  "{01987941}": [
+                    {
+                      "mInvertResult": true,
+                      "{137cf12a}": "BelowHealthThreshold",
+                      "__type": "AboveHealthPercentCastRequirement"
+                    }
+                  ],
+                  "__type": "{fe87f21e}"
+                }
+              ],
+              "mCoefficient": 1.5,
+              "mCoefficient2": 0.029999999329447746,
+              "mAnimationName": "Spell2_Cast",
+              "mImgIconName": [
+                "ASSETS/Characters/Ekko/HUD/Icons2D/Ekko_W.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                24,
+                22,
+                20,
+                18,
+                16,
+                14,
+                14
+              ],
+              "Cooldown": {
+                "values": [
+                  24,
+                  22,
+                  20,
+                  18,
+                  16,
+                  14,
+                  14
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mSpellRevealsChampion": false,
+              "bIsToggleSpell": true,
+              "mDoNotNeedToFaceTarget": true,
+              "castRange": [
+                1600,
+                1600,
+                1600,
+                1600,
+                1600,
+                1600,
+                1600
+              ],
+              "castRangeValues": {
+                "values": [
+                  1600,
+                  1600,
+                  1600,
+                  1600,
+                  1600,
+                  1600,
+                  1600
+                ],
+                "{0a3e0478}": 1600,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                375,
+                375,
+                375,
+                375,
+                375,
+                375,
+                375
+              ],
+              "castConeDistance": 100,
+              "castFrame": 7.5,
+              "missileSpeed": 0,
+              "mana": [
+                30,
+                35,
+                40,
+                45,
+                50,
+                50
+              ],
+              "manaValues": {
+                "values": [
+                  30,
+                  35,
+                  40,
+                  45,
+                  50,
+                  50
+                ],
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Area"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "EkkoW",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_EkkoW_Name",
+                    "keySummary": "Spell_EkkoW_Summary",
+                    "keyTooltip": "Spell_EkkoW_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_EkkoW_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "ShieldBase",
+                          "nameOverride": "Spell_ListType_ShieldAmount",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "centerLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "textureRadiusOverrideName": "assets/spells/textures/aoe.tex",
+                    "__type": "TargeterDefinitionAoe"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SlowZoneDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_EkkoW_Name",
+              "text": "时光交错"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_EkkoW_Summary",
+              "text": "艾克的普攻对低生命值的敌人造成额外魔法伤害。他可以施放【时光交错】来分离这条时间线，制造一个不稳定的异常时间点，这个时间点会在数秒后对范围内的敌人造成减速效果。如果艾克进入了这个异常时间点，那么他会获得护盾并让范围内的敌人因悬浮在时间中而陷入晕眩状态。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_EkkoW_Tooltip",
+              "text": "<spellPassive>被动：</spellPassive>艾克对生命值低于@BelowHealthThreshold*100@%的敌方英雄进行的攻击会造成<magicDamage>@MissingHealthPercent@已损失生命值的魔法伤害</magicDamage>。<br><br><spellActive>主动：</spellActive>在一阵延迟后，艾克放出一颗持续@SlowZoneDuration@秒的时空球体来使其中的敌人<status>减速</status>@SlowPercent@%。如果艾克进入了球体，那么他会将其引爆，造成@StunDuration@秒<status>晕眩</status>并获得<shield>@TotalShield@护盾值</shield>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_EkkoW_TooltipExtendedBelowLine",
+              "text": "<rules>额外攻击伤害最少造成<magicDamage>@OnHitMinMinionDamage@</magicDamage>伤害，并且对小兵和野怪最多造成<magicDamage>@OnHitMaxMinionDamage@伤害</magicDamage>。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "ekko_e",
+          "binding": "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+          "object": {
+            "ObjectName": "EkkoE",
+            "objectPath": "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+            "mScriptName": "EkkoE",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_AttackReset",
+                "Trait_PlayerSelectedDashDirection",
+                "Trait_DamageAbility",
+                "Trait_Strike"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    25,
+                    50,
+                    75,
+                    100,
+                    125,
+                    150,
+                    175
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    25,
+                    50,
+                    75,
+                    100,
+                    125,
+                    150,
+                    175
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DashDistance",
+                  "values": [
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BuffDuration",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "AttackRangeIncrease",
+                  "values": [
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.4000000059604645,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.4000000059604645,
+              "mCoefficient2": 1,
+              "mAnimationName": "Spell2",
+              "mImgIconName": [
+                "ASSETS/Characters/Ekko/HUD/Icons2D/Ekko_E.dds"
+              ],
+              "mCastTime": 0.25,
+              "cooldownTime": [
+                9.5,
+                9,
+                8.5,
+                8,
+                7.5,
+                7,
+                7
+              ],
+              "Cooldown": {
+                "values": [
+                  9.5,
+                  9,
+                  8.5,
+                  8,
+                  7.5,
+                  7,
+                  7
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "cantCastWhileRooted": true,
+              "mSpellRevealsChampion": false,
+              "bIsToggleSpell": true,
+              "castRange": [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              "castRangeValues": {
+                "values": [
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000
+                ],
+                "{0a3e0478}": 25000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                325,
+                325,
+                325,
+                325,
+                325,
+                325,
+                325
+              ],
+              "castConeDistance": 100,
+              "castFrame": 15,
+              "mFloatVarsDecimals": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                40,
+                45,
+                50,
+                55,
+                60,
+                60
+              ],
+              "manaValues": {
+                "values": [
+                  40,
+                  45,
+                  50,
+                  55,
+                  60,
+                  60
+                ],
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "EkkoE",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_EkkoE_Name",
+                    "keySummary": "Spell_EkkoE_Summary",
+                    "keyTooltip": "Spell_EkkoE_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_EkkoE_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "startLocator": {
+                      "orientationType": 1,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "fallbackDirection": 3,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        325,
+                        325,
+                        325,
+                        325,
+                        325,
+                        325
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  },
+                  {
+                    "hideWithLineIndicator": true,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_EkkoE",
+              "mBuffAttributeFlag": 32,
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 128,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 512,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 128,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_EkkoE_Name",
+              "text": "相位俯冲"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_EkkoE_Summary",
+              "text": "艾克在为Z型驱动充能的同时灵巧地滚动。他的下次攻击将造成魔法伤害并扭曲时间，并让他传送到他的攻击目标旁。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_EkkoE_Tooltip",
+              "text": "艾克突进并强化他的下次攻击，以获得额外距离、将他传送到他的目标处、并造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_EkkoE_TooltipExtendedBelowLine",
+              "text": "<rules>艾克可以在突进期间使用他的任意其它技能。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "ekko_r",
+          "binding": "Characters/Ekko/Spells/EkkoRAbility/EkkoR",
+          "object": {
+            "ObjectName": "EkkoR",
+            "objectPath": "Characters/Ekko/Spells/EkkoRAbility/EkkoR",
+            "mScriptName": "EkkoR",
+            "mSpell": {
+              "mAffectsTypeFlags": 1029,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mPlatformSpellInfo": {
+                "mPlatformEnabled": true,
+                "__type": "PlatformSpellInfo"
+              },
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "PositiveEffect_Teleport",
+                "Trait_DamageAbility",
+                "Trait_ActiveHeal",
+                "Trait_Untargetable",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "Damage",
+                  "values": [
+                    50,
+                    200,
+                    350,
+                    500,
+                    650,
+                    800,
+                    950
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "FlatHeal",
+                  "values": [
+                    50,
+                    100,
+                    150,
+                    200,
+                    250,
+                    300,
+                    350
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "AoERadius",
+                  "values": [
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PercentHealAmpPerPercentMissingHealth",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "Damage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 1.75,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TotalBaseHeal": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "FlatHeal",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.6000000238418579,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/Ekko/HUD/Icons2D/Ekko_R.dds"
+              ],
+              "mCastTime": 0.25,
+              "cooldownTime": [
+                110,
+                110,
+                80,
+                50,
+                50,
+                50,
+                50
+              ],
+              "Cooldown": {
+                "values": [
+                  110,
+                  110,
+                  80,
+                  50,
+                  50,
+                  50,
+                  50
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "cantCastWhileRooted": true,
+              "castRange": [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              "castRangeValues": {
+                "values": [
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000
+                ],
+                "{0a3e0478}": 25000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                850,
+                850,
+                850,
+                850,
+                850,
+                850,
+                850
+              ],
+              "castConeDistance": 100,
+              "castFrame": 10,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                100,
+                100,
+                100,
+                0,
+                0,
+                0
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  100,
+                  100,
+                  0,
+                  0,
+                  0
+                ],
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "EkkoR",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_EkkoR_Name",
+                    "keySummary": "Spell_EkkoR_Summary",
+                    "keyTooltip": "Spell_EkkoR_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_EkkoR_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "Damage",
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "FlatHeal",
+                          "nameOverride": "Spell_ListType_Healing",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "centerLocator": {
+                      "basePosition": 1,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "overrideRadius": {
+                      "mPerLevelValues": [
+                        375,
+                        375,
+                        375,
+                        375,
+                        375,
+                        375
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionAoe"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_EkkoR",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 8,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mSubparts": [
+                          {
+                            "mSpellCalculationKey": "TotalBaseHeal",
+                            "__type": "{f3cbe7b2}"
+                          },
+                          {
+                            "mPart1": {
+                              "mDataValue": "PercentHealAmpPerPercentMissingHealth",
+                              "__type": "NamedDataValueCalculationPart"
+                            },
+                            "mPart2": {
+                              "mNumber": 20,
+                              "__type": "NumberCalculationPart"
+                            },
+                            "__type": "ProductOfSubPartsCalculationPart"
+                          }
+                        ],
+                        "__type": "SumOfSubPartsCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 128,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 131072,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_EkkoR_Name",
+              "text": "时空断裂"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_EkkoR_Summary",
+              "text": "艾克打破他的时间线，变得不可被选取并回溯到一个更加有利的时间点上。他会回到几秒前的位置，并治疗这几秒内所受的伤势。在完成传送后，传送终点区域附近的敌人都会受到巨量伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_EkkoR_Tooltip",
+              "text": "艾克回到过去的时间点上，进入凝滞状态同时传送回他4秒前所在的位置，并在到达后对附近的所有敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。此外，艾克会治疗自身<healing>@TotalBaseHeal@</healing>生命值，且最近4秒里每损失1%生命值就会使这个治疗效果提升@PercentHealAmpPerPercentMissingHealth@%。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_EkkoR_TooltipExtendedBelowLine",
+              "text": "<rules>艾克在途经来自[@spell.EkkoW:HotKey@]{{ Spell_EkkoW_Name }}的时空球体时会将它引爆。</rules><br><rules>凝滞状态中的单位无法移动或行动，并且免疫伤害和不可被选取。</rules>"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Fizz",
+      "key": "champion_fizz",
+      "name": "菲兹",
+      "source": {
+        "championId": "Fizz",
+        "chineseName": "潮汐海灵",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Fizz.json.gz",
+          "sha256": "45aa8f13503216883c8ee3012a67c637eb5aa404527d3a6a480252c30de03dcc",
+          "compressedSha256": "64b63f2a474a6831e5e2790f84153ebe46f2ae7967ee2907514eb97c3873b84b",
+          "byteSize": 58123,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/fizz/fizz.bin.json",
+          "fetchedAt": "2026-09-06T14:26:17.553Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Fizz.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Fizz.json",
+          "fetchedAt": "2026-09-06T14:12:46.616Z",
+          "byteSize": 13412,
+          "sha256": "dfaf2dd0edec8bc8fc5471cfc0aa133c148fed9172d0e694cd883ebc2e36338e"
+        },
+        "rootPath": "Characters/Fizz/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "伶俐斗士",
+            "clientPath": "Characters/Fizz/Spells/FizzPassiveAbility/FizzPassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": null,
+            "clientMana": [
+              40,
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "DamageReduction",
+              "DamageReductionMax",
+              "MonsterDamageReduction",
+              "APRatio"
+            ],
+            "calculationNames": [
+              "DamageReductionCalc",
+              "MonsterDamageReductionCalc"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "FizzQ",
+            "name": "淘气打击",
+            "clientPath": "Characters/Fizz/Spells/FizzQAbility/FizzQ",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              8,
+              7.5,
+              7,
+              6.5,
+              6
+            ],
+            "cost": [
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              8.5,
+              8,
+              7.5,
+              7,
+              6.5,
+              6,
+              6
+            ],
+            "clientMana": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [],
+            "calculationNames": [
+              "QDamage",
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "FizzW",
+            "name": "海石三叉戟",
+            "clientPath": "Characters/Fizz/Spells/FizzWAbility/FizzW",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              7,
+              6,
+              5,
+              4,
+              3
+            ],
+            "cost": [
+              30,
+              40,
+              50,
+              60,
+              70
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              7,
+              7,
+              6,
+              5,
+              4,
+              3,
+              3
+            ],
+            "clientMana": [
+              30,
+              40,
+              50,
+              60,
+              70,
+              80
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "DoTBaseDamage",
+              "DoTRatio",
+              "ActiveBaseDamage",
+              "ActiveRatio",
+              "OnHitBuffBaseDamage",
+              "OnHitRatio",
+              "BleedDuration",
+              "DoTTicksPerSecond",
+              "ActiveDuration",
+              "OnHitBuffDuration",
+              "OnKillManaRefund",
+              "OnKillNewCooldown",
+              "PassiveDoTDuration",
+              "TurretMod",
+              "BonusMonsterDamage"
+            ],
+            "calculationNames": [
+              "DoTDamage",
+              "ActiveDamage",
+              "OnHitBuffDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "FizzE",
+            "name": "古灵/精怪",
+            "clientPath": "Characters/Fizz/Spells/FizzEAbility/FizzE",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              16,
+              14,
+              12,
+              10,
+              8
+            ],
+            "cost": [
+              75,
+              80,
+              85,
+              90,
+              95
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              16,
+              16,
+              14,
+              12,
+              10,
+              8,
+              6
+            ],
+            "clientMana": [
+              75,
+              80,
+              85,
+              90,
+              95,
+              100
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "SmallAoESize",
+              "LargeAoESize",
+              "SlowDuration",
+              "SlowAmount"
+            ],
+            "calculationNames": [
+              "EDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "FizzR",
+            "name": "巨鲨强袭",
+            "clientPath": "Characters/Fizz/Spells/FizzRAbility/FizzR",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              120,
+              100,
+              80
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              120,
+              120,
+              100,
+              80,
+              80,
+              80,
+              80
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              0
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "SmallDamage",
+              "SmallAPRatio",
+              "MidDamageMulti",
+              "LargeDamageMulti",
+              "SmallFishSize",
+              "MidFishSize",
+              "BigFishSize",
+              "MissileWidthTiers",
+              "MaxDistance",
+              "DetonationTime",
+              "SlowDuration",
+              "SlowAmount"
+            ],
+            "calculationNames": [
+              "SmallSharkDamage",
+              "{262c3c02}",
+              "BigSharkDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Fizz/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Fizz/Spells/FizzPassiveAbility/FizzPassive",
+        "spells": [
+          "Characters/Fizz/Spells/FizzQAbility/FizzQ",
+          "Characters/Fizz/Spells/FizzWAbility/FizzW",
+          "Characters/Fizz/Spells/FizzEAbility/FizzE",
+          "Characters/Fizz/Spells/FizzRAbility/FizzR"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "fizz_p",
+          "binding": "Characters/Fizz/Spells/FizzPassiveAbility/FizzPassive",
+          "object": {
+            "ObjectName": "FizzPassive",
+            "objectPath": "Characters/Fizz/Spells/FizzPassiveAbility/FizzPassive",
+            "mScriptName": "FizzPassive",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "FizzPassive",
+              "mEffectAmount": [
+                {
+                  "value": [
+                    15,
+                    30,
+                    45,
+                    60,
+                    75,
+                    90,
+                    105
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0,
+                    10,
+                    20,
+                    30,
+                    40,
+                    50,
+                    60
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    20,
+                    35,
+                    50,
+                    65,
+                    80,
+                    95,
+                    110
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "DamageReduction",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DamageReductionMax",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MonsterDamageReduction",
+                  "values": [
+                    14,
+                    14,
+                    14,
+                    14,
+                    14,
+                    14,
+                    14
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "DamageReductionCalc": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "DamageReduction",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MonsterDamageReductionCalc": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "MonsterDamageReduction",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.4000000059604645,
+              "mCoefficient2": 0.30000001192092896,
+              "mAnimationName": "Idle1",
+              "mImgIconName": [
+                "ASSETS/Characters/Fizz/HUD/Icons2D/Fizz_P.dds",
+                "ASSETS/Characters/Fizz/HUD/Icons2D/Fizz_P.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ],
+              "castRangeValues": {
+                "values": [
+                  600,
+                  600,
+                  600,
+                  600,
+                  600,
+                  600,
+                  600
+                ],
+                "{0a3e0478}": 600,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                210,
+                210,
+                210,
+                210,
+                210,
+                210,
+                210
+              ],
+              "castConeDistance": 100,
+              "castFrame": 8,
+              "missileSpeed": 1400,
+              "mana": [
+                40,
+                40,
+                40,
+                40,
+                40,
+                40
+              ],
+              "manaValues": {
+                "values": [
+                  40,
+                  40,
+                  40,
+                  40,
+                  40,
+                  40
+                ],
+                "{0a3e0478}": 40,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "FizzPassive",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyTooltip": "Spell_FizzPassive_Tooltip",
+                    "keyName": "Spell_FizzPassive_Name",
+                    "keySummary": "Spell_FizzPassive_Summary",
+                    "keyTooltipExtended": "Spell_FizzPassive_TooltipExtended"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_FizzPassive",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyTooltip": {
+              "sourceKey": "Spell_FizzPassive_Tooltip",
+              "text": "菲兹处于【幽灵】状态并且减少@DamageReductionCalc@所受伤害(来自所有来源)。"
+            },
+            "keyName": {
+              "sourceKey": "Spell_FizzPassive_Name",
+              "text": "伶俐斗士"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_FizzPassive_Summary",
+              "text": "菲兹在移动时可以穿过单位并且从所有来源处受到的伤害都会减少一个固定的数额。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_FizzPassive_TooltipExtended",
+              "text": "{{Spell_FizzPassive_Tooltip}}<br><br><rules>幽灵状态的单位无视其它单位的碰撞体积。<br>对抗野怪时的伤害减免修正至@MonsterDamageReductionCalc@。<br>减免伤害的占比不能超过@DamageReductionMax*100@%。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "fizz_q",
+          "binding": "Characters/Fizz/Spells/FizzQAbility/FizzQ",
+          "object": {
+            "ObjectName": "FizzQ",
+            "objectPath": "Characters/Fizz/Spells/FizzQAbility/FizzQ",
+            "mScriptName": "FizzQ",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "FizzQ",
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_DamageAbility",
+                "Trait_Strike",
+                "Trait_Low_Damage"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    0,
+                    10,
+                    25,
+                    40,
+                    55,
+                    70,
+                    85
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    550,
+                    650,
+                    750,
+                    850,
+                    950,
+                    1050,
+                    1150
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    600,
+                    600,
+                    600,
+                    600,
+                    600,
+                    600,
+                    600
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "mSpellCalculations": {
+                "QDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mEffectIndex": 1,
+                      "__type": "EffectValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.550000011920929,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TotalDamage": {
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mStat": 2,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.550000011920929,
+              "mCoefficient2": 1,
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Fizz/HUD/Icons2D/Fizz_Q.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                8.5,
+                8,
+                7.5,
+                7,
+                6.5,
+                6,
+                6
+              ],
+              "Cooldown": {
+                "values": [
+                  8.5,
+                  8,
+                  7.5,
+                  7,
+                  6.5,
+                  6,
+                  6
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "cantCastWhileRooted": true,
+              "mSpellRevealsChampion": false,
+              "castRange": [
+                550,
+                550,
+                550,
+                550,
+                550,
+                550,
+                550
+              ],
+              "castRangeValues": {
+                "values": [
+                  550,
+                  550,
+                  550,
+                  550,
+                  550,
+                  550,
+                  550
+                ],
+                "{0a3e0478}": 550,
+                "__type": "{0a0eddc9}"
+              },
+              "castConeDistance": 100,
+              "castFrame": 9,
+              "missileSpeed": 20,
+              "mHitEffectOrientType": 2,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "manaValues": {
+                "values": [
+                  50,
+                  50,
+                  50,
+                  50,
+                  50,
+                  50
+                ],
+                "{0a3e0478}": 50,
+                "__type": "{630af303}"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "FizzQ",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_FizzQ_Name",
+                    "keyTooltip": "Spell_FizzQ_Tooltip",
+                    "keySummary": "Spell_FizzQ_Summary",
+                    "keyTooltipExtendedBelowLine": "Spell_FizzQ_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Effect%dAmount",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "nameOverride": "Spell_ListType_Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        550,
+                        550,
+                        550,
+                        550,
+                        550,
+                        550
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "endLocator": {
+                      "basePosition": 2,
+                      "distanceOffset": 50,
+                      "orientationType": 2,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        65,
+                        65,
+                        65,
+                        65,
+                        65,
+                        65
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureBaseOverrideName": "assets/spells/textures/reticle_gradient_base_q_01.tex",
+                    "textureTargetOverrideName": "assets/spells/textures/reticle_gradient_base_q_02.tex",
+                    "__type": "TargeterDefinitionLine"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSubparts": [
+                      {
+                        "mSpellCalculationKey": "TotalDamage",
+                        "__type": "{f3cbe7b2}"
+                      },
+                      {
+                        "mSpellCalculationKey": "QDamage",
+                        "__type": "{f3cbe7b2}"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 256,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_FizzQ_Name",
+              "text": "淘气打击"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_FizzQ_Tooltip",
+              "text": "菲兹冲刺并穿过一名敌人，同时造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>加上<magicDamage>@QDamage@魔法伤害</magicDamage>。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_FizzQ_Summary",
+              "text": "菲兹穿过他的目标，造成魔法伤害，并施加攻击特效。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_FizzQ_TooltipExtendedBelowLine",
+              "text": "<rules>这个技能会施加攻击特效。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "fizz_w",
+          "binding": "Characters/Fizz/Spells/FizzWAbility/FizzW",
+          "object": {
+            "ObjectName": "FizzW",
+            "objectPath": "Characters/Fizz/Spells/FizzWAbility/FizzW",
+            "mScriptName": "FizzW",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "PositiveEffect_EmpowerAttack",
+                "Trait_AttackReset",
+                "Trait_DamageAbility",
+                "Trait_DoT",
+                "Trait_AttackBuff_Duration",
+                "Trait_Strike",
+                "Trait_Low_Damage"
+              ],
+              "DataValues": [
+                {
+                  "name": "DoTBaseDamage",
+                  "values": [
+                    15,
+                    30,
+                    45,
+                    60,
+                    75,
+                    90,
+                    105
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DoTRatio",
+                  "values": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ActiveBaseDamage",
+                  "values": [
+                    25,
+                    50,
+                    75,
+                    100,
+                    125,
+                    150,
+                    175
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ActiveRatio",
+                  "values": [
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "OnHitBuffBaseDamage",
+                  "values": [
+                    15,
+                    20,
+                    25,
+                    30,
+                    35,
+                    40,
+                    45
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "OnHitRatio",
+                  "values": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BleedDuration",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DoTTicksPerSecond",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ActiveDuration",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "OnHitBuffDuration",
+                  "values": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "OnKillManaRefund",
+                  "values": [
+                    20,
+                    30,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "OnKillNewCooldown",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveDoTDuration",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TurretMod",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BonusMonsterDamage",
+                  "values": [
+                    90,
+                    90,
+                    90,
+                    90,
+                    90,
+                    90,
+                    90
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "ActiveBaseDamage",
+                      "values": [
+                        50,
+                        70,
+                        90,
+                        110,
+                        130,
+                        150,
+                        170
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "DoTDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "DoTBaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "DoTRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "ActiveDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "ActiveBaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "ActiveRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "OnHitBuffDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "OnHitBuffBaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "OnHitRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Idle1",
+              "mImgIconName": [
+                "ASSETS/Characters/Fizz/HUD/Icons2D/Fizz_W.dds",
+                "ASSETS/Characters/Fizz/HUD/Icons2D/Fizz_W.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                7,
+                7,
+                6,
+                5,
+                4,
+                3,
+                3
+              ],
+              "Cooldown": {
+                "values": [
+                  7,
+                  7,
+                  6,
+                  5,
+                  4,
+                  3,
+                  3
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ],
+              "castRangeValues": {
+                "values": [
+                  600,
+                  600,
+                  600,
+                  600,
+                  600,
+                  600,
+                  600
+                ],
+                "{0a3e0478}": 600,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                210,
+                210,
+                210,
+                210,
+                210,
+                210,
+                210
+              ],
+              "castConeDistance": 100,
+              "castFrame": 8,
+              "missileSpeed": 1400,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mana": [
+                30,
+                40,
+                50,
+                60,
+                70,
+                80
+              ],
+              "manaValues": {
+                "values": [
+                  30,
+                  40,
+                  50,
+                  60,
+                  70,
+                  80
+                ],
+                "{0a3e0478}": 30,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "FizzW",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_FizzW_Name",
+                    "keyTooltip": "Spell_FizzW_Tooltip",
+                    "keySummary": "Spell_FizzW_Summary",
+                    "keyTooltipExtendedBelowLine": "Spell_FizzW_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "DoTBaseDamage",
+                          "nameOverride": "Spell_ListType_PassiveDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "ActiveBaseDamage",
+                          "nameOverride": "Spell_ListType_ActiveDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "OnHitBuffBaseDamage",
+                          "nameOverride": "Spell_ListType_OnHitDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "OnKillManaRefund",
+                          "nameOverride": "Spell_ListType_ManaRefund",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "nameOverride": "Spell_ListType_Cost",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "nameOverride": "Spell_ListType_Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mBuffAttributeFlag": 32,
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "ActiveDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 128,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 512,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 32,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_FizzW_Name",
+              "text": "海石三叉戟"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_FizzW_Tooltip",
+              "text": "<spellPassive>被动</spellPassive>：菲兹的攻击会使他的敌人们流血，在@BleedDuration@秒里持续造成共<magicDamage>@DoTDamage@魔法伤害</magicDamage>。<br><br><spellActive>主动</spellActive>：菲兹的下次攻击造成额外的<magicDamage>@ActiveDamage@魔法伤害</magicDamage>。如果这次攻击将目标击杀，那么菲兹会返还<scaleMana>@OnKillManaRefund@法力</scaleMana>并使这个技能的冷却时间缩短至@OnKillNewCooldown@秒。如果这次攻击未能造成击杀，那么菲兹的攻击会造成额外的<magicDamage>@OnHitBuffDamage@魔法伤害</magicDamage>，持续@OnHitBuffDuration@秒。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_FizzW_Summary",
+              "text": "菲兹的攻击会让他的敌人们流血，同时造成持续数秒的魔法伤害。菲兹可以强化他的下次普攻来造成额外伤害，并在短时间内强化他的后续普攻。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_FizzW_TooltipExtendedBelowLine",
+              "text": "<rules>攻击对野怪造成@BonusMonsterDamage@额外伤害。<br>攻击对建筑物造成@TurretMod*100@%伤害。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "fizz_e",
+          "binding": "Characters/Fizz/Spells/FizzEAbility/FizzE",
+          "object": {
+            "ObjectName": "FizzE",
+            "objectPath": "Characters/Fizz/Spells/FizzEAbility/FizzE",
+            "mScriptName": "FizzE",
+            "mSpell": {
+              "flags": 36,
+              "mAffectsTypeFlags": 15567,
+              "mAlternateName": "FizzE",
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_PlayerSelectedDashDirection",
+                "Trait_DamageAbility",
+                "Trait_RecastOrReplaceSpell",
+                "Trait_Untargetable",
+                "Trait_SignatureSpell",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    30,
+                    80,
+                    130,
+                    180,
+                    230,
+                    280,
+                    330
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SmallAoESize",
+                  "values": [
+                    225,
+                    225,
+                    225,
+                    225,
+                    225,
+                    225,
+                    225
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "LargeAoESize",
+                  "values": [
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowAmount",
+                  "values": [
+                    0.3499999940395355,
+                    0.4000000059604645,
+                    0.44999998807907104,
+                    0.5,
+                    0.550000011920929,
+                    0.6000000238418579,
+                    0.6499999761581421
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "SlowAmount",
+                      "values": [
+                        0.44999998807907104,
+                        0.5,
+                        0.550000011920929,
+                        0.6000000238418579,
+                        0.6499999761581421,
+                        0.699999988079071,
+                        0.75
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    13,
+                    13,
+                    11.75,
+                    10.5,
+                    9.25,
+                    8,
+                    8
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "EDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.949999988079071,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Idle3",
+              "mImgIconName": [
+                "ASSETS/Characters/Fizz/HUD/Icons2D/Fizz_E1.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                16,
+                16,
+                14,
+                12,
+                10,
+                8,
+                6
+              ],
+              "Cooldown": {
+                "values": [
+                  16,
+                  16,
+                  14,
+                  12,
+                  10,
+                  8,
+                  6
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "cantCastWhileRooted": true,
+              "mSpellRevealsChampion": false,
+              "castRange": [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              "castRangeValues": {
+                "values": [
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000
+                ],
+                "{0a3e0478}": 25000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ],
+              "castRadius": [
+                330,
+                330,
+                330,
+                330,
+                330,
+                330,
+                330
+              ],
+              "castConeDistance": 100,
+              "castFrame": 4.534999847412109,
+              "missileSpeed": 20,
+              "mana": [
+                75,
+                80,
+                85,
+                90,
+                95,
+                100
+              ],
+              "manaValues": {
+                "values": [
+                  75,
+                  80,
+                  85,
+                  90,
+                  95,
+                  100
+                ],
+                "{0a3e0478}": 75,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Area"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "FizzE",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_FizzE_Name",
+                    "keyTooltip": "Spell_FizzE_Tooltip",
+                    "keySummary": "Spell_FizzE_Summary"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "nameOverride": "Spell_ListType_Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "nameOverride": "Spell_ListType_Cost",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "SlowAmount",
+                          "typeIndex": 2,
+                          "multiplier": 100,
+                          "nameOverride": "Spell_ListType_Slow",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        375,
+                        375,
+                        375,
+                        375,
+                        375,
+                        375
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureOverrideName": "assets/spells/textures/circularrangeindicator_dark.tex",
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "centerLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "overrideRadius": {
+                      "mPerLevelValues": [
+                        225,
+                        225,
+                        225,
+                        225,
+                        225,
+                        225
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureRadiusOverrideName": "assets/spells/textures/aoe_leona_outer.tex",
+                    "__type": "TargeterDefinitionAoe"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "EDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 128,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 131072,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mNumber": 0.75,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SlowDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 64,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 128,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_FizzE_Name",
+              "text": "古灵/精怪"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_FizzE_Tooltip",
+              "text": "菲兹跳到他的三叉戟上，变为【不可被选取】状态0.75秒，随后对附近敌人造成<magicDamage>@EDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>菲兹可以在【不可被选取】状态中<recast>再次施放</recast>这个技能，以再次位移，并提前结束该状态，在一个较小的区域内造成伤害，并且不会造成<status>减速</status>。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_FizzE_Summary",
+              "text": "菲兹跳到空中，同时优雅地落在他的长矛上，变得不可被选取。在这个姿态下，菲兹可以选择立原地着陆，也可以选择在着陆之前再跳一段距离。"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "fizz_r",
+          "binding": "Characters/Fizz/Spells/FizzRAbility/FizzR",
+          "object": {
+            "ObjectName": "FizzR",
+            "objectPath": "Characters/Fizz/Spells/FizzRAbility/FizzR",
+            "mScriptName": "FizzR",
+            "mSpell": {
+              "mAffectsTypeFlags": 8192,
+              "mAlternateName": "FizzR",
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "SmallDamage",
+                  "values": [
+                    60,
+                    180,
+                    300,
+                    420,
+                    540,
+                    660,
+                    780
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SmallAPRatio",
+                  "values": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MidDamageMulti",
+                  "values": [
+                    1.25,
+                    1.25,
+                    1.25,
+                    1.25,
+                    1.25,
+                    1.25,
+                    1.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "LargeDamageMulti",
+                  "values": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SmallFishSize",
+                  "values": [
+                    200,
+                    200,
+                    200,
+                    200,
+                    200,
+                    200,
+                    200
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MidFishSize",
+                  "values": [
+                    325,
+                    325,
+                    325,
+                    325,
+                    325,
+                    325,
+                    325
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BigFishSize",
+                  "values": [
+                    450,
+                    450,
+                    450,
+                    450,
+                    450,
+                    450,
+                    450
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MissileWidthTiers",
+                  "values": [
+                    40,
+                    80,
+                    120,
+                    160,
+                    200,
+                    240,
+                    280
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxDistance",
+                  "values": [
+                    1300,
+                    1300,
+                    1300,
+                    1300,
+                    1300,
+                    1300,
+                    1300
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DetonationTime",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowAmount",
+                  "values": [
+                    60,
+                    60,
+                    60,
+                    60,
+                    60,
+                    60,
+                    60
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    50,
+                    50,
+                    50,
+                    50,
+                    50,
+                    50,
+                    50
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "SmallSharkDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "SmallDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "SmallAPRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "{262c3c02}": {
+                  "mMultiplier": {
+                    "mDataValue": "MidDamageMulti",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mModifiedGameCalculation": "SmallSharkDamage",
+                  "__type": "GameCalculationModified"
+                },
+                "BigSharkDamage": {
+                  "mMultiplier": {
+                    "mDataValue": "LargeDamageMulti",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mModifiedGameCalculation": "SmallSharkDamage",
+                  "__type": "GameCalculationModified"
+                }
+              },
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/Fizz/HUD/Icons2D/Fizz_R.dds",
+                "ASSETS/Characters/Fizz/HUD/Icons2D/Fizz_R.dds"
+              ],
+              "mCastTime": 0.25,
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                120,
+                120,
+                100,
+                80,
+                80,
+                80,
+                80
+              ],
+              "Cooldown": {
+                "values": [
+                  120,
+                  120,
+                  100,
+                  80,
+                  80,
+                  80,
+                  80
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mProjectTargetToCastRange": true,
+              "useAnimatorFramerate": true,
+              "castRange": [
+                10000,
+                10000,
+                10000,
+                10000,
+                10000,
+                10000,
+                10000
+              ],
+              "castRangeValues": {
+                "values": [
+                  10000,
+                  10000,
+                  10000,
+                  10000,
+                  10000,
+                  10000,
+                  10000
+                ],
+                "{0a3e0478}": 10000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                1300,
+                1300,
+                1300,
+                1300,
+                1300,
+                1300,
+                1300
+              ],
+              "castRadius": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castConeDistance": 100,
+              "castFrame": 7.5,
+              "missileSpeed": 1300,
+              "mLineWidth": 150,
+              "mHitBoneName": "head",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mana": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                0
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  100,
+                  100,
+                  100,
+                  100,
+                  0
+                ],
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Area"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "FizzR",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_FizzR_Name",
+                    "keyTooltip": "Spell_FizzR_Tooltip",
+                    "keySummary": "Spell_FizzR_Summary"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "nameOverride": "Spell_ListType_Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "SmallDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_FizzR_SmallFishDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "SmallDamage",
+                          "typeIndex": 2,
+                          "multiplier": 1.25,
+                          "nameOverride": "Spell_FizzR_MediumFishDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "SmallDamage",
+                          "typeIndex": 3,
+                          "multiplier": 1.5,
+                          "nameOverride": "Spell_FizzR_LargeFishDamage",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "textureOverrideName": "assets/spells/textures/circularrangeindicator_dark.tex",
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineStopsAtEndPosition": true,
+                    "minimumDisplayedRange": 100,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        90,
+                        90,
+                        90,
+                        90,
+                        90,
+                        90
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  },
+                  {
+                    "overrideRadius": {
+                      "mPerLevelValues": [
+                        455,
+                        455,
+                        455,
+                        455,
+                        455,
+                        455
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureRadiusOverrideName": "assets/spells/textures/circularrangeindicator_dark.tex",
+                    "__type": "TargeterDefinitionAoe"
+                  },
+                  {
+                    "overrideRadius": {
+                      "mPerLevelValues": [
+                        910,
+                        910,
+                        910,
+                        910,
+                        910,
+                        910
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureRadiusOverrideName": "assets/spells/textures/circularrangeindicator_dark.tex",
+                    "__type": "TargeterDefinitionAoe"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "BigSharkDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "DetonationTime",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16777216,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mNumber": 1,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 32768,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mNumber": 150,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_FizzR_Name",
+              "text": "巨鲨强袭"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_FizzR_Tooltip",
+              "text": "菲兹掷出一只小鱼来吸附到命中的第一个敌方英雄身上。这个英雄会被施加<keywordStealth>真实视野</keywordStealth>和<status>减速</status>，减速幅度为40%到80%，基于小鱼在吸附前的位移距离。<br><br>在@DetonationTime@秒后，一头巨鲨会从目标脚下出现，<status>击飞</status>带着小鱼的目标1秒，<status>击退</status>其它单位，并基于小鱼在吸附前的位移距离造成<magicDamage>@SmallSharkDamage@到@BigSharkDamage@魔法伤害</magicDamage>。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_FizzR_Summary",
+              "text": "菲兹朝一个方向放出一条小鱼，小鱼会附身在第一个与它接触的敌方英雄身上，同时减速目标。在短暂的延迟之后，一条巨鲨就会破土而出，击飞目标并将目标附近的敌人震开。被命中的所有敌人都会受到魔法伤害和减速效果。"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

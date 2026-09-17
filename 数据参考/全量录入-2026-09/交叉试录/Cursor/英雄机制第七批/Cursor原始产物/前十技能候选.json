@@ -1,0 +1,5543 @@
+{
+  "meta": {
+    "executor": "Cursor SDK隔离副本本地候选",
+    "gameId": "lol",
+    "note": "来源冻结与当前录入分开；只计实际GET一致的组成。没有运行Wasm或战斗。本批仅补缺，不更新既有不同内容。",
+    "sources": [
+      {
+        "id": "Vi",
+        "client": {
+          "path": "客户端原文/Vi.json.gz",
+          "sha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+          "compressedSha256": "88df744509f0873b2df9d2eefeece0d1766c170ccc8fd758f07b3cc1352c9569",
+          "byteSize": 59287,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/vi/vi.bin.json",
+          "fetchedAt": "2026-09-06T14:26:46.201Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Vi.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vi.json",
+          "fetchedAt": "2026-09-06T14:12:55.879Z",
+          "byteSize": 12790,
+          "sha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1"
+        }
+      },
+      {
+        "id": "Olaf",
+        "client": {
+          "path": "客户端原文/Olaf.json.gz",
+          "sha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+          "compressedSha256": "fb882e8483021bf24d0506a494a8cb5f731fcf1a86a0c9dcde47503938428820",
+          "byteSize": 49859,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/olaf/olaf.bin.json",
+          "fetchedAt": "2026-09-06T14:26:31.210Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Olaf.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Olaf.json",
+          "fetchedAt": "2026-09-06T14:12:51.262Z",
+          "byteSize": 14055,
+          "sha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5"
+        }
+      }
+    ],
+    "scope": "蔚与奥拉夫10技能；魔腾与薇恩不在本生成器",
+    "stage": "仅候选与既有组成只读复核；等待独立审查",
+    "sourceChecks": [
+      {
+        "hero": "Vi",
+        "kind": "client",
+        "expected": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+        "actual": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+        "match": true
+      },
+      {
+        "hero": "Vi",
+        "kind": "official",
+        "expected": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1",
+        "actual": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1",
+        "match": true
+      },
+      {
+        "hero": "Olaf",
+        "kind": "client",
+        "expected": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+        "actual": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+        "match": true
+      },
+      {
+        "hero": "Olaf",
+        "kind": "official",
+        "expected": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+        "actual": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+        "match": true
+      },
+      {
+        "kind": "当前绑定中文说明",
+        "expected": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+        "actual": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+        "match": true
+      }
+    ],
+    "generatedAt": "2026-09-08T17:15:02.025Z",
+    "apiWrites": 0
+  },
+  "skills": {
+    "vi_p": {
+      "skillKey": "vi_p",
+      "name": "爆裂护盾",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Vi",
+        "rootPath": "Characters/Vi/CharacterRecords/Root",
+        "spellPath": "Characters/Vi/Spells/ViPassiveAbility/ViPassive",
+        "clientSha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+        "officialSha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1",
+        "currentBoundText": {
+          "binding": "Characters/Vi/Spells/ViPassiveAbility/ViPassive",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_ViPassive_Name",
+              "key": "spell_vipassive_name",
+              "text": "爆裂护盾"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ViPassive_Tooltip",
+              "key": "spell_vipassive_tooltip",
+              "text": "蔚在用一个已激活的技能命中一名敌人或建筑物后，会获得<shield>@TotalShield@护盾值</shield>，持续@ShieldDuration@秒。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ViPassive_Summary",
+              "key": "spell_vipassive_summary",
+              "text": "蔚持续为护盾充能。护盾会在蔚的技能命中一名敌人后激活。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_ViPassive_TooltipExtended",
+              "key": "spell_vipassive_tooltipextended",
+              "text": "{{Spell_ViPassive_Tooltip}}<br><br><rules>这个技能有@ShieldCooldown@秒的冷却时间，每当蔚触发<spellName>爆弹重拳</spellName>时，剩余的冷却时间就会减少@CDReductionOn3Hit@秒。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "shield_max_hp_ratio",
+            "name": "护盾最大生命系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.12,
+            "levelValues": null,
+            "description": "当前根TotalShield：mStat=12、系数.12，按最大生命。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "shield_duration_ms",
+            "name": "护盾持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至1。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "cd_reduction_on_3_hit_ms",
+            "name": "第三次爆弹重拳缩短护盾冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.CDReductionOn3Hit 取索引1至1。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "shield_cooldown_ms",
+            "name": "被动护盾冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 16000,
+              "2": 15500,
+              "3": 15000,
+              "4": 14500,
+              "5": 14000,
+              "6": 13500,
+              "7": 13000,
+              "8": 12500,
+              "9": 12000,
+              "10": 12000,
+              "11": 12000,
+              "12": 12000,
+              "13": 12000,
+              "14": 12000,
+              "15": 12000,
+              "16": 12000,
+              "17": 12000,
+              "18": 12000
+            },
+            "description": "ShieldCooldown：1级16秒、每级initial-.5，mLevel10空断点把此后增量置0，1–18级在12秒封顶；19级mAdditionalBonusAtThisLevel=-6不写入本表。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "shield",
+            "name": "爆裂护盾值",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_max_hp_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "description": "12%最大生命。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "blast_shield",
+            "name": "爆裂护盾",
+            "description": "独立普通护盾；耗尽会结束本效果生命周期。激活条件另行接线。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "爆裂护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "shield"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "shield_max_hp_ratio",
+          "source": "mSpellCalculations.TotalShield",
+          "values": [
+            0.12
+          ]
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "source": "DataValues.ShieldDuration",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "cd_reduction_on_3_hit_ms",
+          "source": "DataValues.CDReductionOn3Hit",
+          "raw": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "offset": 1,
+          "values": [
+            4000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "shield_cooldown_ms",
+          "source": "mSpellCalculations.ShieldCooldown",
+          "raw": {
+            "mLevel1Value": 16,
+            "mInitialBonusPerLevel": -0.5,
+            "mBreakpoints": [
+              {
+                "mLevel": 10,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 19,
+                "mAdditionalBonusAtThisLevel": -6,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "values": [
+            16000,
+            15500,
+            15000,
+            14500,
+            14000,
+            13500,
+            13000,
+            12500,
+            12000,
+            12000,
+            12000,
+            12000,
+            12000,
+            12000,
+            12000,
+            12000,
+            12000,
+            12000
+          ],
+          "note": "空断点按缺省0替换此后每级增量，不是忽略该节点贯穿18级"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "技能或建筑物命中后激活与护盾冷却",
+          "reason": "护盾公式和3秒期限已保存；须在已激活技能实际命中敌人或建筑物后施加，并受本技能护盾冷却约束。CDReductionOn3Hit=4秒只由W第三次触发，不在P自建减少规则。"
+        },
+        {
+          "kind": "配置",
+          "component": "被动护盾冷却不是主动技能冷却过程",
+          "reason": "16–12秒是护盾再获得冷却，没有主动施放入口；不建立零消耗空过程。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "技能或建筑物命中后激活与护盾冷却",
+            "reason": "护盾公式和3秒期限已保存；须在已激活技能实际命中敌人或建筑物后施加，并受本技能护盾冷却约束。CDReductionOn3Hit=4秒只由W第三次触发，不在P自建减少规则。"
+          },
+          {
+            "kind": "配置",
+            "component": "被动护盾冷却不是主动技能冷却过程",
+            "reason": "16–12秒是护盾再获得冷却，没有主动施放入口；不建立零消耗空过程。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "vi_q": {
+      "skillKey": "vi_q",
+      "name": "强能冲拳",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Vi",
+        "rootPath": "Characters/Vi/CharacterRecords/Root",
+        "spellPath": "Characters/Vi/Spells/ViQAbility/ViQ",
+        "clientSha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+        "officialSha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1",
+        "currentBoundText": {
+          "binding": "Characters/Vi/Spells/ViQAbility/ViQ",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_ViQ_Name",
+              "key": "spell_viq_name",
+              "text": "强能冲拳"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ViQ_Summary",
+              "key": "spell_viq_summary",
+              "text": "蔚对她的拳套进行充能，并且释放一记粉碎性的勾拳，同时带着她前冲。被她命中的敌人会被击退，同时会被施加一层爆弹重拳的效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ViQ_Tooltip",
+              "key": "spell_viq_tooltip",
+              "text": "<charge>开始蓄力：</charge>蔚开始积蓄一次强力的冲拳，自身<status>减速</status>@SelfSlow@%。<br><br><release>释放：</release>蔚向前冲刺，基于蓄力时间造成<physicalDamage>@TotalDamage@到@MaxDamageTooltip@物理伤害</physicalDamage>，并对命中的所有敌人施加<spellName>爆弹重拳</spellName>。蔚会在与一名敌方英雄碰撞时停下，并将其<status>击</status><status>退</status>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_ViQ_TooltipExtendedBelowLine",
+              "key": "spell_viq_tooltipextendedbelowline",
+              "text": "<rules>命中的非英雄单位会被拉向蔚。<br>如果蓄力被打断，那么这个技能会进入为期3秒的冷却时间。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Vi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 12000,
+              "2": 10500,
+              "3": 9000,
+              "4": 7500,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Vi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 50,
+              "2": 60,
+              "3": 70,
+              "4": 80,
+              "5": 90
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "min_damage",
+            "name": "最低蓄力基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 60,
+              "3": 80,
+              "4": 100,
+              "5": 120
+            },
+            "description": "客户端当前根绑定 DataValues.MinDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.6,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "max_damage_multiplier",
+            "name": "最高蓄力相对TotalDamage倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 2.5,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MaxDamageMult 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "self_slow_percent_points",
+            "name": "蓄力自身减速百分点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SelfSlow 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "charge_window_ms",
+            "name": "蓄力窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ChargeDuration 取索引1至5。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "vfx_charge_ms",
+            "name": "蓄力特效时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.VFXChargeDuration 取索引1至5。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "cancel_cooldown_ms",
+            "name": "取消后冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.CanceledRefundTime 取索引1至5。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "cancel_mana_refund_ratio",
+            "name": "取消后法力返还比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ManaRefundPercent 取索引1至5。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "knockback_duration_ms",
+            "name": "击退时长字段（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 750,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.KnockbackDuration 取索引1至5。",
+            "sortOrder": 110
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "min_damage",
+            "name": "最低蓄力物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "min_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "40/60/80/100/120 + .6额外攻击力。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "max_damage",
+            "name": "最高蓄力物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "min_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_damage_multiplier"
+                }
+              ]
+            },
+            "description": "整个TotalDamage×2.5，额外攻击力一并放大，不是另加一份基础。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "min_damage",
+            "name": "最低蓄力命中伤害",
+            "description": "独立最低伤害；实际蓄力插值未核前不在命中时改写。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "最低蓄力命中伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "min_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "max_damage",
+            "name": "最高蓄力命中伤害",
+            "description": "独立最高伤害参考；ChargeDuration=6与VFXChargeDuration=5不证明伤害蓄满时点。",
+            "sortOrder": 30,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "最高蓄力命中伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "max_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放强能冲拳",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            12000,
+            10500,
+            9000,
+            7500,
+            6000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            50,
+            60,
+            70,
+            80,
+            90
+          ]
+        },
+        {
+          "parameterKey": "min_damage",
+          "source": "DataValues.MinDamage",
+          "raw": [
+            20,
+            40,
+            60,
+            80,
+            100,
+            120,
+            140
+          ],
+          "offset": 1,
+          "values": [
+            40,
+            60,
+            80,
+            100,
+            120
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "DataValues.ADRatio",
+          "raw": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ],
+          "offset": 1,
+          "values": [
+            0.6,
+            0.6,
+            0.6,
+            0.6,
+            0.6
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "max_damage_multiplier",
+          "source": "DataValues.MaxDamageMult",
+          "raw": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "offset": 1,
+          "values": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "self_slow_percent_points",
+          "source": "DataValues.SelfSlow",
+          "raw": [
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "offset": 1,
+          "values": [
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "charge_window_ms",
+          "source": "DataValues.ChargeDuration",
+          "raw": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "offset": 1,
+          "values": [
+            6000,
+            6000,
+            6000,
+            6000,
+            6000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "vfx_charge_ms",
+          "source": "DataValues.VFXChargeDuration",
+          "raw": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "offset": 1,
+          "values": [
+            5000,
+            5000,
+            5000,
+            5000,
+            5000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "cancel_cooldown_ms",
+          "source": "DataValues.CanceledRefundTime",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3000,
+            3000,
+            3000,
+            3000,
+            3000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "cancel_mana_refund_ratio",
+          "source": "DataValues.ManaRefundPercent",
+          "raw": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "offset": 1,
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "knockback_duration_ms",
+          "source": "DataValues.KnockbackDuration",
+          "raw": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          "offset": 1,
+          "values": [
+            750,
+            750,
+            750,
+            750,
+            750
+          ],
+          "scale": 1000
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "蓄力伤害时点与中间插值",
+          "reason": "已保存最低/最高公式；6秒窗口和5秒特效不能当作伤害蓄满时刻，不自建充能过程或线性插值。"
+        },
+        {
+          "kind": "配置",
+          "component": "取消3秒冷却与50%法力返还",
+          "reason": "须实际取消事件；正常命中或蓄满释放不得走返还。尚未接线取消过程。"
+        },
+        {
+          "kind": "配置",
+          "component": "命中施加爆弹重拳与英雄碰撞停下",
+          "reason": "Q实际命中只结算本体伤害候选；W层数与碰撞位移另接。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "冲刺位移、击退空间和非英雄拉近",
+          "reason": "1V1保留对敌伤害；位移与空间查找后置。击退时长字段仅作来源保留。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "冲刺位移、击退空间和非英雄拉近",
+            "reason": "1V1保留对敌伤害；位移与空间查找后置。击退时长字段仅作来源保留。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "蓄力伤害时点与中间插值",
+            "reason": "已保存最低/最高公式；6秒窗口和5秒特效不能当作伤害蓄满时刻，不自建充能过程或线性插值。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "取消3秒冷却与50%法力返还",
+            "reason": "须实际取消事件；正常命中或蓄满释放不得走返还。尚未接线取消过程。"
+          },
+          {
+            "kind": "配置",
+            "component": "命中施加爆弹重拳与英雄碰撞停下",
+            "reason": "Q实际命中只结算本体伤害候选；W层数与碰撞位移另接。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "vi_w": {
+      "skillKey": "vi_w",
+      "name": "爆弹重拳",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Vi",
+        "rootPath": "Characters/Vi/CharacterRecords/Root",
+        "spellPath": "Characters/Vi/Spells/ViWAbility/ViW",
+        "clientSha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+        "officialSha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1",
+        "currentBoundText": {
+          "binding": "Characters/Vi/Spells/ViWAbility/ViW",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_ViW_Name",
+              "key": "spell_viw_name",
+              "text": "爆弹重拳"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ViW_Summary",
+              "key": "spell_viw_summary",
+              "text": "蔚的出拳会打破她对手的护甲，造成额外伤害并为她提供额外攻击速度。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ViW_Tooltip",
+              "key": "spell_viw_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>对相同目标的每第三次攻击会造成额外<physicalDamage>@TotalDamageTooltip@最大生命值的物理伤害</physicalDamage>，移除目标<scaleArmor>@ShredAmount@%护甲</scaleArmor>，并为蔚提供<attackSpeed>@AttackSpeed@%攻击速度</attackSpeed>，持续@SharedBuffsDuration@秒。它还可缩短<spellName>爆裂护盾</spellName>@spell.ViPassive:CDReductionOn3Hit@秒冷却时间。"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_Cooldown_NoCooldown",
+              "key": "spell_cooldown_nocooldown",
+              "text": "无冷却时间"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_ViW_Cost",
+              "key": "spell_viw_cost",
+              "text": "<spellPassive>被动</spellPassive>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_ViW_TooltipExtendedBelowLine",
+              "key": "spell_viw_tooltipextendedbelowline",
+              "text": "<rules>对抗野怪时最多造成<physicalDamage>@MonsterDamageCap@伤害</physicalDamage>。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "max_health_damage_percent_points",
+            "name": "基础最大生命伤害百分点",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 4,
+              "2": 5,
+              "3": 6,
+              "4": 7,
+              "5": 8
+            },
+            "description": "客户端当前根绑定 DataValues.MaxHealthDamage 取索引1至5。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "bonus_ad_health_coefficient",
+            "name": "每1额外攻击力计入最大生命伤害的系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.035,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ADCoefficient 取索引1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "tooltip_percent_scale",
+            "name": "TotalDamageTooltip外层比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.01,
+            "levelValues": null,
+            "description": "当前根TotalDamageTooltip.mMultiplier.mNumber=.01；百分点字段须先乘此外层再乘目标最大生命。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "attack_speed_ratio",
+            "name": "第三次触发攻速加成比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.3,
+              "2": 0.35,
+              "3": 0.4,
+              "4": 0.45,
+              "5": 0.5
+            },
+            "description": "客户端当前根绑定 DataValues.AttackSpeed 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "armor_shred_ratio",
+            "name": "护甲削减比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ShredAmount 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "buff_duration_ms",
+            "name": "攻速与破甲持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SharedBuffsDuration 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "stacks_before_effect",
+            "name": "触发前已有层数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.StacksBeforeEffect 取索引1至5。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "marker_duration_ms",
+            "name": "同目标标记时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MarkerBuffDuration 取索引1至5。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "trigger_hit_count",
+            "name": "同目标触发攻击次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "主说明：对相同目标的每第三次攻击。",
+            "sortOrder": 90
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "爆弹重拳额外物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "tooltip_percent_scale"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "max_health_damage_percent_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bonus_ad_health_coefficient"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "attack_damage",
+                              "attributeValueKind": "BONUS"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "description": "外层×.01×(4/5/6/7/8 + .035×额外攻击力)×目标最大生命；即基础4–8%加每100额外攻击力3.5%。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "third_hit_damage",
+            "name": "第三次攻击额外伤害",
+            "description": "第三次同目标额外伤害候选；不替代普通攻击本体。实际第三次判定未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "第三次攻击额外伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "attack_speed",
+            "name": "爆弹重拳攻速",
+            "description": "独立持续属性；应用、取消与实际触发分别核对。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "buff_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "爆弹重拳攻速",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "attack_speed_ratio"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "max_health_damage_percent_points",
+          "source": "DataValues.MaxHealthDamage",
+          "raw": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "offset": 1,
+          "values": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bonus_ad_health_coefficient",
+          "source": "DataValues.ADCoefficient",
+          "raw": [
+            0.03500000014901161,
+            0.03500000014901161,
+            0.03500000014901161,
+            0.03500000014901161,
+            0.03500000014901161,
+            0.03500000014901161,
+            0.03500000014901161
+          ],
+          "offset": 1,
+          "values": [
+            0.035,
+            0.035,
+            0.035,
+            0.035,
+            0.035
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "tooltip_percent_scale",
+          "source": "mSpellCalculations.TotalDamageTooltip.mMultiplier",
+          "values": [
+            0.01
+          ]
+        },
+        {
+          "parameterKey": "attack_speed_ratio",
+          "source": "DataValues.AttackSpeed",
+          "raw": [
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55
+          ],
+          "offset": 1,
+          "values": [
+            0.3,
+            0.35,
+            0.4,
+            0.45,
+            0.5
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "armor_shred_ratio",
+          "source": "DataValues.ShredAmount",
+          "raw": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "offset": 1,
+          "values": [
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "source": "DataValues.SharedBuffsDuration",
+          "raw": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "offset": 1,
+          "values": [
+            4000,
+            4000,
+            4000,
+            4000,
+            4000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "stacks_before_effect",
+          "source": "DataValues.StacksBeforeEffect",
+          "raw": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "offset": 1,
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "marker_duration_ms",
+          "source": "DataValues.MarkerBuffDuration",
+          "raw": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "offset": 1,
+          "values": [
+            4000,
+            4000,
+            4000,
+            4000,
+            4000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "trigger_hit_count",
+          "source": "Spell_ViW_Tooltip",
+          "values": [
+            3
+          ]
+        },
+        {
+          "source": "当前DataValues.MonsterDamageCap",
+          "raw": {
+            "name": "MonsterDamageCap",
+            "values": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "__type": "SpellDataValue"
+          },
+          "disposition": "野怪上限后置，不写入1V1伤害公式"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "第三次同目标、Q施加与P减冷却",
+          "reason": "伤害、4秒攻速已保存；同目标两层后第三次、Q命中施层、以及只由本触发缩短P冷却4秒均未接线，不能任意普攻或W技能命中结算。"
+        },
+        {
+          "kind": "系统",
+          "component": "百分比削甲独立来源组合",
+          "reason": "20%持续4秒已确证；不能借用黑色切割者专属乘区或固定护甲减值冒充该来源。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "野怪伤害上限",
+          "reason": "英雄目标完整伤害保留；野怪支路后置不能删掉英雄第三次伤害。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "野怪伤害上限",
+            "reason": "英雄目标完整伤害保留；野怪支路后置不能删掉英雄第三次伤害。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "百分比削甲独立来源组合",
+            "reason": "20%持续4秒已确证；不能借用黑色切割者专属乘区或固定护甲减值冒充该来源。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "第三次同目标、Q施加与P减冷却",
+            "reason": "伤害、4秒攻速已保存；同目标两层后第三次、Q命中施层、以及只由本触发缩短P冷却4秒均未接线，不能任意普攻或W技能命中结算。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "vi_e": {
+      "skillKey": "vi_e",
+      "name": "透体之劲",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Vi",
+        "rootPath": "Characters/Vi/CharacterRecords/Root",
+        "spellPath": "Characters/Vi/Spells/ViEAbility/ViE",
+        "clientSha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+        "officialSha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1",
+        "currentBoundText": {
+          "binding": "Characters/Vi/Spells/ViEAbility/ViE",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_ViE_Name",
+              "key": "spell_vie_name",
+              "text": "透体之劲"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ViE_Summary",
+              "key": "spell_vie_summary",
+              "text": "蔚的下次攻击会爆裂，并透过她的目标，对目标身后的敌人造成伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ViE_Tooltip",
+              "key": "spell_vie_tooltip",
+              "text": "蔚的下次攻击对目标和目标后方的敌人造成<physicalDamage>@TotalDamageTooltip@物理伤害</physicalDamage>。<br><br>这个技能有2层充能(@AmmoRechargeTime@秒充能时间)。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Vi.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 26,
+              "2": 32,
+              "3": 38,
+              "4": 44,
+              "5": 50
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "透体之劲基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10,
+              "2": 30,
+              "3": 50,
+              "4": 70,
+              "5": 90
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "total_ad_ratio",
+            "name": "总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "attack_window_ms",
+            "name": "强化攻击保留时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.AttackBuffDuration 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "static_cooldown_ms",
+            "name": "充能之间静态冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.StaticCooldown 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "bonus_range",
+            "name": "额外攻击距离字段",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 50,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.BonusRange 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "max_ammo",
+            "name": "最大充能层数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前根mMaxAmmo全级为2，与说明2层一致。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "ammo_recharge_ms",
+            "name": "充能恢复时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 12000,
+              "2": 11000,
+              "3": 10000,
+              "4": 9000,
+              "5": 8000
+            },
+            "description": "当前根mAmmoRechargeTime索引1至5为12/11/10/9/8秒；与StaticCooldown=1秒及官方显示冷却分开。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "omitted_stat_coefficient",
+            "name": "省略属性枚举节点系数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "第三项StatByCoefficientCalculationPart仅有mCoefficient=1，未写mStat；不默认作法强。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "omitted_stat_value",
+            "name": "省略属性节点的已核数值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "须提供该省略枚举节点经证实的属性取值；缺失不填零，不把默认法强或0当作已证。",
+            "sortOrder": 100
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "attack_damage",
+            "name": "透体之劲整次攻击物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "total_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "omitted_stat_coefficient"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "omitted_stat_value"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "10/30/50/70/90 + 1.1总攻击力 + 省略节点已核项；该总量是整次攻击，不能再加一份普通攻击。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放透体之劲",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            26,
+            32,
+            38,
+            44,
+            50
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            -10,
+            10,
+            30,
+            50,
+            70,
+            90,
+            110
+          ],
+          "offset": 1,
+          "values": [
+            10,
+            30,
+            50,
+            70,
+            90
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "source": "DataValues.ADRatio",
+          "raw": [
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858
+          ],
+          "offset": 1,
+          "values": [
+            1.1,
+            1.1,
+            1.1,
+            1.1,
+            1.1
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "attack_window_ms",
+          "source": "DataValues.AttackBuffDuration",
+          "raw": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "offset": 1,
+          "values": [
+            6000,
+            6000,
+            6000,
+            6000,
+            6000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "static_cooldown_ms",
+          "source": "DataValues.StaticCooldown",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "bonus_range",
+          "source": "DataValues.BonusRange",
+          "raw": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "offset": 1,
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "max_ammo",
+          "source": "mMaxAmmo",
+          "values": [
+            2
+          ]
+        },
+        {
+          "parameterKey": "ammo_recharge_ms",
+          "source": "mAmmoRechargeTime",
+          "raw": [
+            12,
+            12,
+            11,
+            10,
+            9,
+            8,
+            8
+          ],
+          "offset": 1,
+          "values": [
+            12000,
+            11000,
+            10000,
+            9000,
+            8000
+          ]
+        },
+        {
+          "parameterKey": "omitted_stat_coefficient",
+          "source": "mSpellCalculations.TotalDamageTooltip.mFormulaParts.2",
+          "values": [
+            1
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "省略属性枚举默认值",
+          "reason": "系数1已保留；无mStat/mStatFormula时不猜作法强，独立输入缺失不能填0冒充已证。"
+        },
+        {
+          "kind": "配置",
+          "component": "整次攻击交付、弹药恢复与法术护盾资格",
+          "reason": "公式可独立核算；mMaxAmmo、恢复时间与1秒静态冷却已分列。强化窗口6秒、普攻替换、身后穿透和法术护盾阻挡颗粒未核，不造假普攻命中，也不把官方1秒冷却写成普通cooldown_ms。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "目标身后多对象空间",
+          "reason": "主目标整次攻击公式保留；身后范围查找后置。"
+        }
+      ],
+      "reusedParameters": [
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "目标身后多对象空间",
+            "reason": "主目标整次攻击公式保留；身后范围查找后置。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "省略属性枚举默认值",
+            "reason": "系数1已保留；无mStat/mStatFormula时不猜作法强，独立输入缺失不能填0冒充已证。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "整次攻击交付、弹药恢复与法术护盾资格",
+            "reason": "公式可独立核算；mMaxAmmo、恢复时间与1秒静态冷却已分列。强化窗口6秒、普攻替换、身后穿透和法术护盾阻挡颗粒未核，不造假普攻命中，也不把官方1秒冷却写成普通cooldown_ms。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "vi_r": {
+      "skillKey": "vi_r",
+      "name": "天霸横空烈轰",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Vi",
+        "rootPath": "Characters/Vi/CharacterRecords/Root",
+        "spellPath": "Characters/Vi/Spells/ViRAbility/ViR",
+        "clientSha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+        "officialSha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1",
+        "currentBoundText": {
+          "binding": "Characters/Vi/Spells/ViRAbility/ViR",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_ViR_Name",
+              "key": "spell_vir_name",
+              "text": "天霸横空烈轰"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ViR_Summary",
+              "key": "spell_vir_summary",
+              "text": "蔚撞向一名敌人，将途中的人击退到两边。当她接触到目标时，她会将目标击飞到空中，然后跳上去，将目标轰到地面上。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ViR_Tooltip",
+              "key": "spell_vir_tooltip",
+              "text": "蔚挑出一名敌方英雄，将其显形并不可阻挡地向其冲刺。在触碰到该英雄后，蔚会将其<status>击飞</status>@RStunDuration@秒，并造成<physicalDamage>@Damage@物理伤害</physicalDamage>。<br><br>任何与蔚产生碰撞的敌人都会受到伤害、被震开并<status>晕眩</status>@SecondaryTargetStunDuration@秒。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Vi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 140000,
+              "2": 115000,
+              "3": 90000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Vi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "主目标基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 150,
+              "2": 250,
+              "3": 350
+            },
+            "description": "客户端当前根绑定 DataValues.RBaseDamage 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.9,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.RBonusADRatio 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "primary_knockup_ms",
+            "name": "主目标击飞时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1300,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.RStunDuration 取索引1至3。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "secondary_stun_ms",
+            "name": "沿途次目标眩晕时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 750,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SecondaryTargetStunDuration 取索引1至3。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "secondary_damage_multiplier",
+            "name": "次目标伤害相对主目标倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SecondaryTargetDamageMultiplier 取索引1至3。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "根spellCastTime与mCastTime均为.25秒。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "primary_damage",
+            "name": "主目标物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "150/250/350 + .9额外攻击力。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "primary_damage",
+            "name": "天霸横空烈轰主目标伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "天霸横空烈轰主目标伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "primary_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放天霸横空烈轰",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cast_time_ms"
+                  }
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "天霸横空烈轰实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "vi_r"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "primary_damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            140000,
+            115000,
+            90000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.RBaseDamage",
+          "raw": [
+            50,
+            150,
+            250,
+            350,
+            450,
+            550,
+            650
+          ],
+          "offset": 1,
+          "values": [
+            150,
+            250,
+            350
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "DataValues.RBonusADRatio",
+          "raw": [
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421
+          ],
+          "offset": 1,
+          "values": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "primary_knockup_ms",
+          "source": "DataValues.RStunDuration",
+          "raw": [
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842
+          ],
+          "offset": 1,
+          "values": [
+            1300,
+            1300,
+            1300
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "secondary_stun_ms",
+          "source": "DataValues.SecondaryTargetStunDuration",
+          "raw": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          "offset": 1,
+          "values": [
+            750,
+            750,
+            750
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "secondary_damage_multiplier",
+          "source": "DataValues.SecondaryTargetDamageMultiplier",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1,
+            1,
+            1
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "source": "spellCastTime+mCastTime",
+          "values": [
+            250
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "主目标击飞与次目标眩晕",
+          "reason": "主目标1.3秒与沿途.75秒已分列，不得混用。当前目录仅有眩晕；击飞不是眩晕。PERSISTENT+TARGET状态不能配置非空spellShieldBlockScope，不以null绕过阻挡。"
+        },
+        {
+          "kind": "配置",
+          "component": "主目标接触后的实际击飞施加",
+          "reason": "伤害实际命中规则已候选；击飞须在接触主目标后按1.3秒期限施加，不能用次目标.75秒或无期限状态代替。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "沿途空间、显形与次目标执行",
+          "reason": "主目标伤害保留；冲刺路径、不可阻挡位移和沿途次目标即使倍率为1也不在本轮空间执行。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "沿途空间、显形与次目标执行",
+            "reason": "主目标伤害保留；冲刺路径、不可阻挡位移和沿途次目标即使倍率为1也不在本轮空间执行。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "主目标击飞与次目标眩晕",
+            "reason": "主目标1.3秒与沿途.75秒已分列，不得混用。当前目录仅有眩晕；击飞不是眩晕。PERSISTENT+TARGET状态不能配置非空spellShieldBlockScope，不以null绕过阻挡。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "主目标接触后的实际击飞施加",
+            "reason": "伤害实际命中规则已候选；击飞须在接触主目标后按1.3秒期限施加，不能用次目标.75秒或无期限状态代替。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "olaf_p": {
+      "skillKey": "olaf_p",
+      "name": "狂战之怒",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Olaf",
+        "rootPath": "Characters/Olaf/CharacterRecords/Root",
+        "spellPath": "Characters/Olaf/Spells/OlafBerzerkerRageAbility/OlafBerzerkerRage",
+        "clientSha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+        "officialSha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+        "currentBoundText": {
+          "binding": "Characters/Olaf/Spells/OlafBerzerkerRageAbility/OlafBerzerkerRage",
+          "keys": {
+            "keyName": {
+              "sourceKey": "game_character_passiveName_Olaf",
+              "key": "game_character_passivename_olaf",
+              "text": "狂战之怒"
+            },
+            "keyTooltip": {
+              "sourceKey": "game_character_passiveDescription_Olaf",
+              "key": "game_character_passivedescription_olaf",
+              "text": "奥拉夫获得至多<attackSpeed>@MaxAttackSpeed@攻击速度</attackSpeed>和@MaxLifeSteal@生命偷取，基于他的已损失生命值。"
+            },
+            "keySummary": {
+              "sourceKey": "game_character_passiveSummary_Olaf",
+              "key": "game_character_passivesummary_olaf",
+              "text": "奥拉夫基于已损失生命值获得攻击速度和生命偷取。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "game_character_passiveDescriptionExtended_Olaf",
+              "key": "game_character_passivedescriptionextended_olaf",
+              "text": "{{game_character_passiveDescription_Olaf}}<br><br><rules>在30%生命值时达到最大值</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "max_stats_threshold",
+            "name": "达到满额时的剩余生命比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MaxStatsThreshold 取索引1至1。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "max_attack_speed_start",
+            "name": "攻速上限插值起点",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "MaxAttackSpeed.mStartValue=.5；mScaleByStatProgressionMultiplier=true，不按1–18级普通线性展开。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "max_attack_speed_end",
+            "name": "攻速上限插值终点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "MaxAttackSpeed.mEndValue=1。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "max_lifesteal_start",
+            "name": "生命偷取上限插值起点",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.08,
+            "levelValues": null,
+            "description": "MaxLifeSteal.mStartValue=.08。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "max_lifesteal_end",
+            "name": "生命偷取上限插值终点",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.25,
+            "levelValues": null,
+            "description": "MaxLifeSteal.mEndValue=.25。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "one",
+            "name": "满额进度上限",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "缺血进度大于1时仍按满额。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "actual_max_attack_speed",
+            "name": "本等级已核攻速上限",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "须提供已按成长倍率核实的本等级MaxAttackSpeed；不能用.5至1的普通线性插值填入。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "actual_max_lifesteal",
+            "name": "本等级已核生命偷取上限",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "须提供已按成长倍率核实的本等级MaxLifeSteal；不能用.08至.25的普通线性插值填入。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "attack_speed",
+            "name": "当前缺血对应的额外攻速",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_max_attack_speed"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MIN",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "DIVIDE",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "DIVIDE",
+                          "operands": [
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "hp",
+                              "attributeValueKind": "MISSING"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "hp",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "SUBTRACT",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "one"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "max_stats_threshold"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "满额出现在剩余30%生命（已损失70%）；超过后仍封顶。上限本身随等级的成长倍率未解码。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "life_steal",
+            "name": "当前缺血对应的生命偷取",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_max_lifesteal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MIN",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "DIVIDE",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "DIVIDE",
+                          "operands": [
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "hp",
+                              "attributeValueKind": "MISSING"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "hp",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "SUBTRACT",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "one"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "max_stats_threshold"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "与攻速共用30%生命阈值和缺血方向。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "max_stats_threshold",
+          "source": "DataValues.MaxStatsThreshold",
+          "raw": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "offset": 1,
+          "values": [
+            0.3
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "max_attack_speed_start",
+          "source": "mSpellCalculations.MaxAttackSpeed",
+          "values": [
+            0.5
+          ]
+        },
+        {
+          "parameterKey": "max_attack_speed_end",
+          "source": "mSpellCalculations.MaxAttackSpeed",
+          "values": [
+            1
+          ]
+        },
+        {
+          "parameterKey": "max_lifesteal_start",
+          "source": "mSpellCalculations.MaxLifeSteal",
+          "values": [
+            0.08
+          ]
+        },
+        {
+          "parameterKey": "max_lifesteal_end",
+          "source": "mSpellCalculations.MaxLifeSteal",
+          "values": [
+            0.25
+          ]
+        },
+        {
+          "parameterKey": "one",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            1
+          ]
+        },
+        {
+          "source": "当前DataValues.AttackSpeedPerMissingHPPerc",
+          "raw": {
+            "name": "AttackSpeedPerMissingHPPerc",
+            "values": [
+              0.008999999612569809,
+              0.008999999612569809,
+              0.008999999612569809,
+              0.008999999612569809,
+              0.008999999612569809,
+              0.008999999612569809,
+              0.008999999612569809
+            ],
+            "__type": "SpellDataValue"
+          },
+          "disposition": "未采用.009每1%缺血去代替未解码的MaxAttackSpeed成长倍率"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "MaxAttackSpeed/MaxLifeSteal成长倍率插值",
+          "reason": "端点.5→1与.08→.25已保留；mScaleByStatProgressionMultiplier未解码，不以1–18级普通线性或AttackSpeedPerMissingHPPerc=.009冒充本等级上限。"
+        },
+        {
+          "kind": "系统",
+          "component": "持续动态属性不能引用计算时输入",
+          "reason": "攻速/偷取公式含RUNTIME_INPUT上限；PERSISTENT+MOMENT_EVALUATION禁止递归引用RUNTIME_INPUT，不以快照绕过必须随缺血变化的进度。保留公式，不挂持续效果。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "MaxAttackSpeed/MaxLifeSteal成长倍率插值",
+            "reason": "端点.5→1与.08→.25已保留；mScaleByStatProgressionMultiplier未解码，不以1–18级普通线性或AttackSpeedPerMissingHPPerc=.009冒充本等级上限。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "持续动态属性不能引用计算时输入",
+            "reason": "攻速/偷取公式含RUNTIME_INPUT上限；PERSISTENT+MOMENT_EVALUATION禁止递归引用RUNTIME_INPUT，不以快照绕过必须随缺血变化的进度。保留公式，不挂持续效果。"
+          }
+        ],
+        "尚未接线": []
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "olaf_q": {
+      "skillKey": "olaf_q",
+      "name": "逆流投掷",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Olaf",
+        "rootPath": "Characters/Olaf/CharacterRecords/Root",
+        "spellPath": "Characters/Olaf/Spells/OlafAxeThrowCastAbility/OlafAxeThrowCast",
+        "clientSha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+        "officialSha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+        "currentBoundText": {
+          "binding": "Characters/Olaf/Spells/OlafAxeThrowCastAbility/OlafAxeThrowCast",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_OlafAxeThrowCast_Name",
+              "key": "spell_olafaxethrowcast_name",
+              "text": "逆流投掷"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_OlafAxeThrowCast_Summary",
+              "key": "spell_olafaxethrowcast_summary",
+              "text": "奥拉夫将战斧投至目标区域，对所有被战斧穿过的敌人造成伤害并削减他们的护甲和移动速度。如果奥拉夫捡起斧头，那么该技能冷却时间就会重置。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_OlafAxeThrowCast_Tooltip",
+              "key": "spell_olafaxethrowcast_tooltip",
+              "text": "奥拉夫扔出一把斧头，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>和至多持续@MaxSlowDuration@秒(基于斧头移动距离)的@SlowAmount*100@%<status>减速</status>。被斧头命中的英雄还会损失<scaleArmor>@ShredAmount*100@%护甲</scaleArmor>，持续@DebuffDuration@秒。<br><br>如果奥拉夫拾起了斧头，那么这个技能的冷却时间会缩短至@TooltipCDRefund@秒，或在度过@TooltipCDRefund@秒之后完全返还。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_OlafAxeThrowCast_TooltipExtendedBelowLine",
+              "key": "spell_olafaxethrowcast_tooltipextendedbelowline",
+              "text": "<rules>对野怪造成@MonsterDamage@额外伤害。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Olaf.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 9000,
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Olaf.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "逆流投掷基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 70,
+              "2": 120,
+              "3": 170,
+              "4": 220,
+              "5": 270
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "额外攻击力系数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "当前根TotalDamage第二项mStat=2、mStatFormula=2、mCoefficient=1。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.3,
+              "2": 0.35,
+              "3": 0.4,
+              "4": 0.45,
+              "5": 0.5
+            },
+            "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "armor_shred_ratio",
+            "name": "护甲削减比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ShredAmount 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "shred_duration_ms",
+            "name": "护甲削减持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DebuffDuration 取索引1至5。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "min_slow_duration_ms",
+            "name": "最短减速时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MinSlowDuration 取索引1至5。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "max_slow_duration_ms",
+            "name": "最长减速时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MaxSlowDuration 取索引1至5。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "min_slow_distance",
+            "name": "最短减速参考距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 400,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MinSlowDistance 取索引1至5。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "max_slow_distance",
+            "name": "最长减速参考距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 800,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MaxSlowDistance 取索引1至5。",
+            "sortOrder": 110
+          },
+          {
+            "parameterKey": "pickup_cooldown_floor_ms",
+            "name": "拾斧后剩余冷却下限（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MinimumCooldown 取索引1至5。",
+            "sortOrder": 120
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "根spellCastTime与mCastTime均为.25秒。",
+            "sortOrder": 130
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "逆流投掷物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "70/120/170/220/270 + 1.0额外攻击力。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "axe_damage",
+            "name": "逆流投掷实际伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "逆流投掷实际伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放逆流投掷",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cast_time_ms"
+                  }
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "逆流投掷实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "olaf_q"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "axe_damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            9000,
+            9000,
+            9000,
+            9000,
+            9000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            20,
+            70,
+            120,
+            170,
+            220,
+            270,
+            320
+          ],
+          "offset": 1,
+          "values": [
+            70,
+            120,
+            170,
+            220,
+            270
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "mSpellCalculations.TotalDamage",
+          "values": [
+            1
+          ]
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "source": "DataValues.SlowAmount",
+          "raw": [
+            0.25,
+            0.30000001192092896,
+            0.3499999940395355,
+            0.4000000059604645,
+            0.44999998807907104,
+            0.5,
+            0.550000011920929
+          ],
+          "offset": 1,
+          "values": [
+            0.3,
+            0.35,
+            0.4,
+            0.45,
+            0.5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "armor_shred_ratio",
+          "source": "DataValues.ShredAmount",
+          "raw": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "offset": 1,
+          "values": [
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "shred_duration_ms",
+          "source": "DataValues.DebuffDuration",
+          "raw": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "offset": 1,
+          "values": [
+            4000,
+            4000,
+            4000,
+            4000,
+            4000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "min_slow_duration_ms",
+          "source": "DataValues.MinSlowDuration",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "max_slow_duration_ms",
+          "source": "DataValues.MaxSlowDuration",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3000,
+            3000,
+            3000,
+            3000,
+            3000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "min_slow_distance",
+          "source": "DataValues.MinSlowDistance",
+          "raw": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "offset": 1,
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "max_slow_distance",
+          "source": "DataValues.MaxSlowDistance",
+          "raw": [
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "offset": 1,
+          "values": [
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "pickup_cooldown_floor_ms",
+          "source": "DataValues.MinimumCooldown",
+          "raw": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "offset": 1,
+          "values": [
+            2500,
+            2500,
+            2500,
+            2500,
+            2500
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "source": "spellCastTime+mCastTime",
+          "values": [
+            250
+          ]
+        },
+        {
+          "source": "TooltipCDRefund",
+          "raw": {
+            "mMultiplier": {
+              "__type": "CooldownMultiplierCalculationPart"
+            },
+            "tooltipOnly": true,
+            "mFormulaParts": [
+              {
+                "mDataValue": "MinimumCooldown",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "mPrecision": 1,
+            "__type": "GameCalculation"
+          },
+          "disposition": "拾斧把剩余冷却缩到该计算（含冷却倍率），不是固定减少2.5秒"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "拾斧将剩余冷却设为TooltipCDRefund",
+          "reason": "MinimumCooldown=2.5秒已保存；须实际拾取事件把剩余冷却设到该值（可受冷却倍率），不能写成REDUCE 2500毫秒。"
+        },
+        {
+          "kind": "来源",
+          "component": "减速幅度/时长随距离",
+          "reason": "减速比例按技能等级30–50%，时长1–3秒依距离；最短/最长时长与距离字段已保留，不猜线性插值，也无减速状态目录。"
+        },
+        {
+          "kind": "系统",
+          "component": "百分比削甲独立来源组合",
+          "reason": "20%持续4秒已确证；不能借用黑色切割者专属乘区或固定护甲减值冒充该来源。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "斧落地空间、多目标和野怪额外伤害",
+          "reason": "英雄目标伤害保留；拾斧空间与野怪额外伤害后置。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "斧落地空间、多目标和野怪额外伤害",
+            "reason": "英雄目标伤害保留；拾斧空间与野怪额外伤害后置。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "减速幅度/时长随距离",
+            "reason": "减速比例按技能等级30–50%，时长1–3秒依距离；最短/最长时长与距离字段已保留，不猜线性插值，也无减速状态目录。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "百分比削甲独立来源组合",
+            "reason": "20%持续4秒已确证；不能借用黑色切割者专属乘区或固定护甲减值冒充该来源。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "拾斧将剩余冷却设为TooltipCDRefund",
+            "reason": "MinimumCooldown=2.5秒已保存；须实际拾取事件把剩余冷却设到该值（可受冷却倍率），不能写成REDUCE 2500毫秒。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "olaf_w": {
+      "skillKey": "olaf_w",
+      "name": "挺过去",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Olaf",
+        "rootPath": "Characters/Olaf/CharacterRecords/Root",
+        "spellPath": "Characters/Olaf/Spells/OlafFrenziedStrikesAbility/OlafFrenziedStrikes",
+        "clientSha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+        "officialSha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+        "currentBoundText": {
+          "binding": "Characters/Olaf/Spells/OlafFrenziedStrikesAbility/OlafFrenziedStrikes",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_OlafFrenziedStrikes_Name",
+              "key": "spell_olaffrenziedstrikes_name",
+              "text": "挺过去"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_OlafFrenziedStrikes_Summary",
+              "key": "spell_olaffrenziedstrikes_summary",
+              "text": "奥拉夫的攻击速度得到提升，并获得一层护盾。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_OlafFrenziedStrikes_Tooltip",
+              "key": "spell_olaffrenziedstrikes_tooltip",
+              "text": "奥拉夫获得持续@Duration@秒的<attackSpeed>@Attackspeed*100@%攻击速度</attackSpeed>，以及持续@ShieldDuration@秒的<shield>@BaseShield@外加@ShieldPercMissingHP*100@%已损失生命值的护盾值(最大值为@MaxShieldCalc@护盾值，在低于@ThresholdForMax*100@%时提供)</shield>。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Olaf.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 16000,
+              "2": 15000,
+              "3": 14000,
+              "4": 13000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Olaf.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 50,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "attack_speed_ratio",
+            "name": "额外攻速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.4,
+              "2": 0.5,
+              "3": 0.6,
+              "4": 0.7,
+              "5": 0.8
+            },
+            "description": "客户端当前根绑定 DataValues.Attackspeed 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "attack_speed_duration_ms",
+            "name": "攻速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "base_shield",
+            "name": "护盾基础值",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10,
+              "2": 40,
+              "3": 70,
+              "4": 100,
+              "5": 130
+            },
+            "description": "客户端当前根绑定 DataValues.BaseShield 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "missing_hp_ratio",
+            "name": "已损失生命护盾系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.175,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ShieldPercMissingHP 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "shield_duration_ms",
+            "name": "护盾持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "max_shield_hp_threshold",
+            "name": "护盾满额剩余生命比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ThresholdForMax 取索引1至5。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "one",
+            "name": "生命比例单位",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "用1减去剩余生命阈值得到满额已损失比例。",
+            "sortOrder": 90
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "uncapped_shield",
+            "name": "未封顶护盾",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_shield"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "missing_hp_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "MISSING"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "基础10/40/70/100/130 + .175已损失生命。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "max_shield",
+            "name": "低于30%生命时的护盾上限",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_shield"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "missing_hp_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "SUBTRACT",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "one"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "max_shield_hp_threshold"
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "基础 + .175×(1-.3)×最大生命。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "shield",
+            "name": "挺过去护盾值",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MIN",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_shield"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "missing_hp_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "MISSING"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_shield"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "missing_hp_ratio"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "OPERATION",
+                              "operation": "SUBTRACT",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "one"
+                                },
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "max_shield_hp_threshold"
+                                }
+                              ]
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "hp",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "已损失生命护盾在剩余生命低于30%时按上限封顶。",
+            "sortOrder": 30
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "cast_shield",
+            "name": "挺过去护盾",
+            "description": "独立普通护盾；耗尽结束本效果，不取消其它独立效果。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "挺过去护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "shield"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "attack_speed",
+            "name": "挺过去攻速",
+            "description": "独立5秒攻速；护盾2.5秒耗尽不得提前取消本效果。",
+            "sortOrder": 30,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "挺过去攻速",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "attack_speed_ratio"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放挺过去",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              },
+              {
+                "bindingKey": "cast_shield",
+                "effectKey": "cast_shield",
+                "moment": {
+                  "momentType": "STEP_COMPLETE",
+                  "stepKey": "start"
+                },
+                "sortOrder": 20
+              },
+              {
+                "bindingKey": "attack_speed",
+                "effectKey": "attack_speed",
+                "moment": {
+                  "momentType": "STEP_COMPLETE",
+                  "stepKey": "start"
+                },
+                "sortOrder": 30
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            16000,
+            15000,
+            14000,
+            13000,
+            12000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        },
+        {
+          "parameterKey": "attack_speed_ratio",
+          "source": "DataValues.Attackspeed",
+          "raw": [
+            0.30000001192092896,
+            0.4000000059604645,
+            0.5,
+            0.6000000238418579,
+            0.699999988079071,
+            0.800000011920929,
+            0.8999999761581421
+          ],
+          "offset": 1,
+          "values": [
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "attack_speed_duration_ms",
+          "source": "DataValues.Duration",
+          "raw": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "offset": 1,
+          "values": [
+            5000,
+            5000,
+            5000,
+            5000,
+            5000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "base_shield",
+          "source": "DataValues.BaseShield",
+          "raw": [
+            -20,
+            10,
+            40,
+            70,
+            100,
+            130,
+            160
+          ],
+          "offset": 1,
+          "values": [
+            10,
+            40,
+            70,
+            100,
+            130
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "missing_hp_ratio",
+          "source": "DataValues.ShieldPercMissingHP",
+          "raw": [
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776
+          ],
+          "offset": 1,
+          "values": [
+            0.175,
+            0.175,
+            0.175,
+            0.175,
+            0.175
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "source": "DataValues.ShieldDuration",
+          "raw": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "offset": 1,
+          "values": [
+            2500,
+            2500,
+            2500,
+            2500,
+            2500
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "max_shield_hp_threshold",
+          "source": "DataValues.ThresholdForMax",
+          "raw": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "offset": 1,
+          "values": [
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "one",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            1
+          ]
+        }
+      ],
+      "pending": [],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": []
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "olaf_e": {
+      "skillKey": "olaf_e",
+      "name": "鲁莽挥击",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Olaf",
+        "rootPath": "Characters/Olaf/CharacterRecords/Root",
+        "spellPath": "Characters/Olaf/Spells/OlafRecklessStrikeAbility/OlafRecklessStrike",
+        "clientSha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+        "officialSha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+        "currentBoundText": {
+          "binding": "Characters/Olaf/Spells/OlafRecklessStrikeAbility/OlafRecklessStrike",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_OlafRecklessStrike_Name",
+              "key": "spell_olafrecklessstrike_name",
+              "text": "鲁莽挥击"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_OlafRecklessStrike_Summary",
+              "key": "spell_olafrecklessstrike_summary",
+              "text": "奥拉夫以破釜沉舟之势发动进攻，对目标造成真实伤害（不受护甲与魔抗减免），同时，自身也会根据敌方所受的伤害而受到真实伤害的反噬。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_OlafRecklessStrike_Tooltip",
+              "key": "spell_olafrecklessstrike_tooltip",
+              "text": "奥拉夫狂野地挥舞他的双斧，造成<trueDamage>@TotalDamage@真实伤害</trueDamage>。如果该敌人阵亡，那么会返还此技能的消耗。<br><br>攻击会使这个技能的冷却时间缩短1秒，在攻击野怪时，缩短值提升至2秒。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_OlafRecklessStrike_Cost",
+              "key": "spell_olafrecklessstrike_cost",
+              "text": "消耗<font color='#FF3300'>@HealthCostCalc@生命值</font>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_RecklessStrike_TooltipExtendedBelowLine",
+              "key": "spell_recklessstrike_tooltipextendedbelowline",
+              "text": "<rules>施放时间受益于额外攻速</rules>："
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Olaf.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 11000,
+              "2": 10000,
+              "3": 9000,
+              "4": 8000,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "鲁莽挥击基础真实伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 70,
+              "2": 115,
+              "3": 160,
+              "4": 205,
+              "5": 250
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "total_ad_ratio",
+            "name": "总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前根TotalDamage第二项mStat=2、无mStatFormula、mCoefficient=.5，按总攻击力。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "health_cost_ratio",
+            "name": "生命消耗相对本次伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.HealthCostPercent 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "champion_attack_cdr_ms",
+            "name": "英雄普攻缩短冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ChampionRefresh 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "cast_time_base_ms",
+            "name": "无额外攻速时施放时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Cast_Time_Base 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "cast_time_min_ms",
+            "name": "施放时间下限（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 175,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Cast_Time_Min 取索引1至5。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "cast_time_bonus_as_cap",
+            "name": "影响施放时间的额外攻速上限字段",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 125,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Cast_Time_Attack_Speed_Cap 取索引1至5。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "鲁莽挥击真实伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "70/115/160/205/250 + .5总攻击力。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "health_cost",
+            "name": "施放生命消耗",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "health_cost_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "total_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "HealthCostCalc=.4×TotalDamage；不用旧30%或法力。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "reckless_damage",
+            "name": "鲁莽挥击实际伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "鲁莽挥击实际伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "real",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "health_cost",
+            "name": "施放生命消耗",
+            "description": "仅本次伤害40%的生命消耗；击杀返还须另接因果。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_health",
+                "name": "消耗生命",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "health_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "hp",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放鲁莽挥击",
+            "activationType": "ACTIVE",
+            "description": "只绑定生命消耗与基础冷却；不生成命中，也不把未解码攻速函数写成延迟。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "health_cost",
+                "effectKey": "health_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "鲁莽挥击实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "olaf_e"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "reckless_damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            11000,
+            10000,
+            9000,
+            8000,
+            7000
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            25,
+            70,
+            115,
+            160,
+            205,
+            250,
+            295
+          ],
+          "offset": 1,
+          "values": [
+            70,
+            115,
+            160,
+            205,
+            250
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "source": "mSpellCalculations.TotalDamage",
+          "values": [
+            0.5
+          ]
+        },
+        {
+          "parameterKey": "health_cost_ratio",
+          "source": "DataValues.HealthCostPercent",
+          "raw": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ],
+          "offset": 1,
+          "values": [
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "champion_attack_cdr_ms",
+          "source": "DataValues.ChampionRefresh",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "cast_time_base_ms",
+          "source": "DataValues.Cast_Time_Base",
+          "raw": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "offset": 1,
+          "values": [
+            250,
+            250,
+            250,
+            250,
+            250
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "cast_time_min_ms",
+          "source": "DataValues.Cast_Time_Min",
+          "raw": [
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776,
+            0.17499999701976776
+          ],
+          "offset": 1,
+          "values": [
+            175,
+            175,
+            175,
+            175,
+            175
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "cast_time_bonus_as_cap",
+          "source": "DataValues.Cast_Time_Attack_Speed_Cap",
+          "raw": [
+            125,
+            125,
+            125,
+            125,
+            125,
+            125,
+            125
+          ],
+          "offset": 1,
+          "values": [
+            125,
+            125,
+            125,
+            125,
+            125
+          ],
+          "scale": 1
+        },
+        {
+          "source": "旧BaseHealthCost/HealthCostADRatio计算",
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseHealthCost",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mDataValue": "HealthCostADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "disposition": "不采用；当前生命消耗以HealthCostCalc=.4×TotalDamage为准"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "击杀返还本次生命消耗",
+          "reason": "返还必须由本次鲁莽挥击伤害造成的击杀触发；不能任意击杀或其它技能伤害返还。"
+        },
+        {
+          "kind": "配置",
+          "component": "英雄普攻缩短E冷却1秒",
+          "reason": "ChampionRefresh=1秒已保存；须实际英雄普攻命中再减少冷却，不能用本技能命中或假事件代替。"
+        },
+        {
+          "kind": "来源",
+          "component": "额外攻速影响施放时间的完整函数",
+          "reason": "250毫秒到175毫秒与攻速上限字段已保留；完整插值未显式，不猜函数，也不把spellCastTime=.25且mCastTime空当作已证延迟。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "野怪普攻减2秒冷却",
+          "reason": "英雄普攻减1秒参数保留；野怪2秒后置。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "野怪普攻减2秒冷却",
+            "reason": "英雄普攻减1秒参数保留；野怪2秒后置。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "额外攻速影响施放时间的完整函数",
+            "reason": "250毫秒到175毫秒与攻速上限字段已保留；完整插值未显式，不猜函数，也不把spellCastTime=.25且mCastTime空当作已证延迟。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "击杀返还本次生命消耗",
+            "reason": "返还必须由本次鲁莽挥击伤害造成的击杀触发；不能任意击杀或其它技能伤害返还。"
+          },
+          {
+            "kind": "配置",
+            "component": "英雄普攻缩短E冷却1秒",
+            "reason": "ChampionRefresh=1秒已保存；须实际英雄普攻命中再减少冷却，不能用本技能命中或假事件代替。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "olaf_r": {
+      "skillKey": "olaf_r",
+      "name": "诸神黄昏",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Olaf",
+        "rootPath": "Characters/Olaf/CharacterRecords/Root",
+        "spellPath": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok",
+        "clientSha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+        "officialSha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+        "currentBoundText": {
+          "binding": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_OlafRagnarok_Name",
+              "key": "spell_olafragnarok_name",
+              "text": "诸神黄昏"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_OlafRagnarok_Summary",
+              "key": "spell_olafragnarok_summary",
+              "text": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_OlafRagnarok_Tooltip",
+              "key": "spell_olafragnarok_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>奥拉夫获得<scaleArmor>@Resists@护甲</scaleArmor>和<scaleMR>@Resists@魔法抗性</scaleMR>。<br><br><spellActive>主动：</spellActive>奥拉夫净化掉他身上的所有<status>定身</status>和<status>限制</status>效果并且在接下来的@Duration@秒内免疫这些效果。在激活时，奥拉夫获得<scaleAD>@AD@攻击力</scaleAD>。用一次攻击或<spellName>鲁莽挥击</spellName>命中一名英雄时，会使持续时间延长@DurationExtension@秒。<br><br>此外，奥拉夫会在朝着敌方英雄时获得<speed>@Haste*100@%移动速度</speed>，持续@HasteDuration@秒。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Olaf.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 100000,
+              "2": 90000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Olaf.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "passive_resist",
+            "name": "被动双抗",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10,
+              "2": 15,
+              "3": 20
+            },
+            "description": "客户端当前根绑定 DataValues.Resists 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "base_attack_damage",
+            "name": "主动基础攻击力",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10,
+              "2": 20,
+              "3": 30
+            },
+            "description": "客户端当前根绑定 DataValues.FlatAD 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "total_ad_ratio",
+            "name": "主动总攻击力加成系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.25,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.PercentTotalADAmp 取索引1至3。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "active_duration_ms",
+            "name": "主动基础持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Duration 取索引1至3。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "champion_hit_extension_ms",
+            "name": "英雄攻击或鲁莽挥击延长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DurationExtension 取索引1至3。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "move_speed_ratio",
+            "name": "朝向敌方英雄加速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.2,
+              "2": 0.45,
+              "3": 0.7
+            },
+            "description": "客户端当前根绑定 DataValues.Haste 取索引1至3。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "move_speed_duration_ms",
+            "name": "朝向加速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.HasteDuration 取索引1至3。",
+            "sortOrder": 90
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "active_attack_damage",
+            "name": "主动获得的攻击力",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_attack_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "10/20/30 + .25总攻击力；效果须本次施加快照，避免持续读取含自身增益的现值反馈。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "passive_armor",
+            "name": "诸神黄昏被动护甲",
+            "description": "独立持续属性；应用、取消与实际触发分别核对。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "诸神黄昏被动护甲",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "passive_resist"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "armor",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "passive_magic_resistance",
+            "name": "诸神黄昏被动魔抗",
+            "description": "独立持续属性；应用、取消与实际触发分别核对。",
+            "sortOrder": 30,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "诸神黄昏被动魔抗",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "passive_resist"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "magic_resistance",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "active_attack_damage",
+            "name": "诸神黄昏主动攻击力",
+            "description": "3秒基础期限；命中英雄延长2.5秒是延长不是重置为3秒。数值按施加快照读取。",
+            "sortOrder": 40,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "active_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "诸神黄昏主动攻击力",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "active_attack_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "attack_damage",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放诸神黄昏",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              },
+              {
+                "bindingKey": "active_attack_damage",
+                "effectKey": "active_attack_damage",
+                "moment": {
+                  "momentType": "STEP_COMPLETE",
+                  "stepKey": "start"
+                },
+                "sortOrder": 20
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            100000,
+            90000,
+            80000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "parameterKey": "passive_resist",
+          "source": "DataValues.Resists",
+          "raw": [
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35
+          ],
+          "offset": 1,
+          "values": [
+            10,
+            15,
+            20
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "base_attack_damage",
+          "source": "DataValues.FlatAD",
+          "raw": [
+            0,
+            10,
+            20,
+            30,
+            40,
+            50,
+            60
+          ],
+          "offset": 1,
+          "values": [
+            10,
+            20,
+            30
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "source": "DataValues.PercentTotalADAmp",
+          "raw": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "offset": 1,
+          "values": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "active_duration_ms",
+          "source": "DataValues.Duration",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3000,
+            3000,
+            3000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "champion_hit_extension_ms",
+          "source": "DataValues.DurationExtension",
+          "raw": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "offset": 1,
+          "values": [
+            2500,
+            2500,
+            2500
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "move_speed_ratio",
+          "source": "DataValues.Haste",
+          "raw": [
+            -0.05000000074505806,
+            0.20000000298023224,
+            0.44999998807907104,
+            0.699999988079071,
+            0.949999988079071,
+            1.2000000476837158,
+            1.4500000476837158
+          ],
+          "offset": 1,
+          "values": [
+            0.2,
+            0.45,
+            0.7
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "move_speed_duration_ms",
+          "source": "DataValues.HasteDuration",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1000,
+            1000,
+            1000
+          ],
+          "scale": 1000
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "被动双抗的学习时点",
+          "reason": "10/15/20双抗效果已保存；R未学习时不应存在，不能用对局开始初始化代替升级获得。"
+        },
+        {
+          "kind": "配置",
+          "component": "英雄普攻或E命中延长2.5秒",
+          "reason": "延长不是把期限刷新成固定3秒；须实际命中英雄的攻击或鲁莽挥击。"
+        },
+        {
+          "kind": "配置",
+          "component": "朝向敌方英雄的加速条件",
+          "reason": "20/45/70%与1秒已保存；不能无条件施加移动速度。"
+        },
+        {
+          "kind": "系统",
+          "component": "净化与控制免疫",
+          "reason": "通用控制净化不能只移除眩晕；当前没有通用净化/免疫能力，不以STATUS_OPERATION清眩晕冒充。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "净化与控制免疫",
+            "reason": "通用控制净化不能只移除眩晕；当前没有通用净化/免疫能力，不以STATUS_OPERATION清眩晕冒充。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "被动双抗的学习时点",
+            "reason": "10/15/20双抗效果已保存；R未学习时不应存在，不能用对局开始初始化代替升级获得。"
+          },
+          {
+            "kind": "配置",
+            "component": "英雄普攻或E命中延长2.5秒",
+            "reason": "延长不是把期限刷新成固定3秒；须实际命中英雄的攻击或鲁莽挥击。"
+          },
+          {
+            "kind": "配置",
+            "component": "朝向敌方英雄的加速条件",
+            "reason": "20/45/70%与1秒已保存；不能无条件施加移动速度。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    }
+  }
+}

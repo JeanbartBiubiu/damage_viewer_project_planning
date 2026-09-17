@@ -1,0 +1,23 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "method": "POST",
+    "route": "/skills/janna_q/parameters",
+    "detailRoute": "/skills/janna_q/parameters/charge_distance_percent_points",
+    "skillKey": "janna_q",
+    "kind": "parameters",
+    "stableKey": "charge_distance_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_distance_percent_points",
+      "name": "蓄力射程增加百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20,
+      "levelValues": null,
+      "description": "客户端DataValues.ChargeDistancePercent按等级索引1取20；仅保留来源说明，不把射程变化展开成几何过程。",
+      "sortOrder": 90
+    }
+  }
+}

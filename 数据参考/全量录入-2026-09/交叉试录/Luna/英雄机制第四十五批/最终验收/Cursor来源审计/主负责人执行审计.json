@@ -1,0 +1,158 @@
+{
+  "at": "2026-09-10T00:57:30.078Z",
+  "status": "完成，所有工具均为read/glob/grep，冻结来源与隔离Git零变化",
+  "readonlyAuditPassed": true,
+  "agentId": "agent-4b6eeb3b-6656-467b-b81d-4a515f45f871",
+  "runId": "run-8effa720-4a97-4a81-97e4-ee16bf88cc23",
+  "requestId": "13235a20-5e40-4975-a860-1c4b36286762",
+  "resultStatus": "finished",
+  "events": 3453,
+  "uniqueTools": 65,
+  "toolNames": {
+    "glob": 2,
+    "read": 52,
+    "grep": 11
+  },
+  "inputsChecked": 24,
+  "inputs": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "98b11ee90bc7b80716658ad3f1417654bc4678f893a2ade9d6b8f81947a9c704",
+      "actualSha256": "98b11ee90bc7b80716658ad3f1417654bc4678f893a2ade9d6b8f81947a9c704"
+    },
+    {
+      "path": "README.md",
+      "sha256": "4b9d51ef3e14dab3c18c14fa7208116c958ab6b735118e73eb69ef90562916aa",
+      "actualSha256": "4b9d51ef3e14dab3c18c14fa7208116c958ab6b735118e73eb69ef90562916aa"
+    },
+    {
+      "path": "主负责人源值核对说明.md",
+      "sha256": "9c851b5fd7182f6a8f1e01067ecfd16e46b6afd2ee5ea80dc6e5c4bad01ac892",
+      "actualSha256": "9c851b5fd7182f6a8f1e01067ecfd16e46b6afd2ee5ea80dc6e5c4bad01ac892"
+    },
+    {
+      "path": "主负责人范围与核对要求.md",
+      "sha256": "47458ba2d5b686e1cfd6c7e37f0f7ae306f15df9b447a43a2132f6e95aba6f08",
+      "actualSha256": "47458ba2d5b686e1cfd6c7e37f0f7ae306f15df9b447a43a2132f6e95aba6f08"
+    },
+    {
+      "path": "参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "actualSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "path": "参考资料/公共参数复用清单.json",
+      "sha256": "be9d93ce893d3d6ef3757b27625cbc2289df85287ef8688b30a1ec5b956c2dca",
+      "actualSha256": "be9d93ce893d3d6ef3757b27625cbc2289df85287ef8688b30a1ec5b956c2dca"
+    },
+    {
+      "path": "参考资料/官方中文/Heimerdinger.json",
+      "sha256": "7bd7e7b19040197e21e4491565320e9b0221fb0d03420dc083348d9073c9cad3",
+      "actualSha256": "7bd7e7b19040197e21e4491565320e9b0221fb0d03420dc083348d9073c9cad3"
+    },
+    {
+      "path": "参考资料/官方中文/Shaco.json",
+      "sha256": "79716cb893a65f598b2fdc1dae0c83643f0a249fd05ab224583dec6a624c9ad1",
+      "actualSha256": "79716cb893a65f598b2fdc1dae0c83643f0a249fd05ab224583dec6a624c9ad1"
+    },
+    {
+      "path": "参考资料/官方中文/Teemo.json",
+      "sha256": "23a031a4c7ed02785986d4f8243913df34487c1b4c1057e28af0fb2cf6a2dd51",
+      "actualSha256": "23a031a4c7ed02785986d4f8243913df34487c1b4c1057e28af0fb2cf6a2dd51"
+    },
+    {
+      "path": "参考资料/官方中文/Zyra.json",
+      "sha256": "c1ffb17ff4f55221690e58b79a04fc807acff143977fc21db3d1efe0a7e7fe35",
+      "actualSha256": "c1ffb17ff4f55221690e58b79a04fc807acff143977fc21db3d1efe0a7e7fe35"
+    },
+    {
+      "path": "参考资料/官方英文/Heimerdinger.json",
+      "sha256": "4e1db83b407293d822b37b7f9290753db3c7ba496bd9841ccd8b36c9725c9c3b",
+      "actualSha256": "4e1db83b407293d822b37b7f9290753db3c7ba496bd9841ccd8b36c9725c9c3b"
+    },
+    {
+      "path": "参考资料/官方英文/Shaco.json",
+      "sha256": "1b31dc27ee6c197ce2b88b10d5b5756d14a942d938309003533fc05d2e5db095",
+      "actualSha256": "1b31dc27ee6c197ce2b88b10d5b5756d14a942d938309003533fc05d2e5db095"
+    },
+    {
+      "path": "参考资料/官方英文/Teemo.json",
+      "sha256": "d925320feef190dbf5923ec83cf7129cb11a174e3982915360e7928edc1276ea",
+      "actualSha256": "d925320feef190dbf5923ec83cf7129cb11a174e3982915360e7928edc1276ea"
+    },
+    {
+      "path": "参考资料/官方英文/Zyra.json",
+      "sha256": "4dea8c9a2d09d6cfb24bac8dec60651ac64b3745d561d2dca516f9951b284a57",
+      "actualSha256": "4dea8c9a2d09d6cfb24bac8dec60651ac64b3745d561d2dca516f9951b284a57"
+    },
+    {
+      "path": "参考资料/客户端原文/Heimerdinger.json.gz",
+      "sha256": "bd2ea01efb7a0f56db1d3b0b705565bab5b84811cc6ac7750f3cdd31d5e1816a",
+      "actualSha256": "bd2ea01efb7a0f56db1d3b0b705565bab5b84811cc6ac7750f3cdd31d5e1816a"
+    },
+    {
+      "path": "参考资料/客户端原文/Shaco.json.gz",
+      "sha256": "28417dfa31cf8fb5990c7bf108d5431381bea5f5c43c0deb53b30b0290e385cf",
+      "actualSha256": "28417dfa31cf8fb5990c7bf108d5431381bea5f5c43c0deb53b30b0290e385cf"
+    },
+    {
+      "path": "参考资料/客户端原文/Teemo.json.gz",
+      "sha256": "279230eea2e755d24f55f1dce0f4f22a71df113696ae85df8c54ba23ea8a7abe",
+      "actualSha256": "279230eea2e755d24f55f1dce0f4f22a71df113696ae85df8c54ba23ea8a7abe"
+    },
+    {
+      "path": "参考资料/客户端原文/Zyra.json.gz",
+      "sha256": "94e23123ef2c5c00314b79d216fc055ac84411778f425924ce273e2a79c809ef",
+      "actualSha256": "94e23123ef2c5c00314b79d216fc055ac84411778f425924ce273e2a79c809ef"
+    },
+    {
+      "path": "参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "actualSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "path": "参考资料/当前20槽保护快照.json",
+      "sha256": "cf0d74b77b0b3eb1c7c1e40fc73d59744c39637ae3ecf44370ce88b10ca5634a",
+      "actualSha256": "cf0d74b77b0b3eb1c7c1e40fc73d59744c39637ae3ecf44370ce88b10ca5634a"
+    },
+    {
+      "path": "参考资料/接口载荷样例.json",
+      "sha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "actualSha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02"
+    },
+    {
+      "path": "来源绑定与当前文本.json",
+      "sha256": "c3a084eaa66df5c6cc9477423d6ac6a4ae4e47214ce1c2440b15ebd66c4122ab",
+      "actualSha256": "c3a084eaa66df5c6cc9477423d6ac6a4ae4e47214ce1c2440b15ebd66c4122ab"
+    },
+    {
+      "path": "评审任务.md",
+      "sha256": "8b7acc49a36edaaba939bcdcc758d022c542f32b3cb12cc30348af2addb63606",
+      "actualSha256": "8b7acc49a36edaaba939bcdcc758d022c542f32b3cb12cc30348af2addb63606"
+    },
+    {
+      "path": "输入版本.json",
+      "sha256": "d49734f9451c45ad02aca66ae0ff46945a3fd3344d540426dbe513318e53b468",
+      "actualSha256": "d49734f9451c45ad02aca66ae0ff46945a3fd3344d540426dbe513318e53b468"
+    }
+  ],
+  "gitDelta": [],
+  "apiWrites": 0,
+  "reviewedPlanRev": "hero45-source-v1",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "reviewSha256": "9dda44cc79082f6e6d38869cdccd154cc154e528fea3ee3a7d0b519fead9bfae",
+  "eventsSha256": "1e5a3365d66791416e11e05b960fc5083e54925b38402694661f4e58e794dd46",
+  "summarySha256": "2427fea6fa027476ab91a144a7386fd0ffbd8163c065e9f711beeb186f830fe9"
+}

@@ -1,0 +1,1201 @@
+{
+  "generatedAt": "2026-09-09T16:05:53.778Z",
+  "sourceVersions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "inputFiles": {
+    "inputVersionSha256": "85459db3db119841a7950124c3661b7cc5625b7be3b2283fe5e31fc61d66349f",
+    "sourceBindingSha256": "f09cf7a5e4f515d89860cf5f05cfd89eb3f2f42b7b19294c906740f6910f6341",
+    "sourceNoteSha256": "3839875a178be5932150348757b8cbe3e6d9187041e2c98384ab0cc7acee7bc2"
+  },
+  "sourceFiles": [
+    {
+      "path": "参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "role": "当前中文文本",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "byteSize": 8350124
+    },
+    {
+      "path": "参考资料/客户端原文/Ornn.json.gz",
+      "role": "固定客户端完整原文",
+      "sha256": "42bc358c5d093399fa99f75863f18aa71f605abcc50546b7bb814a42bb6e30c7",
+      "byteSize": 9658
+    },
+    {
+      "path": "参考资料/官方中文/Ornn.json",
+      "role": "固定官方中文",
+      "sha256": "662ca9b9dcd0f7273981ea8ef6085cb1c98593bdc05c48dbf14e83c1b68565e9",
+      "byteSize": 12988
+    },
+    {
+      "path": "参考资料/官方英文/Ornn.json",
+      "role": "固定官方英文",
+      "sha256": "e42ddac6085903dfee23bfeb40e65c277bee8cf06ba167abb65da5b1060683a6",
+      "byteSize": 12214
+    },
+    {
+      "path": "参考资料/客户端原文/Shen.json.gz",
+      "role": "固定客户端完整原文",
+      "sha256": "6ee15edef5809b4bd618fb22b3a471c6212ba57fbc928506c972d82144dbe568",
+      "byteSize": 7881
+    },
+    {
+      "path": "参考资料/官方中文/Shen.json",
+      "role": "固定官方中文",
+      "sha256": "e1be63247dd0e129e1ade0ec6c280ad575a479caf31e32329e86ee43fd157dd3",
+      "byteSize": 13534
+    },
+    {
+      "path": "参考资料/官方英文/Shen.json",
+      "role": "固定官方英文",
+      "sha256": "88f18a33f8b51adcd2ecf9dabaa476214b7e378b95894dec9803dc454bff6231",
+      "byteSize": 13190
+    },
+    {
+      "path": "参考资料/属性默认与边界.json",
+      "role": "同版属性选择器窄口径",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "byteSize": 4045
+    },
+    {
+      "path": "参考资料/接口载荷样例.json",
+      "role": "已保存结构样例，数值不得复制",
+      "sha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "byteSize": 18896
+    }
+  ],
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "indexing": {
+    "clientSkillDataValues": "技能等级使用数组索引1至maxLevel；索引0可能是占位值",
+    "official": "官方中文冷却与消耗数组使用索引0至maxLevel-1",
+    "characterLevel": "慎Q BaseFlatDamage 与慎E energyrefund 读取当前服务已支持的角色等级1至18映射"
+  },
+  "resourceCapability": {
+    "protectedAttribute": "energy",
+    "attributeType": "DECIMAL",
+    "resultType": "RESOURCE_CHANGE",
+    "operations": [
+      "CONSUME",
+      "RESTORE"
+    ],
+    "evidence": "hero29-root-entry-20260909/参考资料/当前10槽保护快照.json与同版载荷样例"
+  },
+  "skills": {
+    "ornn_p": {
+      "sourceDataValues": {
+        "MasterworkLevel": {
+          "values": [
+            13,
+            13,
+            13,
+            13,
+            13,
+            13,
+            13
+          ],
+          "rank1ToMax": [
+            13
+          ]
+        },
+        "BaseStatAmp": {
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "rank1ToMax": [
+            0.10000000149011612
+          ]
+        },
+        "AdditionalMythicStatAmp": {
+          "values": [
+            0.03999999910593033,
+            0.03999999910593033,
+            0.03999999910593033,
+            0.03999999910593033,
+            0.03999999910593033,
+            0.03999999910593033,
+            0.03999999910593033
+          ],
+          "rank1ToMax": [
+            0.03999999910593033
+          ]
+        },
+        "GameModeInteger": {
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "rank1ToMax": [
+            1
+          ]
+        }
+      },
+      "calculations": {
+        "{7325018d}": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 90,
+              "mEndValue": 10,
+              "mScalePastDefaultMaxLevel": false,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialIndex0": null
+    },
+    "ornn_q": {
+      "sourceDataValues": {
+        "BaseDamage": {
+          "values": [
+            -5,
+            20,
+            45,
+            70,
+            95,
+            120,
+            145
+          ],
+          "rank1ToMax": [
+            20,
+            45,
+            70,
+            95,
+            120
+          ]
+        },
+        "PillarDuration": {
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "rank1ToMax": [
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        "SlowAmount": {
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "rank1ToMax": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ]
+        },
+        "SlowDuration": {
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "rank1ToMax": [
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mCoefficient": 1.100000023841858,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialIndex0": {
+        "cooldown": [
+          9,
+          8.5,
+          8,
+          7.5,
+          7
+        ],
+        "cost": [
+          45,
+          45,
+          45,
+          45,
+          45
+        ]
+      }
+    },
+    "ornn_w": {
+      "sourceDataValues": {
+        "MinimumDamagePerTick": {
+          "values": [
+            6,
+            16,
+            26,
+            36,
+            46,
+            56,
+            66
+          ],
+          "rank1ToMax": [
+            16,
+            26,
+            36,
+            46,
+            56
+          ]
+        },
+        "NumberOfTicks": {
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "rank1ToMax": [
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        "PercentHPPerTick": {
+          "values": [
+            0.02199999988079071,
+            0.024000000208616257,
+            0.026000000536441803,
+            0.02800000086426735,
+            0.029999999329447746,
+            0.03200000151991844,
+            0.03400000184774399
+          ],
+          "rank1ToMax": [
+            0.024000000208616257,
+            0.026000000536441803,
+            0.02800000086426735,
+            0.029999999329447746,
+            0.03200000151991844
+          ]
+        },
+        "MaxPercentHPPerTickTooltip": {
+          "values": [
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+          ],
+          "rank1ToMax": [
+            12,
+            13,
+            14,
+            15,
+            16
+          ]
+        },
+        "BrittleDuration": {
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "rank1ToMax": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      },
+      "calculations": {
+        "BrittlePercentMaxHPCalc": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 0.09000000357627869,
+              "mEndValue": 0.17000000178813934,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "TotalMinimumDamage": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mPart1": {
+                "mDataValue": "MinimumDamagePerTick",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mPart2": {
+                "mDataValue": "NumberOfTicks",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialIndex0": {
+        "cooldown": [
+          12,
+          11.5,
+          11,
+          10.5,
+          10
+        ],
+        "cost": [
+          45,
+          50,
+          55,
+          60,
+          65
+        ]
+      }
+    },
+    "ornn_e": {
+      "sourceDataValues": {
+        "BaseDamage": {
+          "values": [
+            35,
+            80,
+            125,
+            170,
+            215,
+            260,
+            305
+          ],
+          "rank1ToMax": [
+            80,
+            125,
+            170,
+            215,
+            260
+          ]
+        },
+        "KnockupDuration": {
+          "values": [
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25
+          ],
+          "rank1ToMax": [
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25
+          ]
+        },
+        "ArmorRatio": {
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ],
+          "rank1ToMax": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ]
+        },
+        "MRRatio": {
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ],
+          "rank1ToMax": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ]
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 1,
+              "mStatFormula": 2,
+              "mDataValue": "ArmorRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 6,
+              "mStatFormula": 2,
+              "mDataValue": "MRRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialIndex0": {
+        "cooldown": [
+          14,
+          13.5,
+          13,
+          12.5,
+          12
+        ],
+        "cost": [
+          35,
+          40,
+          45,
+          50,
+          55
+        ]
+      }
+    },
+    "ornn_r": {
+      "sourceDataValues": {
+        "RBaseDamage": {
+          "values": [
+            75,
+            125,
+            175,
+            225,
+            275,
+            325,
+            375
+          ],
+          "rank1ToMax": [
+            125,
+            175,
+            225
+          ]
+        },
+        "RSlowPercentBasePreMath": {
+          "values": [
+            30,
+            40,
+            50,
+            60,
+            70,
+            80,
+            90
+          ],
+          "rank1ToMax": [
+            40,
+            50,
+            60
+          ]
+        },
+        "RSlowDuration": {
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "rank1ToMax": [
+            2,
+            2,
+            2
+          ]
+        },
+        "RRatio": {
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "rank1ToMax": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ]
+        },
+        "BrittleDurationTOOLTIPONLY": {
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "rank1ToMax": [
+            3,
+            3,
+            3
+          ]
+        },
+        "RStunDuration": {
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "rank1ToMax": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "calculations": {
+        "RDamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "RBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "RRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialIndex0": {
+        "cooldown": [
+          140,
+          120,
+          100
+        ],
+        "cost": [
+          100,
+          100,
+          100
+        ]
+      }
+    },
+    "shen_p": {
+      "sourceDataValues": {
+        "ShieldDuration": {
+          "values": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "rank1ToMax": [
+            2.5
+          ]
+        },
+        "ShieldCooldown": {
+          "values": [
+            11,
+            11,
+            11,
+            11,
+            11,
+            11,
+            11
+          ],
+          "rank1ToMax": [
+            11
+          ]
+        },
+        "ShenZedQuestShieldMultiplier": {
+          "values": [
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842,
+            1.2999999523162842
+          ],
+          "rank1ToMax": [
+            1.2999999523162842
+          ]
+        }
+      },
+      "calculations": {
+        "{58a09e24}": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 47,
+              "mEndValue": 120,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mCoefficient": 0.12999999523162842,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ShieldCooldownReduction": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 4,
+              "mInitialBonusPerLevel": 0.23499999940395355,
+              "mBreakpoints": [
+                {
+                  "mLevel": 19,
+                  "mBonusPerLevelAtAndAfter": 0.125,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "{7e912bc4}": {
+          "mMultiplier": {
+            "mDataValue": "ShenZedQuestShieldMultiplier",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mSpellCalculationKey": "{58a09e24}",
+              "__type": "{f3cbe7b2}"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ShieldValue": {
+          "mDefaultGameCalculation": "{58a09e24}",
+          "mConditionalGameCalculation": "{7e912bc4}",
+          "mConditionalCalculationRequirements": {
+            "mBuffName": "{7dfdcd99}",
+            "__type": "HasBuffCastRequirement"
+          },
+          "__type": "GameCalculationConditional"
+        }
+      },
+      "officialIndex0": null
+    },
+    "shen_q": {
+      "sourceDataValues": {
+        "QBaseOnHitDamage": {
+          "values": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "rank1ToMax": [
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        "QPerLevelOnHitDamage": {
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "rank1ToMax": [
+            6,
+            6,
+            6,
+            6,
+            6
+          ]
+        },
+        "BasePercentDamage": {
+          "values": [
+            1.5,
+            2,
+            2.5,
+            3,
+            3.5,
+            4,
+            4.5
+          ],
+          "rank1ToMax": [
+            2,
+            2.5,
+            3,
+            3.5,
+            4
+          ]
+        },
+        "NumEnhancedAttacks": {
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "rank1ToMax": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        "SlowPercent": {
+          "values": [
+            25,
+            25,
+            30,
+            35,
+            40,
+            45,
+            50
+          ],
+          "rank1ToMax": [
+            25,
+            30,
+            35,
+            40,
+            45
+          ]
+        },
+        "SlowDuration": {
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "rank1ToMax": [
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        "AttackBuffDuration": {
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "rank1ToMax": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ]
+        },
+        "SteroidAS": {
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "rank1ToMax": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        },
+        "SteroidDuration": {
+          "values": [
+            75,
+            75,
+            75,
+            75,
+            75,
+            75,
+            75
+          ],
+          "rank1ToMax": [
+            75,
+            75,
+            75,
+            75,
+            75
+          ]
+        }
+      },
+      "calculations": {
+        "BaseFlatDamage": {
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 10,
+              "mBreakpoints": [
+                {
+                  "mLevel": 4,
+                  "mAdditionalBonusAtThisLevel": 6,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 7,
+                  "mAdditionalBonusAtThisLevel": 6,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 10,
+                  "mAdditionalBonusAtThisLevel": 6,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "mAdditionalBonusAtThisLevel": 6,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 16,
+                  "mAdditionalBonusAtThisLevel": 6,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BasePercentHealth": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BasePercentDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.014999999664723873,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "EmpPercentHealth": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "EnhancedPercentDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.019999999552965164,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        }
+      },
+      "officialIndex0": {
+        "cooldown": [
+          8,
+          7.25,
+          6.5,
+          5.75,
+          5
+        ],
+        "cost": [
+          140,
+          130,
+          120,
+          110,
+          100
+        ]
+      }
+    },
+    "shen_w": {
+      "sourceDataValues": {
+        "ZoneDuration": {
+          "values": [
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75
+          ],
+          "rank1ToMax": [
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75
+          ]
+        },
+        "ZoneDelay": {
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "rank1ToMax": [
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      },
+      "calculations": {},
+      "officialIndex0": {
+        "cooldown": [
+          16,
+          14.5,
+          13,
+          11.5,
+          10
+        ],
+        "cost": [
+          40,
+          40,
+          40,
+          40,
+          40
+        ]
+      }
+    },
+    "shen_e": {
+      "sourceDataValues": {
+        "BaseDamage": {
+          "values": [
+            35,
+            60,
+            85,
+            110,
+            135,
+            160,
+            185
+          ],
+          "rank1ToMax": [
+            60,
+            85,
+            110,
+            135,
+            160
+          ]
+        },
+        "BonusHPRatio": {
+          "values": [
+            0.10999999940395355,
+            0.10999999940395355,
+            0.10999999940395355,
+            0.10999999940395355,
+            0.10999999940395355,
+            0.10999999940395355,
+            0.10999999940395355
+          ],
+          "rank1ToMax": [
+            0.10999999940395355,
+            0.10999999940395355,
+            0.10999999940395355,
+            0.10999999940395355,
+            0.10999999940395355
+          ]
+        },
+        "CCDuration": {
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "rank1ToMax": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ]
+        }
+      },
+      "calculations": {
+        "energyrefund": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 30,
+              "mBreakpoints": [
+                {
+                  "mLevel": 4,
+                  "mAdditionalBonusAtThisLevel": 10,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 12,
+                  "mAdditionalBonusAtThisLevel": 10,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TauntDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mDataValue": "BonusHPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialIndex0": {
+        "cooldown": [
+          18,
+          16,
+          14,
+          12,
+          10
+        ],
+        "cost": [
+          150,
+          150,
+          150,
+          150,
+          150
+        ]
+      }
+    },
+    "shen_r": {
+      "sourceDataValues": {},
+      "calculations": {},
+      "officialIndex0": {
+        "cooldown": [
+          200,
+          180,
+          160
+        ],
+        "cost": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  }
+}

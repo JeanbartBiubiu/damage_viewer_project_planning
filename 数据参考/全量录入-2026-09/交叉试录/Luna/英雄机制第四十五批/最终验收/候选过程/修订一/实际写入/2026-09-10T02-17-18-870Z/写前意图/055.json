@@ -1,0 +1,24 @@
+{
+  "i": 54,
+  "intent": {
+    "sequence": 55,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_e/parameters",
+    "detailRoute": "/skills/shaco_e/parameters/execute_health_threshold_ratio",
+    "skillKey": "shaco_e",
+    "kind": "parameters",
+    "stableKey": "execute_health_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "execute_health_threshold_ratio",
+      "name": "斩杀生命阈值比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.300000012,
+      "levelValues": null,
+      "description": "ExecuteHealthThreshold索引1为0.3；作为低于30%条件输入。",
+      "sortOrder": 40
+    }
+  }
+}

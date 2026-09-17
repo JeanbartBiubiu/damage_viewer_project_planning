@@ -1,0 +1,46 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_p/formulas",
+    "detailRoute": "/skills/hwei_p/formulas/mark_magic_damage",
+    "skillKey": "hwei_p",
+    "kind": "formulas",
+    "stableKey": "mark_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "mark_magic_damage",
+      "name": "落款单次魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_mark_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mark_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "落款伤害=当前角色等级基础项+0.35×来源总法强。",
+      "sortOrder": 80
+    }
+  }
+}

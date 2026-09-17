@@ -1,0 +1,45 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "method": "POST",
+    "route": "/skills/kaisa_p/formulas",
+    "detailRoute": "/skills/kaisa_p/formulas/execute_percentage",
+    "skillKey": "kaisa_p",
+    "kind": "formulas",
+    "stableKey": "execute_percentage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "execute_percentage",
+      "name": "电浆引爆已损生命比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "execute_missing_health_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "execute_ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前PExecutePercentage=PExecuteRatio+PExecuteAPRatio×法强；显示百分号但参数按比例保存。",
+      "sortOrder": 40
+    }
+  }
+}

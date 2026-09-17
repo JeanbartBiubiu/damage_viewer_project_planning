@@ -1,0 +1,2955 @@
+{
+  "at": "2026-09-09T03:06:24.249Z",
+  "planSha256": "e67f35dcb651387c13124c7c4f34bffd823fd91cab1330297da85a994700c43b",
+  "summary": {
+    "passed": true,
+    "independentGets": 49,
+    "updatedEntries": 30,
+    "deletedTemporaryInputs": 10,
+    "actualFormulaCases": 42
+  },
+  "reads": [
+    {
+      "route": "/skills/caitlyn_p/formulas/headshot_bonus_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:03:26.61366Z",
+        "description": "总攻击力×（外部已核等级比例 + 暴击几率×1×（暴击倍率−1））；攻击力已按同构建默认及本版具名证据绑定，等级比例仍无默认值，这是普通攻击之外的额外部分。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "attack_damage",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "level_bonus_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "critical_strike_chance",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "critical_strike_scaling"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one"
+                        },
+                        {
+                          "attributeKey": "critical_strike_damage_bonus_percent",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "ADD"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "headshot_bonus_damage",
+        "gameId": "lol",
+        "name": "爆头额外物理伤害",
+        "skillKey": "caitlyn_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:54:06.563666Z"
+      }
+    },
+    {
+      "route": "/skills/caitlyn_p/parameters/level_bonus_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:03:24.250113Z",
+        "description": "同构建构造记录已证明初始斜率及断点缺省斜率为0；具体求值循环与当级计入仍未证，暂保留外部已核等级比例输入，不猜18级数组。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "爆头等级基础攻击力倍率（等级曲线待核输入）",
+        "parameterKey": "level_bonus_ratio",
+        "skillKey": "caitlyn_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:54:07.408027Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/jhin_w/formulas/damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:07.57721Z",
+        "description": "70/105/140/175/210 +0.5×施法者总攻击力；仅首个英雄目标，来源是同构建具体类默认及本版TotalADRatio具名交叉。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_damage_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "致命华彩首个英雄物理伤害",
+        "skillKey": "jhin_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:54:08.312653Z"
+      }
+    },
+    {
+      "route": "/skills/jhin_w/parameters/attack_damage_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:06.104203Z",
+        "description": "TotalDamage明确mStat=2及系数.5；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "致命华彩总攻击力系数",
+        "parameterKey": "attack_damage_ratio",
+        "skillKey": "jhin_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T02:54:09.18246Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/jhin_r/formulas/base_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:16.551393Z",
+        "description": "64/128/192 +0.25×施法者总攻击力；每颗子弹的未增幅端点，同构建默认及本版具名交叉已补齐属性口径。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_damage_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "base_damage",
+        "gameId": "lol",
+        "name": "完美谢幕基础子弹伤害",
+        "skillKey": "jhin_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:54:09.847763Z"
+      }
+    },
+    {
+      "route": "/skills/jhin_r/formulas/maximum_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:10:44.435364Z",
+        "description": "基础子弹伤害×4；仅目标已损生命增幅的最大端点，内联基础式使用总攻击力。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "attack_damage_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_max_amp"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "maximum_damage",
+        "gameId": "lol",
+        "name": "完美谢幕最大端点伤害",
+        "skillKey": "jhin_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:54:10.677841Z"
+      }
+    },
+    {
+      "route": "/skills/jhin_r/parameters/attack_damage_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:13.657856Z",
+        "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至3。；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "完美谢幕总攻击力系数",
+        "parameterKey": "attack_damage_ratio",
+        "skillKey": "jhin_r",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T02:54:11.62542Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/formulas/first_spear_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:56.43101Z",
+        "description": "5/15/25/35/45 +0.7×总攻击力+0.65×法术强度；属性口径由同构建默认及本版具名交叉补齐，尚未接完整伤害执行。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "first_spear_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "first_spear_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "first_spear_other_stat_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "first_spear_damage",
+        "gameId": "lol",
+        "name": "撕裂第一根伤害计算",
+        "skillKey": "kalista_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:54:12.452486Z"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/formulas/additional_spear_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:57.182293Z",
+        "description": "7/14/21/28/35 +0.2/0.275/0.35/0.425/0.5×总攻击力+0.5×法术强度。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_spear_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "additional_spear_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_spear_other_stat_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "additional_spear_damage",
+        "gameId": "lol",
+        "name": "撕裂每根后续长矛伤害计算",
+        "skillKey": "kalista_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:54:13.228385Z"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/formulas/total_spear_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:57.970791Z",
+        "description": "目标至少有一根长矛时：第一根伤害 +（实际根数-1）×每根后续伤害；攻击力取总值，第二属性为法术强度。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "first_spear_base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "first_spear_ad_ratio"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "first_spear_other_stat_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_spear_count"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "additional_spear_base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "additional_spear_ad_ratio"
+                            },
+                            {
+                              "attributeKey": "attack_damage",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "additional_spear_other_stat_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "total_spear_damage",
+        "gameId": "lol",
+        "name": "至少一根长矛时撕裂总伤害",
+        "skillKey": "kalista_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:54:14.14066Z"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/formulas/slow_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:58.740242Z",
+        "description": "基础0.1/0.18/0.26/0.34/0.42 +0.0005×施法者法术强度；比例1表示100%，未自创封顶。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_slow_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "other_stat_slow_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "slow_ratio",
+        "gameId": "lol",
+        "name": "撕裂减速比例计算",
+        "skillKey": "kalista_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:54:14.953034Z"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/first_spear_other_stat_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:46.57006Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "撕裂第一根法术强度系数",
+        "parameterKey": "first_spear_other_stat_ratio",
+        "skillKey": "kalista_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T02:54:15.670926Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/additional_spear_other_stat_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:49.125681Z",
+        "description": "客户端当前根绑定 DataValues.AdditionalAPRatio 取索引1至5。；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "撕裂后续长矛法术强度系数",
+        "parameterKey": "additional_spear_other_stat_ratio",
+        "skillKey": "kalista_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T02:54:16.382865Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/other_stat_slow_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:50.809195Z",
+        "description": "客户端当前根绑定 DataValues.SlowAPRatio 取索引1至5。；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.0005,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "撕裂法术强度减速系数",
+        "parameterKey": "other_stat_slow_ratio",
+        "skillKey": "kalista_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T02:54:17.412512Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2503_passive/formulas/burn_damage_per_second",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:27:53.356919Z",
+        "description": "20 + 0.02 × 施法者法术强度；只表达客户端计算形状，属性口径由同构建默认及本版具名交叉补齐。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "burn_flat_damage_per_second"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "burn_scaling_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "burn_damage_per_second",
+        "gameId": "lol",
+        "name": "邪焰每秒伤害值",
+        "skillKey": "item_2503_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:54:18.195265Z"
+      }
+    },
+    {
+      "route": "/skills/item_2503_passive/parameters/burn_scaling_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:27:50.359062Z",
+        "description": "当前APRatio=0.02；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.02,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "邪焰法术强度缩放比例",
+        "parameterKey": "burn_scaling_ratio",
+        "skillKey": "item_2503_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:54:18.978773Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2503_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:27:48.724984Z",
+        "description": "保留伤害型技能每秒20与3秒持续，以及客户端0.02缩放系数和每个受影响目标4%法术强度比例。缩放属性按同构建默认及本版具名交叉绑定法术强度；客户端节拍字段只作来源记录，单位和绑定用途未证实，不构造持续伤害节拍或黯炎触发规则。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "黯炎火炬·邪焰与黯炎",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_2503_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:54:19.816868Z"
+      }
+    },
+    {
+      "route": "/skills/item_3118_passive/formulas/ground_burn_damage_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:05.021633Z",
+        "description": "60 + 0.05 × 施法者法术强度；只表达计算值，不指定每秒或每跳节拍。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ground_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ground_damage_scaling_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "ground_burn_damage_value",
+        "gameId": "lol",
+        "name": "憎恨之雾地面伤害值",
+        "skillKey": "item_3118_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:54:20.652403Z"
+      }
+    },
+    {
+      "route": "/skills/item_3118_passive/parameters/ground_damage_scaling_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:02.323503Z",
+        "description": "当前APRatio=0.05；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "憎恨之雾法术强度缩放比例",
+        "parameterKey": "ground_damage_scaling_ratio",
+        "skillKey": "item_3118_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:54:21.435422Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3118_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:27:59.13098Z",
+        "description": "保留20点终极技能急速、3秒地面持续、10点魔法抗性削减和地面伤害计算值。伤害按同构建默认及本版具名交叉绑定法术强度；地面范围字段只作来源依据，不进入单目标数值参数；每秒/每跳节拍、半径动态和终极技能命中规则保持缺口。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "残疫·憎恨之雾",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3118_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:54:22.23312Z"
+      }
+    },
+    {
+      "route": "/skills/item_3152_active/formulas/firebolt_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:10.733236Z",
+        "description": "100 + 0.1 × 施法者法术强度；不表达魔法弹数量、命中和主动过程。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "firebolt_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "firebolt_scaling_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "firebolt_damage",
+        "gameId": "lol",
+        "name": "超音速魔法弹伤害",
+        "skillKey": "item_3152_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:54:22.957061Z"
+      }
+    },
+    {
+      "route": "/skills/item_3152_active/parameters/firebolt_scaling_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:09.089938Z",
+        "description": "当前APRatio=0.1；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "超音速法术强度缩放比例",
+        "parameterKey": "firebolt_scaling_ratio",
+        "skillKey": "item_3152_active",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:54:23.720667Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3152_active",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:06.757539Z",
+        "description": "保留主动50秒冷却和魔法弹计算值100+0.1×施法者法术强度。当前FireboltDamage按同构建默认及本版具名交叉绑定法术强度；冲刺、魔法弹命中与无法穿过地形的规则保持未接线。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "海克斯科技火箭腰带·超音速",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3152_active",
+        "sortOrder": 10,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:54:24.700365Z"
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive/formulas/echo_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:24.793872Z",
+        "description": "75 + 0.05 × 施法者法术强度；只保存计算值。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "echo_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "echo_scaling_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "echo_damage",
+        "gameId": "lol",
+        "name": "单道回声伤害",
+        "skillKey": "item_6655_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:54:25.494335Z"
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive/formulas/single_target_max_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:26.361539Z",
+        "description": "单道伤害 × 2；2由首道1份加剩余5道各20%独立得到。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "echo_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "echo_scaling_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "single_target_multiplier"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "single_target_max_damage",
+        "gameId": "lol",
+        "name": "单目标最大回声伤害",
+        "skillKey": "item_6655_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:54:26.320143Z"
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive/parameters/echo_scaling_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:20.123018Z",
+        "description": "当前APRatio=0.05；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "回声法术强度缩放比例",
+        "parameterKey": "echo_scaling_ratio",
+        "skillKey": "item_6655_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:54:27.13556Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:17.673171Z",
+        "description": "保留12秒冷却、每道回声75+0.05×施法者法术强度、6道最大充能、剩余5道各按20%伤害，独立总倍率为1+5×0.2=2。0.2是剩余回声伤害比例，绝不是20%减伤；650弹道范围只作空间来源依据；法强口径由同构建默认及本版具名交叉补齐。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "卢登的回声·回声",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_6655_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:54:27.867716Z"
+      }
+    },
+    {
+      "route": "/skills/item_4646_passive/formulas/squall_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:57.158Z",
+        "description": "当前根文本绑定的SquallDamage：125 + 0.1 × 施法者法术强度；仅保存延迟后的数值计算。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "squall_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "squall_scaling_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "squall_damage",
+        "gameId": "lol",
+        "name": "风啸伤害",
+        "skillKey": "item_4646_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:54:28.658952Z"
+      }
+    },
+    {
+      "route": "/skills/item_4646_passive/parameters/squall_scaling_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:55.478675Z",
+        "description": "当前APRatio=0.1；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "风啸法术强度缩放比例",
+        "parameterKey": "squall_scaling_ratio",
+        "skillKey": "item_4646_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T02:54:29.53414Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_4646_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:51.039089Z",
+        "description": "保留2.5秒伤害窗口、25%最大生命值阈值、2秒延迟、30秒冷却和当前根文本绑定的SquallDamage风啸伤害。缩放属性按同构建默认及本版具名交叉绑定法术强度；RangedProcDamageMod与RangedItemCalcValue虽有来源字段但未沿当前根文本绑定，不进入额外远程分支；GoldReward、ProcMoveSpeedAmount缺值不补0。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "风暴狂涌·风暴掠袭与风啸",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_4646_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:54:30.23537Z"
+      }
+    },
+    {
+      "route": "/skills/caitlyn_p/parameters/current_attack_damage_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "current_attack_damage_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/jhin_w/parameters/current_attack_damage_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "current_attack_damage_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/jhin_r/parameters/current_attack_damage_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "current_attack_damage_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/current_attack_damage_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "current_attack_damage_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/current_other_stat_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "current_other_stat_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2503_passive/parameters/burn_scaling_stat_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "burn_scaling_stat_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3118_passive/parameters/ground_damage_scaling_stat_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ground_damage_scaling_stat_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_3152_active/parameters/firebolt_scaling_stat_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "firebolt_scaling_stat_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive/parameters/echo_scaling_stat_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "echo_scaling_stat_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_4646_passive/parameters/squall_scaling_stat_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "squall_scaling_stat_value"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/caitlyn_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T02:03:21.79994Z",
+          "description": "客户端当前根绑定 DataValues.CriticalStrikeScaling 取索引1至1。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "爆头暴击几率折算系数",
+          "parameterKey": "critical_strike_scaling",
+          "skillKey": "caitlyn_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T02:03:21.79994Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:03:22.678708Z",
+          "description": "客户端当前根绑定 DataValues.AttacksPerHeadshot 取索引1至1。",
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "普通攻击触发爆头所需次数",
+          "parameterKey": "attacks_per_headshot",
+          "skillKey": "caitlyn_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T02:03:22.678708Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:03:23.412754Z",
+          "description": "客户端当前根绑定 DataValues.BrushStackBonus 取索引1至1。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "草丛攻击额外计数",
+          "parameterKey": "brush_stack_bonus",
+          "skillKey": "caitlyn_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:03:23.412754Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:03:24.250113Z",
+          "description": "同构建构造记录已证明初始斜率及断点缺省斜率为0；具体求值循环与当级计入仍未证，暂保留外部已核等级比例输入，不猜18级数组。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "爆头等级基础攻击力倍率（等级曲线待核输入）",
+          "parameterKey": "level_bonus_ratio",
+          "skillKey": "caitlyn_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T02:54:07.408027Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:03:24.984667Z",
+          "description": "当前角色根暴击倍率为2；计算树中的暴击倍率减1在无额外暴击伤害时等于1。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "暴击倍率基准值",
+          "parameterKey": "one",
+          "skillKey": "caitlyn_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T02:03:24.984667Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/jhin_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T02:04:03.641743Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 105,
+            "3": 140,
+            "4": 175,
+            "5": 210
+          },
+          "name": "致命华彩基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "jhin_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:04:03.641743Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:04.382757Z",
+          "description": "客户端当前根绑定 DataValues.RootDuration 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 1250,
+            "2": 1500,
+            "3": 1750,
+            "4": 2000,
+            "5": 2250
+          },
+          "name": "致命华彩禁锢持续（毫秒）",
+          "parameterKey": "root_duration_ms",
+          "skillKey": "jhin_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T02:04:04.382757Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:05.306895Z",
+          "description": "客户端当前根绑定 DataValues.SpottingDuration 取索引1至5。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "致命华彩标记窗口（毫秒）",
+          "parameterKey": "spotting_duration_ms",
+          "skillKey": "jhin_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T02:04:05.306895Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:06.104203Z",
+          "description": "TotalDamage明确mStat=2及系数.5；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "致命华彩总攻击力系数",
+          "parameterKey": "attack_damage_ratio",
+          "skillKey": "jhin_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T02:54:09.18246Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:05.41607Z",
+          "description": "DDragon16.17.1 Jhin.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "jhin_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:05.41607Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:05.812954Z",
+          "description": "DDragon16.17.1 Jhin.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "jhin_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:05.812954Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/jhin_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T02:04:09.149244Z",
+          "description": "客户端当前根绑定 DataValues.Damage 取索引1至3。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 64,
+            "2": 128,
+            "3": 192
+          },
+          "name": "完美谢幕基础子弹物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "jhin_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:04:09.149244Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:09.893116Z",
+          "description": "客户端当前根绑定 DataValues.FourthShotMultiplier 取索引1至3。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完美谢幕第四发伤害倍率",
+          "parameterKey": "fourth_shot_multiplier",
+          "skillKey": "jhin_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T02:04:09.893116Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:10.634192Z",
+          "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至3。",
+          "fixedValue": 0.8,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完美谢幕减速比例",
+          "parameterKey": "slow_ratio",
+          "skillKey": "jhin_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T02:04:10.634192Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:11.331426Z",
+          "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至3。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完美谢幕减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "jhin_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T02:04:11.331426Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:12.120927Z",
+          "description": "客户端当前根绑定 DataValues.PercentMissingAmp 取索引1至3。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完美谢幕已损生命最大增幅",
+          "parameterKey": "missing_health_max_amp",
+          "skillKey": "jhin_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T02:04:12.120927Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:12.932766Z",
+          "description": "客户端当前根绑定 DataValues.MInimumDelayBetweenShots 取索引1至3。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完美谢幕两发最小间隔（毫秒）",
+          "parameterKey": "minimum_shot_interval_ms",
+          "skillKey": "jhin_r",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T02:04:12.932766Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:13.657856Z",
+          "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至3。；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完美谢幕总攻击力系数",
+          "parameterKey": "attack_damage_ratio",
+          "skillKey": "jhin_r",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T02:54:11.62542Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:06.241292Z",
+          "description": "DDragon16.17.1 Jhin.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 105000,
+            "3": 90000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "jhin_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:06.241292Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:15.132603Z",
+          "description": "MaxIncreaseCalc为DamageCalc×(1+3)=基础伤害×4；只用于明确最大端点。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "倍率基准值",
+          "parameterKey": "one",
+          "skillKey": "jhin_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T02:04:15.132603Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:06.823811Z",
+          "description": "DDragon16.17.1 Jhin.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "jhin_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:06.823811Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:15.862531Z",
+          "description": "官方说明与当前技能根均明确4颗超级子弹；每发实际命中由同一引导过程供给。",
+          "fixedValue": 4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完美谢幕子弹数",
+          "parameterKey": "shot_count",
+          "skillKey": "jhin_r",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T02:04:15.862531Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kalista_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T02:04:44.173949Z",
+          "description": "客户端当前根绑定 DataValues.FakedCooldown 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9500,
+            "3": 9000,
+            "4": 8500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kalista_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T02:04:44.173949Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:44.955936Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5,
+            "2": 15,
+            "3": 25,
+            "4": 35,
+            "5": 45
+          },
+          "name": "撕裂第一根基础伤害",
+          "parameterKey": "first_spear_base_damage",
+          "skillKey": "kalista_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:04:44.955936Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:45.667933Z",
+          "description": "客户端当前根绑定 DataValues.BaseADRatio 取索引1至5。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "撕裂第一根攻击力系数",
+          "parameterKey": "first_spear_ad_ratio",
+          "skillKey": "kalista_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T02:04:45.667933Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:46.57006Z",
+          "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.65,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "撕裂第一根法术强度系数",
+          "parameterKey": "first_spear_other_stat_ratio",
+          "skillKey": "kalista_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T02:54:15.670926Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:47.572231Z",
+          "description": "客户端当前根绑定 DataValues.AdditionalBaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7,
+            "2": 14,
+            "3": 21,
+            "4": 28,
+            "5": 35
+          },
+          "name": "撕裂每根后续长矛基础伤害",
+          "parameterKey": "additional_spear_base_damage",
+          "skillKey": "kalista_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T02:04:47.572231Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:48.355258Z",
+          "description": "客户端当前根绑定 DataValues.AdditionalADRatio 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.275,
+            "3": 0.35,
+            "4": 0.425,
+            "5": 0.5
+          },
+          "name": "撕裂后续长矛攻击力系数",
+          "parameterKey": "additional_spear_ad_ratio",
+          "skillKey": "kalista_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T02:04:48.355258Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:49.125681Z",
+          "description": "客户端当前根绑定 DataValues.AdditionalAPRatio 取索引1至5。；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "撕裂后续长矛法术强度系数",
+          "parameterKey": "additional_spear_other_stat_ratio",
+          "skillKey": "kalista_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T02:54:16.382865Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:49.951487Z",
+          "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.1,
+            "2": 0.18,
+            "3": 0.26,
+            "4": 0.34,
+            "5": 0.42
+          },
+          "name": "撕裂基础减速比例",
+          "parameterKey": "base_slow_ratio",
+          "skillKey": "kalista_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T02:04:49.951487Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:50.809195Z",
+          "description": "客户端当前根绑定 DataValues.SlowAPRatio 取索引1至5。；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.0005,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "撕裂法术强度减速系数",
+          "parameterKey": "other_stat_slow_ratio",
+          "skillKey": "kalista_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T02:54:17.412512Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:09.608323Z",
+          "description": "DDragon16.17.1 Kalista.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kalista_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:09.608323Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:51.595313Z",
+          "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "撕裂减速期限（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "kalista_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T02:04:51.595313Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:52.397257Z",
+          "description": "客户端当前根绑定 DataValues.ManaRefund 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10,
+            "2": 15,
+            "3": 20,
+            "4": 25,
+            "5": 30
+          },
+          "name": "撕裂满足击杀条件的法力返还",
+          "parameterKey": "mana_refund",
+          "skillKey": "kalista_e",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T02:04:52.397257Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:53.209918Z",
+          "description": "当前mLocKeys正文与官方均明确长矛在目标身上存留4秒；不表示每层独立计时或整体刷新已证。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "长矛存留说明期限（毫秒）",
+          "parameterKey": "spear_duration_ms",
+          "skillKey": "kalista_e",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T02:04:53.209918Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:55.561413Z",
+          "description": "只有目标确有至少一根属于此卡莉丝塔的长矛时才能使用；非负整数表示实际总根数减1。零表示一根总量，不是无长矛。未构造初始层、254上限或状态供值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "第一根之外实际长矛数量",
+          "parameterKey": "additional_spear_count",
+          "skillKey": "kalista_e",
+          "sortOrder": 160,
+          "updatedAt": "2026-09-09T02:04:55.561413Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_2503_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T02:27:49.540273Z",
+          "description": "当前BurnDamagePerSecondCalc第一项BurnFlatDamagePerSecond；单位为每秒伤害。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "邪焰固定每秒伤害",
+          "parameterKey": "burn_flat_damage_per_second",
+          "skillKey": "item_2503_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T02:27:49.540273Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:27:50.359062Z",
+          "description": "当前APRatio=0.02；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.02,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "邪焰法术强度缩放比例",
+          "parameterKey": "burn_scaling_ratio",
+          "skillKey": "item_2503_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T02:54:18.978773Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:27:51.862703Z",
+          "description": "当前BurnDuration=3秒；只保存文本明确的持续时间，不表示已经建立周期执行。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "邪焰持续时间",
+          "parameterKey": "burn_duration_seconds",
+          "skillKey": "item_2503_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T02:27:51.862703Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:27:52.625833Z",
+          "description": "当前APPerStack=0.04，绑定文本明确为每个受影响单位4%法术强度；影响资格、层数上限和撤销时点待核。",
+          "fixedValue": 0.04,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "黯炎每个受影响目标法术强度比例",
+          "parameterKey": "ability_power_per_affected_target_ratio",
+          "skillKey": "item_2503_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T02:27:52.625833Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3118_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T02:28:00.001539Z",
+          "description": "当前绑定UltimateHaste=20；该项是终极技能急速，不与装备已有技能急速合并。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "蔑视终极技能急速",
+          "parameterKey": "ultimate_haste",
+          "skillKey": "item_3118_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T02:28:00.001539Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:00.746074Z",
+          "description": "当前GroundDuration=3秒，换算3000毫秒；仅保存时间，不表示已建立周期执行。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "憎恨之雾地面持续时间",
+          "parameterKey": "ground_duration_ms",
+          "skillKey": "item_3118_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T02:28:00.746074Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:01.500649Z",
+          "description": "当前GroundBurnDamagePerTickTooltipOnly第一项BaseDamage=60。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "憎恨之雾基础伤害",
+          "parameterKey": "ground_base_damage",
+          "skillKey": "item_3118_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:28:01.500649Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:02.323503Z",
+          "description": "当前APRatio=0.05；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "憎恨之雾法术强度缩放比例",
+          "parameterKey": "ground_damage_scaling_ratio",
+          "skillKey": "item_3118_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T02:54:21.435422Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:04.197654Z",
+          "description": "当前MagicResistanceShred计算式为NumberCalculationPart=10。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "憎恨之雾魔法抗性削减",
+          "parameterKey": "magic_resistance_shred",
+          "skillKey": "item_3118_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T02:28:04.197654Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3152_active/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T02:28:07.452998Z",
+          "description": "当前Cooldown=50秒，换算50000毫秒；主动冷却数值已确定，冷却起点和消费仍待规则接线。",
+          "fixedValue": 50000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "超音速主动冷却",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "item_3152_active",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T02:28:07.452998Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:08.269279Z",
+          "description": "当前FireboltDamage第一项BaseDamage=100。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "超音速魔法弹基础伤害",
+          "parameterKey": "firebolt_base_damage",
+          "skillKey": "item_3152_active",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T02:28:08.269279Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:09.089938Z",
+          "description": "当前APRatio=0.1；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "超音速法术强度缩放比例",
+          "parameterKey": "firebolt_scaling_ratio",
+          "skillKey": "item_3152_active",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:54:23.720667Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_6655_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T02:28:18.540759Z",
+          "description": "当前Cooldown=12秒，换算12000毫秒；冷却消费和合法技能伤害事件待接线。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "回声冷却",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "item_6655_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T02:28:18.540759Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:19.315829Z",
+          "description": "当前Damage第一项BaseDamage=75。",
+          "fixedValue": 75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "回声单道基础伤害",
+          "parameterKey": "echo_base_damage",
+          "skillKey": "item_6655_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T02:28:19.315829Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:20.123018Z",
+          "description": "当前APRatio=0.05；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "回声法术强度缩放比例",
+          "parameterKey": "echo_scaling_ratio",
+          "skillKey": "item_6655_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:54:27.13556Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:21.687072Z",
+          "description": "当前MaxCharges=6；首道与剩余道数分别核算。",
+          "fixedValue": 6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "回声最大道数",
+          "parameterKey": "max_echo_charges",
+          "skillKey": "item_6655_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T02:28:21.687072Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:22.490527Z",
+          "description": "由当前MaxCharges=6明确得到剩余5道；不把首道重复计入。",
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "回声剩余道数",
+          "parameterKey": "remaining_echo_count",
+          "skillKey": "item_6655_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T02:28:22.490527Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:23.295572Z",
+          "description": "当前RepeatDamageReduction=0.2；绑定文本称剩余回声造成20%伤害，不是减伤参数。",
+          "fixedValue": 0.2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "剩余回声单道伤害比例",
+          "parameterKey": "repeat_echo_damage_ratio",
+          "skillKey": "item_6655_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T02:28:23.295572Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:24.083629Z",
+          "description": "当前SingleTargetMax直接以2倍引用Damage；独立推导为1+5×0.2=2。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "单目标最大回声总倍率",
+          "parameterKey": "single_target_multiplier",
+          "skillKey": "item_6655_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T02:28:24.083629Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_4646_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T02:28:51.787352Z",
+          "description": "当前WindowDuration=2.5秒，换算2500毫秒。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "风暴掠袭伤害窗口",
+          "parameterKey": "damage_window_ms",
+          "skillKey": "item_4646_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T02:28:51.787352Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:52.542999Z",
+          "description": "当前DamageThreshold=0.25，绑定文本明确为25%最大生命值。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "风暴掠袭最大生命值阈值比例",
+          "parameterKey": "damage_threshold_ratio",
+          "skillKey": "item_4646_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T02:28:52.542999Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:53.349271Z",
+          "description": "当前DelayDuration=2秒，换算2000毫秒。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "风啸延迟",
+          "parameterKey": "squall_delay_ms",
+          "skillKey": "item_4646_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:28:53.349271Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:54.043942Z",
+          "description": "当前Cooldown=30秒，换算30000毫秒；触发消费仍待接线。",
+          "fixedValue": 30000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "风暴掠袭冷却",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "item_4646_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T02:28:54.043942Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:54.763261Z",
+          "description": "当前MeleeItemCalcValue和SquallDamage第一项BaseDamage=125。",
+          "fixedValue": 125,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "风啸基础伤害",
+          "parameterKey": "squall_base_damage",
+          "skillKey": "item_4646_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T02:28:54.763261Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T02:28:55.478675Z",
+          "description": "当前APRatio=0.1；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "风啸法术强度缩放比例",
+          "parameterKey": "squall_scaling_ratio",
+          "skillKey": "item_4646_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T02:54:29.53414Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "caitlyn_p",
+      "formulaKey": "headshot_bonus_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 175.99999999999997,
+      "after": 175.99999999999997,
+      "equivalent": true,
+      "currentStoredValue": 175.99999999999997,
+      "passed": true
+    },
+    {
+      "skillKey": "caitlyn_p",
+      "formulaKey": "headshot_bonus_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 80,
+      "after": 80,
+      "equivalent": true,
+      "currentStoredValue": 80,
+      "passed": true
+    },
+    {
+      "skillKey": "caitlyn_p",
+      "formulaKey": "headshot_bonus_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 910,
+      "after": 910,
+      "equivalent": true,
+      "currentStoredValue": 910,
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_w",
+      "formulaKey": "damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 170,
+      "after": 170,
+      "equivalent": true,
+      "currentStoredValue": 170,
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_w",
+      "formulaKey": "damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 110,
+      "after": 110,
+      "equivalent": true,
+      "currentStoredValue": 110,
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_w",
+      "formulaKey": "damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 385,
+      "after": 385,
+      "equivalent": true,
+      "currentStoredValue": 385,
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "base_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 114,
+      "after": 114,
+      "equivalent": true,
+      "currentStoredValue": 114,
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "base_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 84,
+      "after": 84,
+      "equivalent": true,
+      "currentStoredValue": 84,
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "base_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 279.5,
+      "after": 279.5,
+      "equivalent": true,
+      "currentStoredValue": 279.5,
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "maximum_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 456,
+      "after": 456,
+      "equivalent": true,
+      "currentStoredValue": 456,
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "maximum_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 336,
+      "after": 336,
+      "equivalent": true,
+      "currentStoredValue": 336,
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "maximum_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 1118,
+      "after": 1118,
+      "equivalent": true,
+      "currentStoredValue": 1118,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 340,
+      "after": 340,
+      "equivalent": true,
+      "currentStoredValue": 340,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 61,
+      "after": 61,
+      "equivalent": true,
+      "currentStoredValue": 61,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 875,
+      "after": 875,
+      "equivalent": true,
+      "currentStoredValue": 875,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 197,
+      "after": 197,
+      "equivalent": true,
+      "currentStoredValue": 197,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 23,
+      "after": 23,
+      "equivalent": true,
+      "currentStoredValue": 23,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 660,
+      "after": 660,
+      "equivalent": true,
+      "currentStoredValue": 660,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 734,
+      "after": 734,
+      "equivalent": true,
+      "currentStoredValue": 734,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 61,
+      "after": 61,
+      "equivalent": true,
+      "currentStoredValue": 61,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 3515,
+      "after": 3515,
+      "equivalent": true,
+      "currentStoredValue": 3515,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "slow_ratio",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 0.25,
+      "after": 0.25,
+      "equivalent": true,
+      "currentStoredValue": 0.25,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "slow_ratio",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 0.1,
+      "after": 0.1,
+      "equivalent": true,
+      "currentStoredValue": 0.1,
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "slow_ratio",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 0.87,
+      "after": 0.87,
+      "equivalent": true,
+      "currentStoredValue": 0.87,
+      "passed": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "formulaKey": "burn_damage_per_second",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 26,
+      "after": 26,
+      "equivalent": true,
+      "currentStoredValue": 26,
+      "passed": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "formulaKey": "burn_damage_per_second",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 20,
+      "after": 20,
+      "equivalent": true,
+      "currentStoredValue": 20,
+      "passed": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "formulaKey": "burn_damage_per_second",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 38,
+      "after": 38,
+      "equivalent": true,
+      "currentStoredValue": 38,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "formulaKey": "ground_burn_damage_value",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 75,
+      "after": 75,
+      "equivalent": true,
+      "currentStoredValue": 75,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "formulaKey": "ground_burn_damage_value",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 60,
+      "after": 60,
+      "equivalent": true,
+      "currentStoredValue": 60,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "formulaKey": "ground_burn_damage_value",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 105,
+      "after": 105,
+      "equivalent": true,
+      "currentStoredValue": 105,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "formulaKey": "firebolt_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 130,
+      "after": 130,
+      "equivalent": true,
+      "currentStoredValue": 130,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "formulaKey": "firebolt_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 100,
+      "after": 100,
+      "equivalent": true,
+      "currentStoredValue": 100,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "formulaKey": "firebolt_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 190,
+      "after": 190,
+      "equivalent": true,
+      "currentStoredValue": 190,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "echo_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 90,
+      "after": 90,
+      "equivalent": true,
+      "currentStoredValue": 90,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "echo_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 75,
+      "after": 75,
+      "equivalent": true,
+      "currentStoredValue": 75,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "echo_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 120,
+      "after": 120,
+      "equivalent": true,
+      "currentStoredValue": 120,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "single_target_max_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 180,
+      "after": 180,
+      "equivalent": true,
+      "currentStoredValue": 180,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "single_target_max_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 150,
+      "after": 150,
+      "equivalent": true,
+      "currentStoredValue": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "single_target_max_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 240,
+      "after": 240,
+      "equivalent": true,
+      "currentStoredValue": 240,
+      "passed": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "formulaKey": "squall_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 155,
+      "after": 155,
+      "equivalent": true,
+      "currentStoredValue": 155,
+      "passed": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "formulaKey": "squall_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 125,
+      "after": 125,
+      "equivalent": true,
+      "currentStoredValue": 125,
+      "passed": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "formulaKey": "squall_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 215,
+      "after": 215,
+      "equivalent": true,
+      "currentStoredValue": 215,
+      "passed": true
+    }
+  ],
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}

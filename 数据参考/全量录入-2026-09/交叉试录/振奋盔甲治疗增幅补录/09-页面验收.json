@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-16T17:12:47.435Z",
+  "status": "PASS",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 1,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 163
+  },
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": 163,
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "errorResponses": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "passed": true,
+      "observed": "全量同步完成，本次接收 3279 条变化。"
+    },
+    {
+      "area": "治疗乘区",
+      "passed": true,
+      "key": "item_3065_received_healing_increase"
+    },
+    {
+      "area": "item_3065_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "振奋盔甲·无拘活力代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "effectKey": "received_healing_increase",
+      "resultKey": "healing_received",
+      "ruleKey": "initialize_received_healing_increase",
+      "resultDetailObserved": true,
+      "triggerDetailObserved": true
+    }
+  ],
+  "targets": [
+    {
+      "skillKey": "item_3065_passive",
+      "matched": true,
+      "representativeImage": {
+        "alt": "振奋盔甲·无拘活力代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "modifierZoneKey": "item_3065_received_healing_increase",
+      "effectKey": "received_healing_increase",
+      "resultKey": "healing_received",
+      "ruleKey": "initialize_received_healing_increase"
+    }
+  ],
+  "screenshots": [
+    "振奋盔甲初始化规则.png",
+    "振奋盔甲受到治疗结果.png",
+    "振奋盔甲技能列表.png",
+    "振奋盔甲治疗乘区.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "consoleWarnings": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "本批只证明管理数据可表达并持久化；治疗乘区的Wasm组装、宿主初始化事件和真实战斗结算未验证，收到护盾增幅仍系统暂缓。",
+  "scriptSha256": "192236ec54f219b788cb0bc3bddf00124934a0777b4a228cd63cc4565b84336f"
+}

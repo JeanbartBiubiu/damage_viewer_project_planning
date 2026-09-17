@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T12:15:02.715Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_w/formulas/health_cost",
+  "id": "health_cost",
+  "method": "POST",
+  "body": {
+    "formulaKey": "health_cost",
+    "name": "血池当前生命值消耗",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "health_cost_ratio"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "source_current_hp_for_cost"
+        }
+      ]
+    },
+    "description": "HealthCost×施放时当前生命值；资源扣除时点与施放资格待接线。",
+    "sortOrder": 30
+  }
+}

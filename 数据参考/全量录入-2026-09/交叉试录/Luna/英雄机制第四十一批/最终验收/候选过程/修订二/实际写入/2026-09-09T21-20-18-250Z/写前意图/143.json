@@ -1,0 +1,29 @@
+{
+  "i": 142,
+  "intent": {
+    "sequence": 143,
+    "method": "POST",
+    "route": "/skills/renata_w/parameters",
+    "detailRoute": "/skills/renata_w/parameters/duration_ms",
+    "skillKey": "renata_w",
+    "kind": "parameters",
+    "stableKey": "duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "duration_ms",
+      "name": "增益持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 5000,
+        "2": 5000,
+        "3": 5000,
+        "4": 5000,
+        "5": 5000
+      },
+      "description": "5秒转毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

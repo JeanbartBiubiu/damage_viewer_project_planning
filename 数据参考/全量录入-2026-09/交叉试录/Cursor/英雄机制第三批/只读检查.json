@@ -1,0 +1,1292 @@
+{
+  "startedAt": "2026-09-07T18:13:33.305Z",
+  "mode": "read-only",
+  "skills": [
+    "lucian_p",
+    "lucian_q",
+    "lucian_w",
+    "lucian_e",
+    "lucian_r",
+    "sivir_p",
+    "sivir_q",
+    "sivir_w",
+    "sivir_e",
+    "sivir_r",
+    "tristana_p",
+    "tristana_q",
+    "tristana_w",
+    "tristana_e",
+    "tristana_r",
+    "twitch_p",
+    "twitch_q",
+    "twitch_w",
+    "twitch_e",
+    "twitch_r"
+  ],
+  "preflight": [
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "empowered_window_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "second_shot_ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "base_second_shot_crit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_base_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_total_ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_granted_attacks",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "parameters",
+      "id": "vigilance_max_attacks",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "formulas",
+      "id": "second_shot_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "formulas",
+      "id": "second_shot_crit_multiplier",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "formulas",
+      "id": "vigilance_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "effects",
+      "id": "second_shot",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_p",
+      "kind": "effects",
+      "id": "vigilance_bonus",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_q",
+      "kind": "parameters",
+      "id": "bonus_ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_q",
+      "kind": "effects",
+      "id": "beam_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_q",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "parameters",
+      "id": "move_speed",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "parameters",
+      "id": "speed_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "parameters",
+      "id": "mark_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "effects",
+      "id": "mark_speed",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "effects",
+      "id": "flare_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_w",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_e",
+      "kind": "parameters",
+      "id": "champion_refund_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_e",
+      "kind": "effects",
+      "id": "lightslinger_refund",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_e",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "base_shots",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "channel_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "recast_lockout_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "crit_scaling",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "parameters",
+      "id": "one",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "formulas",
+      "id": "bullet_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "formulas",
+      "id": "continuous_shot_count",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "formulas",
+      "id": "tooltip_total_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "effects",
+      "id": "bullet_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "lucian_r",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_p",
+      "kind": "parameters",
+      "id": "speed_decay_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_p",
+      "kind": "parameters",
+      "id": "initial_move_speed",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "crit_scaling",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "one",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "base_cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "cast_speed_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "parameters",
+      "id": "cast_reduction_cap",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "formulas",
+      "id": "precrit_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "effects",
+      "id": "boomerang_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_q",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_w",
+      "kind": "parameters",
+      "id": "bonus_attack_speed_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_w",
+      "kind": "parameters",
+      "id": "buff_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_w",
+      "kind": "effects",
+      "id": "ricochet_attack_speed",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_w",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "parameters",
+      "id": "shield_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "parameters",
+      "id": "heal_total_ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "parameters",
+      "id": "heal_ap_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "formulas",
+      "id": "block_heal",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "effects",
+      "id": "block_heal",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "effects",
+      "id": "spell_shield",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_e",
+      "kind": "triggerRules",
+      "id": "successful_spell_block",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "parameters",
+      "id": "move_speed_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "parameters",
+      "id": "buff_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "parameters",
+      "id": "attack_refund_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "parameters",
+      "id": "recent_damage_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "effects",
+      "id": "on_the_hunt",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "effects",
+      "id": "attack_basic_refund",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "sivir_r",
+      "kind": "triggerRules",
+      "id": "active_attack_refund",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_q",
+      "kind": "parameters",
+      "id": "bonus_attack_speed_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_q",
+      "kind": "parameters",
+      "id": "buff_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_q",
+      "kind": "effects",
+      "id": "rapid_fire",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_q",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "parameters",
+      "id": "ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "effects",
+      "id": "landing_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "effects",
+      "id": "reset_jump",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_w",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "crit_scaling",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "one",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "per_stack_amp",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "max_stacks",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "bomb_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "parameters",
+      "id": "bomb_stacks",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "formulas",
+      "id": "unstacked_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "formulas",
+      "id": "bomb_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "formulas",
+      "id": "max_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_e",
+      "kind": "effects",
+      "id": "bomb_explosion",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "parameters",
+      "id": "ad_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "parameters",
+      "id": "stun_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "parameters",
+      "id": "knockback_distance",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "effects",
+      "id": "cannon_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "tristana_r",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "parameters",
+      "id": "poison_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "parameters",
+      "id": "max_stacks",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "parameters",
+      "id": "base_dps",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "parameters",
+      "id": "duration_seconds",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "parameters",
+      "id": "poison_stacks",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "formulas",
+      "id": "damage_per_stack_second",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "formulas",
+      "id": "damage_per_second",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "formulas",
+      "id": "max_full_duration_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_p",
+      "kind": "effects",
+      "id": "poison_tick",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "parameters",
+      "id": "bonus_attack_speed_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "parameters",
+      "id": "attack_speed_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "parameters",
+      "id": "camouflage_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "parameters",
+      "id": "fade_delay_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "parameters",
+      "id": "camouflage_speed_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "effects",
+      "id": "exit_camouflage_speed",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "effects",
+      "id": "poisoned_death_reset",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_q",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "parameters",
+      "id": "base_slow_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "parameters",
+      "id": "slow_ap_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "parameters",
+      "id": "cloud_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "formulas",
+      "id": "slow_ratio",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_w",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameters",
+      "id": "physical_per_stack",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameters",
+      "id": "bonus_ad_ratio_per_stack",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameters",
+      "id": "ap_ratio_per_stack",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameters",
+      "id": "max_stacks",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "parameters",
+      "id": "poison_stacks",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "formulas",
+      "id": "physical_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "formulas",
+      "id": "magic_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "formulas",
+      "id": "max_physical_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "formulas",
+      "id": "max_magic_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "effects",
+      "id": "contaminate_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_e",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_r",
+      "kind": "parameters",
+      "id": "bonus_attack_damage",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_r",
+      "kind": "parameters",
+      "id": "bonus_attack_range",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_r",
+      "kind": "parameters",
+      "id": "buff_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_r",
+      "kind": "effects",
+      "id": "bonus_ad",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_r",
+      "kind": "effects",
+      "id": "bonus_range",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "twitch_r",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    }
+  ],
+  "writes": [],
+  "conflicts": [],
+  "failures": [],
+  "finishedAt": "2026-09-07T18:13:53.369Z"
+}

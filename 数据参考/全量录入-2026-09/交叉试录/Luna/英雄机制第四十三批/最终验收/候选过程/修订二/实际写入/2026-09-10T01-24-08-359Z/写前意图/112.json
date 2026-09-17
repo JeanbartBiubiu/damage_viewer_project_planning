@@ -1,0 +1,30 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_q/parameters",
+    "detailRoute": "/skills/naafiri_q/parameters/first_cast_base_damage",
+    "skillKey": "naafiri_q",
+    "kind": "parameters",
+    "stableKey": "first_cast_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "first_cast_base_damage",
+      "name": "暗裔犬牙第一刀基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 35,
+        "2": 40,
+        "3": 45,
+        "4": 50,
+        "5": 55
+      },
+      "description": "第一刀基础值索引1至5：35/40/45/50/55。",
+      "sortOrder": 10
+    }
+  }
+}

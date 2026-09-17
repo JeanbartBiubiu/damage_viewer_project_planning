@@ -1,0 +1,45 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "method": "POST",
+    "route": "/skills/sona_w/formulas",
+    "detailRoute": "/skills/sona_w/formulas/diminuendo_damage_reduction_ratio",
+    "skillKey": "sona_w",
+    "kind": "formulas",
+    "stableKey": "diminuendo_damage_reduction_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "diminuendo_damage_reduction_ratio",
+      "name": "坚毅咏叹调减伤比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "diminuendo_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "diminuendo_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "减伤比例只保存公式，不创建自动减伤状态；结果为比例而非百分数点。",
+      "sortOrder": 30
+    }
+  }
+}

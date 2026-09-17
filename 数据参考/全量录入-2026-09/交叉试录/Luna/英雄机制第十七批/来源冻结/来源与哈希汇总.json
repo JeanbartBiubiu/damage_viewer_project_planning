@@ -1,0 +1,239 @@
+{
+  "generatedAt": "2026-09-09T10:09:06.627Z",
+  "sourceIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Vladimir",
+      "chineseName": "猩红收割者",
+      "rootPath": "Characters/Vladimir/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Vladimir.json.gz",
+        "sha256": "6417376f7de2a253a42585a60b48f05b951f17d68f92f9f8b4182952a5af8147",
+        "compressedSha256": "22bda7211a0882e6ec1c22d25a1434d471aa30ad91234ab5cc9cf4d1aed85ac6",
+        "byteSize": 71502,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/vladimir/vladimir.bin.json",
+        "fetchedAt": "2026-09-06T14:26:47.732Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Vladimir.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vladimir.json",
+        "fetchedAt": "2026-09-06T14:12:56.003Z",
+        "byteSize": 14780,
+        "sha256": "b6f1848c17d57deb50b6084eee7bc154ae2c3e5f588a889ede865318c45f0d23"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "vladimir_p",
+          "binding": "Characters/Vladimir/Spells/VladimirBloodGorgedAbility/VladimirBloodGorged",
+          "name": "血色契约",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "vladimir_q",
+          "binding": "Characters/Vladimir/Spells/VladimirQAbility/VladimirQ",
+          "name": "鲜血转换",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "vladimir_w",
+          "binding": "Characters/Vladimir/Spells/VladimirSanguinePoolAbility/VladimirSanguinePool",
+          "name": "血红之池",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "vladimir_e",
+          "binding": "Characters/Vladimir/Spells/VladimirEAbility/VladimirE",
+          "name": "血之潮汐",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "vladimir_r",
+          "binding": "Characters/Vladimir/Spells/VladimirHemoplagueAbility/VladimirHemoplague",
+          "name": "血之瘟疫",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Swain",
+      "chineseName": "诺克萨斯统领",
+      "rootPath": "Characters/Swain/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Swain.json.gz",
+        "sha256": "02d529b9d242100cd968da8300be5e241c5afbce3937b8c97d97fe1a649a313b",
+        "compressedSha256": "d96f61764c16ad208bb748ead78edf6b518e26d2ff2e3d4acbf3d261379f04cb",
+        "byteSize": 70386,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/swain/swain.bin.json",
+        "fetchedAt": "2026-09-06T14:26:39.085Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Swain.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Swain.json",
+        "fetchedAt": "2026-09-06T14:12:54.033Z",
+        "byteSize": 14678,
+        "sha256": "543c939c76a1b0c63595c3ad3b0cc13fb99400583a09d613cf7c11ddfd13c73a"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "swain_p",
+          "binding": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
+          "name": "狂食鸦群",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "swain_q",
+          "binding": "Characters/Swain/Spells/SwainQAbility/SwainQ",
+          "name": "解脱之触",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "swain_w",
+          "binding": "Characters/Swain/Spells/SwainWAbility/SwainW",
+          "name": "帝国视界",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "swain_e",
+          "binding": "Characters/Swain/Spells/SwainEAbility/SwainE",
+          "name": "永不复行",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "swain_r",
+          "binding": "Characters/Swain/Spells/SwainRAbility/SwainR",
+          "name": "恶魔升华",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Rumble",
+      "chineseName": "机械公敌",
+      "rootPath": "Characters/Rumble/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Rumble.json.gz",
+        "sha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+        "compressedSha256": "71a308589d8be6ebdd5c620c63911318c6ebe1421009d2cc39db36211bf364eb",
+        "byteSize": 67100,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rumble/rumble.bin.json",
+        "fetchedAt": "2026-09-06T14:26:35.520Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Rumble.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rumble.json",
+        "fetchedAt": "2026-09-06T14:12:52.487Z",
+        "byteSize": 11612,
+        "sha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "rumble_p",
+          "binding": "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem",
+          "name": "机械重组",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "rumble_q",
+          "binding": "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower",
+          "name": "纵火盛宴",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "rumble_w",
+          "binding": "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield",
+          "name": "破碎护盾",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "rumble_e",
+          "binding": "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
+          "name": "电子鱼叉",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "rumble_r",
+          "binding": "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb",
+          "name": "恒温灼烧",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "AurelionSol",
+      "chineseName": "铸星龙王",
+      "rootPath": "Characters/AurelionSol/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/AurelionSol.json.gz",
+        "sha256": "8d59b9548b7b0e7f863ed2c78781b6710c7f97c55cbe2ebcb2a78bc6791bcce7",
+        "compressedSha256": "15788658238bef7ef37558de68f4e2d96bcebcc6957a474af759117201d254b0",
+        "byteSize": 102273,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/aurelionsol/aurelionsol.bin.json",
+        "fetchedAt": "2026-09-06T14:26:12.899Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/AurelionSol.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/AurelionSol.json",
+        "fetchedAt": "2026-09-06T14:12:44.715Z",
+        "byteSize": 13533,
+        "sha256": "9b14944c4135d278230cfdc0a00edfc9323fe8641fc7a3e0c24f05cb1e2c1d65"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "aurelionsol_p",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+          "name": "星海焕然",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "aurelionsol_q",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+          "name": "星河冲荡",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "aurelionsol_w",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+          "name": "星穹流丽",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "aurelionsol_e",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+          "name": "星芒凝汇",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "aurelionsol_r",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+          "name": "星天落瀑",
+          "maxrank": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "i": 66,
+  "intent": {
+    "sequence": 67,
+    "method": "POST",
+    "route": "/skills/akshan_r/parameters",
+    "detailRoute": "/skills/akshan_r/parameters/channel_duration_ms",
+    "skillKey": "akshan_r",
+    "kind": "parameters",
+    "stableKey": "channel_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "channel_duration_ms",
+      "name": "恩怨相抵最大充能时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前ChannelDuration=2.5秒，转换为2500毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

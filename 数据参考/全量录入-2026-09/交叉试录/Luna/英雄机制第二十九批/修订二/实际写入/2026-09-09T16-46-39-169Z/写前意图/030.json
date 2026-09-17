@@ -1,0 +1,30 @@
+{
+  "i": 29,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_w/formulas",
+    "skillKey": "ornn_w",
+    "kind": "formulas",
+    "stableKey": "minimum_damage_total",
+    "body": {
+      "formulaKey": "minimum_damage_total",
+      "name": "风箱炎息五次伤害下限总量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "minimum_damage_per_tick"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "tick_count"
+          }
+        ]
+      },
+      "description": "来源TotalMinimumDamage=每次英雄伤害下限×5。",
+      "sortOrder": 10
+    }
+  }
+}

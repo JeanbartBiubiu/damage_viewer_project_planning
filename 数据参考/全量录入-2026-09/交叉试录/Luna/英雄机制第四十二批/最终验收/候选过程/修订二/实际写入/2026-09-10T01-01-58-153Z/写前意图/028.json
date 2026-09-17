@@ -1,0 +1,27 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 28,
+    "skillKey": "qiyana_e",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_e/parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "天纵之勇基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 90,
+        "3": 130,
+        "4": 170,
+        "5": 210
+      },
+      "description": "BaseDamage索引1至5为50/90/130/170/210。",
+      "sortOrder": 10
+    }
+  }
+}

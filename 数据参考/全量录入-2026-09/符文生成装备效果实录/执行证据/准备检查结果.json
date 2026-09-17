@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-09-10T05:46:32.780Z",
+  "status": "PREPARATION_VALIDATED",
+  "scope": ".agents/artifacts/rune-equipment-ownership-execution",
+  "businessApiCalls": 0,
+  "businessWrites": 0,
+  "databaseAccessed": false,
+  "browserAccessed": false,
+  "gitAccessed": false,
+  "authorizationLogged": false,
+  "fixedApiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "plannedWrites": {
+    "total": 30,
+    "POST": 25,
+    "PUT": 4,
+    "DELETE": 1
+  },
+  "scripts": {
+    "executor": {
+      "path": ".agents/artifacts/rune-equipment-ownership-execution/受保护执行器.mjs",
+      "sha256": "ad4ce3b8b9003492fe9cf992e317f78f8d9b065b64ae5fb4a304647f33b5dcde"
+    },
+    "independentGet": {
+      "path": ".agents/artifacts/rune-equipment-ownership-execution/独立GET核对.mjs",
+      "sha256": "333536d6f1dbb75fc7259982de0503597bc006eab7450b0ef9da95b792877c8b"
+    },
+    "readme": {
+      "path": ".agents/artifacts/rune-equipment-ownership-execution/README.md",
+      "sha256": "ebf5bc833b98524ad4426bd58b3f5c0016576300a533b0d83c2fbb7f0148adc1"
+    }
+  },
+  "frozenInputs": {
+    "candidate": {
+      "path": ".agents/artifacts/rune-equipment-ownership-luna-candidate/修订一/完整候选.json",
+      "sha256": "81f13a8676254cd7db18d40e5fffe9c54bea98ea45651963a112e7f3b55a460a"
+    },
+    "plan": {
+      "path": ".agents/artifacts/rune-equipment-ownership-luna-candidate/修订一/写前请求计划.json",
+      "sha256": "8d63f461adff0fe79803a5422e2177f67e66c0b6856de1fad05d1d457380cce0"
+    },
+    "math": {
+      "path": ".agents/artifacts/rune-equipment-ownership-luna-candidate/修订一/独立数学报告.json",
+      "sha256": "3c6f4d997e4146795d4b6173c86a7b2392e382d66949cb360c58f0dcc1f058f0"
+    },
+    "migration": {
+      "path": ".agents/artifacts/rune-equipment-ownership-luna-candidate/神奇之鞋迁移意图.json",
+      "sha256": "a5a9a6079d0a76e1a22d1655fe34a9924783f034727b912889681b6848507cc0"
+    },
+    "snapshot": {
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/当前保护快照.json",
+      "sha256": "293b263cac1da4aad9d8e06f2d1c565fbcd12acd19aa2a748d5eb76796059304"
+    },
+    "supplementary": {
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/补充查重与分类.json",
+      "sha256": "f270f6179322e797fa92b40fc67a26ed12104f1e544e418a63b5c5e0f7b782f1"
+    },
+    "oldReference": {
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/旧鞋效果真实引用只读核对.json",
+      "sha256": "71003cd779663be9e148b078af28684fb8528364b2921928203742219ac4f9f8"
+    }
+  },
+  "validation": {
+    "executor": "STATIC_VALIDATION_PASS",
+    "independentGet": "STATIC_VALIDATION_PASS",
+    "nodeRuntime": "C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe"
+  },
+  "preservedPriorPreflightFailure": "只读预检/2026-09-10T05-43-26-067Z"
+}

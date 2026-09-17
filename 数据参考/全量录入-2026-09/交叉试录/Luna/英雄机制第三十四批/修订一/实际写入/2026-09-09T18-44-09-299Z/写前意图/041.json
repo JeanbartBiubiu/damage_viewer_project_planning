@@ -1,0 +1,65 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/katarina_r/formulas",
+    "detailRoute": "/skills/katarina_r/formulas/physical_damage_per_tick",
+    "skillKey": "katarina_r",
+    "kind": "formulas",
+    "stableKey": "physical_damage_per_tick",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage_per_tick",
+      "name": "死亡莲华每次物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "attack_speed_coefficient"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_attack_speed_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ADDamageCalc = 0.16×来源额外攻击力×(1+3.125×实际攻速比例)；mStat=4阶段无默认。",
+      "sortOrder": 30
+    }
+  }
+}

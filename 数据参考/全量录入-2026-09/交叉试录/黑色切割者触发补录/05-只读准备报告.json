@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T12:43:34.238Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "businessWrites": 0,
+  "authMode": "NO_AUTH_HEADER",
+  "sourceFiles": 8,
+  "hashes": {
+    "sourceSnapshot": "61fa5627c55f1570da6331a0f10a3199e674d5ba69a1a70f06322716844eca1c",
+    "frozenRequest": "e814e4bc0179dd51e9d5e8cb599143f92ac609572f50dc98ba2d466bd000e4df",
+    "baseline": "b01d3bd34b8b37f749b97b1de048a379cd562b520b11b8afee5339e54d850879"
+  },
+  "getStats": {
+    "total": 2256,
+    "statusCounts": {
+      "200": 2254,
+      "404": 2
+    },
+    "expected404": [
+      "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion",
+      "/damage-types/physical"
+    ],
+    "unexpectedStatusCount": 0
+  },
+  "currentBaseline": {
+    "skillCount": 1062,
+    "triggerRuleCount": 96,
+    "sourceInitializedCount": 24,
+    "damageDealtRuleCount": 2,
+    "eventTypeCounts": {
+      "BASIC_ATTACK_HIT": 9,
+      "DAMAGE_DEALT": 2,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_TAKEN": 3,
+      "KILL": 1,
+      "SKILL_HIT": 50,
+      "SKILL_USED": 1,
+      "SOURCE_INITIALIZED": 24,
+      "SPELL_SHIELD_BLOCKED": 5
+    },
+    "targetCategoryConditionCount": 9,
+    "damageDealtWithCategoryCount": 2,
+    "allRuleDetailGets": 96,
+    "allRuleDetailStatuses200": true
+  },
+  "targetChecks": {
+    "equipmentStatus": 200,
+    "skillStatus": 200,
+    "parameterCount": 7,
+    "formulaCount": 0,
+    "effectKeys": [
+      "armor_shred"
+    ],
+    "processCount": 0,
+    "internalStateCount": 0,
+    "ruleKeysBefore": [],
+    "newRuleDetailStatus": 404,
+    "modifierZoneKeyPresent": true,
+    "physicsKeyPresent": true,
+    "physicalAliasStatus": 404
+  },
+  "stableRead": {
+    "stableSkillKeys": true,
+    "stableRuleKeys": true,
+    "stableRuleCount": true,
+    "firstSkillCount": 1062,
+    "secondSkillCount": 1062,
+    "firstRuleCount": 96,
+    "secondRuleCount": 96,
+    "firstRuleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023",
+    "secondRuleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023"
+  },
+  "plannedPost": {
+    "count": 1,
+    "route": "/skills/item_3071_passive/trigger-rules",
+    "detailRoute": "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion",
+    "ruleKey": "on_physical_damage_dealt_to_champion",
+    "eventType": "DAMAGE_DEALT",
+    "damageTypeKey": "physics",
+    "deliveryKind": "ANY",
+    "originKind": "ANY",
+    "targetCategory": [
+      "CHAMPION"
+    ],
+    "targetContext": "CURRENT_TARGET",
+    "effectKey": "armor_shred",
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null
+  },
+  "nextStep": "主负责人独立评审 02-冻结请求.json 后，只执行其中唯一 POST；返回 201 后立即 GET 详情并核对冻结字段。"
+}

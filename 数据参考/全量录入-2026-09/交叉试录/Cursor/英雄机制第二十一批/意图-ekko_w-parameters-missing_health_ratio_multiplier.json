@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:42.182Z",
+  "method": "POST",
+  "skillKey": "ekko_w",
+  "kind": "parameters",
+  "stableKey": "missing_health_ratio_multiplier",
+  "route": "/skills/ekko_w/parameters",
+  "readRoute": "/skills/ekko_w/parameters/missing_health_ratio_multiplier",
+  "body": {
+    "parameterKey": "missing_health_ratio_multiplier",
+    "name": "已损失生命比例换算",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.01,
+    "levelValues": null,
+    "description": "MissingHealthPercent.mMultiplier NumberCalculationPart 原始 0.009999999776482582，归一为0.01。mDisplayAsPercent。该公式是已损失生命比例，不是实际造成伤害。",
+    "sortOrder": 60
+  }
+}

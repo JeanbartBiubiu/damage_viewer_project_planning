@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T12:16:03.060Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/swain_e/effects/mana_cost",
+  "id": "mana_cost",
+  "method": "POST",
+  "body": {
+    "effectKey": "mana_cost",
+    "name": "施放法力消耗",
+    "description": "仅记录官方基础法力消耗；实际扣除资格、扣除时点与资源不足处理尚未接线。",
+    "sortOrder": 10,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "consume_mana",
+        "name": "消耗法力",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "CONSUME"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,419 @@
+{
+  "batch": "英雄机制第三十二批",
+  "status": "候选已冻结，严格数学通过，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "sourcePolicy": "固定客户端16.17、官方16.17.1和构建16.17.8104348；沿当前根绑定正文和当前计算树；未知等级曲线、暴击阶段、施法时序、事件资格和运行输入不猜、不设默认。",
+  "included": [
+    "库奇：P额外真实伤害、Q/E单一敌人伤害、W路径完整最大伤害、R小/大导弹与当前4发回充组成。",
+    "卡莎：P跨Q电浆与引爆、Q普通/进化最大量、W伤害和电浆层数、E两棵攻击速度树、R自身护盾。",
+    "霞：P时间与强化攻击、Q两把匕首全量、W自身强化、E逐根羽毛伤害、R单一敌人伤害。",
+    "泽丽：P跨Q四项、Q七颗整次攻击、W普通/过墙、E首个目标附加伤害、R主动伤害和5秒上限组成。"
+  ],
+  "excludedOrPending": [
+    "额外敌人/友军/兵野专用分支、纯视野、纯几何、独立召唤、完整角色替换、自动触发、伤害结果、直接治疗、瞬时求值和周期过程。",
+    "未知等级插值、实际暴击阶段、攻击速度完整缩短、弹体/羽毛命中时序、充能和公共资源扣费均保持待接。"
+  ],
+  "perSkillExcluded": {
+    "corki_p": [
+      {
+        "item": "炸药包InitialCD、PackageDuration、BonusMS、SubsequentCD",
+        "reason": "当前正文和实际消费树没有炸药包字段，旧摘要不能替代当前组成。"
+      },
+      {
+        "item": "完整普攻物理伤害、咒刃额外伤害资格",
+        "reason": "本轮只录当前额外真实伤害树；完整普攻与咒刃事件资格待运行层接线。"
+      }
+    ],
+    "corki_q": [
+      {
+        "item": "RevealDuration=6秒显形",
+        "reason": "纯视野结果，本轮不创建视野效果。"
+      },
+      {
+        "item": "范围和命中顺序",
+        "reason": "区域几何及命中事件没有成熟结果结构。"
+      }
+    ],
+    "corki_w": [
+      {
+        "item": "MaximumTicks×每跳均分",
+        "reason": "正文直接给出期间至多受到完整MaximumDamage，没有每跳均分证据。"
+      },
+      {
+        "item": "DamageRadius、MinimumRange、MaximumRange",
+        "reason": "几何范围字段不建立无消费者公式。"
+      }
+    ],
+    "corki_e": [
+      {
+        "item": "历史物理魔法各半混合伤害",
+        "reason": "当前根TotalDamage和正文明确为完整物理伤害，不采用旧混合口径。"
+      },
+      {
+        "item": "护甲魔抗削减自动效果",
+        "reason": "本轮只保存削减数值、层数和存留时间，不创建自动减益事件。"
+      }
+    ],
+    "corki_r": [
+      {
+        "item": "RBaseMissileRadius、RBigOneMissileRadius",
+        "reason": "爆炸几何和额外目标分配不进入本轮唯一敌人伤害组成。"
+      },
+      {
+        "item": "旧主体最多7发",
+        "reason": "当前根mMaxAmmo和正文MaxAmmoTOOLTIP均为4，保留当前4发。"
+      }
+    ],
+    "kaisa_p": [
+      {
+        "item": "附近友军定身施加电浆",
+        "reason": "第三友军收益超出本轮范围，保留来源而不创建友方事件。"
+      },
+      {
+        "item": "对野怪400伤害上限",
+        "reason": "兵野专用上限，本轮单一敌方英雄范围排除。"
+      },
+      {
+        "item": "完整角色技能进化替换",
+        "reason": "只在Q/W/E分别保存明确进化阈值，不创建整套角色替换状态。"
+      }
+    ],
+    "kaisa_q": [
+      {
+        "item": "小兵低生命增伤",
+        "reason": "低于35%生命的小兵支路，兵线专用不进入本轮。"
+      },
+      {
+        "item": "MaxDamageDisplay的匿名原树本体",
+        "reason": "已将实际消费的普通/进化最大总量折算为明确倍率参数和公式，未复制无语义匿名节点。"
+      },
+      {
+        "item": "命中所有目标和弹体集中假设",
+        "reason": "只保存单发、后续比例和最大量，实际命中数不默认。"
+      }
+    ],
+    "kaisa_w": [
+      {
+        "item": "真实视野4秒",
+        "reason": "纯视野结果，本轮不创建视野效果。"
+      },
+      {
+        "item": "远程几何和额外目标",
+        "reason": "只保留首个敌人伤害，空间过程待接。"
+      }
+    ],
+    "kaisa_e": [
+      {
+        "item": "spellCastTime=0与mCastTime=1.5秒",
+        "reason": "来源字段冲突，候选保留实际动态TotalCastTime关系，不任选固定施法时间。"
+      },
+      {
+        "item": "幽灵状态作为独立碰撞结果",
+        "reason": "本轮只保存正文明确的自身加速和进化隐形持续时间，幽灵碰撞资格待接。"
+      }
+    ],
+    "kaisa_r": [
+      {
+        "item": "RRange",
+        "reason": "位移几何范围不建立无消费者公式。"
+      },
+      {
+        "item": "他人护盾",
+        "reason": "当前正文明确护盾归卡莎自身，不能当作友军结果。"
+      }
+    ],
+    "xayah_p": [
+      {
+        "item": "PDamageFalloffMax、PDamageFalloffMid、PDamageFalloffMin",
+        "reason": "这些是沿途其他目标的穿透/衰减分配，本轮主要目标照常全额，不将35/45/55%套到主要目标。"
+      },
+      {
+        "item": "PFeatherSpacingMin、PFeatherSpacingMax",
+        "reason": "羽毛空间几何，不建立无消费者公式。"
+      },
+      {
+        "item": "与洛联合回城",
+        "reason": "第三方联合回城不属于本轮单一英雄组成。"
+      }
+    ],
+    "xayah_q": [
+      {
+        "item": "MultiHitDamage后续目标50%",
+        "reason": "这是额外目标分配，本轮只保留首个唯一目标；不能把第二把对同一目标减半。"
+      },
+      {
+        "item": "匕首速度和空间几何",
+        "reason": "Missile1/2DelaySpeed及宽度仅作时序/几何来源，完整事件待接。"
+      }
+    ],
+    "xayah_w": [
+      {
+        "item": "洛获得同效果",
+        "reason": "第三友军收益不进入本轮；只保留霞自身明确数值。"
+      },
+      {
+        "item": "WRakanSeekDistance",
+        "reason": "伙伴搜索几何不建立无消费者公式。"
+      },
+      {
+        "item": "次级羽刃实际攻击基准、暴击和额外效果类型",
+        "reason": "正文只给25%数值，未给完整伤害类型和攻击特效分派。"
+      }
+    ],
+    "xayah_e": [
+      {
+        "item": "MinionDamage=50%",
+        "reason": "小兵专用伤害支路，本轮单一敌方英雄范围排除。"
+      },
+      {
+        "item": "羽毛总量固定上限",
+        "reason": "当前只给逐根最低10%，没有总根数上限；19根触底不是上限。"
+      }
+    ],
+    "xayah_r": [
+      {
+        "item": "RUntargetable=1.25秒",
+        "reason": "与当前正文1.5秒冲突，保留来源冲突，不用旧字段覆盖正文。"
+      },
+      {
+        "item": "羽毛具体数量",
+        "reason": "当前根消费未给出可审数量，不凭记忆填5或其他值。"
+      },
+      {
+        "item": "RMovementSlow、位移几何",
+        "reason": "无明确当前消费或纯空间过程。"
+      }
+    ],
+    "zeri_p": [
+      {
+        "item": "被动护盾偷取、加速和旧PassiveAttackSpeed断点树",
+        "reason": "当前正文没有消费这些旧字段，不按字段名补入被动效果。"
+      },
+      {
+        "item": "野怪百分比伤害300上限",
+        "reason": "兵野专用支路，本轮单一敌方英雄范围排除。"
+      }
+    ],
+    "zeri_q": [
+      {
+        "item": "SlowPercent、ActivePercentDamageToTowers和野怪300上限",
+        "reason": "当前Q正文不消费这些效果或属于防御物/野怪专用支路。"
+      },
+      {
+        "item": "完整攻击速度缩短公式",
+        "reason": "只保存上限和溢出系数，当前没有可审的完整求值式。"
+      }
+    ],
+    "zeri_w": [
+      {
+        "item": "过墙区域额外目标和几何宽度",
+        "reason": "单一首个敌人伤害保留，BeamWidth和区域额外命中不建立结果。"
+      },
+      {
+        "item": "暴击几率项",
+        "reason": "当前WallDamage树只消费暴击伤害倍率，不能因扩展文字自行添加暴击几率。"
+      }
+    ],
+    "zeri_e": [
+      {
+        "item": "NumberOfPierceShots=3",
+        "reason": "当前5秒正文只保证穿刺状态，没有消费仅3次的限制；不把旧内部数值强制写成次数上限。"
+      },
+      {
+        "item": "后续目标穿刺比例和野怪分支",
+        "reason": "额外目标及兵野专用分配排除；首个目标额外魔法伤害保留。"
+      },
+      {
+        "item": "MaxDistance、RevealRangeOverWalls和动画截断",
+        "reason": "位移/视野几何和纯动画字段不建立无消费者公式。"
+      }
+    ],
+    "zeri_r": [
+      {
+        "item": "TotalBonusDamage=5/10/15+0.15AP",
+        "reason": "当前正文未消费该旧树，不能把字段名当作R主动额外伤害。"
+      },
+      {
+        "item": "DurationIncreasePerHit、StackDuration旧量化",
+        "reason": "当前正文只明确延长且不超过初始5秒，没有证明这些旧数值就是延长量；只保留上限和层持续时间。"
+      },
+      {
+        "item": "ChainPhysicalDamage与MaxChainTargets",
+        "reason": "连锁属于额外敌人分配，本轮单一敌人范围排除。"
+      },
+      {
+        "item": "原始MaxStacks=100000作为实际上限",
+        "reason": "这是实现界限，不是实际机制上限。"
+      }
+    ]
+  },
+  "perSkillPending": {
+    "corki_p": [
+      {
+        "item": "mStat9暴击倍率应用阶段",
+        "reason": "实际暴击倍率无窄证，不设固定1.75或其他默认。"
+      }
+    ],
+    "corki_q": [],
+    "corki_w": [
+      {
+        "item": "路径命中、首末跳和位移事件",
+        "reason": "只保存总量和来源过程次数，实际驻留与命中时序待接。"
+      }
+    ],
+    "corki_e": [
+      {
+        "item": "4层叠加、刷新和每次命中时序",
+        "reason": "当前正文给出关系，事件接线尚未形成。"
+      }
+    ],
+    "corki_r": [
+      {
+        "item": "充能队列、每第三颗替换和英雄普攻回充事件",
+        "reason": "数值和公式已保存，序列与命中时序待接。"
+      },
+      {
+        "item": "mPrecision=1",
+        "reason": "只是显示精度字段，不作为四舍五入规则。"
+      }
+    ],
+    "kaisa_p": [
+      {
+        "item": "层数叠加、4秒刷新、引爆取值和技能附加层数",
+        "reason": "当前正文明确关系，事件时序与实际存量待接。"
+      },
+      {
+        "item": "角色等级插值",
+        "reason": "原树只有起止值，真实等级输入由运行层提供。"
+      }
+    ],
+    "kaisa_q": [
+      {
+        "item": "普通/进化资格、首目标和后续命中数",
+        "reason": "正文关系明确，但弹体事件与实际目标分配待接。"
+      }
+    ],
+    "kaisa_w": [
+      {
+        "item": "命中英雄缩短冷却、施加电浆与电浆后续伤害",
+        "reason": "参数已保存，命中时序和P联动由事件层接线。"
+      }
+    ],
+    "kaisa_e": [
+      {
+        "item": "攻击速度动态求值与隐形触发",
+        "reason": "两个计算树使用的mStat4阶段未窄证，事件和属性输入待接。"
+      },
+      {
+        "item": "mDoesNotConsumeMana=true与公共法力",
+        "reason": "来源标志和已有公共法力并存，扣费阶段不自动改零或创建扣费。"
+      }
+    ],
+    "kaisa_r": [
+      {
+        "item": "有电浆敌方英雄资格、附近判定与位移时点",
+        "reason": "正文关系明确，事件接线待后续运行层。"
+      }
+    ],
+    "xayah_p": [
+      {
+        "item": "强化攻击触发、羽毛生成和累计层数事件",
+        "reason": "参数已保存，实际攻击顺序和载体接线待后续运行层。"
+      }
+    ],
+    "xayah_q": [
+      {
+        "item": "施法起点、攻击速度动态和羽毛落点",
+        "reason": "多个来源延时已保留，不能假定施法结束后再顺序加两次固定延时。"
+      }
+    ],
+    "xayah_w": [
+      {
+        "item": "施放、命中英雄和自身加速触发",
+        "reason": "数值已保存，攻击事件和自身效果时点待接。"
+      }
+    ],
+    "xayah_e": [
+      {
+        "item": "回收根数、禁锢命中和逐根事件",
+        "reason": "逐根序号输入已保留，实际0/1/3/19/20根聚合和禁锢时序待接。"
+      },
+      {
+        "item": "mStat8/mStat9实际暴击阶段",
+        "reason": "暴击几率和倍率均无默认。"
+      }
+    ],
+    "xayah_r": [
+      {
+        "item": "空中移动、匕首落点和回收载体",
+        "reason": "当前只保存唯一敌人伤害与持续时间，动作时序待接。"
+      }
+    ],
+    "zeri_p": [
+      {
+        "item": "充能存量、未充能/满充能选择和处决事件",
+        "reason": "跨Q数值已保留，真实充能状态与处决时序待接。"
+      },
+      {
+        "item": "角色等级插值",
+        "reason": "三段等级曲线均只有端点，禁止线性展开或默认等级。"
+      }
+    ],
+    "zeri_q": [
+      {
+        "item": "七颗弹体的命中顺序和一次攻击特效",
+        "reason": "正文标签已保留，实际弹体命中事件待接。"
+      }
+    ],
+    "zeri_w": [
+      {
+        "item": "施法时长随攻击速度动态求值",
+        "reason": "来源字段和mStat阶段尚未窄证，保留基础/下限/系数。"
+      }
+    ],
+    "zeri_e": [
+      {
+        "item": "攻击或技能命中英雄的冷却事件",
+        "reason": "普通和暴击两种明确数值已分开，事件接线待后续运行层。"
+      }
+    ],
+    "zeri_r": [
+      {
+        "item": "命中英雄刷新、延长剩余时间和Q三连发事件",
+        "reason": "初始5秒上限与层持续时间已保存，真实延长量和命中时序待接。"
+      },
+      {
+        "item": "mDoesNotConsumeCooldown=true",
+        "reason": "来源标志与已有公共冷却并存，不能据此自动改变公共冷却或扣除规则。"
+      }
+    ]
+  },
+  "counts": {
+    "parameters": 164,
+    "formulas": 41,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "requestCount": 206,
+    "currentTotalComponents": 235,
+    "reusedPublicParameters": 29,
+    "protectedSubjects": 20,
+    "protectedCompositionLists": 120,
+    "protectedReferenceGETs": 201
+  },
+  "hashes": {
+    "currentSnapshotSha256": "e5b0bb32f613f06dd395208ac6d571013ace347ea34cfd04ec570ce9b4221583",
+    "sourceManifestSha256": "74a322d6b4914c4ee54b5cba09bdffb89adf0917276512b220d0f85c79262b34",
+    "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
+    "planSha256": "4250c6cf97965f7f83fa64f89089487f52ede37f83adcb2df15c0051a97e9c46",
+    "sourceValuesSha256": "72474e8cad1f7b9eb929f18d2a243c25c56acd3507604de542ac8f7efedc18f9",
+    "strictMathSha256": "273762d3d9b3104dcce398ca2c2145aafc727ffd2d2507f7d659e604970eac37"
+  },
+  "noApiCalls": true
+}

@@ -1,0 +1,74 @@
+{
+  "capturedAt": "2026-09-12T07:25:30.937Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "complementaryAcceptance": "Codex 内置浏览器也已实际查看同一技能、公式、效果和触发规则。",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 166
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "passed": true,
+      "observed": "全量同步完成，本次接收 3279 条变化。"
+    },
+    {
+      "area": "技能主表",
+      "passed": true,
+      "representativeImage": {
+        "alt": "炽天使之拥·敬畏与救主灵刃代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      }
+    },
+    {
+      "area": "参数与公式",
+      "passed": true,
+      "fixedParameterCount": 5,
+      "runtimeParameterCount": 0,
+      "formulaCount": 3,
+      "shieldFormulaObserved": true,
+      "thresholdFormulaObserved": true
+    },
+    {
+      "area": "效果与结果",
+      "passed": true,
+      "effectKey": "lifeline_shield",
+      "resultType": "NORMAL_SHIELD",
+      "effectRepresentativeImage": "未设置",
+      "knownUsabilityIssue": "效果子表有图片列，但该效果没有代表图片，页面显示未设置。"
+    },
+    {
+      "area": "条件与触发",
+      "passed": true,
+      "eventType": "DAMAGE_PENDING",
+      "conditionSummary": "HEALTH_BEFORE GTE 阈值，并且 PROJECTED_HEALTH_AFTER LT 阈值",
+      "actionTarget": "CURRENT_TARGET",
+      "runtimeInputBindings": 0,
+      "cooldown": "lifeline_cooldown_ms / CURRENT_TARGET"
+    }
+  ],
+  "screenshots": [
+    "三秒普通护盾结果.png",
+    "五项固定参数.png",
+    "伤前双条件与冷却.png",
+    "技能主表左侧图片.png",
+    "最大法力护盾公式.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示与只读交互。",
+  "scriptSha256": "52eade8be943d890dcb00b39fcf7fd5fde8cf7e8da5e2703a558c5e8b55d9711"
+}

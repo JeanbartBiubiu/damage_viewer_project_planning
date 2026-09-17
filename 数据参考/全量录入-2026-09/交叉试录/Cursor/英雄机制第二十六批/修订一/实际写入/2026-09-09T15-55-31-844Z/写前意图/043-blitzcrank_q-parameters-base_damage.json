@@ -1,0 +1,46 @@
+{
+  "sequence": 43,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/blitzcrank_q/parameters",
+    "detailRoute": "/skills/blitzcrank_q/parameters/base_damage",
+    "skillKey": "blitzcrank_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 110,
+        "2": 160,
+        "3": 210,
+        "4": 260,
+        "5": 310
+      },
+      "description": "当前绑定DataValues.BaseDamage索引1至5为110/160/210/260/310。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 306,
+    "method": "GET",
+    "route": "/skills/blitzcrank_q/parameters/base_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "base_damage"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:30.152Z"
+  }
+}

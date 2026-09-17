@@ -1,0 +1,49 @@
+{
+  "sequence": 44,
+  "intent": {
+    "sequence": 44,
+    "method": "POST",
+    "route": "/skills/drmundo_w/formulas",
+    "detailRoute": "/skills/drmundo_w/formulas/nonhero_gray_health_restore_amount",
+    "skillKey": "drmundo_w",
+    "kind": "formulas",
+    "stableKey": "nonhero_gray_health_restore_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "nonhero_gray_health_restore_amount",
+      "name": "未命中敌方英雄灰色生命回复量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "gray_health_nonhero_restore_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "stored_gray_health"
+          }
+        ]
+      },
+      "description": "未命中敌方英雄时按50%已储存灰色生命计算；不把该分支误写成普通生命回复。",
+      "sortOrder": 60
+    }
+  },
+  "before": {
+    "sequence": 334,
+    "method": "GET",
+    "route": "/skills/drmundo_w/formulas/nonhero_gray_health_restore_amount",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "nonhero_gray_health_restore_amount"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:17.782Z"
+  }
+}

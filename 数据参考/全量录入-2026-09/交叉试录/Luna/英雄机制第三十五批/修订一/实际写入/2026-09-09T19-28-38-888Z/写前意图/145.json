@@ -1,0 +1,23 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 144,
+    "method": "POST",
+    "route": "/skills/tahmkench_w/parameters",
+    "detailRoute": "/skills/tahmkench_w/parameters/knockup_duration_ms",
+    "skillKey": "tahmkench_w",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "深渊潜航击飞时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "客户端KnockUpDuration=1秒；转换为1000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

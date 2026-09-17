@@ -1,0 +1,24 @@
+{
+  "i": 167,
+  "intent": {
+    "sequence": 168,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/execute_threshold_start_percent_points",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "execute_threshold_start_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "execute_threshold_start_percent_points",
+      "name": "超级灼热龙息处决起始百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 6.5,
+      "levelValues": null,
+      "description": "Tier3_ExecuteThreshold的mFormulaParts消费6.5，根mMultiplier再乘0.01；保留6.5百分数点。",
+      "sortOrder": 120
+    }
+  }
+}

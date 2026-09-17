@@ -1,0 +1,836 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-13T04:17:13.310Z",
+  "batch": "七项英雄主动触发补录",
+  "sourceVersion": "16.17.1",
+  "scope": {
+    "reviewed": [
+      "nautilus_w",
+      "missfortune_w",
+      "aatrox_r",
+      "kennen_r",
+      "sivir_w",
+      "renekton_r",
+      "ambessa_w"
+    ],
+    "createdRules": [
+      "nautilus_w/on_used",
+      "missfortune_w/on_used",
+      "aatrox_r/on_used",
+      "kennen_r/on_used",
+      "sivir_w/on_used",
+      "renekton_r/on_used"
+    ],
+    "deferred": [
+      {
+        "id": "ambessa",
+        "skillKey": "ambessa_w",
+        "ruleKey": "on_used",
+        "reason": "self_shield 的 shield_value 可达 RUNTIME_INPUT 参数 shield_base_at_character_level，但拟议动作没有绑定；当前 SKILL_USED 事件、内部状态和已支持绑定来源都不能提供角色等级。空绑定会被后端以400.INVALID_RUNTIME_INPUT_BINDING和BINDING_MISSING拒绝。",
+        "resolveBeforeWrite": [
+          "提供有来源证据的角色等级运行值绑定",
+          "或调整已保存参数和公式，使护盾基础值不再依赖未供给的动态输入"
+        ],
+        "evidence": [
+          "GET /skills/ambessa_w/formulas/shield_value 为200",
+          "GET /skills/ambessa_w/internal-states 为200且列表为空",
+          "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java:1783",
+          "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十七批/修订二/完整候选.json"
+        ]
+      }
+    ],
+    "beforeRuleCount": 114,
+    "afterRuleCount": 120,
+    "skillCount": 1062,
+    "sourceInitializedCount": 24
+  },
+  "semantics": [
+    {
+      "id": "nautilus",
+      "skillKey": "nautilus_w",
+      "ruleKey": "on_used",
+      "actions": [
+        "EXECUTE_EFFECT:shield"
+      ],
+      "reason": "已有 shield 完整定义自身普通护盾、等级数值、6000毫秒持续时间和刷新方式，且不依赖动态输入；未形成效果的攻击附伤不会被本动作执行。",
+      "omitted": [
+        "法力消耗与冷却",
+        "护盾存在期间的当前目标和附近目标攻击附伤",
+        "两秒伤害的周期与总量分配"
+      ]
+    },
+    {
+      "id": "missfortune",
+      "skillKey": "missfortune_w",
+      "ruleKey": "on_used",
+      "actions": [
+        "EXECUTE_EFFECT:active_attack_speed"
+      ],
+      "reason": "已有 active_attack_speed 独立表达自身四秒攻击速度增益，等级参数不依赖动态输入；两阶段移速及受击清除不改变该结果本身。",
+      "omitted": [
+        "被动基础移速与满额移速状态",
+        "主动时达到满额移速及受击清除",
+        "厄运的眷顾冷却返还",
+        "法力消耗与基础冷却"
+      ]
+    },
+    {
+      "id": "aatrox",
+      "skillKey": "aatrox_r",
+      "ruleKey": "on_used",
+      "actions": [
+        "EXECUTE_EFFECT:attack_damage_amp"
+      ],
+      "reason": "已有 attack_damage_amp 独立表达自身攻击力百分比增幅、等级值和基础十秒持续时间，不依赖动态输入。",
+      "omitted": [
+        "衰减移动速度与自身治疗增幅",
+        "参与击杀延长和移速刷新",
+        "小兵恐惧及未收敛的施法时间"
+      ]
+    },
+    {
+      "id": "kennen",
+      "skillKey": "kennen_r",
+      "ruleKey": "on_used",
+      "actions": [
+        "EXECUTE_EFFECT:armor",
+        "EXECUTE_EFFECT:magic_resistance"
+      ],
+      "reason": "已有 armor 与 magic_resistance 分别表达三秒自身护甲和魔抗，等级参数相同、修改属性不同且不依赖动态输入。",
+      "omitted": [
+        "每500毫秒周期伤害与首末次时点",
+        "同一目标后续命中伤害提高",
+        "雷缚印层数和附近多目标处理"
+      ]
+    },
+    {
+      "id": "sivir",
+      "skillKey": "sivir_w",
+      "ruleKey": "on_used",
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动 cast 过程在开始时处理冷却和法力，并在 activate 步骤执行四秒攻击速度；规则只启动过程可避免重复结算。",
+      "omitted": [
+        "强化攻击次数与消费",
+        "弹射目标选择、额外目标伤害和共享暴击",
+        "小兵斩杀"
+      ]
+    },
+    {
+      "id": "renekton",
+      "skillKey": "renekton_r",
+      "ruleKey": "on_used",
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动 cast 过程在开始时处理冷却，并在 start 步骤完成时执行十五秒最大生命增加；规则只启动过程，避免重复执行 dominance_health。",
+      "omitted": [
+        "当前生命值随最大生命值变化的资源语义",
+        "施放时和周期怒气",
+        "周期范围伤害、体型变化及技能范围交互"
+      ]
+    }
+  ],
+  "preparation": {
+    "status": "CAPTURED",
+    "GETs": 2644,
+    "statusCounts": {
+      "200": 2632,
+      "404": 12
+    },
+    "businessWrites": 0,
+    "stableVerification": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleLists": true,
+      "stableRuleDetails": true,
+      "firstRuleKeysSha256": "b79527bde39efea6e35f218e78261bbbb1a35bb5798542753d21ee2fc6b20e60",
+      "secondRuleKeysSha256": "b79527bde39efea6e35f218e78261bbbb1a35bb5798542753d21ee2fc6b20e60"
+    },
+    "candidateStatuses": [
+      {
+        "id": "nautilus",
+        "status": 404
+      },
+      {
+        "id": "missfortune",
+        "status": 404
+      },
+      {
+        "id": "aatrox",
+        "status": 404
+      },
+      {
+        "id": "kennen",
+        "status": 404
+      },
+      {
+        "id": "sivir",
+        "status": 404
+      },
+      {
+        "id": "renekton",
+        "status": 404
+      }
+    ],
+    "sourceSnapshotSha256": "073a2210f6ba063d1f21254ddf6dc44111d30ccdcb3cac12cf1e75de9b037217",
+    "frozenRequestSha256": "5685a38960a58b4f9b99de150da8bfc0dd80b99c3e3918f1dd7febc4dd030ec2",
+    "baselineSha256": "141d76464e5529d3bd38679692c53830bf259d8157643fc553070845546c34c1"
+  },
+  "cursorReview": {
+    "runId": "run-680e3a81-1eb3-4c85-ad62-e18ee8e2d741",
+    "requestId": "8cd0b710-eb26-455b-9205-4c590033b77f",
+    "resultStatus": "finished",
+    "planRevision": 1,
+    "verdict": "READY",
+    "model": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ],
+    "sdkVersion": "1.0.24",
+    "uniqueToolCalls": 1,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "auditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "businessWrites": 0
+  },
+  "writer": {
+    "protectedGETs": 3990,
+    "businessWrites": 6,
+    "POST": 6,
+    "status201": 6,
+    "immediateReadbacks": 6,
+    "replayedWrites": 0,
+    "priorRuleCount": 114,
+    "finalRuleCount": 120,
+    "sourceInitializedCount": 24,
+    "passed": true
+  },
+  "independentReadback": {
+    "GETs": 1334,
+    "methods": {
+      "GET": 1334
+    },
+    "businessWrites": 0,
+    "priorRulesUnchanged": 114,
+    "newRulesMatched": 6,
+    "nonRuleTargetsUnchanged": 6,
+    "skillCount": 1062,
+    "finalRuleCount": 120,
+    "sourceInitializedCount": 24,
+    "passed": true
+  },
+  "browser": {
+    "GETs": 304,
+    "businessWrites": 0,
+    "skills": [
+      "nautilus_w",
+      "missfortune_w",
+      "aatrox_r",
+      "kennen_r",
+      "sivir_w",
+      "renekton_r"
+    ],
+    "listImagesVisible": 6,
+    "imageNaturalSize": "64x64",
+    "processDetailsVisible": 2,
+    "directEffectDetailsVisible": 5,
+    "triggerDetailsVisible": 6,
+    "screenshots": 19,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "failedRequests": 0,
+    "errorResponses": 0,
+    "liveFrontend": "127.0.0.1:5173",
+    "liveBackend": "127.0.0.1:8080",
+    "passed": true
+  },
+  "protected": {
+    "priorRulesUnchanged": 114,
+    "skillSubjectsUnchanged": true,
+    "ownerRelationsUnchanged": true,
+    "representativeImagesUnchanged": true,
+    "parametersFormulasEffectsProcessesAndStatesUnchanged": true,
+    "candidateRulesOnly": true
+  },
+  "experienceIssues": [
+    "触发规则接线前必须检查效果和过程可达的动态输入；安蓓萨W因角色等级输入没有合法来源而在写入前被拒绝。",
+    "已有主动cast过程负责冷却、资源和效果绑定时，触发规则只启动过程；直接执行效果会绕过过程或重复应用。",
+    "彼此独立的自身增益可以先安全接线，但说明必须保留未接入的一对一机制，不能把局部保存描述为完整技能。",
+    "Cursor只读审计期间出现允许范围外未跟踪文件会使结果不可采用；并行报告先独立提交，再进行最终终审可保持审计为零差异。",
+    "真实技能列表、效果、过程和规则详情页能够稳定展示代表图片与已保存组成，本批不需要新增表或修改管理界面。"
+  ],
+  "pending": [
+    "安蓓萨W等待有证据的角色等级运行值来源，或先调整护盾基础参数与公式的存储方式。",
+    "诺提勒斯W攻击附伤、厄运小姐W移速状态、亚托克斯R移动和治疗增幅、凯南R周期伤害、希维尔W弹射、雷克顿R当前生命与周期行为仍需后续机制接线。",
+    "装备候选的冷却、状态、施法实例去重、击杀参与窗口和时序缺口另批处理。",
+    "六条新增规则尚未执行宿主事件、战斗运行、TinyGo或Wasm验收。"
+  ],
+  "evidence": {
+    "batchFiles": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/00-独立语义评审.json",
+        "byteSize": 7155,
+        "sha256": "4bdef5f1f8d596fa183264d33100b8bd664079d4bf2910dc080b700d9a766721"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/01-合并方案.md",
+        "byteSize": 1591,
+        "sha256": "a006d1716d1bf4974739dc39d45de645dcf1869ba30dcf45a242a356fd2febac"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/02-合并冻结请求.json",
+        "byteSize": 19155,
+        "sha256": "5685a38960a58b4f9b99de150da8bfc0dd80b99c3e3918f1dd7febc4dd030ec2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/03-来源散列快照.json",
+        "byteSize": 21655,
+        "sha256": "073a2210f6ba063d1f21254ddf6dc44111d30ccdcb3cac12cf1e75de9b037217"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/04-共享写前现值.json",
+        "byteSize": 2943197,
+        "sha256": "141d76464e5529d3bd38679692c53830bf259d8157643fc553070845546c34c1"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/05-Cursor独立评审.json",
+        "byteSize": 23904,
+        "sha256": "e420d59c38260ed8e4ddf630da8fbae86abd63d92e45e776d79142e0590ae1db"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/06-写入与即时回读.json",
+        "byteSize": 40907,
+        "sha256": "61178dac117a2183953699b569f88427034ed2bebdd1385274b6955de55966b3"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/07-独立GET回读.json",
+        "byteSize": 3210,
+        "sha256": "5d7bf219e2c07c95d160eeff855813c29ac3a61d59d56c845bbd187902397efc"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/08-页面验收.json",
+        "byteSize": 5425,
+        "sha256": "31ddc25b6c3be16e7631cc8c5c22948a77d852df74c0a8963aeb6bdb102101d1"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/Cursor终审只读检查.mjs",
+        "byteSize": 13211,
+        "sha256": "f735b58b1927bd01356cef846ca5d736ac95a97dec107bd1dbce0162c1455732"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/README.md",
+        "byteSize": 895,
+        "sha256": "0e19856775c2f21951fe48153096a2c82427b15689c169fbe119c5b3377dd9c6"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/亚托克斯R/02-冻结请求.json",
+        "byteSize": 1928,
+        "sha256": "35adee3499fb6cbd5c7d81c105eb7029ee6fed575ee13e394582937c9407d6b4"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/亚托克斯R/03-来源快照.json",
+        "byteSize": 1828,
+        "sha256": "3524c054c7172411bb9f63f54f181bd30b4bb0c5b2d710db6ea48f6b63e8dfc5"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/亚托克斯R/04-写入前现值.json",
+        "byteSize": 25665,
+        "sha256": "a3b9022ed9e578f7e7a4f312eef03f6c82a8e7797f8b0c1fe5d80f4be53fd45b"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/亚托克斯R/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "6b962ed1462d0029db5d4c4e537071419b5f7878ecd289297d92de5997f9358c"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/凯南R/02-冻结请求.json",
+        "byteSize": 2283,
+        "sha256": "4050a284f21bac7168ef1c1659ddecafa9037b4ee5404fa780d28bfb3552b01c"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/凯南R/03-来源快照.json",
+        "byteSize": 2151,
+        "sha256": "43c6e25ec031243bf11e03b1f92249848c3a3f47a3be1cd6f5c20567235156d2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/凯南R/04-写入前现值.json",
+        "byteSize": 34331,
+        "sha256": "5ac1fe7aca67a09da23768bb3c32749409aa89178bd2232f70297a0b74027e5b"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/凯南R/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "e2a401b9e1b567ee5a002f7d91b897bfcac2fac75bd332898943305b5e34286d"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/厄运小姐W/02-冻结请求.json",
+        "byteSize": 1958,
+        "sha256": "986d2b952984b4fa64bd68601011350d3588d9b08f5cbf5c397cc4b1419e3272"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/厄运小姐W/03-来源快照.json",
+        "byteSize": 1613,
+        "sha256": "822fa38591ceae982ac47489e132d32f35255083e7ba5b385d7dca350dbc160b"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/厄运小姐W/04-写入前现值.json",
+        "byteSize": 33288,
+        "sha256": "191cedd7cbb9deb618fc3ceb5fc092f2d23595374affb862c54095e9a1aa8405"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/厄运小姐W/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "6ce03e49bd5c7cf63fbb4cdacf61f049386a307c544e67226235bfba5855b55e"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/安蓓萨W/02-冻结请求.json",
+        "byteSize": 1882,
+        "sha256": "35b3914b789c738be893c81e9d8e11daaff4b96afa3f8d3bb3c5422fa95660f0"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/安蓓萨W/03-来源快照.json",
+        "byteSize": 1541,
+        "sha256": "fbb1bef0e05019a020f429dca54e188fd9b33e626b425010c384dc76d649f900"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/安蓓萨W/04-写入前现值.json",
+        "byteSize": 38948,
+        "sha256": "0553a3e21c2f9e3c1ec6c05f141d86196c0ebfa60e4ff6137b03c648a84e5f23"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/安蓓萨W/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "14f033bff753f3149ef2a1e54a2f16e15637372f032c4573b49bd1afd18f5961"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/希维尔W/02-冻结请求.json",
+        "byteSize": 1871,
+        "sha256": "a8096ee7dce6fe9d31a5123b0a0218dae331ba396e4968fddc80a6fb3a2a584c"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/希维尔W/03-来源快照.json",
+        "byteSize": 2193,
+        "sha256": "4fcda93054507170935a74fdc40db443aa3d9f0755fd2f6bdfc32811692cc77d"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/希维尔W/04-写入前现值.json",
+        "byteSize": 27577,
+        "sha256": "fcd1b9a2733af773a5417e126aa65d5c89bc04690944a593b456a8a65ba8622e"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/希维尔W/05-只读准备报告.json",
+        "byteSize": 473,
+        "sha256": "efd9265fb558c2c81200908e4584d00843f50d9dfbcb8f2e8f4711a023e967e5"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/诺提勒斯W/02-冻结请求.json",
+        "byteSize": 1883,
+        "sha256": "3696b11df64226c99bb7dfef4126fee0b41a0b4fce688322f4715fa9e9db596b"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/诺提勒斯W/03-来源快照.json",
+        "byteSize": 1528,
+        "sha256": "e770a9228c050ebe5a90735559d429e47be19bd0b3b254d2e08f944eea459a8f"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/诺提勒斯W/04-写入前现值.json",
+        "byteSize": 38062,
+        "sha256": "72086638ea288358030c0af9222b05462893aa3230b997264c938c025becf43a"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/诺提勒斯W/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "0864b0cac345cb030fc437f4036f011e467377b1ac82d8acbb4b597a85c4d9f9"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/雷克顿R/02-冻结请求.json",
+        "byteSize": 1919,
+        "sha256": "5c521777136195acedc3eecaa8a868a39bfb2c918c3cde79c05a336e88884102"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/雷克顿R/03-来源快照.json",
+        "byteSize": 2007,
+        "sha256": "71407e6b0c03f92016b4ac3b9d612116c100e05c1a15eab3674b4be92d463ae8"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/雷克顿R/04-写入前现值.json",
+        "byteSize": 33643,
+        "sha256": "54cf7e4b145a5ec5af1513db381285748f783ad17d67eeea0fd3256d1c748e06"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/候选/雷克顿R/05-只读准备报告.json",
+        "byteSize": 473,
+        "sha256": "d52ca3ff825e94084742eadafa8ec9d33fa1981282b15828f19fcfaec1b2d274"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/准备候选只读.mjs",
+        "byteSize": 11005,
+        "sha256": "9a0038ae15577d57f2244557a106190a9d8e641145c540d1d1eea3417ea439a2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/准备合并只读.mjs",
+        "byteSize": 29064,
+        "sha256": "ee8fe9e25e89dd3534714ca342314677fe775ca525b72e73511492da6930b786"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/受保护写入.mjs",
+        "byteSize": 32603,
+        "sha256": "d8d2be02714f51f531ce87411e950163ae80062f1cc3e605a89eeeacf7bf2fc1"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/只读页面验收.mjs",
+        "byteSize": 18375,
+        "sha256": "0f9f32689401a6315e27886cbc0f6451ebdd39169756d7dd5da947f4eac2977e"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/批次配置.mjs",
+        "byteSize": 10370,
+        "sha256": "107c7073a3277407f1c2870b55e1d2523e44f013bf393c769327c64059011c49"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/独立GET回读.mjs",
+        "byteSize": 20763,
+        "sha256": "a47cf803ed1f14f7b03f193e7ec50bd188fd1b40dafc544535203870982e1c28"
+      }
+    ],
+    "cursorArtifacts": {
+      "directory": ".agents/artifacts/seven-active-trigger-review-r1-audit-clean-20260913",
+      "summarySha256": "7b6a89e67f562139d736be3ece27c626297d91a167ae17f982912eb8b967fe0d",
+      "reviewSha256": "0cec48f79b7bf199c7e5efbfcd2434c9076599e5a19fd1eafa4f166d24abaf34",
+      "eventsSha256": "71d8582ba542a395a68905bdc1ec1ef61a5c63c080eeef721d52de8e12c93f39",
+      "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sourceDirectories": [
+      {
+        "id": "nautilus",
+        "name": "诺提勒斯 W",
+        "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\诺提勒斯W",
+        "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+        "files": [
+          {
+            "name": "02-冻结请求.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\诺提勒斯W\\02-冻结请求.json",
+            "sha256": "3696b11df64226c99bb7dfef4126fee0b41a0b4fce688322f4715fa9e9db596b"
+          },
+          {
+            "name": "03-来源快照.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\诺提勒斯W\\03-来源快照.json",
+            "sha256": "e770a9228c050ebe5a90735559d429e47be19bd0b3b254d2e08f944eea459a8f"
+          },
+          {
+            "name": "04-写入前现值.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\诺提勒斯W\\04-写入前现值.json",
+            "sha256": "72086638ea288358030c0af9222b05462893aa3230b997264c938c025becf43a"
+          },
+          {
+            "name": "05-只读准备报告.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\诺提勒斯W\\05-只读准备报告.json",
+            "sha256": "0864b0cac345cb030fc437f4036f011e467377b1ac82d8acbb4b597a85c4d9f9"
+          }
+        ],
+        "sourceFiles": [
+          {
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十二批/最终候选.json",
+            "sha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+            "bytes": 157327
+          }
+        ],
+        "upstreamSourceSnapshot": "e770a9228c050ebe5a90735559d429e47be19bd0b3b254d2e08f944eea459a8f"
+      },
+      {
+        "id": "missfortune",
+        "name": "厄运小姐 W",
+        "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\厄运小姐W",
+        "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+        "files": [
+          {
+            "name": "02-冻结请求.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\厄运小姐W\\02-冻结请求.json",
+            "sha256": "986d2b952984b4fa64bd68601011350d3588d9b08f5cbf5c397cc4b1419e3272"
+          },
+          {
+            "name": "03-来源快照.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\厄运小姐W\\03-来源快照.json",
+            "sha256": "822fa38591ceae982ac47489e132d32f35255083e7ba5b385d7dca350dbc160b"
+          },
+          {
+            "name": "04-写入前现值.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\厄运小姐W\\04-写入前现值.json",
+            "sha256": "191cedd7cbb9deb618fc3ceb5fc092f2d23595374affb862c54095e9a1aa8405"
+          },
+          {
+            "name": "05-只读准备报告.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\厄运小姐W\\05-只读准备报告.json",
+            "sha256": "6ce03e49bd5c7cf63fbb4cdacf61f049386a307c544e67226235bfba5855b55e"
+          }
+        ],
+        "sourceFiles": [
+          {
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+            "sha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+            "bytes": 238562
+          }
+        ],
+        "upstreamSourceSnapshot": "822fa38591ceae982ac47489e132d32f35255083e7ba5b385d7dca350dbc160b"
+      },
+      {
+        "id": "aatrox",
+        "name": "亚托克斯 R",
+        "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\亚托克斯R",
+        "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+        "files": [
+          {
+            "name": "02-冻结请求.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\亚托克斯R\\02-冻结请求.json",
+            "sha256": "35adee3499fb6cbd5c7d81c105eb7029ee6fed575ee13e394582937c9407d6b4"
+          },
+          {
+            "name": "03-来源快照.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\亚托克斯R\\03-来源快照.json",
+            "sha256": "3524c054c7172411bb9f63f54f181bd30b4bb0c5b2d710db6ea48f6b63e8dfc5"
+          },
+          {
+            "name": "04-写入前现值.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\亚托克斯R\\04-写入前现值.json",
+            "sha256": "a3b9022ed9e578f7e7a4f312eef03f6c82a8e7797f8b0c1fe5d80f4be53fd45b"
+          },
+          {
+            "name": "05-只读准备报告.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\亚托克斯R\\05-只读准备报告.json",
+            "sha256": "6b962ed1462d0029db5d4c4e537071419b5f7878ecd289297d92de5997f9358c"
+          }
+        ],
+        "sourceFiles": [
+          {
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十九批/完整候选.json",
+            "sha256": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824",
+            "bytes": 336979
+          },
+          {
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十九批/修订一候选.json",
+            "sha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+            "bytes": 340003
+          }
+        ],
+        "upstreamSourceSnapshot": "3524c054c7172411bb9f63f54f181bd30b4bb0c5b2d710db6ea48f6b63e8dfc5"
+      },
+      {
+        "id": "kennen",
+        "name": "凯南 R",
+        "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\凯南R",
+        "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+        "files": [
+          {
+            "name": "02-冻结请求.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\凯南R\\02-冻结请求.json",
+            "sha256": "4050a284f21bac7168ef1c1659ddecafa9037b4ee5404fa780d28bfb3552b01c"
+          },
+          {
+            "name": "03-来源快照.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\凯南R\\03-来源快照.json",
+            "sha256": "43c6e25ec031243bf11e03b1f92249848c3a3f47a3be1cd6f5c20567235156d2"
+          },
+          {
+            "name": "04-写入前现值.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\凯南R\\04-写入前现值.json",
+            "sha256": "5ac1fe7aca67a09da23768bb3c32749409aa89178bd2232f70297a0b74027e5b"
+          },
+          {
+            "name": "05-只读准备报告.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\凯南R\\05-只读准备报告.json",
+            "sha256": "e2a401b9e1b567ee5a002f7d91b897bfcac2fac75bd332898943305b5e34286d"
+          }
+        ],
+        "sourceFiles": [
+          {
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十四批/最终候选.json",
+            "sha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+            "bytes": 364649
+          }
+        ],
+        "upstreamSourceSnapshot": "43c6e25ec031243bf11e03b1f92249848c3a3f47a3be1cd6f5c20567235156d2"
+      },
+      {
+        "id": "sivir",
+        "name": "希维尔 W",
+        "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\希维尔W",
+        "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+        "files": [
+          {
+            "name": "02-冻结请求.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\希维尔W\\02-冻结请求.json",
+            "sha256": "a8096ee7dce6fe9d31a5123b0a0218dae331ba396e4968fddc80a6fb3a2a584c"
+          },
+          {
+            "name": "03-来源快照.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\希维尔W\\03-来源快照.json",
+            "sha256": "4fcda93054507170935a74fdc40db443aa3d9f0755fd2f6bdfc32811692cc77d"
+          },
+          {
+            "name": "04-写入前现值.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\希维尔W\\04-写入前现值.json",
+            "sha256": "fcd1b9a2733af773a5417e126aa65d5c89bc04690944a593b456a8a65ba8622e"
+          },
+          {
+            "name": "05-只读准备报告.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\希维尔W\\05-只读准备报告.json",
+            "sha256": "efd9265fb558c2c81200908e4584d00843f50d9dfbcb8f2e8f4711a023e967e5"
+          }
+        ],
+        "sourceFiles": [
+          {
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json",
+            "sha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90",
+            "bytes": 266589
+          }
+        ],
+        "upstreamSourceSnapshot": "4fcda93054507170935a74fdc40db443aa3d9f0755fd2f6bdfc32811692cc77d"
+      },
+      {
+        "id": "renekton",
+        "name": "雷克顿 R",
+        "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\雷克顿R",
+        "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+        "files": [
+          {
+            "name": "02-冻结请求.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\雷克顿R\\02-冻结请求.json",
+            "sha256": "5c521777136195acedc3eecaa8a868a39bfb2c918c3cde79c05a336e88884102"
+          },
+          {
+            "name": "03-来源快照.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\雷克顿R\\03-来源快照.json",
+            "sha256": "71407e6b0c03f92016b4ac3b9d612116c100e05c1a15eab3674b4be92d463ae8"
+          },
+          {
+            "name": "04-写入前现值.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\雷克顿R\\04-写入前现值.json",
+            "sha256": "54cf7e4b145a5ec5af1513db381285748f783ad17d67eeea0fd3256d1c748e06"
+          },
+          {
+            "name": "05-只读准备报告.json",
+            "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\候选\\雷克顿R\\05-只读准备报告.json",
+            "sha256": "d52ca3ff825e94084742eadafa8ec9d33fa1981282b15828f19fcfaec1b2d274"
+          }
+        ],
+        "sourceFiles": [
+          {
+            "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第六批/完整候选.json",
+            "sha256": "a593bd1f49c1ab6f424bd76b7ad4dbef1e0e7154f00d0347dc90c7c1e39126ac",
+            "bytes": 342255
+          }
+        ],
+        "upstreamSourceSnapshot": "71407e6b0c03f92016b4ac3b9d612116c100e05c1a15eab3674b4be92d463ae8"
+      }
+    ],
+    "screenshots": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/aatrox_r-attack_damage_amp结果.png",
+        "byteSize": 121578,
+        "sha256": "617846d406ac3a7cfedd7271cd84c01902ae3ef2df5c095da6c57b5e7c5566b8"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/aatrox_r-on_used规则.png",
+        "byteSize": 103899,
+        "sha256": "56d7c0ee48027ae17b0c39d8f92c9c66c8ed52921c0a4bcbe0d6b5529e38a97a"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/aatrox_r-列表图片.png",
+        "byteSize": 101011,
+        "sha256": "107a98aca0e1644981128865c3b1ebd3fd4545416651950df735d3bcf54ded40"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/kennen_r-armor结果.png",
+        "byteSize": 106390,
+        "sha256": "7571de507eb72c9e0ae9caa7c010da6eca5e612bfb397e08390ae38d07216d24"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/kennen_r-magic_resistance结果.png",
+        "byteSize": 116633,
+        "sha256": "58829eb218de0296d60f72fd07cd82b608724d40ddbef74d8724d3345647529b"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/kennen_r-on_used规则.png",
+        "byteSize": 105139,
+        "sha256": "3d0deaee2172d8e9f1e42487d49f3080fe31234abd929279982b2db825044c91"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/kennen_r-列表图片.png",
+        "byteSize": 101856,
+        "sha256": "5fdd4bd3d19848a997e140a41d9235d9017d275baca648981992b39c85bfb420"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/missfortune_w-active_attack_speed结果.png",
+        "byteSize": 100847,
+        "sha256": "78ed9600e86f6d756378c627bf4a87fe08b79c82959f929e95b53d566687ba2c"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/missfortune_w-on_used规则.png",
+        "byteSize": 106491,
+        "sha256": "ddca71e090cc37dc10347c367b232dfac79f8e1c6e8021faa5694319028e7572"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/missfortune_w-列表图片.png",
+        "byteSize": 103239,
+        "sha256": "0f735f3c5f729b9f48ccdf8bca89ea489df523efc2fea3547bf3412e770bdea7"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/nautilus_w-on_used规则.png",
+        "byteSize": 99642,
+        "sha256": "82460c3f6aed86b75ee9e1d68dc10d8169a130cfe4ddceb429600fc76ee3d3f9"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/nautilus_w-shield结果.png",
+        "byteSize": 106171,
+        "sha256": "078f4c15d3d730bc76e6e6cf7613157ec6e15c2fe932f90013ead4de023b3a12"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/nautilus_w-列表图片.png",
+        "byteSize": 102925,
+        "sha256": "26eacb232ba7cd55d5bfbdbe37ae62193e9fc95f19da4b221b4745e02af9ae32"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/renekton_r-cast过程.png",
+        "byteSize": 92542,
+        "sha256": "bd1d8b347932d89186e2c1bb701996fac98fbf6ebd002c38fd42844fc0eea0b2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/renekton_r-on_used规则.png",
+        "byteSize": 110658,
+        "sha256": "598f588337fcad9942e6e79209bcc197d78aa537afa50e9084d6e76c3752ebd8"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/renekton_r-列表图片.png",
+        "byteSize": 101795,
+        "sha256": "393f35bdc4a1a439f8c65ecc4e74c7e26a45f18a44c880fc5a4880e049964c23"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/sivir_w-cast过程.png",
+        "byteSize": 138881,
+        "sha256": "07c7db78627482c521210fccc3d1b52ed12af8f824a14f7bef10122d253b5179"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/sivir_w-on_used规则.png",
+        "byteSize": 101732,
+        "sha256": "f8a1ef4f3116e9cb7bf64955a67d01fde499a56aa09f34e687d737d6a985f40e"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/页面截图/sivir_w-列表图片.png",
+        "byteSize": 102175,
+        "sha256": "908c474e1212efd98cef2e5e5f2ed86232a1be31efcab9db959dcae959145832"
+      }
+    ]
+  },
+  "runtimeValidation": "未执行"
+}

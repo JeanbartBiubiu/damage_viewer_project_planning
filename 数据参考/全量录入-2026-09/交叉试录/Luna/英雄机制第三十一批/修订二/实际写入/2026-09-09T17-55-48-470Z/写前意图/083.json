@@ -1,0 +1,23 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/lulu_e/parameters",
+    "detailRoute": "/skills/lulu_e/parameters/damage_ap_ratio",
+    "skillKey": "lulu_e",
+    "kind": "parameters",
+    "stableKey": "damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_ap_ratio",
+      "name": "伤害法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "客户端TotalDamage树按等级索引1消费DamageAPRatio=0.5。",
+      "sortOrder": 20
+    }
+  }
+}

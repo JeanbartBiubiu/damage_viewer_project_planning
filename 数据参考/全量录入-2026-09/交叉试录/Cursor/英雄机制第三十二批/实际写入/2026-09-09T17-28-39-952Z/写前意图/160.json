@@ -1,0 +1,23 @@
+{
+  "i": 159,
+  "intent": {
+    "sequence": 160,
+    "method": "POST",
+    "route": "/skills/zeri_q/parameters",
+    "detailRoute": "/skills/zeri_q/parameters/attack_speed_cap",
+    "skillKey": "zeri_q",
+    "kind": "parameters",
+    "stableKey": "attack_speed_cap",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_cap",
+      "name": "最大攻击速度（每秒攻击次数）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "当前正文和DataValues.AttackSpeedCap=1.5；只是上限来源，不构造完整攻速求值。",
+      "sortOrder": 50
+    }
+  }
+}

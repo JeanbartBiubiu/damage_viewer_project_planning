@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-09T12:37:42.909Z",
+  "method": "POST",
+  "skillKey": "fizz_w",
+  "kind": "parameters",
+  "stableKey": "on_hit_buff_base_damage",
+  "route": "/skills/fizz_w/parameters",
+  "readRoute": "/skills/fizz_w/parameters/on_hit_buff_base_damage",
+  "body": {
+    "parameterKey": "on_hit_buff_base_damage",
+    "name": "后续攻击基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 20,
+      "2": 25,
+      "3": 30,
+      "4": 35,
+      "5": 40
+    },
+    "description": "客户端当前根绑定 DataValues.OnHitBuffBaseDamage 取索引1至5。",
+    "sortOrder": 120
+  }
+}

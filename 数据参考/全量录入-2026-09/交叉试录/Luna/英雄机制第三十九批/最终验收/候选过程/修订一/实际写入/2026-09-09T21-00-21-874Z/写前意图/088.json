@@ -1,0 +1,24 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 88,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_r/parameters",
+    "detailRoute": "/skills/samira_r/parameters/cast_time_ms",
+    "skillKey": "samira_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "spellCastTime=0.25秒且mCastTime为空，转换为250毫秒。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "skillKey": "mel_p",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/mel_p/formulas",
+    "stableKey": "passive_bonus_missile_damage",
+    "body": {
+      "formulaKey": "passive_bonus_missile_damage",
+      "name": "额外弹体单弹魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_character_level_passive_missile_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_missile_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前等级基础项+0.04×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

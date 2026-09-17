@@ -1,0 +1,24 @@
+{
+  "i": 178,
+  "intent": {
+    "sequence": 179,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/parameters",
+    "detailRoute": "/skills/locke_q/parameters/slow_first_duration_ms",
+    "skillKey": "locke_q",
+    "kind": "parameters",
+    "stableKey": "slow_first_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_first_duration_ms",
+      "name": "第一颗减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "第一颗1秒。",
+      "sortOrder": 110
+    }
+  }
+}

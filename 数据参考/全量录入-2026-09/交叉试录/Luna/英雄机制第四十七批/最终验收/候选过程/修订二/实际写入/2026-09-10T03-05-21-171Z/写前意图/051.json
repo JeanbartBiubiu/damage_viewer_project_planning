@@ -1,0 +1,72 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_p/effects",
+    "detailRoute": "/skills/nidalee_p/effects/brush_move_speed",
+    "skillKey": "nidalee_p",
+    "kind": "effects",
+    "stableKey": "brush_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "brush_move_speed",
+      "name": "草丛基础移动速度",
+      "description": "草丛来源的10%基础分支；不与同来源另一分支叠加，二者互斥替代。可以与另一来源选定值叠加，但总计封顶30%。原文进入草丛后2秒，具体刷新与退出时点待核，不假定离开立即移除。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "brush_move_speed_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "草丛基础移动速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只定义自身属性变化，触发条件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "passive_move_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

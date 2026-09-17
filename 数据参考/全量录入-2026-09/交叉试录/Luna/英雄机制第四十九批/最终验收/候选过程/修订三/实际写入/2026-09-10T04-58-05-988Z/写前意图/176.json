@@ -1,0 +1,29 @@
+{
+  "i": 175,
+  "intent": {
+    "sequence": 176,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/parameters",
+    "detailRoute": "/skills/reksai_r/parameters/damage_base",
+    "skillKey": "reksai_r",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "虚空猛冲基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "R1/2/3为150/250/350。",
+      "sortOrder": 10
+    }
+  }
+}

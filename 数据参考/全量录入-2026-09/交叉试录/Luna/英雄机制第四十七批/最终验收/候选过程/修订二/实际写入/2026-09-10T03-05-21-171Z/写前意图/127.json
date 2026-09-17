@@ -1,0 +1,36 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 128,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_e/formulas",
+    "detailRoute": "/skills/shyvana_e/formulas/max_health_damage",
+    "skillKey": "shyvana_e",
+    "kind": "formulas",
+    "stableKey": "max_health_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "max_health_damage",
+      "name": "爆炎吐息目标最大生命伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "target_max_health_damage_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "Calc_Max_Health_Damage=0.05×目标最大生命。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 121,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/on_hit_min_damage",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "on_hit_min_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "on_hit_min_damage",
+      "name": "攻击特效最低伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "description": "MinDamageOnHit按等级保留10至30；普通和暴击攻击特效均以双目MAX与对应百分比伤害取大。",
+      "sortOrder": 50
+    }
+  }
+}

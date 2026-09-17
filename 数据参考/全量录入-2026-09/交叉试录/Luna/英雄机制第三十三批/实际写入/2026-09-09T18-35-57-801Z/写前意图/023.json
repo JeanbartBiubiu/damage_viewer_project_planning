@@ -1,0 +1,45 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "method": "POST",
+    "route": "/skills/sona_q/formulas",
+    "detailRoute": "/skills/sona_q/formulas/chord_magic_damage",
+    "skillKey": "sona_q",
+    "kind": "formulas",
+    "stableKey": "chord_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "chord_magic_damage",
+      "name": "Q能量和弦魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "chord_character_level_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "chord_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalStaccatoDamage等级基础值外供，再加0.3×法强。",
+      "sortOrder": 30
+    }
+  }
+}

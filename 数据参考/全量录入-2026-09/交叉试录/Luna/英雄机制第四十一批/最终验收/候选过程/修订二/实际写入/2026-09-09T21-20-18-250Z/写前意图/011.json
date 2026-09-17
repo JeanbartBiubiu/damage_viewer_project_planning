@@ -1,0 +1,23 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "method": "POST",
+    "route": "/skills/bard_p/parameters",
+    "detailRoute": "/skills/bard_p/parameters/speed_stack_duration_ms",
+    "skillKey": "bard_p",
+    "kind": "parameters",
+    "stableKey": "speed_stack_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "speed_stack_duration_ms",
+      "name": "非战斗移速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20000,
+      "levelValues": null,
+      "description": "20秒转毫秒。",
+      "sortOrder": 110
+    }
+  }
+}

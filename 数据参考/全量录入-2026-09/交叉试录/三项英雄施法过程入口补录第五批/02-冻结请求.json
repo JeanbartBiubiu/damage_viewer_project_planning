@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "revision": "rev1",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-13T13:45:07.665Z",
+  "methodPolicy": {
+    "allowedBusinessMethods": [
+      "POST"
+    ],
+    "allowedRequestCount": 3
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 164,
+    "sourceInitializedCount": 29,
+    "finalRuleCount": 167,
+    "finalSourceInitializedCount": 29
+  },
+  "sourceSnapshotSha256": "6b1b4a751eb3a38ed01cbb315b3865bec729e632c7632b55c82853bc3474d27d",
+  "requests": [
+    {
+      "id": "nasus_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_nasus",
+      "skillKey": "nasus_w",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/nasus_w/trigger-rules",
+      "detailRoute": "/skills/nasus_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/旧版规范化来源候选.json",
+      "sourceSha256": "e186836aacf1d8f4f9d5d9398fd45fabf4314217c6a321c149de8e9bb218dbaa",
+      "bodySha256": "34abd5105e6a9f25ac3c41e5232f61bac8c04ed85a9a192ef3eee6ad98a3f55b",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动枯萎施法过程",
+        "description": "接收nasus_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；渐进减速更新时间、攻击速度降低、控制类别与实际命中继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nasus_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动枯萎施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "nasus_r_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_nasus",
+      "skillKey": "nasus_r",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/nasus_r/trigger-rules",
+      "detailRoute": "/skills/nasus_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/旧版规范化来源候选.json",
+      "sourceSha256": "e186836aacf1d8f4f9d5d9398fd45fabf4314217c6a321c149de8e9bb218dbaa",
+      "bodySha256": "3dbf14123a13691a5c48c9fbe8c3b7a058dc7e351095893a660520cf2e0b04dd",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动死神降临施法过程",
+        "description": "接收nasus_r主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；自身属性、周期魔法伤害、首次结算与完整次数、Q冷却折半的施加时点继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nasus_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动死神降临施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "lux_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_lux",
+      "skillKey": "lux_w",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/lux_w/trigger-rules",
+      "detailRoute": "/skills/lux_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/旧版规范化来源候选.json",
+      "sourceSha256": "e186836aacf1d8f4f9d5d9398fd45fabf4314217c6a321c149de8e9bb218dbaa",
+      "bodySha256": "4112a7736384de0f21c393c95875fb396ca8bc0f3455e6fd37722780b8b8e114",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动曲光屏障施法过程",
+        "description": "接收lux_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；护盾施加时点、去程与回程命中、目标资格和护盾叠加继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lux_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动曲光屏障施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "runtimeBoundary": "三条规则只启动当前已有cast过程；不产生实际命中、减速、属性、周期伤害、冷却修正或护盾，Wasm组装、宿主技能使用事件和真实战斗尚未验证。",
+  "batchSha256": "233ca4ffd9a40e1a670a10d2cd31ad0f25f67d7a38827039e42c41e1ca09a3c6"
+}

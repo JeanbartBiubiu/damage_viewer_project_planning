@@ -1,0 +1,24 @@
+{
+  "i": 166,
+  "intent": {
+    "sequence": 167,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_p/parameters",
+    "detailRoute": "/skills/zed_p/parameters/actual_target_current_health_ratio",
+    "skillKey": "zed_p",
+    "kind": "parameters",
+    "stableKey": "actual_target_current_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_target_current_health_ratio",
+      "name": "当前目标生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "低于50%的触发资格需要运行层提供目标当前生命比例，不设默认。",
+      "sortOrder": 20
+    }
+  }
+}

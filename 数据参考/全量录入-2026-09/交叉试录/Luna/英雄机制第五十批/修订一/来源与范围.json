@@ -1,0 +1,1525 @@
+{
+  "generatedAt": "2026-09-10T04:22:43.832Z",
+  "batch": "第五十批乌迪尔阿兹尔艾希伊泽瑞尔",
+  "revision": "hero50-source-v2-luna-revision-1",
+  "status": "修订一来源值与录入范围清单；未调用业务接口",
+  "inputGETs": 292,
+  "reusedPublicParameters": 26,
+  "sourceBindingSha256": "535b370464d85894e4c57ce6c92c03b3a74043cd62d07eb0e16abbfd0c9fb378",
+  "sourceRangeSha256": "a344ecae410f54d1d991f7d12e80c834a3de0819d2af520f7712d56dde1eab56",
+  "sourceAuditSha256": "5eac276711a78549d2041bfcb5f20a740de824d0a03e200a245afa74c47cc213",
+  "cursorConclusionSha256": "a026bde26a873e33d432e09f9466c6d6141687371fea362ba9f1c5d21b00fc5e",
+  "cursorAuditSha256": "4365a2fa9d9b0ae052c4a773a1384d182d2cc6e775f01a3850202db7bc85dc77",
+  "cursorSummarySha256": "1b752edd2ca75ff56a32e17fe231b1ad582098dbc49d33feece38d32e809adef",
+  "sourceReviewVerdict": "READY",
+  "fixedVersions": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "globalScope": {
+    "included": [
+      "当前根本体伤害、护盾、属性与控制数值",
+      "乌迪尔四姿态及觉醒本体",
+      "阿兹尔E自身护盾/一次突进伤害",
+      "阿兹尔R一次冲锋伤害与墙体寿命",
+      "艾希P/Q缺失数值和公式",
+      "唯一敌方英雄数学场景"
+    ],
+    "excluded": [
+      "完整变形或替换技能套装",
+      "独立召唤物、士兵、炮台和自主攻击链",
+      "纯地图视野",
+      "额外敌人、兵野与建筑分支",
+      "未证等级插值、控制状态键和位移事件",
+      "艾希W/R与伊泽瑞尔五个技能槽的既有组成保护并复用，本轮不重复新增"
+    ],
+    "unknownPolicy": "未知曲线、资格、实际命中次数、属性枚举和事件时序用无默认运行输入或待接线说明；不补0、不补永久、不把端点变成默认整曲线。"
+  },
+  "skills": {
+    "udyr_p": {
+      "maxLevel": 1,
+      "recordableParameters": [
+        "attack_speed_duration_ms",
+        "awakened_cooldown_return_ratio",
+        "awakened_cooldown_multiplier",
+        "stance_global_cooldown_ms",
+        "awakened_global_cooldown_ms",
+        "attack_speed_ratio",
+        "attack_count",
+        "ult_cd_base_ms",
+        "ult_cd_breakpoint_6_ms",
+        "ult_cd_breakpoint_11_ms",
+        "ult_cd_breakpoint_16_ms"
+      ],
+      "recordableFormulas": [],
+      "recordableEffects": [
+        "attack_speed_buff"
+      ],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/udyr_p/parameters",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "formulas": {
+          "route": "/skills/udyr_p/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/udyr_p/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/udyr_p/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/udyr_p/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/udyr_p/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "龙类地图收益和未消费的旧被动伤害计算树排除；不新建觉醒技能套装。"
+      ],
+      "pending": [
+        "两次攻击、姿态转换、觉醒再次施放、返还基准及6/11/16级冷却断点应用时点待运行层接线；不将断点外等级补成斜率。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "udyr_q": {
+      "maxLevel": 6,
+      "recordableParameters": [
+        "attack_speed_ratio",
+        "attack_speed_duration_ms",
+        "empowered_attack_speed_duration_ms",
+        "max_hp_on_hit_ratio",
+        "base_damage",
+        "on_hit_bonus_hp_ratio",
+        "max_hp_ad_ratio",
+        "empowered_max_hp_ad_ratio",
+        "lightning_ap_ratio",
+        "lightning_bounce_count",
+        "lightning_bounce_range",
+        "repeat_bounce_penalty",
+        "bounce_multiplier_base",
+        "bounce_count_subtract_one",
+        "lightning_level_ratio_start",
+        "lightning_level_ratio_end",
+        "empowered_bonus_as_start",
+        "empowered_bonus_as_end",
+        "empowered_percent_hp_level_start",
+        "empowered_percent_hp_level_end",
+        "empowered_source_hp_ratio",
+        "attack_range_bonus",
+        "spell_cast_time_ms",
+        "lightning_level_ratio_actual",
+        "empowered_bonus_as_actual",
+        "empowered_percent_hp_level_actual",
+        "bonus_ad_ratio",
+        "actual_remaining_two_attack_range_qualification_duration_ms"
+      ],
+      "recordableFormulas": [
+        "on_hit_physical_damage",
+        "standard_max_health_physical_damage",
+        "empowered_max_health_physical_damage",
+        "empowered_total_attack_speed_ratio",
+        "empowered_lightning_single_magic_damage",
+        "lightning_bounce_multiplier",
+        "empowered_lightning_total_magic_damage"
+      ],
+      "recordableEffects": [
+        "standard_attack_speed",
+        "standard_on_hit",
+        "standard_max_health_hit",
+        "empowered_attack_speed",
+        "empowered_max_health_hit",
+        "empowered_lightning",
+        "attack_range",
+        "mana_cost"
+      ],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/udyr_q/parameters",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "cooldown_ms",
+            "mana_cost"
+          ],
+          "sha256": "dc4e36389446a3ddb25e7e8d40a43a14042c0880c2b1ee0f38a2a51efe3364cd"
+        },
+        "formulas": {
+          "route": "/skills/udyr_q/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/udyr_q/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/udyr_q/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/udyr_q/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/udyr_q/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "野怪封顶、兵线最低伤害、其他目标弹射与额外目标分配排除。"
+      ],
+      "pending": [
+        "普通/觉醒替代关系、下两次攻击如何触发闪电六击、两击资格及攻击距离/攻击速度消费、角色等级未知曲线、普攻事件和目标最大生命读取时点待接线；不将已知端点插值成默认18级曲线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "udyr_w": {
+      "maxLevel": 6,
+      "recordableParameters": [
+        "shield_duration_ms",
+        "shield_base",
+        "shield_hp_ratio",
+        "shield_ap_ratio",
+        "life_on_hit_hp_ratio",
+        "life_on_hit_ap_ratio",
+        "life_steal_ratio",
+        "awakened_heal_attack_multiplier",
+        "awakened_total_heal_ratio",
+        "shield_bonus_ad_ratio",
+        "awakened_shield_ap_ratio",
+        "awakened_shield_hp_ratio",
+        "awakened_shield_bonus_ad_ratio",
+        "awakened_shield_level_start",
+        "awakened_shield_level_end",
+        "awakened_shield_base_from_skill",
+        "spell_cast_time_ms",
+        "awakened_shield_level_actual",
+        "attack_count",
+        "actual_remaining_two_attack_qualification_duration_ms"
+      ],
+      "recordableFormulas": [
+        "normal_shield",
+        "life_on_hit_heal",
+        "awakened_shield",
+        "awakened_total_heal",
+        "awakened_on_hit_heal",
+        "awakened_life_steal_ratio"
+      ],
+      "recordableEffects": [
+        "normal_shield",
+        "normal_life_steal",
+        "normal_on_hit_heal",
+        "awakened_shield",
+        "awakened_life_steal",
+        "awakened_on_hit_heal",
+        "mana_cost"
+      ],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/udyr_w/parameters",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "cooldown_ms",
+            "mana_cost"
+          ],
+          "sha256": "db6063712f8f1d462c73adaab631a60a19daf7229f8c9fc803d6d641868890dc"
+        },
+        "formulas": {
+          "route": "/skills/udyr_w/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/udyr_w/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/udyr_w/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/udyr_w/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/udyr_w/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "小兵命中回复惩罚、野怪分支、旧HealPerSecond和Omnivamp树排除；不新建外部友方效果。"
+      ],
+      "pending": [
+        "觉醒护盾角色等级中间曲线、普通/觉醒应用顺序、下两次攻击事件、实际剩余两次攻击资格时长、4秒治疗的周期分配和吸血结算时点待接线；总治疗只保留公式与来源时长，不挂一次性直接治疗。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "udyr_e": {
+      "maxLevel": 6,
+      "recordableParameters": [
+        "target_icd_ms",
+        "base_move_speed_ratio",
+        "move_speed_duration_ms",
+        "stun_duration_ms",
+        "unstoppable_duration_ms",
+        "move_speed_bonus_ad_ratio",
+        "empowered_move_speed_ad_ratio",
+        "empowered_move_speed_start_ratio",
+        "empowered_move_speed_end_ratio",
+        "attack_count_per_target",
+        "spell_cast_time_ms",
+        "empowered_move_speed_level_actual"
+      ],
+      "recordableFormulas": [
+        "base_move_speed_ratio",
+        "empowered_move_speed_ratio"
+      ],
+      "recordableEffects": [
+        "base_move_speed",
+        "empowered_move_speed",
+        "mana_cost"
+      ],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/udyr_e/parameters",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "cooldown_ms",
+            "mana_cost"
+          ],
+          "sha256": "79d170b62fb67962ab828a148969cd199b229763e2adad1c2e8c1d0b3ed5210b"
+        },
+        "formulas": {
+          "route": "/skills/udyr_e/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/udyr_e/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/udyr_e/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/udyr_e/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/udyr_e/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "碰撞体积忽略与攻击无法取消的事件细节不展开；EmpoweredBonusRange=75未被当前正文或选中计算树消费，仅保留来源证据，不建参数或效果。"
+      ],
+      "pending": [
+        "Stun状态键、每目标首次攻击事件、每目标ICD、冲刺位移、持续衰减函数和觉醒定身/限制免疫状态待运行层接线；不把未消费的{aedeb4cc}写成线性衰减。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "udyr_r": {
+      "maxLevel": 6,
+      "recordableParameters": [
+        "storm_duration_ms",
+        "slow_ratio",
+        "slow_duration_ms",
+        "storm_base_damage",
+        "storm_ap_ratio",
+        "storm_damage_ap_ratio",
+        "pulse_ap_ratio",
+        "pulse_level_start",
+        "pulse_level_end",
+        "percent_hp_level_start_ratio",
+        "percent_hp_level_end_ratio",
+        "empowered_slow_ratio",
+        "storm_tick_interval_ms",
+        "pulse_attack_count",
+        "m_cast_time_ms",
+        "spell_cast_time_ms",
+        "pulse_level_actual",
+        "percent_hp_level_actual_ratio"
+      ],
+      "recordableFormulas": [
+        "storm_damage_per_second",
+        "pulse_damage",
+        "empowered_percent_hp_damage"
+      ],
+      "recordableEffects": [
+        "storm_damage",
+        "pulse_damage",
+        "mana_cost"
+      ],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/udyr_r/parameters",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "cooldown_ms",
+            "mana_cost"
+          ],
+          "sha256": "c5b9326b0374e87509eaf3a859dad6aa5c9b33407c988ff85e6342267f2a3e3c"
+        },
+        "formulas": {
+          "route": "/skills/udyr_r/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/udyr_r/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/udyr_r/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/udyr_r/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/udyr_r/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "小兵伤害缩放、野怪最低伤害、其他目标分配和兵野专用分支排除；不新建风暴单位。"
+      ],
+      "pending": [
+        "风暴区域命中、每秒重复次数、同一目标追踪、脉冲两次攻击、减速状态与觉醒额外减速事件待接线；觉醒百分比总量的实际节拍未知，普通每秒0.35法强项与觉醒0.00035最大生命百分比项分开；未知角色等级曲线无默认。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "azir_p": {
+      "maxLevel": 1,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/azir_p/parameters",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "formulas": {
+          "route": "/skills/azir_p/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/azir_p/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/azir_p/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/azir_p/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/azir_p/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "太阳圆盘生命、攻击、抗性、瓦解、独立冷却与自主单位整链排除；本轮无待接新增组成。"
+      ],
+      "pending": [],
+      "currentSubjectProtected": true
+    },
+    "azir_q": {
+      "maxLevel": 5,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/azir_q/parameters",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "formulas": {
+          "route": "/skills/azir_q/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/azir_q/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/azir_q/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/azir_q/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/azir_q/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "黄沙士兵位移、士兵攻击、减速、额外目标与持续士兵链整槽排除；本轮无待接新增组成。"
+      ],
+      "pending": [],
+      "currentSubjectProtected": true
+    },
+    "azir_w": {
+      "maxLevel": 5,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/azir_w/parameters",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "formulas": {
+          "route": "/skills/azir_w/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/azir_w/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/azir_w/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/azir_w/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/azir_w/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "黄沙士兵自主存在、10秒寿命、两充能、多次戳刺和攻击特效整链排除；本轮无待接新增组成。"
+      ],
+      "pending": [],
+      "currentSubjectProtected": true
+    },
+    "azir_e": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "damage_ap_ratio",
+        "base_shield",
+        "shield_ap_ratio",
+        "dash_speed",
+        "shield_duration_ms",
+        "soldier_qualification_range",
+        "display_range"
+      ],
+      "recordableFormulas": [
+        "shield",
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "self_shield",
+        "dash_damage",
+        "mana_cost"
+      ],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/azir_e/parameters",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "cooldown_ms",
+            "mana_cost"
+          ],
+          "sha256": "0b90f0d3ac791117d0ef49f381c6750feb34b634884eabd218ce760a84e52934"
+        },
+        "formulas": {
+          "route": "/skills/azir_e/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/azir_e/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/azir_e/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/azir_e/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/azir_e/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "士兵创建、士兵充能返还、外部士兵攻击与其他目标分配排除；不把wrapper的mDoesNotConsumeMana/Cooldown改写成新的公共值。"
+      ],
+      "pending": [
+        "已有士兵目标资格、突进位移、命中英雄停下、护盾应用时点和击退/碰撞事件待接线；没有mCastTime或spellCastTime时不填0。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "azir_r": {
+      "maxLevel": 3,
+      "recordableParameters": [
+        "base_damage",
+        "ap_ratio",
+        "wall_duration_ms",
+        "wall_construct_count",
+        "cast_time_ms",
+        "display_range"
+      ],
+      "recordableFormulas": [
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "charge_damage",
+        "mana_cost"
+      ],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/azir_r/parameters",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "cooldown_ms",
+            "mana_cost"
+          ],
+          "sha256": "7aabdd36b3fde059950fe5294f6f6b4a4eee71a93bcebdbab737ff944efc482e"
+        },
+        "formulas": {
+          "route": "/skills/azir_r/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/azir_r/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/azir_r/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/azir_r/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/azir_r/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "兵墙自主攻击单位、墙构成之外的士兵攻击、额外敌人分配和兵野分支排除；NumberOfSoldiers不乘伤害。"
+      ],
+      "pending": [
+        "击退距离、碰撞、墙体地形操作和命中事件待接线；不从6/7/8推导伤害倍数。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ashe_p": {
+      "maxLevel": 1,
+      "recordableParameters": [
+        "slow_duration_ms",
+        "slow_start_ratio",
+        "slow_end_ratio",
+        "empowered_slow_start_ratio",
+        "empowered_slow_end_ratio",
+        "slow_ratio_actual",
+        "empowered_slow_ratio_actual",
+        "crit_base_multiplier",
+        "crit_subpart_base",
+        "crit_subpart_coefficient"
+      ],
+      "recordableFormulas": [
+        "damage_bonus_multiplier",
+        "modified_attack_damage"
+      ],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ashe_p/parameters",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "formulas": {
+          "route": "/skills/ashe_p/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/ashe_p/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/ashe_p/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/ashe_p/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ashe_p/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "完整独立普攻伤害、暴击额外伤害、强化减速状态和其他技能重复效果排除；不把DamageBonus的前导1另挂成额外附伤。"
+      ],
+      "pending": [
+        "普通/强化减速实际角色等级值、强化减速持续衰减、只对既有冰霜目标的资格差和既有基础攻击事件待接线；mStat8/9目录键存在不等于源枚举完整。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ashe_q": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "damage_per_strike",
+        "shots_per_strike",
+        "stack_duration_ms",
+        "max_stacks",
+        "buff_duration_ms",
+        "bonus_attack_speed_ratio",
+        "spell_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "empowered_attack_damage"
+      ],
+      "recordableEffects": [
+        "empowered_attack",
+        "attack_speed_buff",
+        "mana_cost"
+      ],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ashe_q/parameters",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "cooldown_ms",
+            "mana_cost"
+          ],
+          "sha256": "6ede19f0383b60f7b33ae0829266c52b7d9e4227ead9c4185d7f1c68d2e129d6"
+        },
+        "formulas": {
+          "route": "/skills/ashe_q/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/ashe_q/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/ashe_q/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/ashe_q/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ashe_q/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "层数自动衰减过程、TimerDuration/StackFalloffDuration源字段未被当前消费者使用，保留在来源边界而不建过程；额外小型打击效果、额外普攻和其他目标分配排除。"
+      ],
+      "pending": [
+        "攻击叠层事件、4层激活资格、消耗层数、强化状态替代普通攻击、每次一次攻击特效和层数衰减时序待接线；攻速五级数组已逐级录入。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ashe_w": {
+      "maxLevel": 5,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ashe_w/parameters",
+          "status": 200,
+          "count": 6,
+          "keys": [
+            "base_damage",
+            "bonus_ad_ratio",
+            "arrow_count",
+            "cooldown_ms",
+            "mana_cost",
+            "cast_time_ms"
+          ],
+          "sha256": "7ed2d90f99b56ca7bac5d1de18e1df356d72a59d3af0b26de106ad3152e212df"
+        },
+        "formulas": {
+          "route": "/skills/ashe_w/formulas",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "hit_damage"
+          ],
+          "sha256": "e8ba0d9e01a3dbdb1092d2f7364142a1c6e44881b6c7adcce7cf98f9505ba79f"
+        },
+        "effects": {
+          "route": "/skills/ashe_w/effects",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "hit_damage",
+            "mana_cost"
+          ],
+          "sha256": "5a51b29c11507131a6266880a59dd710ee8529249127cb4ef036769e63e87d14"
+        },
+        "processes": {
+          "route": "/skills/ashe_w/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/ashe_w/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ashe_w/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "已有直伤、箭数、消耗和触发组成全量保护；官方effectBurn旧数组冲突不在本轮覆盖。"
+      ],
+      "pending": [
+        "已有组成继续受保护；本轮不新增重复参数、公式、效果、过程或触发，跨技能资格和运行边界留待统一迭代。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ashe_e": {
+      "maxLevel": 5,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ashe_e/parameters",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "formulas": {
+          "route": "/skills/ashe_e/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/ashe_e/effects",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "route": "/skills/ashe_e/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/ashe_e/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ashe_e/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "纯地图视野与侦查、鹰单位、5秒视野、两充能和充能时间整槽排除；本轮无待接新增组成。"
+      ],
+      "pending": [],
+      "currentSubjectProtected": true
+    },
+    "ashe_r": {
+      "maxLevel": 3,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ashe_r/parameters",
+          "status": 200,
+          "count": 7,
+          "keys": [
+            "base_damage",
+            "ap_ratio",
+            "cooldown_ms",
+            "mana_cost",
+            "min_stun_duration_ms",
+            "max_stun_duration_ms",
+            "cast_time_ms"
+          ],
+          "sha256": "e597fc6bc1228bb234a6c2a6a1ee82bc83d23b9609fd22c71d55e84e7c5fc3bc"
+        },
+        "formulas": {
+          "route": "/skills/ashe_r/formulas",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "hit_damage"
+          ],
+          "sha256": "7b024cbccb134c185a04912f7081eac7d31425d51d4717316a185f76d2201fa7"
+        },
+        "effects": {
+          "route": "/skills/ashe_r/effects",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "hit_damage",
+            "mana_cost"
+          ],
+          "sha256": "e3806d532d1f904dde2467511f871bbb05c03944b45f056f247da9414ce4332d"
+        },
+        "processes": {
+          "route": "/skills/ashe_r/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/ashe_r/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ashe_r/trigger-rules",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "excluded": [
+        "已有直伤、最短/最长眩晕和消耗全量保护；沿途视野、附近敌人和距离换算排除。"
+      ],
+      "pending": [
+        "已有组成继续受保护；本轮不新增重复参数、公式、效果、过程或触发，跨技能资格和运行边界留待统一迭代。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ez_p": {
+      "maxLevel": 1,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ez_p/parameters",
+          "status": 200,
+          "count": 4,
+          "keys": [
+            "stack_attack_speed_ratio",
+            "max_stacks",
+            "application_stacks",
+            "duration_ms"
+          ],
+          "sha256": "1f8866aee1ec293239bade056d4384f578572192e3ac1635be50238e73f862dd"
+        },
+        "formulas": {
+          "route": "/skills/ez_p/formulas",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "route": "/skills/ez_p/effects",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "rising_spell_force"
+          ],
+          "sha256": "156a16a66882a2d1c069ba3f556d63e30f68c70f28de5f498fab43fff55b656f"
+        },
+        "processes": {
+          "route": "/skills/ez_p/processes",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internal-states": {
+          "route": "/skills/ez_p/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ez_p/trigger-rules",
+          "status": 200,
+          "count": 4,
+          "keys": [
+            "stack_on_ez_e_hit",
+            "stack_on_ez_q_hit",
+            "stack_on_ez_r_hit",
+            "stack_on_ez_w_hit"
+          ],
+          "sha256": "5fc32bab0711630f0fc141af43fae62a177354fc92662f1fc25a6f7e99bf0967"
+        }
+      },
+      "excluded": [],
+      "pending": [
+        "已有组成继续受保护；本轮不新增重复参数、公式、效果、过程或触发，跨技能资格和运行边界留待统一迭代。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ez_q": {
+      "maxLevel": 5,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ez_q/parameters",
+          "status": 200,
+          "count": 12,
+          "keys": [
+            "base_damage",
+            "total_ad_ratio",
+            "ap_ratio",
+            "cooldown_ms",
+            "mana_cost",
+            "cooldown_reduction_ms",
+            "cast_time_ms",
+            "queue_window_ms",
+            "target_range",
+            "projectile_speed",
+            "projectile_width",
+            "full_efficiency"
+          ],
+          "sha256": "914a0576b0f05105352b0bb9c0a7bf1929beed6ebe2a02330b9afa85647f2003"
+        },
+        "formulas": {
+          "route": "/skills/ez_q/formulas",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "damage"
+          ],
+          "sha256": "409ff28a3dedaff7708a85e065db69dc38a59cd3654429492b66885d3ea66768"
+        },
+        "effects": {
+          "route": "/skills/ez_q/effects",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "mana_cost",
+            "primary_hit"
+          ],
+          "sha256": "557ac28ad399503eed7bf8935ea36d0ab5266eadb25429c143afc3af66e857d8"
+        },
+        "processes": {
+          "route": "/skills/ez_q/processes",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "cast"
+          ],
+          "sha256": "30a47f80add1ee16f65686dd2f4e4aad735721be4d5610f5bc4f11be0fcc88c4"
+        },
+        "internal-states": {
+          "route": "/skills/ez_q/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ez_q/trigger-rules",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "resolve_on_q_hit"
+          ],
+          "sha256": "50fdc1004e9d896fe7941a39b98ad17b88d9a723b3633a8132aee7320d0e9956"
+        }
+      },
+      "excluded": [],
+      "pending": [
+        "已有组成继续受保护；本轮不新增重复参数、公式、效果、过程或触发，跨技能资格和运行边界留待统一迭代。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ez_w": {
+      "maxLevel": 5,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ez_w/parameters",
+          "status": 200,
+          "count": 15,
+          "keys": [
+            "base_damage",
+            "bonus_ad_ratio",
+            "ap_ratio",
+            "cooldown_ms",
+            "mana_cost",
+            "mark_duration_ms",
+            "mana_restore_base",
+            "cast_time_ms",
+            "queue_window_ms",
+            "target_range",
+            "projectile_speed",
+            "projectile_width",
+            "max_stacks",
+            "application_stacks",
+            "source_cast_mana_cost"
+          ],
+          "sha256": "e99ef963860b8d9220372916d42b611f55397aa58554aa77c77e3a47cf3396e9"
+        },
+        "formulas": {
+          "route": "/skills/ez_w/formulas",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "damage",
+            "mana_restore_total"
+          ],
+          "sha256": "decc2b3ed7875966433a36896cfe2715a6ededd6f52a32c11ca81b7ff73adb52"
+        },
+        "effects": {
+          "route": "/skills/ez_w/effects",
+          "status": 200,
+          "count": 4,
+          "keys": [
+            "mana_cost",
+            "essence_flux_mark",
+            "detonate_by_attack",
+            "detonate_with_mana_refund"
+          ],
+          "sha256": "f18dbba817a8bc20e95f0991ac7def0825d9d471f766024127e8f02fb364581f"
+        },
+        "processes": {
+          "route": "/skills/ez_w/processes",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "cast"
+          ],
+          "sha256": "6e7273e3298d5dfb6604e95efb8a9280265cb13192ecf07052cbd0a06bc27628"
+        },
+        "internal-states": {
+          "route": "/skills/ez_w/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ez_w/trigger-rules",
+          "status": 200,
+          "count": 5,
+          "keys": [
+            "apply_mark_on_w_hit",
+            "detonate_private_mark_on_basic_attack_hit",
+            "detonate_private_mark_on_ez_q_hit",
+            "detonate_private_mark_on_ez_e_hit",
+            "detonate_private_mark_on_ez_r_hit"
+          ],
+          "sha256": "aa03ead9a2a99f4a8dbbceb33501bdfdd49264683fa486c3c6986b8389a564d7"
+        }
+      },
+      "excluded": [],
+      "pending": [
+        "已有组成继续受保护；本轮不新增重复参数、公式、效果、过程或触发，跨技能资格和运行边界留待统一迭代。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ez_e": {
+      "maxLevel": 5,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ez_e/parameters",
+          "status": 200,
+          "count": 11,
+          "keys": [
+            "base_damage",
+            "bonus_ad_ratio",
+            "ap_ratio",
+            "cooldown_ms",
+            "mana_cost",
+            "cast_time_ms",
+            "queue_window_ms",
+            "blink_range",
+            "projectile_speed",
+            "target_search_radius",
+            "reveal_duration_ms"
+          ],
+          "sha256": "33e191891d67c47e102bded9fa7410ee025493ed2963bfcc52545a6234ac5cab"
+        },
+        "formulas": {
+          "route": "/skills/ez_e/formulas",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "damage"
+          ],
+          "sha256": "efca93a97515ca82c0140a3f296edfdae78da86703c80883ea34ace0c84a9303"
+        },
+        "effects": {
+          "route": "/skills/ez_e/effects",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "mana_cost",
+            "primary_hit"
+          ],
+          "sha256": "53ead55c44a663297648c2e421b8a685a3d1a7cc4087299cb8fc941db790a4ab"
+        },
+        "processes": {
+          "route": "/skills/ez_e/processes",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "cast"
+          ],
+          "sha256": "a715fe35d6d7bb67e3b31f8f1564263751b068f70c705b11631843c9025649e9"
+        },
+        "internal-states": {
+          "route": "/skills/ez_e/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ez_e/trigger-rules",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "resolve_on_e_hit"
+          ],
+          "sha256": "b050c7c35185ff39f3f1df257cb201850544dc9c361fbaf53afdf7b6d235d4fa"
+        }
+      },
+      "excluded": [],
+      "pending": [
+        "已有组成继续受保护；本轮不新增重复参数、公式、效果、过程或触发，跨技能资格和运行边界留待统一迭代。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ez_r": {
+      "maxLevel": 3,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "protectedExisting": {
+        "parameters": {
+          "route": "/skills/ez_r/parameters",
+          "status": 200,
+          "count": 10,
+          "keys": [
+            "champion_base_damage",
+            "minion_monster_base_damage",
+            "bonus_ad_ratio",
+            "ap_ratio",
+            "cooldown_ms",
+            "mana_cost",
+            "cast_time_ms",
+            "queue_window_ms",
+            "projectile_speed",
+            "projectile_width"
+          ],
+          "sha256": "626e55ba479a61c6ce0df3e5586affe6ff74547e5114deeba9f65b677890bb28"
+        },
+        "formulas": {
+          "route": "/skills/ez_r/formulas",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "champion_damage",
+            "minion_monster_damage"
+          ],
+          "sha256": "f8e2c76244135fac66412535ef34aa1464ea0ff9327e0967530583b335192879"
+        },
+        "effects": {
+          "route": "/skills/ez_r/effects",
+          "status": 200,
+          "count": 3,
+          "keys": [
+            "mana_cost",
+            "champion_hit",
+            "minion_monster_hit"
+          ],
+          "sha256": "d5fda47c75742e46da94d53a60418009862c52d16d25fd8af65e3732e746e7fa"
+        },
+        "processes": {
+          "route": "/skills/ez_r/processes",
+          "status": 200,
+          "count": 1,
+          "keys": [
+            "cast"
+          ],
+          "sha256": "f756dfa1554729b32f65f02d32fa47dc14143e8b73141b895618bb926e88c935"
+        },
+        "internal-states": {
+          "route": "/skills/ez_r/internal-states",
+          "status": 200,
+          "count": 0,
+          "keys": [],
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "trigger-rules": {
+          "route": "/skills/ez_r/trigger-rules",
+          "status": 200,
+          "count": 2,
+          "keys": [
+            "resolve_on_r_champion_epic_hit",
+            "resolve_on_r_minion_monster_hit"
+          ],
+          "sha256": "cd52616d893567b7e41e28806abc930fb72d657b30d13fec686bddc9ff8baf0f"
+        }
+      },
+      "excluded": [],
+      "pending": [
+        "已有组成继续受保护；本轮不新增重复参数、公式、效果、过程或触发，跨技能资格和运行边界留待统一迭代。"
+      ],
+      "currentSubjectProtected": true
+    }
+  },
+  "noApiCalls": true,
+  "apiWrites": 0,
+  "revisionNotes": [
+    "Ashe Q BonusAS按五级原始数组录入；Udyr W普通/觉醒吸血改INCREASE并使用独立无默认两击资格时长。",
+    "Udyr Q攻击距离改用独立无默认两击资格时长；Udyr W总治疗和Udyr R觉醒百分比总量仅保留公式与源时长，不挂一次性效果。",
+    "Udyr W角色等级护盾实际输入为DECIMAL；Udyr E75攻击距离、Ashe Q两个未消费计时字段仅留源边界；排除项待办已清理。"
+  ]
+}

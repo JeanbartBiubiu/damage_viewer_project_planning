@@ -1,0 +1,1076 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:27:17.086Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取指定候选和规划来源，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "固定英雄机制候选",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第六批\\完整候选.json",
+      "byteSize": 342255,
+      "sha256": "a593bd1f49c1ab6f424bd76b7ad4dbef1e0e7154f00d0347dc90c7c1e39126ac"
+    },
+    {
+      "kind": "官方中文英雄资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Garen.json",
+      "byteSize": 13028,
+      "sha256": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f"
+    },
+    {
+      "kind": "客户端英雄原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Garen.json.gz",
+      "byteSize": 7555,
+      "sha256": "6cfa44116bbcfbb5edfe1573eedd2f3bb18d2d0092cde71ec76531933068de61",
+      "decompressedByteSize": 47339,
+      "decompressedSha256": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e"
+    },
+    {
+      "kind": "已有角色接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\英雄全量核对\\champion_garen.json",
+      "byteSize": 1295,
+      "sha256": "08b7e8c84090994de57b29b9910f726eed048b4fa9a6da4e178e7cee4d26e57d"
+    },
+    {
+      "kind": "已有技能接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\garen_w.json",
+      "byteSize": 1945,
+      "sha256": "edb6eb0a4dacbc21299b470d3d08b4ab8976495c3f8363007abd4f28b42fb034"
+    },
+    {
+      "kind": "已有角色技能关系记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\relations_champion_garen.json",
+      "byteSize": 2791,
+      "sha256": "89daa23fe01d858b41c1cc614537e9336111930e98a37f0f44dfd89c8b1c18ec"
+    },
+    {
+      "kind": "技能代表图文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\02_技能\\Garen\\W_GarenW.png",
+      "byteSize": 5947,
+      "sha256": "4b653d35ceedddc2fc715e934307114c567c92aebd5b34708bdc5c077ce410eb"
+    },
+    {
+      "kind": "角色代表图文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\01_角色\\Garen.png",
+      "byteSize": 30705,
+      "sha256": "53018603962e1867b391071f159bb4c60d57919422585c33bfd36551e97f3752"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第六批\\完整候选.json",
+    "meta": {
+      "executor": "Codex执行代理接手Cursor中断批次",
+      "gameId": "lol",
+      "note": "来源冻结与当前录入分开；只计实际GET一致的组成。没有运行Wasm或战斗。本批仅补缺，不更新既有不同内容。",
+      "sources": [
+        {
+          "id": "Garen",
+          "client": {
+            "path": "客户端原文/Garen.json.gz",
+            "sha256": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+            "compressedSha256": "6cfa44116bbcfbb5edfe1573eedd2f3bb18d2d0092cde71ec76531933068de61",
+            "byteSize": 47339,
+            "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/garen/garen.bin.json",
+            "fetchedAt": "2026-09-06T14:20:10.546Z",
+            "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+          },
+          "official": {
+            "path": "../英雄/原始资料/zh_CN/champion/Garen.json",
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Garen.json",
+            "fetchedAt": "2026-09-06T14:12:47.375Z",
+            "byteSize": 13028,
+            "sha256": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f"
+          }
+        },
+        {
+          "id": "Jax",
+          "client": {
+            "path": "客户端原文/Jax.json.gz",
+            "sha256": "7138416cb24deaa5e07b884963da9a980edcfeaeb0ea3ccd3e2352bd15929e07",
+            "compressedSha256": "488ac8a29d9ed7e844bf924a9751c612e501598a132bc7ec531a0500b117cec3",
+            "byteSize": 51045,
+            "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jax/jax.bin.json",
+            "fetchedAt": "2026-09-06T14:26:21.078Z",
+            "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+          },
+          "official": {
+            "path": "../英雄/原始资料/zh_CN/champion/Jax.json",
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jax.json",
+            "fetchedAt": "2026-09-06T14:12:47.779Z",
+            "byteSize": 12587,
+            "sha256": "d7d63ec3b5c3a157007de3f4ab93f6843d0b96fff4fe2d401c0bbb99a36b3700"
+          }
+        },
+        {
+          "id": "Mordekaiser",
+          "client": {
+            "path": "客户端原文/Mordekaiser.json.gz",
+            "sha256": "f4c39f44fa35b7e54c302331bd787af4a5265264a722ff5a1f9a606125bffe7b",
+            "compressedSha256": "17715b1f05f32ef9b3996764fba977634a4f9e3f23d2dfb7b7b3ef57cd263d1c",
+            "byteSize": 51444,
+            "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/mordekaiser/mordekaiser.bin.json",
+            "fetchedAt": "2026-09-06T14:26:28.198Z",
+            "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+          },
+          "official": {
+            "path": "../英雄/原始资料/zh_CN/champion/Mordekaiser.json",
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Mordekaiser.json",
+            "fetchedAt": "2026-09-06T14:12:50.788Z",
+            "byteSize": 13197,
+            "sha256": "46e25cd50496cd4cba879e56ad3984d767ab4b9e8f2a8006698ac2153caea4c6"
+          }
+        },
+        {
+          "id": "Renekton",
+          "client": {
+            "path": "客户端原文/Renekton.json.gz",
+            "sha256": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+            "compressedSha256": "1d71a6690fdbe409b5b56ae8101b4c5241f72ed17ba63165a0936ae5a153edfa",
+            "byteSize": 51573,
+            "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/renekton/renekton.bin.json",
+            "fetchedAt": "2026-09-06T14:26:34.266Z",
+            "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+          },
+          "official": {
+            "path": "../英雄/原始资料/zh_CN/champion/Renekton.json",
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Renekton.json",
+            "fetchedAt": "2026-09-06T14:12:53.387Z",
+            "byteSize": 14709,
+            "sha256": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab"
+          }
+        }
+      ],
+      "scope": "四英雄20技能",
+      "stage": "仅候选与既有组成只读复核；等待独立审查",
+      "sourceChecks": [
+        {
+          "hero": "Garen",
+          "kind": "client",
+          "expected": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+          "actual": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+          "match": true
+        },
+        {
+          "hero": "Garen",
+          "kind": "official",
+          "expected": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f",
+          "actual": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f",
+          "match": true
+        },
+        {
+          "hero": "Jax",
+          "kind": "client",
+          "expected": "7138416cb24deaa5e07b884963da9a980edcfeaeb0ea3ccd3e2352bd15929e07",
+          "actual": "7138416cb24deaa5e07b884963da9a980edcfeaeb0ea3ccd3e2352bd15929e07",
+          "match": true
+        },
+        {
+          "hero": "Jax",
+          "kind": "official",
+          "expected": "d7d63ec3b5c3a157007de3f4ab93f6843d0b96fff4fe2d401c0bbb99a36b3700",
+          "actual": "d7d63ec3b5c3a157007de3f4ab93f6843d0b96fff4fe2d401c0bbb99a36b3700",
+          "match": true
+        },
+        {
+          "hero": "Mordekaiser",
+          "kind": "client",
+          "expected": "f4c39f44fa35b7e54c302331bd787af4a5265264a722ff5a1f9a606125bffe7b",
+          "actual": "f4c39f44fa35b7e54c302331bd787af4a5265264a722ff5a1f9a606125bffe7b",
+          "match": true
+        },
+        {
+          "hero": "Mordekaiser",
+          "kind": "official",
+          "expected": "46e25cd50496cd4cba879e56ad3984d767ab4b9e8f2a8006698ac2153caea4c6",
+          "actual": "46e25cd50496cd4cba879e56ad3984d767ab4b9e8f2a8006698ac2153caea4c6",
+          "match": true
+        },
+        {
+          "hero": "Renekton",
+          "kind": "client",
+          "expected": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+          "actual": "e3302bc72519d6d54ec392a2051ec5e45e9d3f4c63e2b6ebbf334eeeed4a1dfd",
+          "match": true
+        },
+        {
+          "hero": "Renekton",
+          "kind": "official",
+          "expected": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab",
+          "actual": "243ee23421b0d22ee8fba5297c1d280e209b6e62fb0eb0adac5b59fe92b916ab",
+          "match": true
+        },
+        {
+          "kind": "当前绑定中文说明",
+          "expected": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+          "actual": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+          "match": true
+        }
+      ],
+      "generatedAt": "2026-09-08T16:00:33.544Z",
+      "apiWrites": 0
+    },
+    "skill": {
+      "skillKey": "garen_w",
+      "name": "勇气",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Garen",
+        "rootPath": "Characters/Garen/CharacterRecords/Root",
+        "spellPath": "Characters/Garen/Spells/GarenWAbility/GarenW",
+        "clientSha256": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+        "officialSha256": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f",
+        "currentBoundText": {
+          "binding": "Characters/Garen/Spells/GarenWAbility/GarenW",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_GarenW_Name",
+              "key": "spell_garenw_name",
+              "text": "勇气"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_GarenW_Summary",
+              "key": "spell_garenw_summary",
+              "text": "盖伦被动地通过击杀敌人来提升护甲和魔法抗性。他也可以激活这个技能来暂时获得一层护盾和韧性，并在接下来的较长持续时间里获得较弱的伤害减免效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_GarenW_Tooltip",
+              "key": "spell_garenw_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>盖伦获得<scaleArmor>@ResistsForTooltip@额外护甲</scaleArmor>和<scaleMR>@ResistsForTooltip@额外魔法抗性</scaleMR>。击杀单位时会永久提供<attention>@ResistGainOnKillTooltip@双抗</attention>，至多至最大值<attention>@ResistMax@</attention>。<br><br><spellActive>主动：</spellActive>盖伦加固他的勇气@DRDuration@秒，使即将到来的伤害降低@DRPercent*100@%。他还会获得持续@UpfrontDuration@秒的<shield>@TotalShield@护盾值</shield>和<slow>@UpfrontTenacity*100@%韧性</slow>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "key": "spell_cost_nocost",
+              "text": "无消耗"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。客户端值。",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "name": "每次击杀提供双抗",
+            "parameterKey": "resist_per_kill",
+            "sortOrder": 0,
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。当前上限30。",
+            "fixedValue": 30,
+            "levelValues": null,
+            "name": "最大额外双抗",
+            "parameterKey": "resist_max",
+            "sortOrder": 1,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。30/0.2=150，每单位1层，击杀类别边界待核对。",
+            "fixedValue": 150,
+            "levelValues": null,
+            "name": "被动最大层数",
+            "parameterKey": "max_stacks",
+            "sortOrder": 2,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。当前25/29/33/37/41%，不是各级固定30%。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.25,
+              "2": 0.29,
+              "3": 0.33,
+              "4": 0.37,
+              "5": 0.41
+            },
+            "name": "承受伤害减少比例",
+            "parameterKey": "reduction_ratio",
+            "sortOrder": 3,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。固定4秒。",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "name": "减伤持续时间（毫秒）",
+            "parameterKey": "reduction_duration_ms",
+            "sortOrder": 4,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。0.6=60%，不同来源韧性组合仍需核对。",
+            "fixedValue": 0.6,
+            "levelValues": null,
+            "name": "韧性提升比例",
+            "parameterKey": "tenacity_ratio",
+            "sortOrder": 5,
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。固定750毫秒。",
+            "fixedValue": 750,
+            "levelValues": null,
+            "name": "护盾及韧性时长（毫秒）",
+            "parameterKey": "upfront_duration_ms",
+            "sortOrder": 6,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。当前65/85/105/125/145。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 65,
+              "2": 85,
+              "3": 105,
+              "4": 125,
+              "5": 145
+            },
+            "name": "基础护盾",
+            "parameterKey": "base_shield",
+            "sortOrder": 7,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。18%额外生命，不是最大生命。",
+            "fixedValue": 0.18,
+            "levelValues": null,
+            "name": "护盾额外生命系数",
+            "parameterKey": "bonus_hp_ratio",
+            "sortOrder": 8,
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "description": "16.17客户端及已冻结盖伦技能补证。客户端与官方静态资料一致。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 22000,
+              "2": 19500,
+              "3": 17000,
+              "4": 14500,
+              "5": 12000
+            },
+            "name": "基础冷却（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 9,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [
+          {
+            "description": "基础护盾 + 0.18×额外生命；基础生命成长不重复计入。来源：16.17固定资料。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_shield"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_hp_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "shield",
+            "name": "W 护盾量",
+            "sortOrder": 0
+          }
+        ],
+        "effects": [
+          {
+            "description": "护盾耗尽按现有契约提前结束本效果；韧性放在独立效果，避免随护盾耗尽消失。",
+            "effectKey": "upfront_shield",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "upfront_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "勇气短时护盾",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "勇气护盾",
+                "resultKey": "shield",
+                "resultType": "NORMAL_SHIELD",
+                "sortOrder": 0,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "shield",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "sortOrder": 2
+          },
+          {
+            "description": "独立保持750毫秒，不随勇气护盾耗尽提前结束。",
+            "effectKey": "upfront_tenacity",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "upfront_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "勇气短时韧性",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "tenacity_percent",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "勇气韧性提升",
+                "resultKey": "tenacity",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 0,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "tenacity_ratio"
+                  }
+                }
+              }
+            ],
+            "sortOrder": 3
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "source": "既有实录证据与实时GET",
+          "historical": [
+            {
+              "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/盖伦技能候选/盖伦技能录入候选.json",
+              "sha256": "950061e0e63fc5046e744ad052df24e354cb7db45a130f4c61ab6030cbe89305"
+            },
+            {
+              "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/盖伦技能实录.json",
+              "sha256": "0950cb2522ac7e952307ec8d84e26c2d7832f0d26e3ffddc79707a6c046c2aee"
+            },
+            {
+              "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/盖伦效果回读-2026-09-07.md",
+              "sha256": "26f606179919551d3f341e51cbacce7fcbae4ff4654a0c9de7b3d9bf656ca873"
+            }
+          ],
+          "note": "保留原字段、说明和排序；不复制旧候选中尚未落库的占位组成。"
+        },
+        {
+          "parameterKey": "resist_per_kill",
+          "source": "当前根DataValues.ResistGainOnKill",
+          "raw": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "indexStart": 1,
+          "scale": 1,
+          "offset": 0,
+          "expected": [
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2
+          ],
+          "match": true
+        },
+        {
+          "parameterKey": "resist_max",
+          "source": "当前根DataValues.ResistMax",
+          "raw": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "indexStart": 1,
+          "scale": 1,
+          "offset": 0,
+          "expected": [
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "match": true
+        },
+        {
+          "parameterKey": "reduction_ratio",
+          "source": "当前根DataValues.DRPercent",
+          "raw": [
+            0.20999999344348907,
+            0.25,
+            0.28999999165534973,
+            0.33000001311302185,
+            0.3700000047683716,
+            0.4099999964237213,
+            0.44999998807907104
+          ],
+          "indexStart": 1,
+          "scale": 1,
+          "offset": 0,
+          "expected": [
+            0.25,
+            0.29,
+            0.33,
+            0.37,
+            0.41
+          ],
+          "match": true
+        },
+        {
+          "parameterKey": "reduction_duration_ms",
+          "source": "当前根DataValues.DRDuration",
+          "raw": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "indexStart": 1,
+          "scale": 1000,
+          "offset": 0,
+          "expected": [
+            4000,
+            4000,
+            4000,
+            4000,
+            4000
+          ],
+          "match": true
+        },
+        {
+          "parameterKey": "tenacity_ratio",
+          "source": "当前根DataValues.UpfrontTenacity",
+          "raw": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ],
+          "indexStart": 1,
+          "scale": 1,
+          "offset": 0,
+          "expected": [
+            0.6,
+            0.6,
+            0.6,
+            0.6,
+            0.6
+          ],
+          "match": true
+        },
+        {
+          "parameterKey": "upfront_duration_ms",
+          "source": "当前根DataValues.UpfrontDuration",
+          "raw": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          "indexStart": 1,
+          "scale": 1000,
+          "offset": 0,
+          "expected": [
+            750,
+            750,
+            750,
+            750,
+            750
+          ],
+          "match": true
+        },
+        {
+          "parameterKey": "base_shield",
+          "source": "当前根DataValues.BaseShield",
+          "raw": [
+            45,
+            65,
+            85,
+            105,
+            125,
+            145,
+            165
+          ],
+          "indexStart": 1,
+          "scale": 1,
+          "offset": 0,
+          "expected": [
+            65,
+            85,
+            105,
+            125,
+            145
+          ],
+          "match": true
+        },
+        {
+          "parameterKey": "bonus_hp_ratio",
+          "source": "当前根DataValues.ShieldHealthRatio",
+          "raw": [
+            0.18000000715255737,
+            0.18000000715255737,
+            0.18000000715255737,
+            0.18000000715255737,
+            0.18000000715255737,
+            0.18000000715255737,
+            0.18000000715255737
+          ],
+          "indexStart": 1,
+          "scale": 1,
+          "offset": 0,
+          "expected": [
+            0.18,
+            0.18,
+            0.18,
+            0.18,
+            0.18
+          ],
+          "match": true
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "当前Cooldown与官方cooldown",
+          "expected": [
+            22000,
+            19500,
+            17000,
+            14500,
+            12000
+          ],
+          "match": true
+        },
+        {
+          "parameterKey": "max_stacks",
+          "source": "ResistMax / ResistGainOnKill",
+          "expected": 150,
+          "match": true
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "永久双抗层数、主动减伤与防御过程",
+          "reason": "已保存0.2每击杀、30上限，以及独立护盾和韧性；击杀层数可由对局开始前已获得，因此保留该自身战斗依赖。永久层数来源/死亡保留、独立减伤乘区及主动启动仍未接入。"
+        },
+        {
+          "kind": "系统",
+          "component": "减伤与韧性来源组合",
+          "reason": "真实伤害是否排除及不同来源减伤/韧性按剩余比例合并需要独立目录，不使用属性加算区冒充伤害区。"
+        }
+      ],
+      "excluded": [],
+      "existingComponents": {
+        "parameters": 10,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "reusedParameters": [
+        "resist_per_kill",
+        "resist_max",
+        "max_stacks",
+        "reduction_ratio",
+        "reduction_duration_ms",
+        "tenacity_ratio",
+        "upfront_duration_ms",
+        "base_shield",
+        "bonus_hp_ratio",
+        "cooldown_ms"
+      ],
+      "status": "确定组成候选；未保存或未接线不表示整机制完成",
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "减伤与韧性来源组合",
+            "reason": "真实伤害是否排除及不同来源减伤/韧性按剩余比例合并需要独立目录，不使用属性加算区冒充伤害区。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "永久双抗层数、主动减伤与防御过程",
+            "reason": "已保存0.2每击杀、30上限，以及独立护盾和韧性；击杀层数可由对局开始前已获得，因此保留该自身战斗依赖。永久层数来源/死亡保留、独立减伤乘区及主动启动仍未接入。"
+          }
+        ]
+      }
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Garen.json",
+    "championKey": "Garen",
+    "championName": "德玛西亚之力",
+    "spell": {
+      "id": "GarenW",
+      "name": "勇气",
+      "description": "盖伦被动地通过击杀敌人来提升护甲和魔法抗性。他也可以激活这个技能来暂时获得一层护盾和韧性，并在接下来的较长持续时间里获得较弱的伤害减免效果。",
+      "tooltip": "<spellPassive>被动：</spellPassive>盖伦获得<scaleArmor>{{ resistsfortooltip }}额外护甲</scaleArmor>和<scaleMR>{{ resistsfortooltip }}额外魔法抗性</scaleMR>。击杀单位时会永久提供<attention>{{ resistgainonkilltooltip }}双抗</attention>，至多至最大值<attention>{{ resistmax }}</attention>。<br /><br /><spellActive>主动：</spellActive>盖伦加固他的勇气{{ drduration }}秒，使即将到来的伤害降低{{ drpercent*100 }}%。他还会获得持续{{ upfrontduration }}秒的<shield>{{ totalshield }}护盾值</shield>和<slow>{{ upfronttenacity*100 }}%韧性</slow>。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "护盾值",
+          "伤害减免",
+          "冷却时间"
+        ],
+        "effect": [
+          "{{ baseshield }} -> {{ baseshieldNL }}",
+          "{{ drpercent*100.000000 }}% -> {{ drpercentnl*100.000000 }}%",
+          "{{ cooldown }} -> {{ cooldownNL }}"
+        ]
+      },
+      "maxrank": 5,
+      "cooldown": [
+        22,
+        19.5,
+        17,
+        14.5,
+        12
+      ],
+      "cooldownBurn": "22/19.5/17/14.5/12",
+      "cost": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "costBurn": "0",
+      "datavalues": {},
+      "effect": [
+        null,
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "effectBurn": [
+        null,
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "vars": [],
+      "costType": "无消耗",
+      "maxammo": "-1",
+      "range": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "rangeBurn": "0",
+      "image": {
+        "full": "GarenW.png",
+        "sprite": "spell4.png",
+        "group": "spell",
+        "x": 336,
+        "y": 96,
+        "w": 48,
+        "h": 48
+      },
+      "resource": "无消耗"
+    }
+  },
+  "clientExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Garen.json.gz",
+    "pointer": "Characters/Garen/Spells/GarenWAbility/GarenW/mSpell",
+    "spellTags": [
+      "Trait_Shield",
+      "Trait_Parry",
+      "Trait_AttackBuff_Duration"
+    ],
+    "dataValues": {
+      "UpfrontDuration": [
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75
+      ],
+      "UpfrontTenacity": [
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579
+      ],
+      "BaseShield": [
+        45,
+        65,
+        85,
+        105,
+        125,
+        145,
+        165
+      ],
+      "ShieldHealthRatio": [
+        0.18000000715255737,
+        0.18000000715255737,
+        0.18000000715255737,
+        0.18000000715255737,
+        0.18000000715255737,
+        0.18000000715255737,
+        0.18000000715255737
+      ]
+    },
+    "totalShield": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "BaseShield",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mStat": 12,
+          "mStatFormula": 2,
+          "mDataValue": "ShieldHealthRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "cooldownValues": [
+      22,
+      22,
+      19.5,
+      17,
+      14.5,
+      12,
+      12
+    ]
+  },
+  "acceptedFacts": {
+    "trigger": {
+      "skillKey": "garen_w",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "garen_w",
+        "useKind": "ACTIVE"
+      },
+      "targetContext": "CURRENT_TARGET",
+      "actionType": "EXECUTE_EFFECT",
+      "effectKeys": [
+        "upfront_shield",
+        "upfront_tenacity"
+      ]
+    },
+    "effectResults": [
+      {
+        "effectKey": "upfront_shield",
+        "resultTarget": "SOURCE",
+        "durationParameter": "upfront_duration_ms"
+      },
+      {
+        "effectKey": "upfront_tenacity",
+        "resultTarget": "SOURCE",
+        "durationParameter": "upfront_duration_ms"
+      }
+    ],
+    "boundary": [
+      "不把永久双抗层数、击杀边界或死亡保持写入主动使用规则。",
+      "不接入主动减伤、减伤乘区或防御过程。",
+      "不把基础冷却或冷却修正当作本条规则动作。",
+      "不把静态来源、接口 GET 或本脚本检查当作战斗运行时证明。"
+    ]
+  },
+  "sourceChecks": {
+    "candidateSkillKey": true,
+    "candidateEffectsPresent": true,
+    "candidateTriggerRulesEmpty": true,
+    "officialChampionPresent": true,
+    "officialSpellPresent": true,
+    "officialMaxRank": true,
+    "officialNoResourceCost": true,
+    "clientSpellPresent": true,
+    "clientUpfrontDuration": true,
+    "clientUpfrontTenacity": true,
+    "clientShieldCalculation": true,
+    "clientShieldSourceValues": true
+  }
+}

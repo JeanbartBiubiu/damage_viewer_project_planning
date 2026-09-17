@@ -1,0 +1,4 @@
+# 冻结资料与执行证据按原字节保存，避免检出时换行转换破坏 SHA256。
+* -text whitespace=cr-at-eol
+# 原始审查产物保留生成时的末尾空行，其摘要由执行审计固定。
+Cursor原始产物/前十技能审查说明.md whitespace=cr-at-eol,-blank-at-eof

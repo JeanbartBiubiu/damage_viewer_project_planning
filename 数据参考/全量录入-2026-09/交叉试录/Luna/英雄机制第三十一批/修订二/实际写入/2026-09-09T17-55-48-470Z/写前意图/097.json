@@ -1,0 +1,23 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 97,
+    "method": "POST",
+    "route": "/skills/lulu_r/parameters",
+    "detailRoute": "/skills/lulu_r/parameters/knockup_duration_ms",
+    "skillKey": "lulu_r",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "击飞持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "客户端KnockbackDuration按等级索引1取1秒，转换为1000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

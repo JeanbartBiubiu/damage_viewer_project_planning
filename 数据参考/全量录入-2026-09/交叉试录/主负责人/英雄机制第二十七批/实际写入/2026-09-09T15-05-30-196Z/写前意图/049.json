@@ -1,0 +1,20 @@
+{
+  "i": 48,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_q/parameters",
+    "skillKey": "hecarim_q",
+    "kind": "parameters",
+    "stableKey": "boost_base_percent_points",
+    "body": {
+      "parameterKey": "boost_base_percent_points",
+      "name": "每层基础增幅百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前根DataValues.RampageBonusRatio取索引1至5。",
+      "sortOrder": 30
+    }
+  }
+}

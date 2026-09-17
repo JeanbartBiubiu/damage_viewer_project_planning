@@ -1,0 +1,23 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 26,
+    "method": "POST",
+    "route": "/skills/braum_e/parameters",
+    "detailRoute": "/skills/braum_e/parameters/first_projectile_damage_ratio",
+    "skillKey": "braum_e",
+    "kind": "parameters",
+    "stableKey": "first_projectile_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "first_projectile_damage_ratio",
+      "name": "首个弹体伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "当前正文明确举盾后的首个弹体不会造成伤害，保存为0比例；不把它扩展为所有来源无敌。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "method": "POST",
+    "route": "/skills/monkeyking_p/parameters",
+    "detailRoute": "/skills/monkeyking_p/parameters/bonus_armor_at_character_level",
+    "skillKey": "monkeyking_p",
+    "kind": "parameters",
+    "stableKey": "bonus_armor_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_armor_at_character_level",
+      "name": "等级护甲加成（实际输入）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BonusArmor为6至10角色等级插值，中间算法未证；不带默认。",
+      "sortOrder": 10
+    }
+  }
+}

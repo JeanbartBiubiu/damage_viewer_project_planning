@@ -1,0 +1,29 @@
+{
+  "i": 81,
+  "intent": {
+    "sequence": 82,
+    "method": "POST",
+    "route": "/skills/karma_q/parameters",
+    "detailRoute": "/skills/karma_q/parameters/base_damage",
+    "skillKey": "karma_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "心灵烈焰基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 110,
+        "3": 160,
+        "4": 210,
+        "5": 260
+      },
+      "description": "Q技能等级1至5的BaseDamage。",
+      "sortOrder": 10
+    }
+  }
+}

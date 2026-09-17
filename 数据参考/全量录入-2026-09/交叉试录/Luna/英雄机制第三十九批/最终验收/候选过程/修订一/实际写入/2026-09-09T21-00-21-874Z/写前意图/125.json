@@ -1,0 +1,24 @@
+{
+  "i": 124,
+  "intent": {
+    "sequence": 125,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/parameters",
+    "detailRoute": "/skills/nilah_r/parameters/damage_per_tick_bonus_ad_ratio",
+    "skillKey": "nilah_r",
+    "kind": "parameters",
+    "stableKey": "damage_per_tick_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_tick_bonus_ad_ratio",
+      "name": "神恩激荡每跳额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.10000000149011612,
+      "levelValues": null,
+      "description": "DamagePerTickCalc的mStat=2、mStatFormula=2且系数0.1，读取来源额外攻击力。",
+      "sortOrder": 50
+    }
+  }
+}

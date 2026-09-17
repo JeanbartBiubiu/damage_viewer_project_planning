@@ -1,0 +1,63 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "method": "POST",
+    "route": "/skills/kaisa_e/formulas",
+    "detailRoute": "/skills/kaisa_e/formulas/total_move_speed_ratio",
+    "skillKey": "kaisa_e",
+    "kind": "formulas",
+    "stableKey": "total_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_move_speed_ratio",
+      "name": "极限超载移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MAX",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "move_speed_clamp_lower"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MIN",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "move_speed_clamp_upper"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "move_speed_clamp_lower"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_bonus_attack_speed_ratio"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalMovespeed=基础移动速度×CLAMP(1+实际额外攻击速度,1,2)，保留无默认运行输入。",
+      "sortOrder": 10
+    }
+  }
+}

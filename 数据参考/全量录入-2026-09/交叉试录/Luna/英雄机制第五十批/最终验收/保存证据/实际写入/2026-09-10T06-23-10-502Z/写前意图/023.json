@@ -1,0 +1,24 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/lightning_bounce_range",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "lightning_bounce_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lightning_bounce_range",
+      "name": "闪电弹射范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 450,
+      "levelValues": null,
+      "description": "BounceRange=450；额外目标分配本轮排除。",
+      "sortOrder": 110
+    }
+  }
+}

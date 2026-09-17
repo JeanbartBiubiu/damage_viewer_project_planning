@@ -1,0 +1,29 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 50,
+    "method": "POST",
+    "route": "/skills/leblanc_q/parameters",
+    "detailRoute": "/skills/leblanc_q/parameters/mark_base_damage",
+    "skillKey": "leblanc_q",
+    "kind": "parameters",
+    "stableKey": "mark_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_base_damage",
+      "name": "魔印引爆基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 65,
+        "2": 90,
+        "3": 115,
+        "4": 140,
+        "5": 165
+      },
+      "description": "客户端BaseMarkDamage取索引1至5。",
+      "sortOrder": 20
+    }
+  }
+}

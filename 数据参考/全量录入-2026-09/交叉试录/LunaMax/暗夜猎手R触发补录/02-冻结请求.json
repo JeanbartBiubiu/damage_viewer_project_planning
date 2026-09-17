@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:26:15.857Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "writable": true,
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceSnapshotSha256": "ec27bfbfdf2a52c285d3f9cd397e6f8049e9cdf8d7a5501a2a61232d1635a237",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24
+  },
+  "observedCurrent": {
+    "first": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "eventTypeCounts": {
+        "DAMAGE_TAKEN": 3,
+        "BASIC_ATTACK_HIT": 10,
+        "SOURCE_INITIALIZED": 24,
+        "SKILL_HIT": 55,
+        "SPELL_SHIELD_BLOCKED": 5,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "KILL": 2,
+        "SKILL_USED": 5
+      },
+      "sourceInitializedCount": 24,
+      "detailStatus200Count": 108
+    },
+    "second": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "eventTypeCounts": {
+        "DAMAGE_TAKEN": 3,
+        "BASIC_ATTACK_HIT": 10,
+        "SOURCE_INITIALIZED": 24,
+        "SKILL_HIT": 55,
+        "SPELL_SHIELD_BLOCKED": 5,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "KILL": 2,
+        "SKILL_USED": 5
+      },
+      "sourceInitializedCount": 24,
+      "detailStatus200Count": 108
+    },
+    "oldRuleKeysSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+    "oldRuleDetailsSha256": "575932dea9b0ba7b7bf8e8fcd91afae793025ede26ffd3677dd9670d9f34dc41"
+  },
+  "targetBefore": {
+    "characterKey": "champion_vayne",
+    "skillKey": "vayne_r",
+    "ruleKey": "on_used",
+    "targetRuleKeys": [],
+    "existingEffectKeys": [
+      "mana_cost",
+      "bonus_attack_damage"
+    ],
+    "candidateDetailStatus": 404,
+    "triggerDependenciesReady": true
+  },
+  "plannedWrites": 1,
+  "writes": [
+    {
+      "id": "vayne_r/on_used",
+      "kind": "新增触发规则",
+      "method": "POST",
+      "route": "/skills/vayne_r/trigger-rules",
+      "detailRoute": "/skills/vayne_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "body": {
+        "ruleKey": "on_used",
+        "name": "终极时刻主动使用",
+        "description": "接收 vayne_r 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却和 bonus_attack_damage，自身攻击力增益由过程执行一次。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "vayne_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动终极时刻施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "bodySha256": "0d7164e5a3abd18150a2e1098aacb87a6fba50a8f7a5df62c14bb68ae114faa8"
+    }
+  ],
+  "proposedRequest": {
+    "ruleKey": "on_used",
+    "name": "终极时刻主动使用",
+    "description": "接收 vayne_r 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却和 bonus_attack_damage，自身攻击力增益由过程执行一次。",
+    "sortOrder": 10,
+    "eventSource": {
+      "eventType": "SKILL_USED",
+      "detail": {
+        "sourceSkillKey": "vayne_r",
+        "useKind": "ACTIVE"
+      }
+    },
+    "conditionGroups": [],
+    "actions": [
+      {
+        "actionKey": "start_cast",
+        "name": "启动终极时刻施放过程",
+        "actionType": "START_PROCESS",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "processKey": "cast"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null
+  },
+  "conditionalRequest": {
+    "method": "POST",
+    "route": "/skills/vayne_r/trigger-rules",
+    "detailRoute": "/skills/vayne_r/trigger-rules/on_used",
+    "expectedStatus": 201,
+    "body": {
+      "ruleKey": "on_used",
+      "name": "终极时刻主动使用",
+      "description": "接收 vayne_r 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却和 bonus_attack_damage，自身攻击力增益由过程执行一次。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "vayne_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动终极时刻施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "bodySha256": "0d7164e5a3abd18150a2e1098aacb87a6fba50a8f7a5df62c14bb68ae114faa8",
+    "executable": false,
+    "condition": "仅当实时参数、效果结果、持续时间字段、目标与触发规则保护门槛全部通过后，才可升级为冻结请求；本轮未发送。"
+  },
+  "conflicts": [],
+  "deferredReasons": [],
+  "excluded": [
+    "不重复执行 mana_cost 或 cooldown；这两项属于施放过程。",
+    "不新增敌方命中、伤害或其他目标效果；本条只处理主动施放过程。",
+    "不直接 EXECUTE_EFFECT bonus_attack_damage；本条规则只启动已有 cast 过程，避免重复执行自益效果。"
+  ],
+  "deferredScope": [
+    "暗夜猎手被动的移速替换及普通移速差异可能参与 1V1 计算，本条暂缓接入。",
+    "闪避突袭相关冷却变化、隐身状态及隐身持续时间可能参与 1V1 计算，本条暂缓接入。",
+    "本人造成伤害后的击杀延长、最大持续时间和相关判定窗口可能参与 1V1 计算，本条暂缓接入。"
+  ]
+}

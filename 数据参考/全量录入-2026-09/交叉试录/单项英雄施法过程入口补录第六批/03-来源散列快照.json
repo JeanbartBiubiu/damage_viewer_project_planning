@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "frozenAt": "2026-09-13T14:02:53.082Z",
+  "status": "FROZEN",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json",
+      "sha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+      "byteSize": 332093
+    }
+  ],
+  "sourceEntries": [
+    {
+      "skillKey": "vi_e",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json",
+      "sourceSha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+      "officialSha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1"
+    }
+  ],
+  "scriptFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/单项英雄施法过程入口补录第六批/01-补录方案.md",
+      "sha256": "18adfe699b42f42ff5f624d43f9167cabb0fa6cf7447b263d2a6f71416fe50b6",
+      "byteSize": 1225
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/单项英雄施法过程入口补录第六批/README.md",
+      "sha256": "1c26fddf4d2dcba63b20c46b6526de0dd66633856567ad8cf071cf316413c8f0",
+      "byteSize": 698
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/单项英雄施法过程入口补录第六批/批次配置.mjs",
+      "sha256": "d7671db98184d51a0ad925de50f13307d8a9c907f9faad6fffca76fee06b70f0",
+      "byteSize": 2740
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/单项英雄施法过程入口补录第六批/批次执行.mjs",
+      "sha256": "ff487e1c4b097d07a3872ce604991995317b80560cb9e7c5680f5723e09081ee",
+      "byteSize": 392
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/共享受保护触发批次/受保护触发批次-v1.mjs",
+      "sha256": "b0ec9948c6111421dbe81c937efa9f3a32e9ad05d2c9319925537241f958fea9",
+      "byteSize": 40022
+    }
+  ],
+  "scope": [
+    {
+      "skillKey": "vi_e",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    }
+  ]
+}

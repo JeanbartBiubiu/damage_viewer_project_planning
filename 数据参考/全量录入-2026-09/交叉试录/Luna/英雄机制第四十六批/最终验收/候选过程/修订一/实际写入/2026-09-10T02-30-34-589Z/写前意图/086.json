@@ -1,0 +1,46 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/formulas",
+    "detailRoute": "/skills/hwei_q/formulas/qw_base_magic_damage",
+    "skillKey": "hwei_q",
+    "kind": "formulas",
+    "stableKey": "qw_base_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "qw_base_magic_damage",
+      "name": "攒聚雷基础魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "qw_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qw_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "基础伤害=60至160+0.3×法强。",
+      "sortOrder": 230
+    }
+  }
+}

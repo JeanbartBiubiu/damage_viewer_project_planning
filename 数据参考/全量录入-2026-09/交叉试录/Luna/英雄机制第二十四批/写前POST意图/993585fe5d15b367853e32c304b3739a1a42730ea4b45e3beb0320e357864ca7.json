@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:39:08.294Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_q/parameters",
+  "detailRoute": "/skills/sion_q/parameters/maximum_ad_ratio",
+  "skillKey": "sion_q",
+  "kind": "parameters",
+  "stableKey": "maximum_ad_ratio",
+  "body": {
+    "parameterKey": "maximum_ad_ratio",
+    "name": "残虐猛击最高总攻击力比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 1.2,
+      "2": 1.5,
+      "3": 1.8,
+      "4": 2.1,
+      "5": 2.4
+    },
+    "description": "当前根MaxDamageTotal的mStat=2无mStatFormula；按正文物理伤害绑定来源总攻击力。",
+    "sortOrder": 50
+  }
+}

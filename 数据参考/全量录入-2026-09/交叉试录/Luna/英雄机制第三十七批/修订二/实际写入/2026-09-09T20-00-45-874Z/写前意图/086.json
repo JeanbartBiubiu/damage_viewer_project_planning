@@ -1,0 +1,23 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "method": "POST",
+    "route": "/skills/ambessa_p/parameters",
+    "detailRoute": "/skills/ambessa_p/parameters/on_hit_base_damage_max",
+    "skillKey": "ambessa_p",
+    "kind": "parameters",
+    "stableKey": "on_hit_base_damage_max",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "on_hit_base_damage_max",
+      "name": "龙犬诡步强化攻击角色等级伤害上限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 30,
+      "levelValues": null,
+      "description": "当前Calc_OnHit_Damage_Flat角色等级插值上限30。",
+      "sortOrder": 130
+    }
+  }
+}

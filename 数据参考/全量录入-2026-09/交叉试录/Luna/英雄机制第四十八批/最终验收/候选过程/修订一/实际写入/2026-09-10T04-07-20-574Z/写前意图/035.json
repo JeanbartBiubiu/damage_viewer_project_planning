@@ -1,0 +1,30 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 35,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_e/parameters",
+    "detailRoute": "/skills/ivern_e/parameters/slow_ratio",
+    "skillKey": "ivern_e",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "爆裂减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.400000006,
+        "2": 0.449999988,
+        "3": 0.5,
+        "4": 0.550000012,
+        "5": 0.600000024
+      },
+      "description": "SlowAmount已是0.40至0.60比例，正文再乘100仅用于显示。",
+      "sortOrder": 50
+    }
+  }
+}

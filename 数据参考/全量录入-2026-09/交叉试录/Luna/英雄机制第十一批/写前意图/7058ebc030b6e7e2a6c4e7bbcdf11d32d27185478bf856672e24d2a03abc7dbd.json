@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T04:54:58.373Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_p/parameters/shield_stat_value",
+  "id": "shield_stat_value",
+  "method": "POST",
+  "body": {
+    "parameterKey": "shield_stat_value",
+    "name": "适应性护盾未解码属性值",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "ShieldAmount的mStat=12且无mStatFormula；只接受实际运行时属性值，不能把未证枚举默认成最大生命或0。",
+    "sortOrder": 40
+  }
+}

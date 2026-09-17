@@ -1,0 +1,50 @@
+{
+  "sequence": 40,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/blitzcrank_p/formulas",
+    "detailRoute": "/skills/blitzcrank_p/formulas/shield_amount",
+    "skillKey": "blitzcrank_p",
+    "kind": "formulas",
+    "stableKey": "shield_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_amount",
+      "name": "法力屏障护盾量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ability_resource_value"
+          }
+        ]
+      },
+      "description": "当前ShieldAmount树=AbilityResourceByCoefficient约0.35；实际资源值由运行输入提供，缺失时拒绝求值。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 297,
+    "method": "GET",
+    "route": "/skills/blitzcrank_p/formulas/shield_amount",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "shield_amount"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:26.700Z"
+  }
+}

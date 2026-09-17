@@ -1,0 +1,23 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/ammo_recharge_ms",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "ammo_recharge_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ammo_recharge_ms",
+      "name": "弹药充能时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20000,
+      "levelValues": null,
+      "description": "当前mAmmoRechargeTime数组为20秒；该字段来自根原始字段，候选固定为20000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

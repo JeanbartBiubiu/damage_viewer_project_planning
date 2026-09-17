@@ -1,0 +1,33 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "method": "POST",
+    "route": "/skills/senna_p/formulas",
+    "detailRoute": "/skills/senna_p/formulas/soul_attack_damage",
+    "skillKey": "senna_p",
+    "kind": "formulas",
+    "stableKey": "soul_attack_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "soul_attack_damage",
+      "name": "赦除魂层攻击力",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "soul_count"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ad_per_soul"
+          }
+        ]
+      },
+      "description": "当前匿名树{bb59ad08}=魂层计数×ADPerStack；只表达战前魂层对自身攻击力的组成。",
+      "sortOrder": 20
+    }
+  }
+}

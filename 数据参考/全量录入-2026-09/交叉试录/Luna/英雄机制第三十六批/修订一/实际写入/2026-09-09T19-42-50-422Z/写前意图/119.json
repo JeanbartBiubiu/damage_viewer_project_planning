@@ -1,0 +1,23 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_r/parameters",
+    "detailRoute": "/skills/fiddlesticks_r/parameters/full_duration_seconds",
+    "skillKey": "fiddlesticks_r",
+    "kind": "parameters",
+    "stableKey": "full_duration_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "full_duration_seconds",
+      "name": "杀人鸦持续（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前Duration=5秒；TotalDamage匿名树以秒为根乘数，保留原单位用于总量公式。",
+      "sortOrder": 30
+    }
+  }
+}

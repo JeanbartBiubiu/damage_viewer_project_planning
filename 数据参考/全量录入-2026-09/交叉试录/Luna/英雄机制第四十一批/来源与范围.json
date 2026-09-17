@@ -1,0 +1,361 @@
+{
+  "generatedAt": "2026-09-09T20:52:57.846Z",
+  "batch": "第四十一批巴德米利欧洛烈娜塔",
+  "revision": "hero41-source-v1-luna-candidate",
+  "status": "候选阶段，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceInputSha256": "34cf3cf8d1954053ca21ba2ee654995dfdc049feb1f3e64647e0af28d2e2f432",
+  "sourceBindingSha256": "f99655834a838eae99a4d96678e287c5e07030cb0ba3d80ea62edbd44c1499ff",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero41-cursor-review-run-20260910/Cursor来源复核结论.md",
+    "conclusionSha256": "799a41d4b0d034d7dabe652e9bde1b6e8008c022f37ff5b5ff6256102ef1c8d0",
+    "auditFile": ".agents/artifacts/hero41-cursor-review-run-20260910/主负责人执行审计.json",
+    "auditSha256": "4722f3b2b575bf277d33793fa8a5cd14f6dae525b84711166b443aca95f85672",
+    "inputManifestFile": ".agents/artifacts/hero41-cursor-review-run-20260910/path-signatures-before.json",
+    "inputManifestSha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "verdict": "READY",
+    "runId": "run-e3ec5079-87fd-498f-852f-3772fdaeff74",
+    "requestId": "2be8315c-6946-4108-8d0a-544753da9463",
+    "events": 3290,
+    "uniqueTools": 70,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "included": [
+    "巴德P/Q/W/E/R：木灵、首敌、圣坛自用、传送和凝滞。",
+    "米利欧P/Q/W/E/R：自身附加伤害、首敌、区域自用、护盾、治疗和韧性。",
+    "洛P/Q/W/R：自身护盾、治疗、冲刺、唯一敌人伤害、移速与魅惑。",
+    "烈娜塔P/Q/W/E/R：自身标记伤害、同敌人再施放、自身属性/护盾和唯一敌人狂暴。"
+  ],
+  "excluded": [
+    "经验金币、纯第三友方、额外敌人、兵野专用、霞联动、建筑兵野结果及未消费匿名树。",
+    "不创建DAMAGE、DIRECT_HEAL、MOMENT_EVALUATION、过程、内部状态或触发规则。"
+  ],
+  "unknown": [
+    "角色等级曲线、灼烧中间曲线、属性/对象资格、周期事件、冲突施法字段、护盾治疗具体时点。"
+  ],
+  "perSkill": {
+    "bard_p": {
+      "excluded": [
+        {
+          "item": "经验奖励",
+          "reason": "本批范围排除经验金币效果。"
+        },
+        {
+          "item": "额外敌人溅射及范围结果",
+          "reason": "唯一敌方一对一不建立额外目标结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "f1/f4/f5、木灵数量和生成周期",
+          "reason": "当前正文消费但完整数值树未展开；BaseMeepSpawnCD=8不宣告为固定成长周期。"
+        },
+        {
+          "item": "f2减速幅度",
+          "reason": "来源未展开，不能补零。"
+        }
+      ]
+    },
+    "bard_q": {
+      "excluded": [
+        {
+          "item": "第二敌人独立结果",
+          "reason": "只保留首敌数值及墙体条件。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "墙体/第二目标命中时序",
+          "reason": "事件待接。"
+        }
+      ]
+    },
+    "bard_w": {
+      "excluded": [
+        {
+          "item": "敌人踩毁圣坛",
+          "reason": "额外区域事件不建结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "充能中间曲线与当前圣坛状态f1/f2",
+          "reason": "仅保留端点和无默认待接输入。"
+        }
+      ]
+    },
+    "bard_e": {
+      "excluded": [
+        {
+          "item": "路线几何与传送结果",
+          "reason": "只留当前文本数值。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "友军含自身资格与传送时序",
+          "reason": "资格保留，事件待接。"
+        }
+      ]
+    },
+    "bard_r": {
+      "excluded": [
+        {
+          "item": "建筑、小兵、野怪结果",
+          "reason": "唯一敌方英雄范围排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "凝滞限制、防护与行为时序",
+          "reason": "只保留持续时间。"
+        }
+      ]
+    },
+    "milio_p": {
+      "excluded": [
+        {
+          "item": "野怪100点上限",
+          "reason": "兵野专用排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "技能触碰、下一次伤害和灼烧事件",
+          "reason": "自身资格有补证，触发待接。"
+        },
+        {
+          "item": "灼烧中间曲线",
+          "reason": "实际输入无默认。"
+        }
+      ]
+    },
+    "milio_q": {
+      "excluded": [
+        {
+          "item": "小兵野怪击退、范围和视野",
+          "reason": "兵野专用排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "mCastTime与spellCastTime冲突",
+          "reason": "0.25与0并存，不任选。"
+        }
+      ]
+    },
+    "milio_w": {
+      "excluded": [
+        {
+          "item": "第三友方独立治疗",
+          "reason": "只保留自身公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "区域跟随、治疗和每3秒施加事件",
+          "reason": "数值保留，时序待接。"
+        }
+      ]
+    },
+    "milio_e": {
+      "excluded": [
+        {
+          "item": "第三友方护盾",
+          "reason": "不建立其他友方对象结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "两层护盾实例和施法时间冲突",
+          "reason": "自身收益保留，叠加规则和0.01/0.175冲突待接。"
+        }
+      ]
+    },
+    "milio_r": {
+      "excluded": [
+        {
+          "item": "击飞净化和第三友方独立结果",
+          "reason": "正文明确不净化击飞；第三友方结果不建。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "自身区域资格与禁止施法时机、HealFXDelay",
+          "reason": "SelfAoe与NeverSelf并存，特效延迟不是治疗时点。"
+        }
+      ]
+    },
+    "rakan_p": {
+      "excluded": [
+        {
+          "item": "霞合体回城",
+          "reason": "双英雄关系效果排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾和冷却角色等级中间曲线",
+          "reason": "实际输入无默认。"
+        }
+      ]
+    },
+    "rakan_q": {
+      "excluded": [
+        {
+          "item": "附近其他友方和史诗野怪结果",
+          "reason": "只保留自身治疗及唯一敌人伤害。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "自身治疗曲线、3秒/触碰触发和匿名冷却树",
+          "reason": "运行输入和事件待接；公共冷却不覆盖。"
+        }
+      ]
+    },
+    "rakan_w": {
+      "excluded": [
+        {
+          "item": "额外敌人",
+          "reason": "唯一敌人范围只保留当前目标。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "冲刺命中时序",
+          "reason": "基础速度保留，事件待接。"
+        }
+      ]
+    },
+    "rakan_e": {
+      "excluded": [
+        {
+          "item": "友方位移护盾与霞联动",
+          "reason": "第三友方和双英雄关系效果排除；空组成受保护。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "自身施放资格",
+          "reason": "当前正文限定友方英雄，没有自身窄证。"
+        }
+      ]
+    },
+    "rakan_r": {
+      "excluded": [
+        {
+          "item": "第二敌方英雄",
+          "reason": "不建立第二目标。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "触敌移速衰减函数和BuffExtensionDuration/TouchRadius",
+          "reason": "衰减或未消费字段不猜。"
+        }
+      ]
+    },
+    "renata_p": {
+      "excluded": [
+        {
+          "item": "队友消费标记与野怪150上限",
+          "reason": "纯第三友方和兵野支路排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "角色等级断点完整曲线与攻击/标记事件",
+          "reason": "保留实际输入和6秒标记，事件待接。"
+        }
+      ]
+    },
+    "renata_q": {
+      "excluded": [
+        {
+          "item": "被抛向第二敌人分支",
+          "reason": "本批不编造第二目标。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "SelfSlow作用与施法字段冲突",
+          "reason": "原值保留，0.25与0不任选。"
+        }
+      ]
+    },
+    "renata_w": {
+      "excluded": [
+        {
+          "item": "第三友方复活结果",
+          "reason": "只保留自身可选方向及数值。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "自身资格、致死和衰减事件",
+          "reason": "资格与正文保留，事件层待接；中间曲线未知。"
+        }
+      ]
+    },
+    "renata_e": {
+      "excluded": [
+        {
+          "item": "周围额外敌人伤害",
+          "reason": "唯一敌方范围不建额外目标。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "两颗飞弹重复护盾和施法字段冲突",
+          "reason": "只保存一次护盾，0.25与0不任选。"
+        }
+      ]
+    },
+    "renata_r": {
+      "excluded": [
+        {
+          "item": "被狂暴目标攻击第二单位",
+          "reason": "唯一敌方场景无可编造友军事件。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "狂暴目标选择和控制行为",
+          "reason": "只留时长与攻速数值。"
+        }
+      ]
+    }
+  },
+  "counts": {
+    "newParameters": 126,
+    "newFormulas": 31,
+    "newEffects": 24,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 181,
+    "reusedPublicParameters": 25,
+    "plannedTotalIncludingReused": 206,
+    "protectedCurrentCompositionLists": 120
+  },
+  "requestCount": 181,
+  "publicReuse": 25,
+  "protectedSummary": {
+    "GETs": 197,
+    "subjects": 20,
+    "currentCompositionSkillSlots": 20,
+    "currentCompositionLists": 120,
+    "reusedPublicParameters": 25,
+    "images": 20,
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "dictionaries": 4
+  },
+  "noApiCalls": true
+}

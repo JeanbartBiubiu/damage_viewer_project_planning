@@ -1,0 +1,30 @@
+{
+  "i": 183,
+  "intent": {
+    "sequence": 184,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_w/parameters",
+    "detailRoute": "/skills/zed_w/parameters/energy_cost",
+    "skillKey": "zed_w",
+    "kind": "parameters",
+    "stableKey": "energy_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "energy_cost",
+      "name": "分身能量消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 35,
+        "3": 30,
+        "4": 25,
+        "5": 20
+      },
+      "description": "当前根能量消耗40/35/30/25/20。",
+      "sortOrder": 50
+    }
+  }
+}

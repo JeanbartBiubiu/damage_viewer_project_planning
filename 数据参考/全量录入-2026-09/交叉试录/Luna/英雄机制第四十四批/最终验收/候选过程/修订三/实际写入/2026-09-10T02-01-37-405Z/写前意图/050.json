@@ -1,0 +1,23 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "method": "POST",
+    "route": "/skills/monkeyking_q/parameters",
+    "detailRoute": "/skills/monkeyking_q/parameters/buff_duration_ms",
+    "skillKey": "monkeyking_q",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "强化攻击窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6000,
+      "levelValues": null,
+      "description": "来源6秒，正文消费；触发/减冷却事件待接。",
+      "sortOrder": 50
+    }
+  }
+}

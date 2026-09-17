@@ -1,0 +1,4276 @@
+{
+  "at": "2026-09-09T12:07:39.062Z",
+  "revision": "修订一",
+  "status": "仅准备POST意图，未获本批业务写入授权",
+  "source": "client16.17/official16.17.1",
+  "policy": {
+    "businessWrites": 0,
+    "apiCalls": 0,
+    "method": "只生成冻结计划，不执行请求",
+    "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+    "bearer": "由开发环境提供；认证值不写入文件"
+  },
+  "basedOnCandidateSha256": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "candidatePlanSha256": "aa89ecca3c72b8d4bb02a1a87180e7ac6050b5cbf267a484808e0353fd783e64",
+  "candidateVersionFileSha256": "36cafdc0c8fc09f410cdc2c2d835c31d8cf4262df2d01303554a77b7b0a9fc57",
+  "protectionSha256": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563",
+  "originalSnapshotSha256": "1954947a6d0afe3d3b41138ad60a11285223814a9ea1843e736518ba74130cd8",
+  "currentGet": {
+    "skillCount": 20,
+    "expectedSkillCount": 20,
+    "subjectCount": 20,
+    "sixKindLists": 120,
+    "compositionCount": 16,
+    "detailCount": 16,
+    "duplicateCount": 0,
+    "errorCount": 0,
+    "requestCount": 188,
+    "expectedRequestCount": 188,
+    "statusCounts": {
+      "200": 188
+    },
+    "countsByKind": {
+      "parameters": 16,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "existingNonPublicCount": 0,
+    "baselineConflictCount": 0,
+    "apiWrites": 0
+  },
+  "protectedReadOnly": {
+    "catalogs": 4,
+    "characters": 4,
+    "relations": 4,
+    "representativeImages": 20,
+    "skillSubjects": 20,
+    "sixKindLists": 120,
+    "publicParameterDetails": 16,
+    "apiWrites": 0
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "riven_q",
+      "parameterKey": "cooldown_ms",
+      "identity": "riven_q/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "riven_w",
+      "parameterKey": "cooldown_ms",
+      "identity": "riven_w/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "riven_e",
+      "parameterKey": "cooldown_ms",
+      "identity": "riven_e/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "riven_r",
+      "parameterKey": "cooldown_ms",
+      "identity": "riven_r/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "aatrox_q",
+      "parameterKey": "cooldown_ms",
+      "identity": "aatrox_q/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "aatrox_w",
+      "parameterKey": "cooldown_ms",
+      "identity": "aatrox_w/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "aatrox_e",
+      "parameterKey": "cooldown_ms",
+      "identity": "aatrox_e/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "aatrox_r",
+      "parameterKey": "cooldown_ms",
+      "identity": "aatrox_r/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "rengar_r",
+      "parameterKey": "cooldown_ms",
+      "identity": "rengar_r/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "khazix_q",
+      "parameterKey": "cooldown_ms",
+      "identity": "khazix_q/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "khazix_q",
+      "parameterKey": "mana_cost",
+      "identity": "khazix_q/parameters/mana_cost"
+    },
+    {
+      "skillKey": "khazix_w",
+      "parameterKey": "cooldown_ms",
+      "identity": "khazix_w/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "khazix_w",
+      "parameterKey": "mana_cost",
+      "identity": "khazix_w/parameters/mana_cost"
+    },
+    {
+      "skillKey": "khazix_e",
+      "parameterKey": "cooldown_ms",
+      "identity": "khazix_e/parameters/cooldown_ms"
+    },
+    {
+      "skillKey": "khazix_e",
+      "parameterKey": "mana_cost",
+      "identity": "khazix_e/parameters/mana_cost"
+    },
+    {
+      "skillKey": "khazix_r",
+      "parameterKey": "mana_cost",
+      "identity": "khazix_r/parameters/mana_cost"
+    }
+  ],
+  "metadataDifferences": [],
+  "candidateCounts": {
+    "parameters": 157,
+    "formulas": 26,
+    "effects": 8,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "counts": {
+    "parameters": 141,
+    "formulas": 26,
+    "effects": 8,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requestCount": 175,
+  "newComponentIntents": 175,
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/riven_p/parameters",
+      "detailRoute": "/skills/riven_p/parameters/charge_max",
+      "skillKey": "riven_p",
+      "kind": "parameters",
+      "stableKey": "charge_max",
+      "body": {
+        "parameterKey": "charge_max",
+        "name": "符文之刃最大充能层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.Charges 取索引1至1",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_p/parameters",
+      "detailRoute": "/skills/riven_p/parameters/charge_duration_ms",
+      "skillKey": "riven_p",
+      "kind": "parameters",
+      "stableKey": "charge_duration_ms",
+      "body": {
+        "parameterKey": "charge_duration_ms",
+        "name": "充能持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "当前绑定中文正文明确每层充能持续6秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_p/parameters",
+      "detailRoute": "/skills/riven_p/parameters/passive_damage_ratio",
+      "skillKey": "riven_p",
+      "kind": "parameters",
+      "stableKey": "passive_damage_ratio",
+      "body": {
+        "parameterKey": "passive_damage_ratio",
+        "name": "充能攻击额外伤害攻击力比例（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端只给出角色等级30%至45%的断点插值树；等级求值不在本批猜测，实际比例无默认由运行输入提供。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_p/formulas",
+      "detailRoute": "/skills/riven_p/formulas/passive_damage",
+      "skillKey": "riven_p",
+      "kind": "formulas",
+      "stableKey": "passive_damage",
+      "body": {
+        "formulaKey": "passive_damage",
+        "name": "符文之刃额外物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_damage_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "额外伤害 = 角色等级求值的伤害比例×来源总攻击力；每次攻击消耗一层和暴击资格待事件接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_q/parameters",
+      "detailRoute": "/skills/riven_q/parameters/cast_time_ms",
+      "skillKey": "riven_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_q/parameters",
+      "detailRoute": "/skills/riven_q/parameters/base_damage",
+      "skillKey": "riven_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "折翼之舞基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 45,
+          "2": 75,
+          "3": 105,
+          "4": 135,
+          "5": 165
+        },
+        "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_q/parameters",
+      "detailRoute": "/skills/riven_q/parameters/ad_ratio",
+      "skillKey": "riven_q",
+      "kind": "parameters",
+      "stableKey": "ad_ratio",
+      "body": {
+        "parameterKey": "ad_ratio",
+        "name": "折翼之舞攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.6,
+          "2": 0.65,
+          "3": 0.7,
+          "4": 0.75,
+          "5": 0.8
+        },
+        "description": "当前根绑定 DataValues.ADRatio 取索引1至5",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_q/parameters",
+      "detailRoute": "/skills/riven_q/parameters/recast_count",
+      "skillKey": "riven_q",
+      "kind": "parameters",
+      "stableKey": "recast_count",
+      "body": {
+        "parameterKey": "recast_count",
+        "name": "折翼之舞总段数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前官方中文正文明确技能最多重新激活3次，第三段效果不同。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_q/parameters",
+      "detailRoute": "/skills/riven_q/parameters/third_recast_knockup_duration_ms",
+      "skillKey": "riven_q",
+      "kind": "parameters",
+      "stableKey": "third_recast_knockup_duration_ms",
+      "body": {
+        "parameterKey": "third_recast_knockup_duration_ms",
+        "name": "第三段击飞持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前绑定中文正文明确第三段造成0.75秒击飞。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_q/formulas",
+      "detailRoute": "/skills/riven_q/formulas/first_slash_damage",
+      "skillKey": "riven_q",
+      "kind": "formulas",
+      "stableKey": "first_slash_damage",
+      "body": {
+        "formulaKey": "first_slash_damage",
+        "name": "折翼之舞单段物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "FirstSlashDamage = BaseDamage + ADRatio×来源总攻击力；三段展示值相同，不复制三条直通公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_w/parameters",
+      "detailRoute": "/skills/riven_w/parameters/cast_time_ms",
+      "skillKey": "riven_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 267,
+        "levelValues": null,
+        "description": "当前根mCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_w/parameters",
+      "detailRoute": "/skills/riven_w/parameters/base_damage",
+      "skillKey": "riven_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "震魂怒吼基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 65,
+          "2": 95,
+          "3": 125,
+          "4": 155,
+          "5": 185
+        },
+        "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_w/parameters",
+      "detailRoute": "/skills/riven_w/parameters/stun_duration_ms",
+      "skillKey": "riven_w",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "震魂怒吼晕眩持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.StunDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_w/formulas",
+      "detailRoute": "/skills/riven_w/formulas/total_damage",
+      "skillKey": "riven_w",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "震魂怒吼物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        },
+        "description": "当前根TotalDamage的mStat=2、mStatFormula=2对应来源额外攻击力；只保存独立数学量。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_e/parameters",
+      "detailRoute": "/skills/riven_e/parameters/shield_base",
+      "skillKey": "riven_e",
+      "kind": "parameters",
+      "stableKey": "shield_base",
+      "body": {
+        "parameterKey": "shield_base",
+        "name": "勇往直前基础护盾",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 95,
+          "3": 120,
+          "4": 145,
+          "5": 170
+        },
+        "description": "当前根绑定 DataValues.ShieldAmount 取索引1至5",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_e/parameters",
+      "detailRoute": "/skills/riven_e/parameters/shield_duration_ms",
+      "skillKey": "riven_e",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "勇往直前护盾持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.ShieldDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_e/parameters",
+      "detailRoute": "/skills/riven_e/parameters/shield_ad_ratio",
+      "skillKey": "riven_e",
+      "kind": "parameters",
+      "stableKey": "shield_ad_ratio",
+      "body": {
+        "parameterKey": "shield_ad_ratio",
+        "name": "勇往直前护盾攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.1,
+        "levelValues": null,
+        "description": "当前根 TotalShield 计算树明确护盾为 ShieldAmount + 1.1×来源总攻击力。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_e/formulas",
+      "detailRoute": "/skills/riven_e/formulas/total_shield",
+      "skillKey": "riven_e",
+      "kind": "formulas",
+      "stableKey": "total_shield",
+      "body": {
+        "formulaKey": "total_shield",
+        "name": "勇往直前护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前根TotalShield的mStat=2、mStatFormula=2对应来源额外攻击力；TotalShield = ShieldAmount + 1.1×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_e/effects",
+      "detailRoute": "/skills/riven_e/effects/shield",
+      "skillKey": "riven_e",
+      "kind": "effects",
+      "stableKey": "shield",
+      "body": {
+        "effectKey": "shield",
+        "name": "勇往直前自身护盾",
+        "description": "当前绑定中文正文明确冲刺后获得1.5秒护盾；仅表示独立护盾组成，施放资格和实际吸收尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "勇往直前自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "total_shield"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/parameters",
+      "detailRoute": "/skills/riven_r/parameters/cast_time_ms",
+      "skillKey": "riven_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/parameters",
+      "detailRoute": "/skills/riven_r/parameters/wind_slash_min_base",
+      "skillKey": "riven_r",
+      "kind": "parameters",
+      "stableKey": "wind_slash_min_base",
+      "body": {
+        "parameterKey": "wind_slash_min_base",
+        "name": "疾风斩最低基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 150,
+          "3": 200
+        },
+        "description": "当前根绑定 DataValues.MinBase 取索引1至3",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/parameters",
+      "detailRoute": "/skills/riven_r/parameters/wind_slash_max_base",
+      "skillKey": "riven_r",
+      "kind": "parameters",
+      "stableKey": "wind_slash_max_base",
+      "body": {
+        "parameterKey": "wind_slash_max_base",
+        "name": "疾风斩最高基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 300,
+          "2": 450,
+          "3": 600
+        },
+        "description": "当前根绑定 DataValues.MaxBase 取索引1至3",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/parameters",
+      "detailRoute": "/skills/riven_r/parameters/blade_empower_duration_ms",
+      "skillKey": "riven_r",
+      "kind": "parameters",
+      "stableKey": "blade_empower_duration_ms",
+      "body": {
+        "parameterKey": "blade_empower_duration_ms",
+        "name": "放逐之锋强化持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.Duration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/parameters",
+      "detailRoute": "/skills/riven_r/parameters/bonus_ad_ratio",
+      "skillKey": "riven_r",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "放逐之锋额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.PercentBonusAD 取索引1至3",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/parameters",
+      "detailRoute": "/skills/riven_r/parameters/attack_range_bonus",
+      "skillKey": "riven_r",
+      "kind": "parameters",
+      "stableKey": "attack_range_bonus",
+      "body": {
+        "parameterKey": "attack_range_bonus",
+        "name": "放逐之锋额外攻击距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 75,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.TooltipAttackRange 取索引1至3",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/parameters",
+      "detailRoute": "/skills/riven_r/parameters/wind_slash_recast_count",
+      "skillKey": "riven_r",
+      "kind": "parameters",
+      "stableKey": "wind_slash_recast_count",
+      "body": {
+        "parameterKey": "wind_slash_recast_count",
+        "name": "疾风斩可再施放次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前绑定中文正文明确放逐之锋期间可以再施放一次疾风斩；这是第二阶段次数，不与强化持续时间混用。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/parameters",
+      "detailRoute": "/skills/riven_r/parameters/wind_slash_min_ad_ratio",
+      "skillKey": "riven_r",
+      "kind": "parameters",
+      "stableKey": "wind_slash_min_ad_ratio",
+      "body": {
+        "parameterKey": "wind_slash_min_ad_ratio",
+        "name": "疾风斩最低攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "当前根MinDamage的mStat=2、mStatFormula=2对应来源额外攻击力系数。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/parameters",
+      "detailRoute": "/skills/riven_r/parameters/wind_slash_max_ad_ratio",
+      "skillKey": "riven_r",
+      "kind": "parameters",
+      "stableKey": "wind_slash_max_ad_ratio",
+      "body": {
+        "parameterKey": "wind_slash_max_ad_ratio",
+        "name": "疾风斩最高攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.65,
+        "levelValues": null,
+        "description": "当前根MaxDamage的mStat=2、mStatFormula=2对应来源额外攻击力系数。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/formulas",
+      "detailRoute": "/skills/riven_r/formulas/bonus_attack_damage",
+      "skillKey": "riven_r",
+      "kind": "formulas",
+      "stableKey": "bonus_attack_damage",
+      "body": {
+        "formulaKey": "bonus_attack_damage",
+        "name": "放逐之锋额外攻击力",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "BonusAD = PercentBonusAD×来源总攻击力；实际强化触发待接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/formulas",
+      "detailRoute": "/skills/riven_r/formulas/wind_slash_min_damage",
+      "skillKey": "riven_r",
+      "kind": "formulas",
+      "stableKey": "wind_slash_min_damage",
+      "body": {
+        "formulaKey": "wind_slash_min_damage",
+        "name": "疾风斩最低物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "wind_slash_min_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "wind_slash_min_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MinDamage = MinBase + 0.55×来源额外攻击力；目标已损生命值的实际区间规则未出现在当前根树。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/formulas",
+      "detailRoute": "/skills/riven_r/formulas/wind_slash_max_damage",
+      "skillKey": "riven_r",
+      "kind": "formulas",
+      "stableKey": "wind_slash_max_damage",
+      "body": {
+        "formulaKey": "wind_slash_max_damage",
+        "name": "疾风斩最高物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "wind_slash_max_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "wind_slash_max_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MaxDamage = MaxBase + 1.65×来源额外攻击力；目标已损生命值的实际区间规则未出现在当前根树。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/effects",
+      "detailRoute": "/skills/riven_r/effects/attack_damage_bonus",
+      "skillKey": "riven_r",
+      "kind": "effects",
+      "stableKey": "attack_damage_bonus",
+      "body": {
+        "effectKey": "attack_damage_bonus",
+        "name": "放逐之锋自身攻击力提升",
+        "description": "当前正文明确强化期间获得额外攻击力；实际施放触发尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "blade_empower_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "额外攻击力",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "attack_damage",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_percent_bonus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/riven_r/effects",
+      "detailRoute": "/skills/riven_r/effects/attack_range_bonus",
+      "skillKey": "riven_r",
+      "kind": "effects",
+      "stableKey": "attack_range_bonus",
+      "body": {
+        "effectKey": "attack_range_bonus",
+        "name": "放逐之锋自身攻击距离提升",
+        "description": "当前正文明确强化期间获得额外攻击距离；实际施放触发尚未接线。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "blade_empower_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "额外攻击距离",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_range_bonus"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "attack_range",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_p/parameters",
+      "detailRoute": "/skills/aatrox_p/parameters/passive_damage_max_health_ratio",
+      "skillKey": "aatrox_p",
+      "kind": "parameters",
+      "stableKey": "passive_damage_max_health_ratio",
+      "body": {
+        "parameterKey": "passive_damage_max_health_ratio",
+        "name": "赐死剑气目标最大生命值伤害比例（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端只给出角色等级4%至10%的百分比断点插值树；等级求值不猜，实际比例无默认由运行输入提供。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_p/parameters",
+      "detailRoute": "/skills/aatrox_p/parameters/target_max_health",
+      "skillKey": "aatrox_p",
+      "kind": "parameters",
+      "stableKey": "target_max_health",
+      "body": {
+        "parameterKey": "target_max_health",
+        "name": "赐死剑气目标最大生命值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前正文明确伤害基于目标最大生命值；目标属性所有者由运行时提供，不默认0。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_p/parameters",
+      "detailRoute": "/skills/aatrox_p/parameters/passive_healing_damage_ratio",
+      "skillKey": "aatrox_p",
+      "kind": "parameters",
+      "stableKey": "passive_healing_damage_ratio",
+      "body": {
+        "parameterKey": "passive_healing_damage_ratio",
+        "name": "赐死剑气实际伤害回复比例",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.PHealingRatio 取索引1至1",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_p/parameters",
+      "detailRoute": "/skills/aatrox_p/parameters/passive_actual_damage",
+      "skillKey": "aatrox_p",
+      "kind": "parameters",
+      "stableKey": "passive_actual_damage",
+      "body": {
+        "parameterKey": "passive_actual_damage",
+        "name": "赐死剑气本次实际命中伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "正文明确回复PHealingRatio×100%的实际伤害值；由本次命中结算提供，不采用最大生命值折前量，不设默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_p/parameters",
+      "detailRoute": "/skills/aatrox_p/parameters/passive_cooldown_ms",
+      "skillKey": "aatrox_p",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_ms",
+      "body": {
+        "parameterKey": "passive_cooldown_ms",
+        "name": "赐死剑气被动冷却（实际值外供）（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端只给出角色等级22至10秒的断点插值树；等级求值不猜，实际冷却无默认。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_p/parameters",
+      "detailRoute": "/skills/aatrox_p/parameters/champion_hit_cooldown_reduction_ms",
+      "skillKey": "aatrox_p",
+      "kind": "parameters",
+      "stableKey": "champion_hit_cooldown_reduction_ms",
+      "body": {
+        "parameterKey": "champion_hit_cooldown_reduction_ms",
+        "name": "命中英雄或大型野怪的冷却缩短（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前正文明确每次相关攻击或技能命中缩短2秒；多目标只缩短一次的事件待接线。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_p/parameters",
+      "detailRoute": "/skills/aatrox_p/parameters/q_edge_cooldown_reduction_ms",
+      "skillKey": "aatrox_p",
+      "kind": "parameters",
+      "stableKey": "q_edge_cooldown_reduction_ms",
+      "body": {
+        "parameterKey": "q_edge_cooldown_reduction_ms",
+        "name": "暗裔利刃边缘命中的冷却缩短（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前正文明确用暗裔利刃边缘命中缩短4秒；资格和优先级待接线。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_p/formulas",
+      "detailRoute": "/skills/aatrox_p/formulas/passive_damage",
+      "skillKey": "aatrox_p",
+      "kind": "formulas",
+      "stableKey": "passive_damage",
+      "body": {
+        "formulaKey": "passive_damage",
+        "name": "赐死剑气最大生命值魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "target_max_health"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_damage_max_health_ratio"
+            }
+          ]
+        },
+        "description": "PDamage 为目标最大生命值比例；只保存数学量，不创建命中伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_p/formulas",
+      "detailRoute": "/skills/aatrox_p/formulas/passive_healing",
+      "skillKey": "aatrox_p",
+      "kind": "formulas",
+      "stableKey": "passive_healing",
+      "body": {
+        "formulaKey": "passive_healing",
+        "name": "赐死剑气实际伤害回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_actual_damage"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_healing_damage_ratio"
+            }
+          ]
+        },
+        "description": "正文明确回复PHealingRatio×100%的实际命中伤害值；消费无默认的本次命中结算输入，与目标最大生命值伤害式分开。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_q/parameters",
+      "detailRoute": "/skills/aatrox_q/parameters/base_damage",
+      "skillKey": "aatrox_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "暗裔利刃基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 25,
+          "3": 40,
+          "4": 55,
+          "5": 70
+        },
+        "description": "当前根绑定 DataValues.QBaseDamage 取索引1至5",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_q/parameters",
+      "detailRoute": "/skills/aatrox_q/parameters/total_ad_ratio",
+      "skillKey": "aatrox_q",
+      "kind": "parameters",
+      "stableKey": "total_ad_ratio",
+      "body": {
+        "parameterKey": "total_ad_ratio",
+        "name": "暗裔利刃总攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.6,
+          "2": 0.675,
+          "3": 0.75,
+          "4": 0.825,
+          "5": 0.9
+        },
+        "description": "当前根绑定 DataValues.QTotalADRatio 取索引1至5",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_q/parameters",
+      "detailRoute": "/skills/aatrox_q/parameters/edge_knockup_duration_ms",
+      "skillKey": "aatrox_q",
+      "kind": "parameters",
+      "stableKey": "edge_knockup_duration_ms",
+      "body": {
+        "parameterKey": "edge_knockup_duration_ms",
+        "name": "暗裔利刃边缘击飞持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.QKnockupDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_q/parameters",
+      "detailRoute": "/skills/aatrox_q/parameters/recast_damage_bonus_ratio",
+      "skillKey": "aatrox_q",
+      "kind": "parameters",
+      "stableKey": "recast_damage_bonus_ratio",
+      "body": {
+        "parameterKey": "recast_damage_bonus_ratio",
+        "name": "暗裔利刃每段再施放伤害增幅",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.QRampBonus 取索引1至5",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_q/parameters",
+      "detailRoute": "/skills/aatrox_q/parameters/edge_damage_multiplier",
+      "skillKey": "aatrox_q",
+      "kind": "parameters",
+      "stableKey": "edge_damage_multiplier",
+      "body": {
+        "parameterKey": "edge_damage_multiplier",
+        "name": "暗裔利刃边缘伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.75,
+        "levelValues": null,
+        "description": "当前根 QEdgeDamage 使用1 + QSweetSpotBonus，且QSweetSpotBonus为0.75；保留为一条派生倍率。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_q/formulas",
+      "detailRoute": "/skills/aatrox_q/formulas/q_damage",
+      "skillKey": "aatrox_q",
+      "kind": "formulas",
+      "stableKey": "q_damage",
+      "body": {
+        "formulaKey": "q_damage",
+        "name": "暗裔利刃普通段物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QDamage = QBaseDamage + QTotalADRatio×来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_q/formulas",
+      "detailRoute": "/skills/aatrox_q/formulas/q_edge_damage",
+      "skillKey": "aatrox_q",
+      "kind": "formulas",
+      "stableKey": "q_edge_damage",
+      "body": {
+        "formulaKey": "q_edge_damage",
+        "name": "暗裔利刃边缘物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "edge_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QEdgeDamage = 1.75×QDamage；边缘击飞目标资格待接线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_w/parameters",
+      "detailRoute": "/skills/aatrox_w/parameters/base_damage",
+      "skillKey": "aatrox_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "恶火束链基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 40,
+          "3": 50,
+          "4": 60,
+          "5": 70
+        },
+        "description": "当前根绑定 DataValues.WBaseDamage 取索引1至5",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_w/parameters",
+      "detailRoute": "/skills/aatrox_w/parameters/total_ad_ratio",
+      "skillKey": "aatrox_w",
+      "kind": "parameters",
+      "stableKey": "total_ad_ratio",
+      "body": {
+        "parameterKey": "total_ad_ratio",
+        "name": "恶火束链总攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.WTotalADRatio 取索引1至5",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_w/parameters",
+      "detailRoute": "/skills/aatrox_w/parameters/slow_ratio",
+      "skillKey": "aatrox_w",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "恶火束链减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.275,
+          "3": 0.3,
+          "4": 0.325,
+          "5": 0.35
+        },
+        "description": "当前根绑定 DataValues.WSlowPercentage 取索引1至5；单位按正文WSlowPercentage×-100%转为正减速比例；按正文单位换算为系统值",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_w/parameters",
+      "detailRoute": "/skills/aatrox_w/parameters/slow_duration_ms",
+      "skillKey": "aatrox_w",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "恶火束链减速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.WSlowDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_w/formulas",
+      "detailRoute": "/skills/aatrox_w/formulas/w_damage",
+      "skillKey": "aatrox_w",
+      "kind": "formulas",
+      "stableKey": "w_damage",
+      "body": {
+        "formulaKey": "w_damage",
+        "name": "恶火束链物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "WDamage = WBaseDamage + WTotalADRatio×来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_e/parameters",
+      "detailRoute": "/skills/aatrox_e/parameters/cast_time_ms",
+      "skillKey": "aatrox_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_e/parameters",
+      "detailRoute": "/skills/aatrox_e/parameters/base_healing_ratio",
+      "skillKey": "aatrox_e",
+      "kind": "parameters",
+      "stableKey": "base_healing_ratio",
+      "body": {
+        "parameterKey": "base_healing_ratio",
+        "name": "暗影冲决基础治疗效果比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.16,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.ESpellVamp 取索引1至5；单位正文百分数点转比例；按正文单位换算为系统值",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_e/parameters",
+      "detailRoute": "/skills/aatrox_e/parameters/bonus_healing_ratio_per_bonus_health",
+      "skillKey": "aatrox_e",
+      "kind": "parameters",
+      "stableKey": "bonus_healing_ratio_per_bonus_health",
+      "body": {
+        "parameterKey": "bonus_healing_ratio_per_bonus_health",
+        "name": "每点额外生命值带来的治疗比例增量",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.00011,
+        "levelValues": null,
+        "description": "当前根 DataValues.EVampHPRatio 原值约0.011，TotalEVamp的mMultiplier为0.01；与第十七批Vladimir W的BonusHealthRatio同型mStat=12、mStatFormula=2交叉证明为来源额外生命值，因此每点来源额外生命值的治疗比例增量为0.011×0.01=0.00011。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_e/formulas",
+      "detailRoute": "/skills/aatrox_e/formulas/total_healing_ratio",
+      "skillKey": "aatrox_e",
+      "kind": "formulas",
+      "stableKey": "total_healing_ratio",
+      "body": {
+        "formulaKey": "total_healing_ratio",
+        "name": "暗影冲决完整治疗效果比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_healing_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_healing_ratio_per_bonus_health"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalEVamp = 0.01×(ESpellVamp + EVampHPRatio×来源额外生命值)；按正文百分比和同型来源树换算为0.16 + 0.00011×SOURCE.hp.BONUS。只保存完整比例公式，不创建治疗效果；来源额外生命值由运行时属性快照提供且没有默认值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_r/parameters",
+      "detailRoute": "/skills/aatrox_r/parameters/form_duration_ms",
+      "skillKey": "aatrox_r",
+      "kind": "parameters",
+      "stableKey": "form_duration_ms",
+      "body": {
+        "parameterKey": "form_duration_ms",
+        "name": "大灭形态持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.RDuration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_r/parameters",
+      "detailRoute": "/skills/aatrox_r/parameters/movement_speed_bonus_ratio",
+      "skillKey": "aatrox_r",
+      "kind": "parameters",
+      "stableKey": "movement_speed_bonus_ratio",
+      "body": {
+        "parameterKey": "movement_speed_bonus_ratio",
+        "name": "大灭移动速度加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.6,
+          "2": 0.8,
+          "3": 1
+        },
+        "description": "当前根绑定 DataValues.RMovementSpeedBonus 取索引1至3",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_r/parameters",
+      "detailRoute": "/skills/aatrox_r/parameters/attack_damage_amp_ratio",
+      "skillKey": "aatrox_r",
+      "kind": "parameters",
+      "stableKey": "attack_damage_amp_ratio",
+      "body": {
+        "parameterKey": "attack_damage_amp_ratio",
+        "name": "大灭攻击力提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.3,
+          "3": 0.4
+        },
+        "description": "当前根绑定 DataValues.RTotalADAmp 取索引1至3",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_r/parameters",
+      "detailRoute": "/skills/aatrox_r/parameters/healing_amp_ratio",
+      "skillKey": "aatrox_r",
+      "kind": "parameters",
+      "stableKey": "healing_amp_ratio",
+      "body": {
+        "parameterKey": "healing_amp_ratio",
+        "name": "大灭自我治疗效果提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.5,
+          "2": 0.75,
+          "3": 1
+        },
+        "description": "当前根绑定 DataValues.RHealingAmp 取索引1至3",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_r/parameters",
+      "detailRoute": "/skills/aatrox_r/parameters/takedown_extension_ms",
+      "skillKey": "aatrox_r",
+      "kind": "parameters",
+      "stableKey": "takedown_extension_ms",
+      "body": {
+        "parameterKey": "takedown_extension_ms",
+        "name": "参与击杀后的持续延长时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.RExtension 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/aatrox_r/effects",
+      "detailRoute": "/skills/aatrox_r/effects/attack_damage_amp",
+      "skillKey": "aatrox_r",
+      "kind": "effects",
+      "stableKey": "attack_damage_amp",
+      "body": {
+        "effectKey": "attack_damage_amp",
+        "name": "大灭自身攻击力提升",
+        "description": "当前正文明确形态期间提升攻击力；参与击杀刷新和持续上限待接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "form_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "攻击力提升",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_damage_amp_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "attack_damage",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_percent_bonus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_p/parameters",
+      "detailRoute": "/skills/rengar_p/parameters/max_ferocity",
+      "skillKey": "rengar_p",
+      "kind": "parameters",
+      "stableKey": "max_ferocity",
+      "body": {
+        "parameterKey": "max_ferocity",
+        "name": "残暴值上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.MaxFerocity 取索引1至1",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_p/parameters",
+      "detailRoute": "/skills/rengar_p/parameters/out_of_combat_reset_ms",
+      "skillKey": "rengar_p",
+      "kind": "parameters",
+      "stableKey": "out_of_combat_reset_ms",
+      "body": {
+        "parameterKey": "out_of_combat_reset_ms",
+        "name": "脱离战斗后残暴值清除时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.InCombatTimer 取索引1至1；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_p/parameters",
+      "detailRoute": "/skills/rengar_p/parameters/empowered_move_speed_duration_ms",
+      "skillKey": "rengar_p",
+      "kind": "parameters",
+      "stableKey": "empowered_move_speed_duration_ms",
+      "body": {
+        "parameterKey": "empowered_move_speed_duration_ms",
+        "name": "强化技能后的移动速度持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.EmpoweredMSDuration 取索引1至1；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_p/parameters",
+      "detailRoute": "/skills/rengar_p/parameters/leap_ferocity_gain",
+      "skillKey": "rengar_p",
+      "kind": "parameters",
+      "stableKey": "leap_ferocity_gain",
+      "body": {
+        "parameterKey": "leap_ferocity_gain",
+        "name": "跃击生成残暴值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.LeapFerocityGeneration 取索引1至1",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_p/parameters",
+      "detailRoute": "/skills/rengar_p/parameters/empowered_move_speed_ratio",
+      "skillKey": "rengar_p",
+      "kind": "parameters",
+      "stableKey": "empowered_move_speed_ratio",
+      "body": {
+        "parameterKey": "empowered_move_speed_ratio",
+        "name": "强化技能后的移动速度比例（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端给出角色等级断点的移动速度百分比树；等级求值无默认，不猜断点算法。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_p/parameters",
+      "detailRoute": "/skills/rengar_p/parameters/non_ultimate_ferocity_gain",
+      "skillKey": "rengar_p",
+      "kind": "parameters",
+      "stableKey": "non_ultimate_ferocity_gain",
+      "body": {
+        "parameterKey": "non_ultimate_ferocity_gain",
+        "name": "非终极技能生成残暴值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前绑定中文正文明确施放一个非终极技能生成1点残暴值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_p/parameters",
+      "detailRoute": "/skills/rengar_p/parameters/ferocity_at_cast",
+      "skillKey": "rengar_p",
+      "kind": "parameters",
+      "stableKey": "ferocity_at_cast",
+      "body": {
+        "parameterKey": "ferocity_at_cast",
+        "name": "施放时残暴值",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "残暴值是独立资源，实际施放时由运行时提供；不映射成法力、不设默认。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_p/parameters",
+      "detailRoute": "/skills/rengar_p/parameters/bonetooth_necklace_attack_damage",
+      "skillKey": "rengar_p",
+      "kind": "parameters",
+      "stableKey": "bonetooth_necklace_attack_damage",
+      "body": {
+        "parameterKey": "bonetooth_necklace_attack_damage",
+        "name": "骨齿项链攻击力加成",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "独特参与击杀会提升骨齿项链提供的攻击力；当前正文没有层数曲线或当前总值，由运行时提供，不设默认。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_p/parameters",
+      "detailRoute": "/skills/rengar_p/parameters/khazix_takedown_attack_damage",
+      "skillKey": "rengar_p",
+      "kind": "parameters",
+      "stableKey": "khazix_takedown_attack_damage",
+      "body": {
+        "parameterKey": "khazix_takedown_attack_damage",
+        "name": "击杀卡兹克额外攻击力",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "扩展正文明确击杀卡兹克后获得额外攻击力；数值和与骨齿项链总加成的关系由运行时提供，不设默认。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/cast_time_ms",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/ammo_recharge_time_ms",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "ammo_recharge_time_ms",
+      "body": {
+        "parameterKey": "ammo_recharge_time_ms",
+        "name": "弹药恢复时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 6000,
+          "2": 5500,
+          "3": 5000,
+          "4": 4500,
+          "5": 4000
+        },
+        "description": "当前根 mAmmoRechargeTime 取等级索引1至上限并换算为毫秒；这是弹药恢复时间，不把0.25秒的展示冷却字段当作实际再施放间隔。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/ammo_max",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "ammo_max",
+      "body": {
+        "parameterKey": "ammo_max",
+        "name": "最大弹药数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前根 mMaxAmmo 取等级索引1至上限；最大弹药数，不表示残暴值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/ferocity_gain",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "ferocity_gain",
+      "body": {
+        "parameterKey": "ferocity_gain",
+        "name": "残忍无情生成残暴值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前绑定中文正文明确施放技能产生1点残暴值；不是法力消耗。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/ferocity_at_cast",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "ferocity_at_cast",
+      "body": {
+        "parameterKey": "ferocity_at_cast",
+        "name": "施放时残暴值",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "满层强化资格由运行时提供；残暴值不是法力，不设默认。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/base_damage",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "残忍无情额外攻击基础伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 55,
+          "3": 90,
+          "4": 125,
+          "5": 160
+        },
+        "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/base_ad_ratio",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "base_ad_ratio",
+      "body": {
+        "parameterKey": "base_ad_ratio",
+        "name": "残忍无情额外攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.BaseADRatio 取索引1至5",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/empowered_ad_ratio",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "empowered_ad_ratio",
+      "body": {
+        "parameterKey": "empowered_ad_ratio",
+        "name": "强化残忍无情攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.EmpoweredADRatio 取索引1至5",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/empowered_attack_speed_duration_ms",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "empowered_attack_speed_duration_ms",
+      "body": {
+        "parameterKey": "empowered_attack_speed_duration_ms",
+        "name": "强化残忍无情攻击速度持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.ASDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/attack_speed_bonus_percent_points",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "attack_speed_bonus_percent_points",
+      "body": {
+        "parameterKey": "attack_speed_bonus_percent_points",
+        "name": "残忍无情攻击速度加成百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.ASBonus 取索引1至5",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/attack_speed_buff_duration_ms",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "attack_speed_buff_duration_ms",
+      "body": {
+        "parameterKey": "attack_speed_buff_duration_ms",
+        "name": "残忍无情攻击速度效果持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.BuffDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/empowered_q_level_base_damage",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "empowered_q_level_base_damage",
+      "body": {
+        "parameterKey": "empowered_q_level_base_damage",
+        "name": "强化残忍无情角色等级基础伤害（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端只给出角色等级初值、每级增量和9级断点；等级求值不猜，实际基础值无默认。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/parameters",
+      "detailRoute": "/skills/rengar_q/parameters/empowered_attack_speed_percent_points",
+      "skillKey": "rengar_q",
+      "kind": "parameters",
+      "stableKey": "empowered_attack_speed_percent_points",
+      "body": {
+        "parameterKey": "empowered_attack_speed_percent_points",
+        "name": "强化残忍无情攻击速度百分数点（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端包含0.01乘数与角色等级断点；不丢弃乘数，也不猜等级求值。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/formulas",
+      "detailRoute": "/skills/rengar_q/formulas/q_total_damage",
+      "skillKey": "rengar_q",
+      "kind": "formulas",
+      "stableKey": "q_total_damage",
+      "body": {
+        "formulaKey": "q_total_damage",
+        "name": "残忍无情第一次攻击物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QTotalDamage = BaseDamage + 1×来源总攻击力 + BaseADRatio×来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_q/formulas",
+      "detailRoute": "/skills/rengar_q/formulas/empowered_q_total_damage",
+      "skillKey": "rengar_q",
+      "kind": "formulas",
+      "stableKey": "empowered_q_total_damage",
+      "body": {
+        "formulaKey": "empowered_q_total_damage",
+        "name": "强化残忍无情第一次攻击物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "empowered_q_level_base_damage"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "empowered_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "EmpoweredQTotalDamage = 角色等级基础值 + 1×来源总攻击力 + EmpoweredADRatio×来源总攻击力；强化资格待接线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/cast_time_ms",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/ammo_recharge_time_ms",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "ammo_recharge_time_ms",
+      "body": {
+        "parameterKey": "ammo_recharge_time_ms",
+        "name": "弹药恢复时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 16000,
+          "2": 14500,
+          "3": 13000,
+          "4": 11500,
+          "5": 10000
+        },
+        "description": "当前根 mAmmoRechargeTime 取等级索引1至上限并换算为毫秒；这是弹药恢复时间，不把0.25秒的展示冷却字段当作实际再施放间隔。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/ammo_max",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "ammo_max",
+      "body": {
+        "parameterKey": "ammo_max",
+        "name": "最大弹药数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前根 mMaxAmmo 取等级索引1至上限；最大弹药数，不表示残暴值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/ferocity_gain",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "ferocity_gain",
+      "body": {
+        "parameterKey": "ferocity_gain",
+        "name": "战争咆哮生成残暴值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前绑定中文正文明确施放技能产生1点残暴值；不是法力消耗。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/ferocity_at_cast",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "ferocity_at_cast",
+      "body": {
+        "parameterKey": "ferocity_at_cast",
+        "name": "施放时残暴值",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "满层强化资格由运行时提供；残暴值不是法力，不设默认。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/base_damage",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "战争咆哮基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 80,
+          "3": 110,
+          "4": 140,
+          "5": 170
+        },
+        "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/ap_ratio",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "战争咆哮法术强度系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.APRatio 取索引1至5",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/empowered_ap_ratio",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "empowered_ap_ratio",
+      "body": {
+        "parameterKey": "empowered_ap_ratio",
+        "name": "强化战争咆哮法术强度系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.EmpoweredAPRatio 取索引1至5",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/recent_damage_heal_ratio",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "recent_damage_heal_ratio",
+      "body": {
+        "parameterKey": "recent_damage_heal_ratio",
+        "name": "近期伤害回复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "正文明确回复前1.5秒受到伤害的50%；百分数点按正文换算为比例。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/healing_window_ms",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "healing_window_ms",
+      "body": {
+        "parameterKey": "healing_window_ms",
+        "name": "近期伤害统计窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.HealingWindow 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/empowered_w_level_base_damage",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "empowered_w_level_base_damage",
+      "body": {
+        "parameterKey": "empowered_w_level_base_damage",
+        "name": "强化战争咆哮角色等级基础伤害（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端只给出角色等级值数组；不猜角色等级索引和求值算法，实际基础值无默认。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/parameters",
+      "detailRoute": "/skills/rengar_w/parameters/recent_damage_taken",
+      "skillKey": "rengar_w",
+      "kind": "parameters",
+      "stableKey": "recent_damage_taken",
+      "body": {
+        "parameterKey": "recent_damage_taken",
+        "name": "近期受到的伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "治疗数学量需要前1.5秒实际受到的伤害；由运行时提供，不默认0。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/formulas",
+      "detailRoute": "/skills/rengar_w/formulas/total_damage",
+      "skillKey": "rengar_w",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "战争咆哮魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + APRatio×来源总法术强度。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/formulas",
+      "detailRoute": "/skills/rengar_w/formulas/total_damage_empowered",
+      "skillKey": "rengar_w",
+      "kind": "formulas",
+      "stableKey": "total_damage_empowered",
+      "body": {
+        "formulaKey": "total_damage_empowered",
+        "name": "强化战争咆哮魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_w_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "empowered_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageEmpowered = 角色等级基础值 + EmpoweredAPRatio×来源总法术强度。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_w/formulas",
+      "detailRoute": "/skills/rengar_w/formulas/recent_damage_heal",
+      "skillKey": "rengar_w",
+      "kind": "formulas",
+      "stableKey": "recent_damage_heal",
+      "body": {
+        "formulaKey": "recent_damage_heal",
+        "name": "战争咆哮近期伤害回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "recent_damage_taken"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "recent_damage_heal_ratio"
+            }
+          ]
+        },
+        "description": "回复量 = 前1.5秒受到的实际伤害×50%；只保存治疗数学量。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/cast_time_ms",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/ammo_recharge_time_ms",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "ammo_recharge_time_ms",
+      "body": {
+        "parameterKey": "ammo_recharge_time_ms",
+        "name": "弹药恢复时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "当前根 mAmmoRechargeTime 取等级索引1至上限并换算为毫秒；这是弹药恢复时间，不把0.25秒的展示冷却字段当作实际再施放间隔。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/ammo_max",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "ammo_max",
+      "body": {
+        "parameterKey": "ammo_max",
+        "name": "最大弹药数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前根 mMaxAmmo 取等级索引1至上限；最大弹药数，不表示残暴值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/ferocity_gain",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "ferocity_gain",
+      "body": {
+        "parameterKey": "ferocity_gain",
+        "name": "套索打击生成残暴值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前绑定中文正文明确施放技能产生1点残暴值；不是法力消耗。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/ferocity_at_cast",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "ferocity_at_cast",
+      "body": {
+        "parameterKey": "ferocity_at_cast",
+        "name": "施放时残暴值",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "满层强化资格由运行时提供；残暴值不是法力，不设默认。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/base_damage",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "套索打击基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 100,
+          "3": 145,
+          "4": 190,
+          "5": 235
+        },
+        "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/bonus_ad_ratio",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "套索打击额外攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.BonusADRatio 取索引1至5",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/slow_percent_points",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "套索打击减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60,
+          "4": 75,
+          "5": 90
+        },
+        "description": "当前根绑定 DataValues.SlowAmount 取索引1至5",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/crowd_control_duration_ms",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "crowd_control_duration_ms",
+      "body": {
+        "parameterKey": "crowd_control_duration_ms",
+        "name": "套索打击控制持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1750,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.CCDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/parameters",
+      "detailRoute": "/skills/rengar_e/parameters/empowered_e_level_base_damage",
+      "skillKey": "rengar_e",
+      "kind": "parameters",
+      "stableKey": "empowered_e_level_base_damage",
+      "body": {
+        "parameterKey": "empowered_e_level_base_damage",
+        "name": "强化套索打击角色等级基础伤害（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端只给出角色等级初值、每级增量和断点；等级求值不猜，实际基础值无默认。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/formulas",
+      "detailRoute": "/skills/rengar_e/formulas/total_damage",
+      "skillKey": "rengar_e",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "套索打击物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前根TotalDamage的mStat=2、mStatFormula=2对应来源额外攻击力；TotalDamage = BaseDamage + BonusADRatio×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_e/formulas",
+      "detailRoute": "/skills/rengar_e/formulas/total_empowered_damage",
+      "skillKey": "rengar_e",
+      "kind": "formulas",
+      "stableKey": "total_empowered_damage",
+      "body": {
+        "formulaKey": "total_empowered_damage",
+        "name": "强化套索打击物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_e_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前根TotalEmpoweredDamage的mStat=2、mStatFormula=2对应来源额外攻击力；TotalEmpoweredDamage = 角色等级基础值 + BonusADRatio×来源额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_r/parameters",
+      "detailRoute": "/skills/rengar_r/parameters/cast_time_ms",
+      "skillKey": "rengar_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_r/parameters",
+      "detailRoute": "/skills/rengar_r/parameters/stealth_duration_ms",
+      "skillKey": "rengar_r",
+      "kind": "parameters",
+      "stableKey": "stealth_duration_ms",
+      "body": {
+        "parameterKey": "stealth_duration_ms",
+        "name": "狩猎律动持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12000,
+          "2": 16000,
+          "3": 20000
+        },
+        "description": "当前根绑定 DataValues.StealthDuration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_r/parameters",
+      "detailRoute": "/skills/rengar_r/parameters/enemy_detection_range",
+      "skillKey": "rengar_r",
+      "kind": "parameters",
+      "stableKey": "enemy_detection_range",
+      "body": {
+        "parameterKey": "enemy_detection_range",
+        "name": "最近敌方英雄侦测范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1600,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.EnemyDetectionRange 取索引1至3",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_r/parameters",
+      "detailRoute": "/skills/rengar_r/parameters/self_reveal_range",
+      "skillKey": "rengar_r",
+      "kind": "parameters",
+      "stableKey": "self_reveal_range",
+      "body": {
+        "parameterKey": "self_reveal_range",
+        "name": "自身显形范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.SelfRevealRange 取索引1至3",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_r/parameters",
+      "detailRoute": "/skills/rengar_r/parameters/movement_speed_percent_points",
+      "skillKey": "rengar_r",
+      "kind": "parameters",
+      "stableKey": "movement_speed_percent_points",
+      "body": {
+        "parameterKey": "movement_speed_percent_points",
+        "name": "狩猎律动移动速度加成百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 50,
+          "3": 60
+        },
+        "description": "当前根绑定 DataValues.StealthMS 取索引1至3",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_r/parameters",
+      "detailRoute": "/skills/rengar_r/parameters/fade_time_ms",
+      "skillKey": "rengar_r",
+      "kind": "parameters",
+      "stableKey": "fade_time_ms",
+      "body": {
+        "parameterKey": "fade_time_ms",
+        "name": "进入伪装前等待时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.FadeTime 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_r/parameters",
+      "detailRoute": "/skills/rengar_r/parameters/armor_shred_points",
+      "skillKey": "rengar_r",
+      "kind": "parameters",
+      "stableKey": "armor_shred_points",
+      "body": {
+        "parameterKey": "armor_shred_points",
+        "name": "跃击目标固定护甲削减点数",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 15,
+          "2": 20,
+          "3": 25
+        },
+        "description": "当前根绑定 DataValues.ArmorShred 取索引1至3",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_r/parameters",
+      "detailRoute": "/skills/rengar_r/parameters/armor_shred_duration_ms",
+      "skillKey": "rengar_r",
+      "kind": "parameters",
+      "stableKey": "armor_shred_duration_ms",
+      "body": {
+        "parameterKey": "armor_shred_duration_ms",
+        "name": "目标护甲削减持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.ArmorShredDuration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rengar_r/parameters",
+      "detailRoute": "/skills/rengar_r/parameters/leap_range",
+      "skillKey": "rengar_r",
+      "kind": "parameters",
+      "stableKey": "leap_range",
+      "body": {
+        "parameterKey": "leap_range",
+        "name": "狩猎律动跃击距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 725,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.LeapRange 取索引1至3",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_p/parameters",
+      "detailRoute": "/skills/khazix_p/parameters/unseen_by_enemy",
+      "skillKey": "khazix_p",
+      "kind": "parameters",
+      "stableKey": "unseen_by_enemy",
+      "body": {
+        "parameterKey": "unseen_by_enemy",
+        "name": "未被敌方队伍看见",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无形威胁需要当前视野资格；由运行时提供，不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_p/parameters",
+      "detailRoute": "/skills/khazix_p/parameters/isolated_target_eligible",
+      "skillKey": "khazix_p",
+      "kind": "parameters",
+      "stableKey": "isolated_target_eligible",
+      "body": {
+        "parameterKey": "isolated_target_eligible",
+        "name": "孤立无援目标资格",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "孤立无援由附近没有友军判定；由运行时提供，不默认孤立。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_p/parameters",
+      "detailRoute": "/skills/khazix_p/parameters/slow_ratio",
+      "skillKey": "khazix_p",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "无形威胁减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.SlowAmount 取索引1至1",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_p/parameters",
+      "detailRoute": "/skills/khazix_p/parameters/slow_duration_ms",
+      "skillKey": "khazix_p",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "无形威胁减速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.SlowDuration 取索引1至1；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_p/parameters",
+      "detailRoute": "/skills/khazix_p/parameters/isolation_range",
+      "skillKey": "khazix_p",
+      "kind": "parameters",
+      "stableKey": "isolation_range",
+      "body": {
+        "parameterKey": "isolation_range",
+        "name": "孤立无援判定范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 375,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.IsolationRange 取索引1至1",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_p/parameters",
+      "detailRoute": "/skills/khazix_p/parameters/bonus_ad_ratio",
+      "skillKey": "khazix_p",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "无形威胁攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.BonusADRatio 取索引1至1",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_p/parameters",
+      "detailRoute": "/skills/khazix_p/parameters/passive_level_base_damage",
+      "skillKey": "khazix_p",
+      "kind": "parameters",
+      "stableKey": "passive_level_base_damage",
+      "body": {
+        "parameterKey": "passive_level_base_damage",
+        "name": "无形威胁角色等级基础伤害（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端给出角色等级基础伤害数组；本批不把它猜成技能等级或线性曲线，实际值无默认。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_p/formulas",
+      "detailRoute": "/skills/khazix_p/formulas/passive_damage",
+      "skillKey": "khazix_p",
+      "kind": "formulas",
+      "stableKey": "passive_damage",
+      "body": {
+        "formulaKey": "passive_damage",
+        "name": "无形威胁额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前根TotalDamage的mStat=2、mStatFormula=2对应来源额外攻击力；TotalDamage = 角色等级基础伤害 + BonusADRatio×来源额外攻击力；隐身、英雄目标和孤立资格待接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/parameters",
+      "detailRoute": "/skills/khazix_q/parameters/cast_time_ms",
+      "skillKey": "khazix_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/parameters",
+      "detailRoute": "/skills/khazix_q/parameters/base_damage",
+      "skillKey": "khazix_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "品尝恐惧基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 105,
+          "3": 130,
+          "4": 155,
+          "5": 180
+        },
+        "description": "当前根绑定 mEffectAmount[1] 取索引1至5",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/parameters",
+      "detailRoute": "/skills/khazix_q/parameters/bonus_ad_ratio",
+      "skillKey": "khazix_q",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "品尝恐惧攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.05,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.BonusADRatio 取索引1至5",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/parameters",
+      "detailRoute": "/skills/khazix_q/parameters/evolved_isolated_cooldown_refund_percent_points",
+      "skillKey": "khazix_q",
+      "kind": "parameters",
+      "stableKey": "evolved_isolated_cooldown_refund_percent_points",
+      "body": {
+        "parameterKey": "evolved_isolated_cooldown_refund_percent_points",
+        "name": "进化收割利爪孤立目标冷却返还百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 45,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.EvolutionIsolationCDRPercentage 取索引1至5",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/parameters",
+      "detailRoute": "/skills/khazix_q/parameters/isolated_target_eligible",
+      "skillKey": "khazix_q",
+      "kind": "parameters",
+      "stableKey": "isolated_target_eligible",
+      "body": {
+        "parameterKey": "isolated_target_eligible",
+        "name": "孤立无援目标资格",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "孤立目标由运行时判定；不默认孤立或唯一敌人。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/parameters",
+      "detailRoute": "/skills/khazix_q/parameters/evolution_selected",
+      "skillKey": "khazix_q",
+      "kind": "parameters",
+      "stableKey": "evolution_selected",
+      "body": {
+        "parameterKey": "evolution_selected",
+        "name": "战前进化选择",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "进化是战前选择；由运行时提供，不默认已进化，也不把条件缓冲名当成永久状态。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/parameters",
+      "detailRoute": "/skills/khazix_q/parameters/isolated_damage_multiplier",
+      "skillKey": "khazix_q",
+      "kind": "parameters",
+      "stableKey": "isolated_damage_multiplier",
+      "body": {
+        "parameterKey": "isolated_damage_multiplier",
+        "name": "孤立目标品尝恐惧伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2.1,
+        "levelValues": null,
+        "description": "当前根 IsoDamage 明确使用2.1倍修改器；只在运行时确认孤立资格后使用。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/formulas",
+      "detailRoute": "/skills/khazix_q/formulas/base_damage",
+      "skillKey": "khazix_q",
+      "kind": "formulas",
+      "stableKey": "base_damage",
+      "body": {
+        "formulaKey": "base_damage",
+        "name": "品尝恐惧普通物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前根BaseDamage的mStat=2、mStatFormula=2对应来源额外攻击力；BaseDamage = mEffectAmount[1] + BonusADRatio×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/formulas",
+      "detailRoute": "/skills/khazix_q/formulas/isolated_damage",
+      "skillKey": "khazix_q",
+      "kind": "formulas",
+      "stableKey": "isolated_damage",
+      "body": {
+        "formulaKey": "isolated_damage",
+        "name": "品尝恐惧孤立目标物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "isolated_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "IsoDamage = 2.1×BaseDamage；基础树使用来源额外攻击力，孤立资格由运行时提供，不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_q/effects",
+      "detailRoute": "/skills/khazix_q/effects/mana_cost",
+      "skillKey": "khazix_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录官方基础法力消耗；实际扣除资格、扣除时点与资源不足处理尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/cast_time_ms",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/base_damage",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "虚空突刺基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 75,
+          "2": 105,
+          "3": 135,
+          "4": 165,
+          "5": 195
+        },
+        "description": "当前根绑定 mEffectAmount[1] 取索引1至5",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/base_heal",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "base_heal",
+      "body": {
+        "parameterKey": "base_heal",
+        "name": "虚空突刺基础生命回复",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 75,
+          "3": 95,
+          "4": 115,
+          "5": 135
+        },
+        "description": "当前根绑定 DataValues.BaseHeal 取索引1至5",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/heal_ap_ratio",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "虚空突刺生命回复法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.HealAPRatio 取索引1至5",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/slow_percent_points",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "进化刺鞘普通减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.SlowPercentage 取索引1至5",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/slow_duration_ms",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "进化刺鞘普通减速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.SlowDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/isolated_slow_percent_points",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "isolated_slow_percent_points",
+      "body": {
+        "parameterKey": "isolated_slow_percent_points",
+        "name": "孤立目标额外减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.IsolatedSlowPercentage 取索引1至5",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/isolated_slow_duration_ms",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "isolated_slow_duration_ms",
+      "body": {
+        "parameterKey": "isolated_slow_duration_ms",
+        "name": "孤立目标额外减速持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.IsolatedSlowDuration 取索引1至5；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/self_inside_burst_radius",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "self_inside_burst_radius",
+      "body": {
+        "parameterKey": "self_inside_burst_radius",
+        "name": "施放者位于爆炸范围内",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "虚空突刺回复需要施放者处于爆炸范围内；由运行时提供，不默认。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/isolated_target_eligible",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "isolated_target_eligible",
+      "body": {
+        "parameterKey": "isolated_target_eligible",
+        "name": "孤立无援目标资格",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "孤立目标由运行时判定；不默认孤立。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/parameters",
+      "detailRoute": "/skills/khazix_w/parameters/evolution_selected",
+      "skillKey": "khazix_w",
+      "kind": "parameters",
+      "stableKey": "evolution_selected",
+      "body": {
+        "parameterKey": "evolution_selected",
+        "name": "战前进化选择",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "进化是战前选择；由运行时提供，不默认已进化。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/formulas",
+      "detailRoute": "/skills/khazix_w/formulas/base_damage",
+      "skillKey": "khazix_w",
+      "kind": "formulas",
+      "stableKey": "base_damage",
+      "body": {
+        "formulaKey": "base_damage",
+        "name": "虚空突刺物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        },
+        "description": "当前根BaseDamage的mStat=2、mStatFormula=2对应来源额外攻击力；BaseDamage = mEffectAmount[1] + 1×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/formulas",
+      "detailRoute": "/skills/khazix_w/formulas/heal_amount",
+      "skillKey": "khazix_w",
+      "kind": "formulas",
+      "stableKey": "heal_amount",
+      "body": {
+        "formulaKey": "heal_amount",
+        "name": "虚空突刺生命回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "HealAmount = BaseHeal + HealAPRatio×来源总法术强度；只保存治疗数学量。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_w/effects",
+      "detailRoute": "/skills/khazix_w/effects/mana_cost",
+      "skillKey": "khazix_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录官方基础法力消耗；实际扣除资格、扣除时点与资源不足处理尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_e/parameters",
+      "detailRoute": "/skills/khazix_e/parameters/cast_time_ms",
+      "skillKey": "khazix_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_e/parameters",
+      "detailRoute": "/skills/khazix_e/parameters/base_damage",
+      "skillKey": "khazix_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "跃击基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 65,
+          "2": 100,
+          "3": 135,
+          "4": 170,
+          "5": 205
+        },
+        "description": "当前根绑定 mEffectAmount[1] 取索引1至5",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_e/parameters",
+      "detailRoute": "/skills/khazix_e/parameters/ad_ratio",
+      "skillKey": "khazix_e",
+      "kind": "parameters",
+      "stableKey": "ad_ratio",
+      "body": {
+        "parameterKey": "ad_ratio",
+        "name": "跃击攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.ADRatio 取索引1至5",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_e/parameters",
+      "detailRoute": "/skills/khazix_e/parameters/evolved_leap_range",
+      "skillKey": "khazix_e",
+      "kind": "parameters",
+      "stableKey": "evolved_leap_range",
+      "body": {
+        "parameterKey": "evolved_leap_range",
+        "name": "进化虫翼跃击距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 900,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.EvolvedLeapRange 取索引1至5",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_e/parameters",
+      "detailRoute": "/skills/khazix_e/parameters/evolved_leap_bonus_range",
+      "skillKey": "khazix_e",
+      "kind": "parameters",
+      "stableKey": "evolved_leap_bonus_range",
+      "body": {
+        "parameterKey": "evolved_leap_bonus_range",
+        "name": "进化虫翼额外跃击距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 200,
+        "levelValues": null,
+        "description": "当前官方中文正文明确进化虫翼使跃击距离提升200。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_e/parameters",
+      "detailRoute": "/skills/khazix_e/parameters/evolution_selected",
+      "skillKey": "khazix_e",
+      "kind": "parameters",
+      "stableKey": "evolution_selected",
+      "body": {
+        "parameterKey": "evolution_selected",
+        "name": "战前进化选择",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "进化是战前选择；由运行时提供，不默认已进化。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_e/formulas",
+      "detailRoute": "/skills/khazix_e/formulas/total_damage",
+      "skillKey": "khazix_e",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "跃击物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前根TotalDamage的mStat=2、mStatFormula=2对应来源额外攻击力；TotalDamage = mEffectAmount[1] + ADRatio×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_e/effects",
+      "detailRoute": "/skills/khazix_e/effects/mana_cost",
+      "skillKey": "khazix_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录官方基础法力消耗；实际扣除资格、扣除时点与资源不足处理尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/cooldown_ms",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100000,
+          "2": 85000,
+          "3": 70000
+        },
+        "description": "官方逐级冷却与当前根 cooldownTime 索引1至上限逐级一致；不含技能急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/stealth_duration_ms",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "stealth_duration_ms",
+      "body": {
+        "parameterKey": "stealth_duration_ms",
+        "name": "虚空来袭普通隐身持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.StealthDuration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/recast_window_ms",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "recast_window_ms",
+      "body": {
+        "parameterKey": "recast_window_ms",
+        "name": "虚空来袭再施放窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.RecastWindow 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/movement_speed_bonus_ratio",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "movement_speed_bonus_ratio",
+      "body": {
+        "parameterKey": "movement_speed_bonus_ratio",
+        "name": "虚空来袭移动速度加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.BonusMovementSpeedPercent 取索引1至3",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/evolutions_available",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "evolutions_available",
+      "body": {
+        "parameterKey": "evolutions_available",
+        "name": "当前等级可用进化数量",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1,
+          "2": 2,
+          "3": 3
+        },
+        "description": "当前根绑定 DataValues.EvolutionsAvailable 取索引1至3",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/evolved_stealth_duration_ms",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "evolved_stealth_duration_ms",
+      "body": {
+        "parameterKey": "evolved_stealth_duration_ms",
+        "name": "进化动态遮蔽隐身持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.EvolvedStealthDuration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/recast_cooldown_ms",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "recast_cooldown_ms",
+      "body": {
+        "parameterKey": "recast_cooldown_ms",
+        "name": "虚空来袭再次使用间隔",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.RecastCD 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/normal_cast_count",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "normal_cast_count",
+      "body": {
+        "parameterKey": "normal_cast_count",
+        "name": "虚空来袭普通使用次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.NumberOfCasts 取索引1至3",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/evolved_cast_count",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "evolved_cast_count",
+      "body": {
+        "parameterKey": "evolved_cast_count",
+        "name": "进化动态遮蔽使用次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前根绑定 DataValues.EvolvedNumberOfCasts 取索引1至3",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/parameters",
+      "detailRoute": "/skills/khazix_r/parameters/evolution_selected",
+      "skillKey": "khazix_r",
+      "kind": "parameters",
+      "stableKey": "evolution_selected",
+      "body": {
+        "parameterKey": "evolution_selected",
+        "name": "战前进化选择",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "每级可选一项进化；由运行时提供，不默认动态遮蔽已选。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/khazix_r/effects",
+      "detailRoute": "/skills/khazix_r/effects/mana_cost",
+      "skillKey": "khazix_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录官方基础法力消耗；实际扣除资格、扣除时点与资源不足处理尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "apiWrites": 0
+}

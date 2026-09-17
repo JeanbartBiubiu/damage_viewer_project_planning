@@ -1,0 +1,24 @@
+{
+  "i": 149,
+  "intent": {
+    "sequence": 150,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_r/parameters",
+    "detailRoute": "/skills/hwei_r/parameters/slow_stack_period_ms",
+    "skillKey": "hwei_r",
+    "kind": "parameters",
+    "stableKey": "slow_stack_period_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_stack_period_ms",
+      "name": "减速叠加周期（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "正文明确每0.25秒增加减速。",
+      "sortOrder": 90
+    }
+  }
+}

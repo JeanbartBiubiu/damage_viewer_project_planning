@@ -1,0 +1,23 @@
+{
+  "i": 145,
+  "intent": {
+    "sequence": 145,
+    "method": "POST",
+    "route": "/skills/tahmkench_w/parameters",
+    "detailRoute": "/skills/tahmkench_w/parameters/channel_time_ms",
+    "skillKey": "tahmkench_w",
+    "kind": "parameters",
+    "stableKey": "channel_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "channel_time_ms",
+      "name": "深渊潜航引导时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1350,
+      "levelValues": null,
+      "description": "当前ChannelTime=1.35秒；转换为1350毫秒，和其他阶段时间分开保存。",
+      "sortOrder": 40
+    }
+  }
+}

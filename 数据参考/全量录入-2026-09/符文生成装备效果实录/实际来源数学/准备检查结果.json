@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-09-10T05:55:15.995Z",
+  "status": "ACTUAL_MATH_VALIDATED",
+  "scope": ".agents/artifacts/rune-equipment-ownership-actual-math",
+  "businessApiCalls": 0,
+  "businessWrites": 0,
+  "databaseAccessed": false,
+  "browserAccessed": false,
+  "gitAccessed": false,
+  "scripts": {
+    "independentMath": {
+      "path": ".agents/artifacts/rune-equipment-ownership-actual-math/独立来源数学.mjs",
+      "sha256": "01ddf5747a26094e90045947c4a9d59bdb425d737c90dcfba239571632abde3c"
+    },
+    "readme": {
+      "path": ".agents/artifacts/rune-equipment-ownership-actual-math/README.md",
+      "sha256": "65ca58a3afa1c2fe67f6888ea096ec86eebaebdc5a2c9de6ebbb04a45139ab54"
+    }
+  },
+  "sourceFiles": {
+    "fixedSource": {
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/四装备固定来源.json",
+      "sha256": "d8f769c5c407406bd38d1154115334403e92141001b5c5a39e2b049c45e3f92f"
+    },
+    "biscuitSource": {
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/饼干当前具名来源补证.json",
+      "sha256": "b7ecdc756cdc1e00b4b2b5ffb8a4a5e879d0d176599575724714b255b6c41b66"
+    }
+  },
+  "actualEvidence": {
+    "report": {
+      "path": ".agents/artifacts/rune-equipment-ownership-execution/独立GET核对/2026-09-10T05-49-54-307Z/GET复核报告.json",
+      "sha256": "8a02524d8ca96482eb85c1078e55561fdfeb6da8c8241fbf039ca5b27c30bc37"
+    },
+    "snapshot": {
+      "path": ".agents/artifacts/rune-equipment-ownership-execution/独立GET核对/2026-09-10T05-49-54-307Z/最终GET快照.json",
+      "sha256": "f80324d082711f4172fbe5382dcc3559085dd072a4bb6c90f169833b7abcbc2c"
+    }
+  },
+  "outputs": {
+    "report": {
+      "path": ".agents/artifacts/rune-equipment-ownership-actual-math/报告/2026-09-10T05-54-20-990Z/独立来源数学报告.json",
+      "sha256": "f9e6659b7d90df39a347e6484de2cbfe2c93e4617a97e1436b57225d9adbdc97"
+    },
+    "formulaEffectSnapshot": {
+      "path": ".agents/artifacts/rune-equipment-ownership-actual-math/报告/2026-09-10T05-54-20-990Z/实际公式与效果快照.json",
+      "sha256": "581e976311f8045e82497dfb8d64b56b2bf36d59a776b11c4e592081cb8f7e09"
+    }
+  },
+  "validation": {
+    "status": "通过",
+    "parametersChecked": 12,
+    "formulasChecked": 3,
+    "effectsChecked": 2,
+    "formulaScenarioCount": 6,
+    "missingInputChecks": 2,
+    "nodeRuntime": "C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe"
+  }
+}

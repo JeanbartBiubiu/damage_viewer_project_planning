@@ -1,0 +1,24 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/style_grade_count",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "style_grade_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "style_grade_count",
+      "name": "评价等级总数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "当前正文评价从E到S共6级；等级输入属于战前或战斗状态，不能由公式自动生成。",
+      "sortOrder": 10
+    }
+  }
+}

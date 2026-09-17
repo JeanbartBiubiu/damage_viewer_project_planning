@@ -1,0 +1,23 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 145,
+    "method": "POST",
+    "route": "/skills/zeri_p/parameters",
+    "detailRoute": "/skills/zeri_p/parameters/q_min_damage_ability_power_ratio",
+    "skillKey": "zeri_p",
+    "kind": "parameters",
+    "stableKey": "q_min_damage_ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_min_damage_ability_power_ratio",
+      "name": "跨Q未充能法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.03,
+      "levelValues": null,
+      "description": "当前Q.MinDamage树StatByCoefficient约0.03；P沿跨Q引用保留该比例。",
+      "sortOrder": 20
+    }
+  }
+}

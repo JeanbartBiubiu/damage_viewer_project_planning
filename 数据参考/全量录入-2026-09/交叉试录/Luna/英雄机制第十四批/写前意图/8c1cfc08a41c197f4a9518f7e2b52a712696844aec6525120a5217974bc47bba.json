@@ -1,0 +1,57 @@
+{
+  "at": "2026-09-09T06:39:50.427Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_e/formulas/capped_after_duration_ms",
+  "id": "capped_after_duration_ms",
+  "method": "POST",
+  "body": {
+    "formulaKey": "capped_after_duration_ms",
+    "name": "含上限的增益总时长（毫秒）",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "after_duration_ms"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MIN",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MAX",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "confirmed_critical_extension_count"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "zero"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "critical_extension_ms"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "after_duration_ms"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前长文明确延长部分不得超过初始时长；总时长=初始4秒+MIN(实际有效次数×1秒,4秒)，不表示按此总时长重复刷新。",
+    "sortOrder": 20
+  }
+}

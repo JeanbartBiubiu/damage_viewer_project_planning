@@ -1,0 +1,29 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 106,
+    "method": "POST",
+    "route": "/skills/taric_w/parameters",
+    "detailRoute": "/skills/taric_w/parameters/self_shield_hp_ratio",
+    "skillKey": "taric_w",
+    "kind": "parameters",
+    "stableKey": "self_shield_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_shield_hp_ratio",
+      "name": "坚毅壁垒自身护盾最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.07,
+        "2": 0.08,
+        "3": 0.09,
+        "4": 0.1,
+        "5": 0.11
+      },
+      "description": "当前正文直接显示ShieldHPRatio%，原始值7至11是百分数点，转换为0.07至0.11比例。",
+      "sortOrder": 30
+    }
+  }
+}

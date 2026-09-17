@@ -1,0 +1,43 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "skillKey": "mel_e",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/mel_e/formulas",
+    "stableKey": "center_magic_damage",
+    "body": {
+      "formulaKey": "center_magic_damage",
+      "name": "中心对敌魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "center_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "center_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Damage=基础值+0.7×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

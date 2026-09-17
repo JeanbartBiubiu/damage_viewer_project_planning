@@ -1,0 +1,43 @@
+{
+  "sequence": 108,
+  "intent": {
+    "sequence": 108,
+    "method": "POST",
+    "route": "/skills/tryndamere_r/parameters",
+    "detailRoute": "/skills/tryndamere_r/parameters/minimum_health",
+    "skillKey": "tryndamere_r",
+    "kind": "parameters",
+    "stableKey": "minimum_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "minimum_health",
+      "name": "生命下限",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 50,
+        "3": 70
+      },
+      "description": "客户端当前根绑定 DataValues.TryndRMinHealth，等级1至3取索引1至3；只记录明确生命下限。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 526,
+    "method": "GET",
+    "route": "/skills/tryndamere_r/parameters/minimum_health",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "minimum_health"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:27.587Z"
+  }
+}

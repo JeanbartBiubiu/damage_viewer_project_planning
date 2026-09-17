@@ -1,0 +1,55 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "method": "POST",
+    "route": "/skills/singed_q/formulas",
+    "detailRoute": "/skills/singed_q/formulas/approximate_total_damage",
+    "skillKey": "singed_q",
+    "kind": "formulas",
+    "stableKey": "approximate_total_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "approximate_total_damage",
+      "name": "剧毒踪迹大概总魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "approximate_total_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_second_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ApproximateTotalDamageTooltip = 4.75×每秒伤害树；仅展示估计，不能当作任意接触时长的必达结果。",
+      "sortOrder": 20
+    }
+  }
+}

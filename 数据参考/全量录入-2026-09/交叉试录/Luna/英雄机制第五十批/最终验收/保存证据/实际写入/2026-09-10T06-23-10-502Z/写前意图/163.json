@@ -1,0 +1,24 @@
+{
+  "i": 162,
+  "intent": {
+    "sequence": 163,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_q/parameters",
+    "detailRoute": "/skills/ashe_q/parameters/max_stacks",
+    "skillKey": "ashe_q",
+    "kind": "parameters",
+    "stableKey": "max_stacks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_stacks",
+      "name": "全神贯注最大层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "MaxStacks=4；达到4层才可激活。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,4116 @@
+{
+  "at": "2026-09-09T06:08:12.955Z",
+  "reads": [
+    {
+      "route": "/skills/annie_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:26.829762Z",
+        "description": "为安妮或一名友军提供一层护盾、一个爆发性的移动速度加成并且对任何用攻击或技能袭击她的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "安妮·熔岩护盾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "annie_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:26.829762Z"
+      }
+    },
+    {
+      "route": "/skills/annie_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:37:46.766019Z",
+          "description": "当前主技能无 cooldownTime，采用官方16.17.1基础冷却；不借用其他同名旧对象。",
+          "fixedValue": 10000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "annie_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:46.766019Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:47.142711Z",
+          "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "annie_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:47.142711Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:47.553236Z",
+          "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 95,
+            "3": 130,
+            "4": 165,
+            "5": 200
+          },
+          "name": "基础护盾",
+          "parameterKey": "base_shield",
+          "skillKey": "annie_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T16:37:47.553236Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:47.878548Z",
+          "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续（毫秒）",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "annie_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T16:37:47.878548Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:48.231093Z",
+          "description": "客户端当前根绑定 DataValues.DamageReflection 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 25,
+            "2": 35,
+            "3": 45,
+            "4": 55,
+            "5": 65
+          },
+          "name": "基础伤害回敬",
+          "parameterKey": "base_return_damage",
+          "skillKey": "annie_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T16:37:48.231093Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:48.584463Z",
+          "description": "客户端 ShieldBlockTotal.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾法强倍率",
+          "parameterKey": "shield_ap_ratio",
+          "skillKey": "annie_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T16:37:48.584463Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:48.970514Z",
+          "description": "客户端 DamageReturn.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "回敬法强倍率",
+          "parameterKey": "return_ap_ratio",
+          "skillKey": "annie_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-07T16:37:48.970514Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:49.302155Z",
+          "description": "客户端当前根绑定 DataValues.MovementSpeedDuration 取索引1至5。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "移速衰减持续（毫秒）",
+          "parameterKey": "move_speed_duration_ms",
+          "skillKey": "annie_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-07T16:37:49.302155Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:49.670719Z",
+          "description": "当前等级熔岩护盾的初始移动速度增益比例，1表示100%。固定16.17原节点只给0.2/0.5端点，尚缺等级插值算法、起止等级及选项含义；不再默认1至18级线性。必须提供已确认实际比例，随后时间衰减另行处理；缺值不能默认为0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "初始移动速度提升比例",
+          "parameterKey": "move_speed_ratio",
+          "skillKey": "annie_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T06:05:15.449007Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/annie_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:46.766019Z",
+        "description": "当前主技能无 cooldownTime，采用官方16.17.1基础冷却；不借用其他同名旧对象。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "annie_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:46.766019Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/annie_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:47.142711Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "annie_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:47.142711Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/annie_e/parameters/base_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:47.553236Z",
+        "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "name": "基础护盾",
+        "parameterKey": "base_shield",
+        "skillKey": "annie_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:47.553236Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/annie_e/parameters/shield_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:47.878548Z",
+        "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "annie_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:47.878548Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/annie_e/parameters/base_return_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:48.231093Z",
+        "description": "客户端当前根绑定 DataValues.DamageReflection 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 25,
+          "2": 35,
+          "3": 45,
+          "4": 55,
+          "5": 65
+        },
+        "name": "基础伤害回敬",
+        "parameterKey": "base_return_damage",
+        "skillKey": "annie_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:48.231093Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/annie_e/parameters/shield_ap_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:48.584463Z",
+        "description": "客户端 ShieldBlockTotal.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾法强倍率",
+        "parameterKey": "shield_ap_ratio",
+        "skillKey": "annie_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:37:48.584463Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/annie_e/parameters/return_ap_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:48.970514Z",
+        "description": "客户端 DamageReturn.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "回敬法强倍率",
+        "parameterKey": "return_ap_ratio",
+        "skillKey": "annie_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T16:37:48.970514Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/annie_e/parameters/move_speed_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:49.302155Z",
+        "description": "客户端当前根绑定 DataValues.MovementSpeedDuration 取索引1至5。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "移速衰减持续（毫秒）",
+        "parameterKey": "move_speed_duration_ms",
+        "skillKey": "annie_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T16:37:49.302155Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/annie_e/parameters/move_speed_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:49.670719Z",
+        "description": "当前等级熔岩护盾的初始移动速度增益比例，1表示100%。固定16.17原节点只给0.2/0.5端点，尚缺等级插值算法、起止等级及选项含义；不再默认1至18级线性。必须提供已确认实际比例，随后时间衰减另行处理；缺值不能默认为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "初始移动速度提升比例",
+        "parameterKey": "move_speed_ratio",
+        "skillKey": "annie_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:05:15.449007Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/annie_e/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:37:50.104988Z",
+          "description": "ShieldBlockTotal：60/95/130/165/200+0.4总法强。",
+          "formulaKey": "shield",
+          "gameId": "lol",
+          "name": "熔岩自护盾",
+          "skillKey": "annie_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:50.104988Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:50.438518Z",
+          "description": "DamageReturn：25/35/45/55/65+0.4总法强。",
+          "formulaKey": "return_damage",
+          "gameId": "lol",
+          "name": "熔岩伤害回敬",
+          "skillKey": "annie_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:50.438518Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/annie_e/formulas/shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:50.104988Z",
+        "description": "ShieldBlockTotal：60/95/130/165/200+0.4总法强。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "shield",
+        "gameId": "lol",
+        "name": "熔岩自护盾",
+        "skillKey": "annie_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:50.104988Z"
+      }
+    },
+    {
+      "route": "/skills/annie_e/formulas/return_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:50.438518Z",
+        "description": "DamageReturn：25/35/45/55/65+0.4总法强。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_return_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "return_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "return_damage",
+        "gameId": "lol",
+        "name": "熔岩伤害回敬",
+        "skillKey": "annie_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:50.438518Z"
+      }
+    },
+    {
+      "route": "/skills/annie_e/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:37:50.848527Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "annie_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:50.848527Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:51.237187Z",
+          "description": "自身护盾：结果目标与实例范围均为来源对象。独立组成，施加及刷新条件另行接线。",
+          "effectKey": "molten_shield",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "熔岩自护盾",
+          "resultCount": 1,
+          "skillKey": "annie_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:51.237187Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:51.636398Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "return_damage",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "护盾伤害回敬",
+          "resultCount": 1,
+          "skillKey": "annie_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T16:37:51.636398Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/annie_e/effects/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:50.848527Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "annie_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:50.848527Z"
+      }
+    },
+    {
+      "route": "/skills/annie_e/effects/molten_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:51.237187Z",
+        "description": "自身护盾：结果目标与实例范围均为来源对象。独立组成，施加及刷新条件另行接线。",
+        "effectKey": "molten_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "熔岩自护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "普通护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "annie_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:51.237187Z"
+      }
+    },
+    {
+      "route": "/skills/annie_e/effects/return_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:51.636398Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "return_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "护盾伤害回敬",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "REFLECTED",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "护盾伤害回敬",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "return_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "annie_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:51.636398Z"
+      }
+    },
+    {
+      "route": "/skills/annie_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/annie_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/annie_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/annie_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_annie_e",
+          "name": "annie_e"
+        }
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_annie",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_annie",
+            "characterName": "安妮",
+            "gameId": "lol",
+            "skillKey": "annie_p",
+            "skillName": "安妮·嗜火",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_annie",
+            "characterName": "安妮",
+            "gameId": "lol",
+            "skillKey": "annie_q",
+            "skillName": "安妮·碎裂之火",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_annie",
+            "characterName": "安妮",
+            "gameId": "lol",
+            "skillKey": "annie_w",
+            "skillName": "安妮·焚烧",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_annie",
+            "characterName": "安妮",
+            "gameId": "lol",
+            "skillKey": "annie_e",
+            "skillName": "安妮·熔岩护盾",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_annie",
+            "characterName": "安妮",
+            "gameId": "lol",
+            "skillKey": "annie_r",
+            "skillName": "安妮·提伯斯之怒",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/brand_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:56.203617Z",
+        "description": "布兰德的技能会对他的目标施加【烈焰焚身】效果，在4秒里持续造成伤害，最多可叠加3次。如果布兰德击杀了身上带有【烈焰焚身】的敌人，那么他会回复法力值。当【炽热之焰】在一名英雄或大型野怪身上叠至满层时，它会变得不稳定。它会在2秒内爆炸，在目标附近的区域施加法术特效并造成大量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "布兰德·炽热之焰",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "brand_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:56.203617Z"
+      }
+    },
+    {
+      "route": "/skills/brand_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:37:56.657504Z",
+          "description": "客户端当前根绑定 DataValues.PercentHealthDamage 取索引1至1。",
+          "fixedValue": 0.02,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层完整灼烧最大生命比例",
+          "parameterKey": "burn_total_max_hp_ratio",
+          "skillKey": "brand_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:56.657504Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:57.026473Z",
+          "description": "冻结当前Spell_BrandPassive_Tooltip明确每层4秒总2%最大生命。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "灼烧持续（毫秒）",
+          "parameterKey": "burn_duration_ms",
+          "skillKey": "brand_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:57.026473Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:57.408617Z",
+          "description": "官方被动及当前客户端文本均最多3层。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "炽热之焰最大层数",
+          "parameterKey": "max_stacks",
+          "skillKey": "brand_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T16:37:57.408617Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:57.810508Z",
+          "description": "当前文本明确达到3层后2秒爆炸。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "满层爆炸延迟（毫秒）",
+          "parameterKey": "explosion_delay_ms",
+          "skillKey": "brand_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T16:37:57.810508Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:58.193713Z",
+          "description": "当前计算式的角色等级断点，取1至18级；19级及以后不计本批已覆盖。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 20,
+            "3": 23.33,
+            "4": 23.33,
+            "5": 23.33,
+            "6": 26.66,
+            "7": 26.66,
+            "8": 26.66,
+            "9": 29.99,
+            "10": 29.99,
+            "11": 29.99,
+            "12": 33.32,
+            "13": 33.32,
+            "14": 33.32,
+            "15": 36.653,
+            "16": 36.653,
+            "17": 36.653,
+            "18": 39.983
+          },
+          "name": "击杀灼烧目标法力回复",
+          "parameterKey": "kill_mana_restore",
+          "skillKey": "brand_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T16:37:58.193713Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:58.560617Z",
+          "description": "当前等级炽热之焰爆炸的基础最大生命伤害比例，1表示100%，不含另算的法强缩放。固定16.17原节点只给6/12百分比点端点，等级插值算法未证；实际值外供且须先将百分比点除100。缺值不能默认为0，不使用原推定18级表。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "爆炸基础最大生命比例",
+          "parameterKey": "explosion_base_max_hp_ratio",
+          "skillKey": "brand_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T06:05:16.393097Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:58.910873Z",
+          "description": "ExplosionDamage先取6..12加AP×0.02，再乘0.01；每点AP贡献0.0002最大生命比例。",
+          "fixedValue": 0.0002,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每点法强爆炸最大生命比例",
+          "parameterKey": "explosion_ap_ratio",
+          "skillKey": "brand_p",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-07T16:37:58.910873Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/brand_p/parameters/burn_total_max_hp_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:56.657504Z",
+        "description": "客户端当前根绑定 DataValues.PercentHealthDamage 取索引1至1。",
+        "fixedValue": 0.02,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每层完整灼烧最大生命比例",
+        "parameterKey": "burn_total_max_hp_ratio",
+        "skillKey": "brand_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:56.657504Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/brand_p/parameters/burn_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:57.026473Z",
+        "description": "冻结当前Spell_BrandPassive_Tooltip明确每层4秒总2%最大生命。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "灼烧持续（毫秒）",
+        "parameterKey": "burn_duration_ms",
+        "skillKey": "brand_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:57.026473Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/brand_p/parameters/max_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:57.408617Z",
+        "description": "官方被动及当前客户端文本均最多3层。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "炽热之焰最大层数",
+        "parameterKey": "max_stacks",
+        "skillKey": "brand_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:57.408617Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/brand_p/parameters/explosion_delay_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:57.810508Z",
+        "description": "当前文本明确达到3层后2秒爆炸。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "满层爆炸延迟（毫秒）",
+        "parameterKey": "explosion_delay_ms",
+        "skillKey": "brand_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:57.810508Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/brand_p/parameters/kill_mana_restore",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:58.193713Z",
+        "description": "当前计算式的角色等级断点，取1至18级；19级及以后不计本批已覆盖。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 20,
+          "3": 23.33,
+          "4": 23.33,
+          "5": 23.33,
+          "6": 26.66,
+          "7": 26.66,
+          "8": 26.66,
+          "9": 29.99,
+          "10": 29.99,
+          "11": 29.99,
+          "12": 33.32,
+          "13": 33.32,
+          "14": 33.32,
+          "15": 36.653,
+          "16": 36.653,
+          "17": 36.653,
+          "18": 39.983
+        },
+        "name": "击杀灼烧目标法力回复",
+        "parameterKey": "kill_mana_restore",
+        "skillKey": "brand_p",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:58.193713Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/brand_p/parameters/explosion_base_max_hp_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:58.560617Z",
+        "description": "当前等级炽热之焰爆炸的基础最大生命伤害比例，1表示100%，不含另算的法强缩放。固定16.17原节点只给6/12百分比点端点，等级插值算法未证；实际值外供且须先将百分比点除100。缺值不能默认为0，不使用原推定18级表。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "爆炸基础最大生命比例",
+        "parameterKey": "explosion_base_max_hp_ratio",
+        "skillKey": "brand_p",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:05:16.393097Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/brand_p/parameters/explosion_ap_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:58.910873Z",
+        "description": "ExplosionDamage先取6..12加AP×0.02，再乘0.01；每点AP贡献0.0002最大生命比例。",
+        "fixedValue": 0.0002,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每点法强爆炸最大生命比例",
+        "parameterKey": "explosion_ap_ratio",
+        "skillKey": "brand_p",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T16:37:58.910873Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/brand_p/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:37:59.363685Z",
+          "description": "目标最大生命×2%；不是每次结算伤害，不绑定瞬时扣血效果。",
+          "formulaKey": "burn_total",
+          "gameId": "lol",
+          "name": "一层4秒灼烧总量",
+          "skillKey": "brand_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:59.363685Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:59.769517Z",
+          "description": "当前文本证明目标最大生命魔法伤害；等级基础6%..12%加每100法强2%。",
+          "formulaKey": "explosion",
+          "gameId": "lol",
+          "name": "满层爆炸伤害",
+          "skillKey": "brand_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:59.769517Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/brand_p/formulas/burn_total",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:59.363685Z",
+        "description": "目标最大生命×2%；不是每次结算伤害，不绑定瞬时扣血效果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "burn_total_max_hp_ratio"
+            },
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "TARGET",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "burn_total",
+        "gameId": "lol",
+        "name": "一层4秒灼烧总量",
+        "skillKey": "brand_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:59.363685Z"
+      }
+    },
+    {
+      "route": "/skills/brand_p/formulas/explosion",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:37:59.769517Z",
+        "description": "当前文本证明目标最大生命魔法伤害；等级基础6%..12%加每100法强2%。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "explosion_base_max_hp_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "explosion_ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "TARGET",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "explosion",
+        "gameId": "lol",
+        "name": "满层爆炸伤害",
+        "skillKey": "brand_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:59.769517Z"
+      }
+    },
+    {
+      "route": "/skills/brand_p/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:38:00.13051Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "blaze_explosion",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "满层爆炸魔法伤害",
+          "resultCount": 1,
+          "skillKey": "brand_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:38:00.13051Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:38:00.570575Z",
+          "description": "只保留回复量；需要本人击杀且目标已有灼烧的合法条件。",
+          "effectKey": "burn_kill_mana",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "击杀灼烧目标回复法力",
+          "resultCount": 1,
+          "skillKey": "brand_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:38:00.570575Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/brand_p/effects/blaze_explosion",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:38:00.13051Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "blaze_explosion",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "满层爆炸魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "满层爆炸魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "explosion",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "brand_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:38:00.13051Z"
+      }
+    },
+    {
+      "route": "/skills/brand_p/effects/burn_kill_mana",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:38:00.570575Z",
+        "description": "只保留回复量；需要本人击杀且目标已有灼烧的合法条件。",
+        "effectKey": "burn_kill_mana",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "击杀灼烧目标回复法力",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "RESTORE"
+            },
+            "lifecycleBehavior": null,
+            "name": "回复法力",
+            "resultKey": "restore_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "kill_mana_restore"
+              }
+            }
+          }
+        ],
+        "skillKey": "brand_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:38:00.570575Z"
+      }
+    },
+    {
+      "route": "/skills/brand_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/brand_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/brand_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/brand_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_brand_p",
+          "name": "brand_p"
+        }
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_brand",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_brand",
+            "characterName": "布兰德",
+            "gameId": "lol",
+            "skillKey": "brand_p",
+            "skillName": "布兰德·炽热之焰",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_brand",
+            "characterName": "布兰德",
+            "gameId": "lol",
+            "skillKey": "brand_q",
+            "skillName": "布兰德·火焰烙印",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_brand",
+            "characterName": "布兰德",
+            "gameId": "lol",
+            "skillKey": "brand_w",
+            "skillName": "布兰德·烈焰之柱",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_brand",
+            "characterName": "布兰德",
+            "gameId": "lol",
+            "skillKey": "brand_e",
+            "skillName": "布兰德·烈火燃烧",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_brand",
+            "characterName": "布兰德",
+            "gameId": "lol",
+            "skillKey": "brand_r",
+            "skillName": "布兰德·烈焰风暴",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/ahri_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:13.432969Z",
+        "description": "在击杀9个小兵或野怪后，阿狸会治疗自身。<br>在参与击杀一名敌方英雄后，阿狸会以一个更高的治疗效果来治疗自身。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "阿狸·摄魂夺魄",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "ahri_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:13.432969Z"
+      }
+    },
+    {
+      "route": "/skills/ahri_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:52:22.639989Z",
+          "description": "当前等级参与击杀英雄时的基础自身恢复生命点数，不含另算的法强系数。固定16.17原计算只给75/165端点，未证起止等级及插值算法；实际基础点数须外供。缺值不能默认为0，不使用原推定18级表。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吞噬英雄魂魄基础治疗",
+          "parameterKey": "champion_base_heal",
+          "skillKey": "ahri_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:05:17.593099Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:52:23.106554Z",
+          "description": "客户端 ChampionHeal.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "英雄魂魄治疗法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "ahri_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:52:23.106554Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:52:23.784158Z",
+          "description": "客户端当前根绑定 DataValues.TakedownWindow 取索引1至1。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "近期伤害英雄魂魄窗口（毫秒）",
+          "parameterKey": "recent_damage_window_ms",
+          "skillKey": "ahri_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:52:23.784158Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ahri_p/parameters/champion_base_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:22.639989Z",
+        "description": "当前等级参与击杀英雄时的基础自身恢复生命点数，不含另算的法强系数。固定16.17原计算只给75/165端点，未证起止等级及插值算法；实际基础点数须外供。缺值不能默认为0，不使用原推定18级表。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "吞噬英雄魂魄基础治疗",
+        "parameterKey": "champion_base_heal",
+        "skillKey": "ahri_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:05:17.593099Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ahri_p/parameters/ap_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:23.106554Z",
+        "description": "客户端 ChampionHeal.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "英雄魂魄治疗法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ahri_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:52:23.106554Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ahri_p/parameters/recent_damage_window_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:23.784158Z",
+        "description": "客户端当前根绑定 DataValues.TakedownWindow 取索引1至1。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近期伤害英雄魂魄窗口（毫秒）",
+        "parameterKey": "recent_damage_window_ms",
+        "skillKey": "ahri_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:52:23.784158Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ahri_p/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:52:24.276261Z",
+          "description": "ChampionHeal：等级75至165+0.3AP。",
+          "formulaKey": "champion_heal",
+          "gameId": "lol",
+          "name": "英雄魂魄治疗",
+          "skillKey": "ahri_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:52:24.276261Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ahri_p/formulas/champion_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:24.276261Z",
+        "description": "ChampionHeal：等级75至165+0.3AP。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "champion_base_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "champion_heal",
+        "gameId": "lol",
+        "name": "英雄魂魄治疗",
+        "skillKey": "ahri_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:24.276261Z"
+      }
+    },
+    {
+      "route": "/skills/ahri_p/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:52:24.814028Z",
+          "description": null,
+          "effectKey": "champion_soul_heal",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "吞噬英雄魂魄治疗",
+          "resultCount": 1,
+          "skillKey": "ahri_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:52:24.814028Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ahri_p/effects/champion_soul_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:24.814028Z",
+        "description": null,
+        "effectKey": "champion_soul_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "吞噬英雄魂魄治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "回复自身生命",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "champion_heal",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "ahri_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:24.814028Z"
+      }
+    },
+    {
+      "route": "/skills/ahri_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ahri_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ahri_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ahri_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ahri_p",
+          "name": "ahri_p"
+        }
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_ahri",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_ahri",
+            "characterName": "阿狸",
+            "gameId": "lol",
+            "skillKey": "ahri_p",
+            "skillName": "阿狸·摄魂夺魄",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_ahri",
+            "characterName": "阿狸",
+            "gameId": "lol",
+            "skillKey": "ahri_q",
+            "skillName": "阿狸·欺诈宝珠",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_ahri",
+            "characterName": "阿狸",
+            "gameId": "lol",
+            "skillKey": "ahri_w",
+            "skillName": "阿狸·妖异狐火",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_ahri",
+            "characterName": "阿狸",
+            "gameId": "lol",
+            "skillKey": "ahri_e",
+            "skillName": "阿狸·魅惑妖术",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_ahri",
+            "characterName": "阿狸",
+            "gameId": "lol",
+            "skillKey": "ahri_r",
+            "skillName": "阿狸·灵魄突袭",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/darius_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:07.052236Z",
+        "description": "德莱厄斯的攻击和伤害技能会导致敌人流血，在5秒里持续造成物理伤害，最多叠加5次。在他的目标达到最大层数后，德莱厄斯会进入激怒状态并获得巨额攻击力。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "德莱厄斯·出血",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "darius_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:07.052236Z"
+      }
+    },
+    {
+      "route": "/skills/darius_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:52:53.124549Z",
+          "description": "当前等级单层出血的完整持续期基础物理伤害点数，不是单跳或每秒量，也不含额外攻击力项。固定16.17原节点只给13/30端点，等级插值算法未证；真实基础总量外供。缺值不能默认为0，不使用原推定18级表。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层完整出血基础伤害",
+          "parameterKey": "bleed_base_total",
+          "skillKey": "darius_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:05:18.470739Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:52:53.697154Z",
+          "description": "BleedDamagePerStack mStat=2、mStatFormula=2，额外AD系数0.3。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层出血额外攻击力倍率",
+          "parameterKey": "bonus_ad_ratio",
+          "skillKey": "darius_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:52:53.697154Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:52:54.184061Z",
+          "description": "客户端当前根绑定 DataValues.BleedDuration 取索引1至1。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "出血与血怒持续（毫秒）",
+          "parameterKey": "bleed_duration_ms",
+          "skillKey": "darius_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:52:54.184061Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:52:54.723719Z",
+          "description": "客户端当前根绑定 DataValues.SecondsPerTick 取索引1至1。",
+          "fixedValue": 1260,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "客户端出血周期原值（毫秒）",
+          "parameterKey": "raw_bleed_tick_interval_ms",
+          "skillKey": "darius_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T18:52:54.723719Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:52:55.270506Z",
+          "description": "客户端当前根绑定 DataValues.MaxStacks 取索引1至1。",
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "出血层数上限",
+          "parameterKey": "max_stacks",
+          "skillKey": "darius_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T18:52:55.270506Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:52:55.828747Z",
+          "description": "当前等级血怒提供的额外攻击力点数。固定16.17原节点的起始30、初始每级5与11/14级斜率断点均保留来源，但断点当级及斜率求值算法未证；必须提供已确认实际攻击力点数。缺值不能默认为0，不使用原推定18级表。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "血怒额外攻击力",
+          "parameterKey": "noxian_might_bonus_ad",
+          "skillKey": "darius_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T06:05:19.422717Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/darius_p/parameters/bleed_base_total",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:53.124549Z",
+        "description": "当前等级单层出血的完整持续期基础物理伤害点数，不是单跳或每秒量，也不含额外攻击力项。固定16.17原节点只给13/30端点，等级插值算法未证；真实基础总量外供。缺值不能默认为0，不使用原推定18级表。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每层完整出血基础伤害",
+        "parameterKey": "bleed_base_total",
+        "skillKey": "darius_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:05:18.470739Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/darius_p/parameters/bonus_ad_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:53.697154Z",
+        "description": "BleedDamagePerStack mStat=2、mStatFormula=2，额外AD系数0.3。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每层出血额外攻击力倍率",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "darius_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:52:53.697154Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/darius_p/parameters/bleed_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:54.184061Z",
+        "description": "客户端当前根绑定 DataValues.BleedDuration 取索引1至1。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "出血与血怒持续（毫秒）",
+        "parameterKey": "bleed_duration_ms",
+        "skillKey": "darius_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:52:54.184061Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/darius_p/parameters/raw_bleed_tick_interval_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:54.723719Z",
+        "description": "客户端当前根绑定 DataValues.SecondsPerTick 取索引1至1。",
+        "fixedValue": 1260,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "客户端出血周期原值（毫秒）",
+        "parameterKey": "raw_bleed_tick_interval_ms",
+        "skillKey": "darius_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:52:54.723719Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/darius_p/parameters/max_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:55.270506Z",
+        "description": "客户端当前根绑定 DataValues.MaxStacks 取索引1至1。",
+        "fixedValue": 5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "出血层数上限",
+        "parameterKey": "max_stacks",
+        "skillKey": "darius_p",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:52:55.270506Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/darius_p/parameters/noxian_might_bonus_ad",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:55.828747Z",
+        "description": "当前等级血怒提供的额外攻击力点数。固定16.17原节点的起始30、初始每级5与11/14级斜率断点均保留来源，但断点当级及斜率求值算法未证；必须提供已确认实际攻击力点数。缺值不能默认为0，不使用原推定18级表。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "血怒额外攻击力",
+        "parameterKey": "noxian_might_bonus_ad",
+        "skillKey": "darius_p",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:05:19.422717Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/darius_p/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:52:56.384932Z",
+          "description": "完整BleedDamagePerStack是5秒总伤害，不是每次周期伤害。",
+          "formulaKey": "bleed_total_per_stack",
+          "gameId": "lol",
+          "name": "每层5秒出血总量",
+          "skillKey": "darius_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:52:56.384932Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/darius_p/formulas/bleed_total_per_stack",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:56.384932Z",
+        "description": "完整BleedDamagePerStack是5秒总伤害，不是每次周期伤害。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bleed_base_total"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "bleed_total_per_stack",
+        "gameId": "lol",
+        "name": "每层5秒出血总量",
+        "skillKey": "darius_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:56.384932Z"
+      }
+    },
+    {
+      "route": "/skills/darius_p/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:52:56.947965Z",
+          "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+          "effectKey": "noxian_might",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "血怒攻击力",
+          "resultCount": 1,
+          "skillKey": "darius_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:52:56.947965Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/darius_p/effects/noxian_might",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:52:56.947965Z",
+        "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+        "effectKey": "noxian_might",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "bleed_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "血怒攻击力",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "attack_damage",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "血怒攻击力",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "noxian_might_bonus_ad"
+              }
+            }
+          }
+        ],
+        "skillKey": "darius_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:56.947965Z"
+      }
+    },
+    {
+      "route": "/skills/darius_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/darius_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/darius_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/darius_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_darius_p",
+          "name": "darius_p"
+        }
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_darius",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_darius",
+            "characterName": "德莱厄斯",
+            "gameId": "lol",
+            "skillKey": "darius_p",
+            "skillName": "德莱厄斯·出血",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_darius",
+            "characterName": "德莱厄斯",
+            "gameId": "lol",
+            "skillKey": "darius_q",
+            "skillName": "德莱厄斯·大杀四方",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_darius",
+            "characterName": "德莱厄斯",
+            "gameId": "lol",
+            "skillKey": "darius_w",
+            "skillName": "德莱厄斯·致残打击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_darius",
+            "characterName": "德莱厄斯",
+            "gameId": "lol",
+            "skillKey": "darius_e",
+            "skillName": "德莱厄斯·无情铁手",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_darius",
+            "characterName": "德莱厄斯",
+            "gameId": "lol",
+            "skillKey": "darius_r",
+            "skillName": "德莱厄斯·诺克萨斯断头台",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/diana_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:08.45009Z",
+        "description": "每第三次攻击就会溅射周围的敌人，造成额外的魔法伤害。在施放一个技能后，黛安娜获得持续5秒的攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "黛安娜·月银之刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "diana_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:08.45009Z"
+      }
+    },
+    {
+      "route": "/skills/diana_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:53:22.135978Z",
+          "description": "当前等级月银之刃第三次攻击顺劈的基础魔法伤害点数，不含法强项。固定16.17原节点的起始20、初始每级5与7/12/17级断点保留来源，但断点当级及斜率求值算法未证；实际基础点数外供。缺值不能默认为0，不使用原推定18级表。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "第三次攻击基础魔法伤害",
+          "parameterKey": "cleave_base_damage",
+          "skillKey": "diana_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:05:20.350701Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:22.712989Z",
+          "description": "客户端当前根绑定 DataValues.APRatio 取索引1至1。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "第三次攻击法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "diana_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:53:22.712989Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:23.278944Z",
+          "description": "当前完整计算树的1至18级线性插值，端点均明确。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.15,
+            "2": 0.161764706,
+            "3": 0.173529412,
+            "4": 0.185294118,
+            "5": 0.197058824,
+            "6": 0.208823529,
+            "7": 0.220588235,
+            "8": 0.232352941,
+            "9": 0.244117647,
+            "10": 0.255882353,
+            "11": 0.267647059,
+            "12": 0.279411765,
+            "13": 0.291176471,
+            "14": 0.302941176,
+            "15": 0.314705882,
+            "16": 0.326470588,
+            "17": 0.338235294,
+            "18": 0.35
+          },
+          "name": "常态额外攻击速度",
+          "parameterKey": "passive_attack_speed_ratio",
+          "skillKey": "diana_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:53:23.278944Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:23.97035Z",
+          "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至1。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法后强化攻速持续（毫秒）",
+          "parameterKey": "empowered_duration_ms",
+          "skillKey": "diana_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T18:53:23.97035Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:24.529746Z",
+          "description": "客户端当前根绑定 DataValues.AttackCount 取索引1至1。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "顺劈所需攻击次数",
+          "parameterKey": "cleave_attack_count",
+          "skillKey": "diana_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T18:53:24.529746Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:25.077548Z",
+          "description": "EmpoweredAS=常态3倍；常态仍存在，因此临时只额外加2倍。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法后额外攻速份数",
+          "parameterKey": "additional_as_multiplier",
+          "skillKey": "diana_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T18:53:25.077548Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/diana_p/parameters/cleave_base_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:22.135978Z",
+        "description": "当前等级月银之刃第三次攻击顺劈的基础魔法伤害点数，不含法强项。固定16.17原节点的起始20、初始每级5与7/12/17级断点保留来源，但断点当级及斜率求值算法未证；实际基础点数外供。缺值不能默认为0，不使用原推定18级表。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "第三次攻击基础魔法伤害",
+        "parameterKey": "cleave_base_damage",
+        "skillKey": "diana_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:05:20.350701Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/diana_p/parameters/ap_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:22.712989Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至1。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "第三次攻击法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "diana_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:53:22.712989Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/diana_p/parameters/passive_attack_speed_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:23.278944Z",
+        "description": "当前完整计算树的1至18级线性插值，端点均明确。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.15,
+          "2": 0.161764706,
+          "3": 0.173529412,
+          "4": 0.185294118,
+          "5": 0.197058824,
+          "6": 0.208823529,
+          "7": 0.220588235,
+          "8": 0.232352941,
+          "9": 0.244117647,
+          "10": 0.255882353,
+          "11": 0.267647059,
+          "12": 0.279411765,
+          "13": 0.291176471,
+          "14": 0.302941176,
+          "15": 0.314705882,
+          "16": 0.326470588,
+          "17": 0.338235294,
+          "18": 0.35
+        },
+        "name": "常态额外攻击速度",
+        "parameterKey": "passive_attack_speed_ratio",
+        "skillKey": "diana_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:23.278944Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/diana_p/parameters/empowered_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:23.97035Z",
+        "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至1。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法后强化攻速持续（毫秒）",
+        "parameterKey": "empowered_duration_ms",
+        "skillKey": "diana_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:53:23.97035Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/diana_p/parameters/cleave_attack_count",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:24.529746Z",
+        "description": "客户端当前根绑定 DataValues.AttackCount 取索引1至1。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "顺劈所需攻击次数",
+        "parameterKey": "cleave_attack_count",
+        "skillKey": "diana_p",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:53:24.529746Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/diana_p/parameters/additional_as_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:25.077548Z",
+        "description": "EmpoweredAS=常态3倍；常态仍存在，因此临时只额外加2倍。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法后额外攻速份数",
+        "parameterKey": "additional_as_multiplier",
+        "skillKey": "diana_p",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:53:25.077548Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/diana_p/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:53:25.592228Z",
+          "description": "完整CleaveDamage，等级基础20至220+0.5AP。",
+          "formulaKey": "cleave_damage",
+          "gameId": "lol",
+          "name": "第三次攻击顺劈额外伤害",
+          "skillKey": "diana_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:53:25.592228Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:26.120562Z",
+          "description": "常态+临时=1倍+2倍=3倍。",
+          "formulaKey": "additional_attack_speed",
+          "gameId": "lol",
+          "name": "施法后临时额外攻速",
+          "skillKey": "diana_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:53:26.120562Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/diana_p/formulas/cleave_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:25.592228Z",
+        "description": "完整CleaveDamage，等级基础20至220+0.5AP。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "cleave_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "cleave_damage",
+        "gameId": "lol",
+        "name": "第三次攻击顺劈额外伤害",
+        "skillKey": "diana_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:25.592228Z"
+      }
+    },
+    {
+      "route": "/skills/diana_p/formulas/additional_attack_speed",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:26.120562Z",
+        "description": "常态+临时=1倍+2倍=3倍。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_attack_speed_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "additional_as_multiplier"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "additional_attack_speed",
+        "gameId": "lol",
+        "name": "施法后临时额外攻速",
+        "skillKey": "diana_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:53:26.120562Z"
+      }
+    },
+    {
+      "route": "/skills/diana_p/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:53:26.682733Z",
+          "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+          "effectKey": "passive_attack_speed",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "月银之刃常态攻速",
+          "resultCount": 1,
+          "skillKey": "diana_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T19:23:16.739395Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:27.257173Z",
+          "description": null,
+          "effectKey": "cast_attack_speed",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "施法后月银攻速",
+          "resultCount": 1,
+          "skillKey": "diana_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T19:23:17.996122Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:27.833737Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "cleave_damage",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "第三次攻击顺劈魔法伤害",
+          "resultCount": 1,
+          "skillKey": "diana_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:53:27.833737Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/diana_p/effects/passive_attack_speed",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:26.682733Z",
+        "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+        "effectKey": "passive_attack_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "月银之刃常态攻速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "月银之刃常态攻速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_attack_speed_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T19:23:16.739395Z"
+      }
+    },
+    {
+      "route": "/skills/diana_p/effects/cast_attack_speed",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:27.257173Z",
+        "description": null,
+        "effectKey": "cast_attack_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "empowered_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "施法后月银攻速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "临时额外攻速",
+            "resultKey": "attack_speed",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "additional_attack_speed",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T19:23:17.996122Z"
+      }
+    },
+    {
+      "route": "/skills/diana_p/effects/cleave_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:27.833737Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "cleave_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "第三次攻击顺劈魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "第三次攻击顺劈魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "cleave_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:27.833737Z"
+      }
+    },
+    {
+      "route": "/skills/diana_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/diana_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/diana_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/diana_p/trigger-rules/initialize_passive_attack_speed",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "initialize_passive_attack_speed"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/diana_p/trigger-rules/after_q_attack_speed",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "after_q_attack_speed"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/diana_p/trigger-rules/after_w_attack_speed",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "after_w_attack_speed"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/diana_p/trigger-rules/after_e_attack_speed",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "after_e_attack_speed"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/diana_p/trigger-rules/after_r_attack_speed",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "after_r_attack_speed"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/diana_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_diana_p",
+          "name": "diana_p"
+        }
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_diana",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_diana",
+            "characterName": "黛安娜",
+            "gameId": "lol",
+            "skillKey": "diana_p",
+            "skillName": "黛安娜·月银之刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_diana",
+            "characterName": "黛安娜",
+            "gameId": "lol",
+            "skillKey": "diana_q",
+            "skillName": "黛安娜·新月打击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_diana",
+            "characterName": "黛安娜",
+            "gameId": "lol",
+            "skillKey": "diana_w",
+            "skillName": "黛安娜·苍白之瀑",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_diana",
+            "characterName": "黛安娜",
+            "gameId": "lol",
+            "skillKey": "diana_e",
+            "skillName": "黛安娜·月神冲刺",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_diana",
+            "characterName": "黛安娜",
+            "gameId": "lol",
+            "skillKey": "diana_r",
+            "skillName": "黛安娜·月之降临",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/trundle_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:41.8376Z",
+        "description": "每当附近有一个敌方单位死亡，特朗德尔都会获得相当于其一部分最大生命值的治疗效果。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "特朗德尔·国王的贡品",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "trundle_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:41.8376Z"
+      }
+    },
+    {
+      "route": "/skills/trundle_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T14:37:40.208389Z",
+          "description": "完整计算树1至18级端点线性插值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.018,
+            "2": 0.020176,
+            "3": 0.022353,
+            "4": 0.024529,
+            "5": 0.026706,
+            "6": 0.028882,
+            "7": 0.031059,
+            "8": 0.033235,
+            "9": 0.035412,
+            "10": 0.037588,
+            "11": 0.039765,
+            "12": 0.041941,
+            "13": 0.044118,
+            "14": 0.046294,
+            "15": 0.048471,
+            "16": 0.050647,
+            "17": 0.052824,
+            "18": 0.055
+          },
+          "name": "阵亡敌人最大生命治疗比例",
+          "parameterKey": "dead_enemy_hp_heal_ratio",
+          "skillKey": "trundle_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T14:37:40.208389Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/trundle_p/parameters/dead_enemy_hp_heal_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:37:40.208389Z",
+        "description": "完整计算树1至18级端点线性插值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.018,
+          "2": 0.020176,
+          "3": 0.022353,
+          "4": 0.024529,
+          "5": 0.026706,
+          "6": 0.028882,
+          "7": 0.031059,
+          "8": 0.033235,
+          "9": 0.035412,
+          "10": 0.037588,
+          "11": 0.039765,
+          "12": 0.041941,
+          "13": 0.044118,
+          "14": 0.046294,
+          "15": 0.048471,
+          "16": 0.050647,
+          "17": 0.052824,
+          "18": 0.055
+        },
+        "name": "阵亡敌人最大生命治疗比例",
+        "parameterKey": "dead_enemy_hp_heal_ratio",
+        "skillKey": "trundle_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:40.208389Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/trundle_p/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T14:37:40.944533Z",
+          "description": "角色1至18级1.8%至5.5%阵亡敌方最大生命；来源自身为治疗接收者。",
+          "formulaKey": "tribute_heal",
+          "gameId": "lol",
+          "name": "阵亡敌人贡品治疗",
+          "skillKey": "trundle_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T14:37:40.944533Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/trundle_p/formulas/tribute_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:37:40.944533Z",
+        "description": "角色1至18级1.8%至5.5%阵亡敌方最大生命；来源自身为治疗接收者。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "dead_enemy_hp_heal_ratio"
+            },
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "TARGET",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "tribute_heal",
+        "gameId": "lol",
+        "name": "阵亡敌人贡品治疗",
+        "skillKey": "trundle_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:40.944533Z"
+      }
+    },
+    {
+      "route": "/skills/trundle_p/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T14:37:41.651459Z",
+          "description": null,
+          "effectKey": "kings_tribute",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "国王的贡品自身治疗",
+          "resultCount": 1,
+          "skillKey": "trundle_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T14:37:41.651459Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/trundle_p/effects/kings_tribute",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:37:41.651459Z",
+        "description": null,
+        "effectKey": "kings_tribute",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "国王的贡品自身治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "国王的贡品自身治疗",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "tribute_heal",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "trundle_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:41.651459Z"
+      }
+    },
+    {
+      "route": "/skills/trundle_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/trundle_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/trundle_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/trundle_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_trundle_p",
+          "name": "trundle_p"
+        }
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_trundle",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_trundle",
+            "characterName": "特朗德尔",
+            "gameId": "lol",
+            "skillKey": "trundle_p",
+            "skillName": "特朗德尔·国王的贡品",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_trundle",
+            "characterName": "特朗德尔",
+            "gameId": "lol",
+            "skillKey": "trundle_q",
+            "skillName": "特朗德尔·利齿撕咬",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_trundle",
+            "characterName": "特朗德尔",
+            "gameId": "lol",
+            "skillKey": "trundle_w",
+            "skillName": "特朗德尔·冰封领域",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_trundle",
+            "characterName": "特朗德尔",
+            "gameId": "lol",
+            "skillKey": "trundle_e",
+            "skillName": "特朗德尔·寒冰之柱",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_trundle",
+            "characterName": "特朗德尔",
+            "gameId": "lol",
+            "skillKey": "trundle_r",
+            "skillName": "特朗德尔·强权至上",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/warwick_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:05.321481Z",
+        "description": "沃里克的普攻造成额外魔法伤害。如果沃里克的生命值低于50%，那么他会获得等额的治疗效果。如果他的生命值低于25%，则治疗效果提升至三倍。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "沃里克·血之饥渴",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "warwick_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:05.321481Z"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T14:38:10.48706Z",
+          "description": "完整计算树1至18级端点线性插值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 6,
+            "2": 8.882353,
+            "3": 11.764706,
+            "4": 14.647059,
+            "5": 17.529412,
+            "6": 20.411765,
+            "7": 23.294118,
+            "8": 26.176471,
+            "9": 29.058824,
+            "10": 31.941176,
+            "11": 34.823529,
+            "12": 37.705882,
+            "13": 40.588235,
+            "14": 43.470588,
+            "15": 46.352941,
+            "16": 49.235294,
+            "17": 52.117647,
+            "18": 55
+          },
+          "name": "普攻附带基础魔法伤害",
+          "parameterKey": "on_hit_base",
+          "skillKey": "warwick_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T14:38:10.48706Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:11.158486Z",
+          "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至1。",
+          "fixedValue": 0.15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "被动额外攻击力倍率",
+          "parameterKey": "bonus_ad_ratio",
+          "skillKey": "warwick_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-08T14:38:11.158486Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:11.770641Z",
+          "description": "客户端当前根绑定 DataValues.APRatio 取索引1至1。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "被动法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "warwick_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-08T14:38:11.770641Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:12.376041Z",
+          "description": "客户端当前根绑定 DataValues.HealingThreshold 取索引1至1。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "触发治疗的生命比例上界",
+          "parameterKey": "healing_hp_threshold",
+          "skillKey": "warwick_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-08T14:38:12.376041Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:12.976669Z",
+          "description": "客户端当前根绑定 DataValues.EmpoweredHealingThreshold 取索引1至1。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化治疗的生命比例上界",
+          "parameterKey": "empowered_healing_hp_threshold",
+          "skillKey": "warwick_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-08T14:38:12.976669Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:13.637764Z",
+          "description": "客户端当前根绑定 DataValues.HealingRatio 取索引1至1。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "通常实际伤害治疗倍率",
+          "parameterKey": "healing_ratio",
+          "skillKey": "warwick_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-08T14:38:13.637764Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:14.293109Z",
+          "description": "客户端当前根绑定 DataValues.EmpoweredHealingRatio 取索引1至1。",
+          "fixedValue": 2.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "低生命实际伤害治疗倍率",
+          "parameterKey": "empowered_healing_ratio",
+          "skillKey": "warwick_p",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-08T14:38:14.293109Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:14.924774Z",
+          "description": "只接收本次血之饥渴已结算的实际伤害，不采用普攻总伤害或减伤前公式值；缺失不可补零。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "本次被动实际伤害",
+          "parameterKey": "passive_actual_damage",
+          "skillKey": "warwick_p",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-08T14:38:14.924774Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/warwick_p/parameters/on_hit_base",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:10.48706Z",
+        "description": "完整计算树1至18级端点线性插值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6,
+          "2": 8.882353,
+          "3": 11.764706,
+          "4": 14.647059,
+          "5": 17.529412,
+          "6": 20.411765,
+          "7": 23.294118,
+          "8": 26.176471,
+          "9": 29.058824,
+          "10": 31.941176,
+          "11": 34.823529,
+          "12": 37.705882,
+          "13": 40.588235,
+          "14": 43.470588,
+          "15": 46.352941,
+          "16": 49.235294,
+          "17": 52.117647,
+          "18": 55
+        },
+        "name": "普攻附带基础魔法伤害",
+        "parameterKey": "on_hit_base",
+        "skillKey": "warwick_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:38:10.48706Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/parameters/bonus_ad_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:11.158486Z",
+        "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至1。",
+        "fixedValue": 0.15,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动额外攻击力倍率",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "warwick_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:38:11.158486Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/parameters/ap_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:11.770641Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至1。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "warwick_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:38:11.770641Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/parameters/healing_hp_threshold",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:12.376041Z",
+        "description": "客户端当前根绑定 DataValues.HealingThreshold 取索引1至1。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "触发治疗的生命比例上界",
+        "parameterKey": "healing_hp_threshold",
+        "skillKey": "warwick_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T14:38:12.376041Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/parameters/empowered_healing_hp_threshold",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:12.976669Z",
+        "description": "客户端当前根绑定 DataValues.EmpoweredHealingThreshold 取索引1至1。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化治疗的生命比例上界",
+        "parameterKey": "empowered_healing_hp_threshold",
+        "skillKey": "warwick_p",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T14:38:12.976669Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/parameters/healing_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:13.637764Z",
+        "description": "客户端当前根绑定 DataValues.HealingRatio 取索引1至1。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "通常实际伤害治疗倍率",
+        "parameterKey": "healing_ratio",
+        "skillKey": "warwick_p",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T14:38:13.637764Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/parameters/empowered_healing_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:14.293109Z",
+        "description": "客户端当前根绑定 DataValues.EmpoweredHealingRatio 取索引1至1。",
+        "fixedValue": 2.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "低生命实际伤害治疗倍率",
+        "parameterKey": "empowered_healing_ratio",
+        "skillKey": "warwick_p",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T14:38:14.293109Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/parameters/passive_actual_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:14.924774Z",
+        "description": "只接收本次血之饥渴已结算的实际伤害，不采用普攻总伤害或减伤前公式值；缺失不可补零。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次被动实际伤害",
+        "parameterKey": "passive_actual_damage",
+        "skillKey": "warwick_p",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T14:38:14.924774Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T14:38:15.472911Z",
+          "description": "当前完整树：角色1至18级6至55 + 0.15额外攻击力 + 0.1法强；不含普通攻击本体。",
+          "formulaKey": "on_hit_damage",
+          "gameId": "lol",
+          "name": "血之饥渴附带魔法伤害",
+          "skillKey": "warwick_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T14:38:15.472911Z"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:16.054692Z",
+          "description": "适用于生命比例[25%,50%)；不是任意攻击的伤害。",
+          "formulaKey": "normal_heal",
+          "gameId": "lol",
+          "name": "生命低于50%通常治疗",
+          "skillKey": "warwick_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-08T14:38:16.054692Z"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:16.656277Z",
+          "description": "当前根与主说明是2.5倍，旧摘要三倍不采用；与通常治疗互斥。",
+          "formulaKey": "empowered_heal",
+          "gameId": "lol",
+          "name": "生命低于25%强化治疗",
+          "skillKey": "warwick_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-08T14:38:16.656277Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/warwick_p/formulas/on_hit_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:15.472911Z",
+        "description": "当前完整树：角色1至18级6至55 + 0.15额外攻击力 + 0.1法强；不含普通攻击本体。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_hit_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "on_hit_damage",
+        "gameId": "lol",
+        "name": "血之饥渴附带魔法伤害",
+        "skillKey": "warwick_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:38:15.472911Z"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/formulas/normal_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:16.054692Z",
+        "description": "适用于生命比例[25%,50%)；不是任意攻击的伤害。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_actual_damage"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "healing_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "normal_heal",
+        "gameId": "lol",
+        "name": "生命低于50%通常治疗",
+        "skillKey": "warwick_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:38:16.054692Z"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/formulas/empowered_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:16.656277Z",
+        "description": "当前根与主说明是2.5倍，旧摘要三倍不采用；与通常治疗互斥。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_actual_damage"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_healing_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "empowered_heal",
+        "gameId": "lol",
+        "name": "生命低于25%强化治疗",
+        "skillKey": "warwick_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:38:16.656277Z"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T14:38:17.283937Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "on_hit_damage",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "血之饥渴普通攻击独立附伤",
+          "resultCount": 1,
+          "skillKey": "warwick_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T14:38:17.283937Z"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:17.927183Z",
+          "description": null,
+          "effectKey": "normal_heal",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "血之饥渴通常治疗",
+          "resultCount": 1,
+          "skillKey": "warwick_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-08T14:38:17.927183Z"
+        },
+        {
+          "createdAt": "2026-09-08T14:38:18.559652Z",
+          "description": null,
+          "effectKey": "empowered_heal",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "血之饥渴低生命强化治疗",
+          "resultCount": 1,
+          "skillKey": "warwick_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-08T14:38:18.559652Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/warwick_p/effects/on_hit_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:17.283937Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "on_hit_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "血之饥渴普通攻击独立附伤",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "血之饥渴普通攻击独立附伤",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "on_hit_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "warwick_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:38:17.283937Z"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/effects/normal_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:17.927183Z",
+        "description": null,
+        "effectKey": "normal_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "血之饥渴通常治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "血之饥渴通常治疗",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "normal_heal",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "warwick_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:38:17.927183Z"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/effects/empowered_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T14:38:18.559652Z",
+        "description": null,
+        "effectKey": "empowered_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "血之饥渴低生命强化治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "血之饥渴低生命强化治疗",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "empowered_heal",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "warwick_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:38:18.559652Z"
+      }
+    },
+    {
+      "route": "/skills/warwick_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/warwick_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/warwick_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/warwick_p/trigger-rules/basic_attack_hit",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "basic_attack_hit"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/warwick_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_warwick_p",
+          "name": "warwick_p"
+        }
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_warwick",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_warwick",
+            "characterName": "沃里克",
+            "gameId": "lol",
+            "skillKey": "warwick_p",
+            "skillName": "沃里克·血之饥渴",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_warwick",
+            "characterName": "沃里克",
+            "gameId": "lol",
+            "skillKey": "warwick_q",
+            "skillName": "沃里克·野兽之口",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_warwick",
+            "characterName": "沃里克",
+            "gameId": "lol",
+            "skillKey": "warwick_w",
+            "skillName": "沃里克·鲜血追猎",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_warwick",
+            "characterName": "沃里克",
+            "gameId": "lol",
+            "skillKey": "warwick_e",
+            "skillName": "沃里克·远祖嗥叫",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_warwick",
+            "characterName": "沃里克",
+            "gameId": "lol",
+            "skillKey": "warwick_r",
+            "skillName": "沃里克·无尽束缚",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/garen_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T15:35:00.736939Z",
+        "description": "被动技能。每5秒回复最大生命值的比例随英雄等级变化，受影响后暂停8秒。资料：16.17客户端字段及已冻结补证。当前仅录已核组件，自动启停、受伤来源和图片仍待处理。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "盖伦·坚韧",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T15:35:00.736939Z"
+      }
+    },
+    {
+      "route": "/skills/garen_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-06T15:36:25.759918Z",
+          "description": "当前16.17客户端分段曲线；每5秒单位由官方9.20说明与补证确认。仅1～18级，自动启停规则尚待录入。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.015,
+            "2": 0.017,
+            "3": 0.019,
+            "4": 0.021,
+            "5": 0.023,
+            "6": 0.025,
+            "7": 0.033,
+            "8": 0.041,
+            "9": 0.049,
+            "10": 0.057,
+            "11": 0.065,
+            "12": 0.073,
+            "13": 0.081,
+            "14": 0.085,
+            "15": 0.089,
+            "16": 0.093,
+            "17": 0.097,
+            "18": 0.101
+          },
+          "name": "每5秒最大生命回复比例",
+          "parameterKey": "regen_ratio_per_5s",
+          "skillKey": "garen_p",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-06T15:36:25.759918Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-06T15:36:46.514706Z",
+          "description": "16.17客户端DamageTimer；仅召唤师峡谷，不取竞技场覆盖值。",
+          "fixedValue": 8000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "受影响后暂停回复时长（毫秒）",
+          "parameterKey": "damage_pause_ms",
+          "skillKey": "garen_p",
+          "sortOrder": 1,
+          "updatedAt": "2026-09-06T15:36:46.514706Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/garen_p/parameters/regen_ratio_per_5s",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T15:36:25.759918Z",
+        "description": "当前16.17客户端分段曲线；每5秒单位由官方9.20说明与补证确认。仅1～18级，自动启停规则尚待录入。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.015,
+          "2": 0.017,
+          "3": 0.019,
+          "4": 0.021,
+          "5": 0.023,
+          "6": 0.025,
+          "7": 0.033,
+          "8": 0.041,
+          "9": 0.049,
+          "10": 0.057,
+          "11": 0.065,
+          "12": 0.073,
+          "13": 0.081,
+          "14": 0.085,
+          "15": 0.089,
+          "16": 0.093,
+          "17": 0.097,
+          "18": 0.101
+        },
+        "name": "每5秒最大生命回复比例",
+        "parameterKey": "regen_ratio_per_5s",
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:36:25.759918Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/garen_p/parameters/damage_pause_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T15:36:46.514706Z",
+        "description": "16.17客户端DamageTimer；仅召唤师峡谷，不取竞技场覆盖值。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "受影响后暂停回复时长（毫秒）",
+        "parameterKey": "damage_pause_ms",
+        "skillKey": "garen_p",
+        "sortOrder": 1,
+        "updatedAt": "2026-09-06T15:36:46.514706Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/garen_p/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-06T15:53:56.378958Z",
+          "description": "总生命值×等级回复比例；此值是每5秒回复量，不是每秒治疗，也不是瞬时直接治疗。来源：16.17固定资料。",
+          "formulaKey": "regen_per_5s",
+          "gameId": "lol",
+          "name": "被动提供的每5秒生命回复",
+          "skillKey": "garen_p",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-06T15:53:56.378958Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/garen_p/formulas/regen_per_5s",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T15:53:56.378958Z",
+        "description": "总生命值×等级回复比例；此值是每5秒回复量，不是每秒治疗，也不是瞬时直接治疗。来源：16.17固定资料。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "regen_ratio_per_5s"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "regen_per_5s",
+        "gameId": "lol",
+        "name": "被动提供的每5秒生命回复",
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:53:56.378958Z"
+      }
+    },
+    {
+      "route": "/skills/garen_p/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-06T16:57:13.125128Z",
+          "description": "仅被动生效期间挂载，动态按最大生命计算每5秒额外回复；受击暂停与恢复事件、回复执行节拍仍待配置。",
+          "effectKey": "perseverance_regen",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "坚韧持续生命回复",
+          "resultCount": 1,
+          "skillKey": "garen_p",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-06T16:57:13.125128Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/garen_p/effects/perseverance_regen",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T16:57:13.125128Z",
+        "description": "仅被动生效期间挂载，动态按最大生命计算每5秒额外回复；受击暂停与恢复事件、回复执行节拍仍待配置。",
+        "effectKey": "perseverance_regen",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "坚韧持续生命回复",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "hp_regen",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "提高生命回复",
+            "resultKey": "regen",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 0,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "regen_per_5s",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T16:57:13.125128Z"
+      }
+    },
+    {
+      "route": "/skills/garen_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/garen_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/garen_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/garen_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "image_abb402b1-2cf4-42cf-a225-c6a262e49b07",
+          "name": "盖伦·坚韧代表图片_abb402b1-2cf4-42cf-a225-c6a262e49b07"
+        }
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_garen",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_garen",
+            "characterName": "盖伦",
+            "gameId": "lol",
+            "skillKey": "garen_p",
+            "skillName": "盖伦·坚韧",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_garen",
+            "characterName": "盖伦",
+            "gameId": "lol",
+            "skillKey": "garen_q",
+            "skillName": "盖伦·致命打击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_garen",
+            "characterName": "盖伦",
+            "gameId": "lol",
+            "skillKey": "garen_w",
+            "skillName": "盖伦·勇气",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_garen",
+            "characterName": "盖伦",
+            "gameId": "lol",
+            "skillKey": "garen_e",
+            "skillName": "盖伦·审判",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_garen",
+            "characterName": "盖伦",
+            "gameId": "lol",
+            "skillKey": "garen_r",
+            "skillName": "盖伦·德玛西亚正义",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    }
+  ],
+  "errors": [],
+  "writes": 0
+}

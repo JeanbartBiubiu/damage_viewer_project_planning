@@ -1,0 +1,46 @@
+{
+  "i": 266,
+  "intent": {
+    "sequence": 267,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_q/formulas",
+    "detailRoute": "/skills/zaahen_q/formulas/first_attack_physical_damage",
+    "skillKey": "zaahen_q",
+    "kind": "formulas",
+    "stableKey": "first_attack_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "first_attack_physical_damage",
+      "name": "暗裔长刀第一段额外物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "first_attack_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "第一段=15至75+0.2至0.4×来源额外攻击力。",
+      "sortOrder": 90
+    }
+  }
+}

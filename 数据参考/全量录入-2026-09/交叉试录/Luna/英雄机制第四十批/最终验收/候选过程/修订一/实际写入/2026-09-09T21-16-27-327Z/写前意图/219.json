@@ -1,0 +1,23 @@
+{
+  "i": 218,
+  "intent": {
+    "sequence": 219,
+    "method": "POST",
+    "route": "/skills/twistedfate_r/parameters",
+    "detailRoute": "/skills/twistedfate_r/parameters/teleport_channel_duration_ms",
+    "skillKey": "twistedfate_r",
+    "kind": "parameters",
+    "stableKey": "teleport_channel_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "teleport_channel_duration_ms",
+      "name": "命运传送引导时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前概要明确传送引导1.5秒；与首次施法250毫秒分开。",
+      "sortOrder": 50
+    }
+  }
+}

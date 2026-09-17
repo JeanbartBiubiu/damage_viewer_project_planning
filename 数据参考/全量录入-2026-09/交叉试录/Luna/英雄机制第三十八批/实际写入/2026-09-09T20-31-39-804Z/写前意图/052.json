@@ -1,0 +1,33 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/leesin_p/formulas",
+    "detailRoute": "/skills/leesin_p/formulas/first_hit_energy_return",
+    "skillKey": "leesin_p",
+    "kind": "formulas",
+    "stableKey": "first_hit_energy_return",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "first_hit_energy_return",
+      "name": "疾风骤雨第一次攻击能量回复",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "energy_return_at_character_level"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "first_hit_energy_multiplier"
+          }
+        ]
+      },
+      "description": "当前TTFirstHitEnergy=EnergyReturn×FirstHitEnergyMult；第一次和第二次回复分开。",
+      "sortOrder": 10
+    }
+  }
+}

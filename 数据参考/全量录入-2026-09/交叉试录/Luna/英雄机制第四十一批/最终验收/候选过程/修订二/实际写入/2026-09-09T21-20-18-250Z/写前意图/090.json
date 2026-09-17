@@ -1,0 +1,27 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "method": "POST",
+    "route": "/skills/milio_r/parameters",
+    "detailRoute": "/skills/milio_r/parameters/heal_base",
+    "skillKey": "milio_r",
+    "kind": "parameters",
+    "stableKey": "heal_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_base",
+      "name": "治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "HealCalc取等级索引1至3。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_p/parameters",
+    "detailRoute": "/skills/nidalee_p/parameters/move_speed_cap_ratio",
+    "skillKey": "nidalee_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_cap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_cap_ratio",
+      "name": "移动速度叠加上限比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "当前扩展正文写明移动速度可叠加但不能超过30%；上限接线待运行层执行。",
+      "sortOrder": 60
+    }
+  }
+}

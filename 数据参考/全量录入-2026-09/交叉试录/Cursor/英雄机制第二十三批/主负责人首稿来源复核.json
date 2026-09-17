@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-09T13:46:07.260Z",
+  "candidateSha256": "1bce13b11171e163d619feb739a3b040ad3b6d8fbe04dc345b8918ed9d3c08b3",
+  "decision": "修订后重新核对，原候选未批准业务写入",
+  "changes": [
+    "AmumuE固定减免点数误写为百分比；应为MIN(5/7/9/11/13+.03额外护甲+.03额外魔抗,.5进入物理伤害)，无额外.01。",
+    "运算节点必须恰好两个操作数；多项ADD折成二元嵌套。",
+    "ZacR整数减速百分数点20.000000298023归一20并检查全部整数。",
+    "ZacP四组织复活冷却随已排除分支移出；不将排除伪称待接。",
+    "ZacQ不同敌人投掷专用MaxSlamDistance、YankDistance、CollisionAoE移出。",
+    "AmumuW未证消费者的两个匿名树值只保留来源；每秒伤害与比例仍保留。",
+    "ZacE表现预警VFXWarningTime移出数值录入。",
+    "hp资源扣除必须核验实际允许的资源类型。"
+  ],
+  "sourceReview": "主负责人已逐槽读取冻结根绑定、当前文本和计算树，按原始字段及当前消费者检查。",
+  "businessWritesAtReview": 0,
+  "runtimeValidation": "未执行"
+}

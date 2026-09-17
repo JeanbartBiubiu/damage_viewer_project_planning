@@ -1,0 +1,30 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_e/parameters",
+    "detailRoute": "/skills/teemo_e/parameters/tick_base_damage",
+    "skillKey": "teemo_e",
+    "kind": "parameters",
+    "stableKey": "tick_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tick_base_damage",
+      "name": "每秒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6,
+        "2": 12,
+        "3": 18,
+        "4": 24,
+        "5": 30
+      },
+      "description": "TickBaseDamage索引1至5为6/12/18/24/30。",
+      "sortOrder": 40
+    }
+  }
+}

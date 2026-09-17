@@ -1,0 +1,20 @@
+{
+  "i": 77,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/parameters",
+    "skillKey": "shen_q",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "逃离方向减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前根DataValues.SlowDuration为2秒，单位换算为毫秒。",
+      "sortOrder": 140
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "i": 12,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_q/parameters",
+    "skillKey": "ornn_q",
+    "kind": "parameters",
+    "stableKey": "attack_damage_ratio",
+    "body": {
+      "parameterKey": "attack_damage_ratio",
+      "name": "总攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.1,
+      "levelValues": null,
+      "description": "当前根TotalDamage的StatByCoefficient为1.1，根说明按总攻击力取值。",
+      "sortOrder": 30
+    }
+  }
+}

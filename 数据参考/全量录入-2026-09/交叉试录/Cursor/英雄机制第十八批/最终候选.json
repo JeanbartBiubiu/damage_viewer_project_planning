@@ -1,0 +1,1942 @@
+{
+  "meta": {
+    "executor": "第十八批 Cursor 候选代理；只读来源与静态候选，未业务写入",
+    "gameId": "lol",
+    "batch": "第十八批拉克丝与佐伊",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "snapshotSha256": "e7aaac29e37ad539300a538c8385e392d0d62dc97178654a4832a54a62e12b7e",
+    "bindingSha256": "3147c351e63770e1ba828d9887c305226ee451b8ffc4da140187d4e666d07769",
+    "generatedAt": "2026-09-09T11:23:38.176Z",
+    "apiWrites": 0,
+    "note": "完整候选以 skills[zoe_*].write 记录佐伊五槽最终组成。六个已有公共参数按冻结实值列入 write 并标记 reusedPublicParameters。只生成其余缺项的 POST 意图。不为拉克丝生成 write。候选和数学核算都不是已录入。",
+    "rootReviewedAt": "2026-09-09T11:34:04.550Z",
+    "rootRevision": "移出独立陷阱、冲突睡眠时长与未证明用途的易碎延续字段；保留Cursor原件；E/R两个施法时长字段冲突先保留来源，不选择其中一个写入"
+  },
+  "luxProtection": {
+    "action": "排除，不重录，不生成 write",
+    "reason": "五个技能均已有非公共参数和/或公式、效果、过程、触发规则。W 自身护盾与 E 唯一敌方范围伤害只作为保护核对对象。",
+    "snapshotSha256": "e7aaac29e37ad539300a538c8385e392d0d62dc97178654a4832a54a62e12b7e",
+    "skills": {
+      "lux_p": {
+        "classification": "已有非公共实录组成",
+        "write": null
+      },
+      "lux_q": {
+        "classification": "已有非公共实录组成",
+        "write": null
+      },
+      "lux_w": {
+        "classification": "已有非公共实录组成",
+        "write": null,
+        "protectionCheck": {
+          "route": "/skills/lux_w/effects/prismatic_shield",
+          "effectKey": "prismatic_shield",
+          "name": "曲光屏障自我护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "instanceScope": "SOURCE",
+          "formulaKey": "shield",
+          "formulaName": "曲光屏障护盾值",
+          "note": "冻结 GET：普通自我护盾，目标与实例范围均为施法者。本批不复制、覆盖或创建重复护盾组成。"
+        }
+      },
+      "lux_e": {
+        "classification": "已有非公共实录组成",
+        "write": null,
+        "protectionCheck": {
+          "route": "/skills/lux_e/effects/singularity_detonate",
+          "effectKey": "singularity_detonate",
+          "name": "奇点爆炸",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "formulaKey": "damage",
+          "formulaName": "透光奇点爆炸魔法伤害",
+          "note": "冻结 GET：唯一敌方目标上的爆炸魔法伤害，作为范围伤害的 1v1 实录。本批不复制、覆盖或创建重复伤害组成。"
+        }
+      },
+      "lux_r": {
+        "classification": "已有非公共实录组成",
+        "write": null
+      }
+    }
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "zoe_q",
+      "parameterKey": "cooldown_ms",
+      "route": "/skills/zoe_q/parameters/cooldown_ms",
+      "action": "完整复用冻结实值，不发更新或重建",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 8500,
+        "2": 8000,
+        "3": 7500,
+        "4": 7000,
+        "5": 6500
+      },
+      "name": "基础冷却时间（毫秒）",
+      "sortOrder": 100,
+      "description": "DDragon16.17.1 Zoe.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。"
+    },
+    {
+      "skillKey": "zoe_q",
+      "parameterKey": "mana_cost",
+      "route": "/skills/zoe_q/parameters/mana_cost",
+      "action": "完整复用冻结实值，不发更新或重建",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "name": "基础法力消耗",
+      "sortOrder": 110,
+      "description": "DDragon16.17.1 Zoe.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "zoe_e",
+      "parameterKey": "cooldown_ms",
+      "route": "/skills/zoe_e/parameters/cooldown_ms",
+      "action": "完整复用冻结实值，不发更新或重建",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 18000,
+        "2": 17000,
+        "3": 16000,
+        "4": 15000,
+        "5": 14000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "sortOrder": 100,
+      "description": "DDragon16.17.1 Zoe.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "zoe_e",
+      "parameterKey": "mana_cost",
+      "route": "/skills/zoe_e/parameters/mana_cost",
+      "action": "完整复用冻结实值，不发更新或重建",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 80,
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "sortOrder": 110,
+      "description": "DDragon16.17.1 Zoe.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "zoe_r",
+      "parameterKey": "cooldown_ms",
+      "route": "/skills/zoe_r/parameters/cooldown_ms",
+      "action": "完整复用冻结实值，不发更新或重建",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 11000,
+        "2": 8000,
+        "3": 5000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "sortOrder": 100,
+      "description": "DDragon16.17.1 Zoe.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留Q距离增伤及施放后强化攻击依赖，空间执行后置。"
+    },
+    {
+      "skillKey": "zoe_r",
+      "parameterKey": "mana_cost",
+      "route": "/skills/zoe_r/parameters/mana_cost",
+      "action": "完整复用冻结实值，不发更新或重建",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 40,
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "sortOrder": 110,
+      "description": "DDragon16.17.1 Zoe.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留Q距离增伤及施放后强化攻击依赖，空间执行后置。"
+    }
+  ],
+  "wPickupGap": {
+    "skillKey": "zoe_w",
+    "status": "当前仍待补",
+    "statement": "W 的拾取替代技能部分没有统一已证的技能事件，必须保留为缺口，不能无限借用其他技能或召唤师技能事件。",
+    "excluded": [
+      "碎片掉落",
+      "地上拾取",
+      "一次性替代技能施放",
+      "召唤师技能或主动装备事件转写",
+      "飞弹寻的与命中运行事件"
+    ]
+  },
+  "skills": {
+    "zoe_p": {
+      "skillKey": "zoe_p",
+      "slot": "P",
+      "name": "烟火四射！",
+      "binding": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+      "classification": "尚无组成",
+      "currentLocKeys": {
+        "keyName": "game_spell_displayname_ZoePassive",
+        "keyTooltip": "Spell_ZoePassive_Tooltip",
+        "keyTooltipExtended": "Spell_ZoePassive_TooltipExtended"
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "char_level_base_damage",
+            "name": "角色等级基础魔法伤害（实际值外供）",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "来源 Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive 的 PassiveDamage.ByCharLevelBreakpointsCalculationPart。当前包只证明 mLevel1Value=16、mInitialBonusPerLevel=4 及 7/12/15 级斜率字段，求值循环与断点当级计入时点未证，不把 1 至 18 级曲线猜展开，也不默认 0。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.APRatio 原始 0.20000000298023224，按设计值归一为 0.2。PassiveDamage 的 StatByNamedDataValueCalculationPart 省略 mStat/mStatFormula，按同版本窄口径映射来源总法强。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "烟火四射额外魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "char_level_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "PassiveDamage = 角色等级断点外供值 + APRatio×来源总法强。不把施放技能后的下次普攻写成已有运行事件。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "parameterMeta": {
+        "char_level_base_damage": {
+          "unit": "点",
+          "levelSemantics": "角色等级断点，外供实际已求值结果；不是技能等级",
+          "sourcePath": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive.mSpellCalculations.PassiveDamage.mFormulaParts[0]",
+          "pendingNote": "缺独立求值器证明前，不能把断点字段写成 CHARACTER_LEVEL 表。"
+        },
+        "ap_ratio": {
+          "unit": "倍率，1=100%",
+          "levelSemantics": "固定，与被动 1 级上限无关",
+          "sourcePath": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive.DataValues.APRatio",
+          "pendingNote": "未接线强化普攻触发，公式只表达数值。"
+        }
+      },
+      "unknownInputs": [
+        "char_level_base_damage",
+        "SOURCE:ability_power:TOTAL"
+      ],
+      "pending": [
+        "被动触发、强化普攻命中时点与目标资格未证，不创建效果、过程或触发规则。",
+        "WPickupDurationMinion/Champion 挂在被动根对象，但当前被动正文未绑定，不写入本槽。"
+      ]
+    },
+    "zoe_q": {
+      "skillKey": "zoe_q",
+      "slot": "Q",
+      "name": "飞星乱入！",
+      "binding": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+      "classification": "仅已有公共参数",
+      "currentLocKeys": {
+        "keyName": "Spell_ZoeQ_Name",
+        "keySummary": "Spell_ZoeQ_Summary",
+        "keyTooltip": "Spell_ZoeQ_Tooltip"
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 8500,
+              "2": 8000,
+              "3": 7500,
+              "4": 7000,
+              "5": 6500
+            },
+            "description": "DDragon16.17.1 Zoe.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "sortOrder": 100,
+            "reuse": true
+          },
+          {
+            "parameterKey": "mana_cost",
+            "name": "基础法力消耗",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "description": "DDragon16.17.1 Zoe.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "sortOrder": 110,
+            "reuse": true
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 50,
+              "2": 80,
+              "3": 110,
+              "4": 140,
+              "5": 170
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引 1 至 5，跳过 rank0=20。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "char_level_bonus_damage",
+            "name": "角色等级附加魔法伤害（实际值外供）",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "TotalDamageTooltip 第二项 ByCharLevelBreakpointsCalculationPart：mLevel1Value=2、mInitialBonusPerLevel=2，断点 10 级斜率 3、14 级斜率 4。求值循环未证，不展开 1 至 18 级，不默认 0。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.6,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.APRatio 原始 0.6000000238418579，按设计值归一为 0.6。StatByNamedDataValue 省略统计选择器，按窄口径映射来源总法强。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "distance_damage_cap_multiplier",
+            "name": "飞行距离伤害上限倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 2.5,
+            "levelValues": null,
+            "description": "MaxDamageTooltip 为 GameCalculationModified，mModifiedGameCalculation=TotalDamageTooltip，mMultiplier.mNumber=2.5。上限写进公式，不只写在说明。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根 spellCastTime=0.25 秒，按毫秒保存。只保存根字段，不表示命中发生在施法结束。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "飞星最短提示魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "char_level_bonus_damage"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamageTooltip = BaseDamage + 角色等级断点外供值 + APRatio×来源总法强。对应正文最短伤害，不是已飞行距离后的实伤。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "max_damage",
+            "name": "飞星最长提示魔法伤害上限",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "distance_damage_cap_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_damage"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "char_level_bonus_damage"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "MaxDamageTooltip = 2.5 × TotalDamageTooltip。2.5 在表达式内，作为当前根绑定给出的距离增伤上限。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "parameterMeta": {
+        "base_damage": {
+          "unit": "点",
+          "levelSemantics": "技能等级 1 至 5，对应 DataValues 索引 1 至 5",
+          "sourcePath": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ.DataValues.BaseDamage",
+          "pendingNote": "实际命中对象与弹道资格未接线。"
+        },
+        "char_level_bonus_damage": {
+          "unit": "点",
+          "levelSemantics": "角色等级断点外供，不是技能等级",
+          "sourcePath": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ.mSpellCalculations.TotalDamageTooltip.mFormulaParts[1]",
+          "pendingNote": "飞行距离插值未出现在当前根计算树，不能用该断点冒充距离增伤。"
+        },
+        "ap_ratio": {
+          "unit": "倍率，1=100%",
+          "levelSemantics": "固定",
+          "sourcePath": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ.DataValues.APRatio",
+          "pendingNote": "仅进入提示伤害树，不表示弹体已命中。"
+        },
+        "distance_damage_cap_multiplier": {
+          "unit": "倍率",
+          "levelSemantics": "固定",
+          "sourcePath": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ.mSpellCalculations.MaxDamageTooltip.mMultiplier",
+          "pendingNote": "最短到最长之间的距离插值、飞行距离输入和再导向事件仍待补。"
+        },
+        "cast_time_ms": {
+          "unit": "毫秒",
+          "levelSemantics": "固定",
+          "sourcePath": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ.spellCastTime",
+          "pendingNote": "再施放转向没有统一已证技能事件，不创建过程。"
+        }
+      },
+      "unknownInputs": [
+        "char_level_bonus_damage",
+        "SOURCE:ability_power:TOTAL",
+        "飞行距离",
+        "再施放转向事件"
+      ],
+      "pending": [
+        "飞行距离未给默认值；根计算树只有最短与 2.5 倍上限，没有插值函数。",
+        "再次施放重新导向不能写成已有运行事件。",
+        "MinionDamageMod=1 与 UnnamedEffectAmount1 当前无正文绑定，不写入。"
+      ]
+    },
+    "zoe_w": {
+      "skillKey": "zoe_w",
+      "slot": "W",
+      "name": "窃法巧手",
+      "binding": "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+      "classification": "尚无组成",
+      "currentLocKeys": {
+        "keyName": "Spell_ZoeW_Name",
+        "keySummary": "Spell_ZoeW_Summary",
+        "keyTooltip": "Spell_ZoeW_Tooltip",
+        "keyTooltipExtendedBelowLine": "Spell_ZoeW_TooltipExtendedBelowLine",
+        "keyCost": "Spell_Cost_NoCost"
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "DDragon16.17.1 Zoe.spells[1].cooldown 与客户端根 cooldownTime 均为 0.25 秒，转换为毫秒。官方资源为无消耗。仅基础间隔，拾取后替代技能的实际起算时点另配。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "missile_base_damage",
+            "name": "单颗飞弹基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 15,
+              "2": 25,
+              "3": 35,
+              "4": 45,
+              "5": 55
+            },
+            "description": "客户端当前根绑定 DataValues.TotalBaseDamage 取索引 1 至 5，跳过 rank0=5。MissileDamageTooltip 按单颗计算，不把官方升级提示的 ×3 写进本公式。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "单颗飞弹法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.TotalAPRatio 原始 0.10000000149011612，按设计值归一为 0.1。StatByNamedDataValue 省略统计选择器，按窄口径映射来源总法强。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "missile_count",
+            "name": "飞弹数量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "当前根 mLocKeys 正文与官方说明均写 3 颗/3 个飞弹。层数为实际层数，用 INTEGER。不把 3 乘进 MissileDamageTooltip。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "movement_speed_ratio",
+            "name": "移动速度加成比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.3,
+              "2": 0.4,
+              "3": 0.5,
+              "4": 0.6,
+              "5": 0.7
+            },
+            "description": "客户端当前根绑定 DataValues.MovementSpeed 取索引 1 至 5；正文 @MovementSpeed*100@%，来源已是 0 至 1 比例，不再乘 0.01。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "movement_speed_duration_ms",
+            "name": "移动速度持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 2000,
+              "2": 2250,
+              "3": 2500,
+              "4": 2750,
+              "5": 3000
+            },
+            "description": "客户端当前根绑定 DataValues.MSDuration 取索引 1 至 5；单位秒转毫秒。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "missile_damage",
+            "name": "窃法巧手单颗飞弹提示魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missile_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "MissileDamageTooltip = TotalBaseDamage + TotalAPRatio×来源总法强。只表达单颗提示伤害，不创建飞弹命中事件或 DAMAGE 结果。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "parameterMeta": {
+        "cooldown_ms": {
+          "unit": "毫秒",
+          "levelSemantics": "固定，技能 1 至 5 级相同",
+          "sourcePath": "Characters/Zoe/Spells/ZoeWAbility/ZoeW.cooldownTime 与官方 ZoeW.cooldown",
+          "pendingNote": "该值不是已证的拾取替代技能事件，也不能借用召唤师技能冷却。"
+        },
+        "missile_base_damage": {
+          "unit": "点",
+          "levelSemantics": "技能等级 1 至 5，对应 DataValues 索引 1 至 5",
+          "sourcePath": "Characters/Zoe/Spells/ZoeWAbility/ZoeW.DataValues.TotalBaseDamage",
+          "pendingNote": "三颗飞弹的发射、寻的和命中事件未证。"
+        },
+        "ap_ratio": {
+          "unit": "倍率，1=100%",
+          "levelSemantics": "固定",
+          "sourcePath": "Characters/Zoe/Spells/ZoeWAbility/ZoeW.DataValues.TotalAPRatio",
+          "pendingNote": "只进入单颗飞弹提示伤害，不创建 DAMAGE 结果。"
+        },
+        "missile_count": {
+          "unit": "个",
+          "levelSemantics": "固定",
+          "sourcePath": "来源绑定 zoe_w.currentLocTexts.keyTooltip / 官方 ZoeW.description",
+          "pendingNote": "数量只作静态记录，发射过程未证。"
+        },
+        "movement_speed_ratio": {
+          "unit": "比例，1=100%",
+          "levelSemantics": "技能等级 1 至 5，对应 DataValues 索引 1 至 5",
+          "sourcePath": "Characters/Zoe/Spells/ZoeWAbility/ZoeW.DataValues.MovementSpeed",
+          "pendingNote": "移速效果、状态和施加时点未接线。MoveSpeedMod 仅 rank0 不同，正文绑定的是 MovementSpeed。"
+        },
+        "movement_speed_duration_ms": {
+          "unit": "毫秒",
+          "levelSemantics": "技能等级 1 至 5，对应 DataValues 索引 1 至 5",
+          "sourcePath": "Characters/Zoe/Spells/ZoeWAbility/ZoeW.DataValues.MSDuration",
+          "pendingNote": "持续效果过程未证。"
+        }
+      },
+      "unknownInputs": [
+        "SOURCE:ability_power:TOTAL",
+        "拾取替代技能事件",
+        "碎片掉落与目标资格"
+      ],
+      "pending": [
+        "拾取替代技能部分没有统一已证的技能事件，必须保留为缺口，不能无限借用其他技能或召唤师技能事件。",
+        "主动施放已拾取碎片、被动掉落、地上持续、召唤师技能同步飞弹均未写成运行事件。",
+        "DurationOfSummonerCanCast=60 与 MoveSpeedMod/MoveSpeedDuration 未进入当前正文绑定，不写入。",
+        "官方资源为无消耗，不创建法力 RESOURCE_CHANGE。"
+      ]
+    },
+    "zoe_e": {
+      "skillKey": "zoe_e",
+      "slot": "E",
+      "name": "催眠气泡",
+      "binding": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+      "classification": "仅已有公共参数",
+      "currentLocKeys": {
+        "keyName": "Spell_ZoeE_Name",
+        "keySummary": "Spell_ZoeE_Summary",
+        "keyTooltip": "Spell_ZoeE_Tooltip",
+        "keyTooltipExtendedBelowLine": "Spell_ZoeE_TooltipExtendedBelowLine"
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 18000,
+              "2": 17000,
+              "3": 16000,
+              "4": 15000,
+              "5": 14000
+            },
+            "description": "DDragon16.17.1 Zoe.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "sortOrder": 100,
+            "reuse": true
+          },
+          {
+            "parameterKey": "mana_cost",
+            "name": "基础法力消耗",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 80,
+            "levelValues": null,
+            "description": "DDragon16.17.1 Zoe.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "sortOrder": 110,
+            "reuse": true
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "气泡基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 70,
+              "2": 110,
+              "3": 150,
+              "4": 190,
+              "5": 230
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引 1 至 5，跳过 rank0=30；与官方 16.17.1 ZoeE.effect 第一组 70/110/150/190/230 一致。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.45,
+            "levelValues": null,
+            "description": "TotalDamageTooltip 与 BreakDamageTooltip 均使用 StatByCoefficientCalculationPart mCoefficient=0.44999998807907104，归一为 0.45。无具名 APRatio 字段，省略 mStat 按窄口径映射来源总法强。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "magic_resist_shred_ratio",
+            "name": "昏睡期魔法抗性降低比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.PercentPen 原始 0.30000001192092896，按设计值归一为 0.3；正文 @PercentPen*100@%。只录比例，不创建抗性结果。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "cooldown_refresh_ratio",
+            "name": "命中英雄刷新冷却比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.16,
+              "2": 0.195,
+              "3": 0.23,
+              "4": 0.265,
+              "5": 0.3
+            },
+            "description": "客户端当前根绑定 DataValues.CooldownRefresh 取索引 1 至 5；正文 @CooldownRefresh*100@%。来源已是比例，不乘 0.01。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "drowsy_slow_ratio",
+            "name": "困倦最大减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.1,
+              "2": 0.15,
+              "3": 0.2,
+              "4": 0.25,
+              "5": 0.3
+            },
+            "description": "客户端当前根绑定 DataValues.DrowsySlow 取索引 1 至 5；扩展正文 @DrowsySlow*100@%。来源已是比例。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "drowsy_duration_ms",
+            "name": "困倦持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1400,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DrowsyDuration 原始 1.399999976158142 秒，按设计值 1.4 秒转毫秒。",
+            "sortOrder": 70
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "催眠气泡提示魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamageTooltip = BaseDamage + 0.45×来源总法强。只表达气泡提示伤害，不创建 DAMAGE 结果或命中事件。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "wake_true_damage_cap",
+            "name": "惊醒额外真实伤害上限",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "BreakDamageTooltip 与气泡伤害同树：BaseDamage + 0.45×来源总法强。该公式结果本身就是正文上限值。双倍伤害的施加、MIN(来伤×2, 上限) 和睡眠唤醒事件都不在当前根计算树，不另造。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "parameterMeta": {
+        "base_damage": {
+          "unit": "点",
+          "levelSemantics": "技能等级 1 至 5，对应 DataValues 索引 1 至 5",
+          "sourcePath": "Characters/Zoe/Spells/ZoeEAbility/ZoeE.DataValues.BaseDamage",
+          "pendingNote": "气泡、陷阱命中与墙体延长未接线。"
+        },
+        "ap_ratio": {
+          "unit": "倍率，1=100%",
+          "levelSemantics": "固定",
+          "sourcePath": "Characters/Zoe/Spells/ZoeEAbility/ZoeE.mSpellCalculations.TotalDamageTooltip.mFormulaParts[1]",
+          "pendingNote": "唤醒真实伤害上限用同一系数，但不把双倍命中写成已有事件。"
+        },
+        "magic_resist_shred_ratio": {
+          "unit": "比例，1=100%",
+          "levelSemantics": "固定",
+          "sourcePath": "Characters/Zoe/Spells/ZoeEAbility/ZoeE.DataValues.PercentPen",
+          "pendingNote": "降低魔抗的状态过程未证。"
+        },
+        "cooldown_refresh_ratio": {
+          "unit": "比例，1=100%",
+          "levelSemantics": "技能等级 1 至 5，对应 DataValues 索引 1 至 5",
+          "sourcePath": "Characters/Zoe/Spells/ZoeEAbility/ZoeE.DataValues.CooldownRefresh",
+          "pendingNote": "刷新冷却的命中事件未证，不创建触发规则。"
+        },
+        "drowsy_slow_ratio": {
+          "unit": "比例，1=100%",
+          "levelSemantics": "技能等级 1 至 5，对应 DataValues 索引 1 至 5",
+          "sourcePath": "Characters/Zoe/Spells/ZoeEAbility/ZoeE.DataValues.DrowsySlow",
+          "pendingNote": "困倦递增减速过程未证，只保留数据值。"
+        },
+        "drowsy_duration_ms": {
+          "unit": "毫秒",
+          "levelSemantics": "固定",
+          "sourcePath": "Characters/Zoe/Spells/ZoeEAbility/ZoeE.DataValues.DrowsyDuration",
+          "pendingNote": "困倦状态未创建。"
+        }
+      },
+      "unknownInputs": [
+        "SOURCE:ability_power:TOTAL",
+        "唤醒来伤",
+        "目标资格",
+        "困倦到昏睡时点"
+      ],
+      "pending": [
+        "睡眠唤醒、双倍伤害应用不能写成已经存在的运行事件。",
+        "正文“双倍伤害，最多造成 BreakDamageTooltip 真实伤害”没有对应 MIN 计算节点；上限只以 BreakDamageTooltip 公式结果保存。",
+        "困倦、昏睡、魔抗降低、冷却刷新均无已证过程。",
+        "当前正文明确2秒昏睡，而根SleepDuration为2.25秒。两份原文保留，未确定同版计量差异前不保存某一值为实际昏睡时长。",
+        "BrittleLinger只见根字段名，当前绑定未给出其独立用途，保留原文待补，不把它直接当成惊醒窗口。",
+        "当前根spellCastTime为0，而mCastTime为0.3秒；字段优先级未证，不任取其一作为实际施法时长。"
+      ],
+      "excluded": [
+        {
+          "component": "未命中后地上独立陷阱及TrapLife",
+          "reason": "沿用本轮独立陷阱排除边界，直线气泡命中仍保留"
+        }
+      ]
+    },
+    "zoe_r": {
+      "skillKey": "zoe_r",
+      "slot": "R",
+      "name": "折返跃迁",
+      "binding": "Characters/Zoe/Spells/ZoeRAbility/ZoeR",
+      "classification": "仅已有公共参数",
+      "currentLocKeys": {
+        "keyName": "Spell_ZoeR_Name",
+        "keySummary": "Spell_ZoeR_Summary",
+        "keyTooltip": "Spell_ZoeR_Tooltip",
+        "keyTooltipExtendedBelowLine": "Spell_ZoeR_TooltipExtendedBelowLine"
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 11000,
+              "2": 8000,
+              "3": 5000
+            },
+            "description": "DDragon16.17.1 Zoe.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留Q距离增伤及施放后强化攻击依赖，空间执行后置。",
+            "sortOrder": 100,
+            "reuse": true
+          },
+          {
+            "parameterKey": "mana_cost",
+            "name": "基础法力消耗",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40,
+            "levelValues": null,
+            "description": "DDragon16.17.1 Zoe.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留Q距离增伤及施放后强化攻击依赖，空间执行后置。",
+            "sortOrder": 110,
+            "reuse": true
+          },
+          {
+            "parameterKey": "portal_duration_ms",
+            "name": "传送停留（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "当前根 DataValues 与 calculations 均为空。正文与官方说明均写传送到附近位置 1 秒后返回，按字面 1000 毫秒保存。不是具名数据值。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "parameterMeta": {
+        "portal_duration_ms": {
+          "unit": "毫秒",
+          "levelSemantics": "固定",
+          "sourcePath": "来源绑定 zoe_r.currentLocTexts.keyTooltip / 官方 ZoeR.description",
+          "pendingNote": "无法移动、可攻击和越墙视野均无已证状态过程；不造伤害或虚构触发。"
+        }
+      },
+      "unknownInputs": [
+        "位移落点",
+        "返回时点",
+        "传送期间攻击/技能资格"
+      ],
+      "pending": [
+        "R 主要是位移与返回。当前根没有伤害计算树，不创建伤害公式、DAMAGE 结果或触发规则。",
+        "闪现、停留、返回没有已证过程。",
+        "当前根spellCastTime为0，而mCastTime为0.25秒；字段优先级未证，不任取其一作为实际施法时长。"
+      ]
+    }
+  },
+  "postIntents": [
+    {
+      "method": "POST",
+      "route": "/skills/zoe_p/parameters",
+      "skillKey": "zoe_p",
+      "kind": "parameters",
+      "stableKey": "char_level_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "char_level_base_damage",
+        "name": "角色等级基础魔法伤害（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "来源 Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive 的 PassiveDamage.ByCharLevelBreakpointsCalculationPart。当前包只证明 mLevel1Value=16、mInitialBonusPerLevel=4 及 7/12/15 级斜率字段，求值循环与断点当级计入时点未证，不把 1 至 18 级曲线猜展开，也不默认 0。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_p/parameters",
+      "skillKey": "zoe_p",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 原始 0.20000000298023224，按设计值归一为 0.2。PassiveDamage 的 StatByNamedDataValueCalculationPart 省略 mStat/mStatFormula，按同版本窄口径映射来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_p/formulas",
+      "skillKey": "zoe_p",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "烟火四射额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "char_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "PassiveDamage = 角色等级断点外供值 + APRatio×来源总法强。不把施放技能后的下次普攻写成已有运行事件。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_q/parameters",
+      "skillKey": "zoe_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 80,
+          "3": 110,
+          "4": 140,
+          "5": 170
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引 1 至 5，跳过 rank0=20。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_q/parameters",
+      "skillKey": "zoe_q",
+      "kind": "parameters",
+      "stableKey": "char_level_bonus_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "char_level_bonus_damage",
+        "name": "角色等级附加魔法伤害（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalDamageTooltip 第二项 ByCharLevelBreakpointsCalculationPart：mLevel1Value=2、mInitialBonusPerLevel=2，断点 10 级斜率 3、14 级斜率 4。求值循环未证，不展开 1 至 18 级，不默认 0。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_q/parameters",
+      "skillKey": "zoe_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 原始 0.6000000238418579，按设计值归一为 0.6。StatByNamedDataValue 省略统计选择器，按窄口径映射来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_q/parameters",
+      "skillKey": "zoe_q",
+      "kind": "parameters",
+      "stableKey": "distance_damage_cap_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "distance_damage_cap_multiplier",
+        "name": "飞行距离伤害上限倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2.5,
+        "levelValues": null,
+        "description": "MaxDamageTooltip 为 GameCalculationModified，mModifiedGameCalculation=TotalDamageTooltip，mMultiplier.mNumber=2.5。上限写进公式，不只写在说明。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_q/parameters",
+      "skillKey": "zoe_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根 spellCastTime=0.25 秒，按毫秒保存。只保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_q/formulas",
+      "skillKey": "zoe_q",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "飞星最短提示魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "char_level_bonus_damage"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip = BaseDamage + 角色等级断点外供值 + APRatio×来源总法强。对应正文最短伤害，不是已飞行距离后的实伤。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_q/formulas",
+      "skillKey": "zoe_q",
+      "kind": "formulas",
+      "stableKey": "max_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "max_damage",
+        "name": "飞星最长提示魔法伤害上限",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "distance_damage_cap_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "char_level_bonus_damage"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MaxDamageTooltip = 2.5 × TotalDamageTooltip。2.5 在表达式内，作为当前根绑定给出的距离增伤上限。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_q/effects",
+      "skillKey": "zoe_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_w/parameters",
+      "skillKey": "zoe_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "DDragon16.17.1 Zoe.spells[1].cooldown 与客户端根 cooldownTime 均为 0.25 秒，转换为毫秒。官方资源为无消耗。仅基础间隔，拾取后替代技能的实际起算时点另配。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_w/parameters",
+      "skillKey": "zoe_w",
+      "kind": "parameters",
+      "stableKey": "missile_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missile_base_damage",
+        "name": "单颗飞弹基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 15,
+          "2": 25,
+          "3": 35,
+          "4": 45,
+          "5": 55
+        },
+        "description": "客户端当前根绑定 DataValues.TotalBaseDamage 取索引 1 至 5，跳过 rank0=5。MissileDamageTooltip 按单颗计算，不把官方升级提示的 ×3 写进本公式。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_w/parameters",
+      "skillKey": "zoe_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "单颗飞弹法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.TotalAPRatio 原始 0.10000000149011612，按设计值归一为 0.1。StatByNamedDataValue 省略统计选择器，按窄口径映射来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_w/parameters",
+      "skillKey": "zoe_w",
+      "kind": "parameters",
+      "stableKey": "missile_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missile_count",
+        "name": "飞弹数量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前根 mLocKeys 正文与官方说明均写 3 颗/3 个飞弹。层数为实际层数，用 INTEGER。不把 3 乘进 MissileDamageTooltip。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_w/parameters",
+      "skillKey": "zoe_w",
+      "kind": "parameters",
+      "stableKey": "movement_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "movement_speed_ratio",
+        "name": "移动速度加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.4,
+          "3": 0.5,
+          "4": 0.6,
+          "5": 0.7
+        },
+        "description": "客户端当前根绑定 DataValues.MovementSpeed 取索引 1 至 5；正文 @MovementSpeed*100@%，来源已是 0 至 1 比例，不再乘 0.01。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_w/parameters",
+      "skillKey": "zoe_w",
+      "kind": "parameters",
+      "stableKey": "movement_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "movement_speed_duration_ms",
+        "name": "移动速度持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2000,
+          "2": 2250,
+          "3": 2500,
+          "4": 2750,
+          "5": 3000
+        },
+        "description": "客户端当前根绑定 DataValues.MSDuration 取索引 1 至 5；单位秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_w/formulas",
+      "skillKey": "zoe_w",
+      "kind": "formulas",
+      "stableKey": "missile_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "missile_damage",
+        "name": "窃法巧手单颗飞弹提示魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "missile_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MissileDamageTooltip = TotalBaseDamage + TotalAPRatio×来源总法强。只表达单颗提示伤害，不创建飞弹命中事件或 DAMAGE 结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_e/parameters",
+      "skillKey": "zoe_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "气泡基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引 1 至 5，跳过 rank0=30；与官方 16.17.1 ZoeE.effect 第一组 70/110/150/190/230 一致。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_e/parameters",
+      "skillKey": "zoe_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.45,
+        "levelValues": null,
+        "description": "TotalDamageTooltip 与 BreakDamageTooltip 均使用 StatByCoefficientCalculationPart mCoefficient=0.44999998807907104，归一为 0.45。无具名 APRatio 字段，省略 mStat 按窄口径映射来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_e/parameters",
+      "skillKey": "zoe_e",
+      "kind": "parameters",
+      "stableKey": "magic_resist_shred_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "magic_resist_shred_ratio",
+        "name": "昏睡期魔法抗性降低比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PercentPen 原始 0.30000001192092896，按设计值归一为 0.3；正文 @PercentPen*100@%。只录比例，不创建抗性结果。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_e/parameters",
+      "skillKey": "zoe_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_refresh_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_refresh_ratio",
+        "name": "命中英雄刷新冷却比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.16,
+          "2": 0.195,
+          "3": 0.23,
+          "4": 0.265,
+          "5": 0.3
+        },
+        "description": "客户端当前根绑定 DataValues.CooldownRefresh 取索引 1 至 5；正文 @CooldownRefresh*100@%。来源已是比例，不乘 0.01。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_e/parameters",
+      "skillKey": "zoe_e",
+      "kind": "parameters",
+      "stableKey": "drowsy_slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "drowsy_slow_ratio",
+        "name": "困倦最大减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.1,
+          "2": 0.15,
+          "3": 0.2,
+          "4": 0.25,
+          "5": 0.3
+        },
+        "description": "客户端当前根绑定 DataValues.DrowsySlow 取索引 1 至 5；扩展正文 @DrowsySlow*100@%。来源已是比例。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_e/parameters",
+      "skillKey": "zoe_e",
+      "kind": "parameters",
+      "stableKey": "drowsy_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "drowsy_duration_ms",
+        "name": "困倦持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1400,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DrowsyDuration 原始 1.399999976158142 秒，按设计值 1.4 秒转毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_e/formulas",
+      "skillKey": "zoe_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "催眠气泡提示魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip = BaseDamage + 0.45×来源总法强。只表达气泡提示伤害，不创建 DAMAGE 结果或命中事件。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_e/formulas",
+      "skillKey": "zoe_e",
+      "kind": "formulas",
+      "stableKey": "wake_true_damage_cap",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "wake_true_damage_cap",
+        "name": "惊醒额外真实伤害上限",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BreakDamageTooltip 与气泡伤害同树：BaseDamage + 0.45×来源总法强。该公式结果本身就是正文上限值。双倍伤害的施加、MIN(来伤×2, 上限) 和睡眠唤醒事件都不在当前根计算树，不另造。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_e/effects",
+      "skillKey": "zoe_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_r/parameters",
+      "skillKey": "zoe_r",
+      "kind": "parameters",
+      "stableKey": "portal_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "portal_duration_ms",
+        "name": "传送停留（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前根 DataValues 与 calculations 均为空。正文与官方说明均写传送到附近位置 1 秒后返回，按字面 1000 毫秒保存。不是具名数据值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zoe_r/effects",
+      "skillKey": "zoe_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "forbiddenCreated": [
+    "DAMAGE",
+    "DIRECT_HEAL",
+    "MOMENT_EVALUATION",
+    "processes",
+    "internalStates",
+    "triggerRules"
+  ],
+  "evidenceLayers": {
+    "sourceEvidence": "客户端 16.17 角色根绑定、官方 16.17.1、当前 mLocKeys",
+    "staticCandidate": "本文件 skills[zoe_*].write 与 postIntents",
+    "businessGet": "参考资料/当前10槽保护快照.json 的只读 GET，摘要 e7aaac29…",
+    "writesNotOccurred": "没有任何 POST/PUT/PATCH/DELETE，也未更新页面、数据库或战斗运行"
+  }
+}

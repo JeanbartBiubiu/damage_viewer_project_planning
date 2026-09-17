@@ -1,0 +1,27 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 86,
+    "method": "POST",
+    "route": "/skills/leblanc_r/parameters",
+    "detailRoute": "/skills/leblanc_r/parameters/cooldown_ms",
+    "skillKey": "leblanc_r",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "故技重施基础冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45000,
+        "2": 35000,
+        "3": 25000
+      },
+      "description": "当前R没有保护中的公共参数；官方16.17.1冷却数组等级1至3转换为毫秒。",
+      "sortOrder": 120
+    }
+  }
+}

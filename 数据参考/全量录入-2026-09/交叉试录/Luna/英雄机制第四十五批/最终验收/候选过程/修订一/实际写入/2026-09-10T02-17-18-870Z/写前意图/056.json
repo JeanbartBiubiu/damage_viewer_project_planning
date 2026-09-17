@@ -1,0 +1,24 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_e/parameters",
+    "detailRoute": "/skills/shaco_e/parameters/execute_multiplier",
+    "skillKey": "shaco_e",
+    "kind": "parameters",
+    "stableKey": "execute_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "execute_multiplier",
+      "name": "斩杀整段倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "TotalExecuteDamage完整树将TotalDamage乘以1.5。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_q/parameters",
+    "detailRoute": "/skills/elise_q/parameters/ap_ratio",
+    "skillKey": "elise_q",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "目标当前生命伤害法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.029999999,
+      "levelValues": null,
+      "description": "HumanPercentHealth第二分支读取APRatio；与当前生命项一起乘0.01。",
+      "sortOrder": 30
+    }
+  }
+}

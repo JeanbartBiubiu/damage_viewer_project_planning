@@ -1,0 +1,46 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 121,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/formulas",
+    "detailRoute": "/skills/udyr_r/formulas/storm_damage_per_second",
+    "skillKey": "udyr_r",
+    "kind": "formulas",
+    "stableKey": "storm_damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "storm_damage_per_second",
+      "name": "极凌飓风每秒魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "storm_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "storm_damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "StormDamage=StormBaseDamage+0.35×法强；单次公式值由每秒事件读取。",
+      "sortOrder": 10
+    }
+  }
+}

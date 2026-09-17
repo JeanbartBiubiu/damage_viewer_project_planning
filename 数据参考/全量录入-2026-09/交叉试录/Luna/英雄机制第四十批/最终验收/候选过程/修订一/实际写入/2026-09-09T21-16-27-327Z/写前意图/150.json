@@ -1,0 +1,43 @@
+{
+  "i": 149,
+  "intent": {
+    "sequence": 150,
+    "method": "POST",
+    "route": "/skills/pyke_w/formulas",
+    "detailRoute": "/skills/pyke_w/formulas/move_speed_bonus_ratio",
+    "skillKey": "pyke_w",
+    "kind": "formulas",
+    "stableKey": "move_speed_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "move_speed_bonus_ratio",
+      "name": "幽潭潜行自身移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_move_speed_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "lethality_move_speed_ratio_per_point"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "lethality_points_input"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前MoveSpeed百分数点=45+2×mStat29；转换为移动速度比例后供后续自身属性接线。",
+      "sortOrder": 10
+    }
+  }
+}

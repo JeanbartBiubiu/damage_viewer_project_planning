@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:38:00.366Z",
+  "method": "POST",
+  "skillKey": "fizz_e",
+  "kind": "parameters",
+  "stableKey": "untargetable_window_ms",
+  "route": "/skills/fizz_e/parameters",
+  "readRoute": "/skills/fizz_e/parameters/untargetable_window_ms",
+  "body": {
+    "parameterKey": "untargetable_window_ms",
+    "name": "未提前再施放时不可被选取窗口（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 750,
+    "levelValues": null,
+    "description": "当前根Spell_FizzE_Tooltip字面0.75秒，乘1000；再次施放会提前结束，不将750当固定落地时点。",
+    "sortOrder": 120
+  }
+}

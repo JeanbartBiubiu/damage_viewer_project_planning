@@ -1,0 +1,104 @@
+{
+  "kind": "veigar-e-canceled-candidate-supplement",
+  "status": "仅候选；历史效果和规则已取消且未保存",
+  "skill": {
+    "skillKey": "veigar_e",
+    "name": "扭曲空间",
+    "maxLevel": 5,
+    "rootPath": "Characters/Veigar/CharacterRecords/Root",
+    "spellPath": "Characters/Veigar/Spells/VeigarEventHorizonAbility/VeigarEventHorizon"
+  },
+  "source": {
+    "client": {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+      "version": "16.17",
+      "sha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+      "compressedSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+      "objectPath": "Characters/Veigar/Spells/VeigarEventHorizonAbility/VeigarEventHorizon",
+      "facts": {
+        "cooldownTimeSeconds": [20, 20, 18.5, 17, 15.5, 14, 14],
+        "manaValues": [70, 75, 80, 85, 90, 95],
+        "spellCastTimeSeconds": 0.25,
+        "mCastTime": null,
+        "stunDurationSeconds": [1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75],
+        "cageDelaySeconds": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+        "levelCount": 5
+      }
+    },
+    "official": {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json",
+      "version": "16.17.1",
+      "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+      "objectPath": "data.Veigar.spells[2]",
+      "facts": {
+        "cooldownSeconds": [20, 18.5, 17, 15.5, 14],
+        "cost": [70, 75, 80, 85, 90],
+        "stunDurationSeconds": [1.5, 1.75, 2, 2.25, 2.5],
+        "cageDurationSeconds": 3,
+        "description": "维迦扭曲空间的边缘，创造一个牢笼来使途径的敌人晕眩。"
+      }
+    },
+    "candidatePath": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/未保存候选/录入候选.json#/skills/veigar_e",
+    "canceledPageRecord": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/维迦E页面未保存.json"
+  },
+  "parameters": [
+    { "parameterKey": "cooldown_ms", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "levelValues": { "1": 20000, "2": 18500, "3": 17000, "4": 15500, "5": 14000 }, "source": "官方 spells[2].cooldown + 客户端 mSpell.cooldownTime[1..5]", "consumer": "cast.cooldown.durationValue", "state": "取消前已保存" },
+    { "parameterKey": "mana_cost", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "levelValues": { "1": 70, "2": 75, "3": 80, "4": 85, "5": 90 }, "source": "官方 spells[2].cost + 客户端 mSpell.manaValues.values[0..4]", "consumer": "mana_cost 结果 valueRule", "state": "取消前已保存" },
+    { "parameterKey": "cast_time_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 250, "source": "客户端 mSpell.spellCastTime = 0.25 秒；mCastTime 为 null", "consumer": "cast_time 延迟步骤", "state": "取消前已保存" },
+    { "parameterKey": "stun_duration_ms", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "levelValues": { "1": 1500, "2": 1750, "3": 2000, "4": 2250, "5": 2500 }, "source": "客户端 mSpell.DataValues[name=StunDuration][1..5] + 官方 tooltip", "consumer": "event_horizon_stun.lifecycle.durationValue", "state": "取消前已保存" },
+    { "parameterKey": "cage_delay_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 500, "source": "客户端 mSpell.DataValues[name=CageDelay] = 0.5 秒", "consumer": null, "state": "有来源参数；候选中没有当前消费者" },
+    { "parameterKey": "cage_duration_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 3000, "source": "官方 tooltip 和客户端本地化 tooltip 均说明牢笼持续 3 秒", "consumer": null, "state": "有来源参数；候选中没有当前消费者" }
+  ],
+  "supplement": {
+    "effect": {
+      "effectKey": "event_horizon_stun",
+      "name": "碰到牢笼边缘眩晕",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": { "kind": "PARAMETER", "parameterKey": "stun_duration_ms" },
+        "maxStacksValue": { "kind": "FIXED", "value": 1 },
+        "applicationStacksValue": { "kind": "FIXED", "value": 1 },
+        "instanceScope": "SOURCE_TARGET",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "result": {
+        "resultKey": "stun",
+        "name": "事件视界眩晕",
+        "resultType": "STATUS_OPERATION",
+        "target": "TARGET",
+        "lifecycleBehavior": { "moment": "PERSISTENT", "valueReadMode": null, "stackValueMode": null, "reapplicationValueMode": null, "periodicExecutionMode": null },
+        "spellShieldBlockScope": "RESULT",
+        "valueRule": null,
+        "detail": { "statusKey": "vertigo", "operation": "APPLY" }
+      },
+      "historicalSpellShieldBlockScope": "EFFECT",
+      "scopeCorrectionReason": "当前共享契约和后端集中校验只允许持续目标状态 APPLY 使用 RESULT 或 null"
+    },
+    "triggerRule": {
+      "ruleKey": "actual_cage_contact",
+      "name": "事件视界真实边缘命中",
+      "eventSource": { "eventType": "SKILL_HIT", "detail": { "sourceSkillKey": "veigar_e" } },
+      "action": { "actionKey": "action_1", "actionType": "EXECUTE_EFFECT", "targetContext": "CURRENT_TARGET", "effectKey": "event_horizon_stun" },
+      "conditionGroups": [],
+      "runtimeInputBindings": [],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null,
+      "state": "候选保留；真实边缘接触事件的产生仍未证实"
+    }
+  },
+  "currentStatusEvidence": {
+    "statusKey": "vertigo",
+    "path": "C:/project/damage_web_dev/.agents/artifacts/persistent-status-live-20260910/重启后只读快照.json#/rows[3]/data/items[0]",
+    "meaning": "当前启用的眩晕状态目录项；不证明运行时已具备完整的移动、攻击和施法限制"
+  },
+  "unknownsKeptSeparate": [
+    "真实牢笼边缘接触事件的产生及阶段字段",
+    "牢笼空间生成和多目标搜索",
+    "运行时状态操作的行动限制语义",
+    "cage_delay_ms 和 cage_duration_ms 的当前消费者"
+  ]
+}

@@ -1,3 +1,5 @@
+import type { SkillParameter } from '../../../../types/skillParameter';
+import { NumericValueField } from '../NumericValueField';
 import {
   Alert,
   Button,
@@ -28,7 +30,6 @@ import {
   createEmptyProcessDraft,
   isCatalogOptionSelectable,
   isProcessLevelMoment,
-  listFormulaOptions,
   listInternalStateOptions,
   listModeOptionOptions,
   requiresModeOption,
@@ -53,6 +54,8 @@ type SkillProcessStateOperationEditorModalProps = {
   operationIndex: number | null;
   steps: SkillProcessStepDraft[];
   fieldErrors: SkillProcessStateOperationDraftErrors;
+  parameters: readonly SkillParameter[];
+  parametersLoadState?: 'ready' | 'failed';
   formulas: ReadonlyArray<Pick<SkillFormulaSummary, 'formulaKey' | 'name'>>;
   formulasLoadState?: 'ready' | 'failed';
   internalStates: ReadonlyArray<Pick<SkillInternalStateSummary, 'stateKey' | 'name' | 'stateType'>>;
@@ -80,6 +83,8 @@ export function SkillProcessStateOperationEditorModal({
   operationIndex,
   steps,
   fieldErrors,
+  parameters,
+  parametersLoadState,
   formulas,
   formulasLoadState,
   internalStates,
@@ -167,12 +172,6 @@ export function SkillProcessStateOperationEditorModal({
     void loadModeOptions();
   }, [loadModeOptions]);
 
-  const formulaNames = useMemo(() => {
-    const names = new Map<string, string>();
-    for (const item of formulas) names.set(item.formulaKey, item.name);
-    return names;
-  }, [formulas]);
-
   const catalog: ProcessFormCatalog = useMemo(() => ({
     formulas,
     effects: [{ effectKey: 'placeholder', name: 'placeholder' }],
@@ -224,6 +223,7 @@ export function SkillProcessStateOperationEditorModal({
       },
       {
         includeProcessKey: false,
+      parameters, parametersLoadState,
         catalog,
         catalogLoadState
       }
@@ -345,25 +345,17 @@ export function SkillProcessStateOperationEditorModal({
           </Form.Item>
           {requiresValueFormula(draft.operation) ? (
             <Form.Item
-              label="数值公式"
+              label="数值"
               required
-              validateStatus={errors.valueFormulaKey ? 'error' : undefined}
-              help={errors.valueFormulaKey}
+              validateStatus={errors.value ? 'error' : undefined}
+              help={errors.value}
             >
-              <Select
-                aria-label="数值公式"
-                value={draft.valueFormulaKey || undefined}
-                disabled={readOnly}
-                options={listFormulaOptions(catalog, draft.valueFormulaKey).map((option) => ({
-                  value: option.key,
-                  label: option.source === 'unknown'
-                    ? `${option.key}（${MISSING_CATALOG_LABEL}）`
-                    : (formulaNames.get(option.key) ?? option.key),
-                  disabled: !isCatalogOptionSelectable(option)
-                }))}
-                placeholder="请选择数值公式"
-                onChange={(value) => patchDraft({ ...draft, valueFormulaKey: String(value ?? '') })}
-              />
+              <NumericValueField aria-label="数值"
+                  value={draft.value}
+                  onChange={(value) => patchDraft({ ...draft, value: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
             </Form.Item>
           ) : null}
           {requiresModeOption(draft.operation) ? (

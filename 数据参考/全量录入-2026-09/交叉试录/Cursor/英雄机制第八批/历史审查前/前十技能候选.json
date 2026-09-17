@@ -1,0 +1,4283 @@
+{
+  "meta": {
+    "executor": "原Cursor运行未完成；Codex接手生成凯特琳与烬候选。",
+    "gameId": "lol",
+    "note": "来源冻结与当前录入分开；只计实际GET一致的组成。没有运行Wasm或战斗。本批仅补缺，不更新既有不同内容。",
+    "sources": [
+      {
+        "id": "Caitlyn",
+        "client": {
+          "path": "客户端原文/Caitlyn.json.gz",
+          "sha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+          "compressedSha256": "5a3658a4da6aeba98af280d640af142ff299f518904e1e502a4b57f40ded6079",
+          "byteSize": 50357,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/caitlyn/caitlyn.bin.json",
+          "fetchedAt": "2026-09-06T14:26:14.291Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Caitlyn.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Caitlyn.json",
+          "fetchedAt": "2026-09-06T14:12:45.377Z",
+          "byteSize": 13948,
+          "sha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248"
+        }
+      },
+      {
+        "id": "Jhin",
+        "client": {
+          "path": "客户端原文/Jhin.json.gz",
+          "sha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+          "compressedSha256": "21146e54ed3337fd2e235fd6bda961823a4834f6e068e832dc433d59b47139f7",
+          "byteSize": 59957,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+          "fetchedAt": "2026-09-06T14:26:21.201Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Jhin.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jhin.json",
+          "fetchedAt": "2026-09-06T14:12:48.393Z",
+          "byteSize": 14749,
+          "sha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15"
+        }
+      },
+      {
+        "id": "Draven",
+        "client": {
+          "path": "客户端原文/Draven.json.gz",
+          "sha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+          "compressedSha256": "91d24a2317c2a4aa55e680f13f5bd884215836fcdfbe5839961d6c36f0e3e4b0",
+          "byteSize": 70402,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/draven/draven.bin.json",
+          "fetchedAt": "2026-09-06T14:26:15.888Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Draven.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Draven.json",
+          "fetchedAt": "2026-09-06T14:12:46.143Z",
+          "byteSize": 16481,
+          "sha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488"
+        }
+      },
+      {
+        "id": "Kalista",
+        "client": {
+          "path": "客户端原文/Kalista.json.gz",
+          "sha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+          "compressedSha256": "b1240cfb91f3e7964b8d17b46c5d67f811fe62946736ee912c7edc4b0712ace5",
+          "byteSize": 119640,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kalista/kalista.bin.json",
+          "fetchedAt": "2026-09-06T14:26:22.337Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kalista.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kalista.json",
+          "fetchedAt": "2026-09-06T14:12:48.054Z",
+          "byteSize": 12451,
+          "sha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84"
+        }
+      }
+    ],
+    "scope": "凯特琳、烬、德莱文、卡莉丝塔20槽确定组成；公共参数精确复用，候选不写API。",
+    "stage": "前十技能候选；未写业务API",
+    "generatedAt": "2026-09-09T01:05:24.884Z",
+    "apiWrites": 0
+  },
+  "skills": {
+    "caitlyn_p": {
+      "skillKey": "caitlyn_p",
+      "name": "爆头",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Caitlyn",
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "spellPath": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive",
+        "clientSha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "officialSha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248",
+        "currentBoundText": {
+          "binding": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_CaitlynP_Name",
+              "key": "spell_caitlynp_name",
+              "text": "爆头"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_CaitlynP_Tooltip",
+              "key": "spell_caitlynp_tooltip",
+              "text": "每攻击@AttacksPerHeadshot@次，凯特琳就会发射一次<keywordMajor>爆头</keywordMajor>。草丛中的攻击在积攒<keywordMajor>爆头</keywordMajor>次数时会算为@BrushAttackTotal@次。<br><br><keywordMajor>爆头</keywordMajor>造成额外的<physicalDamage>@HeadShotBonusDamage@物理伤害</physicalDamage>。爆头对被<spellName>{{Spell_CaitlynEntrapment_Name}}</spellName>和<spellName>{{Spell_CaitlynYordleTrap_Name}}</spellName>影响的敌人们拥有双倍距离。<keywordMajor>爆头</keywordMajor>对被<spellName>{{Spell_CaitlynYordleTrap_Name}}</spellName>命中的敌人会造成额外的<physicalDamage>@spell.CaitlynW:HeadshotBonusDamage@物理伤害</physicalDamage>。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_CaitlynP_Summary",
+              "key": "spell_caitlynp_summary",
+              "text": "每进行几次基础攻击，对中了她的陷阱或绳网的单位进行攻击时，凯特琳就会造成一次【爆头】效果，造成随暴击几率增长的额外伤害。在对中了陷阱或绳网的目标进行攻击时，凯特琳的【爆头】攻击距离翻倍。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_CaitlynP_TooltipExtended",
+              "key": "spell_caitlynp_tooltipextended",
+              "text": "{{Spell_CaitlynP_Tooltip}}<br><br><rules><keywordMajor>爆头</keywordMajor>的伤害随等级、暴击几率和暴击伤害而增长。<br><keywordMajor>爆头</keywordMajor>对非英雄单位造成额外的<physicalDamage>@HeadShotMinionBonusDamage@物理伤害</physicalDamage>。<br>对踩中陷阱的目标的额外伤害随{{Spell_CaitlynYordleTrap_Name}}的技能等级而增长。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "critical_strike_scaling",
+            "name": "爆头暴击几率折算系数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.CriticalStrikeScaling 取索引1至1。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "attacks_per_headshot",
+            "name": "普通攻击触发爆头所需次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.AttacksPerHeadshot 取索引1至1。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "brush_stack_bonus",
+            "name": "草丛攻击额外计数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.BrushStackBonus 取索引1至1。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "level_bonus_ratio",
+            "name": "爆头等级基础攻击力倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.6,
+              "2": 0.6,
+              "3": 0.6,
+              "4": 0.6,
+              "5": 0.6,
+              "6": 0.6,
+              "7": 0.8,
+              "8": 0.8,
+              "9": 0.8,
+              "10": 0.8,
+              "11": 0.8,
+              "12": 0.8,
+              "13": 1,
+              "14": 1,
+              "15": 1,
+              "16": 1,
+              "17": 1,
+              "18": 1
+            },
+            "description": "当前计算式的角色等级断点，取1至18级；19级及以后不计本批已覆盖。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "one",
+            "name": "暴击倍率基准值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "当前角色根暴击倍率为2；计算树中的暴击倍率减1在无额外暴击伤害时等于1。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "headshot_bonus_damage",
+            "name": "爆头额外物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "level_bonus_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "critical_strike_chance",
+                              "attributeValueKind": "TOTAL"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "critical_strike_scaling"
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "ADD",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "one"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "critical_strike_damage_bonus_percent",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "总攻击力×（等级基础.6/.8/1.0 + 暴击几率×1×（暴击倍率−1））；这是普通攻击之外的额外部分。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "brush_attack_total",
+            "name": "草丛一次攻击计数",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "brush_stack_bonus"
+                }
+              ]
+            },
+            "description": "草丛攻击按1+BrushStackBonus计数；普通攻击计数消费时点另行接线。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "critical_strike_scaling",
+          "source": "DataValues.CriticalStrikeScaling",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "attacks_per_headshot",
+          "source": "DataValues.AttacksPerHeadshot",
+          "raw": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "offset": 1,
+          "values": [
+            5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "brush_stack_bonus",
+          "source": "DataValues.BrushStackBonus",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "level_bonus_ratio",
+          "source": "mSpellCalculations角色等级断点",
+          "raw": {
+            "mLevel1Value": 0.6000000238418579,
+            "mBreakpoints": [
+              {
+                "mLevel": 7,
+                "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 13,
+                "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "values": [
+            0.6,
+            0.6,
+            0.6,
+            0.6,
+            0.6,
+            0.6,
+            0.8,
+            0.8,
+            0.8,
+            0.8,
+            0.8,
+            0.8,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "parameterKey": "one",
+          "source": "CharacterRecords.Root.critDamageMultiplier + mSpellCalculations.HeadShotBonusDamage",
+          "values": [
+            1
+          ]
+        },
+        {
+          "source": "mSpellCalculations.HeadShotBonusDamage",
+          "raw": {
+            "mStat": 2,
+            "mSubpart": {
+              "mSubparts": [
+                {
+                  "mLevel1Value": 0.6000000238418579,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 7,
+                      "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 13,
+                      "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mPart1": {
+                    "mStat": 8,
+                    "mDataValue": "CriticalStrikeScaling",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  },
+                  "mPart2": {
+                    "mSubparts": [
+                      {
+                        "mStat": 9,
+                        "mCoefficient": 1,
+                        "__type": "StatByCoefficientCalculationPart"
+                      },
+                      {
+                        "mNumber": -1,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            },
+            "__type": "StatBySubPartCalculationPart"
+          },
+          "semantic": "mStat=2为攻击力；嵌套mStat=8为暴击几率、mStat=9并接减1为暴击倍率减一。未把被动额外伤害再加一份普通攻击。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "爆头计数与实际攻击消费",
+          "reason": "每5次攻击、草丛计数以及命中后的爆头消费需要真实普通攻击事件；本轮不把被动施放或任意技能命中伪装成攻击。"
+        },
+        {
+          "kind": "配置",
+          "component": "陷阱与绳网强化爆头",
+          "reason": "陷阱或绳网目标的额外爆头与双倍距离依赖对应技能真实状态；当前只保留P基础公式，不提前叠加W额外量。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "非英雄单位与建筑特殊上限",
+          "reason": "TowerCap和小兵额外伤害不在本轮一名敌方英雄范围内；P的英雄额外伤害公式及跨技能依赖保留。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "非英雄单位与建筑特殊上限",
+            "reason": "TowerCap和小兵额外伤害不在本轮一名敌方英雄范围内；P的英雄额外伤害公式及跨技能依赖保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "爆头计数与实际攻击消费",
+            "reason": "每5次攻击、草丛计数以及命中后的爆头消费需要真实普通攻击事件；本轮不把被动施放或任意技能命中伪装成攻击。"
+          },
+          {
+            "kind": "配置",
+            "component": "陷阱与绳网强化爆头",
+            "reason": "陷阱或绳网目标的额外爆头与双倍距离依赖对应技能真实状态；当前只保留P基础公式，不提前叠加W额外量。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "caitlyn_q": {
+      "skillKey": "caitlyn_q",
+      "name": "和平使者",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Caitlyn",
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "spellPath": "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ",
+        "clientSha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "officialSha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248",
+        "currentBoundText": {
+          "binding": "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_CaitlynPiltoverPeacemaker_Name",
+              "key": "spell_caitlynpiltoverpeacemaker_name",
+              "text": "和平使者"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_CaitlynPiltoverPeacemaker_Summary",
+              "key": "spell_caitlynpiltoverpeacemaker_summary",
+              "text": "凯特琳加速转动步枪，1秒后进行穿透射击，造成物理伤害（目标身后的单位受到较少伤害）。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_CaitlynPiltoverPeacemaker_Tooltip",
+              "key": "spell_caitlynpiltoverpeacemaker_tooltip",
+              "text": "凯特琳加速转动她的步枪来射出一颗穿刺弹，造成<physicalDamage>@InitialDamage@物理伤害</physicalDamage>。在子弹命中第一个单位后，它会绽开为一个更宽的弹体，造成<physicalDamage>@SecondaryDamage@物理伤害</physicalDamage>。<br><br>被<spellName>{{Spell_CaitlynYordleTrap_Name}}</spellName>显形的敌人总会受到全额伤害。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Caitlyn.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10000,
+              "2": 9000,
+              "3": 8000,
+              "4": 7000,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Caitlyn.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 55,
+              "2": 60,
+              "3": 65,
+              "4": 70,
+              "5": 75
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "和平使者首目标基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 50,
+              "2": 90,
+              "3": 130,
+              "4": 170,
+              "5": 210
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "secondary_damage_ratio",
+            "name": "和平使者后续目标伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.6,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SecondaryMult 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "total_ad_ratio",
+            "name": "和平使者总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 1.25,
+              "2": 1.45,
+              "3": 1.65,
+              "4": 1.85,
+              "5": 2.05
+            },
+            "description": "客户端当前根绑定 DataValues.tADRatio 取索引1至5。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "initial_damage",
+            "name": "和平使者首个目标物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "50/90/130/170/210 +1.25/1.45/1.65/1.85/2.05总攻击力；只保留一名英雄首目标。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "secondary_damage",
+            "name": "和平使者后续目标伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "secondary_damage_ratio"
+                },
+                {
+                  "kind": "FORMULA",
+                  "formulaKey": "initial_damage"
+                }
+              ]
+            },
+            "description": "后续目标为首目标完整算式×.6；多目标穿透执行不在本轮绑定。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "initial_damage",
+            "name": "和平使者首目标命中伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "和平使者首目标命中伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "initial_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "和平使者实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "caitlyn_q"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "initial_damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            10000,
+            9000,
+            8000,
+            7000,
+            6000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            55,
+            60,
+            65,
+            70,
+            75
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            10,
+            50,
+            90,
+            130,
+            170,
+            210,
+            250
+          ],
+          "offset": 1,
+          "values": [
+            50,
+            90,
+            130,
+            170,
+            210
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "secondary_damage_ratio",
+          "source": "DataValues.SecondaryMult",
+          "raw": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ],
+          "offset": 1,
+          "values": [
+            0.6,
+            0.6,
+            0.6,
+            0.6,
+            0.6
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "source": "DataValues.tADRatio",
+          "raw": [
+            1.0499999523162842,
+            1.25,
+            1.4500000476837158,
+            1.649999976158142,
+            1.850000023841858,
+            2.049999952316284,
+            2.25
+          ],
+          "offset": 1,
+          "values": [
+            1.25,
+            1.45,
+            1.65,
+            1.85,
+            2.05
+          ],
+          "scale": 1
+        },
+        {
+          "source": "mSpellCalculations.InitialDamage.mFormulaParts.1",
+          "raw": {
+            "mStat": 2,
+            "mSubpart": {
+              "mDataValue": "tADRatio",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "__type": "StatBySubPartCalculationPart"
+          },
+          "semantic": "当前tADRatio具名总攻击力子节点；使用索引1起的50/90/130/170/210基础数组，不使用索引0旧值。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "施放时序与冷却起算",
+          "reason": "主根有.625秒spellCastTime和1秒spellTotalTime；本轮只保留基础成本、冷却和首目标公式，不猜射击到达或冷却起算时点。"
+        },
+        {
+          "kind": "配置",
+          "component": "陷阱显形全额伤害",
+          "reason": "W显形目标不受后续伤害衰减的条件依赖W真实陷阱状态；不把任何Q命中都当作陷阱目标。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "后续单位穿透与空间路径",
+          "reason": "只保留1V1首个英雄目标；子弹展开、后续目标筛选及空间路径后置，不删除首目标伤害。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "后续单位穿透与空间路径",
+            "reason": "只保留1V1首个英雄目标；子弹展开、后续目标筛选及空间路径后置，不删除首目标伤害。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "施放时序与冷却起算",
+            "reason": "主根有.625秒spellCastTime和1秒spellTotalTime；本轮只保留基础成本、冷却和首目标公式，不猜射击到达或冷却起算时点。"
+          },
+          {
+            "kind": "配置",
+            "component": "陷阱显形全额伤害",
+            "reason": "W显形目标不受后续伤害衰减的条件依赖W真实陷阱状态；不把任何Q命中都当作陷阱目标。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "caitlyn_w": {
+      "skillKey": "caitlyn_w",
+      "name": "约德尔诱捕器",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Caitlyn",
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "spellPath": "Characters/Caitlyn/Spells/CaitlynWAbility/CaitlynW",
+        "clientSha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "officialSha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248",
+        "currentBoundText": {
+          "binding": "Characters/Caitlyn/Spells/CaitlynWAbility/CaitlynW",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_CaitlynYordleTrap_Name",
+              "key": "spell_caitlynyordletrap_name",
+              "text": "约德尔诱捕器"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_CaitlynYordleTrap_Summary",
+              "key": "spell_caitlynyordletrap_summary",
+              "text": "凯特琳设下一个陷阱，这个陷阱在被敌方英雄踩中时，会使该英雄显形并被束缚1.5秒，并为凯特琳提供一次强化版的爆头。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_CaitlynYordleTrap_Tooltip",
+              "key": "spell_caitlynyordletrap_tooltip",
+              "text": "凯特琳设置一个陷阱来<status>禁锢</status>踩中它的第一个英雄@RootDuration@秒并提供该英雄的<keywordStealth>真实视野</keywordStealth>，持续3秒。陷阱持续@TrapDuration@秒，并且同一时间至多可存在@MaximumTraps@个已激活的陷阱。这个技能有@MaximumCharges@层充能(@AmmoRechargeTime@秒充能时间)。<br><br>被这个技能禁锢的目标会从<keywordMajor>爆头</keywordMajor>中受到额外的<physicalDamage>@HeadshotBonusDamage@物理伤害</physicalDamage>。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "trap_headshot_base_damage",
+            "name": "约德尔诱捕器强化爆头基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 35,
+              "2": 80,
+              "3": 125,
+              "4": 170,
+              "5": 215
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "trap_headshot_ad_ratio",
+            "name": "约德尔诱捕器强化爆头额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "trap_headshot_bonus_damage",
+            "name": "陷阱强化爆头额外物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "trap_headshot_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "trap_headshot_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "35/80/125/170/215 +.3额外攻击力；这是P爆头的附加量，不再加普通攻击本体。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "trap_headshot_base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            35,
+            35,
+            80,
+            125,
+            170,
+            215,
+            260
+          ],
+          "offset": 1,
+          "values": [
+            35,
+            80,
+            125,
+            170,
+            215
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "trap_headshot_ad_ratio",
+          "source": "DataValues.ADRatio",
+          "raw": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "offset": 1,
+          "values": [
+            0.3,
+            0.3,
+            0.3,
+            0.3,
+            0.3
+          ],
+          "scale": 1
+        },
+        {
+          "source": "mSpellCalculations.HeadShotBonusDamage.mFormulaParts.1",
+          "raw": {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "ADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "semantic": "陷阱强化爆头的显式额外攻击力节点为mStat=2、mStatFormula=2、ADRatio=.3。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "陷阱踩中与爆头消费",
+          "reason": "陷阱设置、充能、存续、首个英雄踩中和强化爆头消费需要真实陷阱状态；当前只保留有明确来源的强化公式。"
+        },
+        {
+          "kind": "配置",
+          "component": "禁锢与真实视野",
+          "reason": "踩中后的1.5秒禁锢和3秒真实视野需要控制与视野能力，当前目录没有禁锢字典，不用眩晕或空字段替代。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "独立陷阱实体和空间执行",
+          "reason": "按本批范围跳过陷阱实体、触发空间和多陷阱选择；P相关强化爆头及其依赖保留。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "独立陷阱实体和空间执行",
+            "reason": "按本批范围跳过陷阱实体、触发空间和多陷阱选择；P相关强化爆头及其依赖保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "陷阱踩中与爆头消费",
+            "reason": "陷阱设置、充能、存续、首个英雄踩中和强化爆头消费需要真实陷阱状态；当前只保留有明确来源的强化公式。"
+          },
+          {
+            "kind": "配置",
+            "component": "禁锢与真实视野",
+            "reason": "踩中后的1.5秒禁锢和3秒真实视野需要控制与视野能力，当前目录没有禁锢字典，不用眩晕或空字段替代。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "caitlyn_e": {
+      "skillKey": "caitlyn_e",
+      "name": "90口径绳网",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Caitlyn",
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "spellPath": "Characters/Caitlyn/Spells/CaitlynEAbility/CaitlynE",
+        "clientSha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "officialSha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248",
+        "currentBoundText": {
+          "binding": "Characters/Caitlyn/Spells/CaitlynEAbility/CaitlynE",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_CaitlynEntrapment_Name",
+              "key": "spell_caitlynentrapment_name",
+              "text": "90口径绳网"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_CaitlynEntrapment_Summary",
+              "key": "spell_caitlynentrapment_summary",
+              "text": "凯特琳朝目标放出一张网，对其减速，并对凯特琳造成一定的反冲效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_CaitlynEntrapment_Tooltip",
+              "key": "spell_caitlynentrapment_tooltip",
+              "text": "凯特琳发射一张绳网，并将她向后推送。绳网对命中的第一个目标造成持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>和<magicDamage>@NetDamage@魔法伤害</magicDamage>。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Caitlyn.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 16000,
+              "2": 14000,
+              "3": 12000,
+              "4": 10000,
+              "5": 8000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Caitlyn.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 75,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "90口径绳网基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 80,
+              "2": 130,
+              "3": 180,
+              "4": 230,
+              "5": 280
+            },
+            "description": "客户端当前根绑定 DataValues.Damage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "绳网减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "绳网减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "unresolved_scaling_coefficient",
+            "name": "绳网未解码属性系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "NetDamage第二项系数为.8，但mStat/mStatFormula省略；不自动当作法强。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "unresolved_scaling_attribute",
+            "name": "绳网未解码属性输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前NetDamage的.8属性节点未提供mStat/mStatFormula；待同版本属性枚举核对后绑定，不能猜法强或填0。",
+            "sortOrder": 70
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "net_damage",
+            "name": "90口径绳网命中魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "unresolved_scaling_coefficient"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "unresolved_scaling_attribute"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "80/130/180/230/280 +.8×未解码属性输入；完整公式可独立核算，属性口径未绑定。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "net_damage",
+            "name": "90口径绳网命中伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "90口径绳网命中伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "net_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "90口径绳网实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "caitlyn_e"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "net_damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            16000,
+            14000,
+            12000,
+            10000,
+            8000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            75,
+            75,
+            75,
+            75,
+            75
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.Damage",
+          "raw": [
+            30,
+            80,
+            130,
+            180,
+            230,
+            280,
+            330
+          ],
+          "offset": 1,
+          "values": [
+            80,
+            130,
+            180,
+            230,
+            280
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "source": "DataValues.SlowDuration",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "source": "DataValues.SlowAmount",
+          "raw": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "offset": 1,
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "unresolved_scaling_coefficient",
+          "source": "mSpellCalculations.NetDamage",
+          "values": [
+            0.8
+          ]
+        },
+        {
+          "source": "mSpellCalculations.NetDamage",
+          "raw": {
+            "mCoefficient": 0.800000011920929,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "semantic": "保留明确.8系数和未解码输入；mStat省略不作法强默认。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "未解码属性与法术护盾资格",
+          "reason": "绳网第二项属性及其法术护盾、吸血资格未确证；保留输入和公式，不把未解码节点当法强或未知0。"
+        },
+        {
+          "kind": "配置",
+          "component": "减速和反冲接线",
+          "reason": "50%减速1秒及对自身反冲需要真实命中与位移控制；当前目录没有减速字典，不以眩晕替代。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "反冲空间路径",
+          "reason": "凯特琳自身后推方向和距离属于空间执行后置；首目标魔法伤害与控制依赖保留。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "反冲空间路径",
+            "reason": "凯特琳自身后推方向和距离属于空间执行后置；首目标魔法伤害与控制依赖保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "未解码属性与法术护盾资格",
+            "reason": "绳网第二项属性及其法术护盾、吸血资格未确证；保留输入和公式，不把未解码节点当法强或未知0。"
+          },
+          {
+            "kind": "配置",
+            "component": "减速和反冲接线",
+            "reason": "50%减速1秒及对自身反冲需要真实命中与位移控制；当前目录没有减速字典，不以眩晕替代。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "caitlyn_r": {
+      "skillKey": "caitlyn_r",
+      "name": "让子弹飞",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Caitlyn",
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "spellPath": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR",
+        "clientSha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "officialSha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248",
+        "currentBoundText": {
+          "binding": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR",
+          "keys": {
+            "keyName": {
+              "sourceKey": "game_spell_displayname_CaitlynAceintheHole",
+              "key": "game_spell_displayname_caitlynaceinthehole",
+              "text": "让子弹飞"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_CaitlynAceintheHole_Summary",
+              "key": "spell_caitlynaceinthehole_summary",
+              "text": "凯特琳精心准备完美一击，拥有超远射程并对单个目标造成巨大伤害。敌方英雄能为友军拦截子弹。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_CaitlynAceintheHole_Tooltip",
+              "key": "spell_caitlynaceinthehole_tooltip",
+              "text": "凯特琳花费一段时间来引导并精心准备完美一击，然后她会开火，造成<physicalDamage>@RTotalDamage@物理伤害</physicalDamage>，但其他敌方英雄能拦截子弹。这个技能在引导期间会提供目标的<keywordStealth>真实视野</keywordStealth>。<br><br><rules>伤害受益于凯特琳的暴击几率和暴击伤害加成。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Caitlyn.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Caitlyn.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "让子弹飞基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 300,
+              "2": 475,
+              "3": 650
+            },
+            "description": "客户端当前根绑定 DataValues.RBaseDamage 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "total_ad_ratio",
+            "name": "让子弹飞总攻击力系数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.RADRatio 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "crit_damage_scaling",
+            "name": "让子弹飞暴击几率增幅系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.CriticalStrikeModifier 取索引1至3。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "one",
+            "name": "暴击倍率基准值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "当前角色根暴击倍率为2；暴击倍率减1用1+额外暴击伤害比例表达。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "raw_damage",
+            "name": "让子弹飞未计暴击增幅伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "300/475/650 +1.0总攻击力。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "crit_damage_multiplier",
+            "name": "让子弹飞暴击几率期望倍率",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "critical_strike_chance",
+                          "attributeValueKind": "TOTAL"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "crit_damage_scaling"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "critical_strike_damage_bonus_percent",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "1 + 暴击几率×.3×（暴击倍率−1）；这是完整和式的确定性倍率，不再把R当随机普通暴击。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "damage",
+            "name": "让子弹飞完整物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "kind": "FORMULA",
+                  "formulaKey": "raw_damage"
+                },
+                {
+                  "kind": "FORMULA",
+                  "formulaKey": "crit_damage_multiplier"
+                }
+              ]
+            },
+            "description": "完整RTotalDamage：基础和式先形成，再统一乘暴击几率增幅。",
+            "sortOrder": 30
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "damage",
+            "name": "让子弹飞命中伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "让子弹飞命中伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "让子弹飞实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "caitlyn_r"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            90000,
+            90000,
+            90000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.RBaseDamage",
+          "raw": [
+            125,
+            300,
+            475,
+            650,
+            825,
+            1000,
+            1175
+          ],
+          "offset": 1,
+          "values": [
+            300,
+            475,
+            650
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "source": "DataValues.RADRatio",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1,
+            1,
+            1
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "crit_damage_scaling",
+          "source": "DataValues.CriticalStrikeModifier",
+          "raw": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "offset": 1,
+          "values": [
+            0.3,
+            0.3,
+            0.3
+          ],
+          "scale": 1
+        },
+        {
+          "source": "mSpellCalculations.RTotalDamage",
+          "raw": {
+            "mMultiplier": {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mPart1": {
+                    "mStat": 8,
+                    "mDataValue": "CriticalStrikeModifier",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  },
+                  "mPart2": {
+                    "mSubparts": [
+                      {
+                        "mStat": 9,
+                        "mCoefficient": 1,
+                        "__type": "StatByCoefficientCalculationPart"
+                      },
+                      {
+                        "mNumber": -1,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            },
+            "mFormulaParts": [
+              {
+                "mDataValue": "RBaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mStatFormula": 2,
+                "mDataValue": "RADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "semantic": "基础300/475/650+1总攻击力后，完整和式再乘1+暴击几率×.3×(暴击倍率−1)；乘数作用整次伤害。"
+        },
+        {
+          "parameterKey": "one",
+          "source": "CharacterRecords.Root.critDamageMultiplier",
+          "values": [
+            1
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "引导、锁定与冷却起算",
+          "reason": "当前mCastTime=.375、spellTotalTime=1且有引导；目标锁定、引导持续、子弹到达和冷却起点未确证，不创建猜测过程。"
+        },
+        {
+          "kind": "配置",
+          "component": "暴击和拦截资格",
+          "reason": "R伤害受暴击几率与暴击伤害加成影响；实际暴击期望口径、法术护盾和第三方拦截需要真实命中上下文，当前不添加额外拦截事件。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "多敌方英雄拦截与弹道空间",
+          "reason": "本轮一名敌方英雄只保留目标命中伤害；其他敌人拦截、全局弹道路径和引导期间真实视野后置。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "多敌方英雄拦截与弹道空间",
+            "reason": "本轮一名敌方英雄只保留目标命中伤害；其他敌人拦截、全局弹道路径和引导期间真实视野后置。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "引导、锁定与冷却起算",
+            "reason": "当前mCastTime=.375、spellTotalTime=1且有引导；目标锁定、引导持续、子弹到达和冷却起点未确证，不创建猜测过程。"
+          },
+          {
+            "kind": "配置",
+            "component": "暴击和拦截资格",
+            "reason": "R伤害受暴击几率与暴击伤害加成影响；实际暴击期望口径、法术护盾和第三方拦截需要真实命中上下文，当前不添加额外拦截事件。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "jhin_p": {
+      "skillKey": "jhin_p",
+      "name": "低语",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Jhin",
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "spellPath": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+        "clientSha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "officialSha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+        "currentBoundText": {
+          "binding": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_JhinPassive_Name",
+              "key": "spell_jhinpassive_name",
+              "text": "低语"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_JhinPassive_Tooltip",
+              "key": "spell_jhinpassive_tooltip",
+              "text": "烬的手枪有着已被固定的攻击速度，并且在发射@MaxAmmo@次后就得重新装弹。第@MaxAmmo@颗子弹总会产生暴击并造成相当于目标<physicalDamage>@FourthShotExecutePercent@已损失生命值的额外物理伤害</physicalDamage>。<br><br>此外：<li>烬获得<physicalDamage>@TotalADPercent@额外攻击力</physicalDamage><li>烬的暴击造成的伤害减少@CritReductionPercent*100@%，但会为他提供<speed>@CritMoveSpeedPercent@移动速度</speed>，持续@HasteDuration@秒。<br><br>"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_JhinPassive_TooltipExtendedBelowLine",
+              "key": "spell_jhinpassive_tooltipextendedbelowline",
+              "text": "{{Spell_JhinPassive_Tooltip}}<br><rules>攻击力会从暴击几率和攻击速度加成中获益。<br>移动速度会从攻击速度加成中获益。<br>对野怪的已损失生命值伤害封顶值为800。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "max_ammo",
+            "name": "低语弹药数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MaxAmmo 取索引1至1。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "reload_time_ms",
+            "name": "低语完整装填时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ReloadTime 取索引1至1。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "crit_move_speed_duration_ms",
+            "name": "暴击后移动速度持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.HasteDuration 取索引1至1。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "out_of_combat_reload_delay_ms",
+            "name": "脱战后自动装填等待（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 8000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.OutOfCombatTimeBeforeReload 取索引1至1。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "fourth_shot_damage_multiplier",
+            "name": "第四发攻击倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.5,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.FourthShotDamageMult 取索引1至1。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "crit_damage_reduction_ratio",
+            "name": "烬暴击伤害降低比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.25,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.CritReductionPercent 取索引1至1。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "base_attack_speed",
+            "name": "低语基础攻击速度",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.625,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.BaseAttackSpeed 取索引1至1。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "attack_speed_per_level_ratio",
+            "name": "每级额外攻击速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.03,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.PercentAttackSpeedPerLevel 取索引1至1。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "crit_move_speed_attack_speed_ratio",
+            "name": "暴击移动速度对额外攻速系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.44,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.CritMoveSpeedPercentASRatio 取索引1至1。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "fourth_shot_execute_percent",
+            "name": "第四发对目标已损失生命额外比例",
+            "valueType": "DECIMAL",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.15,
+              "2": 0.15,
+              "3": 0.15,
+              "4": 0.15,
+              "5": 0.15,
+              "6": 0.2,
+              "7": 0.2,
+              "8": 0.2,
+              "9": 0.2,
+              "10": 0.2,
+              "11": 0.25,
+              "12": 0.25,
+              "13": 0.25,
+              "14": 0.25,
+              "15": 0.25,
+              "16": 0.25,
+              "17": 0.25,
+              "18": 0.25
+            },
+            "description": "当前计算式的角色等级断点，取1至18级；19级及以后不计本批已覆盖。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "level_attack_damage_percent",
+            "name": "烬等级攻击力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.04,
+              "2": 0.05,
+              "3": 0.06,
+              "4": 0.07,
+              "5": 0.08,
+              "6": 0.09,
+              "7": 0.1,
+              "8": 0.11,
+              "9": 0.12,
+              "10": 0.14,
+              "11": 0.16,
+              "12": 0.2,
+              "13": 0.24,
+              "14": 0.28,
+              "15": 0.32,
+              "16": 0.36,
+              "17": 0.4,
+              "18": 0.44
+            },
+            "description": "当前完整计算树按初始每级增量及10、12级切换逐级展开1至18级。",
+            "sortOrder": 110
+          },
+          {
+            "parameterKey": "critical_attack_damage_ratio",
+            "name": "暴击几率转攻击力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.35,
+            "levelValues": null,
+            "description": "TotalADPercent第二项mStat=8、系数.35。",
+            "sortOrder": 120
+          },
+          {
+            "parameterKey": "attack_speed_damage_ratio",
+            "name": "额外攻速转攻击力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "TotalADPercent第三项mStat=4/mStatFormula=2、系数.3；只表达输入关系，不从最终攻击力反推额外攻速。",
+            "sortOrder": 130
+          },
+          {
+            "parameterKey": "base_crit_move_speed_percent",
+            "name": "暴击后基础移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.14,
+            "levelValues": null,
+            "description": "CritMoveSpeedPercent首项固定.14；不把它当最终移动速度。",
+            "sortOrder": 140
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "fourth_shot_bonus_damage",
+            "name": "第四发已损生命额外物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "fourth_shot_execute_percent"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "MISSING"
+                }
+              ]
+            },
+            "description": "等级1至5为15%、6至10为20%、11至18为25%；不是低于阈值处决。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "total_attack_damage_percent",
+            "name": "烬总攻击力转换比例",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "level_attack_damage_percent"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "critical_attack_damage_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "critical_strike_chance",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "attack_speed_damage_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "bonus_attack_speed_percent",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "等级比例+.35×暴击几率+.3×额外攻速；不在当前技能自身反复读取最终攻击力。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "crit_move_speed_percent",
+            "name": "暴击后移动速度比例",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_crit_move_speed_percent"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "crit_move_speed_attack_speed_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "bonus_attack_speed_percent",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": ".14+.44×额外攻速；实际触发和移动速度结果另接线。",
+            "sortOrder": 30
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "max_ammo",
+          "source": "DataValues.MaxAmmo",
+          "raw": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "offset": 1,
+          "values": [
+            4
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "reload_time_ms",
+          "source": "DataValues.ReloadTime",
+          "raw": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "offset": 1,
+          "values": [
+            2500
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "crit_move_speed_duration_ms",
+          "source": "DataValues.HasteDuration",
+          "raw": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "offset": 1,
+          "values": [
+            2000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "out_of_combat_reload_delay_ms",
+          "source": "DataValues.OutOfCombatTimeBeforeReload",
+          "raw": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "offset": 1,
+          "values": [
+            8000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "fourth_shot_damage_multiplier",
+          "source": "DataValues.FourthShotDamageMult",
+          "raw": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "offset": 1,
+          "values": [
+            1.5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "crit_damage_reduction_ratio",
+          "source": "DataValues.CritReductionPercent",
+          "raw": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "offset": 1,
+          "values": [
+            0.25
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "base_attack_speed",
+          "source": "DataValues.BaseAttackSpeed",
+          "raw": [
+            0.625,
+            0.625,
+            0.625,
+            0.625,
+            0.625,
+            0.625,
+            0.625
+          ],
+          "offset": 1,
+          "values": [
+            0.625
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "attack_speed_per_level_ratio",
+          "source": "DataValues.PercentAttackSpeedPerLevel",
+          "raw": [
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746
+          ],
+          "offset": 1,
+          "values": [
+            0.03
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "crit_move_speed_attack_speed_ratio",
+          "source": "DataValues.CritMoveSpeedPercentASRatio",
+          "raw": [
+            0.4399999976158142,
+            0.4399999976158142,
+            0.4399999976158142,
+            0.4399999976158142,
+            0.4399999976158142,
+            0.4399999976158142,
+            0.4399999976158142
+          ],
+          "offset": 1,
+          "values": [
+            0.44
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "fourth_shot_execute_percent",
+          "source": "mSpellCalculations角色等级断点",
+          "raw": {
+            "mLevel1Value": 0.15000000596046448,
+            "mBreakpoints": [
+              {
+                "mLevel": 6,
+                "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 11,
+                "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "values": [
+            0.15,
+            0.15,
+            0.15,
+            0.15,
+            0.15,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "parameterKey": "level_attack_damage_percent",
+          "source": "mSpellCalculations角色等级增长断点",
+          "raw": {
+            "mLevel1Value": 0.03999999910593033,
+            "mInitialBonusPerLevel": 0.009999999776482582,
+            "mBreakpoints": [
+              {
+                "mLevel": 10,
+                "mBonusPerLevelAtAndAfter": 0.019999999552965164,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 12,
+                "mBonusPerLevelAtAndAfter": 0.03999999910593033,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "values": [
+            0.04,
+            0.05,
+            0.06,
+            0.07,
+            0.08,
+            0.09,
+            0.1,
+            0.11,
+            0.12,
+            0.14,
+            0.16,
+            0.2,
+            0.24,
+            0.28,
+            0.32,
+            0.36,
+            0.4,
+            0.44
+          ]
+        },
+        {
+          "parameterKey": "critical_attack_damage_ratio",
+          "source": "mSpellCalculations.TotalADPercent",
+          "values": [
+            0.35
+          ]
+        },
+        {
+          "parameterKey": "attack_speed_damage_ratio",
+          "source": "mSpellCalculations.TotalADPercent",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "parameterKey": "base_crit_move_speed_percent",
+          "source": "mSpellCalculations.CritMoveSpeedPercent",
+          "values": [
+            0.14
+          ]
+        },
+        {
+          "source": "mSpellCalculations.TotalADPercent",
+          "raw": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mLevel1Value": 0.03999999910593033,
+                "mInitialBonusPerLevel": 0.009999999776482582,
+                "mBreakpoints": [
+                  {
+                    "mLevel": 10,
+                    "mBonusPerLevelAtAndAfter": 0.019999999552965164,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 12,
+                    "mBonusPerLevelAtAndAfter": 0.03999999910593033,
+                    "__type": "Breakpoint"
+                  }
+                ],
+                "__type": "ByCharLevelBreakpointsCalculationPart"
+              },
+              {
+                "mStat": 8,
+                "mCoefficient": 0.3499999940395355,
+                "__type": "StatByCoefficientCalculationPart"
+              },
+              {
+                "mStat": 4,
+                "mStatFormula": 2,
+                "mCoefficient": 0.30000001192092896,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          },
+          "semantic": "等级比例+.35暴击几率+.3额外攻击速度；最终攻击力换算和反馈读取时点未绑定。"
+        },
+        {
+          "source": "mSpellCalculations.CritMoveSpeedPercent",
+          "raw": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mNumber": 0.14000000059604645,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mStat": 4,
+                "mStatFormula": 2,
+                "mDataValue": "CritMoveSpeedPercentASRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          },
+          "semantic": "暴击移动速度比例为.14+.44额外攻击速度；只保留公式，不创建反馈属性效果。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "弹药、第四发与装填状态",
+          "reason": "四发计数、第四发必暴击、重装2.5秒及脱战8秒装填需要普通攻击状态和真实消费事件；已损生命额外部分不替换普通攻击本体。"
+        },
+        {
+          "kind": "配置",
+          "component": "攻击力与暴击移动速度转换",
+          "reason": "当前完整关系已保存；基础攻速、额外攻速和暴击几率到最终攻击力的取值时点及循环反馈未核，不能创建无条件自益或从最终值反推输入。"
+        },
+        {
+          "kind": "配置",
+          "component": "第四发伤害资格",
+          "reason": "第四发必暴击及已损生命额外物理伤害的法术护盾、暴击和吸血资格需实际攻击结果上下文；本轮只保留额外数学关系。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "野怪已损生命封顶",
+          "reason": "扩展说明的野怪800封顶不在一名敌方英雄范围内；英雄目标已损生命比例保留。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "野怪已损生命封顶",
+            "reason": "扩展说明的野怪800封顶不在一名敌方英雄范围内；英雄目标已损生命比例保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "弹药、第四发与装填状态",
+            "reason": "四发计数、第四发必暴击、重装2.5秒及脱战8秒装填需要普通攻击状态和真实消费事件；已损生命额外部分不替换普通攻击本体。"
+          },
+          {
+            "kind": "配置",
+            "component": "攻击力与暴击移动速度转换",
+            "reason": "当前完整关系已保存；基础攻速、额外攻速和暴击几率到最终攻击力的取值时点及循环反馈未核，不能创建无条件自益或从最终值反推输入。"
+          },
+          {
+            "kind": "配置",
+            "component": "第四发伤害资格",
+            "reason": "第四发必暴击及已损生命额外物理伤害的法术护盾、暴击和吸血资格需实际攻击结果上下文；本轮只保留额外数学关系。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "jhin_q": {
+      "skillKey": "jhin_q",
+      "name": "曼舞手雷",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Jhin",
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "spellPath": "Characters/Jhin/Spells/JhinQAbility/JhinQ",
+        "clientSha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "officialSha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+        "currentBoundText": {
+          "binding": "Characters/Jhin/Spells/JhinQAbility/JhinQ",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_JhinQ_Name",
+              "key": "spell_jhinq_name",
+              "text": "曼舞手雷"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_JhinQ_Summary",
+              "key": "spell_jhinq_summary",
+              "text": "烬朝敌人扔出一颗迷人的手雷。它最多可以命中四个目标，并在每次击杀单位后获得伤害提升。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_JhinQ_Tooltip",
+              "key": "spell_jhinq_tooltip",
+              "text": "烬扔出一颗手雷，手雷会造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，然后弹跳到附近的一个还未被此技能命中的目标上。<br><br>手雷最多可命中@TooltipMaxTargetsHit@个目标。手雷每击杀一个单位，它的后续弹跳伤害就会提升@PercentAmpOnKill*100@%。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Jhin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 7000,
+              "2": 6500,
+              "3": 6000,
+              "4": 5500,
+              "5": 5000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Jhin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "曼舞手雷基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 44,
+              "2": 69,
+              "3": 94,
+              "4": 119,
+              "5": 144
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "total_ad_ratio",
+            "name": "曼舞手雷总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.44,
+              "2": 0.515,
+              "3": 0.59,
+              "4": 0.665,
+              "5": 0.74
+            },
+            "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "kill_bounce_amp_ratio",
+            "name": "曼舞手雷击杀后续弹跳增伤比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.35,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.PercentAmpOnKill 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "bounce_count",
+            "name": "曼舞手雷后续弹跳次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.NumberOfBounces 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "bounce_range",
+            "name": "曼舞手雷弹跳查找距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 450,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.BounceRange 取索引1至5。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "unresolved_scaling_coefficient",
+            "name": "曼舞手雷未解码属性系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.6,
+            "levelValues": null,
+            "description": "TotalDamage第三项只有.6系数，mStat/mStatFormula省略，不默认法强。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "unresolved_scaling_attribute",
+            "name": "曼舞手雷未解码属性输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前TotalDamage第三项属性枚举缺失；待同版本默认映射核对后绑定，不能猜法强或填0。",
+            "sortOrder": 90
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "first_target_damage",
+            "name": "曼舞手雷首目标物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "total_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "unresolved_scaling_coefficient"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "unresolved_scaling_attribute"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "首目标完整公式；第三项只保留明确.6和运行时输入。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "first_target_damage",
+            "name": "曼舞手雷首目标命中伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "曼舞手雷首目标命中伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "first_target_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "曼舞手雷实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "jhin_q"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "first_target_damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            7000,
+            6500,
+            6000,
+            5500,
+            5000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            19,
+            44,
+            69,
+            94,
+            119,
+            144,
+            169
+          ],
+          "offset": 1,
+          "values": [
+            44,
+            69,
+            94,
+            119,
+            144
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "source": "DataValues.ADRatio",
+          "raw": [
+            0.36500000953674316,
+            0.4399999976158142,
+            0.5149999856948853,
+            0.5899999737739563,
+            0.6650000214576721,
+            0.7400000095367432,
+            0.8149999976158142
+          ],
+          "offset": 1,
+          "values": [
+            0.44,
+            0.515,
+            0.59,
+            0.665,
+            0.74
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "kill_bounce_amp_ratio",
+          "source": "DataValues.PercentAmpOnKill",
+          "raw": [
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355
+          ],
+          "offset": 1,
+          "values": [
+            0.35,
+            0.35,
+            0.35,
+            0.35,
+            0.35
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bounce_count",
+          "source": "DataValues.NumberOfBounces",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bounce_range",
+          "source": "DataValues.BounceRange",
+          "raw": [
+            450,
+            450,
+            450,
+            450,
+            450,
+            450,
+            450
+          ],
+          "offset": 1,
+          "values": [
+            450,
+            450,
+            450,
+            450,
+            450
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "unresolved_scaling_coefficient",
+          "source": "mSpellCalculations.TotalDamage",
+          "values": [
+            0.6
+          ]
+        },
+        {
+          "source": "mSpellCalculations.TotalDamage",
+          "raw": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "semantic": "首目标为44/69/94/119/144 + .44/.515/.59/.665/.74总攻击力 + .6×未解码属性输入。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "未解码属性与实际命中",
+          "reason": "首目标公式需要未解码属性输入；实际命中、法术护盾和吸血资格按真实技能结果接线，不能把未知输入当法强。"
+        },
+        {
+          "kind": "配置",
+          "component": "施放成本与冷却起算",
+          "reason": "基础成本和冷却已复用；弹跳命中并不等于施放结束，过程起算点本轮不猜。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "后续弹跳和击杀增伤",
+          "reason": "最多4目标、后续弹跳及每次击杀后35%增伤属于多目标事件；保留参数和跨事件依赖，不在1V1首目标效果中自动执行。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "后续弹跳和击杀增伤",
+            "reason": "最多4目标、后续弹跳及每次击杀后35%增伤属于多目标事件；保留参数和跨事件依赖，不在1V1首目标效果中自动执行。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "未解码属性与实际命中",
+            "reason": "首目标公式需要未解码属性输入；实际命中、法术护盾和吸血资格按真实技能结果接线，不能把未知输入当法强。"
+          },
+          {
+            "kind": "配置",
+            "component": "施放成本与冷却起算",
+            "reason": "基础成本和冷却已复用；弹跳命中并不等于施放结束，过程起算点本轮不猜。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "jhin_w": {
+      "skillKey": "jhin_w",
+      "name": "致命华彩",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Jhin",
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "spellPath": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+        "clientSha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "officialSha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+        "currentBoundText": {
+          "binding": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_JhinW_Name",
+              "key": "spell_jhinw_name",
+              "text": "致命华彩"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_JhinW_Summary",
+              "key": "spell_jhinw_summary",
+              "text": "烬挥舞他的长枪，进行一次射程极远的射击。它可穿透小兵和野怪，但会在命中第一个敌方英雄后停下。如果目标最近踩到了烬的陷阱、承受过烬的伤害或被烬的队友给命中过，那么还会受到禁锢效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_JhinW_Tooltip",
+              "key": "spell_jhinw_tooltip",
+              "text": "烬进行一次远程射击，对命中的第一个英雄和沿途的其它敌人造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。<br><br>如果被【W致命华彩】命中的敌方英雄在前@SpottingDuration@秒受到过来自烬的友方英雄的伤害，那么这个英雄还会被<status>禁锢</status>@RootDuration@秒，并为烬提供<spellName>低语</spellName>的移动速度加成。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_JhinW_TooltipExtendedBelowLine",
+              "key": "spell_jhinw_tooltipextendedbelowline",
+              "text": "<rules>这个技能对小兵造成@MinionMod*100@%伤害。<br>踩中<spellName>万众倾倒</spellName>陷阱的英雄也能被禁锢。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Jhin.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 12000,
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Jhin.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "致命华彩基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 70,
+              "2": 105,
+              "3": 140,
+              "4": 175,
+              "5": 210
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "root_duration_ms",
+            "name": "致命华彩禁锢持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 1250,
+              "2": 1500,
+              "3": 1750,
+              "4": 2000,
+              "5": 2250
+            },
+            "description": "客户端当前根绑定 DataValues.RootDuration 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "minion_damage_ratio",
+            "name": "致命华彩小兵伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.75,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MinionMod 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "spotting_duration_ms",
+            "name": "致命华彩标记窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SpottingDuration 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "total_ad_ratio",
+            "name": "致命华彩总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "TotalDamage明确.5总攻击力系数；mStatFormula省略但当前官方说明为总攻击力。",
+            "sortOrder": 70
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "致命华彩首个英雄物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "70/105/140/175/210 +.5总攻击力；只保留首个英雄目标。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "damage",
+            "name": "致命华彩首个英雄命中伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "致命华彩首个英雄命中伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "致命华彩实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "jhin_w"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            12000,
+            12000,
+            12000,
+            12000,
+            12000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            35,
+            70,
+            105,
+            140,
+            175,
+            210,
+            245
+          ],
+          "offset": 1,
+          "values": [
+            70,
+            105,
+            140,
+            175,
+            210
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "root_duration_ms",
+          "source": "DataValues.RootDuration",
+          "raw": [
+            1,
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25,
+            2.5
+          ],
+          "offset": 1,
+          "values": [
+            1250,
+            1500,
+            1750,
+            2000,
+            2250
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "minion_damage_ratio",
+          "source": "DataValues.MinionMod",
+          "raw": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          "offset": 1,
+          "values": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "spotting_duration_ms",
+          "source": "DataValues.SpottingDuration",
+          "raw": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "offset": 1,
+          "values": [
+            4000,
+            4000,
+            4000,
+            4000,
+            4000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "source": "mSpellCalculations.TotalDamage",
+          "values": [
+            0.5
+          ]
+        },
+        {
+          "source": "mSpellCalculations.TotalDamage.mFormulaParts.1",
+          "raw": {
+            "mStat": 2,
+            "mCoefficient": 0.5,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "semantic": "保留自身命中基础伤害，不因官方文字强调友方协助而删除自身伤害。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "自身或友方伤害标记",
+          "reason": "当前summary含烬自身伤害，命中前4秒标记仍需真实伤害来源和同目标条件；不能因tooltip文字偏友方而删除自身标记依赖。"
+        },
+        {
+          "kind": "配置",
+          "component": "禁锢控制与低语增速",
+          "reason": "禁锢1.25/1.5/1.75/2/2.25秒、标记4秒及低语移动速度联动需要控制和被动状态能力；当前只有眩晕目录，不伪造禁锢或假根状态。"
+        },
+        {
+          "kind": "配置",
+          "component": "施放时序与冷却起算",
+          "reason": "当前castTime=.75、spellCastTime=.25并存；不猜射击到达和冷却起点，成本与冷却仅保留公共参数。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "队友协助及沿途非英雄单位",
+          "reason": "队友伤害触发禁锢和小兵/野怪穿透、多目标沿途筛选后置；自身首个英雄命中伤害保留。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "队友协助及沿途非英雄单位",
+            "reason": "队友伤害触发禁锢和小兵/野怪穿透、多目标沿途筛选后置；自身首个英雄命中伤害保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "自身或友方伤害标记",
+            "reason": "当前summary含烬自身伤害，命中前4秒标记仍需真实伤害来源和同目标条件；不能因tooltip文字偏友方而删除自身标记依赖。"
+          },
+          {
+            "kind": "配置",
+            "component": "禁锢控制与低语增速",
+            "reason": "禁锢1.25/1.5/1.75/2/2.25秒、标记4秒及低语移动速度联动需要控制和被动状态能力；当前只有眩晕目录，不伪造禁锢或假根状态。"
+          },
+          {
+            "kind": "配置",
+            "component": "施放时序与冷却起算",
+            "reason": "当前castTime=.75、spellCastTime=.25并存；不猜射击到达和冷却起点，成本与冷却仅保留公共参数。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "jhin_e": {
+      "skillKey": "jhin_e",
+      "name": "万众倾倒",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Jhin",
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "spellPath": "Characters/Jhin/Spells/JhinEAbility/JhinE",
+        "clientSha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "officialSha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+        "currentBoundText": {
+          "binding": "Characters/Jhin/Spells/JhinEAbility/JhinE",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_JhinE_Name",
+              "key": "spell_jhine_name",
+              "text": "万众倾倒"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_JhinE_Summary",
+              "key": "spell_jhine_summary",
+              "text": "烬放置一个隐形的莲花陷阱，陷阱会在敌人经过时绽放。它会减速附近的敌人，然后爆炸为一阵飘零的花瓣并对敌人造成伤害。<br><br><font color='#FFFFFF'>绚葬之华 -</font> 当烬击杀掉一名敌方英雄时，一个莲花陷阱将在该英雄的尸体附近爆炸。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_JhinE_Tooltip",
+              "key": "spell_jhine_tooltip",
+              "text": "<passive>被动：</passive>被烬击杀的英雄，将在其所在位置生成并引爆一个莲花陷阱。<br><br><active>主动：</active>烬放置一个持续@TrapDuration@分钟的隐形莲花陷阱，陷阱会在被敌人踩中时生成一个区域，使区域内的敌人<status>减速</status>@TrapSlowAmount*100@%。在@TrapDetonationTime@秒后，陷阱会爆炸，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br>这个技能有2层充能(@AmmoRechargeRateTooltip@秒刷新时间)。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_JhinE_TooltipExtendedBelowLine",
+              "key": "spell_jhine_tooltipextendedbelowline",
+              "text": "<rules>莲花陷阱在命中时会对小兵和近期被另一个莲花陷阱命中过的敌人造成@ReducedDamagePercent*100@%伤害。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "W的E陷阱标记依赖",
+          "reason": "W禁锢条件仍保留对本技能陷阱真实命中标记的依赖；跳过E实体不等于删除W的条件说明。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "独立陷阱实体与触发",
+          "reason": "万众倾倒的隐形莲花陷阱、减速区域、2秒后爆炸和充能按既定范围后置；不制造无消耗或空伤害占位。"
+        },
+        {
+          "component": "击杀英雄尸体生成陷阱",
+          "reason": "被烬击杀后的尸体附近自动生成并引爆属于跨击杀和空间事件，本轮不接任意英雄击杀。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "独立陷阱实体与触发",
+            "reason": "万众倾倒的隐形莲花陷阱、减速区域、2秒后爆炸和充能按既定范围后置；不制造无消耗或空伤害占位。"
+          },
+          {
+            "component": "击杀英雄尸体生成陷阱",
+            "reason": "被烬击杀后的尸体附近自动生成并引爆属于跨击杀和空间事件，本轮不接任意英雄击杀。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "W的E陷阱标记依赖",
+            "reason": "W禁锢条件仍保留对本技能陷阱真实命中标记的依赖；跳过E实体不等于删除W的条件说明。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "jhin_r": {
+      "skillKey": "jhin_r",
+      "name": "完美谢幕",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Jhin",
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "spellPath": "Characters/Jhin/Spells/JhinRAbility/JhinR",
+        "clientSha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "officialSha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+        "currentBoundText": {
+          "binding": "Characters/Jhin/Spells/JhinRAbility/JhinR",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_JhinR_Name",
+              "key": "spell_jhinr_name",
+              "text": "完美谢幕"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_JhinR_Summary",
+              "key": "spell_jhinr_summary",
+              "text": "烬开始引导，将“低语”切换成一个肩扛式重炮。它能够进行四次超级射击，超级射击的射程极远，可穿透小兵和野怪，但会在命中第一个敌方英雄后停下。“低语”会让命中的敌方单位怯场，也就是对它们造成减速效果和斩杀伤害。第四次射击是经过精心调制的，所以威力特别大，并且必定会造成暴击。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_JhinR_Tooltip",
+              "key": "spell_jhinr_tooltip",
+              "text": "烬架好武器，固定在原地，并获得4颗超级子弹。每颗超级子弹会在命中第一个敌方英雄时对其造成<physicalDamage>@DamageCalc@</physicalDamage>到<physicalDamage>@MaxIncreaseCalc@物理伤害（伤害会基于目标的已损失生命值而提升）</physicalDamage>并使其<status>减速</status>@SlowPercent*100@%，持续@SlowDuration@秒。第四颗子弹会暴击，造成@FourthShotMultiplier*100@%伤害。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Jhin.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 120000,
+              "2": 105000,
+              "3": 90000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Jhin.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "完美谢幕基础子弹物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 64,
+              "2": 128,
+              "3": 192
+            },
+            "description": "客户端当前根绑定 DataValues.Damage 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "fourth_shot_multiplier",
+            "name": "完美谢幕第四发伤害倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.FourthShotMultiplier 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "完美谢幕减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至3。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "完美谢幕减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至3。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "missing_health_max_amp",
+            "name": "完美谢幕已损生命最大增幅",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.PercentMissingAmp 取索引1至3。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "minimum_shot_interval_ms",
+            "name": "完美谢幕两发最小间隔（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MInimumDelayBetweenShots 取索引1至3。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "total_ad_ratio",
+            "name": "完美谢幕总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.25,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至3。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "one",
+            "name": "倍率基准值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "MaxIncreaseCalc为DamageCalc×(1+3)=基础伤害×4；只用于明确最大端点。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "shot_count",
+            "name": "完美谢幕子弹数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4,
+            "levelValues": null,
+            "description": "官方说明与当前技能根均明确4颗超级子弹；每发实际命中由同一引导过程供给。",
+            "sortOrder": 110
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "base_damage",
+            "name": "完美谢幕基础子弹伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "64/128/192 +.25总攻击力；这是每颗子弹的未增幅端点。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "maximum_damage",
+            "name": "完美谢幕最大端点伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "kind": "FORMULA",
+                  "formulaKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "missing_health_max_amp"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "MaxIncreaseCalc明确为基础×4，仅表示目标已损生命增幅的最大端点。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            120000,
+            105000,
+            90000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.Damage",
+          "raw": [
+            0,
+            64,
+            128,
+            192,
+            256,
+            320,
+            384
+          ],
+          "offset": 1,
+          "values": [
+            64,
+            128,
+            192
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "fourth_shot_multiplier",
+          "source": "DataValues.FourthShotMultiplier",
+          "raw": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "offset": 1,
+          "values": [
+            2,
+            2,
+            2
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "source": "DataValues.SlowPercent",
+          "raw": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929
+          ],
+          "offset": 1,
+          "values": [
+            0.8,
+            0.8,
+            0.8
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "source": "DataValues.SlowDuration",
+          "raw": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "offset": 1,
+          "values": [
+            500,
+            500,
+            500
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "missing_health_max_amp",
+          "source": "DataValues.PercentMissingAmp",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3,
+            3,
+            3
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "minimum_shot_interval_ms",
+          "source": "DataValues.MInimumDelayBetweenShots",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1000,
+            1000,
+            1000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "source": "DataValues.ADRatio",
+          "raw": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "offset": 1,
+          "values": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "one",
+          "source": "mSpellCalculations.MaxIncreaseCalc",
+          "values": [
+            1
+          ]
+        },
+        {
+          "parameterKey": "shot_count",
+          "source": "official.tooltip + current root",
+          "values": [
+            4
+          ]
+        },
+        {
+          "source": "mSpellCalculations.DamageCalc/MaxIncreaseCalc",
+          "raw": {
+            "DamageCalc": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxIncreaseCalc": {
+              "mMultiplier": {
+                "mSubparts": [
+                  {
+                    "mNumber": 1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  {
+                    "mDataValue": "PercentMissingAmp",
+                    "__type": "NamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mModifiedGameCalculation": "DamageCalc",
+              "__type": "GameCalculationModified"
+            }
+          },
+          "semantic": "基础64/128/192+.25总攻击力；最大端点为基础×4，目标已损生命到倍率的连续函数未显式。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "已损生命连续增幅",
+          "reason": "当前只证基础端点与×4最大端点；目标已损生命到倍率的函数未显式，不能猜线性插值或把每发固定为最大伤害。"
+        },
+        {
+          "kind": "配置",
+          "component": "四发引导与第四发暴击",
+          "reason": "四发逐发实际命中、最小1秒间隔、第四发倍率2、减速80%持续.5秒及伤害资格需同一引导过程；不将第四发再套通常暴击伤害。"
+        },
+        {
+          "kind": "配置",
+          "component": "成本、引导与冷却起算",
+          "reason": "R基础成本与冷却已复用；固定位置、引导退出、子弹到达和冷却起点未核，不创建猜测过程。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "多目标穿透和空间弹道",
+          "reason": "本轮保留单一敌方英雄命中所需端点和控制参数；小兵/野怪穿透、其他目标拦截和空间路径后置。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "多目标穿透和空间弹道",
+            "reason": "本轮保留单一敌方英雄命中所需端点和控制参数；小兵/野怪穿透、其他目标拦截和空间路径后置。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "已损生命连续增幅",
+            "reason": "当前只证基础端点与×4最大端点；目标已损生命到倍率的函数未显式，不能猜线性插值或把每发固定为最大伤害。"
+          },
+          {
+            "kind": "配置",
+            "component": "四发引导与第四发暴击",
+            "reason": "四发逐发实际命中、最小1秒间隔、第四发倍率2、减速80%持续.5秒及伤害资格需同一引导过程；不将第四发再套通常暴击伤害。"
+          },
+          {
+            "kind": "配置",
+            "component": "成本、引导与冷却起算",
+            "reason": "R基础成本与冷却已复用；固定位置、引导退出、子弹到达和冷却起点未核，不创建猜测过程。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    }
+  }
+}

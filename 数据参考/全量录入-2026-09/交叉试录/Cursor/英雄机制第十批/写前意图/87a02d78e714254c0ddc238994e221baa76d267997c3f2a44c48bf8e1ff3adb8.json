@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:28:50.494Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_e/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "恶灵箭雨基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 60,
+      "2": 90,
+      "3": 120,
+      "4": 150,
+      "5": 180
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+    "sortOrder": 30
+  }
+}

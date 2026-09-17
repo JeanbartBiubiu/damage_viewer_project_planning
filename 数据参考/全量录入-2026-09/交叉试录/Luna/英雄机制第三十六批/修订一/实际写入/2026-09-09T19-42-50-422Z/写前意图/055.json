@@ -1,0 +1,23 @@
+{
+  "i": 54,
+  "intent": {
+    "sequence": 55,
+    "method": "POST",
+    "route": "/skills/lillia_q/parameters",
+    "detailRoute": "/skills/lillia_q/parameters/ap_ratio",
+    "skillKey": "lillia_q",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "伤害法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.35,
+      "levelValues": null,
+      "description": "TotalDamage与BonusTrueDamage均消费0.35×来源总法强。",
+      "sortOrder": 30
+    }
+  }
+}

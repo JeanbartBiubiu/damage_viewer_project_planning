@@ -1,3 +1,4 @@
+import { assertNumericUses } from './numericValue';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -29,7 +30,7 @@ export function getSkillInternalState(
   stateKey: string,
   token: string
 ): Promise<ApiResult<SkillInternalState>> {
-  return requestJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey), { token });
+  return requestJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey), { token }).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
 }
 
 export function createSkillInternalState(
@@ -43,7 +44,7 @@ export function createSkillInternalState(
     method: 'POST',
     token,
     body: JSON.stringify(body)
-  });
+  }).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
 }
 
 export function updateSkillInternalState(
@@ -58,7 +59,7 @@ export function updateSkillInternalState(
     method: 'PUT',
     token,
     body: JSON.stringify(body)
-  });
+  }).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
 }
 
 export function deleteSkillInternalState(
@@ -72,4 +73,9 @@ export function deleteSkillInternalState(
     method: 'DELETE',
     token
   });
+}
+
+export function parseSkillInternalState(value: unknown): SkillInternalState {
+  assertNumericUses(value, 'state', (path) => { throw new Error(`数值取值响应不合法：${path}`); });
+  return value as SkillInternalState;
 }

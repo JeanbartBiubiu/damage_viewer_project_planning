@@ -1,0 +1,29 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "method": "POST",
+    "route": "/skills/bard_w/parameters",
+    "detailRoute": "/skills/bard_w/parameters/minimum_heal",
+    "skillKey": "bard_w",
+    "kind": "parameters",
+    "stableKey": "minimum_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "minimum_heal",
+      "name": "最低治疗基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 50,
+        "3": 75,
+        "4": 100,
+        "5": 125
+      },
+      "description": "等级索引1至5。",
+      "sortOrder": 90
+    }
+  }
+}

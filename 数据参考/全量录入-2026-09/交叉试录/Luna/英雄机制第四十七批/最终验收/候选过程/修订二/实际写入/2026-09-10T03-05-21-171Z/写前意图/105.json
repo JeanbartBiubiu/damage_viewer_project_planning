@@ -1,0 +1,24 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 106,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/bonus_health_ratio",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "bonus_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_health_ratio",
+      "name": "额外生命护盾比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.119999997,
+      "levelValues": null,
+      "description": "Calc_Shield第二分支ShieldMaxHealth=0.12，读取来源额外生命。",
+      "sortOrder": 50
+    }
+  }
+}

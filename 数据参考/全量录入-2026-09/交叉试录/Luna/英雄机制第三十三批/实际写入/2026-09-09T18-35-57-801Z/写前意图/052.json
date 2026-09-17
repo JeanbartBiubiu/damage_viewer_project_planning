@@ -1,0 +1,23 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/sona_r/parameters",
+    "detailRoute": "/skills/sona_r/parameters/ability_power_ratio",
+    "skillKey": "sona_r",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "终极技能法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前TotalDamage树AP比例为0.5。",
+      "sortOrder": 20
+    }
+  }
+}

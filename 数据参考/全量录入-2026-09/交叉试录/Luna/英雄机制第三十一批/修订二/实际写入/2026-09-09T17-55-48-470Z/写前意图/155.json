@@ -1,0 +1,29 @@
+{
+  "i": 154,
+  "intent": {
+    "sequence": 155,
+    "method": "POST",
+    "route": "/skills/morgana_w/parameters",
+    "detailRoute": "/skills/morgana_w/parameters/base_damage_per_second",
+    "skillKey": "morgana_w",
+    "kind": "parameters",
+    "stableKey": "base_damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage_per_second",
+      "name": "每秒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 18,
+        "2": 31,
+        "3": 44,
+        "4": 57,
+        "5": 70
+      },
+      "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位5。",
+      "sortOrder": 10
+    }
+  }
+}

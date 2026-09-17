@@ -1,3 +1,5 @@
+import { ObjectRelationActions } from '../relations/ObjectRelationActions';
+import { useRepresentativeImageColumn } from '../relations/useRepresentativeImageColumn';
 import {
   Alert,
   Button,
@@ -15,7 +17,10 @@ import { getErrorMessage } from '../../../services/apiClient';
 import { deleteCharacter, listCharacters } from '../../../services/characterClient';
 import type { Character } from '../../../types/character';
 import { CharacterAttributesModal } from './CharacterAttributesModal';
+import { CharacterAuthoringCheckModal } from './CharacterAuthoringCheckModal';
 import { CharacterEditorModal, type CharacterEditorMode } from './CharacterEditorModal';
+import { SkillRelationsModal } from '../relations/SkillRelationsModal';
+import { SkillManagementPage } from '../skills/SkillManagementPage';
 
 export type CharacterManagementPageProps = {
   apiBaseUrl: string;
@@ -52,7 +57,19 @@ export function CharacterManagementPage({
   const [deleteTarget, setDeleteTarget] = useState<Character | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [skillsTarget, setSkillsTarget] = useState<Character | null>(null);
+  const [checkTarget, setCheckTarget] = useState<Character | null>(null);
+  const [skillFocus, setSkillFocus] = useState<{ character: Character; skillKey: string; context: string; fromCheck?: boolean } | null>(null);
+  const skillFocusDirty = useRef(false);
+  const focusContext = JSON.stringify([apiBaseUrl, selectedGameId, adminToken]);
+  const activeContext = useRef(focusContext);
+  activeContext.current = focusContext;
   const requestSerial = useRef(0);
+
+  const reportSkillDirty = useCallback((dirty: boolean) => {
+    skillFocusDirty.current = dirty;
+    onDirtyChange(dirty);
+  }, [onDirtyChange]);
 
   const loadList = useCallback(async (queryKeyword?: string) => {
     const serial = requestSerial.current + 1;
@@ -86,6 +103,13 @@ export function CharacterManagementPage({
   useEffect(() => { void loadList(keyword); }, [keyword, loadList]);
 
   useEffect(() => {
+    setSkillsTarget(null);
+    setCheckTarget(null);
+    setSkillFocus(null);
+    skillFocusDirty.current = false;
+  }, [focusContext]);
+
+  useEffect(() => {
     setKeywordDraft('');
     setKeyword(undefined);
     setEditor(null);
@@ -97,7 +121,9 @@ export function CharacterManagementPage({
   }, [onDirtyChange, selectedGameId]);
 
   const handleSaved = async (saved: Character) => {
+    if (activeContext.current !== focusContext || saved.gameId !== selectedGameId) return;
     setEditor(null);
+    setCheckTarget(current => current?.characterKey === saved.characterKey ? saved : current);
     setNotice(`角色「${saved.name}」已保存。`);
     onDirtyChange(false);
     await loadList(keyword);
@@ -125,7 +151,12 @@ export function CharacterManagementPage({
     }
   };
 
+  const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Character>({
+    apiBaseUrl, selectedGameId, adminToken,
+    getTarget: record => ({ kind: 'character', key: record.characterKey, name: record.name })
+  });
   const columns: TableColumnProps[] = [
+    imageColumn,
     { title: '角色名称', dataIndex: 'name', width: 180 },
     { title: '角色标识', dataIndex: 'characterKey', width: 190 },
     {
@@ -142,13 +173,22 @@ export function CharacterManagementPage({
     },
     {
       title: '操作',
-      width: 290,
+      width: 480,
       fixed: 'right',
       render: (_value, record: Character) => (
-        <Space size="mini">
+        <Space size="mini" wrap>
+          <ObjectRelationActions
+            key={`${apiBaseUrl}:${selectedGameId}:${record.characterKey}`}
+            target={{ kind: 'character', key: record.characterKey, name: record.name }}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            onDirtyChange={onDirtyChange}
+            onImageSaved={() => onImageSaved(record)}
+            onOpenSkills={() => setSkillsTarget(record)}
+          />
           <Button size="mini" onClick={() => setEditor({ mode: 'view', character: record })}>查看</Button>
           <Button size="mini" onClick={() => setEditor({ mode: 'edit', character: record })}>编辑</Button>
           <Button size="mini" type="primary" onClick={() => setAttributesTarget(record)}>等级属性</Button>
+          <Button size="mini" onClick={() => setCheckTarget(record)}>录入检查</Button>
           <Button size="mini" status="danger" onClick={() => {
             setDeleteTarget(record);
             setDeleteError(null);
@@ -157,6 +197,29 @@ export function CharacterManagementPage({
       )
     }
   ];
+
+  if (skillFocus && skillFocus.context === focusContext) {
+    return <SkillManagementPage
+      key={`${focusContext}:${skillFocus.skillKey}`}
+      apiBaseUrl={apiBaseUrl}
+      selectedGameId={selectedGameId}
+      adminToken={adminToken}
+      onDirtyChange={reportSkillDirty}
+      focus={{
+        skillKey: skillFocus.skillKey,
+        characterKey: skillFocus.character.characterKey,
+        characterName: skillFocus.character.name,
+        returnLabel: skillFocus.fromCheck ? '返回录入检查' : undefined,
+        onReturn: () => {
+          if (skillFocusDirty.current && !window.confirm(`当前技能修改尚未保存，确定${skillFocus.fromCheck ? '返回录入检查' : '返回角色技能'}吗？`)) return;
+          reportSkillDirty(false);
+          if (skillFocus.fromCheck) setCheckTarget(skillFocus.character);
+          else setSkillsTarget(skillFocus.character);
+          setSkillFocus(null);
+        }
+      }}
+    />;
+  }
 
   return (
     <div className="page-stack">
@@ -210,7 +273,7 @@ export function CharacterManagementPage({
           data={characters}
           pagination={false}
           rowKey={(record: Character) => record.characterKey}
-          scroll={{ x: 950 }}
+          scroll={{ x: 1344 }}
           noDataElement={<Empty description="暂无角色" />}
         />
       </Panel>
@@ -226,6 +289,39 @@ export function CharacterManagementPage({
         onSaved={handleSaved}
         onDirtyChange={onDirtyChange}
       />
+
+      <CharacterAuthoringCheckModal
+        key={`${focusContext}:${checkTarget?.characterKey ?? ''}`}
+        visible={checkTarget !== null && editor === null && attributesTarget === null && skillsTarget === null}
+        character={checkTarget}
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onClose={() => setCheckTarget(null)}
+        onEditCharacter={() => checkTarget && setEditor({ mode: 'edit', character: checkTarget })}
+        onEditAttributes={() => setAttributesTarget(checkTarget)}
+        onEditRelations={() => setSkillsTarget(checkTarget)}
+        onEditSkill={(skillKey) => {
+          if (!checkTarget) return;
+          reportSkillDirty(false);
+          setSkillFocus({ character: checkTarget, skillKey, context: focusContext, fromCheck: true });
+        }}
+      />
+
+      {skillsTarget ? <SkillRelationsModal
+        visible
+        target={{ kind: 'character', key: skillsTarget.characterKey, name: skillsTarget.name }}
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={onDirtyChange}
+        onClose={() => setSkillsTarget(null)}
+        onEditSkill={(skillKey) => {
+          reportSkillDirty(false);
+          setSkillFocus({ character: skillsTarget, skillKey, context: focusContext, fromCheck: checkTarget !== null });
+          setSkillsTarget(null);
+        }}
+      /> : null}
 
       <CharacterAttributesModal
         visible={attributesTarget !== null}

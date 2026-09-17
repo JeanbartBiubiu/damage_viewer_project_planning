@@ -1,0 +1,27 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 127,
+    "method": "POST",
+    "route": "/skills/vex_r/parameters",
+    "detailRoute": "/skills/vex_r/parameters/recast_base_damage",
+    "skillKey": "vex_r",
+    "kind": "parameters",
+    "stableKey": "recast_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_base_damage",
+      "name": "重施基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "客户端RecastDamage取索引1至3；索引0的50不是等级1。",
+      "sortOrder": 30
+    }
+  }
+}

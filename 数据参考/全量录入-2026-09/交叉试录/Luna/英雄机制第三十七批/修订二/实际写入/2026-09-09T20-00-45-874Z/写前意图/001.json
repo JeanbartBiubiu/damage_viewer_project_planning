@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/max_stack_count",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "max_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_stack_count",
+      "name": "无所不用三次命中最大层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前DataValues.MaxStacks=3；三次命中事件与目标资格留给事件层。",
+      "sortOrder": 10
+    }
+  }
+}

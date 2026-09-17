@@ -1,0 +1,46 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 137,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/formulas",
+    "detailRoute": "/skills/nilah_r/formulas/burst_physical_damage",
+    "skillKey": "nilah_r",
+    "kind": "formulas",
+    "stableKey": "burst_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "burst_physical_damage",
+      "name": "神恩激荡单一敌人爆发物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamageCalc=爆发基础伤害+1×来源额外攻击力；额外友方治疗不加入。",
+      "sortOrder": 10
+    }
+  }
+}

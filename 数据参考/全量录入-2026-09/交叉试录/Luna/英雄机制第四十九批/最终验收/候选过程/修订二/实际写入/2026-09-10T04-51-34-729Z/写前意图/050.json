@@ -1,0 +1,25 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_r/parameters",
+    "detailRoute": "/skills/gnar_r/parameters/unlearned_move_speed_ratio",
+    "skillKey": "gnar_r",
+    "kind": "parameters",
+    "stableKey": "unlearned_move_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "unlearned_move_speed_ratio",
+      "name": "未学习R时W移速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "GnarR.RHyperMovementSpeedPercent索引1为20%，作为未学习R时W资格参考。",
+      "sortOrder": 10
+    }
+  }
+}

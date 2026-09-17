@@ -1,0 +1,27 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/senna_r/parameters",
+    "detailRoute": "/skills/senna_r/parameters/shield",
+    "skillKey": "senna_r",
+    "kind": "parameters",
+    "stableKey": "shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield",
+      "name": "暗影燎原基础护盾值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120,
+        "2": 160,
+        "3": 200
+      },
+      "description": "当前DataValues.Shield技能等级1至3为120/160/200；索引0的80不是一级。",
+      "sortOrder": 20
+    }
+  }
+}

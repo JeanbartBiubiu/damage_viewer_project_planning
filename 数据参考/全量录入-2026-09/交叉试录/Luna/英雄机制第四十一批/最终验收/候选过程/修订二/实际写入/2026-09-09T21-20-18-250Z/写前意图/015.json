@@ -1,0 +1,29 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "method": "POST",
+    "route": "/skills/bard_q/parameters",
+    "detailRoute": "/skills/bard_q/parameters/base_damage",
+    "skillKey": "bard_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "description": "技能等级取DataValues索引1至5。",
+      "sortOrder": 10
+    }
+  }
+}

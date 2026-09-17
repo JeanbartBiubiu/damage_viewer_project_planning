@@ -1,0 +1,33 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/yone_e/formulas",
+    "detailRoute": "/skills/yone_e/formulas/return_additional_damage",
+    "skillKey": "yone_e",
+    "kind": "formulas",
+    "stableKey": "return_additional_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "return_additional_damage",
+      "name": "破障之锋返回追加伤害量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "return_damage_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "return_damage_stored"
+          }
+        ]
+      },
+      "description": "返回追加伤害=官方限定范围内实际储存的攻击与技能伤害×技能等级比例；伤害类型正文未指定，不标注物理或真实。",
+      "sortOrder": 10
+    }
+  }
+}

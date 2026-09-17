@@ -1,0 +1,65 @@
+{
+  "at": "2026-09-09T12:17:07.676Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/rumble_w/effects/move_speed",
+  "id": "move_speed",
+  "method": "POST",
+  "body": {
+    "effectKey": "move_speed",
+    "name": "普通破碎护盾自身移速",
+    "description": "当前正文明确普通破碎护盾提供自身移动速度；危险温度资格和实际施放尚未接线。",
+    "sortOrder": 30,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "move_speed_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "attribute",
+        "name": "普通破碎护盾自身移速",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "move_speed_percent",
+          "operation": "INCREASE",
+          "modifierZoneKey": "attribute_flat_add"
+        }
+      }
+    ]
+  }
+}

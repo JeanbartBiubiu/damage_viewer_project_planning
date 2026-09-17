@@ -1,0 +1,55 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "method": "POST",
+    "route": "/skills/renata_w/formulas",
+    "detailRoute": "/skills/renata_w/formulas/final_attack_speed",
+    "skillKey": "renata_w",
+    "kind": "formulas",
+    "stableKey": "final_attack_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "final_attack_speed",
+      "name": "满额攻击速度",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "final_stat_output_scale"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_attack_speed_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_to_percent_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应FinalASCalc。",
+      "sortOrder": 30
+    }
+  }
+}

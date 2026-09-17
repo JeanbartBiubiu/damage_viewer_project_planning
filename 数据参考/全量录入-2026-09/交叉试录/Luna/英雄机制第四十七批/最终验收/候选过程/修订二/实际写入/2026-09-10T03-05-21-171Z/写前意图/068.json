@@ -1,0 +1,24 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_e/parameters",
+    "detailRoute": "/skills/nidalee_e/parameters/max_heal_threshold_ratio",
+    "skillKey": "nidalee_e",
+    "kind": "parameters",
+    "stableKey": "max_heal_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_heal_threshold_ratio",
+      "name": "最大治疗生命阈值比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.050000001,
+      "levelValues": null,
+      "description": "当前根MaxHealThreshold=0.05；阈值资格和已损生命曲线仍待核。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "i": 122,
+  "intent": {
+    "sequence": 123,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/formulas",
+    "detailRoute": "/skills/udyr_r/formulas/empowered_percent_hp_damage",
+    "skillKey": "udyr_r",
+    "kind": "formulas",
+    "stableKey": "empowered_percent_hp_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_percent_hp_damage",
+      "name": "极凌飓风觉醒目标最大生命魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_hp_level_actual_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "storm_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "PercentHPBlast持续期总量公式为（角色等级实际比例+觉醒最大生命百分比法强项0.00035×法强）×目标最大生命；保留总量数学，不挂一次性效果或均分节拍。",
+      "sortOrder": 30
+    }
+  }
+}

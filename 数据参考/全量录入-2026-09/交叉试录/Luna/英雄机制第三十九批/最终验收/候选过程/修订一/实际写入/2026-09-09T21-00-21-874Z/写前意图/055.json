@@ -1,0 +1,56 @@
+{
+  "i": 54,
+  "intent": {
+    "sequence": 55,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/formulas",
+    "detailRoute": "/skills/samira_p/formulas/melee_bonus_damage_max",
+    "skillKey": "samira_p",
+    "kind": "formulas",
+    "stableKey": "melee_bonus_damage_max",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "melee_bonus_damage_max",
+      "name": "近战额外伤害最高完整式",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "melee_missing_health_max_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "melee_base_damage_at_character_level"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "melee_ad_ratio_at_character_level"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "EmpoweredMeleeDamageTooltip明确为BonusMeleeDamage×2；只保存最高端点，中间已损生命曲线留待核。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_r/parameters",
+    "detailRoute": "/skills/kayn_r/parameters/base_cast_range",
+    "skillKey": "kayn_r",
+    "kind": "parameters",
+    "stableKey": "base_cast_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_cast_range",
+      "name": "基础施法距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 550,
+      "levelValues": null,
+      "description": "BaseCastRange=550；不使用旧动态正文的形态分支距离。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "i": 183,
+  "intent": {
+    "sequence": 184,
+    "method": "POST",
+    "route": "/skills/kayle_e/formulas",
+    "detailRoute": "/skills/kayle_e/formulas/passive_magic_damage",
+    "skillKey": "kayle_e",
+    "kind": "formulas",
+    "stableKey": "passive_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_magic_damage",
+      "name": "星火符刃被动单一目标额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前EPassiveTotalDamage=PassiveDamage+0.2×来源总法术强度+0.1×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

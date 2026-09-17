@@ -1,0 +1,23 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 99,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/max_health_ratio",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "max_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_health_ratio",
+      "name": "撼地最后一次攻击目标最大生命伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.11,
+      "levelValues": null,
+      "description": "正文将MaxHPPercent乘100显示；目标最大生命属性和最后一次攻击事件待接。",
+      "sortOrder": 20
+    }
+  }
+}

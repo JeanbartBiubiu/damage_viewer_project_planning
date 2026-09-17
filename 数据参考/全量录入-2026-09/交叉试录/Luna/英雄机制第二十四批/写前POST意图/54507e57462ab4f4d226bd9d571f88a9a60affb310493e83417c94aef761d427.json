@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:41:06.773Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_r/parameters",
+  "detailRoute": "/skills/volibear_r/parameters/health_gain",
+  "skillKey": "volibear_r",
+  "kind": "parameters",
+  "stableKey": "health_gain",
+  "body": {
+    "parameterKey": "health_gain",
+    "name": "天声震落自身生命值增益",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 175,
+      "2": 350,
+      "3": 525
+    },
+    "description": "当前根绑定 DataValues.HealthAmount 取索引1至3",
+    "sortOrder": 70
+  }
+}

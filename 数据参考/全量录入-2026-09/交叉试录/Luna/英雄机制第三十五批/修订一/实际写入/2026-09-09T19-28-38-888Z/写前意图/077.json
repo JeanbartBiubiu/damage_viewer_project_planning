@@ -1,0 +1,57 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 76,
+    "method": "POST",
+    "route": "/skills/rell_e/formulas",
+    "detailRoute": "/skills/rell_e/formulas/next_hit_extra_magic_damage",
+    "skillKey": "rell_e",
+    "kind": "formulas",
+    "stableKey": "next_hit_extra_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "next_hit_extra_magic_damage",
+      "name": "下次攻击或Q额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "next_hit_target_max_hp_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "next_hit_ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前MaxHealthDamageCalc先计算PercentHealthDamage+0.0003×法强，再乘目标最大生命；普攻和Q不能同次重复消耗。",
+      "sortOrder": 10
+    }
+  }
+}

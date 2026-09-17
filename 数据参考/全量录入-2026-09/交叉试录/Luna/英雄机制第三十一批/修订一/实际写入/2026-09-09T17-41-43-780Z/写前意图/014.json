@@ -1,0 +1,45 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "method": "POST",
+    "route": "/skills/janna_q/formulas",
+    "detailRoute": "/skills/janna_q/formulas/minimum_magic_damage",
+    "skillKey": "janna_q",
+    "kind": "formulas",
+    "stableKey": "minimum_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "minimum_magic_damage",
+      "name": "飓风呼啸最小蓄力魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "minimum_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MinimumDamage = MinDamage + MinimumRatio×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

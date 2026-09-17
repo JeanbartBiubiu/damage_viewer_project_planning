@@ -1,3 +1,4 @@
+import { type NumericValue } from './numericValue';
 export type SkillInternalStateType =
   | 'COUNTER'
   | 'AMMO'
@@ -17,14 +18,14 @@ export type SkillInternalStateModeOption = {
 };
 
 export type SkillInternalStateCounterDetail = {
-  initialValueFormulaKey: string;
-  maxValueFormulaKey: string;
+  initialValue: NumericValue;
+  maxValue: NumericValue;
 };
 
 export type SkillInternalStateAmmoDetail = {
-  initialValueFormulaKey: string;
-  maxValueFormulaKey: string;
-  recoveryIntervalFormulaKey: string;
+  initialValue: NumericValue;
+  maxValue: NumericValue;
+  recoveryIntervalValue: NumericValue;
   recoveryMode: SkillInternalStateAmmoRecoveryMode;
 };
 
@@ -37,7 +38,7 @@ export type SkillInternalStateFlagDetail = {
 };
 
 export type SkillInternalStateInternalCooldownDetail = {
-  durationFormulaKey: string;
+  durationValue: NumericValue;
 };
 
 type SkillInternalStateBase = {

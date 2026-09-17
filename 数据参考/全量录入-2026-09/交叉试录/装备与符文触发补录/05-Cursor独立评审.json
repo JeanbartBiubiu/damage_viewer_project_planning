@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 2,
+  "capturedAt": "2026-09-12T14:33:51.335Z",
+  "reviewer": "Cursor",
+  "resultStatus": "finished",
+  "status": "READY",
+  "verdict": "READY",
+  "revision": "rev2",
+  "reviewedPlanRevision": 2,
+  "finished": true,
+  "accepted": true,
+  "blockers": [],
+  "scope": "黑色切割者、魔切、挺进破坏者和凯旋四条触发规则的一次合并受保护录入",
+  "run": {
+    "runId": "run-668e341b-85a9-43c3-ab55-4cd2c5995c20",
+    "requestId": "4d4bcc65-7d8c-40cc-8c05-4703294dc108",
+    "startedAt": "2026-09-12T14:32:11.588Z",
+    "completedAt": "2026-09-12T14:33:51.335Z",
+    "promptMode": "DESIGN_REVIEW_ONLY"
+  },
+  "runtime": {
+    "kind": "sdk",
+    "sdkVersion": "1.0.24",
+    "model": "grok-4.6",
+    "effort": "high",
+    "fast": false
+  },
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "toolEvents": {
+    "uniqueCallCount": 1,
+    "completedCallCount": 1,
+    "byName": {
+      "shell": 1
+    },
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false
+  },
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "reviewedFiles": [
+    "README.md",
+    "01-合并方案.md",
+    "02-合并冻结请求.json",
+    "03-来源散列快照.json",
+    "04-共享写前现值.json",
+    "受保护写入.mjs",
+    "独立GET回读.mjs",
+    "只读页面验收.mjs"
+  ],
+  "approvedInputHashes": {
+    "README.md": "fc7a45179b56a85ba4b9b80b90e1cc16ffa869bb6851ec450cb23539fbf40fa1",
+    "01-合并方案.md": "efeebfb1764462e4daa1d87d2ddaac503a945747a8301ffe790031e79781287c",
+    "02-合并冻结请求.json": "f6c9b114c008d87c909f0ea4c7b91928daf5c4069fabd1b0eec96993b7ea0005",
+    "03-来源散列快照.json": "87811d099c41feb51145d58676020dbe787c18bbd60e2f23dea2d28a0bba1243",
+    "04-共享写前现值.json": "988cdcc0e19a40aa08f622e014eac24fbb10789bab78cad6e09f9b5e0be5f89a",
+    "受保护写入.mjs": "93b445a4b714f794c34a13682b17c0b5de8cac74c503c06aa69606b2e25ad348",
+    "独立GET回读.mjs": "86070b7869b70807d2eebb3fb726daa10aa7f40d4ced4a52f3398816e6531871",
+    "只读页面验收.mjs": "a1e98a0be740d9b2ee520d0beafe36a640961fae6140734d8aa6490a4ba2aba3"
+  },
+  "artifact": {
+    "path": ".agents/artifacts/equipment-rune-trigger-review-r4-20260912",
+    "summaryFile": "summary.json",
+    "summarySha256": "fd7c29fba7964e06f2930aa7d49df656d7fc40883a4a551fde391d83ee4cdd31",
+    "eventsFile": "events.jsonl",
+    "reviewFile": "review.md"
+  },
+  "findings": [
+    "终审检查器退出码为 0，业务写入数为 0。",
+    "四条冻结请求体均通过对象键递归排序后的规范化散列校验。",
+    "四条候选仍为 404，旧 96 条规则及非规则数据两轮读取稳定。",
+    "黑色切割者使用伤害类型键 physics，未把来源中的 10ms 推断成逐目标冷却。",
+    "凯旋仅覆盖严格 1V1 本人击杀；CURRENT_TARGET 是被击杀英雄，triumph_heal 的结果目标 SOURCE 仍是技能拥有者。",
+    "写入脚本限定四个冻结 POST，并具备显式开关、输入散列、双轮 GET 预检、即时回读、终态计数和防重放门禁。"
+  ],
+  "preWriteFailureEvidence": {
+    "file": "06-首写门禁失败.json",
+    "getCount": 0,
+    "businessWriteCount": 0,
+    "writes": 0,
+    "candidateStatusesAfterFailure": [404, 404, 404, 404],
+    "resolution": "统一准备器、写入器和终审检查器的规范化散列算法，重新完成 GET 预检并重新独立终审。"
+  },
+  "priorRunsNotAdopted": [
+    {
+      "runId": "run-17eff2e2-23a7-4f64-a9ef-31a9a99859f3",
+      "requestId": "7a5b95e4-e39e-408d-9ae5-ff8166cfa598",
+      "resultStatus": "cancelled",
+      "reason": "一项只读调用未在时限内完成，不能作为终审证据。"
+    },
+    {
+      "runId": "run-9e24934c-5514-4962-8765-51a7c5277c94",
+      "requestId": "731e6d52-a0a4-4e16-abf1-5d7c1562b1ad",
+      "resultStatus": "finished",
+      "reason": "允许路径过窄，审计把已有候选目录计为 57 个范围外路径，不能满足写入门禁。"
+    },
+    {
+      "runId": "run-c59026d2-d2bc-49fb-a54b-569e58d771e7",
+      "requestId": "9df931b6-732f-4aea-b754-a19bf0c8e9fc",
+      "resultStatus": "finished",
+      "reason": "终审后首写门禁发现准备器与写入器散列算法不一致，输入文件已经修正并重新生成，因此该轮批准散列失效。"
+    }
+  ]
+}

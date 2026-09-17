@@ -1,0 +1,24 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_r/parameters",
+    "detailRoute": "/skills/samira_r/parameters/duration_ms",
+    "skillKey": "samira_r",
+    "kind": "parameters",
+    "stableKey": "duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "duration_ms",
+      "name": "炼狱扳机持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前正文明确持续2秒，转换为2000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

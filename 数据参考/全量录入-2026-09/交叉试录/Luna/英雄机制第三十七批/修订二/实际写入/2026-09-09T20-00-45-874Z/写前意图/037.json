@@ -1,0 +1,23 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/akshan_q/parameters",
+    "detailRoute": "/skills/akshan_q/parameters/haste_ap_ratio",
+    "skillKey": "akshan_q",
+    "kind": "parameters",
+    "stableKey": "haste_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "haste_ap_ratio",
+      "name": "命中英雄法术强度移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0005,
+      "levelValues": null,
+      "description": "当前TotalHaste第二项为0.0005×来源总法术强度，结果按百分比显示。",
+      "sortOrder": 40
+    }
+  }
+}

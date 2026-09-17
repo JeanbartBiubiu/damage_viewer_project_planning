@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:37:17.357Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_w/formulas",
+  "detailRoute": "/skills/nunu_w/formulas/maximum_damage",
+  "skillKey": "nunu_w",
+  "kind": "formulas",
+  "stableKey": "maximum_damage",
+  "body": {
+    "formulaKey": "maximum_damage",
+    "name": "史上最大雪球最高魔法伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "maximum_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "MaximumSnowballDamage = BaseDamage + MaximumAPRatio×来源法术强度。",
+    "sortOrder": 10
+  }
+}

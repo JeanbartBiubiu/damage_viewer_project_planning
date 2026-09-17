@@ -1,0 +1,54 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_q/formulas",
+    "detailRoute": "/skills/shaco_q/formulas/backstab_critical_multiplier",
+    "skillKey": "shaco_q",
+    "kind": "formulas",
+    "stableKey": "backstab_critical_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "backstab_critical_multiplier",
+      "name": "欺诈魔术背刺暴击倍率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crit_baseline"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "backstab_crit_coefficient"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_critical_damage_multiplier"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "crit_minus_one"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "QCritDamageMod=1+0.6×(实际mStat9总暴击倍率−1)。",
+      "sortOrder": 20
+    }
+  }
+}

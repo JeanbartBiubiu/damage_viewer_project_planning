@@ -1,0 +1,24 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_w/parameters",
+    "detailRoute": "/skills/urgot_w/parameters/cannot_crit",
+    "skillKey": "urgot_w",
+    "kind": "parameters",
+    "stableKey": "cannot_crit",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cannot_crit",
+      "name": "净除不能暴击",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确净除攻击不能暴击；仅保存资格事实，不造暴击过程。",
+      "sortOrder": 90
+    }
+  }
+}

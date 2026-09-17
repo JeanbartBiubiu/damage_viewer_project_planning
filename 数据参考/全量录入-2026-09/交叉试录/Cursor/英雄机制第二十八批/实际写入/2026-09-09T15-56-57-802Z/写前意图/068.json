@@ -1,0 +1,20 @@
+{
+  "i": 67,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_e/parameters",
+    "skillKey": "poppy_e",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.6,
+      "levelValues": null,
+      "description": "当前根TackleDamage第二段mCoefficient为0.6，mStat2/mStatFormula2指向来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

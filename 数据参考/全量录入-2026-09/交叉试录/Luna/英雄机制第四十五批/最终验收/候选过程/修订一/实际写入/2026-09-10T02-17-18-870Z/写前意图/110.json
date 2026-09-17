@@ -1,0 +1,30 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 110,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zyra_e/parameters",
+    "detailRoute": "/skills/zyra_e/parameters/root_duration_ms",
+    "skillKey": "zyra_e",
+    "kind": "parameters",
+    "stableKey": "root_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "root_duration_ms",
+      "name": "禁锢持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1000,
+        "2": 1250,
+        "3": 1500,
+        "4": 1750,
+        "5": 2000
+      },
+      "description": "RootDuration索引1至5为1/1.25/1.5/1.75/2秒；索引0=0.75不作1级。",
+      "sortOrder": 30
+    }
+  }
+}

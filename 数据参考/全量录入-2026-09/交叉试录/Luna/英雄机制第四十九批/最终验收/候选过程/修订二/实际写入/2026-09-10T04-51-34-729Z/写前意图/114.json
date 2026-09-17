@@ -1,0 +1,25 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_p/parameters",
+    "detailRoute": "/skills/quinn_p/parameters/mode_damage_multiplier",
+    "skillKey": "quinn_p",
+    "kind": "parameters",
+    "stableKey": "mode_damage_multiplier",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mode_damage_multiplier",
+      "name": "模式伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前模式倍率1；不引入其他模式分支。",
+      "sortOrder": 40
+    }
+  }
+}

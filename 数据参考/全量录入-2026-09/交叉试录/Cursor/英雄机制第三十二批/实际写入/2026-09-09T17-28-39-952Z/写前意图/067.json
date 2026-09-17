@@ -1,0 +1,23 @@
+{
+  "i": 66,
+  "intent": {
+    "sequence": 67,
+    "method": "POST",
+    "route": "/skills/kaisa_q/parameters",
+    "detailRoute": "/skills/kaisa_q/parameters/evolution_bonus_attack_damage_threshold",
+    "skillKey": "kaisa_q",
+    "kind": "parameters",
+    "stableKey": "evolution_bonus_attack_damage_threshold",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "evolution_bonus_attack_damage_threshold",
+      "name": "Q进化额外攻击力阈值",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "当前P技能正文引用Q的Effect6Amount=100额外攻击力；只作为进化资格参数。",
+      "sortOrder": 90
+    }
+  }
+}

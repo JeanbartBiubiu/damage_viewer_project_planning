@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T10:35:27.502Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/malzahar_r/parameters/beam_base_damage",
+  "id": "beam_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "beam_base_damage",
+    "name": "压制光束基础伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 125,
+      "2": 200,
+      "3": 275
+    },
+    "description": "客户端当前根绑定 DataValues.BeamDamage 取索引1至3。",
+    "sortOrder": 40
+  }
+}

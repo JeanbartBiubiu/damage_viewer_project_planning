@@ -1,0 +1,353 @@
+{
+  "planRevision": 2,
+  "plannedWrites": 10,
+  "writeOrder": [
+    "四项自身护盾效果新增",
+    "两项公式说明更新",
+    "四项技能说明更新"
+  ],
+  "targets": [
+    {
+      "skillKey": "item_3040_passive",
+      "equipmentKey": "item_3040",
+      "skillPut": {
+        "name": "炽天使之拥·敬畏与救主灵刃",
+        "description": "保留按最大法力值获得0.02比例法术强度、生命值低于30%阈值、持续3秒护盾、90秒冷却和0.18能力资源护盾系数。法力转法术强度使用绑定文字明确的自身法力总值；护盾基数继续使用显式资源输入。自身普通护盾结果已组成，触发资格、冷却消费和资源输入供值仍待接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "effectPost": {
+        "effectKey": "lifeline_shield",
+        "name": "救主灵刃自身护盾",
+        "description": "使用现有救主灵刃护盾公式建立3秒自身普通护盾；生命阈值、冷却消费和运行时资源输入由后续事件接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "lifeline_shield_duration_ms"
+          },
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE"
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "救主灵刃护盾",
+            "target": "SOURCE",
+            "resultType": "NORMAL_SHIELD",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "lifeline_shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3121_passive",
+      "equipmentKey": "item_3121",
+      "skillPut": {
+        "name": "末日寒冬·敬畏与永续",
+        "description": "保留原资源缩放生命和定身、近战减速英雄产生的100加4.5%当前法力护盾。单挑不启用附近多名敌人的强化。自身普通护盾结果已组成；定身或近战减速资格和8秒冷却消费仍待接线，敬畏的原资源输入继续由运行时提供。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "effectPost": {
+        "effectKey": "everlasting_shield",
+        "name": "永续自身护盾",
+        "description": "使用现有100加4.5%当前法力公式建立3秒自身普通护盾；定身或近战减速资格、冷却和运行时输入由后续事件接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE"
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "永续护盾",
+            "target": "SOURCE",
+            "resultType": "NORMAL_SHIELD",
+            "description": "单挑只使用未按附近多名敌人增强的基础护盾公式。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3173_passive",
+      "equipmentKey": "item_3173",
+      "skillPut": {
+        "name": "带链碾碎者·诺克萨斯的不懈",
+        "description": "保留冷却15秒、护盾持续5秒，以及护盾计算树的1级节点90和原属性12、公式2输入乘0.08。等级断点求值算法未证，基础段和原属性值继续由运行时显式提供，不使用默认值。自身魔法护盾结果已组成；低生命触发、冷却消费和运行时供值仍待接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "effectPost": {
+        "effectKey": "lifeline_magic_shield",
+        "name": "诺克萨斯不懈魔法护盾",
+        "description": "使用现有运行时基础盾加0.08倍运行时属性输入公式建立5秒自身魔法护盾；低生命触发和冷却由后续事件接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE"
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "魔法护盾",
+            "target": "SOURCE",
+            "resultType": "NORMAL_SHIELD",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": "magic",
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      },
+      "formulaPut": {
+        "name": "不懈魔法护盾值",
+        "description": "当前等级基础护盾输入加0.08倍来源原属性12、公式2输入；数值口径继续由运行时显式提供，本公式用于已组成的自身魔法护盾结果。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_level_base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_amount_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_formula2_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        }
+      }
+    },
+    {
+      "skillKey": "item_3174_passive",
+      "equipmentKey": "item_3174",
+      "skillPut": {
+        "name": "装甲战靴·镀板与耐久",
+        "description": "保留镀板即将到来的攻击伤害降低10%参数，合资格攻击分量与减伤乘区待接。保留诺克萨斯耐久15秒冷却、5秒护盾，以及运行时基础盾加原属性12、公式2输入乘0.08。等级断点仍不猜值。自身物理护盾结果已组成；低生命触发、冷却消费、运行时供值和镀板减伤仍待接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "effectPost": {
+        "effectKey": "lifeline_physical_shield",
+        "name": "诺克萨斯耐久物理护盾",
+        "description": "使用现有运行时基础盾加0.08倍运行时属性输入公式建立5秒自身物理护盾；低生命触发和冷却由后续事件接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE"
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "物理护盾",
+            "target": "SOURCE",
+            "resultType": "NORMAL_SHIELD",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "physical_shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": "physics",
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      },
+      "formulaPut": {
+        "name": "耐久物理护盾值",
+        "description": "当前等级基础护盾输入加0.08倍来源原属性12、公式2输入；数值口径继续由运行时显式提供，本公式用于已组成的自身物理护盾结果，镀板10%减幅不进入本公式。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_level_base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_amount_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_formula2_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "i": 63,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_p/formulas",
+    "skillKey": "shen_p",
+    "kind": "formulas",
+    "stableKey": "conditional_shield_value",
+    "body": {
+      "formulaKey": "conditional_shield_value",
+      "name": "忍法气合盾指定条件护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "conditional_shield_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_base_shield_value"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_health_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "指定buff条件分支=1.3×默认护盾值；条件事件不在本轮接线。",
+      "sortOrder": 20
+    }
+  }
+}

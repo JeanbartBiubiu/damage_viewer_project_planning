@@ -1,0 +1,23 @@
+{
+  "i": 33,
+  "intent": {
+    "sequence": 34,
+    "method": "POST",
+    "route": "/skills/janna_e/parameters",
+    "detailRoute": "/skills/janna_e/parameters/cc_cooldown_refund_ratio",
+    "skillKey": "janna_e",
+    "kind": "parameters",
+    "stableKey": "cc_cooldown_refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cc_cooldown_refund_ratio",
+      "name": "控制命中时冷却返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "客户端DataValues.ECDRefundforCC按等级索引1取0.2；控制命中条件仅作来源参数，未创建无条件冷却效果。",
+      "sortOrder": 10
+    }
+  }
+}

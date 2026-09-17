@@ -1,0 +1,24 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_p/parameters",
+    "detailRoute": "/skills/udyr_p/parameters/stance_global_cooldown_ms",
+    "skillKey": "udyr_p",
+    "kind": "parameters",
+    "stableKey": "stance_global_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stance_global_cooldown_ms",
+      "name": "普通姿态共用间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "DataValues.GlobalCD=1.5秒，精确换算为1500毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

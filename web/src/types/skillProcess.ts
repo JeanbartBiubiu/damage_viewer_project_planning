@@ -1,3 +1,4 @@
+import { type NumericValue } from './numericValue';
 export type SkillProcessActivationType = 'ACTIVE' | 'PASSIVE' | 'CONSUMABLE';
 
 export type SkillProcessStepType =
@@ -44,39 +45,39 @@ export type SkillProcessEmptyDetail = {
 };
 
 export type SkillProcessDelayDetail = {
-  delayFormulaKey: string;
+  delayValue: NumericValue;
 };
 
 export type SkillProcessMultiHitDetail = {
-  repeatCountFormulaKey: string;
-  intervalFormulaKey: string | null;
+  repeatCountValue: NumericValue;
+  intervalValue: NumericValue | null;
 };
 
 export type SkillProcessPeriodicDetail = {
-  repeatCountFormulaKey: string;
-  intervalFormulaKey: string;
+  repeatCountValue: NumericValue;
+  intervalValue: NumericValue;
   firstExecution: SkillProcessFirstExecution;
 };
 
 export type SkillProcessChannelDetail = {
-  durationFormulaKey: string;
-  executionCountFormulaKey: string;
+  durationValue: NumericValue;
+  executionCountValue: NumericValue;
   firstExecution: SkillProcessFirstExecution;
 };
 
 export type SkillProcessChargeDetail = {
-  minimumChargeFormulaKey: string;
-  maximumChargeFormulaKey: string;
+  minimumChargeValue: NumericValue;
+  maximumChargeValue: NumericValue;
   releaseAtMaximum: boolean;
 };
 
 export type SkillProcessRecastDetail = {
-  windowFormulaKey: string;
-  maximumRecastCountFormulaKey: string;
+  windowValue: NumericValue;
+  maximumRecastCountValue: NumericValue;
 };
 
 export type SkillProcessEmpoweredBasicAttackDetail = {
-  windowFormulaKey: string;
+  windowValue: NumericValue;
   consumeMoment: SkillProcessEmpoweredConsumeMoment;
 };
 
@@ -138,7 +139,7 @@ export type SkillProcessStep =
   | SkillProcessEmpoweredBasicAttackStep;
 
 export type SkillProcessCooldown = {
-  durationFormulaKey: string;
+  durationValue: NumericValue;
   startMoment: SkillProcessMoment;
 };
 
@@ -159,25 +160,25 @@ type SkillProcessStateOperationBase = {
 
 export type SkillProcessNumericStateOperation = SkillProcessStateOperationBase & {
   operation: 'INCREASE' | 'DECREASE' | 'CONSUME' | 'SET';
-  valueFormulaKey: string;
+  value: NumericValue;
   optionKey: null;
 };
 
 export type SkillProcessModeStateOperation = SkillProcessStateOperationBase & {
   operation: 'SELECT';
-  valueFormulaKey: null;
+  value: null;
   optionKey: string;
 };
 
 export type SkillProcessFlagStateOperation = SkillProcessStateOperationBase & {
   operation: 'ENABLE' | 'DISABLE' | 'TOGGLE';
-  valueFormulaKey: null;
+  value: null;
   optionKey: null;
 };
 
 export type SkillProcessInternalCooldownStateOperation = SkillProcessStateOperationBase & {
   operation: 'START' | 'RESET';
-  valueFormulaKey: null;
+  value: null;
   optionKey: null;
 };
 

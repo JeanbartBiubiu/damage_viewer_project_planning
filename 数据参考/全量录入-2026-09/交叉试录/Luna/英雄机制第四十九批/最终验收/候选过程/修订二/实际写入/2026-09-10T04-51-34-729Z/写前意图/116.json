@@ -1,0 +1,25 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_p/parameters",
+    "detailRoute": "/skills/quinn_p/parameters/actual_mark_cooldown_ratio",
+    "skillKey": "quinn_p",
+    "kind": "parameters",
+    "stableKey": "actual_mark_cooldown_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_mark_cooldown_ratio",
+      "name": "当前标记冷却缩短比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "@f1@来源未具名，运行层提供实际值，不设默认。",
+      "sortOrder": 70
+    }
+  }
+}

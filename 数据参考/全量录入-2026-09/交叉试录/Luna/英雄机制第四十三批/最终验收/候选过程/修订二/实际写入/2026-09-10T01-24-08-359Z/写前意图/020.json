@@ -1,0 +1,46 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_q/formulas",
+    "detailRoute": "/skills/gangplank_q/formulas/shot_physical_damage",
+    "skillKey": "gangplank_q",
+    "kind": "formulas",
+    "stableKey": "shot_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shot_physical_damage",
+      "name": "枪火谈判单次物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ShotDamage=基础值+总攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

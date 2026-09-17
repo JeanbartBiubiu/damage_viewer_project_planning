@@ -1,0 +1,23 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/yone_e/parameters",
+    "detailRoute": "/skills/yone_e/parameters/return_duration_ms",
+    "skillKey": "yone_e",
+    "kind": "parameters",
+    "stableKey": "return_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "return_duration_ms",
+      "name": "灵体窗口时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "客户端ReturnTimer=5秒，转换为5000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

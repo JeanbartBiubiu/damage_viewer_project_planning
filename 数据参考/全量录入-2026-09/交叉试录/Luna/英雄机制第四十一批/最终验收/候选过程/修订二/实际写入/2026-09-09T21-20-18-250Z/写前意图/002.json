@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/bard_p/parameters",
+    "detailRoute": "/skills/bard_p/parameters/tooltip_ms_max_percent",
+    "skillKey": "bard_p",
+    "kind": "parameters",
+    "stableKey": "tooltip_ms_max_percent",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tooltip_ms_max_percent",
+      "name": "非战斗移动速度上限（百分数点）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 150,
+      "levelValues": null,
+      "description": "当前正文直接显示150%。",
+      "sortOrder": 20
+    }
+  }
+}

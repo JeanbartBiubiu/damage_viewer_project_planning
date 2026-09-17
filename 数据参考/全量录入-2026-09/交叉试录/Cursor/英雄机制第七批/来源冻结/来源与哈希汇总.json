@@ -1,0 +1,218 @@
+{
+  "generatedAt": "2026-09-08T16:56:48.002Z",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；不以名称相似评分选对象。完整原文及SHA位于规划树公共来源。官方16.17.1与客户端16.17分别记录。",
+  "heroes": [
+    {
+      "id": "Vi",
+      "chineseName": "皮城执法官",
+      "rootPath": "Characters/Vi/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Vi.json.gz",
+        "sha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+        "compressedSha256": "88df744509f0873b2df9d2eefeece0d1766c170ccc8fd758f07b3cc1352c9569",
+        "byteSize": 59287,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/vi/vi.bin.json",
+        "fetchedAt": "2026-09-06T14:26:46.201Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Vi.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vi.json",
+        "fetchedAt": "2026-09-06T14:12:55.879Z",
+        "byteSize": 12790,
+        "sha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "vi_p",
+          "binding": "Characters/Vi/Spells/ViPassiveAbility/ViPassive",
+          "name": "爆裂护盾"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "vi_q",
+          "binding": "Characters/Vi/Spells/ViQAbility/ViQ",
+          "name": "强能冲拳"
+        },
+        {
+          "slot": "W",
+          "skillKey": "vi_w",
+          "binding": "Characters/Vi/Spells/ViWAbility/ViW",
+          "name": "爆弹重拳"
+        },
+        {
+          "slot": "E",
+          "skillKey": "vi_e",
+          "binding": "Characters/Vi/Spells/ViEAbility/ViE",
+          "name": "透体之劲"
+        },
+        {
+          "slot": "R",
+          "skillKey": "vi_r",
+          "binding": "Characters/Vi/Spells/ViRAbility/ViR",
+          "name": "天霸横空烈轰"
+        }
+      ]
+    },
+    {
+      "id": "Olaf",
+      "chineseName": "狂战士",
+      "rootPath": "Characters/Olaf/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Olaf.json.gz",
+        "sha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+        "compressedSha256": "fb882e8483021bf24d0506a494a8cb5f731fcf1a86a0c9dcde47503938428820",
+        "byteSize": 49859,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/olaf/olaf.bin.json",
+        "fetchedAt": "2026-09-06T14:26:31.210Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Olaf.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Olaf.json",
+        "fetchedAt": "2026-09-06T14:12:51.262Z",
+        "byteSize": 14055,
+        "sha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "olaf_p",
+          "binding": "Characters/Olaf/Spells/OlafBerzerkerRageAbility/OlafBerzerkerRage",
+          "name": "狂战之怒"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "olaf_q",
+          "binding": "Characters/Olaf/Spells/OlafAxeThrowCastAbility/OlafAxeThrowCast",
+          "name": "逆流投掷"
+        },
+        {
+          "slot": "W",
+          "skillKey": "olaf_w",
+          "binding": "Characters/Olaf/Spells/OlafFrenziedStrikesAbility/OlafFrenziedStrikes",
+          "name": "挺过去"
+        },
+        {
+          "slot": "E",
+          "skillKey": "olaf_e",
+          "binding": "Characters/Olaf/Spells/OlafRecklessStrikeAbility/OlafRecklessStrike",
+          "name": "鲁莽挥击"
+        },
+        {
+          "slot": "R",
+          "skillKey": "olaf_r",
+          "binding": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok",
+          "name": "诸神黄昏"
+        }
+      ]
+    },
+    {
+      "id": "Nocturne",
+      "chineseName": "永恒梦魇",
+      "rootPath": "Characters/Nocturne/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Nocturne.json.gz",
+        "sha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+        "compressedSha256": "c3ac14c59e9250017a85f0b588fca29c66aaacf50c009f80e9d2b2a06804ac53",
+        "byteSize": 51608,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nocturne/nocturne.bin.json",
+        "fetchedAt": "2026-09-06T14:26:31.133Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Nocturne.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nocturne.json",
+        "fetchedAt": "2026-09-06T14:12:52.098Z",
+        "byteSize": 11943,
+        "sha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "nocturne_p",
+          "binding": "Characters/Nocturne/Spells/NocturnePAbility/NocturneP",
+          "name": "暗影之刃"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "nocturne_q",
+          "binding": "Characters/Nocturne/Spells/NocturneDuskbringerAbility/NocturneDuskbringer",
+          "name": "梦魇之径"
+        },
+        {
+          "slot": "W",
+          "skillKey": "nocturne_w",
+          "binding": "Characters/Nocturne/Spells/NocturneShroudofDarknessAbility/NocturneShroudofDarkness",
+          "name": "黑暗庇护"
+        },
+        {
+          "slot": "E",
+          "skillKey": "nocturne_e",
+          "binding": "Characters/Nocturne/Spells/NocturneUnspeakableHorrorAbility/NocturneUnspeakableHorror",
+          "name": "无言恐惧"
+        },
+        {
+          "slot": "R",
+          "skillKey": "nocturne_r",
+          "binding": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+          "name": "鬼影重重"
+        }
+      ]
+    },
+    {
+      "id": "Vayne",
+      "chineseName": "暗夜猎手",
+      "rootPath": "Characters/Vayne/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Vayne.json.gz",
+        "sha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+        "compressedSha256": "23cf52004d1015b09532d1575c5e9dc12538956015fa570b756c6b21766af343",
+        "byteSize": 51663,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/vayne/vayne.bin.json",
+        "fetchedAt": "2026-09-06T14:26:44.797Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Vayne.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vayne.json",
+        "fetchedAt": "2026-09-06T14:12:55.353Z",
+        "byteSize": 14322,
+        "sha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "vayne_p",
+          "binding": "Characters/Vayne/Spells/VaynePassiveAbility/VaynePassive",
+          "name": "暗夜猎手"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "vayne_q",
+          "binding": "Characters/Vayne/Spells/VayneTumbleAbility/VayneTumble",
+          "name": "闪避突袭"
+        },
+        {
+          "slot": "W",
+          "skillKey": "vayne_w",
+          "binding": "Characters/Vayne/Spells/VayneSilveredBoltsAbility/VayneSilveredBolts",
+          "name": "圣银弩箭"
+        },
+        {
+          "slot": "E",
+          "skillKey": "vayne_e",
+          "binding": "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn",
+          "name": "恶魔审判"
+        },
+        {
+          "slot": "R",
+          "skillKey": "vayne_r",
+          "binding": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+          "name": "终极时刻"
+        }
+      ]
+    }
+  ]
+}

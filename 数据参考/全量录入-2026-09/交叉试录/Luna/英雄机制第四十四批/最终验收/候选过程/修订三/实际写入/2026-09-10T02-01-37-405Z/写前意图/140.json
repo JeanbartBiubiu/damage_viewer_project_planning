@@ -1,0 +1,29 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "method": "POST",
+    "route": "/skills/yuumi_e/parameters",
+    "detailRoute": "/skills/yuumi_e/parameters/attack_speed_points",
+    "skillKey": "yuumi_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_points",
+      "name": "攻击速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 27.5,
+        "3": 30,
+        "4": 32.5,
+        "5": 35
+      },
+      "description": "来源25/27.5/30/32.5/35百分数点；需乘0.01转系统比例。",
+      "sortOrder": 30
+    }
+  }
+}

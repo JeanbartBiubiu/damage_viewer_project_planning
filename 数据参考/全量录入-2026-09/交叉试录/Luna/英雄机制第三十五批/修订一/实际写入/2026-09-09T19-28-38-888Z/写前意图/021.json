@@ -1,0 +1,23 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "method": "POST",
+    "route": "/skills/braum_w/parameters",
+    "detailRoute": "/skills/braum_w/parameters/self_resistance_ratio",
+    "skillKey": "braum_w",
+    "kind": "parameters",
+    "stableKey": "self_resistance_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_resistance_ratio",
+      "name": "布隆自身双抗加成比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.36000001,
+      "levelValues": null,
+      "description": "当前GrantedBraumArmor/GrantedBraumMR均使用BraumArmorPercent=0.36。",
+      "sortOrder": 20
+    }
+  }
+}

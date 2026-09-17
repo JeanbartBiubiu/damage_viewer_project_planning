@@ -1,0 +1,695 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T17:28:53.231Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；归档候选只作来源证据，不覆盖实时接口现值。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "归档候选组成",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\候选原始.json",
+      "byteSize": 275402,
+      "sha256": "446adb7a68cbdbd402a247acbc4659d929aed6da33bffe86bbe02a2e21006146"
+    },
+    {
+      "kind": "16.17客户端原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Tristana.json.gz",
+      "byteSize": 6615,
+      "sha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494",
+      "decompressedByteSize": 40078,
+      "decompressedSha256": "c3122c601945305e0749b828b326315f0df50cea28f877142d64aab44d689831"
+    },
+    {
+      "kind": "16.17.1官方中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Tristana.json",
+      "byteSize": 15693,
+      "sha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a"
+    },
+    {
+      "kind": "归档来源冻结索引",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\来源冻结\\来源与哈希汇总.json",
+      "byteSize": 8877,
+      "sha256": "6712d3ee1ef11d99877649954e7997981d914db468eeabb6ea434183fd1baf15"
+    },
+    {
+      "kind": "归档正文候选",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\完整候选.json",
+      "byteSize": 225367,
+      "sha256": "d13fbff8cf47af2e91422e6bcc11a949625e81208cc5fd76471c02b5ebe26d6d"
+    },
+    {
+      "kind": "归档效果过程候选",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第三批\\录入候选.json",
+      "byteSize": 266589,
+      "sha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\候选原始.json",
+    "fileSha256": "446adb7a68cbdbd402a247acbc4659d929aed6da33bffe86bbe02a2e21006146",
+    "revision": null,
+    "skill": {
+      "skillKey": "tristana_q",
+      "name": "急速射击",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Tristana",
+        "rootPath": "Characters/Tristana/CharacterRecords/Root",
+        "spellPath": "Characters/Tristana/Spells/TristanaQAbility/TristanaQ",
+        "clientSha256": "c3122c601945305e0749b828b326315f0df50cea28f877142d64aab44d689831",
+        "officialSha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a",
+        "currentBoundText": {
+          "binding": "Characters/Tristana/Spells/TristanaQAbility/TristanaQ",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_TristanaQ_Name",
+              "key": "spell_tristanaq_name",
+              "text": "急速射击"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_TristanaQ_Summary",
+              "key": "spell_tristanaq_summary",
+              "text": "崔丝塔娜急速射击，短时间内提升攻击速度。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_TristanaQ_Tooltip",
+              "key": "spell_tristanaq_tooltip",
+              "text": "崔丝塔娜开始全自动射击，获得持续@BuffDuration@秒的<attackSpeed>@AttackSpeedMod*100@%攻击速度</attackSpeed>。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 20000,
+              "2": 19000,
+              "3": 18000,
+              "4": 17000,
+              "5": 16000
+            },
+            "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "mana_cost",
+            "name": "法力消耗",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 15,
+              "2": 20,
+              "3": 25,
+              "4": 30,
+              "5": 35
+            },
+            "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "bonus_attack_speed_ratio",
+            "name": "额外攻击速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.6,
+              "2": 0.75,
+              "3": 0.9,
+              "4": 1.05,
+              "5": 1.2
+            },
+            "description": "客户端当前根绑定 DataValues.AttackSpeedMod 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "buff_duration_ms",
+            "name": "急速射击持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 7000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "rapid_fire",
+            "name": "急速射击攻速",
+            "description": "独立持续属性；应用、取消与实际触发分别核对。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "buff_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "急速射击攻速",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "bonus_attack_speed_ratio"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放急速射击",
+            "activationType": "ACTIVE",
+            "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "activate",
+                "name": "启用自身效果",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              },
+              {
+                "bindingKey": "rapid_fire",
+                "effectKey": "rapid_fire",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "activate"
+                },
+                "sortOrder": 20
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "official.cooldown + cooldownTime",
+          "values": [
+            20000,
+            19000,
+            18000,
+            17000,
+            16000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "official.cost + manaValues.values",
+          "values": [
+            15,
+            20,
+            25,
+            30,
+            35
+          ]
+        },
+        {
+          "source": "mana旧字段处置",
+          "old": [
+            30,
+            35,
+            40,
+            45,
+            50
+          ],
+          "current": [
+            15,
+            20,
+            25,
+            30,
+            35
+          ],
+          "disposition": "当前manaValues与官方一致；旧字段不录"
+        },
+        {
+          "parameterKey": "bonus_attack_speed_ratio",
+          "source": "DataValues.AttackSpeedMod",
+          "raw": [
+            0.44999998807907104,
+            0.6000000238418579,
+            0.75,
+            0.8999999761581421,
+            1.0499999523162842,
+            1.2000000476837158,
+            1.350000023841858
+          ],
+          "offset": 1,
+          "values": [
+            0.6,
+            0.75,
+            0.9,
+            1.05,
+            1.2
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "source": "DataValues.BuffDuration",
+          "raw": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "offset": 1,
+          "values": [
+            7000,
+            7000,
+            7000,
+            7000,
+            7000
+          ],
+          "scale": 1000
+        }
+      ],
+      "pending": [],
+      "excluded": [],
+      "status": "本轮范围组成候选；须独立GET和页面验收"
+    }
+  },
+  "client": {
+    "objectPath": "Characters/Tristana/Spells/TristanaQAbility/TristanaQ",
+    "found": true,
+    "objectName": "TristanaQ",
+    "scriptName": "TristanaQ",
+    "dataValues": [
+      {
+        "name": "AttackSpeedMod",
+        "values": [
+          0.44999998807907104,
+          0.6000000238418579,
+          0.75,
+          0.8999999761581421,
+          1.0499999523162842,
+          1.2000000476837158,
+          1.350000023841858
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "BuffDuration",
+        "values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "__type": "SpellDataValue"
+      }
+    ],
+    "cooldownTime": [
+      21,
+      20,
+      19,
+      18,
+      17,
+      16,
+      16
+    ],
+    "cooldown": {
+      "values": [
+        21,
+        20,
+        19,
+        18,
+        17,
+        16,
+        16
+      ],
+      "__type": "{0a0eddc9}"
+    },
+    "mana": [
+      30,
+      35,
+      40,
+      45,
+      50,
+      50
+    ],
+    "manaValues": {
+      "values": [
+        15,
+        20,
+        25,
+        30,
+        35,
+        40
+      ],
+      "{0a3e0478}": 15,
+      "__type": "{630af303}"
+    },
+    "spellCastTime": null,
+    "spellTotalTime": 1.399999976158142,
+    "castRange": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+    ],
+    "castRangeValues": {
+      "values": [
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "{0a3e0478}": 20,
+      "__type": "{0a0eddc9}"
+    },
+    "castRadius": [
+      210,
+      210,
+      210,
+      210,
+      210,
+      210,
+      210
+    ],
+    "missileSpeed": 1450,
+    "spellTags": [
+      "Trait_AttackBuff_Duration"
+    ],
+    "targetingTypeData": {
+      "__type": "Self"
+    },
+    "spellCalculationKeys": []
+  },
+  "official": {
+    "pointer": "data/Tristana/spells[id=TristanaQ]",
+    "found": true,
+    "spell": {
+      "id": "TristanaQ",
+      "name": "急速射击",
+      "description": "崔丝塔娜急速射击，短时间内提升攻击速度。",
+      "tooltip": "崔丝塔娜开始全自动射击，获得持续{{ buffduration }}秒的<attackSpeed>{{ attackspeedmod*100 }}%攻击速度</attackSpeed>。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "攻击速度",
+          "冷却时间",
+          "@AbilityResourceName@消耗"
+        ],
+        "effect": [
+          "{{ attackspeedmod*100.000000 }}% -> {{ attackspeedmodnl*100.000000 }}%",
+          "{{ cooldown }} -> {{ cooldownNL }}",
+          "{{ cost }} -> {{ costNL }}"
+        ]
+      },
+      "maxrank": 5,
+      "cooldown": [
+        20,
+        19,
+        18,
+        17,
+        16
+      ],
+      "cost": [
+        15,
+        20,
+        25,
+        30,
+        35
+      ],
+      "effect": [
+        null,
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "effectBurn": [
+        null,
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "image": {
+        "full": "TristanaQ.png",
+        "sprite": "spell14.png",
+        "group": "spell",
+        "x": 0,
+        "y": 144,
+        "w": 48,
+        "h": 48
+      },
+      "resource": "{{ cost }} {{ abilityresourcename }}"
+    }
+  },
+  "sourceSemantic": {
+    "checks": {
+      "candidatePresent": true,
+      "sourceEffectKeys": true,
+      "sourceParameterKeys": true,
+      "sourceFormulaKeys": true,
+      "sourceProcessKeys": true,
+      "actionEffectSemantics": true,
+      "all": true
+    },
+    "effectChecks": {
+      "rapid_fire": {
+        "effectPresent": true,
+        "exactlyOneResult": true,
+        "resultType": true,
+        "resultTarget": true,
+        "attributeKey": true,
+        "operation": true,
+        "modifierZoneKey": true,
+        "valueParameter": true,
+        "durationParameter": true
+      }
+    },
+    "componentKeys": {
+      "parameters": [
+        "cooldown_ms",
+        "mana_cost",
+        "bonus_attack_speed_ratio",
+        "buff_duration_ms"
+      ],
+      "formulas": [],
+      "effects": [
+        "mana_cost",
+        "rapid_fire"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "internalStates": [],
+      "triggerRules": []
+    }
+  },
+  "archiveChecks": {
+    "candidateSkillPresent": true,
+    "clientPointerPresent": true,
+    "officialSpellPresent": true,
+    "clientVersionFixed": true,
+    "officialVersionFixed": true
+  },
+  "fixedFacts": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "skillKey": "tristana_q",
+    "ruleKey": "active",
+    "eventType": "SKILL_USED",
+    "useKind": "ACTIVE",
+    "actionEffectKeys": [
+      "rapid_fire"
+    ],
+    "actionType": "START_PROCESS",
+    "processKey": "cast",
+    "actionResultTargets": {
+      "rapid_fire": "SOURCE"
+    },
+    "deferred": []
+  }
+}

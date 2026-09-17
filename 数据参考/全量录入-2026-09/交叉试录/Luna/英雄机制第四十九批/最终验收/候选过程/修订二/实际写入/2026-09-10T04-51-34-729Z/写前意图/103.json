@@ -1,0 +1,29 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 103,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/parameters",
+    "detailRoute": "/skills/kled_r/parameters/range",
+    "skillKey": "kled_r",
+    "kind": "parameters",
+    "stableKey": "range",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "range",
+      "name": "官方冲锋范围",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3500,
+        "2": 4000,
+        "3": 4500
+      },
+      "description": "官方中文16.17.1范围3500/4000/4500。",
+      "sortOrder": 100
+    }
+  }
+}

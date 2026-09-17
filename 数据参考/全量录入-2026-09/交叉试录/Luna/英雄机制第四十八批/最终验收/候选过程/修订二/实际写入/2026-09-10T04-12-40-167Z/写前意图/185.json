@@ -1,0 +1,24 @@
+{
+  "i": 184,
+  "intent": {
+    "sequence": 185,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_r/parameters",
+    "detailRoute": "/skills/viego_r/parameters/crit_subtract_one",
+    "skillKey": "viego_r",
+    "kind": "parameters",
+    "stableKey": "crit_subtract_one",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_subtract_one",
+      "name": "暴击倍率减一",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": -1,
+      "levelValues": null,
+      "description": "TotalDamage树实际mStat9减1的固定负一。",
+      "sortOrder": 90
+    }
+  }
+}

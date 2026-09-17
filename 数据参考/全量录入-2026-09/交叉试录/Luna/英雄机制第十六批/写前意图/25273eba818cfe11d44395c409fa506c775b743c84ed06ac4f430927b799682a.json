@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T10:36:18.492Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/anivia_r/formulas/damage_per_second",
+  "id": "damage_per_second",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage_per_second",
+    "name": "冰风暴每秒魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "damage_per_second_base"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio_constant"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalDamagePerSecond = DamagePerSecond + 0.125×法强；保存每秒量，不创建周期效果。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 96,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/parameters",
+    "detailRoute": "/skills/hwei_w/parameters/ww_shield_base",
+    "skillKey": "hwei_w",
+    "kind": "parameters",
+    "stableKey": "ww_shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ww_shield_base",
+      "name": "渲浓满盾基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 140,
+        "3": 180,
+        "4": 220,
+        "5": 260
+      },
+      "description": "满盾100/140/180/220/260。",
+      "sortOrder": 60
+    }
+  }
+}

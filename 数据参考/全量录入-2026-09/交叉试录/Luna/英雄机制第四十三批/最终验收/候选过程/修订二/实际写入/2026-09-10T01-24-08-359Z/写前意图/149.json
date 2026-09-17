@@ -1,0 +1,46 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_e/formulas",
+    "detailRoute": "/skills/naafiri_e/formulas/second_hit_physical_damage",
+    "skillKey": "naafiri_e",
+    "kind": "formulas",
+    "stableKey": "second_hit_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "second_hit_physical_damage",
+      "name": "剔骨本能第二段物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "second_hit_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "second_hit_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "第二段=基础值+0.8×来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

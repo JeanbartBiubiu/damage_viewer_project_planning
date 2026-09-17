@@ -1,0 +1,239 @@
+{
+  "generatedAt": "2026-09-09T05:52:14.815Z",
+  "sourceIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Kennen",
+      "chineseName": "狂暴之心",
+      "rootPath": "Characters/Kennen/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Kennen.json.gz",
+        "sha256": "38dfb43f4777e89a950916bdce28a5404d2db27d8b50177fb2252c4562b8e802",
+        "compressedSha256": "1231fab06e36bab2deaae4656adf91be2ecc52c3be0a41f7dafdddb3fd5d784c",
+        "byteSize": 51726,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kennen/kennen.bin.json",
+        "fetchedAt": "2026-09-06T14:26:23.972Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Kennen.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kennen.json",
+        "fetchedAt": "2026-09-06T14:12:49.102Z",
+        "byteSize": 11162,
+        "sha256": "fc58a3db4962211aa0586864ad3daa0966e960e481ab9e6a68bbdf014c3fb188"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "kennen_p",
+          "binding": "Characters/Kennen/Spells/KennenPassiveAbility/KennenPassive",
+          "name": "【忍法！雷缚印】",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "kennen_q",
+          "binding": "Characters/Kennen/Spells/KennenShurikenHurlMissile1Ability/KennenShurikenHurlMissile1",
+          "name": "奥义！千鸟",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "kennen_w",
+          "binding": "Characters/Kennen/Spells/KennenBringTheLightAbility/KennenBringTheLight",
+          "name": "奥义！电刃",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "kennen_e",
+          "binding": "Characters/Kennen/Spells/KennenLightningRushAbility/KennenLightningRush",
+          "name": "奥义！雷铠",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "kennen_r",
+          "binding": "Characters/Kennen/Spells/KennenShurikenStormAbility/KennenShurikenStorm",
+          "name": "秘奥义！万雷天牢引",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Velkoz",
+      "chineseName": "虚空之眼",
+      "rootPath": "Characters/Velkoz/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Velkoz.json.gz",
+        "sha256": "11ccf3992fc0bcf3aecd25171500c55fe6c89e50c6ad8e2af652dea61d431151",
+        "compressedSha256": "9dd5871d1b90e97ae7d5824e2d502a411c73b4f34ba666a3f961bb8934103e39",
+        "byteSize": 49690,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/velkoz/velkoz.bin.json",
+        "fetchedAt": "2026-09-06T14:26:45.401Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Velkoz.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Velkoz.json",
+        "fetchedAt": "2026-09-06T14:12:55.608Z",
+        "byteSize": 11927,
+        "sha256": "a71638cb375aa8d12ab5ce401d6ffaa4b146856f5dbe54a36aeb39c40ae781af"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "velkoz_p",
+          "binding": "Characters/Velkoz/Spells/VelkozPassiveAbility/VelkozPassive",
+          "name": "有机体解构",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "velkoz_q",
+          "binding": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+          "name": "等离子裂变",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "velkoz_w",
+          "binding": "Characters/Velkoz/Spells/VelkozWAbility/VelkozW",
+          "name": "虚空裂隙",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "velkoz_e",
+          "binding": "Characters/Velkoz/Spells/VelkozEAbility/VelkozE",
+          "name": "构造分解",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "velkoz_r",
+          "binding": "Characters/Velkoz/Spells/VelkozRAbility/VelkozR",
+          "name": "生命形态瓦解射线",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Ziggs",
+      "chineseName": "爆破鬼才",
+      "rootPath": "Characters/Ziggs/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Ziggs.json.gz",
+        "sha256": "1e3f7f932bd6b471f6c6bb2281fb5d2a4ea18102f3cd9c892018ddc8b4184ce4",
+        "compressedSha256": "093dfd79ab70509a9ed66cf02cfde599f376b4c617dd08af5d5d20046cc25580",
+        "byteSize": 81226,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ziggs/ziggs.bin.json",
+        "fetchedAt": "2026-09-06T14:26:52.016Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Ziggs.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ziggs.json",
+        "fetchedAt": "2026-09-06T14:12:58.350Z",
+        "byteSize": 13219,
+        "sha256": "418398beae7b1cca811443a26f562dc14fe8ecc42bc0927461934926bfd404ed"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "ziggs_p",
+          "binding": "Characters/Ziggs/Spells/ZiggsPassiveBuffAbility/ZiggsPassiveBuff",
+          "name": "一触即发",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "ziggs_q",
+          "binding": "Characters/Ziggs/Spells/ZiggsQAbility/ZiggsQ",
+          "name": "弹跳炸弹",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "ziggs_w",
+          "binding": "Characters/Ziggs/Spells/ZiggsWAbility/ZiggsW",
+          "name": "定点爆破",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "ziggs_e",
+          "binding": "Characters/Ziggs/Spells/ZiggsEAbility/ZiggsE",
+          "name": "海克斯爆破雷区",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "ziggs_r",
+          "binding": "Characters/Ziggs/Spells/ZiggsRAbility/ZiggsR",
+          "name": "科学的地狱火炮",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Xerath",
+      "chineseName": "远古巫灵",
+      "rootPath": "Characters/Xerath/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Xerath.json.gz",
+        "sha256": "b2c5377ff3cd718b5b8db6b9c1c44e7862e89a6843e5b08a9347da18527a4b62",
+        "compressedSha256": "389b87b67a36643581979c26ed7ce27019ecf3daaf3097ad9021a45b3374a567",
+        "byteSize": 57472,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/xerath/xerath.bin.json",
+        "fetchedAt": "2026-09-06T14:26:50.670Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Xerath.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Xerath.json",
+        "fetchedAt": "2026-09-06T14:12:57.132Z",
+        "byteSize": 11534,
+        "sha256": "5f4eff400aa79a63693c99966caec56013f53e52d8ced05912b9157a3b396c6a"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "xerath_p",
+          "binding": "Characters/Xerath/Spells/XerathAscended2Ability/XerathAscended2",
+          "name": "法力澎湃",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "xerath_q",
+          "binding": "Characters/Xerath/Spells/XerathArcanopulseChargeUpAbility/XerathArcanopulseChargeUp",
+          "name": "奥能脉冲",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "xerath_w",
+          "binding": "Characters/Xerath/Spells/XerathArcaneBarrage2Ability/XerathArcaneBarrage2",
+          "name": "毁灭之眼",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "xerath_e",
+          "binding": "Characters/Xerath/Spells/XerathMageSpearAbility/XerathMageSpear",
+          "name": "冲击法球",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "xerath_r",
+          "binding": "Characters/Xerath/Spells/XerathLocusOfPower2Ability/XerathLocusOfPower2",
+          "name": "奥术仪式",
+          "maxrank": 3
+        }
+      ]
+    }
+  ]
+}

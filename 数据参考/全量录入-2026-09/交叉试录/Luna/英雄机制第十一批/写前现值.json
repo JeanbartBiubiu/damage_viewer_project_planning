@@ -1,0 +1,4989 @@
+{
+  "at": "2026-09-09T03:19:27.485Z",
+  "mode": "全部请求为GET；保留当前20技能及六类组成原值；不写业务接口",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "heroes": [
+    "Irelia",
+    "Fiora",
+    "Camille",
+    "Gwen"
+  ],
+  "skillKeys": [
+    "irelia_p",
+    "irelia_q",
+    "irelia_w",
+    "irelia_e",
+    "irelia_r",
+    "fiora_p",
+    "fiora_q",
+    "fiora_w",
+    "fiora_e",
+    "fiora_r",
+    "camille_p",
+    "camille_q",
+    "camille_w",
+    "camille_e",
+    "camille_r",
+    "gwen_p",
+    "gwen_q",
+    "gwen_w",
+    "gwen_e",
+    "gwen_r"
+  ],
+  "kinds": [
+    {
+      "name": "parameters",
+      "api": "parameters",
+      "id": "parameterKey"
+    },
+    {
+      "name": "formulas",
+      "api": "formulas",
+      "id": "formulaKey"
+    },
+    {
+      "name": "effects",
+      "api": "effects",
+      "id": "effectKey"
+    },
+    {
+      "name": "processes",
+      "api": "processes",
+      "id": "processKey"
+    },
+    {
+      "name": "internalStates",
+      "api": "internal-states",
+      "id": "stateKey"
+    },
+    {
+      "name": "triggerRules",
+      "api": "trigger-rules",
+      "id": "ruleKey"
+    }
+  ],
+  "skills": {
+    "irelia_p": {
+      "subject": {
+        "route": "/skills/irelia_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:35.76932Z",
+          "description": "当艾瑞莉娅用技能命中敌人时，她会获得可叠加的攻击速度加成。这个效果在满层时还会为艾瑞莉娅提供攻击附伤。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "艾瑞莉娅·艾欧尼亚热诚",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "irelia_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:35.76932Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/irelia_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/irelia_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/irelia_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/irelia_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/irelia_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/irelia_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "irelia_q": {
+      "subject": {
+        "route": "/skills/irelia_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:36.082161Z",
+          "description": "艾瑞莉娅向前突进以打击她的目标，并治疗自身。如果目标被标记或死于利刃冲击，那么它的冷却时间会刷新。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "艾瑞莉娅·利刃冲击",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "irelia_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:36.082161Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/irelia_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T16:00:27.772315Z",
+                "description": "DDragon16.17.1 Irelia.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 10000,
+                  "2": 9000,
+                  "3": 8000,
+                  "4": 7000,
+                  "5": 6000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "irelia_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:27.772315Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T16:00:28.167204Z",
+                "description": "DDragon16.17.1 Irelia.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 15,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "irelia_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:28.167204Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T16:00:27.772315Z",
+              "description": "DDragon16.17.1 Irelia.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 10000,
+                "2": 9000,
+                "3": 8000,
+                "4": 7000,
+                "5": 6000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "irelia_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T16:00:27.772315Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:28.167204Z",
+              "description": "DDragon16.17.1 Irelia.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 15,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "irelia_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:28.167204Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T16:00:27.772315Z",
+                "description": "DDragon16.17.1 Irelia.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 10000,
+                  "2": 9000,
+                  "3": 8000,
+                  "4": 7000,
+                  "5": 6000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "irelia_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:27.772315Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/irelia_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:27.772315Z",
+                  "description": "DDragon16.17.1 Irelia.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 10000,
+                    "2": 9000,
+                    "3": 8000,
+                    "4": 7000,
+                    "5": 6000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "irelia_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T16:00:27.772315Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T16:00:28.167204Z",
+                "description": "DDragon16.17.1 Irelia.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 15,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "irelia_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:28.167204Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/irelia_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:28.167204Z",
+                  "description": "DDragon16.17.1 Irelia.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 15,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "irelia_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T16:00:28.167204Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/irelia_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/irelia_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/irelia_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/irelia_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/irelia_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "irelia_w": {
+      "subject": {
+        "route": "/skills/irelia_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:36.326915Z",
+          "description": "艾瑞莉娅开始蓄力以进行一次打击，蓄力越久则打击造成的伤害越多。在蓄力期间她所受的物理伤害降低。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "艾瑞莉娅·距破之舞",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "irelia_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:36.326915Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/irelia_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T16:00:28.429923Z",
+                "description": "DDragon16.17.1 Irelia.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 20000,
+                  "2": 18000,
+                  "3": 16000,
+                  "4": 14000,
+                  "5": 12000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "irelia_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:28.429923Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T16:00:28.731392Z",
+                "description": "DDragon16.17.1 Irelia.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 70,
+                  "2": 75,
+                  "3": 80,
+                  "4": 85,
+                  "5": 90
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "irelia_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:28.731392Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T16:00:28.429923Z",
+              "description": "DDragon16.17.1 Irelia.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 20000,
+                "2": 18000,
+                "3": 16000,
+                "4": 14000,
+                "5": 12000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "irelia_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T16:00:28.429923Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:28.731392Z",
+              "description": "DDragon16.17.1 Irelia.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 70,
+                "2": 75,
+                "3": 80,
+                "4": 85,
+                "5": 90
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "irelia_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:28.731392Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T16:00:28.429923Z",
+                "description": "DDragon16.17.1 Irelia.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 20000,
+                  "2": 18000,
+                  "3": 16000,
+                  "4": 14000,
+                  "5": 12000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "irelia_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:28.429923Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/irelia_w/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:28.429923Z",
+                  "description": "DDragon16.17.1 Irelia.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 20000,
+                    "2": 18000,
+                    "3": 16000,
+                    "4": 14000,
+                    "5": 12000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "irelia_w",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T16:00:28.429923Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T16:00:28.731392Z",
+                "description": "DDragon16.17.1 Irelia.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 70,
+                  "2": 75,
+                  "3": 80,
+                  "4": 85,
+                  "5": 90
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "irelia_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:28.731392Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/irelia_w/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:28.731392Z",
+                  "description": "DDragon16.17.1 Irelia.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 70,
+                    "2": 75,
+                    "3": 80,
+                    "4": 85,
+                    "5": 90
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "irelia_w",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T16:00:28.731392Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/irelia_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/irelia_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/irelia_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/irelia_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/irelia_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "irelia_e": {
+      "subject": {
+        "route": "/skills/irelia_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:36.630171Z",
+          "description": "艾瑞莉娅放出两柄相互聚拢的利刃。利刃之间被击中的敌人会受到伤害、晕眩效果并被标记。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "艾瑞莉娅·比翼双刃",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "irelia_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:36.630171Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/irelia_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T16:00:29.006688Z",
+                "description": "DDragon16.17.1 Irelia.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 50,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "irelia_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:29.006688Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T16:00:29.006688Z",
+              "description": "DDragon16.17.1 Irelia.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 50,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "irelia_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:29.006688Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T16:00:29.006688Z",
+                "description": "DDragon16.17.1 Irelia.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 50,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "irelia_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:29.006688Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/irelia_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:29.006688Z",
+                  "description": "DDragon16.17.1 Irelia.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 50,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "irelia_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T16:00:29.006688Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/irelia_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/irelia_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/irelia_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/irelia_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/irelia_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "irelia_r": {
+      "subject": {
+        "route": "/skills/irelia_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:36.894519Z",
+          "description": "艾瑞莉娅发射庞大数量的利刃，它们会在命中一名敌方英雄时向外爆开。被利刃命中的敌人会受到伤害并被标记。然后利刃会形成一道刃墙，在敌人穿过时造成伤害、和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "艾瑞莉娅·先锋之刃",
+          "skillCategoryKeys": [],
+          "skillKey": "irelia_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:36.894519Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/irelia_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T16:00:29.343637Z",
+                "description": "DDragon16.17.1 Irelia.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 125000,
+                  "2": 105000,
+                  "3": 85000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "irelia_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:29.343637Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T16:00:29.610984Z",
+                "description": "DDragon16.17.1 Irelia.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "irelia_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:29.610984Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T16:00:29.343637Z",
+              "description": "DDragon16.17.1 Irelia.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 125000,
+                "2": 105000,
+                "3": 85000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "irelia_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T16:00:29.343637Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:29.610984Z",
+              "description": "DDragon16.17.1 Irelia.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "irelia_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:29.610984Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T16:00:29.343637Z",
+                "description": "DDragon16.17.1 Irelia.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 125000,
+                  "2": 105000,
+                  "3": 85000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "irelia_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:29.343637Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/irelia_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:29.343637Z",
+                  "description": "DDragon16.17.1 Irelia.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 125000,
+                    "2": 105000,
+                    "3": 85000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "irelia_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T16:00:29.343637Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T16:00:29.610984Z",
+                "description": "DDragon16.17.1 Irelia.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "irelia_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:29.610984Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/irelia_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:29.610984Z",
+                  "description": "DDragon16.17.1 Irelia.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "irelia_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T16:00:29.610984Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/irelia_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/irelia_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/irelia_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/irelia_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/irelia_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "fiora_p": {
+      "subject": {
+        "route": "/skills/fiora_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:18.389207Z",
+          "description": "菲奥娜已在这名英雄身上发现了一处<keywordMajor>破绽</keywordMajor>。如果她命中了这处<keywordMajor>破绽</keywordMajor>，她就会<healing>回复生命值</healing>并获得<speed>移动速度</speed>。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "菲奥娜·决斗之舞",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "fiora_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:18.389207Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/fiora_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/fiora_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/fiora_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/fiora_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/fiora_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/fiora_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "fiora_q": {
+      "subject": {
+        "route": "/skills/fiora_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:18.649024Z",
+          "description": "菲奥娜向一个方向冲刺，并刺击一个附近的敌人，造成物理伤害并施加攻击特效。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "菲奥娜·破空斩",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "fiora_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:18.649024Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/fiora_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T16:00:21.35319Z",
+                "description": "DDragon16.17.1 Fiora.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 13000,
+                  "2": 11250,
+                  "3": 9500,
+                  "4": 7750,
+                  "5": 6000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "fiora_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:21.35319Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T16:00:21.659608Z",
+                "description": "DDragon16.17.1 Fiora.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 20,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "fiora_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:21.659608Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T16:00:21.35319Z",
+              "description": "DDragon16.17.1 Fiora.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 13000,
+                "2": 11250,
+                "3": 9500,
+                "4": 7750,
+                "5": 6000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "fiora_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T16:00:21.35319Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:21.659608Z",
+              "description": "DDragon16.17.1 Fiora.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 20,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "fiora_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:21.659608Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T16:00:21.35319Z",
+                "description": "DDragon16.17.1 Fiora.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 13000,
+                  "2": 11250,
+                  "3": 9500,
+                  "4": 7750,
+                  "5": 6000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "fiora_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:21.35319Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/fiora_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:21.35319Z",
+                  "description": "DDragon16.17.1 Fiora.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 13000,
+                    "2": 11250,
+                    "3": 9500,
+                    "4": 7750,
+                    "5": 6000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "fiora_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T16:00:21.35319Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T16:00:21.659608Z",
+                "description": "DDragon16.17.1 Fiora.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 20,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "fiora_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:21.659608Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/fiora_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:21.659608Z",
+                  "description": "DDragon16.17.1 Fiora.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 20,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "fiora_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T16:00:21.659608Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/fiora_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/fiora_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/fiora_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/fiora_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/fiora_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "fiora_w": {
+      "subject": {
+        "route": "/skills/fiora_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:18.928224Z",
+          "description": "菲奥娜在短时间内对所有即将到来的伤害和限制效果进行招架，然后朝着一个方向进行刺击。这个刺击会减速命中的第一个敌方英雄，如果菲奥娜用这个技能格挡掉一个禁锢类效果，那么刺击会造成晕眩效果而非减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "菲奥娜·劳伦特心眼刀",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "fiora_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:18.928224Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/fiora_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T16:00:21.907098Z",
+                "description": "DDragon16.17.1 Fiora.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 24000,
+                  "2": 22000,
+                  "3": 20000,
+                  "4": 18000,
+                  "5": 16000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "fiora_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:21.907098Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T16:00:22.185796Z",
+                "description": "DDragon16.17.1 Fiora.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 50,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "fiora_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:22.185796Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T16:00:21.907098Z",
+              "description": "DDragon16.17.1 Fiora.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 24000,
+                "2": 22000,
+                "3": 20000,
+                "4": 18000,
+                "5": 16000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "fiora_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T16:00:21.907098Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:22.185796Z",
+              "description": "DDragon16.17.1 Fiora.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 50,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "fiora_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:22.185796Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T16:00:21.907098Z",
+                "description": "DDragon16.17.1 Fiora.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 24000,
+                  "2": 22000,
+                  "3": 20000,
+                  "4": 18000,
+                  "5": 16000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "fiora_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:21.907098Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/fiora_w/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:21.907098Z",
+                  "description": "DDragon16.17.1 Fiora.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 24000,
+                    "2": 22000,
+                    "3": 20000,
+                    "4": 18000,
+                    "5": 16000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "fiora_w",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T16:00:21.907098Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T16:00:22.185796Z",
+                "description": "DDragon16.17.1 Fiora.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 50,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "fiora_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:22.185796Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/fiora_w/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:22.185796Z",
+                  "description": "DDragon16.17.1 Fiora.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 50,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "fiora_w",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T16:00:22.185796Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/fiora_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/fiora_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/fiora_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/fiora_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/fiora_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "fiora_e": {
+      "subject": {
+        "route": "/skills/fiora_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:19.177447Z",
+          "description": "菲奥娜的下两次攻击将获得攻击速度加成。第一次攻击会使目标减速，而第二次攻击必定会产生暴击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "菲奥娜·夺命连刺",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "fiora_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:19.177447Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/fiora_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T16:00:22.463875Z",
+                "description": "DDragon16.17.1 Fiora.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 11000,
+                  "2": 10000,
+                  "3": 9000,
+                  "4": 8000,
+                  "5": 7000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "fiora_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:22.463875Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T16:00:22.780618Z",
+                "description": "DDragon16.17.1 Fiora.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "fiora_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:22.780618Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T16:00:22.463875Z",
+              "description": "DDragon16.17.1 Fiora.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 11000,
+                "2": 10000,
+                "3": 9000,
+                "4": 8000,
+                "5": 7000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "fiora_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T16:00:22.463875Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:22.780618Z",
+              "description": "DDragon16.17.1 Fiora.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "fiora_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:22.780618Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T16:00:22.463875Z",
+                "description": "DDragon16.17.1 Fiora.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 11000,
+                  "2": 10000,
+                  "3": 9000,
+                  "4": 8000,
+                  "5": 7000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "fiora_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:22.463875Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/fiora_e/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:22.463875Z",
+                  "description": "DDragon16.17.1 Fiora.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 11000,
+                    "2": 10000,
+                    "3": 9000,
+                    "4": 8000,
+                    "5": 7000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "fiora_e",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T16:00:22.463875Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T16:00:22.780618Z",
+                "description": "DDragon16.17.1 Fiora.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "fiora_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:22.780618Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/fiora_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:22.780618Z",
+                  "description": "DDragon16.17.1 Fiora.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 40,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "fiora_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T16:00:22.780618Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/fiora_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/fiora_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/fiora_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/fiora_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/fiora_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "fiora_r": {
+      "subject": {
+        "route": "/skills/fiora_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:19.46577Z",
+          "description": "菲奥娜显示出一个敌方英雄身上的所有四处破绽，并在目标附近时获得移动速度加成。如果菲奥娜命中了所有四处破绽，或者目标在死前至少被命中了一处破绽，那么菲奥娜和范围内的友军就会在接下来的几秒里持续获得治疗效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "菲奥娜·无双挑战",
+          "skillCategoryKeys": [],
+          "skillKey": "fiora_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:19.46577Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/fiora_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T16:00:23.050061Z",
+                "description": "DDragon16.17.1 Fiora.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 110000,
+                  "2": 90000,
+                  "3": 70000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "fiora_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:23.050061Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T16:00:23.308551Z",
+                "description": "DDragon16.17.1 Fiora.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "fiora_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:23.308551Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T16:00:23.050061Z",
+              "description": "DDragon16.17.1 Fiora.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 110000,
+                "2": 90000,
+                "3": 70000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "fiora_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T16:00:23.050061Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:23.308551Z",
+              "description": "DDragon16.17.1 Fiora.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "fiora_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:23.308551Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T16:00:23.050061Z",
+                "description": "DDragon16.17.1 Fiora.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 110000,
+                  "2": 90000,
+                  "3": 70000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "fiora_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:23.050061Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/fiora_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:23.050061Z",
+                  "description": "DDragon16.17.1 Fiora.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 110000,
+                    "2": 90000,
+                    "3": 70000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "fiora_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T16:00:23.050061Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T16:00:23.308551Z",
+                "description": "DDragon16.17.1 Fiora.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "fiora_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:23.308551Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/fiora_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T16:00:23.308551Z",
+                  "description": "DDragon16.17.1 Fiora.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "fiora_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T16:00:23.308551Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/fiora_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/fiora_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/fiora_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/fiora_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/fiora_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "camille_p": {
+      "subject": {
+        "route": "/skills/camille_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:01.703635Z",
+          "description": "对敌方英雄发起的普攻会基于该英雄的伤害类型（物理或魔法）提供一层专门吸收该类型伤害的护盾，护盾的生命值相当于卡蜜尔的一部分最大生命值，持续一小段时间。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "卡蜜尔·适应性防御",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "camille_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:01.703635Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/camille_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/camille_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/camille_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/camille_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/camille_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/camille_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "camille_q": {
+      "subject": {
+        "route": "/skills/camille_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:01.952779Z",
+          "description": "卡蜜尔的下一次普通攻击会斩击敌人，造成额外物理伤害，并为自身提供短暂的爆发性移动速度加成。这个技能可以在释放后的短时间内再次施放，并且如果两次释放之间存在一定的间隔，那么第二段攻击会造成显著的额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "卡蜜尔·精准礼仪",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "camille_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:01.952779Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/camille_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:36:09.692387Z",
+                "description": "DDragon16.17.1 Camille.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 9000,
+                  "2": 8000,
+                  "3": 7000,
+                  "4": 6000,
+                  "5": 5000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "camille_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:36:09.692387Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:36:10.122312Z",
+                "description": "DDragon16.17.1 Camille.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 25,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "camille_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:36:10.122312Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:36:09.692387Z",
+              "description": "DDragon16.17.1 Camille.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 9000,
+                "2": 8000,
+                "3": 7000,
+                "4": 6000,
+                "5": 5000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "camille_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:36:09.692387Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:36:10.122312Z",
+              "description": "DDragon16.17.1 Camille.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 25,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "camille_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:36:10.122312Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:36:09.692387Z",
+                "description": "DDragon16.17.1 Camille.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 9000,
+                  "2": 8000,
+                  "3": 7000,
+                  "4": 6000,
+                  "5": 5000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "camille_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:36:09.692387Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/camille_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:36:09.692387Z",
+                  "description": "DDragon16.17.1 Camille.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 9000,
+                    "2": 8000,
+                    "3": 7000,
+                    "4": 6000,
+                    "5": 5000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "camille_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:36:09.692387Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:36:10.122312Z",
+                "description": "DDragon16.17.1 Camille.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 25,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "camille_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:36:10.122312Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/camille_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:36:10.122312Z",
+                  "description": "DDragon16.17.1 Camille.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 25,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "camille_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:36:10.122312Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/camille_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/camille_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/camille_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/camille_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/camille_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "camille_w": {
+      "subject": {
+        "route": "/skills/camille_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:02.214301Z",
+          "description": "卡蜜尔在短暂延迟后引爆一个锥形范围，并造成伤害。外沿的敌人会被减速并且受到额外伤害，同时还会治疗卡蜜尔。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "卡蜜尔·战术横扫",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "camille_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:02.214301Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/camille_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:36:10.605111Z",
+                "description": "DDragon16.17.1 Camille.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 12000,
+                  "2": 11500,
+                  "3": 11000,
+                  "4": 10500,
+                  "5": 10000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "camille_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:36:10.605111Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:36:11.043012Z",
+                "description": "DDragon16.17.1 Camille.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 50,
+                  "2": 55,
+                  "3": 60,
+                  "4": 65,
+                  "5": 70
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "camille_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:36:11.043012Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:36:10.605111Z",
+              "description": "DDragon16.17.1 Camille.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 12000,
+                "2": 11500,
+                "3": 11000,
+                "4": 10500,
+                "5": 10000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "camille_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:36:10.605111Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:36:11.043012Z",
+              "description": "DDragon16.17.1 Camille.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 50,
+                "2": 55,
+                "3": 60,
+                "4": 65,
+                "5": 70
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "camille_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:36:11.043012Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:36:10.605111Z",
+                "description": "DDragon16.17.1 Camille.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 12000,
+                  "2": 11500,
+                  "3": 11000,
+                  "4": 10500,
+                  "5": 10000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "camille_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:36:10.605111Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/camille_w/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:36:10.605111Z",
+                  "description": "DDragon16.17.1 Camille.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 12000,
+                    "2": 11500,
+                    "3": 11000,
+                    "4": 10500,
+                    "5": 10000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "camille_w",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:36:10.605111Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:36:11.043012Z",
+                "description": "DDragon16.17.1 Camille.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 50,
+                  "2": 55,
+                  "3": 60,
+                  "4": 65,
+                  "5": 70
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "camille_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:36:11.043012Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/camille_w/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:36:11.043012Z",
+                  "description": "DDragon16.17.1 Camille.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 50,
+                    "2": 55,
+                    "3": 60,
+                    "4": 65,
+                    "5": 70
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "camille_w",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:36:11.043012Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/camille_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/camille_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/camille_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/camille_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/camille_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "camille_e": {
+      "subject": {
+        "route": "/skills/camille_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:02.467704Z",
+          "description": "卡蜜尔将她自己拉向一个墙体，然后跳下并在落地时击飞敌方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "卡蜜尔·钩索",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "camille_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:02.467704Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/camille_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:36:11.513984Z",
+                "description": "DDragon16.17.1 Camille.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 16000,
+                  "2": 15000,
+                  "3": 14000,
+                  "4": 13000,
+                  "5": 12000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "camille_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:36:11.513984Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:36:12.06424Z",
+                "description": "DDragon16.17.1 Camille.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 70,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "camille_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:36:12.06424Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:36:11.513984Z",
+              "description": "DDragon16.17.1 Camille.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 16000,
+                "2": 15000,
+                "3": 14000,
+                "4": 13000,
+                "5": 12000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "camille_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:36:11.513984Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:36:12.06424Z",
+              "description": "DDragon16.17.1 Camille.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 70,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "camille_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:36:12.06424Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:36:11.513984Z",
+                "description": "DDragon16.17.1 Camille.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 16000,
+                  "2": 15000,
+                  "3": 14000,
+                  "4": 13000,
+                  "5": 12000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "camille_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:36:11.513984Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/camille_e/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:36:11.513984Z",
+                  "description": "DDragon16.17.1 Camille.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 16000,
+                    "2": 15000,
+                    "3": 14000,
+                    "4": 13000,
+                    "5": 12000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "camille_e",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:36:11.513984Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:36:12.06424Z",
+                "description": "DDragon16.17.1 Camille.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 70,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "camille_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:36:12.06424Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/camille_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:36:12.06424Z",
+                  "description": "DDragon16.17.1 Camille.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 70,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "camille_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:36:12.06424Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/camille_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/camille_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/camille_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/camille_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/camille_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "camille_r": {
+      "subject": {
+        "route": "/skills/camille_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:02.768261Z",
+          "description": "卡蜜尔冲向目标英雄，并将该英雄锚定在区域中。她对目标英雄发起的普攻还会造成额外的魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "卡蜜尔·海克斯最后通牒",
+          "skillCategoryKeys": [],
+          "skillKey": "camille_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:02.768261Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/camille_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:36:12.521394Z",
+                "description": "DDragon16.17.1 Camille.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 140000,
+                  "2": 115000,
+                  "3": 90000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "camille_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:36:12.521394Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:36:12.996849Z",
+                "description": "DDragon16.17.1 Camille.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "camille_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:36:12.996849Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:36:12.521394Z",
+              "description": "DDragon16.17.1 Camille.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 140000,
+                "2": 115000,
+                "3": 90000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "camille_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:36:12.521394Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:36:12.996849Z",
+              "description": "DDragon16.17.1 Camille.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "camille_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:36:12.996849Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:36:12.521394Z",
+                "description": "DDragon16.17.1 Camille.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 140000,
+                  "2": 115000,
+                  "3": 90000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "camille_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:36:12.521394Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/camille_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:36:12.521394Z",
+                  "description": "DDragon16.17.1 Camille.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 140000,
+                    "2": 115000,
+                    "3": 90000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "camille_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:36:12.521394Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:36:12.996849Z",
+                "description": "DDragon16.17.1 Camille.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "camille_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:36:12.996849Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/camille_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:36:12.996849Z",
+                  "description": "DDragon16.17.1 Camille.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "camille_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:36:12.996849Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/camille_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/camille_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/camille_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/camille_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/camille_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "gwen_p": {
+      "subject": {
+        "route": "/skills/gwen_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:28.855649Z",
+          "description": "格温的攻击会造成基于目标生命值的额外魔法伤害。她自身会获得治疗效果，数额相当于这个效果对英雄造成的一部分伤害值。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "格温·千穿百孔",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "gwen_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:28.855649Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/gwen_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/gwen_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/gwen_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/gwen_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/gwen_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/gwen_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "gwen_q": {
+      "subject": {
+        "route": "/skills/gwen_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:29.134146Z",
+          "description": "格温在一个锥形区域剪切她的剪刀至多6次，来造成魔法伤害。格温的每次剪切会对中心区域的敌人造成真实伤害并对它们施加她的被动技能。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "格温·快刀剪乱",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "gwen_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:29.134146Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/gwen_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:59:56.926362Z",
+                "description": "DDragon16.17.1 Gwen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 6500,
+                  "2": 5750,
+                  "3": 5000,
+                  "4": 4250,
+                  "5": 3500
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "gwen_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:56.926362Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:59:57.347967Z",
+                "description": "DDragon16.17.1 Gwen.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "gwen_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:57.347967Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:59:56.926362Z",
+              "description": "DDragon16.17.1 Gwen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 6500,
+                "2": 5750,
+                "3": 5000,
+                "4": 4250,
+                "5": 3500
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "gwen_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:59:56.926362Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:59:57.347967Z",
+              "description": "DDragon16.17.1 Gwen.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "gwen_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:59:57.347967Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:59:56.926362Z",
+                "description": "DDragon16.17.1 Gwen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 6500,
+                  "2": 5750,
+                  "3": 5000,
+                  "4": 4250,
+                  "5": 3500
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "gwen_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:56.926362Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/gwen_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:56.926362Z",
+                  "description": "DDragon16.17.1 Gwen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 6500,
+                    "2": 5750,
+                    "3": 5000,
+                    "4": 4250,
+                    "5": 3500
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "gwen_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:59:56.926362Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:59:57.347967Z",
+                "description": "DDragon16.17.1 Gwen.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "gwen_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:57.347967Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/gwen_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:57.347967Z",
+                  "description": "DDragon16.17.1 Gwen.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 40,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "gwen_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:59:57.347967Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/gwen_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/gwen_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/gwen_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/gwen_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/gwen_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "gwen_w": {
+      "subject": {
+        "route": "/skills/gwen_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:29.36728Z",
+          "description": "格温召唤圣霭来保护她免受圣霭外敌人的进攻。她只会被进入圣霭内的敌人们选为目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "格温·丝缕缠流",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "gwen_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:29.36728Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/gwen_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:59:57.683302Z",
+                "description": "DDragon16.17.1 Gwen.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 60,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "gwen_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:57.683302Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:59:57.683302Z",
+              "description": "DDragon16.17.1 Gwen.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 60,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "gwen_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:59:57.683302Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:59:57.683302Z",
+                "description": "DDragon16.17.1 Gwen.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 60,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "gwen_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:57.683302Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/gwen_w/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:57.683302Z",
+                  "description": "DDragon16.17.1 Gwen.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 60,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "gwen_w",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:59:57.683302Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/gwen_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/gwen_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/gwen_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/gwen_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/gwen_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "gwen_e": {
+      "subject": {
+        "route": "/skills/gwen_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:29.66552Z",
+          "description": "格温冲刺一小段距离然后获得攻击速度、攻击距离和魔法伤害<OnHit>攻击特效</OnHit>，持续若干秒。如果她在此期间命中了一个敌人，那么这个技能的冷却时间会获得部分返还。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "格温·断续疾走",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "gwen_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:29.66552Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/gwen_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:59:58.07364Z",
+                "description": "DDragon16.17.1 Gwen.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 13000,
+                  "2": 12500,
+                  "3": 12000,
+                  "4": 11500,
+                  "5": 11000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "gwen_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:58.07364Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:59:58.494975Z",
+                "description": "DDragon16.17.1 Gwen.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 35,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "gwen_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:58.494975Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:59:58.07364Z",
+              "description": "DDragon16.17.1 Gwen.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 13000,
+                "2": 12500,
+                "3": 12000,
+                "4": 11500,
+                "5": 11000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "gwen_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:59:58.07364Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:59:58.494975Z",
+              "description": "DDragon16.17.1 Gwen.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 35,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "gwen_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:59:58.494975Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:59:58.07364Z",
+                "description": "DDragon16.17.1 Gwen.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 13000,
+                  "2": 12500,
+                  "3": 12000,
+                  "4": 11500,
+                  "5": 11000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "gwen_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:58.07364Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/gwen_e/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:58.07364Z",
+                  "description": "DDragon16.17.1 Gwen.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 13000,
+                    "2": 12500,
+                    "3": 12000,
+                    "4": 11500,
+                    "5": 11000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "gwen_e",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:59:58.07364Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:59:58.494975Z",
+                "description": "DDragon16.17.1 Gwen.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 35,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "gwen_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:58.494975Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/gwen_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:58.494975Z",
+                  "description": "DDragon16.17.1 Gwen.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 35,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "gwen_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:59:58.494975Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/gwen_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/gwen_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/gwen_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/gwen_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/gwen_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "gwen_r": {
+      "subject": {
+        "route": "/skills/gwen_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:29.98861Z",
+          "description": "格温掷出一根针来对命中的敌人们造成减速、魔法伤害，并对命中的英雄们施加【千穿百孔】。<br><br>这个技能至多可进行2段再次施放，每一段再次施放都会投掷更多的针，并造成更多伤害。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "格温·引针簇射",
+          "skillCategoryKeys": [],
+          "skillKey": "gwen_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:29.98861Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/gwen_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:59:58.868914Z",
+                "description": "DDragon16.17.1 Gwen.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "gwen_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:58.868914Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:59:58.868914Z",
+              "description": "DDragon16.17.1 Gwen.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "gwen_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:59:58.868914Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:59:58.868914Z",
+                "description": "DDragon16.17.1 Gwen.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "gwen_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:58.868914Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/gwen_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:58.868914Z",
+                  "description": "DDragon16.17.1 Gwen.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "gwen_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:59:58.868914Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/gwen_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/gwen_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/gwen_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/gwen_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/gwen_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    }
+  },
+  "catalogs": {
+    "attributes": {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    "modifier-zones": {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    "statuses": {
+      "route": "/statuses",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-28T14:55:06.53067Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "眩晕",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "statusKey": "vertigo",
+            "updatedAt": "2026-08-28T14:55:06.53067Z"
+          }
+        ],
+        "total": 1
+      }
+    },
+    "damage-types": {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    }
+  },
+  "duplicateKeys": [],
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200
+    },
+    {
+      "route": "/statuses",
+      "status": 200
+    },
+    {
+      "route": "/damage-types",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/irelia_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/fiora_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/camille_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/gwen_r/trigger-rules",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "skillCount": 20,
+    "expectedSkillCount": 20,
+    "compositionCount": 120,
+    "detailCount": 29,
+    "duplicateCount": 0,
+    "errorCount": 0,
+    "requestCount": 173
+  }
+}

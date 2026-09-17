@@ -1,0 +1,29 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "method": "POST",
+    "route": "/skills/aurora_q/parameters",
+    "detailRoute": "/skills/aurora_q/parameters/base_damage",
+    "skillKey": "aurora_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "飞去来咒首次基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 70,
+        "3": 95,
+        "4": 120,
+        "5": 145
+      },
+      "description": "当前BaseDamage技能等级1至5为45/70/95/120/145；索引0为旧占位20。",
+      "sortOrder": 10
+    }
+  }
+}

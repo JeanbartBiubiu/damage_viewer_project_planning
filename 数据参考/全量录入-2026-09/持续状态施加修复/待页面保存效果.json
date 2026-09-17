@@ -1,0 +1,49 @@
+{
+  "effectKey": "event_horizon_stun",
+  "name": "碰到牢笼边缘眩晕",
+  "description": "碰到牢笼边缘时向当前目标施加眩晕；本次状态随父效果期限结束，施加结果可被法术护盾阻挡。真实边缘接触事件的产生另行接线。",
+  "sortOrder": 20,
+  "lifecycle": {
+    "durationValue": {
+      "kind": "PARAMETER",
+      "parameterKey": "stun_duration_ms"
+    },
+    "maxStacksValue": {
+      "kind": "FIXED",
+      "value": 1
+    },
+    "applicationStacksValue": {
+      "kind": "FIXED",
+      "value": 1
+    },
+    "instanceScope": "SOURCE_TARGET",
+    "reapplicationStackMode": "KEEP",
+    "reapplicationDurationMode": "REFRESH_ALL",
+    "expiryMode": "ALL_AT_ONCE",
+    "periodicIntervalValue": null,
+    "firstPeriodicExecution": null
+  },
+  "results": [
+    {
+      "resultKey": "stun",
+      "name": "事件视界眩晕",
+      "resultType": "STATUS_OPERATION",
+      "target": "TARGET",
+      "lifecycleBehavior": {
+        "moment": "PERSISTENT",
+        "valueReadMode": null,
+        "stackValueMode": null,
+        "reapplicationValueMode": null,
+        "periodicExecutionMode": null
+      },
+      "spellShieldBlockScope": "RESULT",
+      "valueRule": null,
+      "detail": {
+        "statusKey": "vertigo",
+        "operation": "APPLY"
+      },
+      "description": "状态施加时按当前结果参与法术护盾判断；成功施加后随本次来源与目标实例到期结束。",
+      "sortOrder": 10
+    }
+  ]
+}

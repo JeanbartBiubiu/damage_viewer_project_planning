@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-09-08T14:23:50.075Z",
+  "page": "http://127.0.0.1:5173/#/skills",
+  "problem": "参数查看态的按角色等级子选项显式disabled=false覆盖组禁用状态；原始点击尝试超时，没有保存或改变业务数据。",
+  "change": "子选项同时继承查看态、保存中和角色等级范围不可用条件。",
+  "browser": {
+    "viewCharacterLevelEnabled": false,
+    "editCharacterLevelEnabled": true,
+    "editCancelled": true,
+    "fixedValueUnchanged": 3000
+  },
+  "checks": {
+    "lint": "通过，133生产文件无旧接口引用",
+    "typecheck": "通过",
+    "unitTestFiles": 54,
+    "unitTests": 565,
+    "unitTestFailures": 0,
+    "build": "通过，存在既有大包体积提示"
+  },
+  "readback": {
+    "endpoint": "/skills/taric_q/parameters/cast_interval_ms",
+    "status": 200,
+    "entireObjectUnchanged": true,
+    "actual": {
+      "createdAt": "2026-09-08T02:41:10.928968Z",
+      "description": "DDragon16.17.1 Taric.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒；仅施放间隔，不是层数恢复。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。每次施放60法力并消耗全部层数，3秒施放间隔与15秒层数恢复分别记录。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施放间隔（毫秒）",
+      "parameterKey": "cast_interval_ms",
+      "skillKey": "taric_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:41:10.928968Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    }
+  },
+  "boundary": "真实页面查看与编辑态检查、取消草稿后完整GET一致；没有新增测试或业务写入，未执行战斗/Wasm。"
+}

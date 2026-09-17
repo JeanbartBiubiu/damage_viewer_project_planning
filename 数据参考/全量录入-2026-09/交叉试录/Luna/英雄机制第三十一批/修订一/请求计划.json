@@ -1,0 +1,6417 @@
+{
+  "generatedAt": "2026-09-09T17:28:34.613Z",
+  "status": "仅写入意图，未调用业务接口",
+  "batch": "英雄机制第三十一批",
+  "revision": "hero31-source-v1-revision-1",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "candidateSha256": "57b47b85077f9066c72ff12f84f703a767e84ae1d3271824326621e0a90d2dac",
+  "sourceBindingSha256": "3903525c50256f6c7df36e692f9648d13a073bffe105e280fd80653c99302330",
+  "sourceRangeSha256": "27f83bd55ed75570921c2482b03a60e336a6df442531fb60bad149557d2c6d47",
+  "protectionSnapshotSha256": "94af4474ea98f040a3ad09aeffc07a8608cde19a10ce3c2995499aba2883802c",
+  "publicReuseSha256": "4813020e549a0b22e80eb2a466a6262892d3f4531c8599af2185d670fbfe914c",
+  "requestCount": 178,
+  "counts": {
+    "skills": 20,
+    "parameters": 120,
+    "formulas": 35,
+    "effects": 23,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "janna_q",
+      "parameterKey": "mana_cost",
+      "classification": "partialPublic",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "janna_w",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "janna_w",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "janna_e",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "janna_e",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "janna_r",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "janna_r",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lulu_q",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lulu_q",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lulu_w",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lulu_w",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lulu_e",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lulu_e",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lulu_r",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lulu_r",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "nami_q",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "nami_q",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "nami_w",
+      "parameterKey": "mana_cost",
+      "classification": "partialPublic",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "nami_e",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "nami_e",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "nami_r",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "nami_r",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "morgana_q",
+      "parameterKey": "mana_cost",
+      "classification": "partialPublic",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "morgana_w",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "morgana_w",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "morgana_e",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "morgana_e",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "morgana_r",
+      "parameterKey": "cooldown_ms",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "morgana_r",
+      "parameterKey": "mana_cost",
+      "classification": "publicOnly",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    }
+  ],
+  "publicVerification": [
+    {
+      "skillKey": "janna_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 90,
+        "2": 95,
+        "3": 100,
+        "4": 105,
+        "5": 110
+      },
+      "expectedOfficialIndex0": [
+        90,
+        95,
+        100,
+        105,
+        110
+      ],
+      "detailSha256": "f7da5bb48456d27f04f4f1db99e389cd34fe373c3f18b9031e74d63b99e71c48"
+    },
+    {
+      "skillKey": "janna_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 8000,
+        "2": 7500,
+        "3": 7000,
+        "4": 6500,
+        "5": 6000
+      },
+      "expectedOfficialIndex0": [
+        8000,
+        7500,
+        7000,
+        6500,
+        6000
+      ],
+      "detailSha256": "2f7509e6c56a740559a97496165ee5377a5dbbc98da04ba1a98b37d3f9ff46e2"
+    },
+    {
+      "skillKey": "janna_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 55,
+        "3": 60,
+        "4": 65,
+        "5": 70
+      },
+      "expectedOfficialIndex0": [
+        50,
+        55,
+        60,
+        65,
+        70
+      ],
+      "detailSha256": "cce5705257e17e81f6a3a089cecf1292648fa131b4fed665b270f806d1634622"
+    },
+    {
+      "skillKey": "janna_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 16000,
+        "2": 15000,
+        "3": 14000,
+        "4": 13000,
+        "5": 12000
+      },
+      "expectedOfficialIndex0": [
+        16000,
+        15000,
+        14000,
+        13000,
+        12000
+      ],
+      "detailSha256": "b2b4de99b81cc2f2c5c8c0e4b304ff11e75fa7df2e132dbd01fbe0266b5243a3"
+    },
+    {
+      "skillKey": "janna_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "expectedOfficialIndex0": [
+        70,
+        75,
+        80,
+        85,
+        90
+      ],
+      "detailSha256": "6111eb8f48eccb1686b31ff31aa6d41210867b77a1876e2f5c4fdf76d86041a8"
+    },
+    {
+      "skillKey": "janna_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 130000,
+        "2": 115000,
+        "3": 100000
+      },
+      "expectedOfficialIndex0": [
+        130000,
+        115000,
+        100000
+      ],
+      "detailSha256": "ffe41c8f2e61723fda9b156fff0a379ebf410de10fa0a398c6c2fd9836879476"
+    },
+    {
+      "skillKey": "janna_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "16ecf740dd7a29bd780aa01d86b8dd81629969774d6e629b299d5206026313f2"
+    },
+    {
+      "skillKey": "lulu_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 7000,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        7000,
+        7000,
+        7000,
+        7000,
+        7000
+      ],
+      "detailSha256": "527842d9d0e92751e2ce2fae4c405fb87be9702173d0bc266486f3925050ec03"
+    },
+    {
+      "skillKey": "lulu_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 55,
+        "3": 60,
+        "4": 65,
+        "5": 70
+      },
+      "expectedOfficialIndex0": [
+        50,
+        55,
+        60,
+        65,
+        70
+      ],
+      "detailSha256": "53084b316edd24b2a2f697a57525a870e648f73bf96c431ac71c1153d9e743d2"
+    },
+    {
+      "skillKey": "lulu_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 18000,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        18000,
+        18000,
+        18000,
+        18000,
+        18000
+      ],
+      "detailSha256": "25a3f347acee6b6818096afac3a9f4974b27a7667dceb0f9a7ab82538fbe30eb"
+    },
+    {
+      "skillKey": "lulu_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 65,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        65,
+        65,
+        65,
+        65,
+        65
+      ],
+      "detailSha256": "c55268498bbf34c927130406b6f2fd54e0174a8a723a011dc1480c7955e16ff9"
+    },
+    {
+      "skillKey": "lulu_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "expectedOfficialIndex0": [
+        10000,
+        9500,
+        9000,
+        8500,
+        8000
+      ],
+      "detailSha256": "d7f418c27b79ec6e089c15222b1db4045c953da3873516df3d822f0051f266f2"
+    },
+    {
+      "skillKey": "lulu_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "expectedOfficialIndex0": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "detailSha256": "f4a8e4f381ec73ce521d62f3792310331596a9141cfa221528e15090a334a33b"
+    },
+    {
+      "skillKey": "lulu_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120000,
+        "2": 100000,
+        "3": 80000
+      },
+      "expectedOfficialIndex0": [
+        120000,
+        100000,
+        80000
+      ],
+      "detailSha256": "70ea4254eb22fcc718fa33d55b15bf719a58c9137a34b528e95e923296b21d83"
+    },
+    {
+      "skillKey": "lulu_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "a40e225fabde83ae6a45ba03a9be61adda1eaa6f05e61eb5fa200660e2fe4064"
+    },
+    {
+      "skillKey": "nami_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 12000,
+        "2": 11000,
+        "3": 10000,
+        "4": 9000,
+        "5": 8000
+      },
+      "expectedOfficialIndex0": [
+        12000,
+        11000,
+        10000,
+        9000,
+        8000
+      ],
+      "detailSha256": "adf3e109cfeecbc31eec5f58ec4a8860ea428065927af63ec685dafb7cb66312"
+    },
+    {
+      "skillKey": "nami_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 60,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "detailSha256": "8df82e88e211838f5b54a19db9dd6a804ae279fb1b495ba53bc7b149d279597d"
+    },
+    {
+      "skillKey": "nami_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "expectedOfficialIndex0": [
+        70,
+        75,
+        80,
+        85,
+        90
+      ],
+      "detailSha256": "d31455fbc24a21e3e43028c1feeb715a697ca7773003fc403dd7521cc37f5403"
+    },
+    {
+      "skillKey": "nami_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 11000,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        11000,
+        11000,
+        11000,
+        11000,
+        11000
+      ],
+      "detailSha256": "add511b82fc215a9cd284e21d937d1adfc605accaaf46be2700cfe9b4763fc83"
+    },
+    {
+      "skillKey": "nami_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 55,
+        "2": 60,
+        "3": 65,
+        "4": 70,
+        "5": 75
+      },
+      "expectedOfficialIndex0": [
+        55,
+        60,
+        65,
+        70,
+        75
+      ],
+      "detailSha256": "bfb8b24a769a7b04d34f0eb86a92b13c1d50126a7c499af1eaaa756d3047e532"
+    },
+    {
+      "skillKey": "nami_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120000,
+        "2": 110000,
+        "3": 100000
+      },
+      "expectedOfficialIndex0": [
+        120000,
+        110000,
+        100000
+      ],
+      "detailSha256": "4208a63de4e7ca152f9db95648e9b00ec2a5bb7c4e9354830d5d71b42a71fb81"
+    },
+    {
+      "skillKey": "nami_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "1d146b25d1033e360d5a653dc97b385ec2b0f0d4d82497274bdb4b353c6ae18f"
+    },
+    {
+      "skillKey": "morgana_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 55,
+        "3": 60,
+        "4": 65,
+        "5": 70
+      },
+      "expectedOfficialIndex0": [
+        50,
+        55,
+        60,
+        65,
+        70
+      ],
+      "detailSha256": "efffdd22792566b8f8efa4143d8042d170205d8ff26632ec408c6e8fad7cc384"
+    },
+    {
+      "skillKey": "morgana_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 12000,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        12000,
+        12000,
+        12000,
+        12000,
+        12000
+      ],
+      "detailSha256": "f57354dcb3eb46e4366e16e3f4617708ff8d8945499627d0adf60ca8a29ac6b0"
+    },
+    {
+      "skillKey": "morgana_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 80,
+        "3": 90,
+        "4": 100,
+        "5": 110
+      },
+      "expectedOfficialIndex0": [
+        70,
+        80,
+        90,
+        100,
+        110
+      ],
+      "detailSha256": "f9dd4c0802acd645aae2c57768d62e781932da963a900c2e159e761de2ae52f1"
+    },
+    {
+      "skillKey": "morgana_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 26000,
+        "2": 23500,
+        "3": 21000,
+        "4": 18500,
+        "5": 16000
+      },
+      "expectedOfficialIndex0": [
+        26000,
+        23500,
+        21000,
+        18500,
+        16000
+      ],
+      "detailSha256": "22ab7318b5df01ae38632bdfb07346d3728fbf317ab01cf0d2e8736fdd1053d7"
+    },
+    {
+      "skillKey": "morgana_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 80,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        80,
+        80,
+        80,
+        80,
+        80
+      ],
+      "detailSha256": "e8345431daf8ac6c31e216fbd453406b74f76f9de8054025773bf9e8a0cb839a"
+    },
+    {
+      "skillKey": "morgana_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120000,
+        "2": 110000,
+        "3": 100000
+      },
+      "expectedOfficialIndex0": [
+        120000,
+        110000,
+        100000
+      ],
+      "detailSha256": "031a90009faad52a90d6d1fee11de25c4a3f678eb99d3c4fcf0578a1baf31377"
+    },
+    {
+      "skillKey": "morgana_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficialIndex0": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "b929db02624dfc96675fa7589cca8cd21304841bcf7180e0171134caf3fce58f"
+    }
+  ],
+  "protectedRoutes": [
+    "/attributes",
+    "/skill-categories",
+    "/modifier-zones",
+    "/damage-types",
+    "/characters/champion_janna",
+    "/character-skill-relations?characterKey=champion_janna",
+    "/characters/champion_lulu",
+    "/character-skill-relations?characterKey=champion_lulu",
+    "/characters/champion_nami",
+    "/character-skill-relations?characterKey=champion_nami",
+    "/characters/champion_morgana",
+    "/character-skill-relations?characterKey=champion_morgana",
+    "/skills/janna_p",
+    "/skills/janna_p/representative-image",
+    "/skills/janna_p/parameters",
+    "/skills/janna_p/formulas",
+    "/skills/janna_p/effects",
+    "/skills/janna_p/processes",
+    "/skills/janna_p/internal-states",
+    "/skills/janna_p/trigger-rules",
+    "/skills/janna_q",
+    "/skills/janna_q/representative-image",
+    "/skills/janna_q/parameters",
+    "/skills/janna_q/formulas",
+    "/skills/janna_q/effects",
+    "/skills/janna_q/processes",
+    "/skills/janna_q/internal-states",
+    "/skills/janna_q/trigger-rules",
+    "/skills/janna_w",
+    "/skills/janna_w/representative-image",
+    "/skills/janna_w/parameters",
+    "/skills/janna_w/formulas",
+    "/skills/janna_w/effects",
+    "/skills/janna_w/processes",
+    "/skills/janna_w/internal-states",
+    "/skills/janna_w/trigger-rules",
+    "/skills/janna_e",
+    "/skills/janna_e/representative-image",
+    "/skills/janna_e/parameters",
+    "/skills/janna_e/formulas",
+    "/skills/janna_e/effects",
+    "/skills/janna_e/processes",
+    "/skills/janna_e/internal-states",
+    "/skills/janna_e/trigger-rules",
+    "/skills/janna_r",
+    "/skills/janna_r/representative-image",
+    "/skills/janna_r/parameters",
+    "/skills/janna_r/formulas",
+    "/skills/janna_r/effects",
+    "/skills/janna_r/processes",
+    "/skills/janna_r/internal-states",
+    "/skills/janna_r/trigger-rules",
+    "/skills/lulu_p",
+    "/skills/lulu_p/representative-image",
+    "/skills/lulu_p/parameters",
+    "/skills/lulu_p/formulas",
+    "/skills/lulu_p/effects",
+    "/skills/lulu_p/processes",
+    "/skills/lulu_p/internal-states",
+    "/skills/lulu_p/trigger-rules",
+    "/skills/lulu_q",
+    "/skills/lulu_q/representative-image",
+    "/skills/lulu_q/parameters",
+    "/skills/lulu_q/formulas",
+    "/skills/lulu_q/effects",
+    "/skills/lulu_q/processes",
+    "/skills/lulu_q/internal-states",
+    "/skills/lulu_q/trigger-rules",
+    "/skills/lulu_w",
+    "/skills/lulu_w/representative-image",
+    "/skills/lulu_w/parameters",
+    "/skills/lulu_w/formulas",
+    "/skills/lulu_w/effects",
+    "/skills/lulu_w/processes",
+    "/skills/lulu_w/internal-states",
+    "/skills/lulu_w/trigger-rules",
+    "/skills/lulu_e",
+    "/skills/lulu_e/representative-image",
+    "/skills/lulu_e/parameters",
+    "/skills/lulu_e/formulas",
+    "/skills/lulu_e/effects",
+    "/skills/lulu_e/processes",
+    "/skills/lulu_e/internal-states",
+    "/skills/lulu_e/trigger-rules",
+    "/skills/lulu_r",
+    "/skills/lulu_r/representative-image",
+    "/skills/lulu_r/parameters",
+    "/skills/lulu_r/formulas",
+    "/skills/lulu_r/effects",
+    "/skills/lulu_r/processes",
+    "/skills/lulu_r/internal-states",
+    "/skills/lulu_r/trigger-rules",
+    "/skills/nami_p",
+    "/skills/nami_p/representative-image",
+    "/skills/nami_p/parameters",
+    "/skills/nami_p/formulas",
+    "/skills/nami_p/effects",
+    "/skills/nami_p/processes",
+    "/skills/nami_p/internal-states",
+    "/skills/nami_p/trigger-rules",
+    "/skills/nami_q",
+    "/skills/nami_q/representative-image",
+    "/skills/nami_q/parameters",
+    "/skills/nami_q/formulas",
+    "/skills/nami_q/effects",
+    "/skills/nami_q/processes",
+    "/skills/nami_q/internal-states",
+    "/skills/nami_q/trigger-rules",
+    "/skills/nami_w",
+    "/skills/nami_w/representative-image",
+    "/skills/nami_w/parameters",
+    "/skills/nami_w/formulas",
+    "/skills/nami_w/effects",
+    "/skills/nami_w/processes",
+    "/skills/nami_w/internal-states",
+    "/skills/nami_w/trigger-rules",
+    "/skills/nami_e",
+    "/skills/nami_e/representative-image",
+    "/skills/nami_e/parameters",
+    "/skills/nami_e/formulas",
+    "/skills/nami_e/effects",
+    "/skills/nami_e/processes",
+    "/skills/nami_e/internal-states",
+    "/skills/nami_e/trigger-rules",
+    "/skills/nami_r",
+    "/skills/nami_r/representative-image",
+    "/skills/nami_r/parameters",
+    "/skills/nami_r/formulas",
+    "/skills/nami_r/effects",
+    "/skills/nami_r/processes",
+    "/skills/nami_r/internal-states",
+    "/skills/nami_r/trigger-rules",
+    "/skills/morgana_p",
+    "/skills/morgana_p/representative-image",
+    "/skills/morgana_p/parameters",
+    "/skills/morgana_p/formulas",
+    "/skills/morgana_p/effects",
+    "/skills/morgana_p/processes",
+    "/skills/morgana_p/internal-states",
+    "/skills/morgana_p/trigger-rules",
+    "/skills/morgana_q",
+    "/skills/morgana_q/representative-image",
+    "/skills/morgana_q/parameters",
+    "/skills/morgana_q/formulas",
+    "/skills/morgana_q/effects",
+    "/skills/morgana_q/processes",
+    "/skills/morgana_q/internal-states",
+    "/skills/morgana_q/trigger-rules",
+    "/skills/morgana_w",
+    "/skills/morgana_w/representative-image",
+    "/skills/morgana_w/parameters",
+    "/skills/morgana_w/formulas",
+    "/skills/morgana_w/effects",
+    "/skills/morgana_w/processes",
+    "/skills/morgana_w/internal-states",
+    "/skills/morgana_w/trigger-rules",
+    "/skills/morgana_e",
+    "/skills/morgana_e/representative-image",
+    "/skills/morgana_e/parameters",
+    "/skills/morgana_e/formulas",
+    "/skills/morgana_e/effects",
+    "/skills/morgana_e/processes",
+    "/skills/morgana_e/internal-states",
+    "/skills/morgana_e/trigger-rules",
+    "/skills/morgana_r",
+    "/skills/morgana_r/representative-image",
+    "/skills/morgana_r/parameters",
+    "/skills/morgana_r/formulas",
+    "/skills/morgana_r/effects",
+    "/skills/morgana_r/processes",
+    "/skills/morgana_r/internal-states",
+    "/skills/morgana_r/trigger-rules"
+  ],
+  "protectedSummary": {
+    "inputGETs": 201,
+    "protectedSubjects": 20,
+    "protectedCompositionLists": 120,
+    "protectedRepresentativeImages": 20,
+    "protectedCharacters": [
+      "champion_janna",
+      "champion_lulu",
+      "champion_nami",
+      "champion_morgana"
+    ],
+    "protectedCharacterRelations": [
+      "champion_janna",
+      "champion_lulu",
+      "champion_nami",
+      "champion_morgana"
+    ],
+    "protectedCatalogs": [
+      "/attributes",
+      "/skill-categories",
+      "/modifier-zones",
+      "/damage-types"
+    ],
+    "publicParameterDetails": 29,
+    "classificationCounts": {
+      "empty": 4,
+      "publicOnly": 13,
+      "partialPublic": 3,
+      "existingDetailed": 0
+    }
+  },
+  "requests": [
+    {
+      "sequence": 1,
+      "method": "POST",
+      "route": "/skills/janna_p/parameters",
+      "detailRoute": "/skills/janna_p/parameters/bonus_move_speed_damage_ratio",
+      "skillKey": "janna_p",
+      "kind": "parameters",
+      "stableKey": "bonus_move_speed_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_move_speed_damage_ratio",
+        "name": "额外移动速度点数转额外魔法伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前根DataValues.MSBonusMagicDamage为0.3；BonusDamage树使用mStat=7、mStatFormula=2，但来源没有把它绑定为百分比属性，实际额外移动速度点数改为无默认运行输入。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "POST",
+      "route": "/skills/janna_p/parameters",
+      "detailRoute": "/skills/janna_p/parameters/actual_bonus_move_speed",
+      "skillKey": "janna_p",
+      "kind": "parameters",
+      "stableKey": "actual_bonus_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_bonus_move_speed",
+        "name": "当前额外移动速度点数",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "BonusDamage树消费mStat=7、mStatFormula=2的额外移动速度点数；来源未证当前数值和取值阶段，因此不设默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "POST",
+      "route": "/skills/janna_p/formulas",
+      "detailRoute": "/skills/janna_p/formulas/bonus_magic_damage",
+      "skillKey": "janna_p",
+      "kind": "formulas",
+      "stableKey": "bonus_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_magic_damage",
+        "name": "顺风而行自身额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_move_speed_damage_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_bonus_move_speed"
+            }
+          ]
+        },
+        "description": "BonusDamage = MSBonusMagicDamage × 当前额外移动速度点数；保留普攻与和风守护的自身伤害换算，不把点数误当成百分比属性，也不创建自动攻击事件。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/base_damage",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "最小蓄力基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 90,
+          "3": 125,
+          "4": 160,
+          "5": 195
+        },
+        "description": "客户端DataValues.MinDamage取等级索引1至5，得到55/90/125/160/195；索引0为旧占位。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 5,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/minimum_ap_ratio",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "minimum_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_ap_ratio",
+        "name": "最小蓄力法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端DataValues.MinimumRatio按等级索引1取0.5；MinimumDamage树消费来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 6,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/charged_damage_base",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "charged_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charged_damage_base",
+        "name": "每秒蓄力追加基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20,
+          "4": 25,
+          "5": 30
+        },
+        "description": "客户端DataValues.BonusDamage取等级索引1至5，得到10/15/20/25/30；与ExtraDamagePerSecondCharged树一致。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 7,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/charged_ap_ratio",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "charged_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charged_ap_ratio",
+        "name": "每秒蓄力追加法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端DataValues.BonusRatio按等级索引1取0.1；仅作为每秒追加项。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 8,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/max_charge_duration_seconds",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "max_charge_duration_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_charge_duration_seconds",
+        "name": "最大蓄力时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 3,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3
+        },
+        "description": "客户端DataValues.MaxDuration取等级索引1至5，均为3秒；公式与每秒追加项保持秒单位。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 9,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/base_knockup_seconds",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "base_knockup_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_knockup_seconds",
+        "name": "基础击飞时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.5,
+          "2": 0.5,
+          "3": 0.5,
+          "4": 0.5,
+          "5": 0.5
+        },
+        "description": "客户端DataValues.BaseKnockup取等级索引1至5，均为0.5秒；显示精度不改变原值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 10,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/charged_knockup_per_second_seconds",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "charged_knockup_per_second_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charged_knockup_per_second_seconds",
+        "name": "每秒蓄力追加击飞时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.25,
+          "3": 0.25,
+          "4": 0.25,
+          "5": 0.25
+        },
+        "description": "客户端DataValues.ChargeKnockup取等级索引1至5，均为0.25秒；MaxKnockup树以MaxDuration相乘。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 11,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/base_range",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "base_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_range",
+        "name": "基础射程",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1100,
+        "levelValues": null,
+        "description": "客户端DataValues.BaseRange按等级索引1取1100；只作来源参数。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 12,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/charge_distance_percent_points",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "charge_distance_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charge_distance_percent_points",
+        "name": "蓄力射程增加百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "客户端DataValues.ChargeDistancePercent按等级索引1取20；仅保留来源说明，不把射程变化展开成几何过程。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 13,
+      "method": "POST",
+      "route": "/skills/janna_q/parameters",
+      "detailRoute": "/skills/janna_q/parameters/missile_travel_time_ms",
+      "skillKey": "janna_q",
+      "kind": "parameters",
+      "stableKey": "missile_travel_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missile_travel_time_ms",
+        "name": "龙卷风飞行时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "客户端DataValues.MissileTravelTime按等级索引1取1.25秒，换算为1250毫秒；不表示命中时点已接线。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 14,
+      "method": "POST",
+      "route": "/skills/janna_q/formulas",
+      "detailRoute": "/skills/janna_q/formulas/minimum_magic_damage",
+      "skillKey": "janna_q",
+      "kind": "formulas",
+      "stableKey": "minimum_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "minimum_magic_damage",
+        "name": "飓风呼啸最小蓄力魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MinimumDamage = MinDamage + MinimumRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 15,
+      "method": "POST",
+      "route": "/skills/janna_q/formulas",
+      "detailRoute": "/skills/janna_q/formulas/charged_magic_damage_per_second",
+      "skillKey": "janna_q",
+      "kind": "formulas",
+      "stableKey": "charged_magic_damage_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "charged_magic_damage_per_second",
+        "name": "飓风呼啸蓄力每秒追加魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "charged_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "charged_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ExtraDamagePerSecondCharged = BonusDamage + BonusRatio×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 16,
+      "method": "POST",
+      "route": "/skills/janna_q/formulas",
+      "detailRoute": "/skills/janna_q/formulas/maximum_magic_damage",
+      "skillKey": "janna_q",
+      "kind": "formulas",
+      "stableKey": "maximum_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "maximum_magic_damage",
+        "name": "飓风呼啸满蓄力魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "minimum_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_charge_duration_seconds"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "charged_damage_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "charged_ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MaxDamage = MinimumDamage + MaxDuration×ExtraDamagePerSecondCharged；接口公式只能引用参数，故将两棵来源子树完整内联并保持二元结构。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 17,
+      "method": "POST",
+      "route": "/skills/janna_q/formulas",
+      "detailRoute": "/skills/janna_q/formulas/maximum_knockup_seconds",
+      "skillKey": "janna_q",
+      "kind": "formulas",
+      "stableKey": "maximum_knockup_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "maximum_knockup_seconds",
+        "name": "飓风呼啸满蓄力击飞时间",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_knockup_seconds"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_charge_duration_seconds"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "charged_knockup_per_second_seconds"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MaxKnockup = BaseKnockup + MaxDuration×ChargeKnockup；当前mPrecision=2只为显示精度。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 18,
+      "method": "POST",
+      "route": "/skills/janna_q/effects",
+      "detailRoute": "/skills/janna_q/effects/mana_cost",
+      "skillKey": "janna_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录janna_q的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 19,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/movement_speed_ratio",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "movement_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "movement_speed_ratio",
+        "name": "自身移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.06,
+          "2": 0.07,
+          "3": 0.08,
+          "4": 0.09,
+          "5": 0.1
+        },
+        "description": "客户端DataValues.MSPercent取等级索引1至5，得到6/7/8/9/10%；TotalMS为tooltipOnly，比例直接保存。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 20,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/base_damage",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "主动基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 85,
+          "3": 115,
+          "4": 145,
+          "5": 175
+        },
+        "description": "客户端DataValues.BaseDamage取等级索引1至5，得到55/85/115/145/175。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 21,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/ap_ratio",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "主动伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端TotalDamage树按等级索引1消费APRatio=0.5×来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 22,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/slow_duration_ms",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端DataValues.SlowDuration按等级索引1取2秒，转换为2000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 23,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/slow_percent_points",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 24,
+          "3": 28,
+          "4": 32,
+          "5": 36
+        },
+        "description": "客户端DataValues.SlowPercent取等级索引1至5，得到20/24/28/32/36；TotalSlow树再乘0.01。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 24,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/movement_speed_ap_ratio",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "movement_speed_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "movement_speed_ap_ratio",
+        "name": "移动速度法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0002,
+        "levelValues": null,
+        "description": "客户端TotalMS树按等级索引1消费MSAPRatio；当前mDisplayAsPercent=true只表示显示方式。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 25,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/slow_ap_ratio",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "slow_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ap_ratio",
+        "name": "减速法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.06,
+        "levelValues": null,
+        "description": "客户端TotalSlow树按等级索引1消费SlowAPRatio。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 26,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/percent_points_to_ratio",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "percent_points_to_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_points_to_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "客户端TotalSlow根乘数为0.01，将百分数点换为比例；不改变SlowPercent与SlowAPRatio的原始单位。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 27,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/tailwind_bonus_damage_ratio",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "tailwind_bonus_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tailwind_bonus_damage_ratio",
+        "name": "顺风而行额外魔法伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前W正文明确TotalDamage之外再加TailwindSelf:BonusDamage；此处保留P树的0.3比例，额外移动速度点数由W自身无默认运行输入提供，恰好计一次。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 28,
+      "method": "POST",
+      "route": "/skills/janna_w/parameters",
+      "detailRoute": "/skills/janna_w/parameters/actual_bonus_move_speed",
+      "skillKey": "janna_w",
+      "kind": "parameters",
+      "stableKey": "actual_bonus_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_bonus_move_speed",
+        "name": "当前额外移动速度点数",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "W正文消费P的BonusDamage；mStat=7、mStatFormula=2的当前额外移动速度点数没有冻结实值，不设默认。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 29,
+      "method": "POST",
+      "route": "/skills/janna_w/formulas",
+      "detailRoute": "/skills/janna_w/formulas/total_move_speed_ratio",
+      "skillKey": "janna_w",
+      "kind": "formulas",
+      "stableKey": "total_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_move_speed_ratio",
+        "name": "和风守护自身移动速度比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "movement_speed_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "movement_speed_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalMS = MSPercent + MSAPRatio×来源总法强；该树是自身持续移动速度来源。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 30,
+      "method": "POST",
+      "route": "/skills/janna_w/formulas",
+      "detailRoute": "/skills/janna_w/formulas/total_magic_damage",
+      "skillKey": "janna_w",
+      "kind": "formulas",
+      "stableKey": "total_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_magic_damage",
+        "name": "和风守护对唯一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tailwind_bonus_damage_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_bonus_move_speed"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "W正文的TotalDamage + TailwindSelf:BonusDamage；P换算在W内直接加入一次，额外移动速度按点数运行输入读取，普攻仍独立消费P公式。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 31,
+      "method": "POST",
+      "route": "/skills/janna_w/formulas",
+      "detailRoute": "/skills/janna_w/formulas/total_slow_ratio",
+      "skillKey": "janna_w",
+      "kind": "formulas",
+      "stableKey": "total_slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_slow_ratio",
+        "name": "和风守护减速比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_points_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "slow_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "slow_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalSlow = 0.01×(SlowPercent + SlowAPRatio×来源总法强)。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 32,
+      "method": "POST",
+      "route": "/skills/janna_w/effects",
+      "detailRoute": "/skills/janna_w/effects/mana_cost",
+      "skillKey": "janna_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录janna_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 33,
+      "method": "POST",
+      "route": "/skills/janna_w/effects",
+      "detailRoute": "/skills/janna_w/effects/self_move_speed",
+      "skillKey": "janna_w",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_move_speed",
+        "name": "和风守护自身移动速度",
+        "description": "当前W的TotalMS为自身被动移动速度；持久属性候选只描述数值和来源，实际技能初始化时点待接。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "和风守护自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "total_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 34,
+      "method": "POST",
+      "route": "/skills/janna_e/parameters",
+      "detailRoute": "/skills/janna_e/parameters/cc_cooldown_refund_ratio",
+      "skillKey": "janna_e",
+      "kind": "parameters",
+      "stableKey": "cc_cooldown_refund_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cc_cooldown_refund_ratio",
+        "name": "控制命中时冷却返还比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端DataValues.ECDRefundforCC按等级索引1取0.2；控制命中条件仅作来源参数，未创建无条件冷却效果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 35,
+      "method": "POST",
+      "route": "/skills/janna_e/parameters",
+      "detailRoute": "/skills/janna_e/parameters/empower_duration_ms",
+      "skillKey": "janna_e",
+      "kind": "parameters",
+      "stableKey": "empower_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empower_duration_ms",
+        "name": "旧强化字段持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端EmpowerDuration按等级索引1取5秒，转换为5000毫秒；当前候选不把它作为独立攻击力增益生命周期。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 36,
+      "method": "POST",
+      "route": "/skills/janna_e/parameters",
+      "detailRoute": "/skills/janna_e/parameters/decay_grace_period_ms",
+      "skillKey": "janna_e",
+      "kind": "parameters",
+      "stableKey": "decay_grace_period_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "decay_grace_period_ms",
+        "name": "衰减宽限时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端DecayGracePeriod按等级索引1取4秒，转换为4000毫秒；衰减过程不在本轮展开。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 37,
+      "method": "POST",
+      "route": "/skills/janna_e/parameters",
+      "detailRoute": "/skills/janna_e/parameters/base_shield",
+      "skillKey": "janna_e",
+      "kind": "parameters",
+      "stableKey": "base_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_shield",
+        "name": "基础护盾值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "客户端DataValues.BaseShield取等级索引1至5，得到80/120/160/200/240。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 38,
+      "method": "POST",
+      "route": "/skills/janna_e/parameters",
+      "detailRoute": "/skills/janna_e/parameters/shield_ap_ratio",
+      "skillKey": "janna_e",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "TotalShield树按等级索引1消费ShieldAPRatio=0.55×来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 39,
+      "method": "POST",
+      "route": "/skills/janna_e/parameters",
+      "detailRoute": "/skills/janna_e/parameters/bonus_attack_damage",
+      "skillKey": "janna_e",
+      "kind": "parameters",
+      "stableKey": "bonus_attack_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_attack_damage",
+        "name": "强化额外攻击力",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20,
+          "4": 25,
+          "5": 30
+        },
+        "description": "客户端DataValues.BonusAD取等级索引1至5，得到10/15/20/25/30；TotalAD树消费该基础值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 40,
+      "method": "POST",
+      "route": "/skills/janna_e/parameters",
+      "detailRoute": "/skills/janna_e/parameters/attack_damage_ap_ratio",
+      "skillKey": "janna_e",
+      "kind": "parameters",
+      "stableKey": "attack_damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_damage_ap_ratio",
+        "name": "额外攻击力法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端TotalAD树按等级索引1消费ADAPRatio=0.1×来源总法强。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 41,
+      "method": "POST",
+      "route": "/skills/janna_e/parameters",
+      "detailRoute": "/skills/janna_e/parameters/shield_duration_ms",
+      "skillKey": "janna_e",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端ShieldDuration按等级索引1取4秒，转换为4000毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 42,
+      "method": "POST",
+      "route": "/skills/janna_e/formulas",
+      "detailRoute": "/skills/janna_e/formulas/total_shield",
+      "skillKey": "janna_e",
+      "kind": "formulas",
+      "stableKey": "total_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_shield",
+        "name": "风暴之眼自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalShield = BaseShield + ShieldAPRatio×来源总法强。目标为自身路径，实际友方目标资格待补。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 43,
+      "method": "POST",
+      "route": "/skills/janna_e/formulas",
+      "detailRoute": "/skills/janna_e/formulas/total_attack_damage_bonus",
+      "skillKey": "janna_e",
+      "kind": "formulas",
+      "stableKey": "total_attack_damage_bonus",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_attack_damage_bonus",
+        "name": "风暴之眼自身额外攻击力",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_attack_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalAD = BonusAD + ADAPRatio×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 44,
+      "method": "POST",
+      "route": "/skills/janna_e/effects",
+      "detailRoute": "/skills/janna_e/effects/mana_cost",
+      "skillKey": "janna_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录janna_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 45,
+      "method": "POST",
+      "route": "/skills/janna_e/effects",
+      "detailRoute": "/skills/janna_e/effects/self_shield",
+      "skillKey": "janna_e",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "风暴之眼自身护盾",
+        "description": "只表达当前TotalShield数值与护盾生命周期；自施放/友方目标资格、衰减和实际吸收尚未接线。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "风暴之眼自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "total_shield"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 46,
+      "method": "POST",
+      "route": "/skills/janna_r/parameters",
+      "detailRoute": "/skills/janna_r/parameters/heal_base_per_second",
+      "skillKey": "janna_r",
+      "kind": "parameters",
+      "stableKey": "heal_base_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_base_per_second",
+        "name": "每秒基础治疗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 150,
+          "3": 200
+        },
+        "description": "客户端HealBasePerSecond取等级索引1至3，得到100/150/200；根树没有把它写成最终治疗结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 47,
+      "method": "POST",
+      "route": "/skills/janna_r/parameters",
+      "detailRoute": "/skills/janna_r/parameters/heal_ap_ratio",
+      "skillKey": "janna_r",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "每秒治疗法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "HealPerSecond树的StatByCoefficient系数为0.5×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 48,
+      "method": "POST",
+      "route": "/skills/janna_r/parameters",
+      "detailRoute": "/skills/janna_r/parameters/heal_duration_seconds",
+      "skillKey": "janna_r",
+      "kind": "parameters",
+      "stableKey": "heal_duration_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_duration_seconds",
+        "name": "持续治疗时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 3,
+          "2": 3,
+          "3": 3
+        },
+        "description": "客户端Duration使用等级索引1至3，得到3/3/3秒；不能误用索引0的占位0。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 49,
+      "method": "POST",
+      "route": "/skills/janna_r/parameters",
+      "detailRoute": "/skills/janna_r/parameters/heal_range",
+      "skillKey": "janna_r",
+      "kind": "parameters",
+      "stableKey": "heal_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_range",
+        "name": "复苏季风治疗范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 700,
+        "levelValues": null,
+        "description": "客户端Range按等级索引1取700；只作来源参数。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 50,
+      "method": "POST",
+      "route": "/skills/janna_r/parameters",
+      "detailRoute": "/skills/janna_r/parameters/max_knockback_distance",
+      "skillKey": "janna_r",
+      "kind": "parameters",
+      "stableKey": "max_knockback_distance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_knockback_distance",
+        "name": "最大击退距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 875,
+        "levelValues": null,
+        "description": "客户端MaxKnockback按等级索引1取875；不把轨迹展开成过程。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 51,
+      "method": "POST",
+      "route": "/skills/janna_r/parameters",
+      "detailRoute": "/skills/janna_r/parameters/knockback_base_range",
+      "skillKey": "janna_r",
+      "kind": "parameters",
+      "stableKey": "knockback_base_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockback_base_range",
+        "name": "击退基础距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 875,
+        "levelValues": null,
+        "description": "客户端KnockbackBaseRange按等级索引1取875。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 52,
+      "method": "POST",
+      "route": "/skills/janna_r/parameters",
+      "detailRoute": "/skills/janna_r/parameters/knockback_speed",
+      "skillKey": "janna_r",
+      "kind": "parameters",
+      "stableKey": "knockback_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockback_speed",
+        "name": "击退速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1200,
+        "levelValues": null,
+        "description": "客户端KnockbackSpeed按等级索引1取1200；只作来源参数。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 53,
+      "method": "POST",
+      "route": "/skills/janna_r/parameters",
+      "detailRoute": "/skills/janna_r/parameters/knockback_gravity",
+      "skillKey": "janna_r",
+      "kind": "parameters",
+      "stableKey": "knockback_gravity",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockback_gravity",
+        "name": "击退重力参数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "客户端KnockbackGravity按等级索引1取10；只作来源参数。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 54,
+      "method": "POST",
+      "route": "/skills/janna_r/parameters",
+      "detailRoute": "/skills/janna_r/parameters/knockback_duration_ms",
+      "skillKey": "janna_r",
+      "kind": "parameters",
+      "stableKey": "knockback_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockback_duration_ms",
+        "name": "击退持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "客户端KnockbackDuration按等级索引1取0.5秒，转换为500毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 55,
+      "method": "POST",
+      "route": "/skills/janna_r/formulas",
+      "detailRoute": "/skills/janna_r/formulas/heal_per_second",
+      "skillKey": "janna_r",
+      "kind": "formulas",
+      "stableKey": "heal_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "heal_per_second",
+        "name": "复苏季风每秒治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "heal_base_per_second"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "HealPerSecond = HealBasePerSecond + 0.5×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 56,
+      "method": "POST",
+      "route": "/skills/janna_r/formulas",
+      "detailRoute": "/skills/janna_r/formulas/total_heal",
+      "skillKey": "janna_r",
+      "kind": "formulas",
+      "stableKey": "total_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_heal",
+        "name": "复苏季风持续治疗总量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "heal_duration_seconds"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_base_per_second"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalHeal = Duration×HealPerSecond；接口公式只能引用参数，故内联每秒治疗式；该量是tooltipOnly数值，不创建直接治疗结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 57,
+      "method": "POST",
+      "route": "/skills/janna_r/effects",
+      "detailRoute": "/skills/janna_r/effects/mana_cost",
+      "skillKey": "janna_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录janna_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 58,
+      "method": "POST",
+      "route": "/skills/lulu_p/parameters",
+      "detailRoute": "/skills/lulu_p/parameters/bolts_per_attack",
+      "skillKey": "lulu_p",
+      "kind": "parameters",
+      "stableKey": "bolts_per_attack",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bolts_per_attack",
+        "name": "皮克斯飞弹数量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端DataValues.NumberOfBolts为3；当前正文明确同一普攻目标发射3颗。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 59,
+      "method": "POST",
+      "route": "/skills/lulu_p/parameters",
+      "detailRoute": "/skills/lulu_p/parameters/ap_ratio_per_bolt",
+      "skillKey": "lulu_p",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_per_bolt",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio_per_bolt",
+        "name": "每颗飞弹法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "客户端DataValues.APRatioPerHit为0.05。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 60,
+      "method": "POST",
+      "route": "/skills/lulu_p/parameters",
+      "detailRoute": "/skills/lulu_p/parameters/actual_character_level_base_damage",
+      "skillKey": "lulu_p",
+      "kind": "parameters",
+      "stableKey": "actual_character_level_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_character_level_base_damage",
+        "name": "当前角色等级下每颗飞弹基础伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalDamage树只有角色等级5至39的插值端点；这里的5至39是基础伤害端点，不是英雄等级范围。完整等级曲线未冻结，实际输入无默认。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 61,
+      "method": "POST",
+      "route": "/skills/lulu_p/formulas",
+      "detailRoute": "/skills/lulu_p/formulas/single_bolt_magic_damage",
+      "skillKey": "lulu_p",
+      "kind": "formulas",
+      "stableKey": "single_bolt_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "single_bolt_magic_damage",
+        "name": "皮克斯单颗飞弹魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_character_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_per_bolt"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = 当前角色等级基础伤害输入 + APRatioPerHit×来源总法强；不把5至39误作角色等级。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 62,
+      "method": "POST",
+      "route": "/skills/lulu_p/formulas",
+      "detailRoute": "/skills/lulu_p/formulas/combined_magic_damage",
+      "skillKey": "lulu_p",
+      "kind": "formulas",
+      "stableKey": "combined_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "combined_magic_damage",
+        "name": "皮克斯同一普攻合计魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bolts_per_attack"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_character_level_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio_per_bolt"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "CombinedDamage = NumberOfBolts×TotalDamage；接口公式只能引用参数，故内联单颗飞弹公式；同一普攻、同一目标的三颗飞弹合计。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 63,
+      "method": "POST",
+      "route": "/skills/lulu_q/parameters",
+      "detailRoute": "/skills/lulu_q/parameters/base_damage",
+      "skillKey": "lulu_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位25。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 64,
+      "method": "POST",
+      "route": "/skills/lulu_q/parameters",
+      "detailRoute": "/skills/lulu_q/parameters/ap_ratio",
+      "skillKey": "lulu_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端TotalDamage树消费APRatio=0.5×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 65,
+      "method": "POST",
+      "route": "/skills/lulu_q/parameters",
+      "detailRoute": "/skills/lulu_q/parameters/second_bolt_bonus_ratio",
+      "skillKey": "lulu_q",
+      "kind": "parameters",
+      "stableKey": "second_bolt_bonus_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "second_bolt_bonus_ratio",
+        "name": "同一目标第二束追加比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端BonusMissileDamage的mMultiplier为DoubleHitBonus=0.5；只作用同一目标第二次命中。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 66,
+      "method": "POST",
+      "route": "/skills/lulu_q/parameters",
+      "detailRoute": "/skills/lulu_q/parameters/slow_ratio",
+      "skillKey": "lulu_q",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -0.8,
+        "levelValues": null,
+        "description": "客户端SlowAmount为-0.8，保留原负移动修正比例；不把字段名当作伤害。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 67,
+      "method": "POST",
+      "route": "/skills/lulu_q/parameters",
+      "detailRoute": "/skills/lulu_q/parameters/slow_duration_ms",
+      "skillKey": "lulu_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端SlowDuration为2秒，转换为2000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 68,
+      "method": "POST",
+      "route": "/skills/lulu_q/parameters",
+      "detailRoute": "/skills/lulu_q/parameters/slow_decay_ticks",
+      "skillKey": "lulu_q",
+      "kind": "parameters",
+      "stableKey": "slow_decay_ticks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_decay_ticks",
+        "name": "减速衰减次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8,
+        "levelValues": null,
+        "description": "客户端SlowDecayTicks为8；衰减时序未接线。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 69,
+      "method": "POST",
+      "route": "/skills/lulu_q/formulas",
+      "detailRoute": "/skills/lulu_q/formulas/magic_damage",
+      "skillKey": "lulu_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "闪耀长枪首束魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + APRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 70,
+      "method": "POST",
+      "route": "/skills/lulu_q/formulas",
+      "detailRoute": "/skills/lulu_q/formulas/second_bolt_bonus_magic_damage",
+      "skillKey": "lulu_q",
+      "kind": "formulas",
+      "stableKey": "second_bolt_bonus_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "second_bolt_bonus_magic_damage",
+        "name": "闪耀长枪同一目标第二束追加魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "second_bolt_bonus_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BonusMissileDamage = DoubleHitBonus×同一套TotalDamage；接口公式只能引用参数，故内联首束公式；不扩成第二名敌人。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 71,
+      "method": "POST",
+      "route": "/skills/lulu_q/effects",
+      "detailRoute": "/skills/lulu_q/effects/mana_cost",
+      "skillKey": "lulu_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录lulu_q的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 72,
+      "method": "POST",
+      "route": "/skills/lulu_w/parameters",
+      "detailRoute": "/skills/lulu_w/parameters/base_move_speed_ratio",
+      "skillKey": "lulu_w",
+      "kind": "parameters",
+      "stableKey": "base_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_move_speed_ratio",
+        "name": "基础移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "客户端DataValues.BaseMS为0.25。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 73,
+      "method": "POST",
+      "route": "/skills/lulu_w/parameters",
+      "detailRoute": "/skills/lulu_w/parameters/polymorph_duration_ms",
+      "skillKey": "lulu_w",
+      "kind": "parameters",
+      "stableKey": "polymorph_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "polymorph_duration_ms",
+        "name": "敌方变形持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1200,
+          "2": 1400,
+          "3": 1600,
+          "4": 1800,
+          "5": 2000
+        },
+        "description": "客户端CCDuration取索引1至5，单位秒转换为1200/1400/1600/1800/2000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 74,
+      "method": "POST",
+      "route": "/skills/lulu_w/parameters",
+      "detailRoute": "/skills/lulu_w/parameters/slow_percent_points",
+      "skillKey": "lulu_w",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "变形附带减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": -60,
+        "levelValues": null,
+        "description": "客户端SlowAmount为-60；按当前正文的负值修正取正的60百分数点，仅保留数值不创建控制结果。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 75,
+      "method": "POST",
+      "route": "/skills/lulu_w/parameters",
+      "detailRoute": "/skills/lulu_w/parameters/ally_buff_duration_ms",
+      "skillKey": "lulu_w",
+      "kind": "parameters",
+      "stableKey": "ally_buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ally_buff_duration_ms",
+        "name": "友方增益持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 3000,
+          "2": 3250,
+          "3": 3500,
+          "4": 3750,
+          "5": 4000
+        },
+        "description": "客户端MSDuration取索引1至5，单位秒转换为3000/3250/3500/3750/4000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 76,
+      "method": "POST",
+      "route": "/skills/lulu_w/parameters",
+      "detailRoute": "/skills/lulu_w/parameters/attack_speed_bonus_ratio",
+      "skillKey": "lulu_w",
+      "kind": "parameters",
+      "stableKey": "attack_speed_bonus_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_bonus_ratio",
+        "name": "攻击速度增益比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.225,
+          "3": 0.25,
+          "4": 0.275,
+          "5": 0.3
+        },
+        "description": "客户端ASBonus取索引1至5；按0.2代表20%保存。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 77,
+      "method": "POST",
+      "route": "/skills/lulu_w/parameters",
+      "detailRoute": "/skills/lulu_w/parameters/move_speed_ap_ratio",
+      "skillKey": "lulu_w",
+      "kind": "parameters",
+      "stableKey": "move_speed_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_ap_ratio",
+        "name": "移动速度法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0005,
+        "levelValues": null,
+        "description": "客户端TotalMS的StatByCoefficient系数为0.0005；同版属性构造窄口径按来源总法强读取。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 78,
+      "method": "POST",
+      "route": "/skills/lulu_w/formulas",
+      "detailRoute": "/skills/lulu_w/formulas/ally_move_speed_ratio",
+      "skillKey": "lulu_w",
+      "kind": "formulas",
+      "stableKey": "ally_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "ally_move_speed_ratio",
+        "name": "奇思妙想友方移动速度比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_move_speed_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "move_speed_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalMS = BaseMS + 0.0005×来源总法强；只表达友方增益数值，未把变形当作技能替换。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 79,
+      "method": "POST",
+      "route": "/skills/lulu_w/effects",
+      "detailRoute": "/skills/lulu_w/effects/mana_cost",
+      "skillKey": "lulu_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录lulu_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 80,
+      "method": "POST",
+      "route": "/skills/lulu_w/effects",
+      "detailRoute": "/skills/lulu_w/effects/self_move_speed",
+      "skillKey": "lulu_w",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_move_speed",
+        "name": "奇思妙想自身移动速度增益",
+        "description": "保留自身作为合法友方目标时的移动速度路径；实际分支选择与应用时点待补。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "ally_buff_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "奇思妙想自身移动速度增益",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "ally_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 81,
+      "method": "POST",
+      "route": "/skills/lulu_w/effects",
+      "detailRoute": "/skills/lulu_w/effects/self_attack_speed",
+      "skillKey": "lulu_w",
+      "kind": "effects",
+      "stableKey": "self_attack_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_attack_speed",
+        "name": "奇思妙想自身攻击速度增益",
+        "description": "保留自身作为合法友方目标时的攻击速度路径；不把对敌变形分支混入。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "ally_buff_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "奇思妙想自身攻击速度增益",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "attack_speed_bonus_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 82,
+      "method": "POST",
+      "route": "/skills/lulu_e/parameters",
+      "detailRoute": "/skills/lulu_e/parameters/base_damage",
+      "skillKey": "lulu_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "对敌基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "description": "客户端DataValues.BaseDamage取等级索引1至5，得到70/110/150/190/230。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 83,
+      "method": "POST",
+      "route": "/skills/lulu_e/parameters",
+      "detailRoute": "/skills/lulu_e/parameters/damage_ap_ratio",
+      "skillKey": "lulu_e",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端TotalDamage树按等级索引1消费DamageAPRatio=0.5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 84,
+      "method": "POST",
+      "route": "/skills/lulu_e/parameters",
+      "detailRoute": "/skills/lulu_e/parameters/base_shield",
+      "skillKey": "lulu_e",
+      "kind": "parameters",
+      "stableKey": "base_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_shield",
+        "name": "基础护盾值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "description": "客户端DataValues.BaseShield取等级索引1至5，得到70/110/150/190/230；与TotalShield树一致。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 85,
+      "method": "POST",
+      "route": "/skills/lulu_e/parameters",
+      "detailRoute": "/skills/lulu_e/parameters/shield_ap_ratio",
+      "skillKey": "lulu_e",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端TotalShield树按等级索引1消费ShieldAPRatio=0.5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 86,
+      "method": "POST",
+      "route": "/skills/lulu_e/parameters",
+      "detailRoute": "/skills/lulu_e/parameters/shield_duration_ms",
+      "skillKey": "lulu_e",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "客户端ShieldDuration按等级索引1取2.5秒，转换为2500毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 87,
+      "method": "POST",
+      "route": "/skills/lulu_e/parameters",
+      "detailRoute": "/skills/lulu_e/parameters/pix_ally_duration_ms",
+      "skillKey": "lulu_e",
+      "kind": "parameters",
+      "stableKey": "pix_ally_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "pix_ally_duration_ms",
+        "name": "皮克斯友方附着持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "客户端PixOnAllyDuration按等级索引1取6秒，转换为6000毫秒；附着时序待补。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 88,
+      "method": "POST",
+      "route": "/skills/lulu_e/parameters",
+      "detailRoute": "/skills/lulu_e/parameters/pix_enemy_duration_ms",
+      "skillKey": "lulu_e",
+      "kind": "parameters",
+      "stableKey": "pix_enemy_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "pix_enemy_duration_ms",
+        "name": "皮克斯敌方附着持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端PixOnEnemyDuration按等级索引1取4秒，转换为4000毫秒；只作来源参数。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 89,
+      "method": "POST",
+      "route": "/skills/lulu_e/formulas",
+      "detailRoute": "/skills/lulu_e/formulas/magic_damage",
+      "skillKey": "lulu_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "帮忙皮克斯对唯一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + DamageAPRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 90,
+      "method": "POST",
+      "route": "/skills/lulu_e/formulas",
+      "detailRoute": "/skills/lulu_e/formulas/shield_value",
+      "skillKey": "lulu_e",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "帮忙皮克斯自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalShield = BaseShield + ShieldAPRatio×来源总法强；只保留自身可得路径。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 91,
+      "method": "POST",
+      "route": "/skills/lulu_e/effects",
+      "detailRoute": "/skills/lulu_e/effects/mana_cost",
+      "skillKey": "lulu_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录lulu_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 92,
+      "method": "POST",
+      "route": "/skills/lulu_e/effects",
+      "detailRoute": "/skills/lulu_e/effects/self_shield",
+      "skillKey": "lulu_e",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "帮忙皮克斯自身护盾",
+        "description": "保留当前TotalShield和2.5秒生命周期；友方/敌方目标分支及皮克斯附着时序待补。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "帮忙皮克斯自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 93,
+      "method": "POST",
+      "route": "/skills/lulu_r/parameters",
+      "detailRoute": "/skills/lulu_r/parameters/bonus_health",
+      "skillKey": "lulu_r",
+      "kind": "parameters",
+      "stableKey": "bonus_health",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_health",
+        "name": "额外生命值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 275,
+          "2": 425,
+          "3": 575
+        },
+        "description": "客户端DataValues.BonusHealth取等级索引1至3，得到275/425/575。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 94,
+      "method": "POST",
+      "route": "/skills/lulu_r/parameters",
+      "detailRoute": "/skills/lulu_r/parameters/slow_percent_points",
+      "skillKey": "lulu_r",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "范围减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60
+        },
+        "description": "客户端DataValues.SlowPercent取等级索引1至3，得到30/45/60；只作唯一敌人控制参数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 95,
+      "method": "POST",
+      "route": "/skills/lulu_r/parameters",
+      "detailRoute": "/skills/lulu_r/parameters/buff_duration_ms",
+      "skillKey": "lulu_r",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "生命增益持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7000,
+        "levelValues": null,
+        "description": "客户端BuffDuration按等级索引1取7秒，转换为7000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 96,
+      "method": "POST",
+      "route": "/skills/lulu_r/parameters",
+      "detailRoute": "/skills/lulu_r/parameters/aoe_radius",
+      "skillKey": "lulu_r",
+      "kind": "parameters",
+      "stableKey": "aoe_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "aoe_radius",
+        "name": "范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 400,
+        "levelValues": null,
+        "description": "客户端AoERadius按等级索引1取400；额外目标分配不展开。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 97,
+      "method": "POST",
+      "route": "/skills/lulu_r/parameters",
+      "detailRoute": "/skills/lulu_r/parameters/knockup_duration_ms",
+      "skillKey": "lulu_r",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockup_duration_ms",
+        "name": "击飞持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "客户端KnockbackDuration按等级索引1取1秒，转换为1000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 98,
+      "method": "POST",
+      "route": "/skills/lulu_r/parameters",
+      "detailRoute": "/skills/lulu_r/parameters/knockback_distance",
+      "skillKey": "lulu_r",
+      "kind": "parameters",
+      "stableKey": "knockback_distance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockback_distance",
+        "name": "击退距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 275,
+        "levelValues": null,
+        "description": "客户端KnockbackDistance按等级索引1取275；不展开位移过程。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 99,
+      "method": "POST",
+      "route": "/skills/lulu_r/parameters",
+      "detailRoute": "/skills/lulu_r/parameters/bonus_health_ap_ratio",
+      "skillKey": "lulu_r",
+      "kind": "parameters",
+      "stableKey": "bonus_health_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_health_ap_ratio",
+        "name": "额外生命值法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "TotalBonusHealth树的StatByCoefficient系数为0.55×来源总法强。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 100,
+      "method": "POST",
+      "route": "/skills/lulu_r/formulas",
+      "detailRoute": "/skills/lulu_r/formulas/bonus_health_value",
+      "skillKey": "lulu_r",
+      "kind": "formulas",
+      "stableKey": "bonus_health_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_health_value",
+        "name": "狂野生长自身额外生命值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_health"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalBonusHealth = BonusHealth + 0.55×来源总法强；只表达自身作为友方目标的数值路径。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 101,
+      "method": "POST",
+      "route": "/skills/lulu_r/effects",
+      "detailRoute": "/skills/lulu_r/effects/mana_cost",
+      "skillKey": "lulu_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录lulu_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 102,
+      "method": "POST",
+      "route": "/skills/lulu_r/effects",
+      "detailRoute": "/skills/lulu_r/effects/self_max_health",
+      "skillKey": "lulu_r",
+      "kind": "effects",
+      "stableKey": "self_max_health",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_max_health",
+        "name": "狂野生长自身额外生命值",
+        "description": "保留自身作为合法友方目标时的最大生命值增益；额外敌人击飞和减速仅作参数，未创建控制结果。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "狂野生长自身额外生命值",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "bonus_health_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "hp",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 103,
+      "method": "POST",
+      "route": "/skills/nami_p/parameters",
+      "detailRoute": "/skills/nami_p/parameters/flat_move_speed",
+      "skillKey": "nami_p",
+      "kind": "parameters",
+      "stableKey": "flat_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "flat_move_speed",
+        "name": "踏浪之行固定移动速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "description": "客户端DataValues.FlatMS为100；当前正文只直接证明友方英雄命中后的收益。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 104,
+      "method": "POST",
+      "route": "/skills/nami_p/parameters",
+      "detailRoute": "/skills/nami_p/parameters/buff_duration_ms",
+      "skillKey": "nami_p",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "踏浪之行持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端BuffDuration为1.5秒，转换为1500毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 105,
+      "method": "POST",
+      "route": "/skills/nami_p/parameters",
+      "detailRoute": "/skills/nami_p/parameters/ultimate_multiplier",
+      "skillKey": "nami_p",
+      "kind": "parameters",
+      "stableKey": "ultimate_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ultimate_multiplier",
+        "name": "大招命中移动速度倍数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "客户端DataValues.UltMult为2；大招触发条件保留为待核。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 106,
+      "method": "POST",
+      "route": "/skills/nami_p/parameters",
+      "detailRoute": "/skills/nami_p/parameters/ability_power_ratio",
+      "skillKey": "nami_p",
+      "kind": "parameters",
+      "stableKey": "ability_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "移动速度法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "TotalMSBonus树的StatByCoefficient系数为0.25×来源总法强；属性选择器为同版窄口径。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 107,
+      "method": "POST",
+      "route": "/skills/nami_p/formulas",
+      "detailRoute": "/skills/nami_p/formulas/movement_speed_bonus",
+      "skillKey": "nami_p",
+      "kind": "formulas",
+      "stableKey": "movement_speed_bonus",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "movement_speed_bonus",
+        "name": "踏浪之行移动速度加成",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_move_speed"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalMSBonus = FlatMS + 0.25×来源总法强；触发对象仍按友方命中正文判断。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 108,
+      "method": "POST",
+      "route": "/skills/nami_q/parameters",
+      "detailRoute": "/skills/nami_q/parameters/base_damage",
+      "skillKey": "nami_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 90,
+          "2": 145,
+          "3": 200,
+          "4": 255,
+          "5": 310
+        },
+        "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位35。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 109,
+      "method": "POST",
+      "route": "/skills/nami_q/parameters",
+      "detailRoute": "/skills/nami_q/parameters/ap_ratio",
+      "skillKey": "nami_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端TotalDamageTT树消费APRatio=0.5×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 110,
+      "method": "POST",
+      "route": "/skills/nami_q/parameters",
+      "detailRoute": "/skills/nami_q/parameters/stun_duration_ms",
+      "skillKey": "nami_q",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "击飞控制持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端StunDuration为1.5秒，转换为1500毫秒；控制结果待事件接线。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 111,
+      "method": "POST",
+      "route": "/skills/nami_q/formulas",
+      "detailRoute": "/skills/nami_q/formulas/magic_damage",
+      "skillKey": "nami_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "碧波之牢唯一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTT = BaseDamage + APRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 112,
+      "method": "POST",
+      "route": "/skills/nami_q/effects",
+      "detailRoute": "/skills/nami_q/effects/mana_cost",
+      "skillKey": "nami_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录nami_q的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 113,
+      "method": "POST",
+      "route": "/skills/nami_w/parameters",
+      "detailRoute": "/skills/nami_w/parameters/base_damage",
+      "skillKey": "nami_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位25。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 114,
+      "method": "POST",
+      "route": "/skills/nami_w/parameters",
+      "detailRoute": "/skills/nami_w/parameters/base_heal",
+      "skillKey": "nami_w",
+      "kind": "parameters",
+      "stableKey": "base_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_heal",
+        "name": "基础治疗量",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 80,
+          "3": 105,
+          "4": 130,
+          "5": 155
+        },
+        "description": "客户端DataValues.BaseHeal取索引1至5；索引0为旧占位30。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 115,
+      "method": "POST",
+      "route": "/skills/nami_w/parameters",
+      "detailRoute": "/skills/nami_w/parameters/damage_ap_ratio",
+      "skillKey": "nami_w",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端TotalDamage树消费DamageAPRatio=0.5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 116,
+      "method": "POST",
+      "route": "/skills/nami_w/parameters",
+      "detailRoute": "/skills/nami_w/parameters/heal_ap_ratio",
+      "skillKey": "nami_w",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "治疗法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "客户端TotalHeal树消费HealAPRatio=0.4。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 117,
+      "method": "POST",
+      "route": "/skills/nami_w/parameters",
+      "detailRoute": "/skills/nami_w/parameters/bounce_base_percent_points",
+      "skillKey": "nami_w",
+      "kind": "parameters",
+      "stableKey": "bounce_base_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bounce_base_percent_points",
+        "name": "弹跳基础百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": -20,
+        "levelValues": null,
+        "description": "客户端BounceRatio为-20；BounceScaling根树再乘0.01。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 118,
+      "method": "POST",
+      "route": "/skills/nami_w/parameters",
+      "detailRoute": "/skills/nami_w/parameters/bounce_ap_ratio",
+      "skillKey": "nami_w",
+      "kind": "parameters",
+      "stableKey": "bounce_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bounce_ap_ratio",
+        "name": "弹跳法强百分比点系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "客户端BounceRatioScaling为0.15；只作用弹跳修正项。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 119,
+      "method": "POST",
+      "route": "/skills/nami_w/parameters",
+      "detailRoute": "/skills/nami_w/parameters/max_targets",
+      "skillKey": "nami_w",
+      "kind": "parameters",
+      "stableKey": "max_targets",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_targets",
+        "name": "最多不同目标数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端MaxTargets为3；本轮一对一实际最多自身和唯一敌人两个不同目标，不能把3当必达总跳数。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 120,
+      "method": "POST",
+      "route": "/skills/nami_w/parameters",
+      "detailRoute": "/skills/nami_w/parameters/percent_points_to_ratio",
+      "skillKey": "nami_w",
+      "kind": "parameters",
+      "stableKey": "percent_points_to_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_points_to_ratio",
+        "name": "弹跳百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "BounceScaling根乘数为0.01。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 121,
+      "method": "POST",
+      "route": "/skills/nami_w/parameters",
+      "detailRoute": "/skills/nami_w/parameters/one_ratio",
+      "skillKey": "nami_w",
+      "kind": "parameters",
+      "stableKey": "one_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "one_ratio",
+        "name": "完整倍率基准",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "为二元树表达1+BounceScaling提供固定基准，不是新的游戏参数。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 122,
+      "method": "POST",
+      "route": "/skills/nami_w/formulas",
+      "detailRoute": "/skills/nami_w/formulas/first_damage",
+      "skillKey": "nami_w",
+      "kind": "formulas",
+      "stableKey": "first_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "first_damage",
+        "name": "冲击之潮首个敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + DamageAPRatio×来源总法强；起点是敌人时为第一段。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 123,
+      "method": "POST",
+      "route": "/skills/nami_w/formulas",
+      "detailRoute": "/skills/nami_w/formulas/first_heal",
+      "skillKey": "nami_w",
+      "kind": "formulas",
+      "stableKey": "first_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "first_heal",
+        "name": "冲击之潮首个自身治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalHeal = BaseHeal + HealAPRatio×来源总法强；起点是自身时为第一段。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 124,
+      "method": "POST",
+      "route": "/skills/nami_w/formulas",
+      "detailRoute": "/skills/nami_w/formulas/bounce_scaling_ratio",
+      "skillKey": "nami_w",
+      "kind": "formulas",
+      "stableKey": "bounce_scaling_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bounce_scaling_ratio",
+        "name": "冲击之潮弹跳修正比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_points_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bounce_base_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bounce_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BounceScaling = 0.01×(BounceRatio + BounceRatioScaling×来源总法强)。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 125,
+      "method": "POST",
+      "route": "/skills/nami_w/formulas",
+      "detailRoute": "/skills/nami_w/formulas/bounced_damage",
+      "skillKey": "nami_w",
+      "kind": "formulas",
+      "stableKey": "bounced_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bounced_damage",
+        "name": "冲击之潮第二目标魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_points_to_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bounce_base_percent_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bounce_ap_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "ability_power",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "第二目标伤害 = 首个伤害×(1+BounceScaling)；接口公式只能引用参数，故内联首段和弹跳修正；一对一只允许敌人和自身各一次。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 126,
+      "method": "POST",
+      "route": "/skills/nami_w/formulas",
+      "detailRoute": "/skills/nami_w/formulas/bounced_heal",
+      "skillKey": "nami_w",
+      "kind": "formulas",
+      "stableKey": "bounced_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bounced_heal",
+        "name": "冲击之潮第二目标自身治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_points_to_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bounce_base_percent_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bounce_ap_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "ability_power",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "第二目标治疗 = 首个治疗×(1+BounceScaling)；接口公式只能引用参数，故内联首段和弹跳修正；不创建直接治疗结果。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 127,
+      "method": "POST",
+      "route": "/skills/nami_w/effects",
+      "detailRoute": "/skills/nami_w/effects/mana_cost",
+      "skillKey": "nami_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录nami_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 128,
+      "method": "POST",
+      "route": "/skills/nami_e/parameters",
+      "detailRoute": "/skills/nami_e/parameters/base_damage",
+      "skillKey": "nami_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "附加基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 35,
+          "3": 50,
+          "4": 65,
+          "5": 80
+        },
+        "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 129,
+      "method": "POST",
+      "route": "/skills/nami_e/parameters",
+      "detailRoute": "/skills/nami_e/parameters/damage_ap_ratio",
+      "skillKey": "nami_e",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "附加伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端TotalDamage树消费DamageRatio=0.2。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 130,
+      "method": "POST",
+      "route": "/skills/nami_e/parameters",
+      "detailRoute": "/skills/nami_e/parameters/slow_percent_points",
+      "skillKey": "nami_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "附加减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 15,
+          "2": 20,
+          "3": 25,
+          "4": 30,
+          "5": 35
+        },
+        "description": "客户端DataValues.BaseSlow取索引1至5；TotalSlow根树再乘0.01。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 131,
+      "method": "POST",
+      "route": "/skills/nami_e/parameters",
+      "detailRoute": "/skills/nami_e/parameters/slow_ap_ratio",
+      "skillKey": "nami_e",
+      "kind": "parameters",
+      "stableKey": "slow_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ap_ratio",
+        "name": "减速法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "客户端TotalSlow树消费SlowRatio=0.05。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 132,
+      "method": "POST",
+      "route": "/skills/nami_e/parameters",
+      "detailRoute": "/skills/nami_e/parameters/slow_duration_ms",
+      "skillKey": "nami_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "客户端SlowDuration为1秒，转换为1000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 133,
+      "method": "POST",
+      "route": "/skills/nami_e/parameters",
+      "detailRoute": "/skills/nami_e/parameters/empowered_hit_count",
+      "skillKey": "nami_e",
+      "kind": "parameters",
+      "stableKey": "empowered_hit_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_hit_count",
+        "name": "可强化攻击或技能次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端HitCount为3；实际攻击/技能扣除时点待接线。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 134,
+      "method": "POST",
+      "route": "/skills/nami_e/parameters",
+      "detailRoute": "/skills/nami_e/parameters/buff_duration_ms",
+      "skillKey": "nami_e",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "强化持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "客户端BuffDuration为6秒，转换为6000毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 135,
+      "method": "POST",
+      "route": "/skills/nami_e/parameters",
+      "detailRoute": "/skills/nami_e/parameters/percent_points_to_ratio",
+      "skillKey": "nami_e",
+      "kind": "parameters",
+      "stableKey": "percent_points_to_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_points_to_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "客户端TotalSlow根乘数为0.01，将BaseSlow与法强项的百分数点换为比例。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 136,
+      "method": "POST",
+      "route": "/skills/nami_e/formulas",
+      "detailRoute": "/skills/nami_e/formulas/bonus_magic_damage_per_hit",
+      "skillKey": "nami_e",
+      "kind": "formulas",
+      "stableKey": "bonus_magic_damage_per_hit",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_magic_damage_per_hit",
+        "name": "唤潮之佑每次附加魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + DamageRatio×来源总法强；每次命中只给出单次量。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 137,
+      "method": "POST",
+      "route": "/skills/nami_e/formulas",
+      "detailRoute": "/skills/nami_e/formulas/slow_ratio",
+      "skillKey": "nami_e",
+      "kind": "formulas",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "slow_ratio",
+        "name": "唤潮之佑附加减速比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_points_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "slow_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "slow_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalSlow = 0.01×(BaseSlow + SlowRatio×来源总法强)。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 138,
+      "method": "POST",
+      "route": "/skills/nami_e/effects",
+      "detailRoute": "/skills/nami_e/effects/mana_cost",
+      "skillKey": "nami_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录nami_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 139,
+      "method": "POST",
+      "route": "/skills/nami_r/parameters",
+      "detailRoute": "/skills/nami_r/parameters/base_damage",
+      "skillKey": "nami_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "客户端DataValues.BaseDamage取索引1至3；索引0为旧占位50。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 140,
+      "method": "POST",
+      "route": "/skills/nami_r/parameters",
+      "detailRoute": "/skills/nami_r/parameters/ap_ratio",
+      "skillKey": "nami_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "TotalDamage树的StatByCoefficient系数为0.6×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 141,
+      "method": "POST",
+      "route": "/skills/nami_r/parameters",
+      "detailRoute": "/skills/nami_r/parameters/passive_update_area_length",
+      "skillKey": "nami_r",
+      "kind": "parameters",
+      "stableKey": "passive_update_area_length",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_update_area_length",
+        "name": "被动更新范围长度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 200,
+        "levelValues": null,
+        "description": "客户端PassiveUpdateAreaLength为200；只作来源参数。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 142,
+      "method": "POST",
+      "route": "/skills/nami_r/parameters",
+      "detailRoute": "/skills/nami_r/parameters/knockup_duration_ms",
+      "skillKey": "nami_r",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockup_duration_ms",
+        "name": "击飞持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "客户端KnockupDuration为0.5秒，转换为500毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 143,
+      "method": "POST",
+      "route": "/skills/nami_r/parameters",
+      "detailRoute": "/skills/nami_r/parameters/min_slow_duration_ms",
+      "skillKey": "nami_r",
+      "kind": "parameters",
+      "stableKey": "min_slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "min_slow_duration_ms",
+        "name": "最短减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端MinSlowDuration为2秒，转换为2000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 144,
+      "method": "POST",
+      "route": "/skills/nami_r/parameters",
+      "detailRoute": "/skills/nami_r/parameters/max_slow_duration_ms",
+      "skillKey": "nami_r",
+      "kind": "parameters",
+      "stableKey": "max_slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_slow_duration_ms",
+        "name": "最长减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端MaxSlowDuration为4秒，转换为4000毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 145,
+      "method": "POST",
+      "route": "/skills/nami_r/parameters",
+      "detailRoute": "/skills/nami_r/parameters/distance_to_slow_ratio",
+      "skillKey": "nami_r",
+      "kind": "parameters",
+      "stableKey": "distance_to_slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "distance_to_slow_ratio",
+        "name": "距离到减速持续时间比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.002,
+        "levelValues": null,
+        "description": "客户端DistToSlowRatio为0.002；距离单位和实际曲线待接，不能自行取整。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 146,
+      "method": "POST",
+      "route": "/skills/nami_r/parameters",
+      "detailRoute": "/skills/nami_r/parameters/slow_percent_points",
+      "skillKey": "nami_r",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 70,
+        "levelValues": null,
+        "description": "客户端SlowAmount为70；只保留控制参数。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 147,
+      "method": "POST",
+      "route": "/skills/nami_r/formulas",
+      "detailRoute": "/skills/nami_r/formulas/magic_damage",
+      "skillKey": "nami_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "怒涛之啸唯一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + 0.6×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 148,
+      "method": "POST",
+      "route": "/skills/nami_r/effects",
+      "detailRoute": "/skills/nami_r/effects/mana_cost",
+      "skillKey": "nami_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录nami_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 149,
+      "method": "POST",
+      "route": "/skills/morgana_p/parameters",
+      "detailRoute": "/skills/morgana_p/parameters/heal_percent_points",
+      "skillKey": "morgana_p",
+      "kind": "parameters",
+      "stableKey": "heal_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_percent_points",
+        "name": "符合条件伤害治疗百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 18,
+        "levelValues": null,
+        "description": "客户端DataValues.HealPercent为18；正文明确对符合目标的技能伤害回复该百分比。没有计算树，不造直接治疗量。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 150,
+      "method": "POST",
+      "route": "/skills/morgana_q/parameters",
+      "detailRoute": "/skills/morgana_q/parameters/base_damage",
+      "skillKey": "morgana_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 135,
+          "3": 190,
+          "4": 245,
+          "5": 300
+        },
+        "description": "客户端DataValues.Damage取索引1至5；索引0为旧占位25。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 151,
+      "method": "POST",
+      "route": "/skills/morgana_q/parameters",
+      "detailRoute": "/skills/morgana_q/parameters/ap_ratio",
+      "skillKey": "morgana_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.9,
+        "levelValues": null,
+        "description": "TotalDamage树的StatByCoefficient系数为0.9×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 152,
+      "method": "POST",
+      "route": "/skills/morgana_q/parameters",
+      "detailRoute": "/skills/morgana_q/parameters/root_duration_ms",
+      "skillKey": "morgana_q",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "禁锢持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2000,
+          "2": 2250,
+          "3": 2500,
+          "4": 2750,
+          "5": 3000
+        },
+        "description": "客户端RootDuration取索引1至5，单位秒转换为2000/2250/2500/2750/3000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 153,
+      "method": "POST",
+      "route": "/skills/morgana_q/formulas",
+      "detailRoute": "/skills/morgana_q/formulas/magic_damage",
+      "skillKey": "morgana_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "暗之禁锢唯一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = Damage + 0.9×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 154,
+      "method": "POST",
+      "route": "/skills/morgana_q/effects",
+      "detailRoute": "/skills/morgana_q/effects/mana_cost",
+      "skillKey": "morgana_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录morgana_q的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 155,
+      "method": "POST",
+      "route": "/skills/morgana_w/parameters",
+      "detailRoute": "/skills/morgana_w/parameters/base_damage_per_second",
+      "skillKey": "morgana_w",
+      "kind": "parameters",
+      "stableKey": "base_damage_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage_per_second",
+        "name": "每秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 18,
+          "2": 31,
+          "3": 44,
+          "4": 57,
+          "5": 70
+        },
+        "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 156,
+      "method": "POST",
+      "route": "/skills/morgana_w/parameters",
+      "detailRoute": "/skills/morgana_w/parameters/ap_ratio",
+      "skillKey": "morgana_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端TotalMinDamage树消费BaseApRatio=0.2×来源总法强；字段大小写差异不改变绑定关系。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 157,
+      "method": "POST",
+      "route": "/skills/morgana_w/parameters",
+      "detailRoute": "/skills/morgana_w/parameters/tick_interval_ms",
+      "skillKey": "morgana_w",
+      "kind": "parameters",
+      "stableKey": "tick_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tick_interval_ms",
+        "name": "持续伤害间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "客户端TickRate为0.5秒，转换为500毫秒；每秒伤害与每跳结算仍分开。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 158,
+      "method": "POST",
+      "route": "/skills/morgana_w/parameters",
+      "detailRoute": "/skills/morgana_w/parameters/maximum_missing_health_amplification_ratio",
+      "skillKey": "morgana_w",
+      "kind": "parameters",
+      "stableKey": "maximum_missing_health_amplification_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_missing_health_amplification_ratio",
+        "name": "最大缺失生命增幅比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端TotalMaxDamage乘数为1+MissingHealthAmpPercent；实际目标缺失生命曲线无默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 159,
+      "method": "POST",
+      "route": "/skills/morgana_w/parameters",
+      "detailRoute": "/skills/morgana_w/parameters/duration_ms",
+      "skillKey": "morgana_w",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "区域持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端WDuration为5秒，转换为5000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 160,
+      "method": "POST",
+      "route": "/skills/morgana_w/parameters",
+      "detailRoute": "/skills/morgana_w/parameters/passive_heal_cooldown_refund_ratio",
+      "skillKey": "morgana_w",
+      "kind": "parameters",
+      "stableKey": "passive_heal_cooldown_refund_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_heal_cooldown_refund_ratio",
+        "name": "被动治疗后W冷却返还比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "当前正文明确莫甘娜被P治疗时W冷却减少5%；只保留条件参数，不创建无条件冷却效果。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 161,
+      "method": "POST",
+      "route": "/skills/morgana_w/parameters",
+      "detailRoute": "/skills/morgana_w/parameters/one_ratio",
+      "skillKey": "morgana_w",
+      "kind": "parameters",
+      "stableKey": "one_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "one_ratio",
+        "name": "完整倍率基准",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "为1+MissingHealthAmpPercent提供固定二元叶子。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 162,
+      "method": "POST",
+      "route": "/skills/morgana_w/formulas",
+      "detailRoute": "/skills/morgana_w/formulas/minimum_magic_damage_per_second",
+      "skillKey": "morgana_w",
+      "kind": "formulas",
+      "stableKey": "minimum_magic_damage_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "minimum_magic_damage_per_second",
+        "name": "折磨之影最低每秒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage_per_second"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalMinDamage = BaseDamage + BaseApRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 163,
+      "method": "POST",
+      "route": "/skills/morgana_w/formulas",
+      "detailRoute": "/skills/morgana_w/formulas/maximum_magic_damage_per_second",
+      "skillKey": "morgana_w",
+      "kind": "formulas",
+      "stableKey": "maximum_magic_damage_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "maximum_magic_damage_per_second",
+        "name": "折磨之影最高每秒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage_per_second"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "maximum_missing_health_amplification_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalMaxDamage = (1+MissingHealthAmpPercent)×TotalMinDamage；接口公式只能引用参数，故内联最低式；实际缺失生命曲线不当作默认最大值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 164,
+      "method": "POST",
+      "route": "/skills/morgana_w/effects",
+      "detailRoute": "/skills/morgana_w/effects/mana_cost",
+      "skillKey": "morgana_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录morgana_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 165,
+      "method": "POST",
+      "route": "/skills/morgana_e/parameters",
+      "detailRoute": "/skills/morgana_e/parameters/base_shield",
+      "skillKey": "morgana_e",
+      "kind": "parameters",
+      "stableKey": "base_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_shield",
+        "name": "基础魔法护盾值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 155,
+          "3": 210,
+          "4": 265,
+          "5": 320
+        },
+        "description": "客户端DataValues.ShieldStrength取索引1至5；索引0为旧占位45。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 166,
+      "method": "POST",
+      "route": "/skills/morgana_e/parameters",
+      "detailRoute": "/skills/morgana_e/parameters/shield_duration_ms",
+      "skillKey": "morgana_e",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端ShieldDuration为5秒，转换为5000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 167,
+      "method": "POST",
+      "route": "/skills/morgana_e/parameters",
+      "detailRoute": "/skills/morgana_e/parameters/shield_ap_ratio",
+      "skillKey": "morgana_e",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "TotalShieldStrength树的StatByCoefficient系数为0.7×来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 168,
+      "method": "POST",
+      "route": "/skills/morgana_e/formulas",
+      "detailRoute": "/skills/morgana_e/formulas/magic_shield_value",
+      "skillKey": "morgana_e",
+      "kind": "formulas",
+      "stableKey": "magic_shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_shield_value",
+        "name": "黑暗之盾自身魔法护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalShieldStrength = ShieldStrength + 0.7×来源总法强；只表达普通魔法护盾数值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 169,
+      "method": "POST",
+      "route": "/skills/morgana_e/effects",
+      "detailRoute": "/skills/morgana_e/effects/mana_cost",
+      "skillKey": "morgana_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录morgana_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 170,
+      "method": "POST",
+      "route": "/skills/morgana_e/effects",
+      "detailRoute": "/skills/morgana_e/effects/magic_shield",
+      "skillKey": "morgana_e",
+      "kind": "effects",
+      "stableKey": "magic_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "magic_shield",
+        "name": "黑暗之盾自身魔法护盾",
+        "description": "当前正文和Trait_Shield明确吸收魔法伤害；Trait_CCImmune代表限制/定身免疫语义，不能把它改写成一次性法术护盾。自身目标资格和控制免疫接线待补。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "黑暗之盾自身魔法护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": "magic",
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 171,
+      "method": "POST",
+      "route": "/skills/morgana_r/parameters",
+      "detailRoute": "/skills/morgana_r/parameters/base_damage",
+      "skillKey": "morgana_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200,
+          "2": 275,
+          "3": 350
+        },
+        "description": "客户端DataValues.Damage取索引1至3；索引0为旧占位125。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 172,
+      "method": "POST",
+      "route": "/skills/morgana_r/parameters",
+      "detailRoute": "/skills/morgana_r/parameters/ap_ratio",
+      "skillKey": "morgana_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "TotalDamage树的StatByCoefficient系数为0.8×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 173,
+      "method": "POST",
+      "route": "/skills/morgana_r/parameters",
+      "detailRoute": "/skills/morgana_r/parameters/chain_duration_ms",
+      "skillKey": "morgana_r",
+      "kind": "parameters",
+      "stableKey": "chain_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "chain_duration_ms",
+        "name": "锁链持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端ChainDuration为3秒，转换为3000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 174,
+      "method": "POST",
+      "route": "/skills/morgana_r/parameters",
+      "detailRoute": "/skills/morgana_r/parameters/stun_duration_ms",
+      "skillKey": "morgana_r",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "后续眩晕持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1500,
+          "2": 1750,
+          "3": 2000
+        },
+        "description": "客户端StunDuration取索引1至3，单位秒转换为1500/1750/2000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 175,
+      "method": "POST",
+      "route": "/skills/morgana_r/parameters",
+      "detailRoute": "/skills/morgana_r/parameters/slow_percent_points",
+      "skillKey": "morgana_r",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "客户端SlowPercent为20；控制效果仅作来源参数。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 176,
+      "method": "POST",
+      "route": "/skills/morgana_r/parameters",
+      "detailRoute": "/skills/morgana_r/parameters/self_haste_percent_points",
+      "skillKey": "morgana_r",
+      "kind": "parameters",
+      "stableKey": "self_haste_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_haste_percent_points",
+        "name": "自身移速加成百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 40,
+          "3": 60
+        },
+        "description": "客户端HastePercent取索引1至3，得到20/40/60；索引0为占位0。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 177,
+      "method": "POST",
+      "route": "/skills/morgana_r/formulas",
+      "detailRoute": "/skills/morgana_r/formulas/magic_damage",
+      "skillKey": "morgana_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "灵魂镣铐单次唯一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = Damage + 0.8×来源总法强；同一锁链的后续命中仍由事件层决定是否再次消费。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 178,
+      "method": "POST",
+      "route": "/skills/morgana_r/effects",
+      "detailRoute": "/skills/morgana_r/effects/mana_cost",
+      "skillKey": "morgana_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录morgana_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "noApiCalls": true,
+  "apiWrites": 0
+}

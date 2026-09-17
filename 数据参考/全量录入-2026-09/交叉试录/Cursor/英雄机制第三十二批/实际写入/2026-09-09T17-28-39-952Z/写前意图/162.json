@@ -1,0 +1,23 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 162,
+    "method": "POST",
+    "route": "/skills/zeri_q/parameters",
+    "detailRoute": "/skills/zeri_q/parameters/charge_per_attack",
+    "skillKey": "zeri_q",
+    "kind": "parameters",
+    "stableKey": "charge_per_attack",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_per_attack",
+      "name": "每次攻击充能值",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10,
+      "levelValues": null,
+      "description": "当前DataValues.ChargePerAttack=10；实际充能存量由事件层提供。",
+      "sortOrder": 70
+    }
+  }
+}

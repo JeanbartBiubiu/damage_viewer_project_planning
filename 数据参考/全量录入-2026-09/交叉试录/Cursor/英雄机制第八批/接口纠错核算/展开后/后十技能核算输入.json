@@ -1,0 +1,3300 @@
+{
+  "meta": {
+    "executor": "后十初稿由Codex执行代理生成；当前20槽纠错由Codex执行代理接手，原Cursor前十生成未完成。",
+    "gameId": "lol",
+    "note": "来源冻结与当前录入分开；只计实际GET一致的组成。没有运行Wasm或战斗。本批仅补缺，不更新既有不同内容。",
+    "sources": [
+      {
+        "id": "Caitlyn",
+        "client": {
+          "path": "客户端原文/Caitlyn.json.gz",
+          "sha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+          "compressedSha256": "5a3658a4da6aeba98af280d640af142ff299f518904e1e502a4b57f40ded6079",
+          "byteSize": 50357,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/caitlyn/caitlyn.bin.json",
+          "fetchedAt": "2026-09-06T14:26:14.291Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Caitlyn.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Caitlyn.json",
+          "fetchedAt": "2026-09-06T14:12:45.377Z",
+          "byteSize": 13948,
+          "sha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248"
+        }
+      },
+      {
+        "id": "Jhin",
+        "client": {
+          "path": "客户端原文/Jhin.json.gz",
+          "sha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+          "compressedSha256": "21146e54ed3337fd2e235fd6bda961823a4834f6e068e832dc433d59b47139f7",
+          "byteSize": 59957,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+          "fetchedAt": "2026-09-06T14:26:21.201Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Jhin.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jhin.json",
+          "fetchedAt": "2026-09-06T14:12:48.393Z",
+          "byteSize": 14749,
+          "sha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15"
+        }
+      },
+      {
+        "id": "Draven",
+        "client": {
+          "path": "客户端原文/Draven.json.gz",
+          "sha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+          "compressedSha256": "91d24a2317c2a4aa55e680f13f5bd884215836fcdfbe5839961d6c36f0e3e4b0",
+          "byteSize": 70402,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/draven/draven.bin.json",
+          "fetchedAt": "2026-09-06T14:26:15.888Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Draven.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Draven.json",
+          "fetchedAt": "2026-09-06T14:12:46.143Z",
+          "byteSize": 16481,
+          "sha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488"
+        }
+      },
+      {
+        "id": "Kalista",
+        "client": {
+          "path": "客户端原文/Kalista.json.gz",
+          "sha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+          "compressedSha256": "b1240cfb91f3e7964b8d17b46c5d67f811fe62946736ee912c7edc4b0712ace5",
+          "byteSize": 119640,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kalista/kalista.bin.json",
+          "fetchedAt": "2026-09-06T14:26:22.337Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Kalista.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kalista.json",
+          "fetchedAt": "2026-09-06T14:12:48.054Z",
+          "byteSize": 12451,
+          "sha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84"
+        }
+      }
+    ],
+    "scope": "凯特琳、烬、德莱文、卡莉丝塔20槽确定组成；公共参数精确复用，候选不写API。",
+    "stage": "后十技能候选；未写业务API",
+    "generatedAt": "2026-09-09T01:41:53.560Z",
+    "apiWrites": 0
+  },
+  "skills": {
+    "draven_p": {
+      "skillKey": "draven_p",
+      "name": "德莱文联盟",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Draven",
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "spellPath": "Characters/Draven/Spells/DravenPassiveAbility/DravenPassive",
+        "clientSha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+        "officialSha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+        "currentBoundText": {
+          "binding": "Characters/Draven/Spells/DravenPassiveAbility/DravenPassive",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_DravenPassive_Name",
+              "key": "spell_dravenpassive_name",
+              "text": "德莱文联盟"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DravenPassive_Summary",
+              "key": "spell_dravenpassive_summary",
+              "text": "在接住一把旋转飞斧或者击杀了一个小兵、野怪或防御塔后，德莱文会从他的粉丝那里获得崇拜效果。击杀一名敌方英雄会为德莱文提供额外赏金，赏金的多少取决于他拥有多少层崇拜效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DravenPassive_Tooltip",
+              "key": "spell_dravenpassive_tooltip",
+              "text": "德莱文在每次击杀一个非英雄单位或防御塔、接住一把<keywordMajor>旋转飞斧</keywordMajor>时会获得@StackGain@层效果。<br><br>德莱文在击杀一名英雄后，会获得@PassiveGoldBase@+@PassiveGoldPerStack@x效果层数的金币。德莱文在阵亡时会损失@PercentOfStacksLost@%的层数。<br><br>已赚取的金币总和：<statTracking>@DravenPassiveGoldEarned@</statTracking><br>数额最高的奖励：<statTracking>@DravenPassiveHighestBounty@</statTracking>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "catch_adoration_gain",
+            "name": "接斧获得崇拜层数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.StackGain 取索引1至1。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "death_adoration_loss_ratio",
+            "name": "阵亡损失崇拜比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.PercentOfStacksLost 取索引1至1。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "catch_adoration_gain",
+          "source": "DataValues.StackGain",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "death_adoration_loss_ratio",
+          "source": "DataValues.PercentOfStacksLost",
+          "raw": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "offset": 1,
+          "values": [
+            0.5
+          ],
+          "scale": 0.01
+        }
+      ],
+      "pending": [
+        {
+          "kind": "未接线",
+          "component": "R依赖的当前崇拜层数",
+          "reason": "崇拜同时决定R处决阈值，不能与金币奖励一并排除。R保留明确当前层数输入；P接斧加层、英雄击杀消费全部层数的生命周期与跨技能状态尚未接线。"
+        },
+        {
+          "kind": "未接线",
+          "component": "战前非英雄叠层对R的依赖",
+          "reason": "当前原文明确非英雄单位/防御塔击杀与接斧获得同一崇拜层。1V1期间不模拟额外单位，但战前由这些来源累积的当前层数必须作为已核外部输入保留，不能因其常伴金币把层数清零；连续击杀小兵额外奖励数值及准确状态来源未接线。"
+        },
+        {
+          "kind": "来源",
+          "component": "死亡扣层整数舍入",
+          "reason": "当前主根给出50%扣层，但奇数层扣除的取整方式未明确；不创建取整公式或猜初始层数。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "金币与赏金统计",
+          "reason": "PassiveGoldBase、PassiveGoldPerStack及历史金币统计不影响当前1V1伤害；不录入奖励计算。"
+        },
+        {
+          "component": "非英雄战斗过程与特殊模式叠层",
+          "reason": "本批不执行对额外小兵野怪建筑的战斗，也不套用Cherry回合加层。普通模式这些来源的战前崇拜积累仍经当前层数输入进入R阈值，单列依赖保留，不能整项删除成长结果。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "金币与赏金统计",
+            "reason": "PassiveGoldBase、PassiveGoldPerStack及历史金币统计不影响当前1V1伤害；不录入奖励计算。"
+          },
+          {
+            "component": "非英雄战斗过程与特殊模式叠层",
+            "reason": "本批不执行对额外小兵野怪建筑的战斗，也不套用Cherry回合加层。普通模式这些来源的战前崇拜积累仍经当前层数输入进入R阈值，单列依赖保留，不能整项删除成长结果。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "死亡扣层整数舍入",
+            "reason": "当前主根给出50%扣层，但奇数层扣除的取整方式未明确；不创建取整公式或猜初始层数。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "未接线",
+            "component": "R依赖的当前崇拜层数",
+            "reason": "崇拜同时决定R处决阈值，不能与金币奖励一并排除。R保留明确当前层数输入；P接斧加层、英雄击杀消费全部层数的生命周期与跨技能状态尚未接线。"
+          },
+          {
+            "kind": "未接线",
+            "component": "战前非英雄叠层对R的依赖",
+            "reason": "当前原文明确非英雄单位/防御塔击杀与接斧获得同一崇拜层。1V1期间不模拟额外单位，但战前由这些来源累积的当前层数必须作为已核外部输入保留，不能因其常伴金币把层数清零；连续击杀小兵额外奖励数值及准确状态来源未接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "draven_q": {
+      "skillKey": "draven_q",
+      "name": "旋转飞斧",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Draven",
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "spellPath": "Characters/Draven/Spells/DravenSpinningAbility/DravenSpinning",
+        "clientSha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+        "officialSha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+        "currentBoundText": {
+          "binding": "Characters/Draven/Spells/DravenSpinningAbility/DravenSpinning",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_DravenSpinning_Name",
+              "key": "spell_dravenspinning_name",
+              "text": "旋转飞斧"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DravenSpinning_Summary",
+              "key": "spell_dravenspinning_summary",
+              "text": "德莱文的下次攻击会造成额外物理伤害。这个斧头将会从目标身上弹到高空。如果德莱文接住了它，那么会立刻准备好下一发旋转飞斧。德莱文可以同时拥有2发旋转飞斧。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DravenSpinning_Tooltip",
+              "key": "spell_dravenspinning_tooltip",
+              "text": "德莱文准备好一把<keywordMajor>旋转飞斧</keywordMajor>，使他的下一次攻击造成额外的<physicalDamage>@TotalDamage@物理伤害</physicalDamage>然后弹到空中。如果德莱文接住了它，那么他会准备好另一把<keywordMajor>旋转飞斧</keywordMajor>。<br><br>德莱文可以同时持有2把<keywordMajor>旋转飞斧</keywordMajor>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_DravenQ_TooltipExtendedBelowLine",
+              "key": "spell_dravenq_tooltipextendedbelowline",
+              "text": "<rules>德莱文如果在@DurationTOOLTIP@秒里不进行攻击的话，就会扔掉任何<keywordMajor>旋转飞斧</keywordMajor>。攻击防御塔或建筑物将不会导致德莱文的<keywordMajor>旋转飞斧</keywordMajor>回弹。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Draven.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 12000,
+              "2": 11000,
+              "3": 10000,
+              "4": 9000,
+              "5": 8000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Draven.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 45,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_bonus_damage",
+            "name": "旋转飞斧额外基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "旋转飞斧额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.75,
+              "2": 0.85,
+              "3": 0.95,
+              "4": 1.05,
+              "5": 1.15
+            },
+            "description": "客户端当前根绑定 DataValues.ADScaling 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "idle_axe_expiry_ms",
+            "name": "未攻击丢弃飞斧说明期限（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DurationTOOLTIP 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "max_held_axes",
+            "name": "可同时持有飞斧数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前主技能官方与mLocKeys均明确可同时持有2把旋转飞斧。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "bonus_attack_damage",
+            "name": "旋转飞斧额外物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_bonus_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "当前主根40/45/50/55/60 + .75/.85/.95/1.05/1.15额外攻击力；是普通攻击的额外部分，不再加第二份基础普攻。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            12000,
+            11000,
+            10000,
+            9000,
+            8000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            45,
+            45,
+            45,
+            45,
+            45
+          ]
+        },
+        {
+          "parameterKey": "base_bonus_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            35,
+            40,
+            45,
+            50,
+            55,
+            60,
+            65
+          ],
+          "offset": 1,
+          "values": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "DataValues.ADScaling",
+          "raw": [
+            0.6499999761581421,
+            0.75,
+            0.8500000238418579,
+            0.949999988079071,
+            1.0499999523162842,
+            1.149999976158142,
+            1.25
+          ],
+          "offset": 1,
+          "values": [
+            0.75,
+            0.85,
+            0.95,
+            1.05,
+            1.15
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "idle_axe_expiry_ms",
+          "source": "DataValues.DurationTOOLTIP",
+          "raw": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "offset": 1,
+          "values": [
+            6000,
+            6000,
+            6000,
+            6000,
+            6000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "max_held_axes",
+          "source": "mLocKeys.keyTooltip",
+          "values": [
+            2
+          ]
+        },
+        {
+          "semantic": "攻击力加成值",
+          "source": "mSpellCalculations.TotalDamage",
+          "raw": {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "ADScaling",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "independentEvidence": "当前Draven R升级列表RCoefficient明确nameOverride=Spell_ListType_BonusADRatio；同mStat2/mStatFormula2组合。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "施放过程与冷却起算",
+          "reason": "消耗和基础冷却参数已核对；独立法力消耗效果未接施放过程，不根据通用helper猜当前技能的起算点、蓄留或再次施放行为。"
+        },
+        {
+          "kind": "来源",
+          "component": "飞斧期限差异",
+          "reason": "当前说明DurationTOOLTIP=6秒未攻击丢弃；同根AxeDuration=5.75秒用途未明确，不能替换成5.75秒生命周期。"
+        },
+        {
+          "kind": "未接线",
+          "component": "飞斧状态与接住后的三处联动",
+          "reason": "真实持斧攻击、消耗、接住、P加层和W重置必须保持同一因果；不在每次普通攻击无条件造成Q额外伤害，不用落点空间跳过理由删掉P/W依赖。"
+        },
+        {
+          "kind": "来源",
+          "component": "实际伤害接线",
+          "reason": "确定伤害公式独立保留；当前资料没有足够证据确定该分支的法术护盾、暴击及吸血资格。本轮不使用默认RESULT/null或普通命中代替这些规则。"
+        },
+        {
+          "kind": "未接线",
+          "component": "真实伤害触发和供值",
+          "reason": "尚未创建伤害效果；实际命中、所属状态及本次属性输入的因果接线须在资格和来源核清后建立，不由任意命中或施放代替。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "斧头落点和建筑回弹",
+          "reason": "飞斧抛物线/落点拾取空间计算及建筑不回弹分支后置；独立额外伤害与接斧依赖仍保留。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "斧头落点和建筑回弹",
+            "reason": "飞斧抛物线/落点拾取空间计算及建筑不回弹分支后置；独立额外伤害与接斧依赖仍保留。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "施放过程与冷却起算",
+            "reason": "消耗和基础冷却参数已核对；独立法力消耗效果未接施放过程，不根据通用helper猜当前技能的起算点、蓄留或再次施放行为。"
+          },
+          {
+            "kind": "来源",
+            "component": "飞斧期限差异",
+            "reason": "当前说明DurationTOOLTIP=6秒未攻击丢弃；同根AxeDuration=5.75秒用途未明确，不能替换成5.75秒生命周期。"
+          },
+          {
+            "kind": "来源",
+            "component": "实际伤害接线",
+            "reason": "确定伤害公式独立保留；当前资料没有足够证据确定该分支的法术护盾、暴击及吸血资格。本轮不使用默认RESULT/null或普通命中代替这些规则。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "未接线",
+            "component": "飞斧状态与接住后的三处联动",
+            "reason": "真实持斧攻击、消耗、接住、P加层和W重置必须保持同一因果；不在每次普通攻击无条件造成Q额外伤害，不用落点空间跳过理由删掉P/W依赖。"
+          },
+          {
+            "kind": "未接线",
+            "component": "真实伤害触发和供值",
+            "reason": "尚未创建伤害效果；实际命中、所属状态及本次属性输入的因果接线须在资格和来源核清后建立，不由任意命中或施放代替。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "draven_w": {
+      "skillKey": "draven_w",
+      "name": "血性冲刺",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Draven",
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "spellPath": "Characters/Draven/Spells/DravenFuryAbility/DravenFury",
+        "clientSha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+        "officialSha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+        "currentBoundText": {
+          "binding": "Characters/Draven/Spells/DravenFuryAbility/DravenFury",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_DravenFury_Name",
+              "key": "spell_dravenfury_name",
+              "text": "血性冲刺"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DravenFury_Summary",
+              "key": "spell_dravenfury_summary",
+              "text": "德莱文获得移动速度和攻击速度加成。移动速度加成在持续时间过后会急剧下降。在接到一把旋转飞斧后，血性冲刺会立刻冷却完毕。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DravenFury_Tooltip",
+              "key": "spell_dravenfury_tooltip",
+              "text": "德莱文进入幽灵状态，获得在@Temp_MSDuration@秒里持续衰减的<speed>@Temp_MSMod@%移动速度</speed>和持续@Temp_ASDuration@秒的<attackSpeed>@Temp_AS@%攻击速度</attackSpeed>。<br><br>当德莱文接住一把<keywordMajor>旋转飞斧</keywordMajor>时，这个技能的冷却时间就会刷新。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_DravenFury_TooltipExtendedBelowLine",
+              "key": "spell_dravenfury_tooltipextendedbelowline",
+              "text": "<rules>【幽灵】状态的单位能够无视其它单位的碰撞体积。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Draven.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 12000,
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Draven.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 35,
+              "3": 30,
+              "4": 25,
+              "5": 20
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "attack_speed_gain_ratio",
+            "name": "血性冲刺攻击速度加成比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.2,
+              "2": 0.25,
+              "3": 0.3,
+              "4": 0.35,
+              "5": 0.4
+            },
+            "description": "客户端当前根绑定 DataValues.Temp_AS 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "attack_speed_duration_ms",
+            "name": "血性冲刺攻速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Temp_ASDuration 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "initial_move_speed_ratio",
+            "name": "血性冲刺初始移速加成比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.5,
+              "2": 0.55,
+              "3": 0.6,
+              "4": 0.65,
+              "5": 0.7
+            },
+            "description": "客户端当前根绑定 DataValues.Temp_MSMod 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "move_speed_duration_ms",
+            "name": "血性冲刺移速衰减期限（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Temp_MSDuration 取索引1至5。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "attack_speed_gain",
+            "name": "血性冲刺独立攻速加成",
+            "description": "本技能自身额外攻速增加20/25/30/35/40个百分点，持续3秒。与1.5秒移速衰减分开，不用移速结束提前移除攻速。本效果独立保存候选，实际施放与刷新接线另核。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "血性冲刺独立攻速加成",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "attack_speed_gain_ratio"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "catch_axe_cooldown_reset",
+            "name": "接住旋转飞斧后W冷却重置",
+            "description": "仅表达已发生接斧时重置本W，不是P任意加层都重置，也没有以命中事件假扮拾取。",
+            "sortOrder": 30,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "reset_w",
+                "name": "重置血性冲刺冷却",
+                "resultType": "COOLDOWN_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": null,
+                "detail": {
+                  "affectedSkillScope": {
+                    "mode": "SKILLS",
+                    "skillKeys": [
+                      "draven_w"
+                    ],
+                    "skillCategoryKeys": []
+                  },
+                  "operation": "RESET"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            12000,
+            12000,
+            12000,
+            12000,
+            12000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            40,
+            35,
+            30,
+            25,
+            20
+          ]
+        },
+        {
+          "parameterKey": "attack_speed_gain_ratio",
+          "source": "DataValues.Temp_AS",
+          "raw": [
+            20,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45
+          ],
+          "offset": 1,
+          "values": [
+            0.2,
+            0.25,
+            0.3,
+            0.35,
+            0.4
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "attack_speed_duration_ms",
+          "source": "DataValues.Temp_ASDuration",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3000,
+            3000,
+            3000,
+            3000,
+            3000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "initial_move_speed_ratio",
+          "source": "DataValues.Temp_MSMod",
+          "raw": [
+            45,
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "offset": 1,
+          "values": [
+            0.5,
+            0.55,
+            0.6,
+            0.65,
+            0.7
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "move_speed_duration_ms",
+          "source": "DataValues.Temp_MSDuration",
+          "raw": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "offset": 1,
+          "values": [
+            1500,
+            1500,
+            1500,
+            1500,
+            1500
+          ],
+          "scale": 1000
+        },
+        {
+          "semantic": "百分比文案与另一数值源交叉相等",
+          "source": "当前mLocKeys.keyTooltip/Temp_AS及AttackSpeed",
+          "temp": [
+            20,
+            25,
+            30,
+            35,
+            40
+          ],
+          "ratio": [
+            0.20000000298023224,
+            0.25,
+            0.30000001192092896,
+            0.3499999940395355,
+            0.4000000059604645
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "施放过程与冷却起算",
+          "reason": "消耗和基础冷却参数已核对；独立法力消耗效果未接施放过程，不根据通用helper猜当前技能的起算点、蓄留或再次施放行为。"
+        },
+        {
+          "kind": "未接线",
+          "component": "接斧真实事件",
+          "reason": "独立W重置效果已构造，但尚无接住旋转飞斧的真实事件或状态转换供给；不能挂任意Q命中/P层变化。"
+        },
+        {
+          "kind": "来源",
+          "component": "移动速度衰减函数",
+          "reason": "当前主文案明确1.5秒持续衰减；Temp_MSDecay负数没有单位或更新频率，不能猜线性衰减、固定周期或把整个期限写成不衰减移速。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "幽灵碰撞",
+          "reason": "无视单位碰撞体积属于本批暂不实现的纯空间行为。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "幽灵碰撞",
+            "reason": "无视单位碰撞体积属于本批暂不实现的纯空间行为。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "施放过程与冷却起算",
+            "reason": "消耗和基础冷却参数已核对；独立法力消耗效果未接施放过程，不根据通用helper猜当前技能的起算点、蓄留或再次施放行为。"
+          },
+          {
+            "kind": "来源",
+            "component": "移动速度衰减函数",
+            "reason": "当前主文案明确1.5秒持续衰减；Temp_MSDecay负数没有单位或更新频率，不能猜线性衰减、固定周期或把整个期限写成不衰减移速。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "未接线",
+            "component": "接斧真实事件",
+            "reason": "独立W重置效果已构造，但尚无接住旋转飞斧的真实事件或状态转换供给；不能挂任意Q命中/P层变化。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "draven_e": {
+      "skillKey": "draven_e",
+      "name": "开道利斧",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Draven",
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "spellPath": "Characters/Draven/Spells/DravenDoubleShotAbility/DravenDoubleShot",
+        "clientSha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+        "officialSha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+        "currentBoundText": {
+          "binding": "Characters/Draven/Spells/DravenDoubleShotAbility/DravenDoubleShot",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_DravenDoubleShot_Name",
+              "key": "spell_dravendoubleshot_name",
+              "text": "开道利斧"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DravenDoubleShot_Summary",
+              "key": "spell_dravendoubleshot_summary",
+              "text": "德莱文扔出他的斧头，对命中的目标造成物理伤害，并将他们击退至一边。被命中的目标会受到减速效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DravenDoubleShot_Tooltip",
+              "key": "spell_dravendoubleshot_tooltip",
+              "text": "德莱文抛掷一柄开山斧，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，<status>击退</status>，以及持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Draven.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 16000,
+              "2": 15000,
+              "3": 14000,
+              "4": 13000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Draven.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 70,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "开道利斧基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 75,
+              "2": 110,
+              "3": 145,
+              "4": 180,
+              "5": 215
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "开道利斧额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前TotalDamage计算树显式mStat=2/mStatFormula=2/mCoefficient=.5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "开道利斧减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.2,
+              "2": 0.25,
+              "3": 0.3,
+              "4": 0.35,
+              "5": 0.4
+            },
+            "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "开道利斧减速期限（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "knockback_duration_ms",
+            "name": "开道利斧击退期限原值（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.KnockbackDuration 取索引1至5。",
+            "sortOrder": 70
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "hit_damage",
+            "name": "开道利斧直接物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "当前主根75/110/145/180/215+.5额外攻击力。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            16000,
+            15000,
+            14000,
+            13000,
+            12000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            70,
+            70,
+            70,
+            70,
+            70
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            40,
+            75,
+            110,
+            145,
+            180,
+            215,
+            250
+          ],
+          "offset": 1,
+          "values": [
+            75,
+            110,
+            145,
+            180,
+            215
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "mSpellCalculations.TotalDamage",
+          "values": [
+            0.5
+          ]
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "source": "DataValues.SlowAmount",
+          "raw": [
+            15,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45
+          ],
+          "offset": 1,
+          "values": [
+            0.2,
+            0.25,
+            0.3,
+            0.35,
+            0.4
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "source": "DataValues.SlowDuration",
+          "raw": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "offset": 1,
+          "values": [
+            2000,
+            2000,
+            2000,
+            2000,
+            2000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "knockback_duration_ms",
+          "source": "DataValues.KnockbackDuration",
+          "raw": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "offset": 1,
+          "values": [
+            500,
+            500,
+            500,
+            500,
+            500
+          ],
+          "scale": 1000
+        },
+        {
+          "semantic": "攻击力加成值",
+          "source": "mSpellCalculations.TotalDamage",
+          "raw": {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mCoefficient": 0.5,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "independentEvidence": "当前Draven R升级列表RCoefficient明确nameOverride=Spell_ListType_BonusADRatio；同mStat2/mStatFormula2组合。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "施放过程与冷却起算",
+          "reason": "消耗和基础冷却参数已核对；独立法力消耗效果未接施放过程，不根据通用helper猜当前技能的起算点、蓄留或再次施放行为。"
+        },
+        {
+          "kind": "系统",
+          "component": "减速与击退控制",
+          "reason": "减速20/25/30/35/40%、2秒和击退0.5秒保留参数；当前目录只有眩晕，不能用眩晕代替击退、伪造减速字典或用null法术护盾范围占位。"
+        },
+        {
+          "kind": "来源",
+          "component": "实际伤害接线",
+          "reason": "确定伤害公式独立保留；当前资料没有足够证据确定该分支的法术护盾、暴击及吸血资格。本轮不使用默认RESULT/null或普通命中代替这些规则。"
+        },
+        {
+          "kind": "未接线",
+          "component": "真实伤害触发和供值",
+          "reason": "尚未创建伤害效果；实际命中、所属状态及本次属性输入的因果接线须在资格和来源核清后建立，不由任意命中或施放代替。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "横向击退路径",
+          "reason": "向两侧击退的空间路径后置，控制时长依赖没有排除。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "横向击退路径",
+            "reason": "向两侧击退的空间路径后置，控制时长依赖没有排除。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "施放过程与冷却起算",
+            "reason": "消耗和基础冷却参数已核对；独立法力消耗效果未接施放过程，不根据通用helper猜当前技能的起算点、蓄留或再次施放行为。"
+          },
+          {
+            "kind": "来源",
+            "component": "实际伤害接线",
+            "reason": "确定伤害公式独立保留；当前资料没有足够证据确定该分支的法术护盾、暴击及吸血资格。本轮不使用默认RESULT/null或普通命中代替这些规则。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "减速与击退控制",
+            "reason": "减速20/25/30/35/40%、2秒和击退0.5秒保留参数；当前目录只有眩晕，不能用眩晕代替击退、伪造减速字典或用null法术护盾范围占位。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "未接线",
+            "component": "真实伤害触发和供值",
+            "reason": "尚未创建伤害效果；实际命中、所属状态及本次属性输入的因果接线须在资格和来源核清后建立，不由任意命中或施放代替。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "draven_r": {
+      "skillKey": "draven_r",
+      "name": "冷血追命",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Draven",
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "spellPath": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast",
+        "clientSha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+        "officialSha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+        "currentBoundText": {
+          "binding": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_DravenRCast_Name",
+              "key": "spell_dravenrcast_name",
+              "text": "冷血追命"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DravenRCast_Summary",
+              "key": "spell_dravenrcast_summary",
+              "text": "德莱文掷出两柄大斧，对命中的每个单位造成物理伤害。在命中一名敌方英雄后，大斧会缓慢地调转方向，并回到德莱文身边。在斧头正在向外飞的时候，德莱文可以激活该技能来让斧头早点飞回来。每命中一个单位，伤害值就会减少。在斧头调转方向时，伤害值会重置。会处决那些生命值低于德莱文崇拜层数的敌人们。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DravenRCast_Tooltip",
+              "key": "spell_dravenrcast_tooltip",
+              "text": "德莱文猛掷出两把巨斧来造成<physicalDamage>@RCalculatedDamage@物理伤害</physicalDamage>。在命中一名英雄或<recast>再次施放</recast>之后，巨斧会掉转方向并返回德莱文处。巨斧每命中一个敌人就会降低@RDamageReductionPerHit*100@%伤害，最低降至@RMinDamagePercent@%。<br><br>如果<keywordMajor>{{ Spell_DravenRCast_Name }}</keywordMajor>使一名敌方英雄的生命值低于德莱文目前的@RPassiveStacksCoefficient*100@%<keywordMajor>{{Spell_DravenPassive_Name}}</keywordMajor>层数(@RPassiveTrueDamage@)，那么德莱文会将该英雄处决。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_DravenRCast_TooltipExtendedBelowLine",
+              "key": "spell_dravenrcast_tooltipextendedbelowline",
+              "text": "<rules>伤害衰减会在折返时重置。<br>此技能来自【被动-德莱文联盟】的处决次数：@f1@</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Draven.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 100000,
+              "2": 90000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Draven.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "冷血追命首个单位基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 200,
+              "2": 300,
+              "3": 400
+            },
+            "description": "客户端当前根绑定 DataValues.RBaseDamage 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "冷血追命额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 1.1,
+              "2": 1.3,
+              "3": 1.5
+            },
+            "description": "客户端当前根绑定 DataValues.RCoefficient 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "adoration_execute_coefficient",
+            "name": "崇拜层数处决阈值系数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.RPassiveStacksCoefficient 取索引1至3。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "current_adoration_stacks",
+            "name": "本次R伤害时当前崇拜层数",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "必须来自本德莱文P的当前非负整数层数；R本次伤害前/后但英雄击杀消费前的准确读取时点仍待接线。没有初始层数默认值。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "first_target_damage",
+            "name": "冷血追命本方向首个单位伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "每个飞行方向重置后的首个单位基础伤害200/300/400 +1.1/1.3/1.5额外攻击力；不自动合并往返两次命中。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "adoration_execute_threshold",
+            "name": "冷血追命崇拜处决生命阈值",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "current_adoration_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "adoration_execute_coefficient"
+                }
+              ]
+            },
+            "description": "R造成伤害后敌方英雄剩余生命严格低于此阈值时才满足处决；阈值为当前P崇拜层数×1，不是再追加等额真实伤害。当前仅独立数学关系，无执行绑定。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            100000,
+            90000,
+            80000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.RBaseDamage",
+          "raw": [
+            100,
+            200,
+            300,
+            400,
+            500,
+            600,
+            700
+          ],
+          "offset": 1,
+          "values": [
+            200,
+            300,
+            400
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "DataValues.RCoefficient",
+          "raw": [
+            0.8999999761581421,
+            1.100000023841858,
+            1.2999999523162842,
+            1.5,
+            1.7000000476837158,
+            1.899999976158142,
+            2.0999999046325684
+          ],
+          "offset": 1,
+          "values": [
+            1.1,
+            1.3,
+            1.5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "adoration_execute_coefficient",
+          "source": "DataValues.RPassiveStacksCoefficient",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1,
+            1,
+            1
+          ],
+          "scale": 1
+        },
+        {
+          "semantic": "攻击力加成值",
+          "source": "mSpellCalculations.RCalculatedDamage",
+          "raw": {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "RCoefficient",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "independentEvidence": "当前Draven R升级列表RCoefficient明确nameOverride=Spell_ListType_BonusADRatio；同mStat2/mStatFormula2组合。"
+        },
+        {
+          "source": "mSpellCalculations.RPassiveTrueDamage",
+          "raw": {
+            "mBuffName": "{577427b5}",
+            "mDataValue": "RPassiveStacksCoefficient",
+            "__type": "BuffCounterByNamedDataValueCalculationPart"
+          },
+          "semantic": "这是处决生命阈值，不是另一次固定真实伤害"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "施放过程与冷却起算",
+          "reason": "消耗和基础冷却参数已核对；独立法力消耗效果未接施放过程，不根据通用helper猜当前技能的起算点、蓄留或再次施放行为。"
+        },
+        {
+          "kind": "未接线",
+          "component": "同目标往返与伤后处决",
+          "reason": "同一个敌方英雄可能被去程及回程分别命中；反向时伤害重置与再次施放仍保留，不能因多目标支路后置而固定为单次伤害。处决需本次R实际造成伤害后的同一目标生命与P当前层数，不能每次施法直接处决或额外加层数真实伤害。"
+        },
+        {
+          "kind": "来源",
+          "component": "施法时间与冷却起算",
+          "reason": "当前mCastTime=.5、spellCastTime=1并存；未确认用途，不建1秒或.5秒过程来猜R起算。"
+        },
+        {
+          "kind": "来源",
+          "component": "实际伤害接线",
+          "reason": "确定伤害公式独立保留；当前资料没有足够证据确定该分支的法术护盾、暴击及吸血资格。本轮不使用默认RESULT/null或普通命中代替这些规则。"
+        },
+        {
+          "kind": "未接线",
+          "component": "真实伤害触发和供值",
+          "reason": "尚未创建伤害效果；实际命中、所属状态及本次属性输入的因果接线须在资格和来源核清后建立，不由任意命中或施放代替。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "多个单位穿透排序",
+          "reason": "主根说明与扩展文字明确伤害衰减折返重置；1V1每个方向均以唯一英雄为首个单位，因此最低50%和每命中5%不参与当前首目标公式。撤minimum_damage_ratio/damage_reduction_per_hit，原值留历史与冻结源；保留同英雄去回两次真实命中、折返重置和P崇拜处决依赖，不能简单乘2视为已命中。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "多个单位穿透排序",
+            "reason": "主根说明与扩展文字明确伤害衰减折返重置；1V1每个方向均以唯一英雄为首个单位，因此最低50%和每命中5%不参与当前首目标公式。撤minimum_damage_ratio/damage_reduction_per_hit，原值留历史与冻结源；保留同英雄去回两次真实命中、折返重置和P崇拜处决依赖，不能简单乘2视为已命中。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "施放过程与冷却起算",
+            "reason": "消耗和基础冷却参数已核对；独立法力消耗效果未接施放过程，不根据通用helper猜当前技能的起算点、蓄留或再次施放行为。"
+          },
+          {
+            "kind": "来源",
+            "component": "施法时间与冷却起算",
+            "reason": "当前mCastTime=.5、spellCastTime=1并存；未确认用途，不建1秒或.5秒过程来猜R起算。"
+          },
+          {
+            "kind": "来源",
+            "component": "实际伤害接线",
+            "reason": "确定伤害公式独立保留；当前资料没有足够证据确定该分支的法术护盾、暴击及吸血资格。本轮不使用默认RESULT/null或普通命中代替这些规则。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "未接线",
+            "component": "同目标往返与伤后处决",
+            "reason": "同一个敌方英雄可能被去程及回程分别命中；反向时伤害重置与再次施放仍保留，不能因多目标支路后置而固定为单次伤害。处决需本次R实际造成伤害后的同一目标生命与P当前层数，不能每次施法直接处决或额外加层数真实伤害。"
+          },
+          {
+            "kind": "未接线",
+            "component": "真实伤害触发和供值",
+            "reason": "尚未创建伤害效果；实际命中、所属状态及本次属性输入的因果接线须在资格和来源核清后建立，不由任意命中或施放代替。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "kalista_p": {
+      "skillKey": "kalista_p",
+      "name": "武术姿态",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Kalista",
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "spellPath": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff",
+        "clientSha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+        "officialSha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+        "currentBoundText": {
+          "binding": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff",
+          "keys": {
+            "keyTooltip": {
+              "sourceKey": "Spell_KalistaPassiveBuff_Tooltip",
+              "key": "spell_kalistapassivebuff_tooltip",
+              "text": "{{Spell_KalistaP_Tooltip_@GameModeInteger@}}"
+            },
+            "keyName": {
+              "sourceKey": "Spell_KalistaPassiveBuff_Name",
+              "key": "spell_kalistapassivebuff_name",
+              "text": "武术姿态"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KalistaPassiveBuff_Summary",
+              "key": "spell_kalistapassivebuff_summary",
+              "text": "如果卡莉丝塔在进行普攻或穿刺的同时被下达了移动指令，那么她会在发起进攻的同时朝着这个移动指令的方向位移小段距离。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_KalistaPassiveBuff_TooltipExtended",
+              "key": "spell_kalistapassivebuff_tooltipextended",
+              "text": "{{Spell_KalistaPassiveBuff_Tooltip}}<br><br><rules>卡莉丝塔的攻击无法被取消。<br>冲刺距离会随鞋子的品质而提升。</rules><br>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "普通攻击不可取消与攻击起手",
+          "reason": "当前主根扩展说明明确攻击不能取消，影响1V1动作提交而非仅视觉；没有通用动作取消资格配置，未把它伪装成属性效果。"
+        },
+        {
+          "kind": "来源",
+          "component": "当前标准模式被动正文",
+          "reason": "当前根GameModeInteger=1；mLocKeys指向动态Spell_KalistaP_Tooltip_1，但冻结中文表缺少此键。直接mBuff旧描述仍含普攻90%且子引用有其他英雄残留文案，不能据此确认当前普攻倍率。原始冲突保留在后十来源补充.json。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "武术姿态位移与鞋品质",
+          "reason": "冲刺方向、距离与鞋等级空间模拟后置；不可取消攻击的动作约束仍单独待配。"
+        },
+        {
+          "component": "特殊模式攻速转换",
+          "reason": "GameModeInteger=2只来自Cherry/URF覆盖；ModesASCap6、ModesAStoADRatio.7不套入当前普通模式。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "武术姿态位移与鞋品质",
+            "reason": "冲刺方向、距离与鞋等级空间模拟后置；不可取消攻击的动作约束仍单独待配。"
+          },
+          {
+            "component": "特殊模式攻速转换",
+            "reason": "GameModeInteger=2只来自Cherry/URF覆盖；ModesASCap6、ModesAStoADRatio.7不套入当前普通模式。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "当前标准模式被动正文",
+            "reason": "当前根GameModeInteger=1；mLocKeys指向动态Spell_KalistaP_Tooltip_1，但冻结中文表缺少此键。直接mBuff旧描述仍含普攻90%且子引用有其他英雄残留文案，不能据此确认当前普攻倍率。原始冲突保留在后十来源补充.json。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "普通攻击不可取消与攻击起手",
+            "reason": "当前主根扩展说明明确攻击不能取消，影响1V1动作提交而非仅视觉；没有通用动作取消资格配置，未把它伪装成属性效果。"
+          }
+        ],
+        "尚未接线": []
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "kalista_q": {
+      "skillKey": "kalista_q",
+      "name": "穿刺",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Kalista",
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "spellPath": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+        "clientSha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+        "officialSha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+        "currentBoundText": {
+          "binding": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_KalistaMysticShot_Name",
+              "key": "spell_kalistamysticshot_name",
+              "text": "穿刺"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KalistaMysticShot_Summary",
+              "key": "spell_kalistamysticshot_summary",
+              "text": "扔出一个快速移动的长矛。长矛在击杀敌人后会继续飞行。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_KalistaMysticShot_Tooltip",
+              "key": "spell_kalistamysticshot_tooltip",
+              "text": "卡莉丝塔掷出一支长矛，对命中的第一个目标造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。如果这个技能击杀了目标，那么长矛会继续前行，将<spellName>{{Spell_KalistaExpungeWrapper_Name}}</spellName>的层数带给命中的下一个目标。<br><br>卡莉丝塔可以在使用这个技能后使用<spellName>{{Spell_KalistaPassiveBuff_Name}}</spellName>的冲刺。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Kalista.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 9000,
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Kalista.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "穿刺基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10,
+              "2": 75,
+              "3": 140,
+              "4": 205,
+              "5": 270
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "total_ad_ratio",
+            "name": "穿刺总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.05,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.TotalADRatio 取索引1至5。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "first_target_damage",
+            "name": "穿刺首个目标物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "当前主根10/75/140/205/270 +1.05总攻击力。只首目标，不借用Q索引0的-55或旧子对象。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            9000,
+            9000,
+            9000,
+            9000,
+            9000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            -55,
+            10,
+            75,
+            140,
+            205,
+            270,
+            335
+          ],
+          "offset": 1,
+          "values": [
+            10,
+            75,
+            140,
+            205,
+            270
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "source": "DataValues.TotalADRatio",
+          "raw": [
+            1.0499999523162842,
+            1.0499999523162842,
+            1.0499999523162842,
+            1.0499999523162842,
+            1.0499999523162842,
+            1.0499999523162842,
+            1.0499999523162842
+          ],
+          "offset": 1,
+          "values": [
+            1.05,
+            1.05,
+            1.05,
+            1.05,
+            1.05
+          ],
+          "scale": 1
+        },
+        {
+          "source": "mSpellCalculations.TotalDamage.mFormulaParts[1]",
+          "raw": {
+            "mStat": 2,
+            "mDataValue": "TotalADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "semantic": "当前具名TotalADRatio明确总攻击力；未使用通用省略字段默认解码"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "Q伤害资格与E长矛来源",
+          "reason": "Q直接首目标公式保留；普通首目标是否及何时追加E长矛、Q暴击资格/法术护盾与吸血规则尚待完整核对，不以默认伤害结果强行接线。"
+        },
+        {
+          "kind": "未接线",
+          "component": "Q真实命中与E层数关系",
+          "reason": "尚未创建伤害结果；真实Q命中与本卡莉丝塔对该英雄的E长矛归属、加层因果尚未接线。"
+        },
+        {
+          "kind": "来源",
+          "component": "施放过程和冷却起算",
+          "reason": "保留9秒基础冷却与60/65/70/75/80法力，独立法力消耗效果没有绑定猜测起算的过程。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "击杀穿透及转移长矛到下一目标",
+          "reason": "多个单位间穿透和已有E层数转移属于本批多目标支路；不把下一个对象的层数加回当前单目标。"
+        },
+        {
+          "component": "Q后的位移",
+          "reason": "Q与武术姿态冲刺的空间输入后置，不能因此删除本次伤害。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "击杀穿透及转移长矛到下一目标",
+            "reason": "多个单位间穿透和已有E层数转移属于本批多目标支路；不把下一个对象的层数加回当前单目标。"
+          },
+          {
+            "component": "Q后的位移",
+            "reason": "Q与武术姿态冲刺的空间输入后置，不能因此删除本次伤害。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "Q伤害资格与E长矛来源",
+            "reason": "Q直接首目标公式保留；普通首目标是否及何时追加E长矛、Q暴击资格/法术护盾与吸血规则尚待完整核对，不以默认伤害结果强行接线。"
+          },
+          {
+            "kind": "来源",
+            "component": "施放过程和冷却起算",
+            "reason": "保留9秒基础冷却与60/65/70/75/80法力，独立法力消耗效果没有绑定猜测起算的过程。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "未接线",
+            "component": "Q真实命中与E层数关系",
+            "reason": "尚未创建伤害结果；真实Q命中与本卡莉丝塔对该英雄的E长矛归属、加层因果尚未接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "kalista_w": {
+      "skillKey": "kalista_w",
+      "name": "哨兵",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Kalista",
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "spellPath": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+        "clientSha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+        "officialSha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+        "currentBoundText": {
+          "binding": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_KalistaW_Name",
+              "key": "spell_kalistaw_name",
+              "text": "哨兵"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KalistaW_Summary",
+              "key": "spell_kalistaw_summary",
+              "text": "在卡莉丝塔与誓约者一起攻击相同目标时提供额外伤害。<br><br>激活此技能可以派出一个灵魂来侦查道路，将它面前的区域显示在玩家的视野内。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_KalistaW_Tooltip",
+              "key": "spell_kalistaw_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>当卡莉丝塔和她的<keywordMajor>誓约者</keywordMajor>都攻击相同的目标时，她会造成<magicDamage>@MaxHealthDamage*100@%最大生命值的魔法伤害</magicDamage>。这个效果对每个目标有@PerTargetCooldown@秒冷却时间并且对非英雄单位有@MaximumMonsterDamage@的伤害上限。<br><br><spellPassive>主动：</spellPassive>卡莉丝塔派出一个幽灵去巡视一个地区，持续3个来回。被发现的敌方英雄会被显形4秒。这个技能有2层充能(@AmmoRechargeTooltip@秒充能时间)。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "key": "spell_cost_nocost",
+              "text": "无消耗"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [],
+      "pending": [],
+      "excluded": [
+        {
+          "component": "誓约者协同伤害",
+          "reason": "需要卡莉丝塔和额外友方誓约者共同命中同一目标，超出1V1双角色范围；不保存10%-18%最大生命伤害为单人被动。"
+        },
+        {
+          "component": "侦查幽灵及显形",
+          "reason": "主动是独立侦查召唤物、巡逻和视野；依既定范围跳过，不录纯视野机制或无消耗占位。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "誓约者协同伤害",
+            "reason": "需要卡莉丝塔和额外友方誓约者共同命中同一目标，超出1V1双角色范围；不保存10%-18%最大生命伤害为单人被动。"
+          },
+          {
+            "component": "侦查幽灵及显形",
+            "reason": "主动是独立侦查召唤物、巡逻和视野；依既定范围跳过，不录纯视野机制或无消耗占位。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": []
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "kalista_e": {
+      "skillKey": "kalista_e",
+      "name": "撕裂",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Kalista",
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "spellPath": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+        "clientSha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+        "officialSha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+        "currentBoundText": {
+          "binding": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_KalistaExpungeWrapper_Name",
+              "key": "spell_kalistaexpungewrapper_name",
+              "text": "撕裂"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KalistaExpungeWrapper_Summary",
+              "key": "spell_kalistaexpungewrapper_summary",
+              "text": "攻击时用长矛来刺穿目标。主动激活可以将长矛扯出，造成减速和逐步上升的伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_KalistaExpungeWrapper_Tooltip",
+              "key": "spell_kalistaexpungewrapper_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>卡莉丝塔的长矛会在目标身上存留4秒，可叠加任意次数。<br><br><spellActive>主动：</spellActive>卡莉丝塔从附近的敌人们身上拔出长矛，造成<physicalDamage>@NormalDamage@</physicalDamage>外加每根后续长矛<physicalDamage>@AdditionalDamage@物理伤害</physicalDamage>。对命中的敌人们造成持续@SlowDuration@秒的<attention>@TotalSlowAmount@</attention><status>减速</status>。<br><br>如果这个技能击杀了至少一个目标，那么它的冷却时间会刷新并且它会返还<scaleMana>@ManaRefund@法力值</scaleMana>。"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_KalistaExpungeWrapper_Cooldown",
+              "key": "spell_kalistaexpungewrapper_cooldown",
+              "text": "@FakedCooldown@秒冷却时间"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_KalistaExpungeWrapper_TooltipExtendedBelowLine",
+              "key": "spell_kalistaexpungewrapper_tooltipextendedbelowline",
+              "text": "<rules>这个技能对史诗级野怪造成@EpicMonsterDamageMod*100@%伤害。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Kalista.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 30,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10000,
+              "2": 9500,
+              "3": 9000,
+              "4": 8500,
+              "5": 8000
+            },
+            "description": "客户端当前根绑定 DataValues.FakedCooldown 取索引1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "first_spear_base_damage",
+            "name": "撕裂第一根基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 5,
+              "2": 15,
+              "3": 25,
+              "4": 35,
+              "5": 45
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "first_spear_ad_ratio",
+            "name": "撕裂第一根攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.7,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.BaseADRatio 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "first_spear_other_stat_ratio",
+            "name": "撕裂第一根未解码属性系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.65,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "additional_spear_base_damage",
+            "name": "撕裂每根后续长矛基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 7,
+              "2": 14,
+              "3": 21,
+              "4": 28,
+              "5": 35
+            },
+            "description": "客户端当前根绑定 DataValues.AdditionalBaseDamage 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "additional_spear_ad_ratio",
+            "name": "撕裂后续长矛攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.2,
+              "2": 0.275,
+              "3": 0.35,
+              "4": 0.425,
+              "5": 0.5
+            },
+            "description": "客户端当前根绑定 DataValues.AdditionalADRatio 取索引1至5。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "additional_spear_other_stat_ratio",
+            "name": "撕裂后续长矛未解码属性系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.AdditionalAPRatio 取索引1至5。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "base_slow_ratio",
+            "name": "撕裂基础减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.1,
+              "2": 0.18,
+              "3": 0.26,
+              "4": 0.34,
+              "5": 0.42
+            },
+            "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "other_stat_slow_ratio",
+            "name": "撕裂未解码属性减速系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.0005,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SlowAPRatio 取索引1至5。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "撕裂减速期限（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+            "sortOrder": 110
+          },
+          {
+            "parameterKey": "mana_refund",
+            "name": "撕裂满足击杀条件的法力返还",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10,
+              "2": 15,
+              "3": 20,
+              "4": 25,
+              "5": 30
+            },
+            "description": "客户端当前根绑定 DataValues.ManaRefund 取索引1至5。",
+            "sortOrder": 120
+          },
+          {
+            "parameterKey": "spear_duration_ms",
+            "name": "长矛存留说明期限（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前mLocKeys正文与官方均明确长矛在目标身上存留4秒；不表示每层独立计时或整体刷新已证。",
+            "sortOrder": 130
+          },
+          {
+            "parameterKey": "current_attack_damage_value",
+            "name": "本次撕裂计算所需攻击力值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前NormalDamage/AdditionalDamage明确mStat=2但省略mStatFormula；本批不依通用默认解码其取值种类。只有确认该节点的实际攻击力口径后才能绑定，不能用0代替。",
+            "sortOrder": 140
+          },
+          {
+            "parameterKey": "current_other_stat_value",
+            "name": "本次撕裂未解码属性值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前同型StatByNamedDataValue节点只给APRatio/AdditionalAPRatio/SlowAPRatio，不显式给mStat/mStatFormula；名字提示法强但不足以认定默认枚举。本批用同一未绑定输入保留原数学式，不能直接取AP或默认为0。",
+            "sortOrder": 150
+          },
+          {
+            "parameterKey": "additional_spear_count",
+            "name": "第一根之外实际长矛数量",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "只有目标确有至少一根属于此卡莉丝塔的长矛时才能使用；非负整数表示实际总根数减1。零表示一根总量，不是无长矛。未构造初始层、254上限或状态供值。",
+            "sortOrder": 160
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "first_spear_damage",
+            "name": "撕裂第一根伤害计算",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "first_spear_base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "first_spear_ad_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "current_attack_damage_value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "first_spear_other_stat_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "current_other_stat_value"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "5/15/25/35/45 +.7×已核对攻击力输入+.65×未解码属性输入；输入口径尚未绑定，不宣称完整可执行伤害。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "additional_spear_damage",
+            "name": "撕裂每根后续长矛伤害计算",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "additional_spear_base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "additional_spear_ad_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "current_attack_damage_value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "additional_spear_other_stat_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "current_other_stat_value"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "7/14/21/28/35 +.2/.275/.35/.425/.5×攻击力输入+.5×未解码属性输入。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "total_spear_damage",
+            "name": "至少一根长矛时撕裂总伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "first_spear_base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "first_spear_ad_ratio"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "current_attack_damage_value"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "first_spear_other_stat_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "current_other_stat_value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "additional_spear_count"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "ADD",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "additional_spear_base_damage"
+                            },
+                            {
+                              "nodeType": "OPERATION",
+                              "operation": "MULTIPLY",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "additional_spear_ad_ratio"
+                                },
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "current_attack_damage_value"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "additional_spear_other_stat_ratio"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "current_other_stat_value"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "目标至少有一根长矛时：第一根 +（实际根数-1）×每根后续伤害。没有把第一根重复按总根数累乘；无长矛目标不适用此式。",
+            "sortOrder": 30
+          },
+          {
+            "formulaKey": "slow_ratio",
+            "name": "撕裂减速比例计算",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_slow_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "other_stat_slow_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "current_other_stat_value"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "基础.1/.18/.26/.34/.42 + .0005×同一未解码属性输入；比例1表示100%，没有自创封顶值或把.0005转成.05。",
+            "sortOrder": 40
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "kill_mana_refund",
+            "name": "撕裂实际击杀后法力返还",
+            "description": "10/15/20/25/30法力；仅在本次撕裂真实击杀至少一个目标时，由后续因果规则调用，本轮未绑定。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "refund",
+                "name": "返还撕裂法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_refund"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "REFUND"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "kill_cooldown_reset",
+            "name": "撕裂实际击杀后本技能冷却重置",
+            "description": "仅实际由本次撕裂击杀至少一个目标后的E重置；不连接任意英雄击杀事件。",
+            "sortOrder": 30,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "reset",
+                "name": "重置撕裂冷却",
+                "resultType": "COOLDOWN_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": null,
+                "detail": {
+                  "affectedSkillScope": {
+                    "mode": "SKILLS",
+                    "skillKeys": [
+                      "kalista_e"
+                    ],
+                    "skillCategoryKeys": []
+                  },
+                  "operation": "RESET"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            30,
+            30,
+            30,
+            30,
+            30
+          ]
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "DataValues.FakedCooldown",
+          "raw": [
+            10.5,
+            10,
+            9.5,
+            9,
+            8.5,
+            8,
+            7.5
+          ],
+          "offset": 1,
+          "values": [
+            10000,
+            9500,
+            9000,
+            8500,
+            8000
+          ],
+          "scale": 1000
+        },
+        {
+          "source": "mLocKeys.keyCooldown",
+          "key": "Spell_KalistaExpungeWrapper_Cooldown",
+          "text": "@FakedCooldown@秒冷却时间",
+          "rawRootCooldown": {
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "{0a3e0478}": 0,
+            "__type": "{0a0eddc9}"
+          },
+          "semantic": "主根Cooldown全部0是包装技能内部字段，当前展示冷却明确取FakedCooldown，不录0冷却"
+        },
+        {
+          "parameterKey": "first_spear_base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            -5,
+            5,
+            15,
+            25,
+            35,
+            45,
+            55
+          ],
+          "offset": 1,
+          "values": [
+            5,
+            15,
+            25,
+            35,
+            45
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "first_spear_ad_ratio",
+          "source": "DataValues.BaseADRatio",
+          "raw": [
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071
+          ],
+          "offset": 1,
+          "values": [
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "first_spear_other_stat_ratio",
+          "source": "DataValues.APRatio",
+          "raw": [
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421
+          ],
+          "offset": 1,
+          "values": [
+            0.65,
+            0.65,
+            0.65,
+            0.65,
+            0.65
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "additional_spear_base_damage",
+          "source": "DataValues.AdditionalBaseDamage",
+          "raw": [
+            0,
+            7,
+            14,
+            21,
+            28,
+            35,
+            42
+          ],
+          "offset": 1,
+          "values": [
+            7,
+            14,
+            21,
+            28,
+            35
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "additional_spear_ad_ratio",
+          "source": "DataValues.AdditionalADRatio",
+          "raw": [
+            0.125,
+            0.20000000298023224,
+            0.2750000059604645,
+            0.3499999940395355,
+            0.42500001192092896,
+            0.5,
+            0.574999988079071
+          ],
+          "offset": 1,
+          "values": [
+            0.2,
+            0.275,
+            0.35,
+            0.425,
+            0.5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "additional_spear_other_stat_ratio",
+          "source": "DataValues.AdditionalAPRatio",
+          "raw": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "offset": 1,
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "base_slow_ratio",
+          "source": "DataValues.SlowAmount",
+          "raw": [
+            0.019999999552965164,
+            0.10000000149011612,
+            0.18000000715255737,
+            0.25999999046325684,
+            0.3400000035762787,
+            0.41999998688697815,
+            0.5
+          ],
+          "offset": 1,
+          "values": [
+            0.1,
+            0.18,
+            0.26,
+            0.34,
+            0.42
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "other_stat_slow_ratio",
+          "source": "DataValues.SlowAPRatio",
+          "raw": [
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257
+          ],
+          "offset": 1,
+          "values": [
+            0.0005,
+            0.0005,
+            0.0005,
+            0.0005,
+            0.0005
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "source": "DataValues.SlowDuration",
+          "raw": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "offset": 1,
+          "values": [
+            2000,
+            2000,
+            2000,
+            2000,
+            2000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "mana_refund",
+          "source": "DataValues.ManaRefund",
+          "raw": [
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35
+          ],
+          "offset": 1,
+          "values": [
+            10,
+            15,
+            20,
+            25,
+            30
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "spear_duration_ms",
+          "source": "mLocKeys.keyTooltip",
+          "values": [
+            4000
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "攻击力与另一个属性节点的默认枚举",
+          "reason": "三个完整数学关系保留明确参数输入；没有借旧子技能、通用默认枚举或系数字段名直接接总AD/AP。需要确认其属性取值口径后再绑定。"
+        },
+        {
+          "kind": "来源",
+          "component": "长矛层上限与刷新语义",
+          "reason": "主正文说可任意叠加，同根MaxSpears=254；不能直接把254当对玩家承诺上限。4秒存留的逐根计时/整体刷新未明确，且当前源与目标必须成对归属，未建假生命周期或初始层。"
+        },
+        {
+          "kind": "未接线",
+          "component": "单次撕裂击杀因果与冷却",
+          "reason": "英雄目标击杀条件仍在1V1范围；独立返还和重置效果不能由普通KILL或无条件施放调用。包装技能零Cooldown也不证明零冷却；过程起算与Q/E状态消费尚未接线。"
+        },
+        {
+          "kind": "系统",
+          "component": "减速结果字典",
+          "reason": "当前目录只有眩晕，减速不是总移速直接减去比例；没有当前可用减速字典，不用眩晕或空字段冒充减速。"
+        },
+        {
+          "kind": "来源",
+          "component": "伤害与减速资格",
+          "reason": "完整伤害的法术护盾、暴击、吸血资格及减速的法术护盾范围未确证；只保留未绑定数学关系，不创建默认伤害或减速结果。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "史诗野怪伤害和多目标拔矛",
+          "reason": "EpicMonsterDamageMod以及同时对多个单位拔矛执行后置；至少一个英雄被本次E击杀的返还依赖保留。"
+        }
+      ],
+      "reusedParameters": [
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "史诗野怪伤害和多目标拔矛",
+            "reason": "EpicMonsterDamageMod以及同时对多个单位拔矛执行后置；至少一个英雄被本次E击杀的返还依赖保留。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "攻击力与另一个属性节点的默认枚举",
+            "reason": "三个完整数学关系保留明确参数输入；没有借旧子技能、通用默认枚举或系数字段名直接接总AD/AP。需要确认其属性取值口径后再绑定。"
+          },
+          {
+            "kind": "来源",
+            "component": "长矛层上限与刷新语义",
+            "reason": "主正文说可任意叠加，同根MaxSpears=254；不能直接把254当对玩家承诺上限。4秒存留的逐根计时/整体刷新未明确，且当前源与目标必须成对归属，未建假生命周期或初始层。"
+          },
+          {
+            "kind": "来源",
+            "component": "伤害与减速资格",
+            "reason": "完整伤害的法术护盾、暴击、吸血资格及减速的法术护盾范围未确证；只保留未绑定数学关系，不创建默认伤害或减速结果。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "减速结果字典",
+            "reason": "当前目录只有眩晕，减速不是总移速直接减去比例；没有当前可用减速字典，不用眩晕或空字段冒充减速。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "未接线",
+            "component": "单次撕裂击杀因果与冷却",
+            "reason": "英雄目标击杀条件仍在1V1范围；独立返还和重置效果不能由普通KILL或无条件施放调用。包装技能零Cooldown也不证明零冷却；过程起算与Q/E状态消费尚未接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "kalista_r": {
+      "skillKey": "kalista_r",
+      "name": "命运的召唤",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Kalista",
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "spellPath": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx",
+        "clientSha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+        "officialSha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+        "currentBoundText": {
+          "binding": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_KalistaRx_Name",
+              "key": "spell_kalistarx_name",
+              "text": "命运的召唤"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KalistaRx_Summary",
+              "key": "spell_kalistarx_summary",
+              "text": "卡莉丝塔传送一位友军到自己身边。该友军随后可以冲向一个地点，并击退命中的敌人。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_KalistaRx_Tooltip",
+              "key": "spell_kalistarx_tooltip",
+              "text": "卡莉丝塔将她的<keywordMajor>誓约者</keywordMajor>置入凝滞状态并将其拖拽到她的身边，至多持续4秒。<keywordMajor>誓约者</keywordMajor>可以点击来将自己投放出去，在命中第一个英雄时停止并<status>击退</status>所有附近的敌人。如果<keywordMajor>誓约者</keywordMajor>命中了一名英雄，则会被放置在与目标相距其最大攻击距离的位置。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [],
+      "pending": [],
+      "excluded": [
+        {
+          "component": "誓约者救援与抛投",
+          "reason": "全部依赖第三名友方誓约者，包括凝滞、拉回、其点击投放和碰撞击飞；按已确认1V1范围跳过，不单独把友军击飞包装为卡莉丝塔自身R效果。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "誓约者救援与抛投",
+            "reason": "全部依赖第三名友方誓约者，包括凝滞、拉回、其点击投放和碰撞击飞；按已确认1V1范围跳过，不单独把友军击飞包装为卡莉丝塔自身R效果。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": []
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 158,
+    "method": "POST",
+    "route": "/skills/aurora_q/formulas",
+    "detailRoute": "/skills/aurora_q/formulas/q2_max_magic_damage",
+    "skillKey": "aurora_q",
+    "kind": "formulas",
+    "stableKey": "q2_max_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "q2_max_magic_damage",
+      "name": "飞去来咒再次施放最高魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q2_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "q2_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "q2_multiplier"
+          }
+        ]
+      },
+      "description": "当前Q2DamageMax=1.5×(Q2BaseDamage+0.4×来源法强)，只表达正文最高值。",
+      "sortOrder": 30
+    }
+  }
+}

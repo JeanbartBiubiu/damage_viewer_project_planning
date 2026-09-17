@@ -1,0 +1,77 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/monkeyking_r/formulas",
+    "detailRoute": "/skills/monkeyking_r/formulas/full_spin_damage",
+    "skillKey": "monkeyking_r",
+    "kind": "formulas",
+    "stableKey": "full_spin_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "full_spin_damage",
+      "name": "大闹天宫完整一段物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "max_hp_damage_per_second_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "TARGET",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ad_ratio_per_second"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "spin_duration_ms"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "seconds_to_ms_inverse"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "完整2秒=目标最大生命×8/12/16%+2.75×来源总攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

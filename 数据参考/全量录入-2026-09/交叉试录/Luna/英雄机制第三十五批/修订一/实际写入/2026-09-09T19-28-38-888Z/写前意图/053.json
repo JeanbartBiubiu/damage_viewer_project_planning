@@ -1,0 +1,23 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/crash_knockup_duration_ms",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "crash_knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crash_knockup_duration_ms",
+      "name": "轰落击飞时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "客户端CrashDownKnockupDuration=0.4秒；转换为400毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

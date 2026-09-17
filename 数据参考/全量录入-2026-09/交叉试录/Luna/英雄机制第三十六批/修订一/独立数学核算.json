@@ -1,0 +1,1445 @@
+{
+  "generatedAt": "2026-09-09T19:33:48.687Z",
+  "batch": "英雄机制第三十六批",
+  "status": "独立候选数学核算完成；未调用业务接口",
+  "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
+  "inputBindingSha256": "9fe03948856d29d6c74d6f01c14a9be81d626dbf0f84d6e8991658ac7e606a13",
+  "sourceExpectationPolicy": "每个公式的期望值直接读取冻结来源DataValues与mSpellCalculations；实际值只读取候选参数的FIXED/SKILL_LEVEL/CHARACTER_LEVEL或明确运行输入并求候选表达式树；运行输入和属性缺失必须拒绝。",
+  "candidateMathReady": true,
+  "businessMathReady": false,
+  "apiCalls": 0,
+  "apiWrites": 0,
+  "formulas": {
+    "total": 31,
+    "scenariosPerFormula": 2,
+    "passed": 31,
+    "results": [
+      {
+        "skillKey": "evelynn_p",
+        "formulaKey": "healing_threshold",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 470,
+            "expected": 470,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 1,
+            "actual": 1190,
+            "expected": 1190,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "evelynn_q",
+        "formulaKey": "missile_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 45,
+            "expected": 45,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 125,
+            "expected": 125,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_q",
+        "formulaKey": "marked_bonus_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 35,
+            "expected": 35,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 135,
+            "expected": 135,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_e",
+        "formulaKey": "ordinary_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 102,
+            "expected": 101.99999879300594,
+            "delta": 0.0000012069940567016602
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 367.2,
+            "expected": 367.19999324083335,
+            "delta": 0.0000067591666379485105
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "evelynn_e",
+        "formulaKey": "empowered_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 140,
+            "expected": 139.99999895691872,
+            "delta": 0.000001043081283569336
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 528,
+            "expected": 527.9999964237213,
+            "delta": 0.0000035762786865234375
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "evelynn_r",
+        "formulaKey": "normal_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 185,
+            "expected": 185,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 3,
+            "actual": 615,
+            "expected": 615,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_r",
+        "formulaKey": "low_health_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 444,
+            "expected": 444.00001764297485,
+            "delta": -0.000017642974853515625
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 3,
+            "actual": 1476,
+            "expected": 1476.0000586509705,
+            "delta": -0.000058650970458984375
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_p",
+        "formulaKey": "dot_total_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 60,
+            "expected": 59.999998807907104,
+            "delta": 0.0000011920928955078125
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 1,
+            "actual": 216,
+            "expected": 215.99999660253522,
+            "delta": 0.000003397464780618975
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "lillia_p",
+        "formulaKey": "champion_heal_per_tick",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 5.5,
+            "expected": 5.500000059604645,
+            "delta": -5.960464477539063e-8
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 1,
+            "actual": 29,
+            "expected": 29.00000023841858,
+            "delta": -2.384185791015625e-7
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "lillia_p",
+        "formulaKey": "champion_heal_total",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 33,
+            "expected": 33.00000035762787,
+            "delta": -3.5762786865234375e-7
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 1,
+            "actual": 174,
+            "expected": 174.00000143051147,
+            "delta": -0.000001430511474609375
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "lillia_q",
+        "formulaKey": "inner_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 63,
+            "expected": 62.99999952316284,
+            "delta": 4.76837158203125e-7
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 187,
+            "expected": 186.99999809265137,
+            "delta": 0.0000019073486328125
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "formulaKey": "outer_true_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 63,
+            "expected": 62.99999952316284,
+            "delta": 4.76837158203125e-7
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 187,
+            "expected": 186.99999809265137,
+            "delta": 0.0000019073486328125
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "formulaKey": "move_speed_per_stack",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 0.05399999999999999,
+            "expected": 0.05400000046938658,
+            "delta": -4.693865851557177e-10
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 0.16599999999999998,
+            "expected": 0.16600000485777855,
+            "delta": -4.857778568290172e-9
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "formulaKey": "magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 108,
+            "expected": 107.99999952316284,
+            "delta": 4.76837158203125e-7
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 272,
+            "expected": 271.99999809265137,
+            "delta": 0.0000019073486328125
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "formulaKey": "sweet_spot_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 324,
+            "expected": 323.9999985694885,
+            "delta": 0.000001430511474609375
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 816,
+            "expected": 815.9999942779541,
+            "delta": 0.0000057220458984375
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_e",
+        "formulaKey": "impact_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 100,
+            "expected": 100,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 320,
+            "expected": 320,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_r",
+        "formulaKey": "break_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 132,
+            "expected": 132.00000047683716,
+            "delta": -4.76837158203125e-7
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 3,
+            "actual": 328,
+            "expected": 328.00000190734863,
+            "delta": -0.0000019073486328125
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "formulaKey": "normal_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 40,
+            "expected": 40,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 327.59999999999997,
+            "expected": 327.6000067591667,
+            "delta": -0.000006759166751635348
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "formulaKey": "feared_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 80,
+            "expected": 80,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 655.1999999999999,
+            "expected": 655.2000135183334,
+            "delta": -0.000013518333503270696
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "formulaKey": "damage_per_second",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 96,
+            "expected": 95.99999904632568,
+            "delta": 9.5367431640625e-7
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 324,
+            "expected": 323.99999618530273,
+            "delta": 0.000003814697265625
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "formulaKey": "end_missing_health_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 38.4,
+            "expected": 38.4,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 385,
+            "expected": 385,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "formulaKey": "champion_heal_amount",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 70,
+            "expected": 70,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 797.5,
+            "expected": 797.5000000000001,
+            "delta": -1.1368683772161603e-13
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_e",
+        "formulaKey": "magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 110,
+            "expected": 110,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 370,
+            "expected": 370,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "formulaKey": "damage_per_second",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 190,
+            "expected": 190,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 3,
+            "actual": 510,
+            "expected": 510,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "formulaKey": "damage_done_single_tick",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 47.5,
+            "expected": 47.5,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 3,
+            "actual": 127.5,
+            "expected": 127.5,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "formulaKey": "total_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 950,
+            "expected": 950,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 3,
+            "actual": 2550,
+            "expected": 2550,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "formulaKey": "damage_per_second",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 54,
+            "expected": 54.000000953674316,
+            "delta": -9.5367431640625e-7
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 196,
+            "expected": 196.00000381469727,
+            "delta": -0.000003814697265625
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "formulaKey": "approximate_total_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 256.5,
+            "expected": 256.500004529953,
+            "delta": -0.0000045299530029296875
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 931,
+            "expected": 931.000018119812,
+            "delta": -0.00001811981201171875
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "formulaKey": "base_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 94,
+            "expected": 94.00000095367432,
+            "delta": -9.5367431640625e-7
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 266,
+            "expected": 266.00000381469727,
+            "delta": -0.000003814697265625
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "formulaKey": "max_health_magic_component",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 60,
+            "expected": 60,
+            "delta": 0
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 192,
+            "expected": 192,
+            "delta": 0
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "formulaKey": "total_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedLevel": 1,
+            "effectiveLevel": 1,
+            "actual": 154,
+            "expected": 154.00000095367432,
+            "delta": -9.5367431640625e-7
+          },
+          {
+            "label": "高等级输入",
+            "requestedLevel": 5,
+            "effectiveLevel": 5,
+            "actual": 458,
+            "expected": 458.00000381469727,
+            "delta": -0.000003814697265625
+          }
+        ],
+        "sourceExpectation": "独立读取冻结客户端DataValues和mSpellCalculations，未从候选固定值计算期望",
+        "missingLeavesChecked": 2
+      }
+    ]
+  },
+  "missingInputChecks": {
+    "total": 40,
+    "passed": 40
+  },
+  "integerAndMilliseconds": {
+    "checked": 124,
+    "passed": 124,
+    "details": [
+      {
+        "skillKey": "evelynn_p",
+        "parameterKey": "demon_shade_delay_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_p",
+        "parameterKey": "stealth_drop_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_p",
+        "parameterKey": "stealth_start_level",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_p",
+        "parameterKey": "healing_threshold_ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_q",
+        "parameterKey": "hate_spike_base_damage",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "evelynn_q",
+        "parameterKey": "hate_spike_ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_q",
+        "parameterKey": "bonus_damage_base",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "evelynn_q",
+        "parameterKey": "bonus_damage_ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_q",
+        "parameterKey": "max_recasts",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_q",
+        "parameterKey": "cast_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_q",
+        "parameterKey": "marked_bonus_max_hits",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "mark_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "early_slow_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "early_slow_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "charm_duration_ms",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "mr_shred_ratio",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "mr_shred_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "charm_charge_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "base_damage",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "empowered_damage",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "base_percent_health_points",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "empowered_percent_health_points",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "percent_points_to_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "base_percent_ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "empowered_percent_ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "speed_bonus_ratio",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "speed_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_e",
+        "parameterKey": "cast_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_r",
+        "parameterKey": "base_damage",
+        "valuesChecked": 3
+      },
+      {
+        "skillKey": "evelynn_r",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_r",
+        "parameterKey": "low_health_threshold",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_r",
+        "parameterKey": "low_health_multiplier",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_r",
+        "parameterKey": "passive_reset_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_p",
+        "parameterKey": "dot_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_p",
+        "parameterKey": "dot_damage_percent_points",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_p",
+        "parameterKey": "percent_points_to_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_p",
+        "parameterKey": "dot_ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_p",
+        "parameterKey": "dot_ticks",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_p",
+        "parameterKey": "champion_heal_ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "inner_damage_base",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "outer_true_damage_base",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "prance_bonus_ratio_per_stack",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "prance_ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "prance_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "prance_max_stacks",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "prance_falloff_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "inner_radius",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "outer_radius",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "parameterKey": "base_damage",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "lillia_w",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "parameterKey": "sweet_spot_multiplier",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "parameterKey": "minimum_cast_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "parameterKey": "maximum_cast_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "parameterKey": "minimum_radius",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "parameterKey": "sweet_spot_radius",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_e",
+        "parameterKey": "impact_damage_base",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "lillia_e",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_e",
+        "parameterKey": "slow_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_e",
+        "parameterKey": "slow_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_e",
+        "parameterKey": "impact_range_check",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_e",
+        "parameterKey": "cast_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_r",
+        "parameterKey": "drowsy_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_r",
+        "parameterKey": "sleep_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_r",
+        "parameterKey": "break_damage_base",
+        "valuesChecked": 3
+      },
+      {
+        "skillKey": "lillia_r",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "lillia_r",
+        "parameterKey": "initial_slow_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_p",
+        "parameterKey": "self_stationary_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "parameterKey": "current_health_ratio",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "parameterKey": "current_health_ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "parameterKey": "minimum_damage",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "parameterKey": "fear_duration_ms",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "parameterKey": "recent_fear_multiplier",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "parameterKey": "cast_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "parameterKey": "damage_per_second_base",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "parameterKey": "ticks_per_second",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "parameterKey": "drain_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "parameterKey": "end_missing_health_percent_points",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "parameterKey": "champion_heal_percent_points",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "parameterKey": "percent_points_to_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "parameterKey": "cooldown_refund_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "parameterKey": "cast_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_e",
+        "parameterKey": "base_damage",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "fiddlesticks_e",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_e",
+        "parameterKey": "slow_ratio",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "fiddlesticks_e",
+        "parameterKey": "silence_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_e",
+        "parameterKey": "cast_range",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "parameterKey": "damage_per_second_base",
+        "valuesChecked": 3
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "parameterKey": "full_duration_seconds",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "parameterKey": "full_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "parameterKey": "channel_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "parameterKey": "single_damage_multiplier",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_p",
+        "parameterKey": "ms_bonus_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_p",
+        "parameterKey": "ms_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_p",
+        "parameterKey": "per_target_cooldown_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_p",
+        "parameterKey": "trigger_area",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "damage_per_second_base",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "toggle_cooldown_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "cloud_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "poison_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "ticks_per_second",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "max_linger_ticks",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "approximate_total_multiplier",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "mana_per_second",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_w",
+        "parameterKey": "slow_percent_points",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "singed_w",
+        "parameterKey": "duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_w",
+        "parameterKey": "radius",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_w",
+        "parameterKey": "execute_delay_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_w",
+        "parameterKey": "cast_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "parameterKey": "base_damage_value",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "singed_e",
+        "parameterKey": "ap_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "parameterKey": "max_health_percent_points",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "singed_e",
+        "parameterKey": "percent_points_to_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "parameterKey": "root_duration_ms",
+        "valuesChecked": 5
+      },
+      {
+        "skillKey": "singed_e",
+        "parameterKey": "fling_distance",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "parameterKey": "cast_time_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_r",
+        "parameterKey": "stat_amount",
+        "valuesChecked": 3
+      },
+      {
+        "skillKey": "singed_r",
+        "parameterKey": "duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_r",
+        "parameterKey": "grievous_ratio",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_r",
+        "parameterKey": "grievous_duration_ms",
+        "valuesChecked": 1
+      },
+      {
+        "skillKey": "singed_r",
+        "parameterKey": "cast_time_ms",
+        "valuesChecked": 1
+      }
+    ]
+  },
+  "boundaryChecks": [
+    {
+      "name": "莉莉娅Q层数上限",
+      "value": 4,
+      "accepted": [
+        4
+      ]
+    },
+    {
+      "name": "费德提克Q当前生命分支",
+      "valueKinds": [
+        "CURRENT"
+      ],
+      "accepted": true
+    },
+    {
+      "name": "伊芙琳E普通强化互斥",
+      "formulas": [
+        "ordinary_magic_damage",
+        "empowered_magic_damage"
+      ],
+      "accepted": true
+    },
+    {
+      "name": "莉莉娅W中心替代",
+      "multiplier": 3,
+      "accepted": [
+        3
+      ]
+    },
+    {
+      "name": "费德提克R当前五秒",
+      "duration": 5,
+      "damagePerSecond": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "accepted": true
+    },
+    {
+      "name": "辛吉德R移动速度单位",
+      "value": {
+        "1": 25,
+        "2": 55,
+        "3": 85
+      },
+      "accepted": true
+    }
+  ],
+  "noDefaults": true,
+  "note": "这是候选阶段的静态源值核算，不等同于业务GET后的实录表达式核算或战斗运行。"
+}

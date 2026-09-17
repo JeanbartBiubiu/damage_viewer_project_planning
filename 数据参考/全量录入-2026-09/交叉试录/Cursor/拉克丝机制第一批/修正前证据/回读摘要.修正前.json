@@ -1,0 +1,54 @@
+{
+  "executor": "Cursor",
+  "note": "详细逐字段回读见 回读-lux_*.json；本文件只保留数量、占用冲突与最终 GET 清单。",
+  "finalGet": {
+    "lux_p": {
+      "parameters": ["base_damage", "ap_ratio", "mark_duration_ms"],
+      "formulas": ["damage"],
+      "effects": ["illumination_mark"],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "lux_q": {
+      "parameters": ["base_damage", "ap_ratio", "root_duration_ms", "cooldown_ms", "mana_cost", "cast_time_ms", "target_range", "projectile_speed"],
+      "formulas": ["damage"],
+      "effects": ["mana_cost", "light_binding_hit"],
+      "processes": ["cast"],
+      "internal-states": [],
+      "trigger-rules": ["resolve_on_q_hit"]
+    },
+    "lux_w": {
+      "parameters": ["base_shield", "ap_ratio", "shield_duration_ms", "cooldown_ms", "mana_cost", "cast_time_ms", "target_range"],
+      "formulas": ["shield"],
+      "effects": ["mana_cost", "prismatic_shield"],
+      "processes": ["cast"],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "lux_e": {
+      "parameters": ["base_damage", "ap_ratio", "slow_ratio", "slow_linger_ms", "slow_zone_ms", "vision_radius", "cooldown_ms", "mana_cost", "cast_time_ms", "target_range", "projectile_speed"],
+      "formulas": ["damage"],
+      "effects": ["mana_cost", "singularity_detonate"],
+      "processes": ["cast"],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "lux_r": {
+      "parameters": ["base_damage", "ap_ratio", "reset_ratio", "reset_assist_window_ms", "cooldown_ms", "mana_cost", "cast_time_ms", "target_range", "line_width", "projectile_speed"],
+      "formulas": ["damage"],
+      "effects": ["mana_cost", "final_spark_hit"],
+      "processes": ["cast"],
+      "internal-states": [],
+      "trigger-rules": ["resolve_on_r_hit"]
+    }
+  },
+  "occupiedConflicts": [
+    {
+      "skillKey": "lux_q",
+      "objects": ["base_damage", "ap_ratio", "damage", "light_binding_hit"],
+      "diffPath": "description",
+      "note": "浏览器试录说明与候选长说明不同；数值/公式/效果结构已核对一致，未覆盖。"
+    }
+  ]
+}

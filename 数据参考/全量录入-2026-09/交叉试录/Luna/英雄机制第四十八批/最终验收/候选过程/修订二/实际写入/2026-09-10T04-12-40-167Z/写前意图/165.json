@@ -1,0 +1,30 @@
+{
+  "i": 164,
+  "intent": {
+    "sequence": 165,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_e/parameters",
+    "detailRoute": "/skills/viego_e/parameters/move_speed_ratio",
+    "skillKey": "viego_e",
+    "kind": "parameters",
+    "stableKey": "move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_ratio",
+      "name": "黑雾内移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.275000006,
+        "3": 0.300000012,
+        "4": 0.324999988,
+        "5": 0.349999994
+      },
+      "description": "MoveSpeed已是0.25至0.35比例；按1=100%记录。",
+      "sortOrder": 20
+    }
+  }
+}

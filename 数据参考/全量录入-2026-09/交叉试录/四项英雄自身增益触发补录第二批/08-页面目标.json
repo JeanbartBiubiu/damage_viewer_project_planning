@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-13T11:10:58.266Z",
+  "status": "PASS",
+  "source": "冻结请求与独立GET回读自动交集",
+  "targetCount": 4,
+  "targets": [
+    {
+      "id": "twistedfate_e_permanent_attack_speed",
+      "skillKey": "twistedfate_e",
+      "ownerKey": "champion_twistedfate",
+      "effectKeys": [
+        "permanent_attack_speed"
+      ],
+      "ruleKey": "initialize_permanent_attack_speed",
+      "ruleName": "初始化卡牌骗术永久攻击速度",
+      "eventType": "SOURCE_INITIALIZED",
+      "actions": [
+        {
+          "actionKey": "execute_permanent_attack_speed",
+          "actionName": "执行卡牌骗术永久攻击速度",
+          "effectKey": "permanent_attack_speed",
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "skarner_r_champion_hit_move_speed",
+      "skillKey": "skarner_r",
+      "ownerKey": "champion_skarner",
+      "effectKeys": [
+        "self_move_speed"
+      ],
+      "ruleKey": "actual_champion_hit",
+      "ruleName": "命中英雄触发毒刺贯体移速",
+      "eventType": "SKILL_HIT",
+      "actions": [
+        {
+          "actionKey": "execute_self_move_speed",
+          "actionName": "执行毒刺贯体命中英雄自身移速",
+          "effectKey": "self_move_speed",
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 1
+    },
+    {
+      "id": "seraphine_w_self_shield",
+      "skillKey": "seraphine_w",
+      "ownerKey": "champion_seraphine",
+      "effectKeys": [
+        "self_shield"
+      ],
+      "ruleKey": "on_used",
+      "ruleName": "聚和心声主动自身护盾",
+      "eventType": "SKILL_USED",
+      "actions": [
+        {
+          "actionKey": "execute_self_shield",
+          "actionName": "执行聚和心声自身护盾",
+          "effectKey": "self_shield",
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "naafiri_w_self_buffs",
+      "skillKey": "naafiri_w",
+      "ownerKey": "champion_naafiri",
+      "effectKeys": [
+        "self_attack_damage",
+        "self_move_speed"
+      ],
+      "ruleKey": "on_used",
+      "ruleName": "暴吼主动自身攻击力与移速",
+      "eventType": "SKILL_USED",
+      "actions": [
+        {
+          "actionKey": "execute_self_attack_damage",
+          "actionName": "执行暴吼自身攻击力增益",
+          "effectKey": "self_attack_damage",
+          "targetContext": "CURRENT_TARGET"
+        },
+        {
+          "actionKey": "execute_self_move_speed",
+          "actionName": "执行暴吼自身移动速度增益",
+          "effectKey": "self_move_speed",
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "expectedActionCount": 2,
+      "expectedConditionGroupCount": 0
+    }
+  ],
+  "targetSha256": "0796969f5e99d0322d872e53a87e6a4d3165ed8224b667744007c0ac70bb73e0",
+  "boundary": "只包含已写入且独立回读通过的四项，暂缓分支不进入页面目标。"
+}

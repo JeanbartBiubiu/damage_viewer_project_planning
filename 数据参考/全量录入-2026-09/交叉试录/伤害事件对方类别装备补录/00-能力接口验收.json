@@ -1,0 +1,527 @@
+{
+  "capturedAt": "2026-09-12T08:58:22.858Z",
+  "status": "PASS",
+  "authorizationValueRecorded": false,
+  "businessWrites": 6,
+  "persistentBusinessWrites": 0,
+  "verified": [
+    "不支持事件拒绝且不落库",
+    "类别明细额外主体字段拒绝且不落库",
+    "造成伤害可按当前伤害承受对象类别保存回读",
+    "受到伤害可按事件来源类别保存并绑定减免前伤害",
+    "两个临时规则均已删除，原规则列表保持为空"
+  ],
+  "calls": [
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules/temporary_damage_dealt_category_check",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "temporary_damage_dealt_category_check"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/trigger-rules/temporary_damage_taken_category_check",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "temporary_damage_taken_category_check"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "status": 400,
+      "data": {
+        "error": {
+          "code": "400.INVALID_SKILL_TRIGGER_RULE_REFERENCE",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "EVENT_VALUE_NOT_AVAILABLE",
+                "field": "conditionGroups[0].conditions[0].detail.categories",
+                "message": "事件对方类别只适用于技能命中、普攻命中、来源对象完成击杀、伤害待结算、造成伤害或受到伤害事件"
+              }
+            ]
+          },
+          "message": "技能触发规则引用不合法"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules/temporary_unsupported_category_check",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "temporary_unsupported_category_check"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "status": 400,
+      "data": {
+        "error": {
+          "code": "400.INVALID_BODY",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "UNKNOWN_FIELD",
+                "field": "conditionGroups[0].conditions[0].detail.subject",
+                "message": "明细包含未知字段"
+              }
+            ]
+          },
+          "message": "技能触发规则明细不合法"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules/temporary_mixed_category_check",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "temporary_mixed_category_check"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "status": 201,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_effect",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "spelldance_move_speed"
+            },
+            "name": "执行既有效果",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "counterparty_category",
+            "name": "事件对方类别",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅用于接口能力验收，完成后立即删除。",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_DEALT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "临时验证造成伤害对方类别",
+        "perTargetCooldown": null,
+        "ruleKey": "temporary_damage_dealt_category_check",
+        "sortOrder": 999999
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules/temporary_damage_dealt_category_check",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_effect",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "spelldance_move_speed"
+            },
+            "name": "执行既有效果",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "counterparty_category",
+            "name": "事件对方类别",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅用于接口能力验收，完成后立即删除。",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_DEALT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "临时验证造成伤害对方类别",
+        "perTargetCooldown": null,
+        "ruleKey": "temporary_damage_dealt_category_check",
+        "sortOrder": 999999
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3803_passive/trigger-rules",
+      "status": 201,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_effect",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mana_from_hero_damage"
+            },
+            "name": "执行既有效果",
+            "resultModifiers": [],
+            "runtimeInputBindings": [
+              {
+                "bindingKey": "raw_damage",
+                "detail": {
+                  "eventValueKey": "RAW_DAMAGE"
+                },
+                "parameterKey": "damage_input",
+                "sourceType": "EVENT_VALUE"
+              }
+            ],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "counterparty_category",
+            "name": "事件对方类别",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅用于接口能力验收，完成后立即删除。",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": null,
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_TAKEN"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "临时验证受到伤害对方类别",
+        "perTargetCooldown": null,
+        "ruleKey": "temporary_damage_taken_category_check",
+        "sortOrder": 999999
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/trigger-rules/temporary_damage_taken_category_check",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_effect",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mana_from_hero_damage"
+            },
+            "name": "执行既有效果",
+            "resultModifiers": [],
+            "runtimeInputBindings": [
+              {
+                "bindingKey": "raw_damage",
+                "detail": {
+                  "eventValueKey": "RAW_DAMAGE"
+                },
+                "parameterKey": "damage_input",
+                "sourceType": "EVENT_VALUE"
+              }
+            ],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "counterparty_category",
+            "name": "事件对方类别",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅用于接口能力验收，完成后立即删除。",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": null,
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_TAKEN"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "临时验证受到伤害对方类别",
+        "perTargetCooldown": null,
+        "ruleKey": "temporary_damage_taken_category_check",
+        "sortOrder": 999999
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules/temporary_damage_dealt_category_check",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_effect",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "spelldance_move_speed"
+            },
+            "name": "执行既有效果",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "counterparty_category",
+            "name": "事件对方类别",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅用于接口能力验收，完成后立即删除。",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_DEALT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "临时验证造成伤害对方类别",
+        "perTargetCooldown": null,
+        "ruleKey": "temporary_damage_dealt_category_check",
+        "sortOrder": 999999
+      }
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/item_4629_passive/trigger-rules/temporary_damage_dealt_category_check",
+      "status": 204,
+      "data": null
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules/temporary_damage_dealt_category_check",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "temporary_damage_dealt_category_check"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/trigger-rules/temporary_damage_taken_category_check",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_effect",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mana_from_hero_damage"
+            },
+            "name": "执行既有效果",
+            "resultModifiers": [],
+            "runtimeInputBindings": [
+              {
+                "bindingKey": "raw_damage",
+                "detail": {
+                  "eventValueKey": "RAW_DAMAGE"
+                },
+                "parameterKey": "damage_input",
+                "sourceType": "EVENT_VALUE"
+              }
+            ],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "counterparty_category",
+            "name": "事件对方类别",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅用于接口能力验收，完成后立即删除。",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": null,
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_TAKEN"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "临时验证受到伤害对方类别",
+        "perTargetCooldown": null,
+        "ruleKey": "temporary_damage_taken_category_check",
+        "sortOrder": 999999
+      }
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/item_3803_passive/trigger-rules/temporary_damage_taken_category_check",
+      "status": 204,
+      "data": null
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/trigger-rules/temporary_damage_taken_category_check",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "temporary_damage_taken_category_check"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ]
+}

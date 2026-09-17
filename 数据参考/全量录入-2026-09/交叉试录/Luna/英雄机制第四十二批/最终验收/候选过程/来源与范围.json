@@ -1,0 +1,588 @@
+{
+  "generatedAt": "2026-09-09T21:27:03.027Z",
+  "batch": "英雄机制第四十二批",
+  "revision": "hero42-source-v1",
+  "status": "第42批范围与来源选择；未调用业务接口",
+  "sourceBindingSha256": "64c0cd621211412d4023125ec55f0ed6ba04460c0cdd74601d387cbf393bdb43",
+  "sourceRangeSha256": "4f7dc319148bbfa4aaa414c2f2ec7103f5ac215e766c10dcdf8ff23cae58884b",
+  "sourceAuditSha256": "c3cf3231d0d5b4923a3dafe873428586a4bf2c915cfa52ae965a18b361640ed0",
+  "cursorConclusionSha256": "357003202d6fe320256822e1118ff391579ecf02359db43a90e15a6678c3d2b6",
+  "sourceReviewVerdict": "READY",
+  "scopeDecisions": {
+    "ksante": "普通形态与R变形前两段保留，全盛替换链跳过",
+    "yunara": "常态P/Q/W/E保留，R完整超凡组跳过",
+    "mel": "P保留未学R时R索引0的50/2跨技能消费",
+    "qiyana": "保留元素互斥、同敌重复和重置资格，排除额外敌人及兵野专用"
+  },
+  "skills": {
+    "qiyana_p": {
+      "recordableParameters": [
+        "actual_character_level_base_damage",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "per_target_cooldown_ms"
+      ],
+      "recordableFormulas": [
+        "passive_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "ICD=14秒及未消费治疗/范围树",
+          "reason": "当前正文只消费每目标25秒和额外伤害；不造周期、治疗或范围效果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "等级基础项求值",
+          "reason": "原始15、每级4及6/11断点保留在来源，运行层提供当前实际基础项。"
+        },
+        {
+          "item": "附魔重置事件",
+          "reason": "同目标重置资格保留，事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "qiyana_q": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "ice_root_duration_ms",
+        "ice_slow_percent_points",
+        "ice_slow_duration_ms",
+        "wildwood_stealth_duration_ms",
+        "wildwood_move_speed_percent_points",
+        "rock_execute_threshold_percent_points",
+        "rock_damage_multiplier",
+        "rock_explosion_delay_ms"
+      ],
+      "recordableFormulas": [
+        "vanilla_physical_damage",
+        "enchanted_physical_damage",
+        "rock_bonus_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "Falloff及野怪160%分支",
+          "reason": "后续敌人和野怪专用。"
+        },
+        {
+          "item": "TremorBonus=0.4",
+          "reason": "当前消费是0.6乘EnchantedDamage，旧同名值不替代当前树。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "岩石资格和延迟",
+          "reason": "阈值、原始延迟和伤害式已录，事件待接线。"
+        },
+        {
+          "item": "岩石等级倍率",
+          "reason": "仅有0.6起点，空断点不展开。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "qiyana_w": {
+      "recordableParameters": [
+        "enchant_attack_speed_percent_points",
+        "onhit_base_damage",
+        "onhit_ap_ratio",
+        "onhit_bonus_ad_ratio",
+        "terrain_move_speed_percent_points",
+        "terrain_distance",
+        "dash_distance",
+        "dash_speed"
+      ],
+      "recordableFormulas": [
+        "onhit_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "CleaveDamage/TremorDamage及空TravelDistanceShort",
+          "reason": "当前正文不消费旧树，空值不补零。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "元素互斥、Q刷新和附魔状态",
+          "reason": "正文机制保留，事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "qiyana_e": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "dash_speed_min",
+        "dash_speed_max"
+      ],
+      "recordableFormulas": [
+        "physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "SWIFTPLAY/cherry",
+          "reason": "模式专用分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "冲刺速度中间曲线和E命中英雄自动瞄准Q",
+          "reason": "保留边界与跨技能资格，事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "qiyana_r": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "target_max_health_ratio",
+        "stun_duration_min_ms",
+        "stun_duration_max_ms"
+      ],
+      "recordableFormulas": [
+        "environment_explosion_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "MonsterCap及未消费Slow/Recast",
+          "reason": "野怪或无当前正文消费者。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "晕眩距离曲线和墙河草触发",
+          "reason": "保留0.5至1秒边界及同敌重复引爆，事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "ksante_p": {
+      "recordableParameters": [
+        "mark_duration_ms",
+        "flat_damage",
+        "mark_target_max_health_ratio_min",
+        "mark_target_max_health_ratio_max",
+        "mark_target_max_health_ratio"
+      ],
+      "recordableFormulas": [
+        "marked_attack_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "全盛姿态额外伤害、防御变换及兵野上下限",
+          "reason": "完整变形/姿态或兵野分支首轮跳过。"
+        },
+        {
+          "item": "匿名281dd874",
+          "reason": "普通正文未消费。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "标记施加和攻击消耗事件",
+          "reason": "数值已录，事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "ksante_q": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_armor_value",
+        "bonus_magic_resistance_value",
+        "bonus_armor_ratio",
+        "bonus_magic_resistance_ratio",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "recast_window_ms",
+        "stun_duration_ms",
+        "q3_knockup_duration_ms",
+        "defense_cap",
+        "cast_time_min_ms",
+        "cast_time_max_ms"
+      ],
+      "recordableFormulas": [
+        "physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "全盛冷却缩短和替换链、匿名层数树",
+          "reason": "完整变形/姿态或未证匿名规则。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "额外抗性影响冷却/施法和Q3资格",
+          "reason": "保留门槛、边界和层窗口，折算与事件待核。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "ksante_w": {
+      "recordableParameters": [
+        "base_damage",
+        "target_max_health_base_ratio",
+        "bonus_armor_ratio",
+        "bonus_magic_resistance_ratio",
+        "bonus_armor_value",
+        "bonus_magic_resistance_value",
+        "charge_min_duration_ms",
+        "charge_max_duration_ms",
+        "full_effect_charge_percent_points",
+        "self_damage_reduction_percent_points",
+        "knockback_stun_min_ms",
+        "knockback_stun_max_ms",
+        "dash_speed_base",
+        "dash_distance_min",
+        "dash_distance_max"
+      ],
+      "recordableFormulas": [
+        "target_max_health_damage_ratio",
+        "charge_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "全盛真实伤害/减伤/控制替换及兵野上限",
+          "reason": "完整变形/姿态和兵野分支跳过。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "蓄力中间曲线和属性阶段",
+          "reason": "仅保留边界、90%和无默认属性输入。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "ksante_e": {
+      "recordableParameters": [
+        "shield_base",
+        "bonus_hp_ratio",
+        "shield_duration_ms",
+        "free_dash_range",
+        "free_dash_speed"
+      ],
+      "recordableFormulas": [
+        "self_shield_amount"
+      ],
+      "excluded": [
+        {
+          "item": "友方护盾/延长位移及全盛速度",
+          "reason": "第三友方或完整变形分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾施加时点",
+          "reason": "数值和持续已录，事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "ksante_r": {
+      "recordableParameters": [
+        "initial_damage",
+        "slam_base_damage",
+        "slam_bonus_hp_ratio",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "slam_down_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "全盛15秒及属性转换链",
+          "reason": "完整变形链按根决策跳过。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "击退穿墙资格和控制事件",
+          "reason": "两段数值保留，事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "mel_p": {
+      "recordableParameters": [
+        "overwhelm_duration_ms",
+        "bonus_attack_duration_ms",
+        "passive_bonus_missiles",
+        "max_passive_bonus_missiles",
+        "unlearned_r_passive_flat_damage",
+        "unlearned_r_passive_stack_damage",
+        "overwhelm_stack_count",
+        "actual_character_level_passive_missile_base_damage",
+        "passive_missile_ap_ratio"
+      ],
+      "recordableFormulas": [
+        "overwhelm_threshold_damage",
+        "passive_bonus_missile_damage"
+      ],
+      "excluded": [
+        {
+          "item": "小兵残影削减",
+          "reason": "兵线专用。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "R零级跨技能、层数和8至30曲线",
+          "reason": "零级50/2、层数公式和插值端点已保存，取值与事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "mel_q": {
+      "recordableParameters": [
+        "explosion_count",
+        "initial_base_damage",
+        "following_base_damage",
+        "initial_ap_ratio",
+        "following_ap_ratio",
+        "channel_duration_ms",
+        "unit_count"
+      ],
+      "recordableFormulas": [
+        "initial_explosion_magic_damage",
+        "following_explosion_magic_damage",
+        "all_explosion_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "兵野修正、FirstExplosionDelay空值",
+          "reason": "兵野专用或无数值不补零。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "引导与多段命中时点",
+          "reason": "0.5秒窗口、首次/后续和总式已录，施法根字段冲突与事件待核。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "mel_w": {
+      "recordableParameters": [
+        "shield_duration_ms",
+        "shield_base",
+        "shield_ap_ratio",
+        "move_speed_percent_points",
+        "move_speed_duration_ms",
+        "reflected_damage_ratio",
+        "physical_to_magic_reduction_percent_points",
+        "actual_reflected_source_damage"
+      ],
+      "recordableFormulas": [
+        "self_shield_amount",
+        "reflected_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "范围内逐敌弹体摧毁",
+          "reason": "纯多目标分配不生成额外敌人效果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "弹体白名单、免疫和阶段",
+          "reason": "真实对方技能输入待接线，不造万能反射或无敌。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "mel_e": {
+      "recordableParameters": [
+        "center_base_damage",
+        "center_ap_ratio",
+        "root_duration_ms",
+        "area_damage_base_per_second",
+        "area_ap_ratio",
+        "area_slow_percent_points",
+        "area_slow_duration_ms",
+        "area_dot_duration_ms",
+        "area_ticks_per_second",
+        "max_area_radius",
+        "area_expand_duration_ms"
+      ],
+      "recordableFormulas": [
+        "center_magic_damage",
+        "area_damage_per_second"
+      ],
+      "excluded": [
+        {
+          "item": "MinionModTooltip=50%",
+          "reason": "小兵专用。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "8跳与每秒/离场残留关系",
+          "reason": "只保存每秒式、8跳和残留边界，事件待核。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "mel_r": {
+      "recordableParameters": [
+        "passive_flat_base",
+        "passive_stack_base",
+        "passive_flat_ap_ratio",
+        "passive_stack_ap_ratio",
+        "ult_flat_base",
+        "ult_stack_base",
+        "ult_flat_ap_ratio",
+        "ult_stack_ap_ratio",
+        "disintegrate_delay_ms"
+      ],
+      "recordableFormulas": [
+        "passive_flat_damage",
+        "passive_stack_damage",
+        "ult_flat_damage",
+        "ult_stack_damage"
+      ],
+      "excluded": [
+        {
+          "item": "MinionMod及额外带层敌人",
+          "reason": "小兵专用或额外敌人分配。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "至少一名敌方英雄有层的资格和处决比较",
+          "reason": "正文条件保留，不伪造触发或即时伤害。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "yunara_p": {
+      "recordableParameters": [
+        "critical_extra_damage_base_ratio",
+        "critical_extra_damage_ap_ratio",
+        "actual_critical_damage_base"
+      ],
+      "recordableFormulas": [
+        "critical_extra_damage_ratio",
+        "critical_extra_magic_damage"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "item": "暴击触发和基准阶段",
+          "reason": "比例与独立基准已录，事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "yunara_q": {
+      "recordableParameters": [
+        "resource_max",
+        "resource_champion_gain",
+        "resource_duration_ms",
+        "resource_loss_interval_ms",
+        "resource_loss_amount",
+        "active_resource_cost",
+        "active_buff_duration_ms",
+        "passive_base_damage",
+        "active_base_damage",
+        "passive_ap_ratio",
+        "active_ap_ratio",
+        "attack_speed_percent_points"
+      ],
+      "recordableFormulas": [
+        "passive_magic_damage",
+        "active_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "非英雄资源、Calc_Damage_Spread和小兵处决",
+          "reason": "非英雄或额外敌人/兵线分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "灵蕴叠加、主动消耗和超凡即刻激活",
+          "reason": "自身强化保留，状态与跨技能R事件待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "yunara_w": {
+      "recordableParameters": [
+        "initial_base_damage",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "dps_modifier",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "linger_duration_ms",
+        "cast_time_base_ms",
+        "cast_time_min_ms",
+        "cast_time_attack_speed_cap_percent_points"
+      ],
+      "recordableFormulas": [
+        "initial_magic_damage",
+        "damage_per_second"
+      ],
+      "excluded": [
+        {
+          "item": "超凡射线、兵线匿名树",
+          "reason": "R完整变形或兵线分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "永久攻速施法曲线和终点残留时点",
+          "reason": "只录0.45至0.225秒边界与1秒残留。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "yunara_e": {
+      "recordableParameters": [
+        "move_speed_percent_points",
+        "enemy_directed_move_speed_multiplier",
+        "buff_duration_ms"
+      ],
+      "recordableFormulas": [
+        "enemy_directed_move_speed"
+      ],
+      "excluded": [
+        {
+          "item": "超凡冲刺与ARAM",
+          "reason": "完整变形或模式专用。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "幽灵状态语义",
+          "reason": "保留状态，具体碰撞/免疫待核。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "yunara_r": {
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "excluded": [
+        {
+          "item": "15秒超凡形态及W/E/Q完整强化链",
+          "reason": "按根决策跳过完整变形技能组，原始数值留在来源摘要。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "超凡跨技能引用",
+          "reason": "Q/W/E正文引用和根计算树保留，系统状态接线待后续处理。"
+        }
+      ],
+      "currentSubjectProtected": true
+    }
+  },
+  "noApiCalls": true,
+  "apiWrites": 0
+}

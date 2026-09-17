@@ -1,0 +1,72 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/effects",
+    "detailRoute": "/skills/udyr_q/effects/standard_attack_speed",
+    "skillKey": "udyr_q",
+    "kind": "effects",
+    "stableKey": "standard_attack_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "standard_attack_speed",
+      "name": "狂暴爪击普通攻击速度",
+      "description": "普通姿态额外攻击速度；与觉醒攻击速度效果二选一。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "attack_speed_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "狂暴爪击普通攻击速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只记录属性变化，触发条件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

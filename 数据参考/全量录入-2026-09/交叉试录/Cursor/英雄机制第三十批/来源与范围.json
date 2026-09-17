@@ -1,0 +1,239 @@
+{
+  "batch": "英雄机制第三十批",
+  "status": "候选已冻结，严格数学通过，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "sourcePolicy": "固定客户端16.17、官方16.17.1和构建16.17.8104348；沿当前根绑定正文和当前计算树；未知等级曲线、暴击阶段、施法时序、事件资格和运行输入不猜、不设默认。",
+  "included": [
+    "亚索：P暴击几率翻倍与超额转换、P同版官方护盾持续时间、Q普通/暴击物理伤害、W飞行道具阻挡时长、E完整基数叠层魔法伤害、R唯一浮空敌人伤害与额外护甲来源参数。",
+    "永恩：P同一攻击基数的物理/魔法拆分与暴击转换、Q普通/暴击物理伤害、W两类半基数伤害和首个敌方英雄完整护盾、E限定对英雄攻击与技能实际伤害的返回比例、R两类半基数伤害。",
+    "比例按1代表100%，毫秒和次数使用整数；所有真实运行输入不设默认，所有未证曲线和事件保持待接。"
+  ],
+  "excludedOrPending": [
+    "额外目标分配、纯几何/展示换算、独立召唤或完整变形假设、自动触发、伤害/直接治疗结果、瞬时求值和周期过程。",
+    "匿名未消费树、未证的攻击速度完整缩短式、暴击mStat9阶段、Yasuo W施法冲突、Yone R施法冲突和各技能事件时序。",
+    "Yone W兵野最低/上限、未消费WDamage/BaseShield/匿名树；Yone E匿名DeathmarkBase、缺失生命数组和全来源伤害替代。"
+  ],
+  "perSkillExcluded": {
+    "yasuo_p": [
+      {
+        "item": "匿名{74ce5438}等级断点计算",
+        "reason": "当前正文没有消费该匿名55起及7/13/19/25级断点对象，未知求值不写。"
+      },
+      {
+        "item": "被动spellCastTime=0.25秒",
+        "reason": "被动来源字段不证明存在主动施法过程，本轮只保留机制参数和护盾效果。"
+      }
+    ],
+    "yasuo_q": [
+      {
+        "item": "StabRange/TornadoRange/StabWidth/SpinWidth等几何字段",
+        "reason": "只影响范围或展示，本轮单一敌人伤害不需要建立几何公式。"
+      },
+      {
+        "item": "客户端Cooldown与已有公共cooldown_ms",
+        "reason": "公共冷却已在快照中复用，不新增或更新。"
+      },
+      {
+        "item": "攻击速度缩短冷却和施法时间的完整求值",
+        "reason": "正文只给出关系，未给出可审的完整执行式，保留基础字段并待接。"
+      }
+    ],
+    "yasuo_w": [
+      {
+        "item": "WallLife/Width/TravelRange/BubbleRadius/Thickness等几何字段",
+        "reason": "本轮只保留已证持续时间，几何碰撞未形成可复用计算。"
+      },
+      {
+        "item": "spellCastTime=0与mCastTime约13毫秒",
+        "reason": "两个来源字段冲突，不能任选固定施法时长。"
+      }
+    ],
+    "yasuo_e": [
+      {
+        "item": "BaseDashSpeed与位移几何",
+        "reason": "只描述位移速度或空间过程，本轮没有成熟的位移结果组成。"
+      },
+      {
+        "item": "公共cooldown_ms",
+        "reason": "已有公共参数复用；客户端mDoesNotConsumeCooldown不证明公共冷却真实起算。"
+      }
+    ],
+    "yasuo_r": [
+      {
+        "item": "RRadius/RCastSearchRadius与额外敌人分配",
+        "reason": "几何和额外目标不进入本轮单一敌人公式。"
+      }
+    ],
+    "yone_p": [
+      {
+        "item": "被动spellCastTime=0.25秒",
+        "reason": "被动字段不证明独立主动施法过程。"
+      },
+      {
+        "item": "暴击和攻击特效的全部拆分资格",
+        "reason": "当前正文只明确攻击伤害分拆，未自动把所有攻击特效分半。"
+      }
+    ],
+    "yone_q": [
+      {
+        "item": "Width/Q3DashSpeed/Q3AoESize等几何和位移字段",
+        "reason": "本轮只保留单一敌人伤害与击飞时长，空间过程不建无消费者公式。"
+      },
+      {
+        "item": "QAttackSpeedCDPercent/QAttackSpeedCastReduction及其端点",
+        "reason": "只证明系数和上限，缺执行关系不造完整攻速公式。"
+      },
+      {
+        "item": "已有公共cooldown_ms与mCooldownNotAffectedByCDR",
+        "reason": "公共参数复用；不能用普通急速公式覆盖该技能冷却。"
+      }
+    ],
+    "yone_w": [
+      {
+        "item": "WDamage及匿名{8dfeb810}计算树",
+        "reason": "当前正文未消费其中的总攻击力/匿名系数，不能混入当前两种伤害。"
+      },
+      {
+        "item": "MinionMod、MinimumDamageMinions与MonsterDamageCap",
+        "reason": "小兵最低伤害和野怪上限是兵野专用支路，本轮单一敌方英雄范围排除。"
+      },
+      {
+        "item": "BaseShield与SecondChampShieldMultiplier",
+        "reason": "BaseShield不是当前WShield实际等级基础值；后续英雄额外50%属于额外目标分配。"
+      },
+      {
+        "item": "BaseHealing、HealthStealMultiplier与WCritMultiplier",
+        "reason": "当前技能正文没有对应可写的单一敌人效果或当前伤害树消费者。"
+      },
+      {
+        "item": "攻击速度缩短冷却/施法的完整求值",
+        "reason": "当前只保存基础施法字段和已复用公共冷却，不猜执行曲线。"
+      }
+    ],
+    "yone_e": [
+      {
+        "item": "DeathmarkBase与匿名{df232269}树",
+        "reason": "当前正文消费的是对英雄实际造成伤害的存量，不是匿名基础加总AD树。"
+      },
+      {
+        "item": "MissingHealthPercent",
+        "reason": "虽然数组相同，但当前正文没有把缺失生命作为返回伤害基数。"
+      },
+      {
+        "item": "灵体位移几何、完整移速过程和自动返回效果",
+        "reason": "本轮只记录窗口、起末比例、重施锁定和追加伤害公式，不造自动状态过程。"
+      }
+    ],
+    "yone_r": [
+      {
+        "item": "BlinkDistanceBehindTarget/Width/最大距离闪烁几何",
+        "reason": "空间与未命中位移分支不改变当前单一敌人伤害公式。"
+      },
+      {
+        "item": "spellCastTime=125毫秒与mCastTime=750毫秒",
+        "reason": "两个来源字段冲突，不任选固定施法时间。"
+      }
+    ]
+  },
+  "perSkillPending": {
+    "yasuo_p": [
+      {
+        "item": "移动积攒剑意、满槽和受英雄或野怪伤害触发护盾",
+        "reason": "正文已明确，但触发条件、层数时间和接线时点未进入本轮组成。"
+      },
+      {
+        "item": "CritDamageMod与CurrentCritDamage的应用阶段",
+        "reason": "减伤参数已作为来源参数保留；实际暴击倍率选择器阶段无窄证。"
+      }
+    ],
+    "yasuo_q": [
+      {
+        "item": "2层后下一次旋风、首个命中目标攻击特效及E中Q圆形分支",
+        "reason": "资格和顺序待事件层接线；同一伤害不重复计为多目标。"
+      }
+    ],
+    "yasuo_w": [
+      {
+        "item": "飞行道具类型、碰撞和资格",
+        "reason": "正文明确塔弹和光束不能阻挡，具体对象枚举与接线仍待补。"
+      }
+    ],
+    "yasuo_e": [
+      {
+        "item": "Q联动、每目标锁定、层数先后和命中事件",
+        "reason": "数值与资格已保存，事件时序待接。"
+      }
+    ],
+    "yasuo_r": [
+      {
+        "item": "浮空资格、满剑意、清空Q层数和暴击额外护甲阶段",
+        "reason": "正文条件明确，触发和状态接线待后续运行层。"
+      }
+    ],
+    "yone_p": [
+      {
+        "item": "攻击交替状态与第二次攻击触发",
+        "reason": "同一角色的交替状态保留为待接事件，不创建两个角色或召唤物。"
+      },
+      {
+        "item": "CritDamageMod与CurrentCritDamage应用阶段",
+        "reason": "来源参数已保留，实际选择器阶段待窄证。"
+      }
+    ],
+    "yone_q": [
+      {
+        "item": "两层、第三次旋风、位移和首个命中攻击特效",
+        "reason": "事件顺序待接；同次不重复计伤害。"
+      }
+    ],
+    "yone_w": [
+      {
+        "item": "命中单位后获得护盾的事件",
+        "reason": "自身护盾效果已定义，施放/命中时序待接；未命中不默认产生护盾。"
+      },
+      {
+        "item": "锥形范围与额外敌人护盾分配",
+        "reason": "本轮保留唯一敌人，额外英雄每人50%不录。"
+      }
+    ],
+    "yone_e": [
+      {
+        "item": "硬控期间无法返回、自动到期和重施时序",
+        "reason": "官方文本已明确条件，事件和状态接线待后续运行层。"
+      }
+    ],
+    "yone_r": [
+      {
+        "item": "击飞/拉向和唯一敌人命中事件",
+        "reason": "唯一敌人资格保留，控制与命中时序待接；RKnockupDuration只作来源参数。"
+      }
+    ]
+  },
+  "counts": {
+    "parameters": 64,
+    "formulas": 20,
+    "effects": 2,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "requestCount": 86,
+    "reusedPublicParameters": 8,
+    "protectedSubjects": 10,
+    "protectedCompositionLists": 60,
+    "protectedReferenceGETs": 96
+  },
+  "hashes": {
+    "currentSnapshotSha256": "65decb352a57f467bb8d90beccf1e09d86d463688e00d501dccf2c51d54a753c",
+    "sourceManifestSha256": "a7a5c855729939e7c55b3f2683d3a7da40eda5a55931f8976d1ef1000365dcf6",
+    "candidateSha256": "2efb89e7a4698b77b12a438922b1f9c5353460eb711e299039ab613c3cea7e12",
+    "planSha256": "bc33491aefd00be327802161eae24e749ee225d6857951d9ce91164a32b0baf1",
+    "sourceValuesSha256": "48c6d6f111005b3c4d5c9eed617f2c842f06e9146aa19fb86e98ddbad6e68c35",
+    "strictMathSha256": "07a1b8e257236dd3b9389e437de84e8a648a13f27d2c5c3b31fb166b9e7ec826"
+  },
+  "noApiCalls": true
+}

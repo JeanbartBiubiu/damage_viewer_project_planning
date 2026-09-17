@@ -1,0 +1,153 @@
+{
+  "artifact": "Brand E 法力消耗独立只读回读",
+  "observedAt": "2026-09-10T23:05:25.8085363+08:00",
+  "scope": "仅依据本次本地管理接口 GET 回读；官方 16.17.1 全等级 90 是本次期望值。未读取或采用根执行者的 03/04 结果。",
+  "requestPolicy": {
+    "method": "GET",
+    "baseUrl": "http://127.0.0.1:8080",
+    "getCount": 8,
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false,
+    "browserUsed": false,
+    "gitUsed": false
+  },
+  "responses": [
+    {
+      "route": "/api/admin/games/lol/skills/brand_e/parameters/mana_cost",
+      "status": 200,
+      "observed": {
+        "parameterKey": "mana_cost",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90,
+        "levelValues": null,
+        "sortOrder": 20
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/brand_e/parameters",
+      "status": 200,
+      "observed": {
+        "count": 5,
+        "keys": [
+          "cooldown_ms",
+          "cast_time_ms",
+          "mana_cost",
+          "base_damage",
+          "ap_ratio"
+        ],
+        "manaCostCount": 1,
+        "sortOrders": [
+          { "parameterKey": "cooldown_ms", "sortOrder": 10 },
+          { "parameterKey": "cast_time_ms", "sortOrder": 20 },
+          { "parameterKey": "mana_cost", "sortOrder": 20 },
+          { "parameterKey": "base_damage", "sortOrder": 30 },
+          { "parameterKey": "ap_ratio", "sortOrder": 40 }
+        ]
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/brand_e/parameters/cooldown_ms",
+      "status": 200,
+      "observed": {
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "levelValues": { "1": 13000, "2": 12000, "3": 11000, "4": 10000, "5": 9000 },
+        "fixedValue": null,
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/brand_e/parameters/cast_time_ms",
+      "status": 200,
+      "observed": {
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "sortOrder": 20
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/brand_e/parameters/base_damage",
+      "status": 200,
+      "observed": {
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "levelValues": { "1": 55, "2": 80, "3": 105, "4": 130, "5": 155 },
+        "fixedValue": null,
+        "sortOrder": 30
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/brand_e/parameters/ap_ratio",
+      "status": 200,
+      "observed": {
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "sortOrder": 40
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/brand_e/formulas/damage",
+      "status": 200,
+      "observed": {
+        "formulaKey": "damage",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            { "nodeType": "PARAMETER", "parameterKey": "base_damage" },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                { "nodeType": "PARAMETER", "parameterKey": "ap_ratio" },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/brand_e/effects/conflagration_hit",
+      "status": 200,
+      "observed": {
+        "effectKey": "conflagration_hit",
+        "resultCount": 1,
+        "results": [
+          {
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "value": { "kind": "FORMULA", "formulaKey": "damage" },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED"
+          }
+        ]
+      }
+    }
+  ],
+  "checks": {
+    "allEightRequestsAreGetAndStatus200": true,
+    "manaCostIsIntegerFixed90": true,
+    "manaCostHasNoLevelValues": true,
+    "parameterCountExactlyFive": true,
+    "manaCostAppearsExactlyOnce": true,
+    "originalFourParametersPresentWithExpectedValues": true,
+    "damageFormulaStructureNormal": true,
+    "conflagrationHitStructureNormal": true,
+    "overall": "通过：法力参数、五项参数清单、原四项参数、伤害公式和直接伤害效果均回读正常。"
+  },
+  "nonBlockingObservation": "参数清单中 cast_time_ms 与 mana_cost 共用 sortOrder=20；本次要求的数量、唯一键和值结构均通过，未在只读回读中修改排序号。"
+}

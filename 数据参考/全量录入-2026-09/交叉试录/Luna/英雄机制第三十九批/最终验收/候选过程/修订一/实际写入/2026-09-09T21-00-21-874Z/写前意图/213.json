@@ -1,0 +1,68 @@
+{
+  "i": 212,
+  "intent": {
+    "sequence": 213,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_r/formulas",
+    "detailRoute": "/skills/smolder_r/formulas/outer_physical_damage",
+    "skillKey": "smolder_r",
+    "kind": "formulas",
+    "stableKey": "outer_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "outer_physical_damage",
+      "name": "妈----！外圈单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=基础伤害+1×来源额外攻击力+1×来源总法强；龙母是技能载体，不当作独立召唤物技能组。",
+      "sortOrder": 10
+    }
+  }
+}

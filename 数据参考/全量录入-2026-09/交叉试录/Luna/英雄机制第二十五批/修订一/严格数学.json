@@ -1,0 +1,1993 @@
+{
+  "generatedAt": "2026-09-09T15:15:10.988Z",
+  "status": "修订一实际候选表达式独立求值通过；未调用业务接口",
+  "candidateSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
+  "sourceValuesSha256": "f973c4092defc937e81465623d5525e3693d0d92c8f1b1d4f0052ff628288055",
+  "sourceTreeBasis": "读取修订一完整候选的实际表达式；期望值由独立源值摘要、当前16.17根绑定正文/计算树记录、已证属性口径和本修订的等级/1v1边界单独计算。",
+  "counts": {
+    "formulas": 23,
+    "formulaCases": 46,
+    "rejectionCases": 23,
+    "runtimeInputRejectionCases": 13,
+    "boundaryCases": 21,
+    "sourceSeriesChecks": 38
+  },
+  "sourceChecks": [
+    {
+      "skillKey": "drmundo_p",
+      "sourceName": "CurrentHealthLoss",
+      "parameterKey": "current_health_loss_ratio",
+      "raw": [
+        0.03999999910593033,
+        0.03999999910593033,
+        0.03999999910593033,
+        0.03999999910593033,
+        0.03999999910593033,
+        0.03999999910593033
+      ],
+      "sourceSummary": [
+        0.04
+      ],
+      "candidate": [
+        0.04
+      ],
+      "expected": [
+        0.04
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_p",
+      "sourceName": "MaxHealthGain",
+      "parameterKey": "max_health_gain_ratio",
+      "raw": [
+        0.03999999910593033,
+        0.03999999910593033,
+        0.03999999910593033,
+        0.03999999910593033,
+        0.03999999910593033,
+        0.03999999910593033
+      ],
+      "sourceSummary": [
+        0.04
+      ],
+      "candidate": [
+        0.04
+      ],
+      "expected": [
+        0.04
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "SlowAmount",
+      "parameterKey": "slow_ratio",
+      "raw": [
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645
+      ],
+      "sourceSummary": [
+        0.4
+      ],
+      "candidate": [
+        0.4
+      ],
+      "expected": [
+        0.4
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "CurrentHealthDamage",
+      "parameterKey": "current_health_damage_ratio",
+      "raw": [
+        0.20000000298023224,
+        0.22499999403953552,
+        0.25,
+        0.2750000059604645,
+        0.30000001192092896,
+        0.32499998807907104
+      ],
+      "sourceSummary": [
+        0.2,
+        0.225,
+        0.25,
+        0.275,
+        0.3
+      ],
+      "candidate": [
+        0.2,
+        0.225,
+        0.25,
+        0.275,
+        0.3
+      ],
+      "expected": [
+        0.2,
+        0.225,
+        0.25,
+        0.275,
+        0.3
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "MinimumDamage",
+      "parameterKey": "minimum_damage",
+      "raw": [
+        80,
+        130,
+        180,
+        230,
+        280,
+        330
+      ],
+      "sourceSummary": [
+        80,
+        130,
+        180,
+        230,
+        280
+      ],
+      "candidate": [
+        80,
+        130,
+        180,
+        230,
+        280
+      ],
+      "expected": [
+        80,
+        130,
+        180,
+        230,
+        280
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "HealthCost",
+      "parameterKey": "health_cost",
+      "raw": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "sourceSummary": [
+        50,
+        60,
+        70,
+        80,
+        90
+      ],
+      "candidate": [
+        50,
+        60,
+        70,
+        80,
+        90
+      ],
+      "expected": [
+        50,
+        60,
+        70,
+        80,
+        90
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "HealthRefundOnHitChampionMonsterPercent",
+      "parameterKey": "health_refund_on_champion_monster_ratio",
+      "raw": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "sourceSummary": [
+        1
+      ],
+      "candidate": [
+        1
+      ],
+      "expected": [
+        1
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "CurrentHealthCost",
+      "parameterKey": "current_health_cost_ratio",
+      "raw": [
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066
+      ],
+      "sourceSummary": [
+        0.08
+      ],
+      "candidate": [
+        0.08
+      ],
+      "expected": [
+        0.08
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "GrayHealthStorage",
+      "parameterKey": "gray_health_storage_ratio",
+      "raw": [
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "sourceSummary": [
+        0.25
+      ],
+      "candidate": [
+        0.25
+      ],
+      "expected": [
+        0.25
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "GrayHealthInitialDuration",
+      "parameterKey": "gray_health_initial_duration_ms",
+      "raw": [
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75
+      ],
+      "sourceSummary": [
+        0.75
+      ],
+      "candidate": [
+        750
+      ],
+      "expected": [
+        750
+      ],
+      "transformation": "seconds_to_ms",
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "GrayHealthBigMod",
+      "parameterKey": "gray_health_hero_restore_ratio",
+      "raw": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "sourceSummary": [
+        1
+      ],
+      "candidate": [
+        1
+      ],
+      "expected": [
+        1
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "GrayHealthSmallMod",
+      "parameterKey": "gray_health_nonhero_restore_ratio",
+      "raw": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "sourceSummary": [
+        0.5
+      ],
+      "candidate": [
+        0.5
+      ],
+      "expected": [
+        0.5
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "DamagePerTick",
+      "parameterKey": "damage_per_tick",
+      "raw": [
+        5,
+        8.75,
+        12.5,
+        16.25,
+        20,
+        23.75
+      ],
+      "sourceSummary": [
+        5,
+        8.75,
+        12.5,
+        16.25,
+        20
+      ],
+      "candidate": [
+        5,
+        8.75,
+        12.5,
+        16.25,
+        20
+      ],
+      "expected": [
+        5,
+        8.75,
+        12.5,
+        16.25,
+        20
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "RecastBaseDamage",
+      "parameterKey": "recast_base_damage",
+      "raw": [
+        20,
+        35,
+        50,
+        65,
+        80,
+        95
+      ],
+      "sourceSummary": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "candidate": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "expected": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "FlatHealthCost",
+      "parameterKey": "flat_health_cost",
+      "raw": [
+        10,
+        25,
+        40,
+        55,
+        70,
+        85
+      ],
+      "sourceSummary": [
+        10,
+        25,
+        40,
+        55,
+        70
+      ],
+      "candidate": [
+        10,
+        25,
+        40,
+        55,
+        70
+      ],
+      "expected": [
+        10,
+        25,
+        40,
+        55,
+        70
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "BaseDamage",
+      "parameterKey": "base_damage",
+      "raw": [
+        5,
+        15,
+        25,
+        35,
+        45,
+        55
+      ],
+      "sourceSummary": [
+        5,
+        15,
+        25,
+        35,
+        45
+      ],
+      "candidate": [
+        5,
+        15,
+        25,
+        35,
+        45
+      ],
+      "expected": [
+        5,
+        15,
+        25,
+        35,
+        45
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "BonusHealthRatio",
+      "parameterKey": "bonus_health_ratio",
+      "raw": [
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806
+      ],
+      "sourceSummary": [
+        0.05
+      ],
+      "candidate": [
+        0.05
+      ],
+      "expected": [
+        0.05
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "MaxDamageAmp",
+      "parameterKey": "max_damage_amp",
+      "raw": [
+        1.399999976158142,
+        1.399999976158142,
+        1.399999976158142,
+        1.399999976158142,
+        1.399999976158142,
+        1.399999976158142
+      ],
+      "sourceSummary": [
+        1.4
+      ],
+      "candidate": [
+        1.4
+      ],
+      "expected": [
+        1.4
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "HealthToADRatio",
+      "parameterKey": "health_to_ad_ratio",
+      "raw": [
+        2,
+        2.299999952316284,
+        2.5999999046325684,
+        2.9000000953674316,
+        3.200000047683716,
+        3.5
+      ],
+      "sourceSummary": [
+        2,
+        2.3,
+        2.6,
+        2.9,
+        3.2
+      ],
+      "candidate": [
+        2,
+        2.3,
+        2.6,
+        2.9,
+        3.2
+      ],
+      "expected": [
+        2,
+        2.3,
+        2.6,
+        2.9,
+        3.2
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "sourceName": "SpeedBoostAmount",
+      "parameterKey": "speed_boost_ratio",
+      "raw": [
+        0.15000000596046448,
+        0.25,
+        0.3499999940395355,
+        0.44999998807907104,
+        0.550000011920929,
+        0.6499999761581421
+      ],
+      "sourceSummary": [
+        0.15,
+        0.25,
+        0.35
+      ],
+      "candidate": [
+        0.15,
+        0.25,
+        0.35
+      ],
+      "expected": [
+        0.15,
+        0.25,
+        0.35
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "sourceName": "MissingHealthHeal",
+      "parameterKey": "missing_health_max_health_gain_ratio",
+      "raw": [
+        0.15000000596046448,
+        0.20000000298023224,
+        0.25,
+        0.30000001192092896,
+        0.3499999940395355,
+        0.4000000059604645
+      ],
+      "sourceSummary": [
+        0.15,
+        0.2,
+        0.25
+      ],
+      "candidate": [
+        0.15,
+        0.2,
+        0.25
+      ],
+      "expected": [
+        0.15,
+        0.2,
+        0.25
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "sourceName": "MaxHealthHoT",
+      "parameterKey": "max_health_regeneration_ratio",
+      "raw": [
+        0.20000000298023224,
+        0.4000000059604645,
+        0.6000000238418579,
+        0.800000011920929,
+        1,
+        1.2000000476837158
+      ],
+      "sourceSummary": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "candidate": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "expected": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "sourceName": "BonusPerNearbyChampion",
+      "parameterKey": "bonus_per_nearby_champion_ratio",
+      "raw": [
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806
+      ],
+      "sourceSummary": [
+        0.05
+      ],
+      "candidate": [
+        0,
+        0,
+        0.05
+      ],
+      "expected": [
+        0,
+        0,
+        0.05
+      ],
+      "transformation": "level_gate_r3",
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "BaseHealing",
+      "parameterKey": "base_healing",
+      "raw": [
+        30,
+        40,
+        50,
+        60,
+        70,
+        80
+      ],
+      "sourceSummary": [
+        30,
+        40,
+        50,
+        60,
+        70
+      ],
+      "candidate": [
+        30,
+        40,
+        50,
+        60,
+        70
+      ],
+      "expected": [
+        30,
+        40,
+        50,
+        60,
+        70
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "BonusHealPerFury",
+      "parameterKey": "bonus_heal_per_fury",
+      "raw": [
+        0.5,
+        0.949999988079071,
+        1.399999976158142,
+        1.850000023841858,
+        2.299999952316284,
+        2.75
+      ],
+      "sourceSummary": [
+        0.5,
+        0.95,
+        1.4,
+        1.85,
+        2.3
+      ],
+      "candidate": [
+        0.5,
+        0.95,
+        1.4,
+        1.85,
+        2.3
+      ],
+      "expected": [
+        0.5,
+        0.95,
+        1.4,
+        1.85,
+        2.3
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "APRatio",
+      "parameterKey": "ap_ratio",
+      "raw": [
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896
+      ],
+      "sourceSummary": [
+        0.3
+      ],
+      "candidate": [
+        0.3
+      ],
+      "expected": [
+        0.3
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "APRatioPerFury",
+      "parameterKey": "ap_ratio_per_fury",
+      "raw": [
+        0.012000000104308128,
+        0.012000000104308128,
+        0.012000000104308128,
+        0.012000000104308128,
+        0.012000000104308128,
+        0.012000000104308128
+      ],
+      "sourceSummary": [
+        0.012
+      ],
+      "candidate": [
+        0.012
+      ],
+      "expected": [
+        0.012
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "MaximumBonusAD",
+      "parameterKey": "maximum_bonus_attack_damage",
+      "raw": [
+        20,
+        35,
+        50,
+        65,
+        80,
+        95
+      ],
+      "sourceSummary": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "candidate": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "expected": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "RemainingHealthThreshold",
+      "parameterKey": "remaining_health_threshold_ratio",
+      "raw": [
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612
+      ],
+      "sourceSummary": [
+        0.1
+      ],
+      "candidate": [
+        0.1
+      ],
+      "expected": [
+        0.1
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_w",
+      "sourceName": "ADReduction",
+      "parameterKey": "attack_damage_reduction",
+      "raw": [
+        -20,
+        -35,
+        -50,
+        -65,
+        -80,
+        -95
+      ],
+      "sourceSummary": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "candidate": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "expected": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "transformation": "negate",
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_w",
+      "sourceName": "SlowPotency",
+      "parameterKey": "slow_ratio",
+      "raw": [
+        -0.30000001192092896,
+        -0.3499999940395355,
+        -0.4000000059604645,
+        -0.44999998807907104,
+        -0.5,
+        -0.550000011920929
+      ],
+      "sourceSummary": [
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5
+      ],
+      "candidate": [
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5
+      ],
+      "expected": [
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5
+      ],
+      "transformation": "negate",
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "Damage",
+      "parameterKey": "damage_base",
+      "raw": [
+        80,
+        120,
+        160,
+        200,
+        240,
+        280
+      ],
+      "sourceSummary": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "candidate": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "expected": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "ADRatio",
+      "parameterKey": "ad_ratio",
+      "raw": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "sourceSummary": [
+        1
+      ],
+      "candidate": [
+        1
+      ],
+      "expected": [
+        1
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "APRatio",
+      "parameterKey": "ap_ratio",
+      "raw": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "sourceSummary": [
+        0.8
+      ],
+      "candidate": [
+        0.8
+      ],
+      "expected": [
+        0.8
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "ChampCDRefund",
+      "parameterKey": "champion_crit_cooldown_refund_ms",
+      "raw": [
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ],
+      "sourceSummary": [
+        1.5
+      ],
+      "candidate": [
+        1500
+      ],
+      "expected": [
+        1500
+      ],
+      "transformation": "seconds_to_ms",
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "ChampFuryGain",
+      "parameterKey": "champion_fury_gain",
+      "raw": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "sourceSummary": [
+        5
+      ],
+      "candidate": [
+        5
+      ],
+      "expected": [
+        5
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_r",
+      "sourceName": "TryndRMinHealth",
+      "parameterKey": "minimum_health",
+      "raw": [
+        30,
+        50,
+        70,
+        90,
+        110,
+        130
+      ],
+      "sourceSummary": [
+        30,
+        50,
+        70
+      ],
+      "candidate": [
+        30,
+        50,
+        70
+      ],
+      "expected": [
+        30,
+        50,
+        70
+      ],
+      "transformation": null,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_r",
+      "sourceName": "TryndRFuryGain",
+      "parameterKey": "fury_gain",
+      "raw": [
+        50,
+        75,
+        100,
+        125,
+        150,
+        175
+      ],
+      "sourceSummary": [
+        50,
+        75,
+        100
+      ],
+      "candidate": [
+        50,
+        75,
+        100
+      ],
+      "expected": [
+        50,
+        75,
+        100
+      ],
+      "transformation": null,
+      "passed": true
+    }
+  ],
+  "formulaResults": [
+    {
+      "skillKey": "drmundo_p",
+      "formulaKey": "health_loss_amount",
+      "cases": [
+        {
+          "name": "当前生命1250",
+          "expected": 50,
+          "actual": 50,
+          "level": 1
+        },
+        {
+          "name": "当前生命1777",
+          "expected": 71.08,
+          "actual": 71.08,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_p",
+      "formulaKey": "max_health_gain_amount",
+      "cases": [
+        {
+          "name": "最大生命3000",
+          "expected": 120,
+          "actual": 120,
+          "level": 1
+        },
+        {
+          "name": "最大生命4200",
+          "expected": 168,
+          "actual": 168,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_p",
+      "formulaKey": "max_health_regen_amount",
+      "cases": [
+        {
+          "name": "等级外供比例004",
+          "expected": 12,
+          "actual": 12,
+          "level": 1
+        },
+        {
+          "name": "等级外供比例005",
+          "expected": 21,
+          "actual": 21,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_q",
+      "formulaKey": "magic_damage",
+      "cases": [
+        {
+          "name": "一级低于最低值",
+          "expected": 80,
+          "actual": 80,
+          "level": 1
+        },
+        {
+          "name": "五级高于最低值",
+          "expected": 660,
+          "actual": 660,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_q",
+      "formulaKey": "health_refund_on_champion_monster",
+      "cases": [
+        {
+          "name": "一级生命代价",
+          "expected": 50,
+          "actual": 50,
+          "level": 1
+        },
+        {
+          "name": "五级生命代价",
+          "expected": 90,
+          "actual": 90,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "health_cost",
+      "cases": [
+        {
+          "name": "一级当前生命",
+          "expected": 100,
+          "actual": 100,
+          "level": 1
+        },
+        {
+          "name": "五级当前生命",
+          "expected": 142.16,
+          "actual": 142.16,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "damage_per_second",
+      "cases": [
+        {
+          "name": "一级每秒显示倍率",
+          "expected": 20,
+          "actual": 20,
+          "level": 1
+        },
+        {
+          "name": "五级每秒显示倍率",
+          "expected": 80,
+          "actual": 80,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "initial_gray_health_storage",
+      "cases": [
+        {
+          "name": "首段比例百分之80",
+          "expected": 80,
+          "actual": 80,
+          "level": 1
+        },
+        {
+          "name": "首段比例百分之95",
+          "expected": 237.5,
+          "actual": 237.5,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "subsequent_gray_health_storage",
+      "cases": [
+        {
+          "name": "后续伤害200",
+          "expected": 50,
+          "actual": 50,
+          "level": 1
+        },
+        {
+          "name": "后续伤害500",
+          "expected": 125,
+          "actual": 125,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "hero_gray_health_restore_amount",
+      "cases": [
+        {
+          "name": "英雄命中灰色生命300",
+          "expected": 300,
+          "actual": 300,
+          "level": 1
+        },
+        {
+          "name": "英雄命中灰色生命640",
+          "expected": 640,
+          "actual": 640,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "nonhero_gray_health_restore_amount",
+      "cases": [
+        {
+          "name": "非英雄命中灰色生命300",
+          "expected": 150,
+          "actual": 150,
+          "level": 1
+        },
+        {
+          "name": "非英雄命中灰色生命640",
+          "expected": 320,
+          "actual": 320,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "recast_magic_damage",
+      "cases": [
+        {
+          "name": "一级额外生命1750",
+          "expected": 142.5,
+          "actual": 142.5,
+          "level": 1
+        },
+        {
+          "name": "五级额外生命2423",
+          "expected": 249.61,
+          "actual": 249.61,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_e",
+      "formulaKey": "additional_physical_damage",
+      "cases": [
+        {
+          "name": "一级额外生命1750",
+          "expected": 92.5,
+          "actual": 92.5,
+          "level": 1
+        },
+        {
+          "name": "五级额外生命2423",
+          "expected": 166.15,
+          "actual": 166.15,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_e",
+      "formulaKey": "passive_bonus_attack_damage",
+      "cases": [
+        {
+          "name": "一级总生命3000",
+          "expected": 60,
+          "actual": 60,
+          "level": 1
+        },
+        {
+          "name": "五级总生命4200",
+          "expected": 134.4,
+          "actual": 134.4,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_e",
+      "formulaKey": "maximum_additional_damage_endpoint",
+      "cases": [
+        {
+          "name": "一级完整额外伤害乘一点四",
+          "expected": 129.5,
+          "actual": 129.5,
+          "level": 1
+        },
+        {
+          "name": "五级完整额外伤害乘一点四",
+          "expected": 232.60999999999999,
+          "actual": 232.60999999999999,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "nearby_champion_effect_multiplier",
+      "cases": [
+        {
+          "name": "一级附近一名不增幅",
+          "expected": 1,
+          "actual": 1,
+          "level": 1
+        },
+        {
+          "name": "三级附近一名增幅",
+          "expected": 1.05,
+          "actual": 1.05,
+          "level": 3
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "missing_health_max_health_gain_amount",
+      "cases": [
+        {
+          "name": "一级实际已损失生命基准500",
+          "expected": 75,
+          "actual": 75,
+          "level": 1
+        },
+        {
+          "name": "三级实际已损失生命基准1100且附近一名",
+          "expected": 288.75,
+          "actual": 288.75,
+          "level": 3
+        }
+      ]
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "max_health_regeneration_amount",
+      "cases": [
+        {
+          "name": "一级实际最大生命基准3000",
+          "expected": 600,
+          "actual": 600,
+          "level": 1
+        },
+        {
+          "name": "三级实际最大生命基准4200且附近一名",
+          "expected": 2646,
+          "actual": 2646,
+          "level": 3
+        }
+      ]
+    },
+    {
+      "skillKey": "tryndamere_p",
+      "formulaKey": "crit_chance_from_fury",
+      "cases": [
+        {
+          "name": "零怒气",
+          "expected": 0,
+          "actual": 0,
+          "level": 1
+        },
+        {
+          "name": "八十怒气非满值",
+          "expected": 0.4,
+          "actual": 0.4,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "base_heal",
+      "cases": [
+        {
+          "name": "一级法强50",
+          "expected": 45,
+          "actual": 45,
+          "level": 1
+        },
+        {
+          "name": "五级法强275",
+          "expected": 152.5,
+          "actual": 152.5,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "heal_per_fury",
+      "cases": [
+        {
+          "name": "一级法强50",
+          "expected": 1.1,
+          "actual": 1.1,
+          "level": 1
+        },
+        {
+          "name": "五级法强275",
+          "expected": 5.6,
+          "actual": 5.6,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "active_heal_amount",
+      "cases": [
+        {
+          "name": "零实际怒气",
+          "expected": 45,
+          "actual": 45,
+          "level": 1
+        },
+        {
+          "name": "三十五实际怒气",
+          "expected": 348.5,
+          "actual": 348.5,
+          "level": 5
+        }
+      ]
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "formulaKey": "physical_damage",
+      "cases": [
+        {
+          "name": "一级额外攻击力110法强50",
+          "expected": 230,
+          "actual": 230,
+          "level": 1
+        },
+        {
+          "name": "五级额外攻击力325法强275",
+          "expected": 785,
+          "actual": 785,
+          "level": 5
+        }
+      ]
+    }
+  ],
+  "rejectionResults": [
+    {
+      "skillKey": "drmundo_p",
+      "formulaKey": "health_loss_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "current_health_loss_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_p/current_health_loss_ratio"
+    },
+    {
+      "skillKey": "drmundo_p",
+      "formulaKey": "max_health_gain_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "max_health_gain_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_p/max_health_gain_ratio"
+    },
+    {
+      "skillKey": "drmundo_p",
+      "formulaKey": "max_health_regen_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "max_health_regen_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_p/max_health_regen_ratio"
+    },
+    {
+      "skillKey": "drmundo_q",
+      "formulaKey": "magic_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "minimum_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_q/minimum_damage"
+    },
+    {
+      "skillKey": "drmundo_q",
+      "formulaKey": "health_refund_on_champion_monster",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "health_refund_on_champion_monster_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_q/health_refund_on_champion_monster_ratio"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "health_cost",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "current_health_cost_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/current_health_cost_ratio"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "damage_per_second",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "damage_per_tick"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/damage_per_tick"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "initial_gray_health_storage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "gray_health_initial_storage_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/gray_health_initial_storage_ratio"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "subsequent_gray_health_storage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "gray_health_storage_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/gray_health_storage_ratio"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "hero_gray_health_restore_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "gray_health_hero_restore_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/gray_health_hero_restore_ratio"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "nonhero_gray_health_restore_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "gray_health_nonhero_restore_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/gray_health_nonhero_restore_ratio"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "recast_magic_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "recast_base_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/recast_base_damage"
+    },
+    {
+      "skillKey": "drmundo_e",
+      "formulaKey": "additional_physical_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "base_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_e/base_damage"
+    },
+    {
+      "skillKey": "drmundo_e",
+      "formulaKey": "passive_bonus_attack_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "health_to_ad_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_e/health_to_ad_ratio"
+    },
+    {
+      "skillKey": "drmundo_e",
+      "formulaKey": "maximum_additional_damage_endpoint",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "base_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_e/base_damage"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "nearby_champion_effect_multiplier",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "unity"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_r/unity"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "missing_health_max_health_gain_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "missing_health_max_health_gain_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_r/missing_health_max_health_gain_ratio"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "max_health_regeneration_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "max_health_regeneration_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_r/max_health_regeneration_ratio"
+    },
+    {
+      "skillKey": "tryndamere_p",
+      "formulaKey": "crit_chance_from_fury",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "crit_chance_per_fury_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 tryndamere_p/crit_chance_per_fury_ratio"
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "base_heal",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "base_healing"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 tryndamere_q/base_healing"
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "heal_per_fury",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "bonus_heal_per_fury"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 tryndamere_q/bonus_heal_per_fury"
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "active_heal_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "base_healing"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 tryndamere_q/base_healing"
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "formulaKey": "physical_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "damage_base"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 tryndamere_e/damage_base"
+    }
+  ],
+  "runtimeInputRejections": [
+    {
+      "skillKey": "drmundo_p",
+      "formulaKey": "max_health_regen_amount",
+      "parameterKey": "max_health_regen_ratio",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_p/max_health_regen_ratio"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "initial_gray_health_storage",
+      "parameterKey": "gray_health_initial_storage_ratio",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/gray_health_initial_storage_ratio"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "initial_gray_health_storage",
+      "parameterKey": "initial_damage_taken",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/initial_damage_taken"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "subsequent_gray_health_storage",
+      "parameterKey": "subsequent_damage_taken",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/subsequent_damage_taken"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "hero_gray_health_restore_amount",
+      "parameterKey": "stored_gray_health",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/stored_gray_health"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "formulaKey": "nonhero_gray_health_restore_amount",
+      "parameterKey": "stored_gray_health",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_w/stored_gray_health"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "nearby_champion_effect_multiplier",
+      "parameterKey": "nearby_enemy_champion_count",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_r/nearby_enemy_champion_count"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "missing_health_max_health_gain_amount",
+      "parameterKey": "missing_health_gain_basis",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_r/missing_health_gain_basis"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "missing_health_max_health_gain_amount",
+      "parameterKey": "nearby_enemy_champion_count",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_r/nearby_enemy_champion_count"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "max_health_regeneration_amount",
+      "parameterKey": "max_health_regeneration_basis",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_r/max_health_regeneration_basis"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "max_health_regeneration_amount",
+      "parameterKey": "nearby_enemy_champion_count",
+      "rejected": true,
+      "error": "缺少参数输入 drmundo_r/nearby_enemy_champion_count"
+    },
+    {
+      "skillKey": "tryndamere_p",
+      "formulaKey": "crit_chance_from_fury",
+      "parameterKey": "current_fury",
+      "rejected": true,
+      "error": "缺少参数输入 tryndamere_p/current_fury"
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "active_heal_amount",
+      "parameterKey": "actual_fury_consumed",
+      "rejected": true,
+      "error": "缺少参数输入 tryndamere_q/actual_fury_consumed"
+    }
+  ],
+  "boundaryResults": [
+    {
+      "name": "drmundo_e/一级完整额外伤害最高端点",
+      "passed": true,
+      "detail": "结果=129.5"
+    },
+    {
+      "name": "drmundo_e/五级完整额外伤害最高端点",
+      "passed": true,
+      "detail": "结果=232.60999999999999"
+    },
+    {
+      "name": "drmundo_e/70%阈值仅来源",
+      "passed": true,
+      "detail": "候选不含与主正文冲突的阈值参数"
+    },
+    {
+      "name": "drmundo_r/一级附近一名不增幅",
+      "passed": true,
+      "detail": "结果=1"
+    },
+    {
+      "name": "drmundo_r/二级附近一名不增幅",
+      "passed": true,
+      "detail": "结果=1"
+    },
+    {
+      "name": "drmundo_r/三级附近数量0",
+      "passed": true,
+      "detail": "结果=1"
+    },
+    {
+      "name": "drmundo_r/三级附近数量1",
+      "passed": true,
+      "detail": "结果=1.05"
+    },
+    {
+      "name": "drmundo_r/三级附近数量超过1封顶",
+      "passed": true,
+      "detail": "结果=1.05"
+    },
+    {
+      "name": "drmundo_r/两项实际基准分别外供",
+      "passed": true,
+      "detail": "最大生命获得量=288.75,持续恢复量=2646"
+    },
+    {
+      "name": "drmundo_r/击杀延长仅来源",
+      "passed": true,
+      "detail": "候选不含无消费者的击杀延长参数"
+    },
+    {
+      "name": "来源保留E阈值事实",
+      "passed": true,
+      "detail": "来源=[0.699999988079071,0.699999988079071,0.699999988079071,0.699999988079071,0.699999988079071,0.699999988079071,0.699999988079071]"
+    },
+    {
+      "name": "来源保留R击杀延长事实",
+      "passed": true,
+      "detail": "来源=[2,2,2,2,2,2,2]"
+    },
+    {
+      "name": "drmundo_q/最低伤害零生命",
+      "passed": true,
+      "detail": "结果=80"
+    },
+    {
+      "name": "drmundo_q/生命比例超过最低值",
+      "passed": true,
+      "detail": "结果=200"
+    },
+    {
+      "name": "drmundo_w/首段750毫秒",
+      "passed": true,
+      "detail": "参数=750/INTEGER"
+    },
+    {
+      "name": "drmundo_w/首段与后续分开",
+      "passed": true,
+      "detail": "首段=80,后续=25"
+    },
+    {
+      "name": "tryndamere_p/怒气0与非满值80",
+      "passed": true,
+      "detail": "零=0,八十=0.4"
+    },
+    {
+      "name": "tryndamere_q/实际怒气0与35",
+      "passed": true,
+      "detail": "零=30,三十五=222.5"
+    },
+    {
+      "name": "tryndamere_w/负值转正并降低",
+      "passed": true,
+      "detail": "AD=20,slow=0.3"
+    },
+    {
+      "name": "tryndamere_w/移动速度属性口径",
+      "passed": true,
+      "detail": "1表示100%，比例值保留，载荷为attribute_flat_add"
+    },
+    {
+      "name": "怒气不伪装为法力属性",
+      "passed": true,
+      "detail": "公式只使用current_fury运行输入，候选没有fury属性或mana映射"
+    }
+  ],
+  "structural": {
+    "operationNodes": 49,
+    "operationArityFailures": [],
+    "runtimeDefaultsFailures": [],
+    "integerTypeFailures": [],
+    "integerValueFailures": [],
+    "negativeTimeFailures": [],
+    "duplicateParameterKeys": [],
+    "forbiddenResultTypes": [],
+    "effectLifecycleFailures": [],
+    "momentRuntimeReferenceFailures": []
+  },
+  "noApiCalls": true,
+  "passed": true
+}

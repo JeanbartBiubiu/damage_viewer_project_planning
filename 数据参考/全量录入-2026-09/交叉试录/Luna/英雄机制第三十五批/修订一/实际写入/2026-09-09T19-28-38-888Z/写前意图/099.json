@@ -1,0 +1,23 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 98,
+    "method": "POST",
+    "route": "/skills/taric_q/parameters",
+    "detailRoute": "/skills/taric_q/parameters/healing_hp_ratio",
+    "skillKey": "taric_q",
+    "kind": "parameters",
+    "stableKey": "healing_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "healing_hp_ratio",
+      "name": "每层治疗最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "当前HealingPerStack使用0.01×来源最大生命；不使用旧mEffectAmount中的0.75等值。",
+      "sortOrder": 50
+    }
+  }
+}

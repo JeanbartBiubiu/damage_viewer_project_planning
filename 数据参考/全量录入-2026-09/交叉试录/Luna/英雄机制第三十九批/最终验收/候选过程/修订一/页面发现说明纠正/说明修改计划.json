@@ -1,0 +1,107 @@
+{
+  "at": "2026-09-09T21:08:34.557Z",
+  "reason": "实际页面发现修订一遗漏清理公式描述中的无来源折前断言，仅改说明；公式结构、参数键与数值不变。",
+  "originalIndependentGET": "C:/project/damage_web_dev/.agents/artifacts/hero39-independent-review/实际回读/2026-09-09T21-06-22-413Z/独立全量GET.json",
+  "originalIndependentSHA": "d35b383f98a03e9a7a3173a4409bb6918b478ef65e6cee9d70eb3d3df71eac4a",
+  "route": "/skills/nilah_r/formulas/self_healing_amount",
+  "before": {
+    "description": "自身治疗量=完整治疗比例×当前目标合资格折前伤害；实际目标伤害由运行层提供。",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_healing_base_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_healing_mstat8_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_mstat8_value"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_q_crit_lifesteal_ratio"
+            }
+          ],
+          "operation": "ADD"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "actual_current_enemy_healing_basis_damage"
+        }
+      ],
+      "operation": "MULTIPLY"
+    },
+    "formulaKey": "self_healing_amount",
+    "name": "神恩激荡自身治疗量",
+    "sortOrder": 50
+  },
+  "after": {
+    "description": "自身治疗量=完整治疗比例×当前目标合资格的实际治疗基准伤害；折前或折后阶段尚未证明，不能默认，实际基准由运行层提供。",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_healing_base_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_healing_mstat8_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_mstat8_value"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_q_crit_lifesteal_ratio"
+            }
+          ],
+          "operation": "ADD"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "actual_current_enemy_healing_basis_damage"
+        }
+      ],
+      "operation": "MULTIPLY"
+    },
+    "formulaKey": "self_healing_amount",
+    "name": "神恩激荡自身治疗量",
+    "sortOrder": 50
+  }
+}

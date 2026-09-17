@@ -1,0 +1,50 @@
+{
+  "i": 8,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_p/formulas",
+    "skillKey": "ornn_p",
+    "kind": "formulas",
+    "stableKey": "bonus_armor",
+    "body": {
+      "formulaKey": "bonus_armor",
+      "name": "活体锻炉额外护甲",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_stat_amp_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "additional_masterwork_stat_amp_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_masterwork_count"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_source_armor_before_ornn_passive"
+          }
+        ]
+      },
+      "description": "额外护甲=(10%+4%×杰作数量)×被动应用前额外护甲。",
+      "sortOrder": 30
+    }
+  }
+}

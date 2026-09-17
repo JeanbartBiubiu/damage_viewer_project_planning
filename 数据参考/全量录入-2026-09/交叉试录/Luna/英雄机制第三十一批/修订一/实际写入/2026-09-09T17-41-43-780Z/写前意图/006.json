@@ -1,0 +1,29 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "method": "POST",
+    "route": "/skills/janna_q/parameters",
+    "detailRoute": "/skills/janna_q/parameters/charged_damage_base",
+    "skillKey": "janna_q",
+    "kind": "parameters",
+    "stableKey": "charged_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charged_damage_base",
+      "name": "每秒蓄力追加基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "description": "客户端DataValues.BonusDamage取等级索引1至5，得到10/15/20/25/30；与ExtraDamagePerSecondCharged树一致。",
+      "sortOrder": 30
+    }
+  }
+}

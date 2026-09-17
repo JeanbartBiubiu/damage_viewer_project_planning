@@ -1,0 +1,302 @@
+{
+  "checkedAt": "2026-09-08T14:54:56.820Z",
+  "method": "主负责人CUA真实浏览器查看，随后独立GET",
+  "pages": [
+    {
+      "skillKey": "xinzhao_e",
+      "observed": [
+        "自身永久额外攻速比例位于计算时传入、小数；说明明确排除E与其他临时攻速",
+        "charge_attack_speed按来源对象实例、引用attack_speed_duration_ms、持续生效、施加时留存",
+        "结果作用施法者，引用attack_speed_bonus公式，额外攻击速度比例增加、属性固定加算"
+      ]
+    },
+    {
+      "skillKey": "trundle_q",
+      "observed": [
+        "target_attack_damage_loss按来源与承受对象实例，引用sap_duration_ms",
+        "结果为当前目标攻击力减少，持续生效、施加时留存、引用同名参数"
+      ]
+    },
+    {
+      "skillKey": "sett_e",
+      "observed": [
+        "actual_hit规则显示技能命中事件、0条件组、1动作",
+        "代表图图像节点已加载；4个未保存空过程以独立400/404证据为准"
+      ]
+    }
+  ],
+  "pageWrites": 0,
+  "reads": [
+    {
+      "route": "/skills/xinzhao_e/parameters/permanent_bonus_attack_speed_ratio",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.247Z",
+      "data": {
+        "createdAt": "2026-09-08T14:39:20.692938Z",
+        "description": "按1表示100%；仅永久额外攻速，不包含本次E、临时技能和其他临时增益。不得绑定普通bonus_attack_speed_percent，否则把临时攻速反复计入自身。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身永久额外攻速比例",
+        "parameterKey": "permanent_bonus_attack_speed_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T14:39:20.692938Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xinzhao_e/parameters/attack_speed_duration_ms",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.318Z",
+      "data": {
+        "createdAt": "2026-09-08T14:39:18.79381Z",
+        "description": "客户端当前根绑定 DataValues.ASDuration 取索引1至5。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲锋攻速持续（毫秒）",
+        "parameterKey": "attack_speed_duration_ms",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T14:39:18.79381Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xinzhao_e/effects/charge_attack_speed",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.380Z",
+      "data": {
+        "createdAt": "2026-09-08T14:39:23.724162Z",
+        "description": "独立5秒攻速候选；仅在永久额外攻速输入正确绑定后应用。当前不从包含临时值的普通额外攻速属性读取。",
+        "effectKey": "charge_attack_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "attack_speed_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "无畏冲锋自身额外攻速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "无畏冲锋自身额外攻速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "attack_speed_bonus",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "xinzhao_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:39:23.724162Z"
+      }
+    },
+    {
+      "route": "/skills/trundle_q/parameters/sap_duration_ms",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.435Z",
+      "data": {
+        "createdAt": "2026-09-08T14:37:45.142104Z",
+        "description": "客户端当前根绑定 DataValues.SapDebuffDuration 取索引1至5。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻击力得失持续（毫秒）",
+        "parameterKey": "sap_duration_ms",
+        "skillKey": "trundle_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T14:37:45.142104Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/trundle_q/effects/target_attack_damage_loss",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.495Z",
+      "data": {
+        "createdAt": "2026-09-08T14:37:51.163978Z",
+        "description": "独立持续属性；应用、取消与实际触发分别核对。",
+        "effectKey": "target_attack_damage_loss",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "sap_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "撕咬后目标攻击力减少",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "attack_damage",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "DECREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "撕咬后目标攻击力减少",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "target_attack_damage_loss"
+              }
+            }
+          }
+        ],
+        "skillKey": "trundle_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T14:37:51.163978Z"
+      }
+    },
+    {
+      "route": "/skills/sett_e/trigger-rules/actual_hit",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.548Z",
+      "data": {
+        "actions": [
+          {
+            "actionKey": "facebreaker_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "facebreaker_hit"
+            },
+            "name": "执行facebreaker_hit",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接受所列真实事件；规则不自行生成命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "sett_e",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "裂颅实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/skills/sett_e/processes",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.621Z",
+      "data": []
+    },
+    {
+      "route": "/skills/xinzhao_e/representative-image",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.692Z",
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xinzhao_e",
+          "name": "xinzhao_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/trundle_q/representative-image",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.754Z",
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_trundle_q",
+          "name": "trundle_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/sett_e/representative-image",
+      "status": 200,
+      "checkedAt": "2026-09-08T14:54:56.819Z",
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_sett_e",
+          "name": "sett_e"
+        }
+      }
+    }
+  ],
+  "passed": true,
+  "experience": "详情及目录加载期间短暂显示空默认值、暂无结果或目录不完整提示，加载后内容正确。验收等待实际值和目录名称稳定，效率提示后置处理。",
+  "runtimeValidation": "未执行；页面可查看和独立GET不表示29个未接线效果已触发，也不验证动态输入生产。"
+}

@@ -1,0 +1,27 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/jarvaniv_r/parameters",
+    "detailRoute": "/skills/jarvaniv_r/parameters/base_damage",
+    "skillKey": "jarvaniv_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "天崩地裂基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 200,
+        "2": 325,
+        "3": 450
+      },
+      "description": "客户端当前根绑定DataValues.BaseDamage取技能等级索引1至3为200/325/450；不采用索引0旧值75或尾部占位。",
+      "sortOrder": 10
+    }
+  }
+}

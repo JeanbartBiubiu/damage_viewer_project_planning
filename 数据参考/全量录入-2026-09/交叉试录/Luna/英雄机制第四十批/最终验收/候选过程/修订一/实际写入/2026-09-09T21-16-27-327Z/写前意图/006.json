@@ -1,0 +1,23 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/crit_to_lifesteal_ratio",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "crit_to_lifesteal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_to_lifesteal_ratio",
+      "name": "溢出暴击转生命偷取比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.34999999,
+      "levelValues": null,
+      "description": "当前正文以@CritToLifestealConversionPercent*100@%显示，原值0.35按比例保存。",
+      "sortOrder": 60
+    }
+  }
+}

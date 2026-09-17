@@ -1,0 +1,35 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/corki_p/formulas",
+    "detailRoute": "/skills/corki_p/formulas/basic_attack_extra_true_damage",
+    "skillKey": "corki_p",
+    "kind": "formulas",
+    "stableKey": "basic_attack_extra_true_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "basic_attack_extra_true_damage",
+      "name": "普攻额外真实伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "attack_conversion_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前BasicAttackTOOLTIP是0.2×来源总攻击力的额外真实伤害；咒刃资格和完整普攻其他组成由事件层处理。",
+      "sortOrder": 10
+    }
+  }
+}

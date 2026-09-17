@@ -1,0 +1,23 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "method": "POST",
+    "route": "/skills/janna_r/parameters",
+    "detailRoute": "/skills/janna_r/parameters/knockback_duration_ms",
+    "skillKey": "janna_r",
+    "kind": "parameters",
+    "stableKey": "knockback_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockback_duration_ms",
+      "name": "击退持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "客户端KnockbackDuration按等级索引1取0.5秒，转换为500毫秒。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 144,
+    "method": "POST",
+    "route": "/skills/nami_r/parameters",
+    "detailRoute": "/skills/nami_r/parameters/max_slow_duration_ms",
+    "skillKey": "nami_r",
+    "kind": "parameters",
+    "stableKey": "max_slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_slow_duration_ms",
+      "name": "最长减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "客户端MaxSlowDuration为4秒，转换为4000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

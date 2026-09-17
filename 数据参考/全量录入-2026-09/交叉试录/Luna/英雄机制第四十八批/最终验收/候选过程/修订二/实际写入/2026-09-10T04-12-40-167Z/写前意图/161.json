@@ -1,0 +1,46 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_w/formulas",
+    "detailRoute": "/skills/viego_w/formulas/magic_damage",
+    "skillKey": "viego_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "千载幽咽魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=Damage+APRatio×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

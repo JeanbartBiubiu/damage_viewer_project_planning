@@ -1,0 +1,25 @@
+{
+  "i": 31,
+  "intent": {
+    "sequence": 32,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_w/parameters",
+    "detailRoute": "/skills/gnar_w/parameters/r_level_1_move_speed_ratio",
+    "skillKey": "gnar_w",
+    "kind": "parameters",
+    "stableKey": "r_level_1_move_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "r_level_1_move_speed_ratio",
+      "name": "R一级移速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "GnarR.RHyperMovementSpeedPercent索引2为40%，仅作W跨槽资格档位。",
+      "sortOrder": 80
+    }
+  }
+}

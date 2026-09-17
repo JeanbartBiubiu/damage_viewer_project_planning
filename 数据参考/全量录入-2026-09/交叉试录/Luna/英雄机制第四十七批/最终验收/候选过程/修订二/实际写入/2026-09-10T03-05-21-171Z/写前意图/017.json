@@ -1,0 +1,52 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_w/effects",
+    "detailRoute": "/skills/elise_w/effects/explosion_damage",
+    "skillKey": "elise_w",
+    "kind": "effects",
+    "stableKey": "explosion_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "explosion_damage",
+      "name": "自爆蜘蛛一次爆炸魔法伤害",
+      "description": "资格审查根据单一SpellObject、直接伤害树和一次爆炸语义作出有界结构推断；不建立独立召唤单位生命或持续攻击链，接近敌人/3秒爆炸事件仍待运行层接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "自爆蜘蛛一次爆炸魔法伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；爆炸载体分类与事件接线分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

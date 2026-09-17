@@ -1,0 +1,29 @@
+{
+  "at": "2026-09-09T16:57:44.297Z",
+  "decision": "明确来源组成可进入只读预检；86新增加8复用，当前总量94。之后按每项POST后GET、独立实际GET核算与代表页面处理。",
+  "newCounts": {
+    "parameters": 64,
+    "formulas": 20,
+    "effects": 2
+  },
+  "currentCounts": {
+    "parameters": 72,
+    "formulas": 20,
+    "effects": 2
+  },
+  "reused": 8,
+  "candidateSha256": "2efb89e7a4698b77b12a438922b1f9c5353460eb711e299039ab613c3cea7e12",
+  "planSha256": "bc33491aefd00be327802161eae24e749ee225d6857951d9ce91164a32b0baf1",
+  "writerSha256": "5d16dab087a98213703decbe7c5175fe9fd63e0015f588706ad44a805a5acce3",
+  "checks": [
+    "亚索/永恩Q暴击只乘AD项，不包含固定基础；实际倍率无默认",
+    "YasuoE完整基数受已有整数层数增幅，未默认满层",
+    "YoneW物理魔法各半、首英雄护盾完整翻倍；YoneR两分量合计完整一份",
+    "YoneE基数限定对英雄的攻击及技能实际伤害，未把所有伤害或缺失生命混入",
+    "YasuoP同版官方2秒护盾补证、两处普通护盾沿成熟生命周期结构，事件尚未自动连接",
+    "候选64/20/2指新增，不是含复用后的当前总量"
+  ],
+  "mathBoundary": "原候选层数越界检查中有单独布尔守卫，独立实际GET时须真正把缺值/非法输入交给求值器；不把孤立布尔检查当作运行时拒绝证据。",
+  "pending": "等级求值、攻击资格、动态时长与事件接线继续处理。",
+  "runtimeValidation": "未执行"
+}

@@ -1,3 +1,5 @@
+import { ObjectRelationActions } from '../relations/ObjectRelationActions';
+import { useRepresentativeImageColumn } from '../relations/useRepresentativeImageColumn';
 import {
   Alert,
   Button,
@@ -123,7 +125,12 @@ export function EquipmentManagementPage({
     }
   };
 
+  const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Equipment>({
+    apiBaseUrl, selectedGameId, adminToken,
+    getTarget: record => ({ kind: 'equipment', key: record.equipmentKey, name: record.name })
+  });
   const columns: TableColumnProps[] = [
+    imageColumn,
     { title: '装备名称', dataIndex: 'name', width: 180 },
     { title: '装备标识', dataIndex: 'equipmentKey', width: 190 },
     {
@@ -140,10 +147,17 @@ export function EquipmentManagementPage({
     },
     {
       title: '操作',
-      width: 290,
+      width: 480,
       fixed: 'right',
       render: (_value, record: Equipment) => (
-        <Space size="mini">
+        <Space size="mini" wrap>
+          <ObjectRelationActions
+            key={`${apiBaseUrl}:${selectedGameId}:${record.equipmentKey}`}
+            target={{ kind: 'equipment', key: record.equipmentKey, name: record.name }}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            onDirtyChange={onDirtyChange}
+            onImageSaved={() => onImageSaved(record)}
+          />
           <Button size="mini" onClick={() => setEditor({ mode: 'view', equipment: record })}>查看</Button>
           <Button size="mini" onClick={() => setEditor({ mode: 'edit', equipment: record })}>编辑</Button>
           <Button size="mini" type="primary" onClick={() => setAttributesTarget(record)}>装备属性</Button>
@@ -206,7 +220,7 @@ export function EquipmentManagementPage({
           data={equipment}
           pagination={false}
           rowKey={(record: Equipment) => record.equipmentKey}
-          scroll={{ x: 950 }}
+          scroll={{ x: 1344 }}
           noDataElement={<Empty description="暂无装备" />}
         />
       </Panel>

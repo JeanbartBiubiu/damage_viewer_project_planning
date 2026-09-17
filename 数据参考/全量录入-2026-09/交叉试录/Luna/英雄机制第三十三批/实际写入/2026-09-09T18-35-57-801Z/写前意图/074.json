@@ -1,0 +1,27 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/soraka_r/parameters",
+    "detailRoute": "/skills/soraka_r/parameters/base_heal",
+    "skillKey": "soraka_r",
+    "kind": "parameters",
+    "stableKey": "base_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_heal",
+      "name": "祈愿自身基础治疗值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "当前BaseHeal技能等级1至3。",
+      "sortOrder": 10
+    }
+  }
+}

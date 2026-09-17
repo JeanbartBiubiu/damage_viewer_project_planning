@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T12:16:54.827Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/rumble_w/parameters/move_speed_ratio",
+  "id": "move_speed_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "move_speed_ratio",
+    "name": "破碎护盾移速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.1,
+      "2": 0.15,
+      "3": 0.2,
+      "4": 0.25,
+      "5": 0.3
+    },
+    "description": "客户端当前根绑定 DataValues.MoveSpeed 取索引1至5",
+    "sortOrder": 60
+  }
+}

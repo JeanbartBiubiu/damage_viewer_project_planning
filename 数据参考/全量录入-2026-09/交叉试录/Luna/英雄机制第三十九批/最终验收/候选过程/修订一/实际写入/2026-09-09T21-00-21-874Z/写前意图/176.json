@@ -1,0 +1,56 @@
+{
+  "i": 175,
+  "intent": {
+    "sequence": 176,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/formulas",
+    "detailRoute": "/skills/smolder_q/formulas/tier3_burn_max_health_ratio",
+    "skillKey": "smolder_q",
+    "kind": "formulas",
+    "stableKey": "tier3_burn_max_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "tier3_burn_max_health_ratio",
+      "name": "超级灼热龙息第三阶段灼烧最大生命比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "burn_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "burn_stack_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_stack_count"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Tier3_Burn=0.00025×来源额外攻击力+0.00005×层数；这是3秒窗口内的比例，mDisplayAsPercent不再除100。",
+      "sortOrder": 20
+    }
+  }
+}

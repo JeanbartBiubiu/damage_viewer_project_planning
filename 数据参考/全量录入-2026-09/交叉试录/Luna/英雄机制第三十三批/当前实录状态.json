@@ -1,0 +1,190 @@
+{
+  "at": "2026-09-09T18:44:58.298Z",
+  "batch": "英雄机制第三十三批",
+  "heroes": [
+    "娑娜",
+    "索拉卡",
+    "卡尔玛",
+    "萨勒芬妮"
+  ],
+  "skills": [
+    "sona_p",
+    "sona_q",
+    "sona_w",
+    "sona_e",
+    "sona_r",
+    "soraka_p",
+    "soraka_q",
+    "soraka_w",
+    "soraka_e",
+    "soraka_r",
+    "karma_p",
+    "karma_q",
+    "karma_w",
+    "karma_e",
+    "karma_r",
+    "seraphine_p",
+    "seraphine_q",
+    "seraphine_w",
+    "seraphine_e",
+    "seraphine_r"
+  ],
+  "status": "明确组成已保存，并通过独立全字段回读、独立实际公式数学和四项代表页面验收；跨技能触发、资格、时序、资源阶段与战斗运行继续待接",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "counts": {
+    "parameters": 159,
+    "formulas": 34,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 131,
+    "formulas": 34,
+    "effects": 1,
+    "total": 166
+  },
+  "reusedParameters": 28,
+  "currentTotalComponents": 194,
+  "created": 166,
+  "businessWriteAttempts": 167,
+  "businessWrites": 166,
+  "successfulPOSTs": 166,
+  "rejectedPOSTs": 1,
+  "successfulDELETEs": 0,
+  "saveGETs": 1515,
+  "protected": {
+    "catalogs": 4,
+    "characters": 4,
+    "relations": 4,
+    "subjects": 20,
+    "images": 20,
+    "componentLists": 120,
+    "reusedDetails": 28,
+    "referencePaths": 200
+  },
+  "candidateHashes": {
+    "originalFileSha256": "f678c8d8c929feef920a97577fa559d404697f1e9d718f78fde70dec6ce90fec",
+    "originalPlanFileSha256": "5ab6731931844099d267ed52b8474d3bc4701741b9a703387f3ff881bb9bde5d",
+    "finalFileSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+    "finalPlanFileSha256": "0deb6cea79b44b7f9db2a73a0fedc4d91802f650abcc4703fac3070513acbf52",
+    "historicalCandidateContentSha256": "9d09798406df9fc6e50152211a2611c8fd5d2bead66dabed373d0c6600339a23",
+    "historicalPlanContentSha256": "d5bb6040b51c2c2293706ccc91a4dcd9af9ae80f7a13641562cc3d4886a0519a"
+  },
+  "execution": {
+    "firstRun": {
+      "file": "实际写入/2026-09-09T18-35-57-801Z/执行结果.json",
+      "GETs": 703,
+      "successfulPOSTs": 154,
+      "rejectedPOSTs": 1,
+      "status": "第155项因缺少显式nullable字段返回400后停止"
+    },
+    "recoveryRun": {
+      "file": "修订二/实际写入/2026-09-09T18-43-58-994Z/执行结果.json",
+      "GETs": 812,
+      "successfulPOSTs": 12,
+      "rejectedPOSTs": 0,
+      "status": "成功补写剩余12项"
+    },
+    "totalGETs": 1515,
+    "successfulPOSTs": 166,
+    "rejectedPOSTs": 1,
+    "successfulChanges": 166
+  },
+  "independentReadback": {
+    "final": {
+      "file": "独立验收/实际回读/2026-09-09T18-47-51-318Z/执行结果.json",
+      "fullReport": "独立验收/实际回读/2026-09-09T18-47-51-318Z/独立全量回读.json",
+      "journal": "独立验收/实际回读/2026-09-09T18-47-51-318Z/所有GET原始响应.jsonl",
+      "GETs": 366,
+      "protectedPaths": 200,
+      "details": 194,
+      "reusedDetails": 28,
+      "plannedDetails": 166,
+      "passed": true
+    },
+    "intermediate": {
+      "directory": "独立验收/实际回读/2026-09-09T18-47-15-216Z",
+      "GETs": 366,
+      "dataComparison": "194项均匹配；仅因回读器遗漏复用分类字段而错误显示REVISE，原件保留"
+    }
+  },
+  "actualMath": {
+    "final": {
+      "file": "独立验收/实际数学/2026-09-09T18-56-13-126Z/实际GET数学验收.json",
+      "journal": "独立验收/实际数学/2026-09-09T18-56-13-126Z/所有GET原始响应.jsonl",
+      "GETs": 193,
+      "formulas": 34,
+      "formulaCases": 68,
+      "missingInputRejects": 34,
+      "integerMillisecondsChecks": 63,
+      "boundaryChecks": 15,
+      "failures": 0,
+      "sourceExpected": "独立源值数学/source-expected.mjs",
+      "passed": true
+    },
+    "intermediate": {
+      "failedRun": "独立验收/实际数学/2026-09-09T18-54-22-768Z",
+      "reason": "原始浮点尾差在过紧容差下产生误报；随后以相对1e-6重算通过",
+      "passedRun": "独立验收/实际数学/2026-09-09T18-55-07-902Z"
+    }
+  },
+  "browser": {
+    "file": "修订二/页面验收.json",
+    "representativePages": 4,
+    "scriptGETs": 0,
+    "scriptMathCases": 0,
+    "browserNetworkCount": "浏览器网络未单独计数；不把脚本GETs=0解释为浏览器零请求",
+    "passed": true
+  },
+  "cursorAudit": {
+    "directory": "Cursor来源审计",
+    "verdict": "READY",
+    "events": 1485,
+    "uniqueTools": 73,
+    "readonlyAuditPassed": true,
+    "gitDelta": [],
+    "summary": "summary.json恢复审计原件"
+  },
+  "hashes": {
+    "完整候选.json": "f678c8d8c929feef920a97577fa559d404697f1e9d718f78fde70dec6ce90fec",
+    "写前请求计划.json": "5ab6731931844099d267ed52b8474d3bc4701741b9a703387f3ff881bb9bde5d",
+    "修订二/完整候选.json": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+    "修订二/写前请求计划.json": "0deb6cea79b44b7f9db2a73a0fedc4d91802f650abcc4703fac3070513acbf52",
+    "实际写入/2026-09-09T18-35-57-801Z/执行结果.json": "02140e5e23fdce36fb0c77c33f9a9ef39ad8a749fa4f22951f97524da790ebf3",
+    "修订二/实际写入/2026-09-09T18-43-58-994Z/执行结果.json": "42d011319b08fda977643048af37de792aa0e63280d7210424e6645f386a640c",
+    "修订二/页面验收.json": "bec96033a223d4f0d7879bfdcbc7c9fef627ccc8d49093539762aba668b71759",
+    "独立验收/实际回读/2026-09-09T18-47-51-318Z/独立全量回读.json": "3de364c111c01a6796e61d9a23265e15b05d51a7fe4ca46929f3f30a7f397237",
+    "独立验收/实际回读/2026-09-09T18-47-51-318Z/执行结果.json": "562245ec556ac789eff418ee304e7d73c88ffedb359d92587aa7ba35e38707b7",
+    "独立验收/实际回读/2026-09-09T18-47-51-318Z/所有GET原始响应.jsonl": "c2a25a6a1e83b624e38e5f6bdd6800202397dac706e4dd81d7f8f873f5ba9148",
+    "独立验收/实际数学/2026-09-09T18-56-13-126Z/实际GET数学验收.json": "34f10a5180d60a71d5aa08f6d7d1b4b897cc0213296028df015cce0705eddc65",
+    "独立验收/实际数学/2026-09-09T18-56-13-126Z/执行结果.json": "5ef6f592bfa25c11cdbdf2fbdc1afc05a1254328e8bf2898269583d11cde3fe0",
+    "独立验收/实际数学/2026-09-09T18-56-13-126Z/所有GET原始响应.jsonl": "6a78d0c61fde6ce767f9d2ea5615610e8d3c7cb1a54476e9e41ac2c1020a644d",
+    "独立源值数学/source-expected.mjs": "f3ce6c0211136fbc4f5b6a5898d622409b622ca9c34038fc91658e531dce2bf6",
+    "独立源值数学/source-expected说明.json": "6b534e8a8c757bfcf4cdaea2adc3c1d1740731abebeb889467cf18c25cf7cf05",
+    "输入包/输入版本.json": "862f0e0a0b934e4ea19cbd79ac38c348a4faf1bc66075e48e6611abfec703fb2",
+    "输入包/来源绑定与当前文本.json": "4f75c9bd57e9c0d7d71536c0b79ef7640796655e9b10cbfbecfd7f4f8b269767",
+    "输入包/参考资料/当前20槽保护快照.json": "d5c5172422a5db3066da7c553683cc4162aafe913b4cc7beff757a6390131f67",
+    "输入包/参考资料/公共参数复用清单.json": "c8c6922144762d1700a8dd47badcc66f46ffba249406d85697ea0dcf9b2ee67a",
+    "Cursor来源审计/summary.json": "d06431d27c2a768cd629a41fd22db58dbcd12c68a0c5a54cb716a0dc5800e487",
+    "Cursor来源审计/主负责人执行审计.json": "07ce85012a98def0390e75f1aca2fe00dbf599d8f7d2487e29c65c4452045cb2",
+    "Cursor来源审计/events.jsonl": "be284d17d90e31f6bbbd5f995a826d32b297be91fe91aeb154a89080c13e0dae"
+  },
+  "issues": [
+    "原候选和修订二均保留；实际字节散列分别为原候选f678c8...、原计划5ab673...、最终候选841a10...、最终计划0deb6c...；候选内部9d097...和历史计划d5bb...是无末尾换行的历史内容摘要，不作为实际文件字节身份。",
+    "首次保存154项成功后，萨勒芬妮W护盾效果因缺少显式spellShieldBlockScope:null返回400；原失败流水保留，修订二只补写剩余12项，公式、参数和数值未变。",
+    "第一次独立回读的全部GET和字段比较已正确，但遗漏复用分类字段导致状态误报；修正脚本后的第二次366GET为最终PASS。",
+    "数学中间报告因原始客户端浮点尾差和过紧容差误报；最终193次GET使用相对1e-6，仅以接口实际公式/参数与独立原始来源期望核对。",
+    "非法输入拒绝和边界检查属于验收求值器证据，不等于战斗运行验证。"
+  ],
+  "pending": [
+    "未知等级曲线、触发资格、施法和命中时序、资源阶段不设默认。",
+    "跨技能触发、效果资格、资源扣费和完整战斗过程尚未接入运行层。"
+  ],
+  "runtimeValidation": "未执行"
+}

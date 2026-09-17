@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T14:39:15.539Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_q/parameters",
+  "detailRoute": "/skills/sion_q/parameters/maximum_stun_duration_ms",
+  "skillKey": "sion_q",
+  "kind": "parameters",
+  "stableKey": "maximum_stun_duration_ms",
+  "body": {
+    "parameterKey": "maximum_stun_duration_ms",
+    "name": "残虐猛击最高晕眩时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 2250,
+    "levelValues": null,
+    "description": "当前官方中文正文明确最长晕眩2.25秒；不把基础1.25秒和最高值混为同一参数。",
+    "sortOrder": 120
+  }
+}

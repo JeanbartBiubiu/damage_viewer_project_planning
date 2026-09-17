@@ -1,0 +1,34 @@
+{
+  "i": 154,
+  "intent": {
+    "sequence": 155,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_p/formulas",
+    "detailRoute": "/skills/smolder_p/formulas/w_bonus_magic_damage",
+    "skillKey": "smolder_p",
+    "kind": "formulas",
+    "stableKey": "w_bonus_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "w_bonus_magic_damage",
+      "name": "W每层额外魔法伤害完整式",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "w_damage_per_stack"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_stack_count"
+          }
+        ]
+      },
+      "description": "Passive_WDamageIncrease=0.55×层数；当前一对一只随W英雄爆炸消费一次。",
+      "sortOrder": 20
+    }
+  }
+}

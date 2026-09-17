@@ -1,0 +1,2609 @@
+{
+  "generatedAt": "2026-09-07T18:33:48.918Z",
+  "heroes": [
+    {
+      "id": "Ahri",
+      "chineseName": "九尾妖狐",
+      "rootPath": "Characters/Ahri/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Ahri.json.gz",
+        "sha256": "65607b5729a1e8e851d6b95ee16f504737ff2a2a796f2cc49ff69bcfae70480f",
+        "compressedSha256": "61c7d14f2d30346f1ae51ab82dab1f48c19ec7d9542f0c76e99f0576e1c71d12",
+        "byteSize": 63517,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ahri/ahri.bin.json",
+        "fetchedAt": "2026-09-06T14:26:13.181Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Ahri.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ahri.json",
+        "fetchedAt": "2026-09-06T14:12:44.095Z",
+        "byteSize": 16182,
+        "sha256": "d7aa942350ef9d9756df1476a6bd83a3da4cf1dcee1b22107676d5b1a86c6b04"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "ahri_p",
+          "binding": "Characters/Ahri/Spells/AhriPassiveAbility/AhriPassive",
+          "name": "摄魂夺魄",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "在击杀9个小兵或野怪后，阿狸会治疗自身。<br>在参与击杀一名敌方英雄后，阿狸会以一个更高的治疗效果来治疗自身。",
+          "officialTooltip": null,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "TakedownWindow",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "MaxStacks",
+              "values": [
+                9,
+                9,
+                9,
+                9,
+                9,
+                9,
+                9
+              ]
+            }
+          ],
+          "calculations": {
+            "ChampionHeal": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 75,
+                  "mEndValue": 165,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.30000001192092896,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinionHeal": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 35,
+                  "mEndValue": 95,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.20000000298023224,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "ahri_q",
+          "binding": "Characters/Ahri/Spells/AhriQAbility/AhriQ",
+          "name": "欺诈宝珠",
+          "maxrank": 5,
+          "officialCooldown": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "officialCost": [
+            55,
+            65,
+            75,
+            85,
+            95
+          ],
+          "officialDescription": "阿狸放出并收回她的宝珠，在放出时会沿途对敌人造成魔法伤害，在收回时则会沿途对敌人造成真实伤害。 ",
+          "officialTooltip": "阿狸投出然后收回她的宝珠，在放出时会沿途对敌人造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>，在收回时则会沿途对敌人造成<trueDamage>{{ totaldamage }}真实伤害</trueDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "mana": [
+            55,
+            65,
+            75,
+            85,
+            95,
+            95
+          ],
+          "manaValues": {
+            "values": [
+              55,
+              65,
+              75,
+              85,
+              95,
+              95
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                10,
+                35,
+                60,
+                85,
+                110,
+                135,
+                160
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "ahri_w",
+          "binding": "Characters/Ahri/Spells/AhriWAbility/AhriW",
+          "name": "妖异狐火",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            8,
+            7,
+            6,
+            5
+          ],
+          "officialCost": [
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "officialDescription": "阿狸获得短暂的爆发性移动速度加成，并放出三团狐火，锁定附近的敌人进行攻击。",
+          "officialTooltip": "阿狸释放出3团狐火来追踪附近的敌人们并造成<magicDamage>{{ singlefiredamage }}魔法伤害</magicDamage>，第一团之后的狐火降低至<magicDamage>{{ multifiredamage }}伤害</magicDamage>。她还会获得在{{ movementspeedduration }}秒里持续衰减的<speed>{{ movementspeed*100 }}%移动速度</speed>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            9,
+            9,
+            8,
+            7,
+            6,
+            5,
+            4
+          ],
+          "mana": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "manaValues": {
+            "values": [
+              30,
+              30,
+              30,
+              30,
+              30,
+              30
+            ],
+            "{0a3e0478}": 30,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "MovementSpeed",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ]
+            },
+            {
+              "name": "MovementSpeedDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "MinionBonusDamageMultiplier",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "MinionBonusDamageThreshold",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                20,
+                40,
+                60,
+                80,
+                100,
+                120,
+                140
+              ]
+            },
+            {
+              "name": "RepeatDamageMod",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ]
+            },
+            {
+              "name": "AcquisitionRange",
+              "values": [
+                550,
+                550,
+                550,
+                550,
+                550,
+                550,
+                550
+              ]
+            },
+            {
+              "name": "BonusAcquisitionRange",
+              "values": [
+                725,
+                725,
+                725,
+                725,
+                725,
+                725,
+                725
+              ]
+            },
+            {
+              "name": "InitialDelay",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            },
+            {
+              "name": "SecondaryDelay",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ]
+            },
+            {
+              "name": "FlameDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            {
+              "name": "OrbitRadius",
+              "values": [
+                150,
+                150,
+                150,
+                150,
+                150,
+                150,
+                150
+              ]
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ]
+            }
+          ],
+          "calculations": {
+            "SingleFireDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MultiFireDamage": {
+              "mMultiplier": {
+                "mDataValue": "RepeatDamageMod",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mModifiedGameCalculation": "SingleFireDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "ahri_e",
+          "binding": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "name": "魅惑妖术",
+          "maxrank": 5,
+          "officialCooldown": [
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "officialCost": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "officialDescription": "阿狸献出红唇热吻，对命中的第一个敌人造成伤害并将目标魅惑，并且立刻终止目标的移动技能并使目标无恶意地走向她。",
+          "officialTooltip": "阿狸献出红唇热吻，<status>魅惑</status>命中的首个敌人{{ charmduration }}秒并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "mana": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "{0a3e0478}": 60,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                40,
+                80,
+                120,
+                160,
+                200,
+                240,
+                280
+              ]
+            },
+            {
+              "name": "SlowPercent",
+              "values": [
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421
+              ]
+            },
+            {
+              "name": "CharmDuration",
+              "values": [
+                1.0499999523162842,
+                1.2000000476837158,
+                1.350000023841858,
+                1.5,
+                1.649999976158142,
+                1.7999999523162842,
+                1.9500000476837158
+              ]
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "ahri_r",
+          "binding": "Characters/Ahri/Spells/AhriRAbility/AhriR",
+          "name": "灵魄突袭",
+          "maxrank": 3,
+          "officialCooldown": [
+            140,
+            120,
+            100
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "阿狸向前猛冲，并放出元气弹，对周围的数个敌人造成伤害。灵魄突袭在进入冷却阶段以前最多可被施放三次，并在参与击杀敌方英雄后获得额外的再次施放次数。",
+          "officialTooltip": "阿狸像妖魅一般冲刺，并对附近的敌人们发射{{ rmaxtargetspercast }}颗灵魄弹，优先选择英雄。这些灵魄弹每颗造成<magicDamage>{{ rcalculateddamage }}魔法伤害</magicDamage>。<spellName>灵魄突袭</spellName>可以在{{ rrecastwindow }}秒内<recast>再次施放</recast>至多2次。<br /><br />在此期间，用<spellName>摄魂夺魄</spellName>吞噬一名英雄的魂魄时，会使再次施放的窗口期至多延长至{{ pdurationextension }}秒并为<spellName>灵魄突袭</spellName>提供一次额外的再次施放(至多可储存至{{ rmaxcasts }}次)。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            140,
+            140,
+            120,
+            100,
+            100,
+            100,
+            100
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "RBaseDamage",
+              "values": [
+                25,
+                75,
+                125,
+                175,
+                225,
+                275,
+                325
+              ]
+            },
+            {
+              "name": "RMaxTargetsPerCast",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "RMaxCasts",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "RDashDistance",
+              "values": [
+                500,
+                500,
+                500,
+                500,
+                500,
+                500,
+                500
+              ]
+            },
+            {
+              "name": "RBaseDashSpeed",
+              "values": [
+                1200,
+                1200,
+                1200,
+                1200,
+                1200,
+                1200,
+                1200
+              ]
+            },
+            {
+              "name": "RRecastWindow",
+              "values": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ]
+            },
+            {
+              "name": "RAcquisitionRange",
+              "values": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ]
+            },
+            {
+              "name": "RDashCooldown",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "RAPCoefficient",
+              "values": [
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355
+              ]
+            },
+            {
+              "name": "RResetCasts",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "PDurationExtension",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ]
+            }
+          ],
+          "calculations": {
+            "RCalculatedDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "rAPCoefficient",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Darius",
+      "chineseName": "诺克萨斯之手",
+      "rootPath": "Characters/Darius/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Darius.json.gz",
+        "sha256": "5f3a77780a51fbef22203f792bf7e5b6528af2cd0eb897ca76bd198af813aa39",
+        "compressedSha256": "d2d16f40d4ae507b0287a1a16236c0d41f04bb2c07b78716141940e31f956526",
+        "byteSize": 48751,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/darius/darius.bin.json",
+        "fetchedAt": "2026-09-06T14:26:14.831Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Darius.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Darius.json",
+        "fetchedAt": "2026-09-06T14:12:46.033Z",
+        "byteSize": 15967,
+        "sha256": "af12c700bff495d4e531a10d4be8f6b68445fe34839bda302d4d8acd74aa89a7"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "darius_p",
+          "binding": "Characters/Darius/Spells/DariusHemoMarkerAbility/DariusHemoMarker",
+          "name": "出血",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "德莱厄斯的攻击和伤害技能会导致敌人流血，在5秒里持续造成物理伤害，最多叠加5次。在他的目标达到最大层数后，德莱厄斯会进入激怒状态并获得巨额攻击力。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "MonsterMod",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            {
+              "name": "SecondsPerTick",
+              "values": [
+                1.2599999904632568,
+                1.2599999904632568,
+                1.2599999904632568,
+                1.2599999904632568,
+                1.2599999904632568,
+                1.2599999904632568,
+                1.2599999904632568
+              ]
+            },
+            {
+              "name": "BleedDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "MaxStacks",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            }
+          ],
+          "calculations": {
+            "BleedDamagePerStack": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 13,
+                  "mEndValue": 30,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.30000001192092896,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "NoxianMightBonusAD": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 30,
+                  "mInitialBonusPerLevel": 5,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 11,
+                      "mBonusPerLevelAtAndAfter": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 14,
+                      "mBonusPerLevelAtAndAfter": 25,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "darius_q",
+          "binding": "Characters/Darius/Spells/DariusCleaveAbility/DariusCleave",
+          "name": "大杀四方",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            8,
+            7,
+            6,
+            5
+          ],
+          "officialCost": [
+            25,
+            30,
+            35,
+            40,
+            45
+          ],
+          "officialDescription": "德莱厄斯蓄力然后将他的斧头挥舞成一个大圈。被斧刃击中的敌人会比被斧柄击中的敌人受到更多伤害。德莱厄斯会基于被斧刃击中的敌方英雄或大型野怪的数量来获得治疗效果。",
+          "officialTooltip": "德莱厄斯举起他的斧头然后挥舞一圈，斧刃造成<physicalDamage>{{ bladedamage }}物理伤害</physicalDamage>并且斧柄造成<physicalDamage>{{ handledamage }}伤害</physicalDamage>。被斧柄命中的敌人不会被施加<keywordMajor>出血</keywordMajor>层数。<br /><br />德莱厄斯每用斧刃命中一个敌方英雄或大型野怪就会回复<healing>{{ missinghealthheal }}%已损失生命值</healing>，至多回复<healing>{{ missinghealpercent }}%</healing>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            10,
+            9,
+            8,
+            7,
+            6,
+            5,
+            5
+          ],
+          "mana": [
+            25,
+            30,
+            35,
+            40,
+            45,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              25,
+              30,
+              35,
+              40,
+              45,
+              50
+            ],
+            "{0a3e0478}": 25,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.23440000414848328,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "MissingHealthHeal",
+              "values": [
+                17,
+                17,
+                17,
+                17,
+                17,
+                17,
+                17
+              ]
+            },
+            {
+              "name": "TotalADRatio",
+              "values": [
+                90,
+                100,
+                110,
+                120,
+                130,
+                140,
+                150
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                10,
+                50,
+                80,
+                110,
+                140,
+                170,
+                200
+              ]
+            },
+            {
+              "name": "InnerCircleDamagePercent",
+              "values": [
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35
+              ]
+            },
+            {
+              "name": "MissingHealPercent",
+              "values": [
+                51,
+                51,
+                51,
+                51,
+                51,
+                51,
+                51
+              ]
+            }
+          ],
+          "calculations": {
+            "BladeDamage": {
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mSubpart": {
+                    "mPart1": {
+                      "mDataValue": "TotalADRatio",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "mPart2": {
+                      "mNumber": 0.009999999776482582,
+                      "__type": "NumberCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "HandleDamage": {
+              "mMultiplier": {
+                "mNumber": 0.3499999940395355,
+                "__type": "NumberCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "BladeDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "darius_w",
+          "binding": "Characters/Darius/Spells/DariusNoxianTacticsONHAbility/DariusNoxianTacticsONH",
+          "name": "致残打击",
+          "maxrank": 5,
+          "officialCooldown": [
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "officialCost": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "officialDescription": "德莱厄斯的下一次攻击会打向敌人的大动脉。在目标流血不止的同时，目标的移动速度也会被减缓。",
+          "officialTooltip": "德莱厄斯的下次攻击造成<physicalDamage>{{ empoweredattackdamage }}物理伤害</physicalDamage>和持续{{ slowduration }}秒的{{ slowpercent }}%<status>减速</status>。<br /><br />如果这个技能击杀了目标，那么会返还其法力消耗并缩短其{{ percentcdrefund }}%的冷却时间。<br /><br /><rules>这个技能会在造成伤害时触发技能特效。</rules>{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "mana": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "{0a3e0478}": 40,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.5217499732971191,
+          "mCastTime": 0.3666999936103821,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "SlowPercent",
+              "values": [
+                90,
+                90,
+                90,
+                90,
+                90,
+                90,
+                90
+              ]
+            },
+            {
+              "name": "PercentCDRefund",
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ]
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                1.5,
+                1.399999976158142,
+                1.4500000476837158,
+                1.5,
+                1.5499999523162842,
+                1.600000023841858,
+                1.649999976158142
+              ]
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "calculations": {
+            "EmpoweredAttackDamage": {
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mSubpart": {
+                    "mDataValue": "ADRatio",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "darius_e",
+          "binding": "Characters/Darius/Spells/DariusAxeGrabConeAbility/DariusAxeGrabCone",
+          "name": "无情铁手",
+          "maxrank": 5,
+          "officialCooldown": [
+            26,
+            23.5,
+            21,
+            18.5,
+            16
+          ],
+          "officialCost": [
+            70,
+            60,
+            50,
+            40,
+            30
+          ],
+          "officialDescription": "德莱厄斯磨利他的巨斧，被动地让他的物理伤害无视目标一部分护甲。在主动施放时，德莱厄斯会用斧头上的钩子横扫他的敌人，并将他们拉到德莱厄斯身边。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>德莱厄斯获得{{ passivepercentarmorpen }}%护甲穿透。<br /><br /><spellActive>主动：</spellActive>德莱厄斯用他的斧头进行钩拽，造成<status>拖拽</status>、<status>击飞</status>和持续{{ slowduration }}秒的{{ slowpercent }}%<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            26,
+            26,
+            23.5,
+            21,
+            18.5,
+            16,
+            16
+          ],
+          "mana": [
+            70,
+            60,
+            50,
+            40,
+            30,
+            20
+          ],
+          "manaValues": {
+            "values": [
+              70,
+              60,
+              50,
+              40,
+              30,
+              20
+            ],
+            "{0a3e0478}": 70,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "PassivePercentArmorPen",
+              "values": [
+                20,
+                20,
+                25,
+                30,
+                35,
+                40,
+                45
+              ]
+            },
+            {
+              "name": "SlowPercent",
+              "values": [
+                40,
+                40,
+                40,
+                40,
+                40,
+                40,
+                40
+              ]
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "R",
+          "skillKey": "darius_r",
+          "binding": "Characters/Darius/Spells/DariusExecuteAbility/DariusExecute",
+          "name": "诺克萨斯断头台",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            100,
+            80
+          ],
+          "officialCost": [
+            100,
+            100,
+            0
+          ],
+          "officialDescription": "德莱厄斯跃向目标英雄并进行致命打击，造成真实伤害。目标身上的每层出血效果都会提升这个技能的伤害。如果诺克萨斯断头台完成了一次击杀，那么它的冷却时间会暂时被重置。",
+          "officialTooltip": "德莱厄斯跳向一名敌人并进行一次致命猛击，造成<trueDamage>{{ damage }}真实伤害</trueDamage>。目标身上每有一层<keywordMajor>出血</keywordMajor>，这个技能就会造成额外的{{ rdamagepercentperhemostack*100 }}%伤害，至多达到<trueDamage>{{ maximumdamage }}伤害</trueDamage>。<br /><br />如果这个技能击杀了目标，那么德莱厄斯就可以在{{ rrecastduration }}秒内<recast>再次施放</recast>这个技能。这个技能在技能等级达到3时，即可无需消耗法力并在击杀时完全刷新技能的冷却时间。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            100,
+            80,
+            6,
+            6,
+            6
+          ],
+          "mana": [
+            100,
+            100,
+            0,
+            0,
+            0,
+            0
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              0,
+              0,
+              0,
+              0
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.3666999936103821,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "RBaseDamage",
+              "values": [
+                0,
+                125,
+                250,
+                375,
+                500,
+                625,
+                750
+              ]
+            },
+            {
+              "name": "RDamagePercentPerHemoStack",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ]
+            },
+            {
+              "name": "RRecastDuration",
+              "values": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ]
+            }
+          ],
+          "calculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.75,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaximumDamage": {
+              "mMultiplier": {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "Damage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Diana",
+      "chineseName": "皎月女神",
+      "rootPath": "Characters/Diana/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Diana.json.gz",
+        "sha256": "ed46b24b345a284e7938db666ff6f354cd837f49e6e0e7ef544429addd817efa",
+        "compressedSha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+        "byteSize": 48586,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/diana/diana.bin.json",
+        "fetchedAt": "2026-09-06T14:26:15.772Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Diana.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Diana.json",
+        "fetchedAt": "2026-09-06T14:12:45.779Z",
+        "byteSize": 16631,
+        "sha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "diana_p",
+          "binding": "Characters/Diana/Spells/DianaPassiveAbility/DianaPassive",
+          "name": "月银之刃",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "每第三次攻击就会溅射周围的敌人，造成额外的魔法伤害。在施放一个技能后，黛安娜获得持续5秒的攻击速度。",
+          "officialTooltip": null,
+          "cooldownTime": [
+            32,
+            28,
+            24,
+            20,
+            16,
+            12,
+            12
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "APRatio",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "name": "BuffDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "AttackSpeedValue",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ]
+            },
+            {
+              "name": "AttackCount",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "MonsterMod",
+              "values": [
+                2.700000047683716,
+                2.700000047683716,
+                2.700000047683716,
+                2.700000047683716,
+                2.700000047683716,
+                2.700000047683716,
+                2.700000047683716
+              ]
+            }
+          ],
+          "calculations": {
+            "CleaveDamage": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 20,
+                  "mInitialBonusPerLevel": 5,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 7,
+                      "mBonusPerLevelAtAndAfter": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 12,
+                      "mBonusPerLevelAtAndAfter": 15,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 17,
+                      "mBonusPerLevelAtAndAfter": 25,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BonusAS": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 0.15000000596046448,
+                  "mEndValue": 0.3499999940395355,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "EmpoweredAS": {
+              "mMultiplier": {
+                "mNumber": 3,
+                "__type": "NumberCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "BonusAS",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "diana_q",
+          "binding": "Characters/Diana/Spells/DianaQAbility/DianaQ",
+          "name": "新月打击",
+          "maxrank": 5,
+          "officialCooldown": [
+            8,
+            7.5,
+            7,
+            6.5,
+            6
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialDescription": "释放一道月能光束，对弧形范围内的敌人造成伤害。<br><br>会对命中的敌人施加月光效果，如果中了月光效果的敌人不在潜行状态下，就会暴露在己方视野中3秒。",
+          "officialTooltip": "黛安娜释放一道月能圆弧，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并用<keywordMajor>月光</keywordMajor>标记{{ moonlightduration }}秒。<br /><br /><keywordMajor>月光</keywordMajor>会显形那些不在<keywordStealth>潜行</keywordStealth>状态的敌人们。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            8,
+            8,
+            7.5,
+            7,
+            6.5,
+            6,
+            6
+          ],
+          "mana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "MoonlightDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                35,
+                70,
+                105,
+                140,
+                175,
+                210,
+                245
+              ]
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "diana_w",
+          "binding": "Characters/Diana/Spells/DianaOrbsAbility/DianaOrbs",
+          "name": "苍白之瀑",
+          "maxrank": 5,
+          "officialCooldown": [
+            15,
+            13.5,
+            12,
+            10.5,
+            9
+          ],
+          "officialCost": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "officialDescription": "黛安娜召出三颗护体法球，在命中敌人后爆炸，对一个区域内的敌人造成范围伤害。她也会获得一层吸收伤害的护盾。护盾的生命值会在她的第三颗法球爆炸后得到提升。",
+          "officialTooltip": "黛安娜生成3颗持续{{ shieldduration }}秒的护体法球，可在接触时爆炸，每颗造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>，至多达到<magicDamage>{{ totalmaxdamage }}伤害</magicDamage>。<br /><br />黛安娜也会获得相同持续时间的<shield>{{ shieldvalue }}护盾值</shield>。当最后一颗法球爆炸后，她会获得额外的<shield>{{ shieldvalue }}护盾值</shield>并刷新持续时间。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            15,
+            15,
+            13.5,
+            12,
+            10.5,
+            9,
+            7.5
+          ],
+          "mana": [
+            40,
+            45,
+            50,
+            55,
+            60,
+            65
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              45,
+              50,
+              55,
+              60,
+              65
+            ],
+            "{0a3e0478}": 40,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "ShieldBase",
+              "values": [
+                30,
+                45,
+                60,
+                75,
+                90,
+                105,
+                120
+              ]
+            },
+            {
+              "name": "OrbDamage",
+              "values": [
+                8,
+                20,
+                32,
+                44,
+                56,
+                68,
+                80
+              ]
+            },
+            {
+              "name": "ShieldAPRatio",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ]
+            },
+            {
+              "name": "ShieldDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "OrbAPRatio",
+              "values": [
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737,
+                0.18000000715255737
+              ]
+            },
+            {
+              "name": "ShieldBHPRatio",
+              "values": [
+                0.10999999940395355,
+                0.10999999940395355,
+                0.10999999940395355,
+                0.10999999940395355,
+                0.10999999940395355,
+                0.10999999940395355,
+                0.10999999940395355
+              ]
+            }
+          ],
+          "calculations": {
+            "ShieldValue": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ShieldBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "ShieldAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mStatFormula": 2,
+                  "mDataValue": "ShieldBHPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "OrbDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "OrbAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalMaxDamage": {
+              "mMultiplier": {
+                "mNumber": 3,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "diana_e",
+          "binding": "Characters/Diana/Spells/DianaTeleportAbility/DianaTeleport",
+          "name": "月神冲刺",
+          "maxrank": 5,
+          "officialCooldown": [
+            22,
+            20,
+            18,
+            16,
+            14
+          ],
+          "officialCost": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "officialDescription": "成为复仇之月的活化身，冲向一名敌人并造成魔法伤害。<br>【月神冲刺】在冲达一名被施加了【月光】效果的敌人时，会没有冷却时间。所有其它的敌人都将移除掉身上的【月光】效果，无论他们是否是【月神冲刺】的目标。",
+          "officialTooltip": "黛安娜成为复仇之月的活化身，冲向一名敌人并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。如果目标被施加了<keywordMajor>月光</keywordMajor>，那么这个技能的冷却时间会被刷新。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            22,
+            22,
+            20,
+            18,
+            16,
+            14,
+            10
+          ],
+          "mana": [
+            40,
+            45,
+            50,
+            55,
+            60,
+            60
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              45,
+              50,
+              55,
+              60,
+              60
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                50,
+                70,
+                90,
+                110,
+                130,
+                150
+              ]
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ]
+            },
+            {
+              "name": "CDResetTime",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "diana_r",
+          "binding": "Characters/Diana/Spells/DianaRAbility/DianaR",
+          "name": "月之降临",
+          "maxrank": 3,
+          "officialCooldown": [
+            100,
+            90,
+            80
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "黛安娜将附近所有敌人显形并拉拽到身边，然后使他们减速。<br><br>如果黛安娜将1个或以上的敌方英雄拉拽到身边，那么月光会在短暂延迟后倾注在她身上，在她附近的一个区域内造成魔法伤害，每拉拽一个额外目标就会使这个伤害提升。",
+          "officialTooltip": "黛安娜<status>拽入</status>、<status>减速</status>{{ slowtooltip }}%、并显形附近的敌人 {{ slowduration }}秒。<br /><br />如果黛安娜命中了至少一名敌方英雄，那么她就会召唤月亮，造成<magicDamage>{{ rexplosiondamage }}魔法伤害</magicDamage>外加<magicDamage>{{ rmultihitamplification }}</magicDamage>x第一个之外的被拖拽英雄数，至多达到<magicDamage>{{ maxdamage }}伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            100,
+            100,
+            90,
+            80,
+            80,
+            80,
+            80
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "Damage",
+              "values": [
+                100,
+                200,
+                300,
+                400,
+                500,
+                600,
+                700
+              ]
+            },
+            {
+              "name": "Delay",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "SlowPotency",
+              "values": [
+                -0.30000001192092896,
+                -0.4000000059604645,
+                -0.5,
+                -0.6000000238418579,
+                -0.699999988079071,
+                -0.800000011920929,
+                -0.8999999761581421
+              ]
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            {
+              "name": "SlowTooltip",
+              "values": [
+                30,
+                40,
+                50,
+                60,
+                70,
+                80,
+                90
+              ]
+            },
+            {
+              "name": "MultihitAmp",
+              "values": [
+                10,
+                35,
+                60,
+                85,
+                110,
+                135,
+                160
+              ]
+            }
+          ],
+          "calculations": {
+            "RExplosionDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6000000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "RMultiHitAmplification": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MultiHitAmp",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.15000000596046448,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamage": {
+              "mMultiplier": {
+                "mNumber": 5,
+                "__type": "NumberCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "RMultiHitAmplification",
+              "__type": "GameCalculationModified"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Veigar",
+      "chineseName": "邪恶小法师",
+      "rootPath": "Characters/Veigar/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Veigar.json.gz",
+        "sha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+        "compressedSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+        "byteSize": 47382,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/veigar/veigar.bin.json",
+        "fetchedAt": "2026-09-06T14:26:46.951Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Veigar.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Veigar.json",
+        "fetchedAt": "2026-09-06T14:12:56.615Z",
+        "byteSize": 14350,
+        "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de"
+      },
+      "spells": [
+        {
+          "slot": "P",
+          "skillKey": "veigar_p",
+          "binding": "Characters/Veigar/Spells/VeigarPassiveAbility/VeigarPassive",
+          "name": "超凡邪力",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialDescription": "维迦是最强大的恶魔，甚至能对符文之地之心发起攻击——并且他只会越来越强大！用技能攻击一名敌人、击杀单位或拆毁防御塔都会为维迦永久提升法术强度加成。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "dQKillStacks",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "dAbilityStacks",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "name": "dTakedownStacks",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ]
+            },
+            {
+              "name": "dQKillStacksLarge",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            {
+              "name": "PStacksPerDarkMatterCDR",
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ]
+            },
+            {
+              "name": "DarkMatterCDRIncrement",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ]
+            }
+          ],
+          "calculations": {
+            "APPerStack": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "veigar_q",
+          "binding": "Characters/Veigar/Spells/VeigarBalefulStrikeAbility/VeigarBalefulStrike",
+          "name": "黑暗祭祀",
+          "maxrank": 5,
+          "officialCooldown": [
+            6,
+            5.5,
+            5,
+            4.5,
+            4
+          ],
+          "officialCost": [
+            30,
+            35,
+            40,
+            45,
+            50
+          ],
+          "officialDescription": "维迦释放一束黑暗能量，对最先被命中的两个敌人造成魔法伤害。被这个能量束所击杀的单位，会永久地为维迦提供一些法术强度。",
+          "officialTooltip": "维迦释放一束黑暗能量，对命中的头2个敌人造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。<br /><br />用此技能击杀一个单位，还会为维迦提供{{ spell.veigarpassive:dqkillstacks }}层<keywordMajor>超凡邪恶</keywordMajor>效果。大型小兵和大型野怪会提供{{ spell.veigarpassive:dqkillstackslarge }}层作为替代。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            6.5,
+            6,
+            5.5,
+            5,
+            4.5,
+            4,
+            3.5
+          ],
+          "mana": [
+            30,
+            35,
+            40,
+            45,
+            50,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              30,
+              35,
+              40,
+              45,
+              50,
+              50
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "APRatio",
+              "values": [
+                0.44999998807907104,
+                0.5,
+                0.550000011920929,
+                0.6000000238418579,
+                0.6499999761581421,
+                0.699999988079071,
+                0.75
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                40,
+                80,
+                120,
+                160,
+                200,
+                240,
+                280
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "veigar_w",
+          "binding": "Characters/Veigar/Spells/VeigarDarkMatterAbility/VeigarDarkMatter",
+          "name": "黑暗物质",
+          "maxrank": 5,
+          "officialCooldown": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialCost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "officialDescription": "维迦召唤一大团黑暗物质轰击目标区域，落地造成魔法伤害。【超凡邪力】的层数会缩短这个技能的冷却时间。",
+          "officialTooltip": "维迦召唤黑暗物质将从天而降，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。<br /><br />每{{ spell.veigarpassive:pstacksperdarkmattercdr }}层<keywordMajor>超凡邪力</keywordMajor>会使这个技能的冷却时间减少{{ spell.veigarpassive:darkmattercdrincrement*100 }}%。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              85
+            ],
+            "{0a3e0478}": 60,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "APRatio",
+              "values": [
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929,
+                0.8999999761581421,
+                1,
+                1.100000023841858,
+                1.2000000476837158
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                85,
+                140,
+                195,
+                250,
+                305,
+                360
+              ]
+            },
+            {
+              "name": "ImpactDelay",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ]
+            },
+            {
+              "name": "BaseCooldown",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ]
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "veigar_e",
+          "binding": "Characters/Veigar/Spells/VeigarEventHorizonAbility/VeigarEventHorizon",
+          "name": "扭曲空间",
+          "maxrank": 5,
+          "officialCooldown": [
+            20,
+            18.5,
+            17,
+            15.5,
+            14
+          ],
+          "officialCost": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "officialDescription": "维迦扭曲空间的边缘，创造一个牢笼来使途径的敌人晕眩。",
+          "officialTooltip": "维迦扭曲空间的边缘，创造一个牢笼来使途经的敌人<status>晕眩</status>{{ stunduration }}秒。牢笼持续3秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            20,
+            20,
+            18.5,
+            17,
+            15.5,
+            14,
+            14
+          ],
+          "mana": [
+            70,
+            75,
+            80,
+            85,
+            90,
+            95
+          ],
+          "manaValues": {
+            "values": [
+              70,
+              75,
+              80,
+              85,
+              90,
+              95
+            ],
+            "{0a3e0478}": 70,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "StunDuration",
+              "values": [
+                1.25,
+                1.5,
+                1.75,
+                2,
+                2.25,
+                2.5,
+                2.75
+              ]
+            },
+            {
+              "name": "CageDelay",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "R",
+          "skillKey": "veigar_r",
+          "binding": "Characters/Veigar/Spells/VeigarRAbility/VeigarR",
+          "name": "能量爆裂",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            90,
+            60
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialDescription": "引爆目标敌方英雄，造成大量魔法伤害，并基于目标已损失生命值提升伤害。",
+          "officialTooltip": "维迦用源力魔法引爆一名敌方英雄，造成<magicDamage>{{ mindamage }}到{{ maxdamage }}魔法伤害</magicDamage>，伤害提升幅度基于目标的已损失生命值。目标生命值在33%以下即可造成最大伤害。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            90,
+            60,
+            30,
+            30,
+            30
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mUseAutoattackCastTimeData": null,
+          "dataValues": [
+            {
+              "name": "APRatio",
+              "values": [
+                0.6000000238418579,
+                0.6499999761581421,
+                0.699999988079071,
+                0.75,
+                0.800000011920929,
+                0.8500000238418579,
+                0.8999999761581421
+              ]
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                100,
+                175,
+                250,
+                325,
+                400,
+                475,
+                550
+              ]
+            },
+            {
+              "name": "MaxExecuteMult",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ]
+            }
+          ],
+          "calculations": {
+            "MinDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamage": {
+              "mMultiplier": {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "MinDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

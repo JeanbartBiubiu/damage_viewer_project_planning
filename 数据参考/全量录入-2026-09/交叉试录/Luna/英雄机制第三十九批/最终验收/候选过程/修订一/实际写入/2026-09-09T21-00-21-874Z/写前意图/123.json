@@ -1,0 +1,24 @@
+{
+  "i": 122,
+  "intent": {
+    "sequence": 123,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/parameters",
+    "detailRoute": "/skills/nilah_r/parameters/damage_bonus_ad_ratio",
+    "skillKey": "nilah_r",
+    "kind": "parameters",
+    "stableKey": "damage_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_bonus_ad_ratio",
+      "name": "神恩激荡爆发额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "DamageCalc的mStat=2、mStatFormula=2且系数1，读取来源额外攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

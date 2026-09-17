@@ -1,0 +1,71 @@
+{
+  "sequence": 58,
+  "intent": {
+    "sequence": 58,
+    "method": "POST",
+    "route": "/skills/drmundo_e/formulas",
+    "detailRoute": "/skills/drmundo_e/formulas/maximum_additional_damage_endpoint",
+    "skillKey": "drmundo_e",
+    "kind": "formulas",
+    "stableKey": "maximum_additional_damage_endpoint",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "maximum_additional_damage_endpoint",
+      "name": "大力行医完整额外伤害最高端点",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_health_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_damage_amp"
+          }
+        ]
+      },
+      "description": "当前MaxDamageAmpTooltip只证最高端点；本式明确为完整AdditionalDamage×1.4，即（BaseDamage+0.05×来源额外生命）×MaxDamageAmp。只记录端点，不生成已损失生命到端点的中间曲线。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 376,
+    "method": "GET",
+    "route": "/skills/drmundo_e/formulas/maximum_additional_damage_endpoint",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "maximum_additional_damage_endpoint"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:32.916Z"
+  }
+}

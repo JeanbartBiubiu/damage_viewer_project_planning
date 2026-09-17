@@ -1,0 +1,24 @@
+{
+  "i": 66,
+  "intent": {
+    "sequence": 67,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_q/parameters",
+    "detailRoute": "/skills/kindred_q/parameters/dash_speed",
+    "skillKey": "kindred_q",
+    "kind": "parameters",
+    "stableKey": "dash_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dash_speed",
+      "name": "翻滚基础速度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前根DashSpeed=500。",
+      "sortOrder": 80
+    }
+  }
+}

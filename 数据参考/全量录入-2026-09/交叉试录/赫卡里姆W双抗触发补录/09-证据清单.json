@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T07:48:45.220Z",
+  "status": "PASS",
+  "sourceVersion": "16.17/16.17.1",
+  "target": {
+    "skillKey": "hecarim_w",
+    "ruleKey": "on_used",
+    "effectKeys": [
+      "armor_gain",
+      "magic_resistance_gain"
+    ],
+    "conclusion": "已录入主动使用后的自身护甲与魔法抗性分支；其余分支按体验报告暂缓。"
+  },
+  "frozen": {
+    "batchSha256": "1c614bb258283f36852de2365064fc98f44bd7db4390548201788de4d1518092",
+    "bodySha256": "cf78066c1eb4222cd7da01cdd15e8627f0134867f8720b234f91bfe15001ae5c",
+    "sourceSnapshotSha256": "dec55cedcc39aa38f9f5bd78b297f16c6774d8219f919bd8e6d25b9da0de07df",
+    "baselineSha256": "03ca0a32903b20a40a245a648db797293f679120d7e2e2a9da7fb20a45c26e1f",
+    "allowedOperations": [
+      {
+        "method": "POST",
+        "route": "/skills/hecarim_w/trigger-rules"
+      }
+    ]
+  },
+  "preparation": {
+    "getCount": 1223,
+    "businessWrites": 0,
+    "skillCount": 1062,
+    "priorRuleCount": 130,
+    "sourceInitializedCount": 24,
+    "candidateStatus": 404,
+    "repeatedFullBaselineCount": 0
+  },
+  "writer": {
+    "getCount": 32,
+    "postCount": 1,
+    "replayedWrites": 0,
+    "recoveryReadPerformed": false,
+    "status": "PASS",
+    "bodySha256": "cf78066c1eb4222cd7da01cdd15e8627f0134867f8720b234f91bfe15001ae5c"
+  },
+  "independentReadback": {
+    "getCount": 1222,
+    "businessWrites": 0,
+    "skillCount": 1062,
+    "finalRuleCount": 131,
+    "sourceInitializedCount": 24,
+    "priorRulesUnchanged": 130,
+    "differenceCount": 0,
+    "newRuleBodySha256": "cf78066c1eb4222cd7da01cdd15e8627f0134867f8720b234f91bfe15001ae5c",
+    "targetNonRuleSnapshotSha256": "b1b59bc003cdf4726b90e06b5324a7b795ee1f06fadff2906867c2c0a7e1cecd"
+  },
+  "browser": {
+    "browser": "Playwright Chromium 真实页面",
+    "methods": {
+      "GET": 174
+    },
+    "businessWrites": 0,
+    "screenshots": [
+      "hecarim_w-armor_gain结果.png",
+      "hecarim_w-magic_resistance_gain结果.png",
+      "hecarim_w-on_used规则.png",
+      "hecarim_w-列表图片.png"
+    ],
+    "diagnostics": {
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "errorResponses": [],
+      "expectedCancelledImageReads": []
+    },
+    "passed": true
+  },
+  "sourceObjectSha256": "e66956f0c8131a57a4df68117ef9622e089405eb1f7046809997d1b204e4c114",
+  "writeBeforeRuleRefsSha256": "0fcf91f17026f32389ad139b0e89d38265206ab75d1ec335f854d17d40704ba7",
+  "files": [
+    {
+      "relativePath": "README.md",
+      "role": "批次入口与恢复顺序",
+      "sha256": "7816271def279cbfe99005b15f2b56cba49cdb79022c36d56c2f44d13ea421da"
+    },
+    {
+      "relativePath": "01-合并方案.md",
+      "role": "主负责人冻结语义",
+      "sha256": "868e456cebffaeba47e0b129dd5df2a6aae954d212a61704c1eaaa56c79629d4"
+    },
+    {
+      "relativePath": "批次配置.mjs",
+      "role": "唯一目标、请求和页面配置",
+      "sha256": "1b61429f74793a97fc1087f7637df0e909fb8e13ebb83dc18e2d8e8461a6fb98"
+    },
+    {
+      "relativePath": "批次执行.mjs",
+      "role": "只读准备与受保护单次写入",
+      "sha256": "8d20d900de00fca98f92665dc009eb59567cbf0b5dc682a4041d9586575bab0c"
+    },
+    {
+      "relativePath": "02-冻结请求.json",
+      "role": "完整冻结请求与批次散列",
+      "sha256": "38b7a5f5c26d294fba2553263d1ea877d3f388c6916fbb841d8eb418e71a4718"
+    },
+    {
+      "relativePath": "03-来源散列快照.json",
+      "role": "固定来源及对象散列",
+      "sha256": "a07d9ef36f8a5fd0787302914e9acd6fcff2993cf61db2458ac023e42c072dfc"
+    },
+    {
+      "relativePath": "04-共享写前现值.json",
+      "role": "旧规则和目标写前基线",
+      "sha256": "abe82305945d4520607a4e63a0f1cfb4f819d5e5875365700e13fd3facb4c054"
+    },
+    {
+      "relativePath": "05-只读准备报告.json",
+      "role": "纯GET预检结果",
+      "sha256": "bb327709b59171b67367ef6cd2d6335cd2e08e460c2252fc92cd9c0af1150fa5"
+    },
+    {
+      "relativePath": "06-写入与即时回读.json",
+      "role": "一次POST及即时回读",
+      "sha256": "3a2d476a3503808e3f4536a04c893c33c299972a6df11e27906a1d3c5e8a645b"
+    },
+    {
+      "relativePath": "独立GET回读.mjs",
+      "role": "新代理独立只读检查器",
+      "sha256": "b73c5cf20976fff55967c70ce81aea850971cd5da30fdb4cb8708fc58758d83d"
+    },
+    {
+      "relativePath": "07-独立GET回读.json",
+      "role": "最终131条规则独立回读",
+      "sha256": "2885cb2a2f3425e909ab49bc0aa04131d16e0728e6e79873147d78b435cd6796"
+    },
+    {
+      "relativePath": "只读页面验收.mjs",
+      "role": "由批次配置生成的页面目标",
+      "sha256": "5ce5d6ee33fb730ec584f3e97e2c876b54cc59eab5d52e36652f1e31708da102"
+    },
+    {
+      "relativePath": "08-页面验收.json",
+      "role": "真实浏览器只读验收",
+      "sha256": "4a6695e8b16d3922d3724122f0a2298e1b4a8a5793b3da0b7711b47b4a2a4440"
+    },
+    {
+      "relativePath": "录入体验报告.md",
+      "role": "操作成本、歧义与恢复",
+      "sha256": "c5297559dcfe0a54eb7b43cb0e82ac50e99fd4db3c8f3779092c0fc5d3618da9"
+    },
+    {
+      "relativePath": "生成证据清单.mjs",
+      "role": "证据完整性检查与清单生成器",
+      "sha256": "f5630519674a21f1d12225d7c770bf5071d1c1e8efc864aea4c5502e6a88993b"
+    },
+    {
+      "relativePath": "页面截图/hecarim_w-armor_gain结果.png",
+      "role": "真实浏览器页面截图",
+      "sha256": "5c27a4b285e61a271010d9a5ea33c2eb72305e3f4e8c41743281e190ec31e819"
+    },
+    {
+      "relativePath": "页面截图/hecarim_w-magic_resistance_gain结果.png",
+      "role": "真实浏览器页面截图",
+      "sha256": "b2b9f3590121bf0e61fff389a539d1f0dcdf0a38948b1d7e3c8f92ded7280972"
+    },
+    {
+      "relativePath": "页面截图/hecarim_w-on_used规则.png",
+      "role": "真实浏览器页面截图",
+      "sha256": "342ead1b679ab6c7aa849068e91e83a87e413358136fe257a28a074d746bd440"
+    },
+    {
+      "relativePath": "页面截图/hecarim_w-列表图片.png",
+      "role": "真实浏览器页面截图",
+      "sha256": "40688ba2f4d89ed06ea6c1f8306123bbf939ff2b146c03dcff754dcdb838e4e6"
+    }
+  ],
+  "boundaries": {
+    "managementSaved": true,
+    "apiReadback": true,
+    "browserValidated": true,
+    "wasmInputAssembled": false,
+    "hostEventProduced": false,
+    "runtimeValidated": false,
+    "combatValidated": false
+  }
+}

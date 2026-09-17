@@ -1,0 +1,23 @@
+{
+  "i": 194,
+  "intent": {
+    "sequence": 195,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/bleed_kill_heal_remaining_ratio",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "bleed_kill_heal_remaining_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bleed_kill_heal_remaining_ratio",
+      "name": "猩红诅咒击杀剩余流血治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.25,
+      "levelValues": null,
+      "description": "当前正文明确击杀流血目标时按剩余流血伤害的125%治疗；事件待接。",
+      "sortOrder": 150
+    }
+  }
+}

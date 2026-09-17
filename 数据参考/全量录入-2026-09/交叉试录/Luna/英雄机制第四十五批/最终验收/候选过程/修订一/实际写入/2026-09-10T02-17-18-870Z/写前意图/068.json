@@ -1,0 +1,69 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_p/effects",
+    "detailRoute": "/skills/heimerdinger_p/effects/near_turret_move_speed",
+    "skillKey": "heimerdinger_p",
+    "kind": "effects",
+    "stableKey": "near_turret_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "near_turret_move_speed",
+      "name": "海克斯科技亲和自身移动速度",
+      "description": "只定义自身20%移动速度比例；进入或离开自身炮台/友方防御塔近距资格由事件层接线，离开合资格近距时必须移除。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "海克斯科技亲和自身移动速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只定义自身属性变化；近距资格成立时施加，离开合资格近距时移除，条件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "near_turret_move_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

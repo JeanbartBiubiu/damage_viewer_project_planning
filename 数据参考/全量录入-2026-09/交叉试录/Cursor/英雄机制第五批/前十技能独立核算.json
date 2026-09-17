@@ -1,0 +1,702 @@
+{
+  "generatedAt": "2026-09-08T14:41:58.605Z",
+  "boundary": "仅冻结来源摘要、候选结构与独立算术；没有业务保存、数据库回读、浏览器或战斗运行证据。",
+  "sourceChecks": [
+    {
+      "hero": "Sett",
+      "kind": "client",
+      "expected": "13dbe8579df57977485fd282aec6b03673d39579b9325148079050aafd9960f6",
+      "actual": "13dbe8579df57977485fd282aec6b03673d39579b9325148079050aafd9960f6",
+      "match": true
+    },
+    {
+      "hero": "Sett",
+      "kind": "official",
+      "expected": "c9d8782de0f5f0ecaffa770801d2b69e7ee9c4b916a5d09332b89aa311184e7d",
+      "actual": "c9d8782de0f5f0ecaffa770801d2b69e7ee9c4b916a5d09332b89aa311184e7d",
+      "match": true
+    },
+    {
+      "hero": "Trundle",
+      "kind": "client",
+      "expected": "af25e7e708a5618bc5d3bc46249950004f97cb789a913c96ef9cb92c047a9fef",
+      "actual": "af25e7e708a5618bc5d3bc46249950004f97cb789a913c96ef9cb92c047a9fef",
+      "match": true
+    },
+    {
+      "hero": "Trundle",
+      "kind": "official",
+      "expected": "fd892e4b81b95aefe6c478d1ea1a75e09942b596b77984820f4199b259656e8e",
+      "actual": "fd892e4b81b95aefe6c478d1ea1a75e09942b596b77984820f4199b259656e8e",
+      "match": true
+    },
+    {
+      "kind": "当前绑定中文说明",
+      "expected": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "actual": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "match": true
+    }
+  ],
+  "arithmetic": [
+    {
+      "skill": "sett_p",
+      "formula": "right_punch_bonus",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 60,
+      "actual": 60.00000000000001,
+      "match": true
+    },
+    {
+      "skill": "sett_p",
+      "formula": "right_punch_bonus",
+      "rank": 1,
+      "level": 9,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skill": "sett_p",
+      "formula": "right_punch_bonus",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {},
+      "expected": 145,
+      "actual": 145,
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "formula": "bonus_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 70,
+      "actual": 70,
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "formula": "bonus_damage",
+      "rank": 3,
+      "level": 9,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 130,
+      "actual": 130,
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "formula": "bonus_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 190,
+      "actual": 189.99999999999997,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "max_grit",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 1000,
+      "actual": 1000,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "max_grit",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 1000
+      },
+      "inputs": {},
+      "expected": 500,
+      "actual": 500,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "released_grit_shield",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "released_grit": 0
+      },
+      "expected": 0,
+      "actual": 0,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "released_grit_shield",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "inputs": {
+        "released_grit": 1000
+      },
+      "expected": 1000,
+      "actual": 1000,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "released_grit_shield",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 1000
+      },
+      "inputs": {
+        "released_grit": 1000
+      },
+      "expected": 1000,
+      "actual": 1000,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "released_grit": 600
+      },
+      "expected": 380,
+      "actual": 380,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "released_grit": 1000
+      },
+      "expected": 660,
+      "actual": 660,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 2000,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "released_grit": 0
+      },
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.hp.TOTAL": 1000,
+        "SOURCE.attack_damage.BONUS": 100
+      },
+      "inputs": {
+        "released_grit": 1000
+      },
+      "expected": 580,
+      "actual": 580,
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 250,
+      "actual": 250,
+      "match": true
+    },
+    {
+      "skill": "sett_r",
+      "formula": "captured_target_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100,
+        "TARGET.hp.BONUS": 500
+      },
+      "inputs": {},
+      "expected": 520,
+      "actual": 520,
+      "match": true
+    },
+    {
+      "skill": "sett_r",
+      "formula": "captured_target_damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 100,
+        "TARGET.hp.BONUS": 500
+      },
+      "inputs": {},
+      "expected": 820,
+      "actual": 820,
+      "match": true
+    },
+    {
+      "skill": "trundle_p",
+      "formula": "tribute_heal",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 36,
+      "actual": 36,
+      "match": true
+    },
+    {
+      "skill": "trundle_p",
+      "formula": "tribute_heal",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 110,
+      "actual": 110,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "formula": "total_noncritical_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 240,
+      "actual": 239.99999999999997,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "formula": "total_noncritical_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 400,
+      "actual": 400,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "formula": "bonus_noncritical_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 40,
+      "actual": 39.999999999999986,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "formula": "bonus_noncritical_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 200,
+      "actual": 200,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "formula": "drain_total_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 440,
+      "actual": 440,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "formula": "drain_total_damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 640,
+      "actual": 640,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "formula": "initial_drain_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 220,
+      "actual": 220,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "formula": "initial_drain_damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 320,
+      "actual": 320,
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "parameter": "attack_speed_ratio",
+      "rank": 1,
+      "expected": 0.3,
+      "actual": 0.3,
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "parameter": "attack_speed_ratio",
+      "rank": 5,
+      "expected": 1.1,
+      "actual": 1.1,
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "parameter": "move_speed_ratio",
+      "rank": 1,
+      "expected": 0.2,
+      "actual": 0.2,
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "parameter": "move_speed_ratio",
+      "rank": 5,
+      "expected": 0.52,
+      "actual": 0.52,
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "parameter": "slow_ratio",
+      "rank": 1,
+      "expected": 0.34,
+      "actual": 0.34,
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "parameter": "slow_ratio",
+      "rank": 5,
+      "expected": 0.5,
+      "actual": 0.5,
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "parameter": "pillar_duration_ms",
+      "rank": 1,
+      "expected": 6000,
+      "actual": 6000,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "parameter": "actual_drain_duration_ms",
+      "rank": 1,
+      "expected": 5000,
+      "actual": 5000,
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "parameter": "post_drain_shred_duration_ms",
+      "rank": 1,
+      "expected": 4000,
+      "actual": 4000,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "parameter": "target_attack_damage_loss",
+      "rank": 1,
+      "expected": 10,
+      "actual": 10,
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "parameter": "target_attack_damage_loss",
+      "rank": 5,
+      "expected": 20,
+      "actual": 20,
+      "match": true
+    }
+  ],
+  "invariants": [
+    {
+      "skill": "sett_p",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_p",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_p",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_q",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_q",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_w",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_w",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_e",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_r",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "sett_r",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "sett_r",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_p",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_p",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_p",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_q",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_q",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_w",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_w",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_e",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_e",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "check": "本技能参数公式效果引用完整",
+      "match": true,
+      "missing": []
+    },
+    {
+      "skill": "trundle_r",
+      "check": "施法过程不生成伤害命中",
+      "match": true
+    },
+    {
+      "skill": "trundle_r",
+      "check": "目标持续控制状态未绕过法术护盾限制",
+      "match": true
+    },
+    {
+      "skill": "sett_e",
+      "check": "实际命中规则不依赖被撤出的施法过程",
+      "match": true
+    }
+  ],
+  "failures": []
+}

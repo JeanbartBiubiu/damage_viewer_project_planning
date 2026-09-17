@@ -1,0 +1,23 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/autoattack_cast_time_multiplier",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "autoattack_cast_time_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "autoattack_cast_time_multiplier",
+      "name": "黑暗洞灭攻击施法时间系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.80000001,
+      "levelValues": null,
+      "description": "当前mUseAutoattackCastTimeData仅给0.8乘算，不把它误写成800毫秒。",
+      "sortOrder": 120
+    }
+  }
+}

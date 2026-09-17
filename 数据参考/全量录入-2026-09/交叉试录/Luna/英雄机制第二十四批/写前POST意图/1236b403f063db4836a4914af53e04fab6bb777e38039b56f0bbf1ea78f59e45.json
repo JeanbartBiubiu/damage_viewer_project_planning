@@ -1,0 +1,52 @@
+{
+  "at": "2026-09-09T14:37:18.565Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_w/formulas",
+  "detailRoute": "/skills/nunu_w/formulas/minimum_distance_damage",
+  "skillKey": "nunu_w",
+  "kind": "formulas",
+  "stableKey": "minimum_distance_damage",
+  "body": {
+    "formulaKey": "minimum_distance_damage",
+    "name": "史上最大雪球最低滚动距离魔法伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "minimum_distance_damage_scalar"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "maximum_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "NoImpactSnowballDamage = NoImpactDamageScalar×MaximumSnowballDamage；当前正文将其用于滚动距离伤害下界，具体距离连续关系和命中时点仍待接线。",
+    "sortOrder": 20
+  }
+}

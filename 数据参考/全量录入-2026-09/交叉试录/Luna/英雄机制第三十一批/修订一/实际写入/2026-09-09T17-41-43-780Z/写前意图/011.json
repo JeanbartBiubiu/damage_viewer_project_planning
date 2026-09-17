@@ -1,0 +1,23 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "method": "POST",
+    "route": "/skills/janna_q/parameters",
+    "detailRoute": "/skills/janna_q/parameters/base_range",
+    "skillKey": "janna_q",
+    "kind": "parameters",
+    "stableKey": "base_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_range",
+      "name": "基础射程",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1100,
+      "levelValues": null,
+      "description": "客户端DataValues.BaseRange按等级索引1取1100；只作来源参数。",
+      "sortOrder": 80
+    }
+  }
+}

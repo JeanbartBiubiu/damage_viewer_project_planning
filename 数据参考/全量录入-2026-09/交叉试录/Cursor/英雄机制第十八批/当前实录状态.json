@@ -1,0 +1,70 @@
+{
+  "at": "2026-09-09T11:50:05.964Z",
+  "status": "佐伊明确组成已保存与验收，剩余事件和来源冲突继续处理",
+  "skills": [
+    "zoe_p",
+    "zoe_q",
+    "zoe_w",
+    "zoe_e",
+    "zoe_r"
+  ],
+  "protectedHeroes": [
+    "lux"
+  ],
+  "counts": {
+    "parameters": 26,
+    "formulas": 6,
+    "effects": 3,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedParameters": 6,
+  "createdParameters": 20,
+  "businessWrites": 29,
+  "apiWritesComplete": true,
+  "allCandidateComponentsConfirmed": true,
+  "candidateFileSha256": "71e82f521f48fdb76e16d124f378cc7adc427b9be10c7e166068e079c98d6fc3",
+  "writePlanSha256": "dead20e1e882ca6c72bced9b3944951d0773684f0c3d063bd0684b5e6316462c",
+  "execution": {
+    "file": "实际写入-2026-09-09T11-37-17.323Z.json",
+    "GETs": 206,
+    "successfulPOSTs": 29
+  },
+  "independentReadback": {
+    "file": "独立回读-2026-09-09T11-39-07.962Z.json",
+    "GETs": 183,
+    "formulaCount": 6,
+    "formulaCases": 12,
+    "missingInputRejections": 9,
+    "checks": 21,
+    "resourceEffects": 3,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 2,
+    "GETs": 10,
+    "mathCases": 4,
+    "passed": true
+  },
+  "cursor": {
+    "runId": "run-8a94048d-f4c4-4d96-a156-49f8334736c5",
+    "status": "finished",
+    "audit": "Cursor实际运行与审计.json",
+    "originalCandidate": "Cursor原始产物/完整候选.json",
+    "rootReview": "主负责人来源复核.json"
+  },
+  "auditNotes": [
+    "Cursor原件、主负责人旧稿和最终候选分别保留；当前实录以最终候选为准。",
+    "首次独立回读误把候选内部reuse标记当作接口字段，失败原件保留；修正预期比较并重新只读核对，未重放29次写入。实际执行写入器另存受保护录入-写入原件.mjs。",
+    "Cursor执行过只读git diff，违反候选提示中的不操作Git约束；审计无Git写入、无包外文件修改，35份输入散列未变。",
+    "6个公共参数、拉克丝既有组成和角色、图片关系通过完整保护核对；未增加图片使用关系。"
+  ],
+  "pending": [
+    "被动与Q角色等级曲线求值尚未证明，实际值外供且无默认值。",
+    "Q实际距离倍率、W拾取施法事件、E惊醒实际伤害与抗性结算和R空间事件待接。",
+    "E睡眠时长和E/R两个施法时长字段存在来源冲突，保留证据，不猜选数值。"
+  ],
+  "runtimeValidation": "未执行"
+}

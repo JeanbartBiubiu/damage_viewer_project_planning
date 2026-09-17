@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:37:39.060Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_e/formulas",
+  "detailRoute": "/skills/nunu_e/formulas/snowball_damage",
+  "skillKey": "nunu_e",
+  "kind": "formulas",
+  "stableKey": "snowball_damage",
+  "body": {
+    "formulaKey": "snowball_damage",
+    "name": "雪球飞射单团魔法伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "snowball_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalSnowballDamage = BaseDamage + 0.12×来源法术强度；三团命中同一目标的次数由事件接线处理。",
+    "sortOrder": 10
+  }
+}

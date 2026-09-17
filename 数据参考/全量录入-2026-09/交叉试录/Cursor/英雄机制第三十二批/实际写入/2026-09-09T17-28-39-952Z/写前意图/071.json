@@ -1,0 +1,77 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "method": "POST",
+    "route": "/skills/kaisa_q/formulas",
+    "detailRoute": "/skills/kaisa_q/formulas/normal_max_damage",
+    "skillKey": "kaisa_q",
+    "kind": "formulas",
+    "stableKey": "normal_max_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "normal_max_damage",
+      "name": "普通六发最大物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "normal_max_damage_multiplier"
+          }
+        ]
+      },
+      "description": "当前MaxDamageTotal树给出2.25倍整式；不把该式误作为每颗再乘6。",
+      "sortOrder": 30
+    }
+  }
+}

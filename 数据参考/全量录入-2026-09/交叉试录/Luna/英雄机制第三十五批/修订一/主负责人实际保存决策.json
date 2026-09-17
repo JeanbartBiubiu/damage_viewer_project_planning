@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T19:28:38.816Z",
+  "decision": "按修订一新增171项，复用28项；逐项回读后独立核对和代表页面验收。",
+  "hashes": {
+    "完整候选.json": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
+    "写前请求计划.json": "9f610f2d19b05ff34ff5e30c4246bd6a97c2405d28538e9678f1477b99589192",
+    "受保护写入器.mjs": "29fd7047d79dfe8ff494b269f9fb058ba9ecab585281eb1e6efa8dee22462337"
+  },
+  "counts": {
+    "parameters": 137,
+    "formulas": 32,
+    "effects": 2
+  },
+  "created": 171,
+  "reused": 28,
+  "current": 199,
+  "preflightGETs": 399,
+  "checks": [
+    "Cursor当前来源只读READY且无Git变更",
+    "Luna修订审查READY，来源最大生命与未知护甲阶段修正有效",
+    "64算例实际侧读取候选参数，期望侧读取原始资料",
+    "原候选及原报告保留为历史，修订字节散列外置冻结"
+  ],
+  "runtimeValidation": "未执行",
+  "apiWritesBeforeRun": 0
+}

@@ -1,0 +1,25 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/parameters",
+    "detailRoute": "/skills/gnar_p/parameters/actual_small_attack_speed_ratio",
+    "skillKey": "gnar_p",
+    "kind": "parameters",
+    "stableKey": "actual_small_attack_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_small_attack_speed_ratio",
+      "name": "当前小型实际攻速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalAS带角色成长修正，运行层提供实际比例；1表示100%，不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 68,
+  "intent": {
+    "sequence": 69,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_w/parameters",
+    "detailRoute": "/skills/samira_w/parameters/slash_duration_ms",
+    "skillKey": "samira_w",
+    "kind": "parameters",
+    "stableKey": "slash_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slash_duration_ms",
+      "name": "锋旋持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 750,
+      "levelValues": null,
+      "description": "SlashDuration=0.75秒，转换为750毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

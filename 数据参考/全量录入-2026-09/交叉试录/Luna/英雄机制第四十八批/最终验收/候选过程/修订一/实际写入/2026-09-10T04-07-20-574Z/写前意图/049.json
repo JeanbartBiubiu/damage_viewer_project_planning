@@ -1,0 +1,24 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_q/parameters",
+    "detailRoute": "/skills/yorick_q/parameters/percent_point_ratio",
+    "skillKey": "yorick_q",
+    "kind": "parameters",
+    "stableKey": "percent_point_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_point_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "治疗正文的百分数点先乘0.01；该参数由正文单位语义固定，不把6当0.06直接混用。",
+      "sortOrder": 50
+    }
+  }
+}

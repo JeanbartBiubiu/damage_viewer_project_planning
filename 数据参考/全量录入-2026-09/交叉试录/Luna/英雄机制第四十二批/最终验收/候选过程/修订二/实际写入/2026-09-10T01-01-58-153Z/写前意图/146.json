@@ -1,0 +1,43 @@
+{
+  "i": 145,
+  "intent": {
+    "sequence": 146,
+    "skillKey": "mel_r",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/mel_r/formulas",
+    "stableKey": "passive_flat_damage",
+    "body": {
+      "formulaKey": "passive_flat_damage",
+      "name": "夺命残影基础魔法伤害公式",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_flat_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_flat_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "PassiveFlatDamage=基础值+0.1×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 31,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/ticks_per_second",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "ticks_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ticks_per_second",
+      "name": "每秒伤害次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "客户端TicksPerSecond取索引1；仅用于当前总量树。",
+      "sortOrder": 30
+    }
+  }
+}

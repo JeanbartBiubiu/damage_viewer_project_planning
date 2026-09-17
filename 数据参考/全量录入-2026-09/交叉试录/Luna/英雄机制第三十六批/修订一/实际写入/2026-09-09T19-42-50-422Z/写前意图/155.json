@@ -1,0 +1,77 @@
+{
+  "i": 154,
+  "intent": {
+    "sequence": 155,
+    "method": "POST",
+    "route": "/skills/singed_e/formulas",
+    "detailRoute": "/skills/singed_e/formulas/total_magic_damage",
+    "skillKey": "singed_e",
+    "kind": "formulas",
+    "stableKey": "total_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_magic_damage",
+      "name": "过肩摔完整魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage_value"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_points_to_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "max_health_percent_points"
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "完整E = 基础树 + 目标最大生命百分比组件；基础树的tooltipOnly标记不删除正文额外组件。",
+      "sortOrder": 30
+    }
+  }
+}

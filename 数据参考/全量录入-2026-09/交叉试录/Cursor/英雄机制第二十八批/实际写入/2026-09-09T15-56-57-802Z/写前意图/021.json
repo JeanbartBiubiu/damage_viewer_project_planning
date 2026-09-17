@@ -1,0 +1,20 @@
+{
+  "i": 20,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_e/parameters",
+    "skillKey": "maokai_e",
+    "kind": "parameters",
+    "stableKey": "passive_cooldown_reduction_on_hero_hit_ms",
+    "body": {
+      "parameterKey": "passive_cooldown_reduction_on_hero_hit_ms",
+      "name": "命中英雄缩短茂凯被动冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前树苗正文明确命中敌方英雄或史诗野怪时额外缩短吸元秘术4秒；本轮仅保留英雄相关明确数值，树苗命中事件与外供方式待接。",
+      "sortOrder": 10
+    }
+  }
+}

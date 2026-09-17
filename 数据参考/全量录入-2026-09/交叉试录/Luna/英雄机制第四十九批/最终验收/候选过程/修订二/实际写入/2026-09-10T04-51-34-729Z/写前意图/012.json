@@ -1,0 +1,25 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/formulas",
+    "detailRoute": "/skills/gnar_p/formulas/small_attack_range_bonus",
+    "skillKey": "gnar_p",
+    "kind": "formulas",
+    "stableKey": "small_attack_range_bonus",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "small_attack_range_bonus",
+      "name": "小型纳尔实际射程增量",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_small_attack_range_bonus"
+      },
+      "description": "保留TotalAttackRange的实际输入。",
+      "sortOrder": 30
+    }
+  }
+}

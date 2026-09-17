@@ -1,0 +1,24 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 162,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/tier1_stack_threshold",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "tier1_stack_threshold",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tier1_stack_threshold",
+      "name": "超级灼热龙息第一层数阈值",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 25,
+      "levelValues": null,
+      "description": "StackTier1=25；只保存进化资格，不在一对一中自动创建额外爆炸。",
+      "sortOrder": 60
+    }
+  }
+}

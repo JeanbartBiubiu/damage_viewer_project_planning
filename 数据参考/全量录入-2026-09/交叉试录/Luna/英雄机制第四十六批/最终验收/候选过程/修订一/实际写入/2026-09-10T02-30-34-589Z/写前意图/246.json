@@ -1,0 +1,24 @@
+{
+  "i": 245,
+  "intent": {
+    "sequence": 246,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/parameters",
+    "detailRoute": "/skills/zaahen_p/parameters/bonus_ad_per_stack_lower_ratio",
+    "skillKey": "zaahen_p",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_per_stack_lower_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_per_stack_lower_ratio",
+      "name": "每层额外攻击力比例下界",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.015,
+      "levelValues": null,
+      "description": "哈希插值下界1.5%，比例单位。",
+      "sortOrder": 40
+    }
+  }
+}

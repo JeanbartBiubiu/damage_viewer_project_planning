@@ -1,0 +1,23 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "method": "POST",
+    "route": "/skills/singed_q/parameters",
+    "detailRoute": "/skills/singed_q/parameters/ticks_per_second",
+    "skillKey": "singed_q",
+    "kind": "parameters",
+    "stableKey": "ticks_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ticks_per_second",
+      "name": "每秒跳数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "当前TicksPerSecond=4；仅保存来源时序参数。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,596 @@
+{
+  "at": "2026-09-09T12:36:35.370Z",
+  "mode": "after-write",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "planSha256": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1",
+  "apiWrites": 0,
+  "staticChecks": [
+    {
+      "name": "冻结文件 修订一冻结候选锁.json",
+      "ok": true,
+      "details": "8c79339da015b246e56871674327c967c0cc1db0c0bdd38e833f34ca8e8fcb97"
+    },
+    {
+      "name": "冻结文件 修订一候选.json",
+      "ok": true,
+      "details": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c"
+    },
+    {
+      "name": "冻结文件 修订一候选版本.json",
+      "ok": true,
+      "details": "36cafdc0c8fc09f410cdc2c2d835c31d8cf4262df2d01303554a77b7b0a9fc57"
+    },
+    {
+      "name": "冻结文件 修订一写前计划.json",
+      "ok": true,
+      "details": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1"
+    },
+    {
+      "name": "冻结文件 修订一写前保护.json",
+      "ok": true,
+      "details": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563"
+    },
+    {
+      "name": "冻结文件 修订一写前保护摘要.json",
+      "ok": true,
+      "details": "6cb4ed16037995baea34c535665d68a1b39dc117e681850816e2ae5d5fed967b"
+    },
+    {
+      "name": "冻结文件 修订一独立源值与算例.json",
+      "ok": true,
+      "details": "63a23e737a1bf08cc127ab7f5a885bdb122d891633156332578dee3f854f7376"
+    },
+    {
+      "name": "冻结文件 写前现值.json",
+      "ok": true,
+      "details": "1954947a6d0afe3d3b41138ad60a11285223814a9ea1843e736518ba74130cd8"
+    },
+    {
+      "name": "锁内核心散列一致",
+      "ok": true,
+      "details": {
+        "at": "2026-09-09T12:09:26.689Z",
+        "status": "修订一候选已冻结，等待主负责人审查；不是实录",
+        "revision": "修订一",
+        "basedOnCandidateSha256": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824",
+        "source": "client16.17/official16.17.1",
+        "sourceBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "candidateFileSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "candidatePlanSha256": "aa89ecca3c72b8d4bb02a1a87180e7ac6050b5cbf267a484808e0353fd783e64",
+        "candidateVersionFileSha256": "36cafdc0c8fc09f410cdc2c2d835c31d8cf4262df2d01303554a77b7b0a9fc57",
+        "writePlanFileSha256": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1",
+        "independentMathFileSha256": "63a23e737a1bf08cc127ab7f5a885bdb122d891633156332578dee3f854f7376",
+        "independentMathTextSha256": "6d2ab7b7752932f389aaddb55034ccc36043f48dd739361fecd8d5c252079dc3",
+        "protectionFileSha256": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563",
+        "protectionSummarySha256": "6cb4ed16037995baea34c535665d68a1b39dc117e681850816e2ae5d5fed967b",
+        "originalSnapshotSha256": "1954947a6d0afe3d3b41138ad60a11285223814a9ea1843e736518ba74130cd8",
+        "counts": {
+          "parameters": 157,
+          "formulas": 26,
+          "effects": 8,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "totalNewRequests": 175,
+        "reusedPublicParameters": 16,
+        "independentMath": {
+          "checks": 55,
+          "passed": 55,
+          "failed": 0,
+          "runtimeInputCount": 27
+        },
+        "api": {
+          "readOnlyRequests": 188,
+          "successfulReadOnlyRequests": 188,
+          "failures": 0,
+          "businessWrites": 0
+        },
+        "protectedReadOnly": {
+          "catalogs": 4,
+          "characters": 4,
+          "relations": 4,
+          "representativeImages": 20,
+          "skillSubjects": 20,
+          "sixKindLists": 120,
+          "publicParameterDetails": 16,
+          "apiWrites": 0
+        },
+        "sourceHashes": [
+          {
+            "id": "Riven",
+            "clientSha256": "9086aba7fcafaafc6563b3a7ee5c5997d9d48198c7fd55fd0294457e7b244166",
+            "officialSha256": "d376561f803515c9d703b3da1f2eb1133569b2b111b1c063708ad7213fb26d6f"
+          },
+          {
+            "id": "Aatrox",
+            "clientSha256": "0dc8e69b6728db5e4d49188c4cc54e0c80500038f71b03eb3fca04182ce25ee2",
+            "officialSha256": "d5d1a0d9ca8bf46300e6364aabc10b2bb8148a36d2df34b30023e0ed0626fbbf"
+          },
+          {
+            "id": "Rengar",
+            "clientSha256": "3753f99ebe03c3b8101abe73ffdfb85d2f7eab3dd8926d4d01f2983333979a0a",
+            "officialSha256": "7d02438c643ff741f003c5e7a9ff010715a07b09570c2f4ed7cf6dfd2dbd49d2"
+          },
+          {
+            "id": "Khazix",
+            "clientSha256": "eb0260dc4ade1ee4782ee67caecb7c529929d34607ba9cdfe99fe917dada9205",
+            "officialSha256": "9c69f8bf69df86ba09431dc7878932c7fc4144b1cb493fb691edda69418acc90"
+          }
+        ],
+        "lockedFiles": {
+          "修订一生成候选.mjs": "6e751aa1cf2c5fd638c7a512fcec3a0a94bbb3dae4b61f5ea437b586f118c323",
+          "修订一独立来源与算例.mjs": "899236ffb0628fcd091051fce8efcd15c695a3cb983e1ff52bbcc7d2cafa3502",
+          "修订一写前保护.mjs": "4025db7ae55991adf0fcb929cc5e7d8a4cf275da65f1f26e796b9d66d8e15ef1",
+          "修订一生成写前计划.mjs": "13e95baa5db6b32f13cb6a0a9c6f18704dcaa11c7befee8341e07c711b501116",
+          "修订一候选.json": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+          "修订一候选版本.json": "36cafdc0c8fc09f410cdc2c2d835c31d8cf4262df2d01303554a77b7b0a9fc57",
+          "修订一写前保护.json": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563",
+          "修订一写前保护摘要.json": "6cb4ed16037995baea34c535665d68a1b39dc117e681850816e2ae5d5fed967b",
+          "修订一写前计划.json": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1",
+          "修订一独立源值与算例.json": "63a23e737a1bf08cc127ab7f5a885bdb122d891633156332578dee3f854f7376",
+          "修订一独立源值与算例.txt": "6d2ab7b7752932f389aaddb55034ccc36043f48dd739361fecd8d5c252079dc3",
+          "完整候选.json": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824",
+          "候选版本.json": "1e255bdeec6885ba4638a23221670ba013e62d9ae48b730a6d6b008e0a443d46",
+          "独立源值与算例.json": "3743365e786f2110c15481ee59637a8fd31b472e65d91a16f065cea2b5570105",
+          "写前现值.json": "1954947a6d0afe3d3b41138ad60a11285223814a9ea1843e736518ba74130cd8",
+          "根绑定与数值证据.json": "30779f022bcf82a87191627db649a59d8f7c771c0f0e330d31194025ce8d8a30",
+          "补充文本证据.json": "4dfc340298b6408aa3ea3b2f90465c8ffda30d3dfb48685bd7451a06765a827b",
+          "来源冻结/来源与哈希汇总.json": "f16f184de98dce45197907b50626f96dbb6c0f3b8e8d6d3302aaa681f9f9b5fc",
+          "来源冻结/主技能数值展开.json": "6f0e82df49c3c2f2de8839f7a8dd8f04f4c2023da7e5ba55ffc711b77ae15c88",
+          "来源冻结/主技能原始展开.json": "bb2bc46778681c5a82cf2e5e42e3587c1b8df4a143818c5e77f181f11e7646b5",
+          "当前候选状态.json": "e770acbdc39f1ebad80253079e0bc7eef74fb93ba4117e730db43ff2bcc90229"
+        },
+        "frozenRawBytes": {
+          "修订一冻结原字节/原候选-cb3-完整候选.json": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824",
+          "修订一冻结原字节/修订一候选.json": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+          "修订一冻结原字节/修订一候选版本.json": "36cafdc0c8fc09f410cdc2c2d835c31d8cf4262df2d01303554a77b7b0a9fc57",
+          "修订一冻结原字节/修订一写前计划.json": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1",
+          "修订一冻结原字节/修订一独立源值与算例.json": "63a23e737a1bf08cc127ab7f5a885bdb122d891633156332578dee3f854f7376",
+          "修订一冻结原字节/修订一独立源值与算例.txt": "6d2ab7b7752932f389aaddb55034ccc36043f48dd739361fecd8d5c252079dc3",
+          "修订一冻结原字节/来源-根绑定与数值证据.json": "30779f022bcf82a87191627db649a59d8f7c771c0f0e330d31194025ce8d8a30",
+          "修订一冻结原字节/来源-补充文本证据.json": "4dfc340298b6408aa3ea3b2f90465c8ffda30d3dfb48685bd7451a06765a827b",
+          "修订一冻结原字节/来源-来源与哈希汇总.json": "f16f184de98dce45197907b50626f96dbb6c0f3b8e8d6d3302aaa681f9f9b5fc",
+          "修订一冻结原字节/来源-主技能数值展开.json": "6f0e82df49c3c2f2de8839f7a8dd8f04f4c2023da7e5ba55ffc711b77ae15c88",
+          "修订一冻结原字节/来源-主技能原始展开.json": "bb2bc46778681c5a82cf2e5e42e3587c1b8df4a143818c5e77f181f11e7646b5"
+        },
+        "patch": {
+          "skillKey": "aatrox_e",
+          "oldParameterKey": "bonus_healing_ratio_per_unresolved_stat",
+          "newParameterKey": "bonus_healing_ratio_per_bonus_health",
+          "oldCandidatePreserved": true,
+          "rootMultiplier": 0.01,
+          "sourceRatio": 0.011,
+          "convertedRatioPerBonusHealth": 0.00011,
+          "formula": "0.16 + 0.00011×SOURCE.hp.BONUS",
+          "crossSource": "英雄机制第十七批/Vladimir W/TotalDamage；mStat=12,mStatFormula=2,BonusHealthRatio"
+        },
+        "policy": "冻结后禁止覆盖cb3原候选和修订一候选、计划、数学与保护证据；如需再次修订，另存新的修订文件。写入器默认只读，未获主负责人授权不得POST。"
+      }
+    },
+    {
+      "name": "数学初始55项全通过",
+      "ok": true,
+      "details": {
+        "checkCount": 55,
+        "failedChecks": 0,
+        "runtimeInputCount": 27
+      }
+    },
+    {
+      "name": "写前保护固定188次GET",
+      "ok": true,
+      "details": {
+        "at": "2026-09-09T12:06:20.570Z",
+        "mode": "修订一写前保护；全部请求为GET；完整保存20主体、120列表、已有公共详情及角色、关系、图片、共享目录；不写业务接口",
+        "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+        "sourceVersion": "client16.17/official16.17.1",
+        "requestCount": 188,
+        "expectedRequestCount": 188,
+        "statusCounts": {
+          "200": 188
+        },
+        "subjectCount": 20,
+        "sixKindLists": 120,
+        "compositionCount": 16,
+        "detailCount": 16,
+        "countsByKind": {
+          "parameters": 16,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "existingNonPublicCount": 0,
+        "baselineConflictCount": 0,
+        "duplicateCount": 0,
+        "errorCount": 0,
+        "apiWrites": 0,
+        "snapshotSha256": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563",
+        "noWrites": true
+      }
+    },
+    {
+      "name": "候选和计划计数冻结",
+      "ok": true,
+      "details": {
+        "candidate": 175,
+        "plan": 175,
+        "reused": 16
+      }
+    },
+    {
+      "name": "候选组成191项且键唯一",
+      "ok": true,
+      "details": {
+        "total": 191,
+        "unique": 191
+      }
+    },
+    {
+      "name": "复用公共参数16项",
+      "ok": true,
+      "details": [
+        "riven_q/parameters/cooldown_ms",
+        "riven_w/parameters/cooldown_ms",
+        "riven_e/parameters/cooldown_ms",
+        "riven_r/parameters/cooldown_ms",
+        "aatrox_q/parameters/cooldown_ms",
+        "aatrox_w/parameters/cooldown_ms",
+        "aatrox_e/parameters/cooldown_ms",
+        "aatrox_r/parameters/cooldown_ms",
+        "rengar_r/parameters/cooldown_ms",
+        "khazix_q/parameters/cooldown_ms",
+        "khazix_q/parameters/mana_cost",
+        "khazix_w/parameters/cooldown_ms",
+        "khazix_w/parameters/mana_cost",
+        "khazix_e/parameters/cooldown_ms",
+        "khazix_e/parameters/mana_cost",
+        "khazix_r/parameters/mana_cost"
+      ]
+    },
+    {
+      "name": "独立源树与算例",
+      "ok": true,
+      "details": {
+        "checks": 28,
+        "failed": 0,
+        "totalAttackDamage": 200,
+        "bonusAttackDamage": 100
+      }
+    }
+  ],
+  "staticFailures": [],
+  "independentMath": [
+    {
+      "name": "Aatrox E根乘数",
+      "actual": 0.009999999776482582,
+      "expected": 0.01,
+      "delta": 2.2351741811588166e-10,
+      "ok": true
+    },
+    {
+      "name": "Aatrox E交叉mStat映射",
+      "actual": {
+        "mStat": 12,
+        "mStatFormula": 2,
+        "dataValue": "BonusHealthRatio",
+        "crossSha256": "da3d627ae08acf0af922daae667574be76ea0c5bc14d7d5fb0be7eae929e0b7a"
+      },
+      "expected": {
+        "mStat": 12,
+        "mStatFormula": 2,
+        "dataValue": "BonusHealthRatio",
+        "crossSha256": "da3d627ae08acf0af922daae667574be76ea0c5bc14d7d5fb0be7eae929e0b7a"
+      },
+      "delta": 0,
+      "ok": true
+    },
+    {
+      "name": "Aatrox E参数换算",
+      "actual": 0.00011,
+      "expected": 0.00011,
+      "delta": 0,
+      "ok": true,
+      "rootMultiplier": 0.01,
+      "rawRatio": 0.010999999940395355
+    },
+    {
+      "name": "Aatrox E完整比例/0",
+      "actual": 0.16,
+      "expected": 0.16,
+      "delta": 0,
+      "ok": true,
+      "bonusHealth": 0,
+      "totalAttackDamage": 200,
+      "bonusAttackDamage": 100,
+      "formula": "0.16 + 0.00011×SOURCE.hp.BONUS"
+    },
+    {
+      "name": "Aatrox E完整比例/1000",
+      "actual": 0.27,
+      "expected": 0.27,
+      "delta": 0,
+      "ok": true,
+      "bonusHealth": 1000,
+      "totalAttackDamage": 200,
+      "bonusAttackDamage": 100,
+      "formula": "0.16 + 0.00011×SOURCE.hp.BONUS"
+    },
+    {
+      "name": "Aatrox E完整比例/2000",
+      "actual": 0.38,
+      "expected": 0.38,
+      "delta": 0,
+      "ok": true,
+      "bonusHealth": 2000,
+      "totalAttackDamage": 200,
+      "bonusAttackDamage": 100,
+      "formula": "0.16 + 0.00011×SOURCE.hp.BONUS"
+    },
+    {
+      "name": "Riven Q总攻击力分支",
+      "actual": 245,
+      "expected": 244.9999976158142,
+      "delta": 0.000002384185791015625,
+      "ok": true,
+      "totalAttackDamage": 200,
+      "bonusAttackDamage": 100,
+      "attributeValueKind": "TOTAL"
+    },
+    {
+      "name": "Riven W额外攻击力分支",
+      "actual": 285,
+      "expected": 285,
+      "delta": 0,
+      "ok": true,
+      "totalAttackDamage": 200,
+      "bonusAttackDamage": 100,
+      "attributeValueKind": "BONUS"
+    },
+    {
+      "name": "Aatrox Q总攻击力分支",
+      "actual": 250,
+      "expected": 249.99999523162842,
+      "delta": 0.00000476837158203125,
+      "ok": true,
+      "totalAttackDamage": 200,
+      "bonusAttackDamage": 100,
+      "attributeValueKind": "TOTAL"
+    },
+    {
+      "name": "Rengar E额外攻击力分支",
+      "actual": 315,
+      "expected": 315.0000011920929,
+      "delta": 0.0000011920928955078125,
+      "ok": true,
+      "totalAttackDamage": 200,
+      "bonusAttackDamage": 100,
+      "attributeValueKind": "BONUS"
+    },
+    {
+      "name": "Aatrox P实际命中伤害无默认",
+      "actual": {
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null
+      },
+      "expected": {
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null
+      },
+      "delta": 0,
+      "ok": true
+    },
+    {
+      "name": "Rengar R固定护甲削减点数",
+      "actual": {
+        "1": 15,
+        "2": 20,
+        "3": 25
+      },
+      "expected": {
+        "1": 15,
+        "2": 20,
+        "3": 25
+      },
+      "delta": 0,
+      "ok": true
+    },
+    {
+      "name": "攻击力选择/riven_w/total_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/riven_e/total_shield",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/riven_r/wind_slash_min_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/riven_r/wind_slash_max_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/rengar_e/total_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/rengar_e/total_empowered_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/khazix_p/passive_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/khazix_q/base_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/khazix_w/base_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/khazix_e/total_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "BONUS"
+      ],
+      "expectedKind": "BONUS"
+    },
+    {
+      "name": "攻击力选择/riven_q/first_slash_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "TOTAL"
+      ],
+      "expectedKind": "TOTAL"
+    },
+    {
+      "name": "攻击力选择/riven_r/bonus_attack_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "TOTAL"
+      ],
+      "expectedKind": "TOTAL"
+    },
+    {
+      "name": "攻击力选择/aatrox_q/q_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "TOTAL"
+      ],
+      "expectedKind": "TOTAL"
+    },
+    {
+      "name": "攻击力选择/aatrox_w/w_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "TOTAL"
+      ],
+      "expectedKind": "TOTAL"
+    },
+    {
+      "name": "攻击力选择/rengar_q/q_total_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "TOTAL",
+        "TOTAL"
+      ],
+      "expectedKind": "TOTAL"
+    },
+    {
+      "name": "攻击力选择/rengar_q/empowered_q_total_damage",
+      "actual": true,
+      "expected": true,
+      "delta": 0,
+      "ok": true,
+      "actualKinds": [
+        "TOTAL",
+        "TOTAL"
+      ],
+      "expectedKind": "TOTAL"
+    }
+  ],
+  "calls": {
+    "total": 363,
+    "expected": 363,
+    "methods": {
+      "GET": 363
+    },
+    "statuses": {
+      "200": 363
+    }
+  },
+  "protectionConflicts": [],
+  "componentConflicts": [],
+  "success": true,
+  "finishedAt": "2026-09-09T12:36:59.475Z"
+}

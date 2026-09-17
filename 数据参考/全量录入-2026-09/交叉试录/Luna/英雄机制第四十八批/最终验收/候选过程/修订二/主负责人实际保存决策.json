@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-10T04:12:09.740Z",
+  "approved": true,
+  "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
+  "planSha256": "2b5037a0917360918ef781dfb04f1e3532d384e73f86b94798eb551268cd60b8",
+  "writerSha256": "ce7e62df7b1345eb5aafa9febdcfe9a9a810b9cdaf621c1a8779158c2929bae5",
+  "originalApproval": "C:/project/damage_web_dev/.agents/artifacts/hero48-luna-candidate/修订一/主负责人实际保存决策.json",
+  "correctedDamageKeys": 9,
+  "changedSavedEntries": 0,
+  "priorSuccessfulPOSTs": 52,
+  "priorPOSTAttempts": 53,
+  "priorGETs": 917,
+  "remainingPOSTs": 140,
+  "expectedWriterGETs": 1092,
+  "createdTotal": 192,
+  "reused": 21,
+  "originalEvidence": [
+    {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-luna-candidate\\修订一\\实际写入\\2026-09-10T04-00-32-211Z/执行结果.json",
+      "sha256": "ee158806da5f5b2a6fd3d03a81773caf7ea52c0db3526acba5e8e188f3ed7c57"
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-luna-candidate\\修订一\\实际写入\\2026-09-10T04-07-20-574Z/执行结果.json",
+      "sha256": "d752c8b0bb8221b6aef1ec6d621bc1b5b48c56b507f3257ad8aa53615b96e655"
+    }
+  ],
+  "checks": [
+    "只替换尚未保存的9个效果damageTypeKey physical为真实字典physics；不更改任何源值、公式或已保存项目",
+    "全部193项原有保护以及52项已存新增在恢复前后逐项核对；其余140项必须仍不存在",
+    "原失败请求已确认HTTP400且未新增，不能重放整个批次",
+    "数学阶段新增全部伤害类型、护盾吸收类型、属性、增幅区、状态字典引用校验"
+  ],
+  "pending": [
+    "战斗事件、资格和吸血执行未验证"
+  ],
+  "apiWritesThisRevision": 0
+}

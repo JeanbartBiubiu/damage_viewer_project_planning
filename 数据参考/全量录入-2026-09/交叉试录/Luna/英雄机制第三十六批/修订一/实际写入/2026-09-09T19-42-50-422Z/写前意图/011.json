@@ -1,0 +1,23 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "method": "POST",
+    "route": "/skills/evelynn_q/parameters",
+    "detailRoute": "/skills/evelynn_q/parameters/bonus_damage_ap_ratio",
+    "skillKey": "evelynn_q",
+    "kind": "parameters",
+    "stableKey": "bonus_damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_damage_ap_ratio",
+      "name": "标记增伤法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "TotalBonusDamage树StatByNamedDataValue系数0.25；读取来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "i": 9,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_q/parameters",
+    "skillKey": "gragas_q",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前根DataValues.SlowDuration取索引1至5，秒转为整数毫秒。",
+      "sortOrder": 70
+    }
+  }
+}

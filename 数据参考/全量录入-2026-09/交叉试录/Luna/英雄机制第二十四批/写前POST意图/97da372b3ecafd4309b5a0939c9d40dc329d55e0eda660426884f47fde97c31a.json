@@ -1,0 +1,62 @@
+{
+  "at": "2026-09-09T14:40:17.765Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_p/formulas",
+  "detailRoute": "/skills/volibear_p/formulas/attack_speed_total",
+  "skillKey": "volibear_p",
+  "kind": "formulas",
+  "stableKey": "attack_speed_total",
+  "body": {
+    "formulaKey": "attack_speed_total",
+    "name": "狂雷渐起当前层数总攻击速度数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MIN",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_speed_stacks"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_speed_max_stacks"
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_speed_per_stack_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_speed_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前层数总攻击速度 = MIN(运行输入层数,正文至多5层)×(PAttackSpeed + 0.0003×来源法术强度)；5层上限来自正文固定字面值，层数为运行输入整数，负数仍由调用方拒绝。",
+    "sortOrder": 30
+  }
+}

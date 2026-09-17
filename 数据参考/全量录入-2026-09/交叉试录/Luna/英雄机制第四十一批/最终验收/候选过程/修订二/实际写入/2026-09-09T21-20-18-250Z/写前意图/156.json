@@ -1,0 +1,45 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "method": "POST",
+    "route": "/skills/renata_w/effects",
+    "detailRoute": "/skills/renata_w/effects/mana_cost",
+    "skillKey": "renata_w",
+    "kind": "effects",
+    "stableKey": "mana_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "mana_cost",
+      "name": "施放法力消耗",
+      "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+      "sortOrder": 900,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "consume_resource",
+          "name": "施放资源消耗",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "description": "不表示战斗事件已经接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          }
+        }
+      ]
+    }
+  }
+}

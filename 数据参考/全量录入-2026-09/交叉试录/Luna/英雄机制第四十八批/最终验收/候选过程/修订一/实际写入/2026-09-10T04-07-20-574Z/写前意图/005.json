@@ -1,0 +1,24 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_q/parameters",
+    "detailRoute": "/skills/ivern_q/parameters/m_cast_time_ms",
+    "skillKey": "ivern_q",
+    "kind": "parameters",
+    "stableKey": "m_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "m_cast_time_ms",
+      "name": "mCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根mCastTime=0.25秒，精确转换为250毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

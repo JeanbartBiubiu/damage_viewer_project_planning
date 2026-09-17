@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-09T04:53:29.001Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_p/parameters/single_stack_attack_speed_percent",
+  "id": "single_stack_attack_speed_percent",
+  "method": "POST",
+  "body": {
+    "parameterKey": "single_stack_attack_speed_percent",
+    "name": "每层攻击速度（百分比点）",
+    "valueType": "DECIMAL",
+    "valueMode": "CHARACTER_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 10,
+      "2": 10.882353,
+      "3": 11.764706,
+      "4": 12.647059,
+      "5": 13.529412,
+      "6": 14.411765,
+      "7": 15.294118,
+      "8": 16.176471,
+      "9": 17.058824,
+      "10": 17.941176,
+      "11": 18.823529,
+      "12": 19.705882,
+      "13": 20.588235,
+      "14": 21.470588,
+      "15": 22.352941,
+      "16": 23.235294,
+      "17": 24.117647,
+      "18": 25
+    },
+    "description": "当前计算树角色等级端点线性插值，取1至18级；未扩展未给出的等级或特殊模式。",
+    "sortOrder": 60
+  }
+}

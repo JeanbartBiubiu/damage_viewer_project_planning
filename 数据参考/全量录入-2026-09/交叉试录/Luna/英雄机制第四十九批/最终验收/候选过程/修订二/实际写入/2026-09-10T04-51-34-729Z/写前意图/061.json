@@ -1,0 +1,25 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_q/parameters",
+    "detailRoute": "/skills/kled_q/parameters/full_two_segment_multiplier",
+    "skillKey": "kled_q",
+    "kind": "parameters",
+    "stableKey": "full_two_segment_multiplier",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "full_two_segment_multiplier",
+      "name": "两段完整伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "首段1倍加第二段2倍，完整两段合计3倍。",
+      "sortOrder": 40
+    }
+  }
+}

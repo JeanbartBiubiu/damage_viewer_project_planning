@@ -1,0 +1,23 @@
+{
+  "i": 163,
+  "intent": {
+    "sequence": 163,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/parameters",
+    "detailRoute": "/skills/tahmkench_r/parameters/target_max_hp_ability_power_ratio",
+    "skillKey": "tahmkench_r",
+    "kind": "parameters",
+    "stableKey": "target_max_hp_ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_max_hp_ability_power_ratio",
+      "name": "大快朵颐目标最大生命法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0007,
+      "levelValues": null,
+      "description": "当前PercentHPDamage第二项为0.0007×来源总法强，结果仍是目标最大生命比例。",
+      "sortOrder": 50
+    }
+  }
+}

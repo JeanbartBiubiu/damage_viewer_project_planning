@@ -1,0 +1,52 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 162,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_w/effects",
+    "detailRoute": "/skills/viego_w/effects/damage",
+    "skillKey": "viego_w",
+    "kind": "effects",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "damage",
+      "name": "千载幽咽魔法伤害",
+      "description": "第一个命中敌人的本体伤害；蓄力、晕眩和冲刺事件待接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "千载幽咽魔法伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

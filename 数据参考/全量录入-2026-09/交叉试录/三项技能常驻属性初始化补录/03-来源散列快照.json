@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-09-13T11:41:57.702Z",
+  "status": "FROZEN",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第十批/完整候选.json",
+      "sha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+      "byteSize": 402521
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json",
+      "sha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+      "byteSize": 332093
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十六批/最终验收/候选过程/修订一/完整候选.json",
+      "sha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
+      "byteSize": 643258
+    }
+  ],
+  "sourceEntries": [
+    {
+      "skillKey": "kogmaw_q",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第十批/完整候选.json",
+      "sourceCandidateSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+      "clientSha256": "a9f72b07de44dcad18624d61daa4dcaaabe7d4990103c0c7dbc3a7b36026749a",
+      "officialSha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed",
+      "effectKeys": [
+        "passive_attack_speed"
+      ]
+    },
+    {
+      "skillKey": "olaf_r",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json",
+      "sourceCandidateSha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+      "clientSha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+      "officialSha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+      "effectKeys": [
+        "passive_armor",
+        "passive_magic_resistance"
+      ]
+    },
+    {
+      "skillKey": "zaahen_r",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十六批/最终验收/候选过程/修订一/完整候选.json",
+      "sourceCandidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
+      "clientSha256": "fc47c010e81d014f0778781b658f5e156e614a04dc5a182909e89d56b70391a8",
+      "officialSha256": null,
+      "effectKeys": [
+        "armor_penetration"
+      ]
+    }
+  ],
+  "scriptFiles": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "ba27c2171b871154bd2e3ad02f50877a3f799cda4978102f375815ed50ac1bf6",
+      "byteSize": 1388
+    },
+    {
+      "name": "README.md",
+      "sha256": "4f5f8fc1969cc11733336db6a32cf87d63fa1e7a2952c09c23d6cd000e36cfd2",
+      "byteSize": 832
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "11ce3829d0a5f2e1930126e6a074fca80a65b6a1b03db325b8f64986c1592bce",
+      "byteSize": 4414
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "1302ebd54811bebecf0f1d5a052b0c93d0a28e0c873c905be4be13622b2ea146",
+      "byteSize": 35695
+    }
+  ],
+  "scope": [
+    {
+      "skillKey": "kogmaw_q",
+      "ruleKey": "initialize_passive_attack_speed",
+      "effectKeys": [
+        "passive_attack_speed"
+      ]
+    },
+    {
+      "skillKey": "olaf_r",
+      "ruleKey": "initialize_passive_resists",
+      "effectKeys": [
+        "passive_armor",
+        "passive_magic_resistance"
+      ]
+    },
+    {
+      "skillKey": "zaahen_r",
+      "ruleKey": "initialize_armor_penetration",
+      "effectKeys": [
+        "armor_penetration"
+      ]
+    }
+  ]
+}

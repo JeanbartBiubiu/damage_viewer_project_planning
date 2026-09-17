@@ -1,0 +1,2172 @@
+{
+  "generatedAt": "2026-09-09T15:15:10.917Z",
+  "status": "修订一独立源值摘要，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+    "stringTableSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+  },
+  "sourcePackage": "输入包/",
+  "sourceSeries": {
+    "drmundo_p/CurrentHealthLoss": [
+      0.04
+    ],
+    "drmundo_p/MaxHealthGain": [
+      0.04
+    ],
+    "drmundo_q/CurrentHealthDamage": [
+      0.2,
+      0.225,
+      0.25,
+      0.275,
+      0.3
+    ],
+    "drmundo_q/MinimumDamage": [
+      80,
+      130,
+      180,
+      230,
+      280
+    ],
+    "drmundo_q/HealthCost": [
+      50,
+      60,
+      70,
+      80,
+      90
+    ],
+    "drmundo_q/HealthRefundOnHitChampionMonsterPercent": [
+      1
+    ],
+    "drmundo_q/SlowAmount": [
+      0.4
+    ],
+    "drmundo_w/DamagePerTick": [
+      5,
+      8.75,
+      12.5,
+      16.25,
+      20
+    ],
+    "drmundo_w/RecastBaseDamage": [
+      20,
+      35,
+      50,
+      65,
+      80
+    ],
+    "drmundo_w/CurrentHealthCost": [
+      0.08
+    ],
+    "drmundo_w/GrayHealthStorage": [
+      0.25
+    ],
+    "drmundo_w/GrayHealthInitialDuration": [
+      0.75
+    ],
+    "drmundo_w/GrayHealthBigMod": [
+      1
+    ],
+    "drmundo_w/GrayHealthSmallMod": [
+      0.5
+    ],
+    "drmundo_e/FlatHealthCost": [
+      10,
+      25,
+      40,
+      55,
+      70
+    ],
+    "drmundo_e/BaseDamage": [
+      5,
+      15,
+      25,
+      35,
+      45
+    ],
+    "drmundo_e/HealthToADRatio": [
+      2,
+      2.3,
+      2.6,
+      2.9,
+      3.2
+    ],
+    "drmundo_e/BonusHealthRatio": [
+      0.05
+    ],
+    "drmundo_e/MaxMissingHealthThreshold": [
+      0.7
+    ],
+    "drmundo_e/MaxDamageAmp": [
+      1.4
+    ],
+    "drmundo_r/SpeedBoostAmount": [
+      0.15,
+      0.25,
+      0.35
+    ],
+    "drmundo_r/MissingHealthHeal": [
+      0.15,
+      0.2,
+      0.25
+    ],
+    "drmundo_r/MaxHealthHoT": [
+      0.2,
+      0.4,
+      0.6
+    ],
+    "drmundo_r/BonusPerNearbyChampion": [
+      0.05
+    ],
+    "tryndamere_q/BaseHealing": [
+      30,
+      40,
+      50,
+      60,
+      70
+    ],
+    "tryndamere_q/BonusHealPerFury": [
+      0.5,
+      0.95,
+      1.4,
+      1.85,
+      2.3
+    ],
+    "tryndamere_q/APRatio": [
+      0.3
+    ],
+    "tryndamere_q/APRatioPerFury": [
+      0.012
+    ],
+    "tryndamere_q/MaximumBonusAD": [
+      20,
+      35,
+      50,
+      65,
+      80
+    ],
+    "tryndamere_q/RemainingHealthThreshold": [
+      0.1
+    ],
+    "tryndamere_w/ADReduction": [
+      20,
+      35,
+      50,
+      65,
+      80
+    ],
+    "tryndamere_w/SlowPotency": [
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5
+    ],
+    "tryndamere_e/Damage": [
+      80,
+      120,
+      160,
+      200,
+      240
+    ],
+    "tryndamere_e/ADRatio": [
+      1
+    ],
+    "tryndamere_e/APRatio": [
+      0.8
+    ],
+    "tryndamere_e/ChampCDRefund": [
+      1.5
+    ],
+    "tryndamere_e/ChampFuryGain": [
+      5
+    ],
+    "tryndamere_r/TryndRDuration": [
+      5
+    ],
+    "tryndamere_r/TryndRMinHealth": [
+      30,
+      50,
+      70
+    ],
+    "tryndamere_r/TryndRFuryGain": [
+      50,
+      75,
+      100
+    ]
+  },
+  "sourceTransformations": {
+    "tryndamere_w/ADReduction": {
+      "raw": [
+        -20,
+        -35,
+        -50,
+        -65,
+        -80
+      ],
+      "candidate": [
+        20,
+        35,
+        50,
+        65,
+        80
+      ],
+      "transform": "原始负值取相反数后作为正的DECREASE幅度"
+    },
+    "tryndamere_w/SlowPotency": {
+      "raw": [
+        -0.3,
+        -0.35,
+        -0.4,
+        -0.45,
+        -0.5
+      ],
+      "candidate": [
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5
+      ],
+      "transform": "原始负值取相反数后作为正的DECREASE比例"
+    },
+    "drmundo_r/BonusPerNearbyChampion": {
+      "raw": [
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806
+      ],
+      "candidate": [
+        0,
+        0,
+        0.05
+      ],
+      "transform": "原始DataValue未按等级分列；依据当前正文只在R等级3消费，等级1/2归一为0，等级3保留0.05。"
+    }
+  },
+  "skills": {
+    "drmundo_p": {
+      "binding": "Characters/DrMundo/Spells/DrMundoPassiveAbility/DrMundoP",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_DrMundoPassive_Name",
+          "text": "想去哪就去哪"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_DrMundoPassive_Tooltip",
+          "text": "蒙多医生抵抗他受到的第一个<status>定身</status>效果，但会失去<healing>@CurrentHealthLoss*100@%当前生命值</healing>并在附近掉落一罐持续@CannisterGroundDuration@秒的化学药剂。移动到化学药剂上可使这个技能的冷却时间缩短@PassiveCooldownRefund@秒并回复<healing>@MaxHealthGain*100@%最大生命值</healing>。敌方英雄在移动到化学药剂上后会将其摧毁。<br><br>蒙多医生每5秒回复<healing>@MaxHealthRegen@最大生命值</healing>。"
+        },
+        "keyCooldown": {
+          "sourceKey": "game_character_passiveCooldown_DrMundo",
+          "text": "@PassiveCooldown@秒"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_DrMundoPassive_Summary",
+          "text": "蒙多医生抵抗他受到的第一个定身效果，但会失去生命值并在附近掉落一罐化学药剂。蒙多医生可移动到化学药剂上来拾取它，从而回复生命值并缩短这个技能的冷却时间。<br><br>蒙多医生也会显著提升生命回复。<br>"
+        }
+      },
+      "dataValues": {
+        "CannisterGroundDuration": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "CannisterPickupRadius": [
+          115,
+          115,
+          115,
+          115,
+          115,
+          115,
+          115
+        ],
+        "CannisterDistanceAway": [
+          525,
+          525,
+          525,
+          525,
+          525,
+          525,
+          525
+        ],
+        "CannisterMaxAngle": [
+          70,
+          70,
+          70,
+          70,
+          70,
+          70,
+          70
+        ],
+        "VFXLineIndicatorRange": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "PassiveCooldownRefund": [
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ],
+        "CurrentHealthLoss": [
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033
+        ],
+        "MaxHealthGain": [
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033,
+          0.03999999910593033
+        ]
+      },
+      "calculations": {
+        "PassiveCooldown": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 60,
+              "mBreakpoints": [
+                {
+                  "mLevel": 3,
+                  "mAdditionalBonusAtThisLevel": -9,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": -9,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 9,
+                  "mAdditionalBonusAtThisLevel": -9,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 12,
+                  "mAdditionalBonusAtThisLevel": -9,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 15,
+                  "mAdditionalBonusAtThisLevel": -9,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 21,
+                  "mAdditionalBonusAtThisLevel": -9,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MaxHealthRegen": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 0.004000000189989805,
+              "mInitialBonusPerLevel": 0.0005000000237487257,
+              "mBreakpoints": [
+                {
+                  "mLevel": 7,
+                  "mBonusPerLevelAtAndAfter": 0.0010000000474974513,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "mBonusPerLevelAtAndAfter": 0.001500000013038516,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 16,
+                  "mBonusPerLevelAtAndAfter": 0.0020000000949949026,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 2,
+          "__type": "GameCalculation"
+        }
+      },
+      "candidateFormulaKeys": [
+        "health_loss_amount",
+        "max_health_gain_amount",
+        "max_health_regen_amount"
+      ],
+      "candidateParameterKeys": [
+        "current_health_loss_ratio",
+        "canister_ground_duration_ms",
+        "passive_cooldown_refund_ms",
+        "max_health_gain_ratio",
+        "max_health_regen_interval_ms",
+        "passive_cooldown_ms",
+        "max_health_regen_ratio"
+      ],
+      "pending": [
+        {
+          "item": "第一个定身免疫与药剂拾取触发",
+          "reason": "正文明确机制，但当前候选范围没有对应状态触发/事件接线；保留来源，不伪造瞬时结果。"
+        },
+        {
+          "item": "拾取后的4%最大生命回复与被动冷却变化",
+          "reason": "数值和计算量已保留；直接治疗结果及冷却触发时点未接线。"
+        },
+        {
+          "item": "PassiveCooldown、MaxHealthRegen等级曲线",
+          "reason": "只读到断点构造，未证求值循环；实际输入无默认。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "罐子拾取半径、生成距离、最大角度、视觉指示距离",
+          "reason": "当前DataValues为几何/显示信息，本轮不建无消费者组成。"
+        }
+      ]
+    },
+    "drmundo_q": {
+      "binding": "Characters/DrMundo/Spells/DrMundoQAbility/DrMundoQ",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_DrMundoQ_Name",
+          "text": "病毒屠刀"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_DrMundoQ_Tooltip",
+          "text": "蒙多医生掷出一把沾染病菌的骨锯，对命中的第一个敌人造成<magicDamage>@CurrentHealthDamage*100@%当前生命值的魔法伤害</magicDamage>，并对其造成持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>如果骨锯命中了一名英雄或野怪，蒙多医生会回复<healing>@HealthRestoreOnHitChampionMonster@生命值</healing>。如果骨锯命中了一个非英雄非野怪的单位，蒙多医生则会回复<healing>@HealthRestoreOnHitMinion@生命值</healing>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_DrMundoQ_Cost",
+          "text": "<font color='#CC3300'>@HealthCost@生命值</font>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_DrMundoQ_TooltipExtendedBelowLine",
+          "text": "<rules>至少造成<magicDamage>@MinimumDamage@魔法伤害</magicDamage>，并且对野怪至多造成<magicDamage>@MaximumMonsterDamage@魔法伤害</magicDamage>。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_DrMundoQ_Summary",
+          "text": "蒙多医生掷出一把沾染病菌的骨锯，对命中的第一个敌人造成基于其当前生命值的魔法伤害和减速效果。"
+        }
+      },
+      "dataValues": {
+        "SlowDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "SlowAmount": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "CurrentHealthDamage": [
+          0.17499999701976776,
+          0.20000000298023224,
+          0.22499999403953552,
+          0.25,
+          0.2750000059604645,
+          0.30000001192092896,
+          0.32499998807907104
+        ],
+        "MinimumDamage": [
+          30,
+          80,
+          130,
+          180,
+          230,
+          280,
+          330
+        ],
+        "MaximumMonsterDamage": [
+          175,
+          250,
+          325,
+          400,
+          475,
+          550,
+          625
+        ],
+        "HealthCost": [
+          40,
+          50,
+          60,
+          70,
+          80,
+          90,
+          100
+        ],
+        "HealthRefundOnHitChampionMonsterPercent": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "HealthRefundOnHitMinionPercent": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "calculations": {
+        "HealthRestoreOnHitChampionMonster": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mPart1": {
+                "mDataValue": "HealthRefundOnHitChampionMonsterPercent",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mPart2": {
+                "mDataValue": "HealthCost",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "HealthRestoreOnHitMinion": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mPart1": {
+                "mDataValue": "HealthRefundOnHitMinionPercent",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mPart2": {
+                "mDataValue": "HealthCost",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "candidateFormulaKeys": [
+        "magic_damage",
+        "health_refund_on_champion_monster"
+      ],
+      "candidateParameterKeys": [
+        "cast_time_ms",
+        "slow_duration_ms",
+        "slow_ratio",
+        "current_health_damage_ratio",
+        "minimum_damage",
+        "health_cost",
+        "health_refund_on_champion_monster_ratio"
+      ],
+      "pending": [
+        {
+          "item": "命中回复直接治疗及命中事件",
+          "reason": "数值公式已保留；禁止创建DIRECT_HEAL或瞬时结果，待事件接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "MaximumMonsterDamage",
+          "reason": "扩展正文明确为对野怪的伤害上限，属于兵野专用分支，本轮不写。"
+        },
+        {
+          "item": "HealthRefundOnHitMinionPercent及HealthRestoreOnHitMinion",
+          "reason": "正文明确非英雄非野怪小兵回复分支，属于兵野专用治疗分支，本轮不写。"
+        }
+      ]
+    },
+    "drmundo_w": {
+      "binding": "Characters/DrMundo/Spells/DrMundoWAbility/DrMundoW",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_DrMundoW_Name",
+          "text": "电击疗法"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_DrMundoW_Tooltip",
+          "text": "蒙多医生为一台除颤器充电，每秒对附近的敌人们造成<magicDamage>@DamagePerTick*4@魔法伤害</magicDamage>，至多持续@Duration@秒。此外，他会将在最初@GrayHealthInitialDuration@秒里受到的@GrayHealthStorageInitial@伤害值和在剩余时长里受到的@GrayHealthStorage*100@%伤害值储存为灰色生命值，并能<recast>再次施放</recast>这个技能。<br><br><recast>再次施放：</recast>引爆除颤器，对附近的敌人们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。如果这个效果命中了至少一名敌方英雄，那么蒙多医生会回复<healing>@GrayHealthBigMod*100@%的灰色生命值</healing>，否则蒙多医生会转而回复<healing>@GrayHealthSmallMod*100@%的灰色生命值</healing>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_DrMundoW_Cost",
+          "text": "<font color='#CC3300'>@CurrentHealthCost*100@%当前生命值</font>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_DrMundoW_Summary",
+          "text": "蒙多医生电击他自己，对附近的敌人们造成持续伤害并储存他受到的一部分伤害。在持续时间结束时或再次施放时，蒙多医生会对附近的敌人们造成一次爆发伤害。如果这个效果命中了一名敌人，那么蒙多医生会回复一部分已储存的伤害值。"
+        }
+      },
+      "dataValues": {
+        "Duration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "CurrentHealthCost": [
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066
+        ],
+        "GrayHealthStorage": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "GrayHealthInitialDuration": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "GrayHealthBigMod": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "GrayHealthSmallMod": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "SecondCastRange": [
+          325,
+          325,
+          325,
+          325,
+          325,
+          325,
+          325
+        ],
+        "SecondCastLockout": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "DamagePerTick": [
+          1.25,
+          5,
+          8.75,
+          12.5,
+          16.25,
+          20,
+          23.75
+        ],
+        "RecastBaseDamage": [
+          5,
+          20,
+          35,
+          50,
+          65,
+          80,
+          95
+        ]
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "RecastBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mCoefficient": 0.07000000029802322,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "GrayHealthStorageInitial": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 0.800000011920929,
+              "mEndValue": 0.949999988079071,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "candidateFormulaKeys": [
+        "health_cost",
+        "damage_per_second",
+        "initial_gray_health_storage",
+        "subsequent_gray_health_storage",
+        "hero_gray_health_restore_amount",
+        "nonhero_gray_health_restore_amount",
+        "recast_magic_damage"
+      ],
+      "candidateParameterKeys": [
+        "cast_time_ms",
+        "duration_ms",
+        "current_health_cost_ratio",
+        "gray_health_initial_duration_ms",
+        "gray_health_storage_ratio",
+        "gray_health_initial_storage_ratio",
+        "gray_health_hero_restore_ratio",
+        "gray_health_nonhero_restore_ratio",
+        "second_cast_lockout_ms",
+        "damage_per_tick",
+        "ticks_per_second",
+        "recast_base_damage",
+        "recast_bonus_health_ratio",
+        "initial_damage_taken",
+        "subsequent_damage_taken",
+        "stored_gray_health"
+      ],
+      "pending": [
+        {
+          "item": "灰色生命资源结果",
+          "reason": "当前属性目录没有gray_hp；四个灰色生命公式保留外供输入，不伪装为hp RESOURCE_CHANGE。"
+        },
+        {
+          "item": "W持续伤害和重施放命中事件",
+          "reason": "数值公式已保留；禁止创建DAMAGE或周期过程，等待事件接线。"
+        },
+        {
+          "item": "旧重施放额外对象",
+          "reason": "独立审计提示旧对象含旧FlatHeal/总AD树；本候选以当前W主对象.07额外生命重施放树为准，旧对象只作来源待核。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "SecondCastRange",
+          "reason": "当前DataValues为范围/几何信息，本轮不建无消费者组成。"
+        }
+      ]
+    },
+    "drmundo_e": {
+      "binding": "Characters/DrMundo/Spells/DrMundoEAbility/DrMundoE",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_DrMundoE_Name",
+          "text": "大力行医"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_DrMundoE_Tooltip",
+          "text": "<spellPassive>被动：</spellPassive>蒙多医生获得<physicalDamage>@PassiveBonusAD@攻击力</physicalDamage>。<br><br><spellActive>主动：</spellActive>蒙多医生粗暴地挥舞他的“医用”手提包，使他的下次攻击造成额外的<physicalDamage>@AdditionalDamage@物理伤害</physicalDamage>，基于他的已损失生命值至多提升至@MaxDamageAmpTooltip@。如果击杀了目标敌人，蒙多还会将其拍飞，对其途经的所有敌人造成<physicalDamage>@AdditionalDamage@物理伤害</physicalDamage>。"
+        },
+        "keyCost": {
+          "sourceKey": "spell_DrMundoE_Cost",
+          "text": "<font color='#CC3300'>@FlatHealthCost@生命值</font>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_DrMundoE_TooltipExtendedBelowLine",
+          "text": "<rules>来自被动部分的加成会在@MaxMissingHealthThreshold*100@%已损失生命值时达到最大值。<br>对小兵造成@MinionMod*100@%伤害。对野怪造成@MonsterMod*100@%伤害。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_DrMundoE_Summary",
+          "text": "被动 - 蒙多医生获得额外攻击力，数额会基于他的最大生命值而提升。<br><br>主动 - 蒙多医生用他的“医用”手提包猛砸一个敌人，造成基于他已损失生命值的额外伤害。如果这个敌人被击杀，那么还会被拍飞，对途经的所有敌人造成伤害。"
+        }
+      },
+      "dataValues": {
+        "AttackOverrideDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "FlatHealthCost": [
+          -5,
+          10,
+          25,
+          40,
+          55,
+          70,
+          85
+        ],
+        "BaseDamage": [
+          -5,
+          5,
+          15,
+          25,
+          35,
+          45,
+          55
+        ],
+        "BonusHealthRatio": [
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806
+        ],
+        "MaxMissingHealthThreshold": [
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071
+        ],
+        "MaxDamageAmp": [
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142
+        ],
+        "MinionMod": [
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142
+        ],
+        "MissileDistance": [
+          800,
+          800,
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "MonsterMod": [
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142,
+          1.399999976158142
+        ],
+        "HealthToADRatio": [
+          1.7000000476837158,
+          2,
+          2.299999952316284,
+          2.5999999046325684,
+          2.9000000953674316,
+          3.200000047683716,
+          3.5
+        ]
+      },
+      "calculations": {
+        "AdditionalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mDataValue": "BonusHealthRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MaxDamageAmpTooltip": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "MaxDamageAmp",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mNumber": -1,
+              "__type": "NumberCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "PassiveBonusAD": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mStat": 12,
+              "mDataValue": "HealthToADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "candidateFormulaKeys": [
+        "additional_physical_damage",
+        "passive_bonus_attack_damage",
+        "maximum_additional_damage_endpoint"
+      ],
+      "candidateParameterKeys": [
+        "cast_time_ms",
+        "attack_override_duration_ms",
+        "flat_health_cost",
+        "base_damage",
+        "bonus_health_ratio",
+        "max_damage_amp",
+        "health_to_ad_ratio",
+        "unity",
+        "health_to_ad_scale"
+      ],
+      "pending": [
+        {
+          "item": "已损失生命到最高伤害端点的中间曲线",
+          "reason": "扩展正文给出70%已损失生命字面值，但该段与主正文的被动/主动指代存在冲突；MaxMissingHealthThreshold只留来源待核，不录成确定参数。MaxDamageAmp=1.4只建立完整额外伤害最高端点，不猜中间曲线。"
+        },
+        {
+          "item": "强化攻击事件",
+          "reason": "基础额外物理伤害、完整额外伤害最高端点和4000毫秒攻击窗口已保留；禁止创建DAMAGE结果或自动触发。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "MinionMod、MonsterMod",
+          "reason": "当前扩展正文明确小兵/野怪专用伤害修正，本轮唯一敌人范围不写。"
+        },
+        {
+          "item": "MissileDistance",
+          "reason": "当前DataValues为距离/几何信息，本轮不建无消费者组成。"
+        },
+        {
+          "item": "击杀目标后的拍飞与途经敌人伤害",
+          "reason": "当前正文要求击杀后多目标路径分支，超出唯一敌人单目标范围。"
+        }
+      ]
+    },
+    "drmundo_r": {
+      "binding": "Characters/DrMundo/Spells/DrMundoRAbility/DrMundoR",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_DrMundoR_Name",
+          "text": "极限剂量"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_DrMundoR_Tooltip",
+          "text": "蒙多将化学药剂注入体内，获得<healing>相当于他@MissingHealthHeal*100@%已损失生命值的最大生命值</healing>、<speed>@SpeedBoostAmount*100@%移动速度</speed>、并在@Duration@秒里持续回复共<healing>@MaxHealthHoT*100@%最大生命值</healing>。<br><br>在3级时，附近的每个敌方英雄都会使这两种治疗效果提升额外的@BonusPerNearbyChampion*100@%。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "text": "无消耗"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_DrMundoR_Summary",
+          "text": "蒙多医生给自己注入化学药剂，立刻治疗他的一部分已损失生命值。随后他会获得移动速度并在一段长周期内持续回复自身一部分最大生命值。"
+        }
+      },
+      "dataValues": {
+        "Duration": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "SpeedBoostAmount": [
+          0.05000000074505806,
+          0.15000000596046448,
+          0.25,
+          0.3499999940395355,
+          0.44999998807907104,
+          0.550000011920929,
+          0.6499999761581421
+        ],
+        "MissingHealthHeal": [
+          0.10000000149011612,
+          0.15000000596046448,
+          0.20000000298023224,
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355,
+          0.4000000059604645
+        ],
+        "MaxHealthHoT": [
+          0,
+          0.20000000298023224,
+          0.4000000059604645,
+          0.6000000238418579,
+          0.800000011920929,
+          1,
+          1.2000000476837158
+        ],
+        "TakedownDurationExtension": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "BonusPerNearbyChampion": [
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806
+        ]
+      },
+      "calculations": {},
+      "candidateFormulaKeys": [
+        "nearby_champion_effect_multiplier",
+        "missing_health_max_health_gain_amount",
+        "max_health_regeneration_amount"
+      ],
+      "candidateParameterKeys": [
+        "cast_time_ms",
+        "duration_ms",
+        "speed_boost_ratio",
+        "missing_health_max_health_gain_ratio",
+        "max_health_regeneration_ratio",
+        "bonus_per_nearby_champion_ratio",
+        "nearby_enemy_champion_count",
+        "missing_health_gain_basis",
+        "max_health_regeneration_basis",
+        "unity"
+      ],
+      "pending": [
+        {
+          "item": "最大生命增益的属性结果与应用阶段",
+          "reason": "正文明确获得相当于已损失生命的最大生命，但当前没有max_hp属性结果和应用阶段；实际已损失生命基准、实际最大生命基准分别由两个无默认运行输入提供，阶段保持待核，不制造HP反馈。"
+        },
+        {
+          "item": "两项量的直接结果与周期过程",
+          "reason": "两项数值量已保留；禁止DIRECT_HEAL、MOMENT和周期过程，等待事件接线。"
+        },
+        {
+          "item": "三级附近敌方英雄资格",
+          "reason": "数量输入无默认，1v1公式只保留0/1有效上限；资格事件尚未接线。"
+        },
+        {
+          "item": "TakedownDurationExtension消费者",
+          "reason": "客户端DataValues保留2秒来源，但当前正文和计算树没有消费者，本修订不写参数。"
+        }
+      ],
+      "excluded": []
+    },
+    "tryndamere_p": {
+      "binding": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+      "currentBoundText": {
+        "keyTooltip": {
+          "sourceKey": "Spell_TryndamerePassive_Tooltip",
+          "text": "泰达米尔的攻击会为他提供<keywordMajor>5怒气</keywordMajor>或在暴击时提供<keywordMajor>10怒气</keywordMajor>，并在击杀一个单位后提供<keywordMajor>10怒气</keywordMajor>。在脱离战斗状态8秒后，泰达米尔会每秒损失<keywordMajor>5怒气</keywordMajor>。<br><br>每点<keywordMajor>怒气</keywordMajor>提供@PassiveCritConversionTooltip@%暴击几率。"
+        },
+        "keyName": {
+          "sourceKey": "Spell_TryndamerePassive_Name",
+          "text": "战斗狂怒"
+        }
+      },
+      "dataValues": {
+        "CherryFuryModifier": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ]
+      },
+      "calculations": {
+        "PassiveCritConversionTooltip": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mNumber": 0.5,
+              "__type": "NumberCalculationPart"
+            }
+          ],
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "{dc63b617}": {
+          "mMultiplier": {
+            "mNumber": 0.10000000149011612,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 0.05000000074505806,
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "candidateFormulaKeys": [
+        "crit_chance_from_fury"
+      ],
+      "candidateParameterKeys": [
+        "attack_fury_gain",
+        "critical_attack_fury_gain",
+        "kill_unit_fury_gain",
+        "out_of_combat_delay_ms",
+        "fury_decay_per_second",
+        "crit_chance_per_fury_ratio",
+        "current_fury"
+      ],
+      "pending": [
+        {
+          "item": "怒气资源变化与动态暴击属性应用",
+          "reason": "当前属性目录没有fury；只保留无默认实际怒气输入和数学公式，不把怒气伪装成mana或自动更新暴击。"
+        },
+        {
+          "item": "怒气上限",
+          "reason": "角色根记录存在arType/arIncrements，但本轮未证arIncrements为上限，不固定100。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "CherryFuryModifier",
+          "reason": "客户端DataValuesModeOverride专属模式修正，不属于本轮标准召唤峡谷正文。"
+        }
+      ]
+    },
+    "tryndamere_q": {
+      "binding": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_TryndamereQ_Name",
+          "text": "嗜血杀戮"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TryndamereQ_Summary",
+          "text": "泰达米尔对战斗极度饥渴，他受伤程度越高，攻击力越强。他能通过释放【Q嗜血杀戮】消耗怒气并治疗自己。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TryndamereQ_Tooltip",
+          "text": "<spellPassive>被动：</spellPassive>泰达米尔嗜血成性，获得至多<scaleAD>@MaximumBonusAD@攻击力</scaleAD>，基于他的已损失生命值。<br><br><spellActive>主动：</spellActive>泰达米尔消耗他的<keywordMajor>怒气</keywordMajor>，回复<healing>@BaseHeal@外加@HealPerFury@x怒气的生命值(最大值：@MaximumHeal@)</healing>。 "
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_TryndamereQ_TooltipExtendedBelowLine",
+          "text": "<rules>在@RemainingHealthThreshold*100@%剩余生命值时即可获取最大攻击力。</rules>"
+        }
+      },
+      "dataValues": {
+        "BaseHealing": [
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "BonusHealPerFury": [
+          0.05000000074505806,
+          0.5,
+          0.949999988079071,
+          1.399999976158142,
+          1.850000023841858,
+          2.299999952316284,
+          2.75
+        ],
+        "APRatio": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "APRatioPerFury": [
+          0.012000000104308128,
+          0.012000000104308128,
+          0.012000000104308128,
+          0.012000000104308128,
+          0.012000000104308128,
+          0.012000000104308128,
+          0.012000000104308128
+        ],
+        "MaximumBonusAD": [
+          5,
+          20,
+          35,
+          50,
+          65,
+          80,
+          95
+        ],
+        "RemainingHealthThreshold": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ]
+      },
+      "calculations": {
+        "BaseHeal": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseHealing",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "HealPerFury": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BonusHealPerFury",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatioPerFury",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "MaximumHeal": {
+          "mExpandedTooltipCalculationDisplay": 6,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseHealing",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mPart1": {
+                "mCoefficient": 1,
+                "mAbilityResource": 4,
+                "__type": "AbilityResourceByCoefficientCalculationPart"
+              },
+              "mPart2": {
+                "mSubparts": [
+                  {
+                    "mDataValue": "BonusHealPerFury",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "APRatioPerFury",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "candidateFormulaKeys": [
+        "base_heal",
+        "heal_per_fury",
+        "active_heal_amount"
+      ],
+      "candidateParameterKeys": [
+        "base_healing",
+        "bonus_heal_per_fury",
+        "ap_ratio",
+        "ap_ratio_per_fury",
+        "maximum_bonus_attack_damage",
+        "remaining_health_threshold_ratio",
+        "actual_fury_consumed"
+      ],
+      "pending": [
+        {
+          "item": "MaximumHeal资源节点",
+          "reason": "当前树引用mAbilityResource4但未证资源上限与运行映射；保留实际怒气治疗公式，不创建满怒默认或MaximumHeal公式。"
+        },
+        {
+          "item": "基于已损失生命的额外攻击力中间曲线",
+          "reason": "仅证最高值和10%剩余生命阈值，不能猜中间曲线；不制造自动攻击力结果。"
+        },
+        {
+          "item": "怒气消耗与直接治疗事件",
+          "reason": "当前属性目录没有fury且禁止DIRECT_HEAL；保留参数/公式等待事件接线。"
+        }
+      ],
+      "excluded": []
+    },
+    "tryndamere_w": {
+      "binding": "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_TryndamereW_Name",
+          "text": "蔑视"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TryndamereW_Summary",
+          "text": "泰达米尔嘲笑敌人，减少身边敌方英雄的攻击力。背对泰达米尔的敌人还会被减速。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TryndamereW_Tooltip",
+          "text": "泰达米尔抛出羞辱之语，使英雄们降低@ADReduction*-1@攻击力，持续@ReductionDuration@秒，并且对逃离泰达米尔的敌人造成@SlowPotency*-100@%<status>减速</status>，持续@SlowDuration@秒。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "text": "无消耗"
+        }
+      },
+      "dataValues": {
+        "ADReduction": [
+          -5,
+          -20,
+          -35,
+          -50,
+          -65,
+          -80,
+          -95
+        ],
+        "SlowPotency": [
+          -0.25,
+          -0.30000001192092896,
+          -0.3499999940395355,
+          -0.4000000059604645,
+          -0.44999998807907104,
+          -0.5,
+          -0.550000011920929
+        ],
+        "ReductionDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "SlowDuration": [
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25
+        ]
+      },
+      "calculations": {},
+      "candidateFormulaKeys": [],
+      "candidateParameterKeys": [
+        "cast_time_ms",
+        "attack_damage_reduction",
+        "slow_ratio",
+        "reduction_duration_ms",
+        "slow_duration_ms"
+      ],
+      "pending": [
+        {
+          "item": "背对/逃离条件",
+          "reason": "效果主体和数值已定义；目标朝向条件未接入事件，不能自动施加。"
+        }
+      ],
+      "excluded": []
+    },
+    "tryndamere_e": {
+      "binding": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_TryndamereE_Name",
+          "text": "旋风斩"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TryndamereE_Summary",
+          "text": "泰达米尔挥舞大剑冲向目标，对冲锋路线上所有敌人造成伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TryndamereE_Tooltip",
+          "text": "泰达米尔旋转并穿过他的敌人，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>并且每命中一个敌人就会生成<keywordMajor>@NonChampFuryGain@怒气</keywordMajor>，在命中敌方英雄时提升至<keywordMajor>@ChampFuryGain@怒气</keywordMajor>。<br><br>这个技能的冷却时间会在泰达米尔暴击时缩短@NonChampCDRefund@秒，并在对英雄暴击时缩短@ChampCDRefund@秒。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "text": "无消耗"
+        }
+      },
+      "dataValues": {
+        "Damage": [
+          40,
+          80,
+          120,
+          160,
+          200,
+          240,
+          280
+        ],
+        "ADRatio": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "APRatio": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "NonChampCDRefund": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "ChampCDRefund": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "NonChampFuryGain": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ChampFuryGain": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "DamageAoE": [
+          225,
+          225,
+          225,
+          225,
+          225,
+          225,
+          225
+        ]
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "candidateFormulaKeys": [
+        "physical_damage"
+      ],
+      "candidateParameterKeys": [
+        "damage_base",
+        "ad_ratio",
+        "ap_ratio",
+        "champion_crit_cooldown_refund_ms",
+        "champion_fury_gain"
+      ],
+      "pending": [
+        {
+          "item": "命中英雄获得怒气",
+          "reason": "数值参数保留；当前属性目录没有fury，不伪装成mana RESOURCE_CHANGE。"
+        },
+        {
+          "item": "旋风斩物理伤害事件与英雄暴击条件",
+          "reason": "公式和冷却减少效果已保留；DAMAGE结果和触发规则待事件接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "NonChampCDRefund、NonChampFuryGain",
+          "reason": "当前来源为普通非英雄命中/暴击分支；本轮唯一敌方英雄范围不混入该支路。"
+        },
+        {
+          "item": "DamageAoE",
+          "reason": "当前DataValues为伤害范围/几何信息，本轮不建无消费者组成。"
+        }
+      ]
+    },
+    "tryndamere_r": {
+      "binding": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_UndyingRage_Name",
+          "text": "无尽怒火"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_UndyingRage_Summary",
+          "text": "泰达米尔是如此渴望战斗，以至于承受再多的伤害也不会死亡。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_UndyingRage_Tooltip",
+          "text": "泰达米尔变得对死亡完全免疫，持续@TryndRDuration@秒，拒绝将生命值降至@TryndRMinHealth@以下，并瞬间获得<keywordMajor>@TryndRFuryGain@怒气</keywordMajor>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_UndyingRage_TooltipExtendedBelowLine",
+          "text": "<rules>这个技能可以在被<status>限制</status>时施放。</rules>"
+        }
+      },
+      "dataValues": {
+        "TryndRFuryGain": [
+          50,
+          50,
+          75,
+          100,
+          125,
+          150,
+          175
+        ],
+        "TryndRMinHealth": [
+          30,
+          30,
+          50,
+          70,
+          90,
+          110,
+          130
+        ],
+        "TryndRDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      },
+      "calculations": {},
+      "candidateFormulaKeys": [],
+      "candidateParameterKeys": [
+        "duration_ms",
+        "minimum_health",
+        "fury_gain"
+      ],
+      "pending": [
+        {
+          "item": "死亡免疫/不死规则",
+          "reason": "当前正文明确死亡完全免疫，但本轮没有只针对致死的成熟事件结果类型；保留持续时间和生命下限，不因名称排除，也不伪成全伤害免疫。"
+        },
+        {
+          "item": "生命下限应用与怒气资源变化",
+          "reason": "明确数值已保留；应用时点、资源资格和事件接线未证，不创建HEALTH_FLOOR或RESOURCE_CHANGE。"
+        },
+        {
+          "item": "被限制时施放",
+          "reason": "当前扩展正文明确可在被限制时施放；不新增布尔参数或触发规则。"
+        }
+      ],
+      "excluded": []
+    }
+  },
+  "noWrites": true,
+  "candidateSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
+  "originalSourceValuesSha256": "660c3c4b897e1c65a5bddc53560998254fca2c7d2fb9ccfc10e36907825d0342",
+  "revision": "hero25-source-v1-candidate-revision-1",
+  "revisionEvidence": {
+    "removedSourceOnly": [
+      {
+        "skillKey": "drmundo_e",
+        "sourceName": "MaxMissingHealthThreshold",
+        "rawValues": [
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071
+        ],
+        "candidateParameterKey": null,
+        "reason": "扩展正文70%与主正文/树语义冲突，且没有中间曲线消费者。"
+      },
+      {
+        "skillKey": "drmundo_r",
+        "sourceName": "TakedownDurationExtension",
+        "rawValues": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "candidateParameterKey": null,
+        "reason": "当前正文和计算树没有消费者。"
+      }
+    ],
+    "nearbyAmplification": {
+      "rawSourceSeries": [
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806
+      ],
+      "candidateBySkillLevel": [
+        0,
+        0,
+        0.05
+      ],
+      "capExpression": "MIN(nearby_enemy_champion_count, unity)，unity=1",
+      "levelOneAndTwo": "正文未声明附近增幅，参数值为0；不把运行输入伪设为0。"
+    },
+    "mundoRAmountSemantics": {
+      "missingHealth": "获得最大生命的比例，不是普通直接治疗；实际已损失生命基准由missing_health_gain_basis外供。",
+      "maxHealthRegeneration": "持续恢复最大生命比例；实际最大生命基准由max_health_regeneration_basis外供。",
+      "phase": "两项应用阶段均未知，不默认施放前，不制造HP反馈。"
+    },
+    "mundoEEndpoint": {
+      "maxDamageAmp": [
+        1.399999976158142,
+        1.399999976158142,
+        1.399999976158142,
+        1.399999976158142,
+        1.399999976158142,
+        1.399999976158142,
+        1.399999976158142
+      ],
+      "expression": "(BaseDamage + BonusHealthRatio×SOURCE.hp.BONUS)×MaxDamageAmp",
+      "endpointOnly": true,
+      "intermediateCurve": "未知，不录入。"
+    },
+    "moveSpeedReferenceCheck": {
+      "inputPath": "输入包/参考资料/当前10槽保护快照.json",
+      "attribute": "move_speed_percent",
+      "unitEvidence": "当前属性说明明确1表示100%，0.04表示4%；Tryndamere W slow_ratio保留0.3至0.5比例。",
+      "modifierZoneEvidence": "Tryndamere W两个效果继续使用attribute_flat_add；当前参考未给出需要改动的证据。",
+      "changed": false
+    }
+  },
+  "parameterSeriesBindings": [
+    {
+      "skillKey": "drmundo_p",
+      "sourceName": "CurrentHealthLoss",
+      "parameterKey": "current_health_loss_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_p",
+      "sourceName": "MaxHealthGain",
+      "parameterKey": "max_health_gain_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "SlowAmount",
+      "parameterKey": "slow_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "CurrentHealthDamage",
+      "parameterKey": "current_health_damage_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "MinimumDamage",
+      "parameterKey": "minimum_damage",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "HealthCost",
+      "parameterKey": "health_cost",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_q",
+      "sourceName": "HealthRefundOnHitChampionMonsterPercent",
+      "parameterKey": "health_refund_on_champion_monster_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "CurrentHealthCost",
+      "parameterKey": "current_health_cost_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "GrayHealthStorage",
+      "parameterKey": "gray_health_storage_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "GrayHealthInitialDuration",
+      "parameterKey": "gray_health_initial_duration_ms",
+      "transform": "seconds_to_ms"
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "GrayHealthBigMod",
+      "parameterKey": "gray_health_hero_restore_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "GrayHealthSmallMod",
+      "parameterKey": "gray_health_nonhero_restore_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "DamagePerTick",
+      "parameterKey": "damage_per_tick",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_w",
+      "sourceName": "RecastBaseDamage",
+      "parameterKey": "recast_base_damage",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "FlatHealthCost",
+      "parameterKey": "flat_health_cost",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "BaseDamage",
+      "parameterKey": "base_damage",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "BonusHealthRatio",
+      "parameterKey": "bonus_health_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "MaxDamageAmp",
+      "parameterKey": "max_damage_amp",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_e",
+      "sourceName": "HealthToADRatio",
+      "parameterKey": "health_to_ad_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_r",
+      "sourceName": "SpeedBoostAmount",
+      "parameterKey": "speed_boost_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_r",
+      "sourceName": "MissingHealthHeal",
+      "parameterKey": "missing_health_max_health_gain_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_r",
+      "sourceName": "MaxHealthHoT",
+      "parameterKey": "max_health_regeneration_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "drmundo_r",
+      "sourceName": "BonusPerNearbyChampion",
+      "parameterKey": "bonus_per_nearby_champion_ratio",
+      "transform": "level_gate_r3"
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "BaseHealing",
+      "parameterKey": "base_healing",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "BonusHealPerFury",
+      "parameterKey": "bonus_heal_per_fury",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "APRatio",
+      "parameterKey": "ap_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "APRatioPerFury",
+      "parameterKey": "ap_ratio_per_fury",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "MaximumBonusAD",
+      "parameterKey": "maximum_bonus_attack_damage",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "sourceName": "RemainingHealthThreshold",
+      "parameterKey": "remaining_health_threshold_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_w",
+      "sourceName": "ADReduction",
+      "parameterKey": "attack_damage_reduction",
+      "transform": "negate"
+    },
+    {
+      "skillKey": "tryndamere_w",
+      "sourceName": "SlowPotency",
+      "parameterKey": "slow_ratio",
+      "transform": "negate"
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "Damage",
+      "parameterKey": "damage_base",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "ADRatio",
+      "parameterKey": "ad_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "APRatio",
+      "parameterKey": "ap_ratio",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "ChampCDRefund",
+      "parameterKey": "champion_crit_cooldown_refund_ms",
+      "transform": "seconds_to_ms"
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "sourceName": "ChampFuryGain",
+      "parameterKey": "champion_fury_gain",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_r",
+      "sourceName": "TryndRMinHealth",
+      "parameterKey": "minimum_health",
+      "transform": null
+    },
+    {
+      "skillKey": "tryndamere_r",
+      "sourceName": "TryndRFuryGain",
+      "parameterKey": "fury_gain",
+      "transform": null
+    }
+  ],
+  "candidateSeries": {
+    "drmundo_p/CurrentHealthLoss": [
+      0.04
+    ],
+    "drmundo_p/MaxHealthGain": [
+      0.04
+    ],
+    "drmundo_q/SlowAmount": [
+      0.4
+    ],
+    "drmundo_q/CurrentHealthDamage": [
+      0.2,
+      0.225,
+      0.25,
+      0.275,
+      0.3
+    ],
+    "drmundo_q/MinimumDamage": [
+      80,
+      130,
+      180,
+      230,
+      280
+    ],
+    "drmundo_q/HealthCost": [
+      50,
+      60,
+      70,
+      80,
+      90
+    ],
+    "drmundo_q/HealthRefundOnHitChampionMonsterPercent": [
+      1
+    ],
+    "drmundo_w/CurrentHealthCost": [
+      0.08
+    ],
+    "drmundo_w/GrayHealthStorage": [
+      0.25
+    ],
+    "drmundo_w/GrayHealthInitialDuration": [
+      750
+    ],
+    "drmundo_w/GrayHealthBigMod": [
+      1
+    ],
+    "drmundo_w/GrayHealthSmallMod": [
+      0.5
+    ],
+    "drmundo_w/DamagePerTick": [
+      5,
+      8.75,
+      12.5,
+      16.25,
+      20
+    ],
+    "drmundo_w/RecastBaseDamage": [
+      20,
+      35,
+      50,
+      65,
+      80
+    ],
+    "drmundo_e/FlatHealthCost": [
+      10,
+      25,
+      40,
+      55,
+      70
+    ],
+    "drmundo_e/BaseDamage": [
+      5,
+      15,
+      25,
+      35,
+      45
+    ],
+    "drmundo_e/BonusHealthRatio": [
+      0.05
+    ],
+    "drmundo_e/MaxDamageAmp": [
+      1.4
+    ],
+    "drmundo_e/HealthToADRatio": [
+      2,
+      2.3,
+      2.6,
+      2.9,
+      3.2
+    ],
+    "drmundo_r/SpeedBoostAmount": [
+      0.15,
+      0.25,
+      0.35
+    ],
+    "drmundo_r/MissingHealthHeal": [
+      0.15,
+      0.2,
+      0.25
+    ],
+    "drmundo_r/MaxHealthHoT": [
+      0.2,
+      0.4,
+      0.6
+    ],
+    "drmundo_r/BonusPerNearbyChampion": [
+      0,
+      0,
+      0.05
+    ],
+    "tryndamere_q/BaseHealing": [
+      30,
+      40,
+      50,
+      60,
+      70
+    ],
+    "tryndamere_q/BonusHealPerFury": [
+      0.5,
+      0.95,
+      1.4,
+      1.85,
+      2.3
+    ],
+    "tryndamere_q/APRatio": [
+      0.3
+    ],
+    "tryndamere_q/APRatioPerFury": [
+      0.012
+    ],
+    "tryndamere_q/MaximumBonusAD": [
+      20,
+      35,
+      50,
+      65,
+      80
+    ],
+    "tryndamere_q/RemainingHealthThreshold": [
+      0.1
+    ],
+    "tryndamere_w/ADReduction": [
+      20,
+      35,
+      50,
+      65,
+      80
+    ],
+    "tryndamere_w/SlowPotency": [
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5
+    ],
+    "tryndamere_e/Damage": [
+      80,
+      120,
+      160,
+      200,
+      240
+    ],
+    "tryndamere_e/ADRatio": [
+      1
+    ],
+    "tryndamere_e/APRatio": [
+      0.8
+    ],
+    "tryndamere_e/ChampCDRefund": [
+      1500
+    ],
+    "tryndamere_e/ChampFuryGain": [
+      5
+    ],
+    "tryndamere_r/TryndRMinHealth": [
+      30,
+      50,
+      70
+    ],
+    "tryndamere_r/TryndRFuryGain": [
+      50,
+      75,
+      100
+    ]
+  }
+}

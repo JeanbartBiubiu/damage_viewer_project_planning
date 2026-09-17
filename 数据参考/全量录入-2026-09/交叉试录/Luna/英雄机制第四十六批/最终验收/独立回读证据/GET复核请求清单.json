@@ -1,0 +1,2520 @@
+{
+  "generatedAt": "2026-09-10T02:49:59.257Z",
+  "method": "GET",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "protectedBaselineCount": 198,
+  "finalDetailCount": 330,
+  "totalCount": 528,
+  "protectedBaselineRoutes": [
+    "/attributes",
+    "/skill-categories",
+    "/modifier-zones",
+    "/damage-types",
+    "/characters/champion_belveth",
+    "/character-skill-relations?characterKey=champion_belveth",
+    "/characters/champion_hwei",
+    "/character-skill-relations?characterKey=champion_hwei",
+    "/characters/champion_locke",
+    "/character-skill-relations?characterKey=champion_locke",
+    "/characters/champion_zaahen",
+    "/character-skill-relations?characterKey=champion_zaahen",
+    "/skills/belveth_p",
+    "/skills/belveth_p/representative-image",
+    "/skills/belveth_p/parameters",
+    "/skills/belveth_p/formulas",
+    "/skills/belveth_p/effects",
+    "/skills/belveth_p/processes",
+    "/skills/belveth_p/internal-states",
+    "/skills/belveth_p/trigger-rules",
+    "/skills/belveth_q",
+    "/skills/belveth_q/representative-image",
+    "/skills/belveth_q/parameters",
+    "/skills/belveth_q/formulas",
+    "/skills/belveth_q/effects",
+    "/skills/belveth_q/processes",
+    "/skills/belveth_q/internal-states",
+    "/skills/belveth_q/trigger-rules",
+    "/skills/belveth_w",
+    "/skills/belveth_w/representative-image",
+    "/skills/belveth_w/parameters",
+    "/skills/belveth_w/parameters/cooldown_ms",
+    "/skills/belveth_w/formulas",
+    "/skills/belveth_w/effects",
+    "/skills/belveth_w/processes",
+    "/skills/belveth_w/internal-states",
+    "/skills/belveth_w/trigger-rules",
+    "/skills/belveth_e",
+    "/skills/belveth_e/representative-image",
+    "/skills/belveth_e/parameters",
+    "/skills/belveth_e/parameters/cooldown_ms",
+    "/skills/belveth_e/formulas",
+    "/skills/belveth_e/effects",
+    "/skills/belveth_e/processes",
+    "/skills/belveth_e/internal-states",
+    "/skills/belveth_e/trigger-rules",
+    "/skills/belveth_r",
+    "/skills/belveth_r/representative-image",
+    "/skills/belveth_r/parameters",
+    "/skills/belveth_r/parameters/cooldown_ms",
+    "/skills/belveth_r/formulas",
+    "/skills/belveth_r/effects",
+    "/skills/belveth_r/processes",
+    "/skills/belveth_r/internal-states",
+    "/skills/belveth_r/trigger-rules",
+    "/skills/hwei_p",
+    "/skills/hwei_p/representative-image",
+    "/skills/hwei_p/parameters",
+    "/skills/hwei_p/formulas",
+    "/skills/hwei_p/effects",
+    "/skills/hwei_p/processes",
+    "/skills/hwei_p/internal-states",
+    "/skills/hwei_p/trigger-rules",
+    "/skills/hwei_q",
+    "/skills/hwei_q/representative-image",
+    "/skills/hwei_q/parameters",
+    "/skills/hwei_q/parameters/cooldown_ms",
+    "/skills/hwei_q/parameters/mana_cost",
+    "/skills/hwei_q/formulas",
+    "/skills/hwei_q/effects",
+    "/skills/hwei_q/processes",
+    "/skills/hwei_q/internal-states",
+    "/skills/hwei_q/trigger-rules",
+    "/skills/hwei_w",
+    "/skills/hwei_w/representative-image",
+    "/skills/hwei_w/parameters",
+    "/skills/hwei_w/parameters/cooldown_ms",
+    "/skills/hwei_w/parameters/mana_cost",
+    "/skills/hwei_w/formulas",
+    "/skills/hwei_w/effects",
+    "/skills/hwei_w/processes",
+    "/skills/hwei_w/internal-states",
+    "/skills/hwei_w/trigger-rules",
+    "/skills/hwei_e",
+    "/skills/hwei_e/representative-image",
+    "/skills/hwei_e/parameters",
+    "/skills/hwei_e/parameters/cooldown_ms",
+    "/skills/hwei_e/parameters/mana_cost",
+    "/skills/hwei_e/formulas",
+    "/skills/hwei_e/effects",
+    "/skills/hwei_e/processes",
+    "/skills/hwei_e/internal-states",
+    "/skills/hwei_e/trigger-rules",
+    "/skills/hwei_r",
+    "/skills/hwei_r/representative-image",
+    "/skills/hwei_r/parameters",
+    "/skills/hwei_r/parameters/cooldown_ms",
+    "/skills/hwei_r/parameters/mana_cost",
+    "/skills/hwei_r/formulas",
+    "/skills/hwei_r/effects",
+    "/skills/hwei_r/processes",
+    "/skills/hwei_r/internal-states",
+    "/skills/hwei_r/trigger-rules",
+    "/skills/locke_p",
+    "/skills/locke_p/representative-image",
+    "/skills/locke_p/parameters",
+    "/skills/locke_p/formulas",
+    "/skills/locke_p/effects",
+    "/skills/locke_p/processes",
+    "/skills/locke_p/internal-states",
+    "/skills/locke_p/trigger-rules",
+    "/skills/locke_q",
+    "/skills/locke_q/representative-image",
+    "/skills/locke_q/parameters",
+    "/skills/locke_q/parameters/cooldown_ms",
+    "/skills/locke_q/parameters/mana_cost",
+    "/skills/locke_q/formulas",
+    "/skills/locke_q/effects",
+    "/skills/locke_q/processes",
+    "/skills/locke_q/internal-states",
+    "/skills/locke_q/trigger-rules",
+    "/skills/locke_w",
+    "/skills/locke_w/representative-image",
+    "/skills/locke_w/parameters",
+    "/skills/locke_w/parameters/cooldown_ms",
+    "/skills/locke_w/parameters/mana_cost",
+    "/skills/locke_w/formulas",
+    "/skills/locke_w/effects",
+    "/skills/locke_w/processes",
+    "/skills/locke_w/internal-states",
+    "/skills/locke_w/trigger-rules",
+    "/skills/locke_e",
+    "/skills/locke_e/representative-image",
+    "/skills/locke_e/parameters",
+    "/skills/locke_e/parameters/mana_cost",
+    "/skills/locke_e/formulas",
+    "/skills/locke_e/effects",
+    "/skills/locke_e/processes",
+    "/skills/locke_e/internal-states",
+    "/skills/locke_e/trigger-rules",
+    "/skills/locke_r",
+    "/skills/locke_r/representative-image",
+    "/skills/locke_r/parameters",
+    "/skills/locke_r/parameters/cooldown_ms",
+    "/skills/locke_r/parameters/mana_cost",
+    "/skills/locke_r/formulas",
+    "/skills/locke_r/effects",
+    "/skills/locke_r/processes",
+    "/skills/locke_r/internal-states",
+    "/skills/locke_r/trigger-rules",
+    "/skills/zaahen_p",
+    "/skills/zaahen_p/representative-image",
+    "/skills/zaahen_p/parameters",
+    "/skills/zaahen_p/formulas",
+    "/skills/zaahen_p/effects",
+    "/skills/zaahen_p/processes",
+    "/skills/zaahen_p/internal-states",
+    "/skills/zaahen_p/trigger-rules",
+    "/skills/zaahen_q",
+    "/skills/zaahen_q/representative-image",
+    "/skills/zaahen_q/parameters",
+    "/skills/zaahen_q/parameters/cooldown_ms",
+    "/skills/zaahen_q/parameters/mana_cost",
+    "/skills/zaahen_q/formulas",
+    "/skills/zaahen_q/effects",
+    "/skills/zaahen_q/processes",
+    "/skills/zaahen_q/internal-states",
+    "/skills/zaahen_q/trigger-rules",
+    "/skills/zaahen_w",
+    "/skills/zaahen_w/representative-image",
+    "/skills/zaahen_w/parameters",
+    "/skills/zaahen_w/parameters/cooldown_ms",
+    "/skills/zaahen_w/parameters/mana_cost",
+    "/skills/zaahen_w/formulas",
+    "/skills/zaahen_w/effects",
+    "/skills/zaahen_w/processes",
+    "/skills/zaahen_w/internal-states",
+    "/skills/zaahen_w/trigger-rules",
+    "/skills/zaahen_e",
+    "/skills/zaahen_e/representative-image",
+    "/skills/zaahen_e/parameters",
+    "/skills/zaahen_e/parameters/cooldown_ms",
+    "/skills/zaahen_e/parameters/mana_cost",
+    "/skills/zaahen_e/formulas",
+    "/skills/zaahen_e/effects",
+    "/skills/zaahen_e/processes",
+    "/skills/zaahen_e/internal-states",
+    "/skills/zaahen_e/trigger-rules",
+    "/skills/zaahen_r",
+    "/skills/zaahen_r/representative-image",
+    "/skills/zaahen_r/parameters",
+    "/skills/zaahen_r/parameters/cooldown_ms",
+    "/skills/zaahen_r/parameters/mana_cost",
+    "/skills/zaahen_r/formulas",
+    "/skills/zaahen_r/effects",
+    "/skills/zaahen_r/processes",
+    "/skills/zaahen_r/internal-states",
+    "/skills/zaahen_r/trigger-rules"
+  ],
+  "finalDetailRoutes": [
+    {
+      "route": "/skills/belveth_p/parameters/champion_kill_stacks",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "champion_kill_stacks",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/parameters/stack_count",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "stack_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/parameters/actual_stack_attack_speed_ratio",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "actual_stack_attack_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/parameters/stack_ratio_level1",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "stack_ratio_level1",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/parameters/stack_ratio_initial_per_level",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "stack_ratio_initial_per_level",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/parameters/stack_ratio_after_level6",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "stack_ratio_after_level6",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/parameters/stack_ratio_after_level11",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "stack_ratio_after_level11",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/parameters/actual_temporary_attack_speed_ratio",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "actual_temporary_attack_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/parameters/temporary_attack_speed_endpoint_ratio",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "temporary_attack_speed_endpoint_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/parameters/temporary_attack_speed_duration_ms",
+      "skillKey": "belveth_p",
+      "kind": "parameters",
+      "stableKey": "temporary_attack_speed_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/formulas/temporary_attack_speed_bonus",
+      "skillKey": "belveth_p",
+      "kind": "formulas",
+      "stableKey": "temporary_attack_speed_bonus",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/formulas/permanent_attack_speed_bonus",
+      "skillKey": "belveth_p",
+      "kind": "formulas",
+      "stableKey": "permanent_attack_speed_bonus",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/effects/temporary_attack_speed",
+      "skillKey": "belveth_p",
+      "kind": "effects",
+      "stableKey": "temporary_attack_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_p/effects/permanent_attack_speed",
+      "skillKey": "belveth_p",
+      "kind": "effects",
+      "stableKey": "permanent_attack_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/parameters/damage_base",
+      "skillKey": "belveth_q",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/parameters/total_ad_ratio",
+      "skillKey": "belveth_q",
+      "kind": "parameters",
+      "stableKey": "total_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/parameters/per_side_cooldown_ms",
+      "skillKey": "belveth_q",
+      "kind": "parameters",
+      "stableKey": "per_side_cooldown_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/parameters/attack_speed_to_haste_ratio",
+      "skillKey": "belveth_q",
+      "kind": "parameters",
+      "stableKey": "attack_speed_to_haste_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/parameters/actual_attack_speed_percent_points",
+      "skillKey": "belveth_q",
+      "kind": "parameters",
+      "stableKey": "actual_attack_speed_percent_points",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/parameters/dash_distance",
+      "skillKey": "belveth_q",
+      "kind": "parameters",
+      "stableKey": "dash_distance",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/parameters/base_dash_speed",
+      "skillKey": "belveth_q",
+      "kind": "parameters",
+      "stableKey": "base_dash_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/parameters/overall_cooldown_ms",
+      "skillKey": "belveth_q",
+      "kind": "parameters",
+      "stableKey": "overall_cooldown_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/formulas/dash_physical_damage",
+      "skillKey": "belveth_q",
+      "kind": "formulas",
+      "stableKey": "dash_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_q/formulas/direction_cooldown_haste",
+      "skillKey": "belveth_q",
+      "kind": "formulas",
+      "stableKey": "direction_cooldown_haste",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_w/parameters/damage_base",
+      "skillKey": "belveth_w",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_w/parameters/stat_formula_2_value",
+      "skillKey": "belveth_w",
+      "kind": "parameters",
+      "stableKey": "stat_formula_2_value",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_w/parameters/slow_ratio",
+      "skillKey": "belveth_w",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_w/parameters/slow_duration_ms",
+      "skillKey": "belveth_w",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_w/parameters/knockup_duration_ms",
+      "skillKey": "belveth_w",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_w/parameters/m_cast_time_ms",
+      "skillKey": "belveth_w",
+      "kind": "parameters",
+      "stableKey": "m_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_w/parameters/damage_coefficient",
+      "skillKey": "belveth_w",
+      "kind": "parameters",
+      "stableKey": "damage_coefficient",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_w/formulas/magic_damage",
+      "skillKey": "belveth_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/channel_duration_ms",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "channel_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/damage_per_hit_base",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "damage_per_hit_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/onhit_effect_ratio_min",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "onhit_effect_ratio_min",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/onhit_effect_ratio_max_multiplier",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "onhit_effect_ratio_max_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/base_strike_count",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "base_strike_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/damage_reduction_ratio",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "damage_reduction_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/life_steal_ratio",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "life_steal_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/attack_speed_strike_ratio",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "attack_speed_strike_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/actual_attack_speed_stat_formula_2",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "actual_attack_speed_stat_formula_2",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/actual_strike_count",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "actual_strike_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/onhit_damage_ad_ratio",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "onhit_damage_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/parameters/max_damage_multiplier",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "max_damage_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/formulas/damage_per_strike",
+      "skillKey": "belveth_e",
+      "kind": "formulas",
+      "stableKey": "damage_per_strike",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/formulas/maximum_damage_per_strike",
+      "skillKey": "belveth_e",
+      "kind": "formulas",
+      "stableKey": "maximum_damage_per_strike",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/formulas/source_counted_strikes",
+      "skillKey": "belveth_e",
+      "kind": "formulas",
+      "stableKey": "source_counted_strikes",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/formulas/actual_strikes",
+      "skillKey": "belveth_e",
+      "kind": "formulas",
+      "stableKey": "actual_strikes",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/formulas/total_lifesteal_ratio",
+      "skillKey": "belveth_e",
+      "kind": "formulas",
+      "stableKey": "total_lifesteal_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_e/effects/self_life_steal",
+      "skillKey": "belveth_e",
+      "kind": "effects",
+      "stableKey": "self_life_steal",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_r/parameters/passive_onhit_base",
+      "skillKey": "belveth_r",
+      "kind": "parameters",
+      "stableKey": "passive_onhit_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_r/parameters/bonus_ad_ratio",
+      "skillKey": "belveth_r",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_r/parameters/qualified_hit_count",
+      "skillKey": "belveth_r",
+      "kind": "parameters",
+      "stableKey": "qualified_hit_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_r/parameters/passive_stack_duration_ms",
+      "skillKey": "belveth_r",
+      "kind": "parameters",
+      "stableKey": "passive_stack_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_r/formulas/passive_true_damage",
+      "skillKey": "belveth_r",
+      "kind": "formulas",
+      "stableKey": "passive_true_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_p/parameters/mark_duration_ms",
+      "skillKey": "hwei_p",
+      "kind": "parameters",
+      "stableKey": "mark_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_p/parameters/actual_mark_damage_base",
+      "skillKey": "hwei_p",
+      "kind": "parameters",
+      "stableKey": "actual_mark_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_p/parameters/mark_damage_base_lower",
+      "skillKey": "hwei_p",
+      "kind": "parameters",
+      "stableKey": "mark_damage_base_lower",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_p/parameters/mark_damage_base_upper",
+      "skillKey": "hwei_p",
+      "kind": "parameters",
+      "stableKey": "mark_damage_base_upper",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_p/parameters/mark_ap_ratio",
+      "skillKey": "hwei_p",
+      "kind": "parameters",
+      "stableKey": "mark_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_p/parameters/per_skill_target_trigger_count",
+      "skillKey": "hwei_p",
+      "kind": "parameters",
+      "stableKey": "per_skill_target_trigger_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_p/parameters/actual_slow_stack_decay_ratio",
+      "skillKey": "hwei_p",
+      "kind": "parameters",
+      "stableKey": "actual_slow_stack_decay_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_p/formulas/mark_magic_damage",
+      "skillKey": "hwei_p",
+      "kind": "formulas",
+      "stableKey": "mark_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qq_damage_base",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qq_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qq_target_hp_percent_points",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qq_target_hp_percent_points",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/percent_point_ratio",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "percent_point_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qq_ap_ratio",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qq_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qw_damage_base",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qw_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qw_ap_ratio",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qw_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qw_condition_max_multiplier",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qw_condition_max_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qw_actual_condition_damage",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qw_actual_condition_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qw_delay_ms",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qw_delay_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qw_cast_time_ms",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qw_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qe_burst_base",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qe_burst_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qe_damage_per_second_base",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qe_damage_per_second_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qe_ap_ratio",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qe_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qe_dps_ap_ratio",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qe_dps_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qe_zone_duration_ms",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qe_zone_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qe_slow_ratio",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qe_slow_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qe_damage_duration_ms",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qe_damage_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qe_cast_time_ms",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qe_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/parameters/qq_cast_time_ms",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "qq_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/formulas/qq_magic_damage",
+      "skillKey": "hwei_q",
+      "kind": "formulas",
+      "stableKey": "qq_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/formulas/qq_target_hp_damage",
+      "skillKey": "hwei_q",
+      "kind": "formulas",
+      "stableKey": "qq_target_hp_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/formulas/qq_total_magic_damage",
+      "skillKey": "hwei_q",
+      "kind": "formulas",
+      "stableKey": "qq_total_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/formulas/qw_base_magic_damage",
+      "skillKey": "hwei_q",
+      "kind": "formulas",
+      "stableKey": "qw_base_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/formulas/qw_max_condition_damage",
+      "skillKey": "hwei_q",
+      "kind": "formulas",
+      "stableKey": "qw_max_condition_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/formulas/qw_actual_damage",
+      "skillKey": "hwei_q",
+      "kind": "formulas",
+      "stableKey": "qw_actual_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/formulas/qe_burst_magic_damage",
+      "skillKey": "hwei_q",
+      "kind": "formulas",
+      "stableKey": "qe_burst_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_q/formulas/qe_magic_damage_per_second",
+      "skillKey": "hwei_q",
+      "kind": "formulas",
+      "stableKey": "qe_magic_damage_per_second",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/wq_move_speed_base",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "wq_move_speed_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/wq_ap_ratio",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "wq_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/wq_percent_point_ratio",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "wq_percent_point_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/wq_area_duration_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "wq_area_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/wq_personal_effect_duration_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "wq_personal_effect_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/ww_shield_base",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "ww_shield_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/ww_shield_ap_ratio",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "ww_shield_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/ww_initial_shield_multiplier",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "ww_initial_shield_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/ww_area_duration_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "ww_area_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/ww_full_shield_time_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "ww_full_shield_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/ww_shield_duration_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "ww_shield_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/we_onhit_base_damage",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "we_onhit_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/we_onhit_ap_ratio",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "we_onhit_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/we_mana_restore",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "we_mana_restore",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/we_duration_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "we_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/we_charge_count",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "we_charge_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/wq_cast_time_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "wq_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/ww_m_cast_time_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "ww_m_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/ww_spell_cast_time_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "ww_spell_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/parameters/we_cast_time_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "we_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/formulas/wq_move_speed_ratio",
+      "skillKey": "hwei_w",
+      "kind": "formulas",
+      "stableKey": "wq_move_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/formulas/ww_full_shield",
+      "skillKey": "hwei_w",
+      "kind": "formulas",
+      "stableKey": "ww_full_shield",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/formulas/ww_initial_shield",
+      "skillKey": "hwei_w",
+      "kind": "formulas",
+      "stableKey": "ww_initial_shield",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/formulas/we_onhit_magic_damage",
+      "skillKey": "hwei_w",
+      "kind": "formulas",
+      "stableKey": "we_onhit_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/formulas/we_total_magic_damage",
+      "skillKey": "hwei_w",
+      "kind": "formulas",
+      "stableKey": "we_total_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/formulas/we_total_mana_restore",
+      "skillKey": "hwei_w",
+      "kind": "formulas",
+      "stableKey": "we_total_mana_restore",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/effects/self_move_speed",
+      "skillKey": "hwei_w",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/effects/self_shield",
+      "skillKey": "hwei_w",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_w/effects/we_mana_restore",
+      "skillKey": "hwei_w",
+      "kind": "effects",
+      "stableKey": "we_mana_restore",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/eq_damage_base",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "eq_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/eq_ap_ratio",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "eq_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/eq_flee_duration_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "eq_flee_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/eq_cast_time_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "eq_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ew_damage_base",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ew_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ew_ap_ratio",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ew_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ew_root_duration_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ew_root_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ew_stare_duration_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ew_stare_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ew_setup_delay_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ew_setup_delay_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ew_fire_delay_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ew_fire_delay_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ew_eye_detection_radius",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ew_eye_detection_radius",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ew_cast_time_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ew_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ee_damage_base",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ee_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ee_ap_ratio",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ee_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ee_slow_percent_points",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ee_slow_percent_points",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ee_slow_duration_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ee_slow_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ee_cast_time_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ee_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/parameters/ee_delay_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "ee_delay_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/formulas/eq_magic_damage",
+      "skillKey": "hwei_e",
+      "kind": "formulas",
+      "stableKey": "eq_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/formulas/ew_magic_damage",
+      "skillKey": "hwei_e",
+      "kind": "formulas",
+      "stableKey": "ew_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/formulas/ee_magic_damage",
+      "skillKey": "hwei_e",
+      "kind": "formulas",
+      "stableKey": "ee_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_e/formulas/ee_slow_percent_points",
+      "skillKey": "hwei_e",
+      "kind": "formulas",
+      "stableKey": "ee_slow_percent_points",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/explosion_base_damage",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "explosion_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/dot_base_damage_per_second",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "dot_base_damage_per_second",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/explosion_ap_ratio",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "explosion_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/dot_ap_ratio",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "dot_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/total_max_ap_ratio",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "total_max_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/duration_ms",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/duration_seconds",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "duration_seconds",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/slow_stack_percent_points",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "slow_stack_percent_points",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/slow_stack_period_ms",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "slow_stack_period_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/slow_fade_duration_ms",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "slow_fade_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/m_cast_time_ms",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "m_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/parameters/spell_cast_time_ms",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "spell_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/formulas/explosion_magic_damage",
+      "skillKey": "hwei_r",
+      "kind": "formulas",
+      "stableKey": "explosion_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/formulas/dot_magic_damage_per_second",
+      "skillKey": "hwei_r",
+      "kind": "formulas",
+      "stableKey": "dot_magic_damage_per_second",
+      "reused": false
+    },
+    {
+      "route": "/skills/hwei_r/formulas/total_max_magic_damage",
+      "skillKey": "hwei_r",
+      "kind": "formulas",
+      "stableKey": "total_max_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/actual_min_onhit_base",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "actual_min_onhit_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/min_onhit_base_lower",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "min_onhit_base_lower",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/min_onhit_base_upper",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "min_onhit_base_upper",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/min_onhit_ap_ratio",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "min_onhit_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/actual_max_onhit_base",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "actual_max_onhit_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/max_onhit_base_lower",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "max_onhit_base_lower",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/max_onhit_base_upper",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "max_onhit_base_upper",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/max_onhit_ap_ratio",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "max_onhit_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/max_reach_remaining_health_ratio",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "max_reach_remaining_health_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/parameters/actual_target_missing_health_ratio",
+      "skillKey": "locke_p",
+      "kind": "parameters",
+      "stableKey": "actual_target_missing_health_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/formulas/minimum_magic_damage",
+      "skillKey": "locke_p",
+      "kind": "formulas",
+      "stableKey": "minimum_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_p/formulas/maximum_magic_damage",
+      "skillKey": "locke_p",
+      "kind": "formulas",
+      "stableKey": "maximum_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/missile_damage_base",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "missile_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/missile_ap_ratio",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "missile_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/mark_damage_base",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "mark_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/mark_ap_ratio",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "mark_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/max_mark_stacks",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "max_mark_stacks",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/skill_duration_ms",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "skill_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/mark_duration_ms",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "mark_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/slow_first_ratio",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "slow_first_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/slow_second_ratio",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "slow_second_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/slow_third_ratio",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "slow_third_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/slow_first_duration_ms",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "slow_first_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/slow_second_duration_ms",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "slow_second_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/slow_third_duration_ms",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "slow_third_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/two_mark_multiplier",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "two_mark_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/two_mark_stack_count",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "two_mark_stack_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/three_mark_multiplier",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "three_mark_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/three_mark_stack_count",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "three_mark_stack_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/unused_nail_cooldown_refund_ratio",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "unused_nail_cooldown_refund_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/parameters/nail_count",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "nail_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/formulas/missile_magic_damage",
+      "skillKey": "locke_q",
+      "kind": "formulas",
+      "stableKey": "missile_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/formulas/mark_magic_damage",
+      "skillKey": "locke_q",
+      "kind": "formulas",
+      "stableKey": "mark_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/formulas/two_mark_magic_damage",
+      "skillKey": "locke_q",
+      "kind": "formulas",
+      "stableKey": "two_mark_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_q/formulas/three_mark_magic_damage",
+      "skillKey": "locke_q",
+      "kind": "formulas",
+      "stableKey": "three_mark_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/actual_attack_speed_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "actual_attack_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/attack_speed_level1_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "attack_speed_level1_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/attack_speed_level18_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "attack_speed_level18_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/move_speed_base_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "move_speed_base_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/move_speed_ap_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "move_speed_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/move_speed_min_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "move_speed_min_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/decay_time_ms",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "decay_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/time_max_power_ms",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "time_max_power_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/self_burn_duration_ms",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "self_burn_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/current_health_cost_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "current_health_cost_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/damage_restore_base",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "damage_restore_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/damage_restore_ap_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "damage_restore_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/actual_additional_heal",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "actual_additional_heal",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/additional_heal_level1_base",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "additional_heal_level1_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/additional_heal_level18_base",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "additional_heal_level18_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/additional_heal_ap_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "additional_heal_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/actual_max_healing_threshold",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "actual_max_healing_threshold",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/max_healing_level1_base",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "max_healing_level1_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/max_healing_level18_base",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "max_healing_level18_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/parameters/max_healing_ap_ratio",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "max_healing_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/formulas/initial_move_speed_ratio",
+      "skillKey": "locke_w",
+      "kind": "formulas",
+      "stableKey": "initial_move_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/formulas/decay_total_time_ms",
+      "skillKey": "locke_w",
+      "kind": "formulas",
+      "stableKey": "decay_total_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/formulas/attack_speed_ratio",
+      "skillKey": "locke_w",
+      "kind": "formulas",
+      "stableKey": "attack_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/formulas/self_damage_per_second",
+      "skillKey": "locke_w",
+      "kind": "formulas",
+      "stableKey": "self_damage_per_second",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/formulas/damage_restore_amount",
+      "skillKey": "locke_w",
+      "kind": "formulas",
+      "stableKey": "damage_restore_amount",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/formulas/additional_heal_amount",
+      "skillKey": "locke_w",
+      "kind": "formulas",
+      "stableKey": "additional_heal_amount",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/formulas/max_healing_threshold",
+      "skillKey": "locke_w",
+      "kind": "formulas",
+      "stableKey": "max_healing_threshold",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/effects/self_attack_speed",
+      "skillKey": "locke_w",
+      "kind": "effects",
+      "stableKey": "self_attack_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_w/effects/self_move_speed",
+      "skillKey": "locke_w",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_e/parameters/onhit_damage_base",
+      "skillKey": "locke_e",
+      "kind": "parameters",
+      "stableKey": "onhit_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_e/parameters/onhit_ap_ratio",
+      "skillKey": "locke_e",
+      "kind": "parameters",
+      "stableKey": "onhit_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_e/parameters/dash_damage_base",
+      "skillKey": "locke_e",
+      "kind": "parameters",
+      "stableKey": "dash_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_e/parameters/dash_ap_ratio",
+      "skillKey": "locke_e",
+      "kind": "parameters",
+      "stableKey": "dash_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_e/parameters/next_attack_delay_ms",
+      "skillKey": "locke_e",
+      "kind": "parameters",
+      "stableKey": "next_attack_delay_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_e/parameters/m_cast_time_ms",
+      "skillKey": "locke_e",
+      "kind": "parameters",
+      "stableKey": "m_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_e/formulas/arrival_magic_damage",
+      "skillKey": "locke_e",
+      "kind": "formulas",
+      "stableKey": "arrival_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_e/formulas/dash_magic_damage",
+      "skillKey": "locke_e",
+      "kind": "formulas",
+      "stableKey": "dash_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/damage_base",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/damage_ap_ratio",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/slow_ratio",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/slow_duration_ms",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/mark_duration_ms",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "mark_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/execute_base_ratio",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "execute_base_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/execute_ratio_per_stack",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "execute_ratio_per_stack",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/sealed_hero_count",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "sealed_hero_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/ground_artifact_duration_ms",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "ground_artifact_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/total_cooldown_refund_ratio",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "total_cooldown_refund_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/parameters/m_cast_time_ms",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "m_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/formulas/magic_damage",
+      "skillKey": "locke_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/formulas/execute_bonus_ratio",
+      "skillKey": "locke_r",
+      "kind": "formulas",
+      "stableKey": "execute_bonus_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/locke_r/formulas/execute_threshold_ratio",
+      "skillKey": "locke_r",
+      "kind": "formulas",
+      "stableKey": "execute_threshold_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/stack_count",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "stack_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/max_stacks",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "max_stacks",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/actual_bonus_ad_per_stack_ratio",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "actual_bonus_ad_per_stack_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/bonus_ad_per_stack_lower_ratio",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_per_stack_lower_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/bonus_ad_per_stack_upper_ratio",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_per_stack_upper_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/full_stack_multiplier",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "full_stack_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/stack_falloff_duration_ms",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "stack_falloff_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/stasis_revive_duration_ms",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "stasis_revive_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/revive_cooldown_ms",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "revive_cooldown_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/actual_revive_health_ratio",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "actual_revive_health_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/revive_health_level1_ratio",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "revive_health_level1_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/parameters/revive_health_breakpoint_bonus_ratio",
+      "skillKey": "zaahen_p",
+      "kind": "parameters",
+      "stableKey": "revive_health_breakpoint_bonus_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/formulas/bonus_ad_ratio_total",
+      "skillKey": "zaahen_p",
+      "kind": "formulas",
+      "stableKey": "bonus_ad_ratio_total",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/formulas/full_stack_bonus_ad_ratio",
+      "skillKey": "zaahen_p",
+      "kind": "formulas",
+      "stableKey": "full_stack_bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/formulas/revive_health_ratio",
+      "skillKey": "zaahen_p",
+      "kind": "formulas",
+      "stableKey": "revive_health_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_p/formulas/revive_cooldown",
+      "skillKey": "zaahen_p",
+      "kind": "formulas",
+      "stableKey": "revive_cooldown",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/first_attack_base_damage",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "first_attack_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/bonus_ad_ratio",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/recast_attack_base_damage",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "recast_attack_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/self_max_health_heal_ratio",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "self_max_health_heal_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/knockup_duration_ms",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/recast_window_ms",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "recast_window_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/time_between_attacks_ms",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "time_between_attacks_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/strike_count",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "strike_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/formulas/first_attack_physical_damage",
+      "skillKey": "zaahen_q",
+      "kind": "formulas",
+      "stableKey": "first_attack_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/formulas/recast_attack_physical_damage",
+      "skillKey": "zaahen_q",
+      "kind": "formulas",
+      "stableKey": "recast_attack_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_q/formulas/self_max_health_heal_ratio",
+      "skillKey": "zaahen_q",
+      "kind": "formulas",
+      "stableKey": "self_max_health_heal_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/initial_damage_base",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "initial_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/initial_bonus_ad_ratio",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "initial_bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/secondary_damage_base",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "secondary_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/secondary_bonus_ad_ratio",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "secondary_bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/maximum_pull_distance",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "maximum_pull_distance",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/pull_speed",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "pull_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/m_cast_time_ms",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "m_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/spell_cast_time_ms",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "spell_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/formulas/initial_physical_damage",
+      "skillKey": "zaahen_w",
+      "kind": "formulas",
+      "stableKey": "initial_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_w/formulas/secondary_physical_damage",
+      "skillKey": "zaahen_w",
+      "kind": "formulas",
+      "stableKey": "secondary_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/inner_damage_base",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "inner_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/inner_bonus_ad_ratio",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "inner_bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/outer_physical_multiplier",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "outer_physical_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/outer_target_max_health_ratio",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "outer_target_max_health_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/dash_distance",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "dash_distance",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/dash_speed",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "dash_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/inner_radius",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "inner_radius",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/outer_radius",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "outer_radius",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/spell_total_time_ms",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "spell_total_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/formulas/inner_physical_damage",
+      "skillKey": "zaahen_e",
+      "kind": "formulas",
+      "stableKey": "inner_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/formulas/outer_physical_damage",
+      "skillKey": "zaahen_e",
+      "kind": "formulas",
+      "stableKey": "outer_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_e/formulas/outer_magic_health_damage",
+      "skillKey": "zaahen_e",
+      "kind": "formulas",
+      "stableKey": "outer_magic_health_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/end_damage_base",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "end_damage_base",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/bonus_ad_ratio",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/actual_damage_heal_ratio",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "actual_damage_heal_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/armor_penetration_ratio",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "armor_penetration_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/damage_reduction_ratio",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "damage_reduction_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/dash_max_distance",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "dash_max_distance",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/dash_speed",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "dash_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/aoe_size",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "aoe_size",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/actual_eligible_damage",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "actual_eligible_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/m_cast_time_ms",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "m_cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/formulas/end_physical_damage",
+      "skillKey": "zaahen_r",
+      "kind": "formulas",
+      "stableKey": "end_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/formulas/self_healing_from_actual_damage",
+      "skillKey": "zaahen_r",
+      "kind": "formulas",
+      "stableKey": "self_healing_from_actual_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zaahen_r/effects/armor_penetration",
+      "skillKey": "zaahen_r",
+      "kind": "effects",
+      "stableKey": "armor_penetration",
+      "reused": false
+    },
+    {
+      "route": "/skills/belveth_w/parameters/cooldown_ms",
+      "skillKey": "belveth_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/belveth_e/parameters/cooldown_ms",
+      "skillKey": "belveth_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/belveth_r/parameters/cooldown_ms",
+      "skillKey": "belveth_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/hwei_q/parameters/cooldown_ms",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/hwei_q/parameters/mana_cost",
+      "skillKey": "hwei_q",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/hwei_w/parameters/cooldown_ms",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/hwei_w/parameters/mana_cost",
+      "skillKey": "hwei_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/hwei_e/parameters/cooldown_ms",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/hwei_e/parameters/mana_cost",
+      "skillKey": "hwei_e",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/hwei_r/parameters/cooldown_ms",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/hwei_r/parameters/mana_cost",
+      "skillKey": "hwei_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/locke_q/parameters/cooldown_ms",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/locke_q/parameters/mana_cost",
+      "skillKey": "locke_q",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/locke_w/parameters/cooldown_ms",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/locke_w/parameters/mana_cost",
+      "skillKey": "locke_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/locke_e/parameters/mana_cost",
+      "skillKey": "locke_e",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/locke_r/parameters/cooldown_ms",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/locke_r/parameters/mana_cost",
+      "skillKey": "locke_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/cooldown_ms",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/zaahen_q/parameters/mana_cost",
+      "skillKey": "zaahen_q",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/cooldown_ms",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/mana_cost",
+      "skillKey": "zaahen_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/cooldown_ms",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/zaahen_e/parameters/mana_cost",
+      "skillKey": "zaahen_e",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/cooldown_ms",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/mana_cost",
+      "skillKey": "zaahen_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    }
+  ]
+}

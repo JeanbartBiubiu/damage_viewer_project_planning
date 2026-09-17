@@ -1,0 +1,413 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T17:24:13.342Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取规划工作树归档资料和本地候选范围。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "无极剑圣客户端16.17原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\MasterYi.json.gz",
+      "byteSize": 8476,
+      "sha256": "f17da6211002e697811e1d9ab8e6597e1bad662cfa5bc15bcad91393a0aee2fe",
+      "decompressedByteSize": 56696,
+      "decompressedSha256": "406982f759b8260ea1ebe8f930753dab9e0a626a811889e099b05caebbbfef1c"
+    },
+    {
+      "kind": "无极剑圣官方16.17.1中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\MasterYi.json",
+      "byteSize": 15996,
+      "sha256": "f5035d61e1a80360aa3b33a66f9063b486d5a061f9d922a63f300e01ca42cac2"
+    },
+    {
+      "kind": "无极剑圣官方16.17.1英文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\MasterYi.json",
+      "byteSize": 16406,
+      "sha256": "11b8f0b3b614c71f45cc0d12a8971c7bc054a2a0a3c86c251ca9ac80324530e4"
+    },
+    {
+      "kind": "官方资料版本清单",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\versions.json",
+      "byteSize": 5189,
+      "sha256": "178005ff120963169159a1563e5b1817601778940129f32aa0240a9fd15b8fed"
+    }
+  ],
+  "client": {
+    "filePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\MasterYi.json.gz",
+    "pointer": "Characters/MasterYi/Spells/HighlanderAbility/Highlander",
+    "mSpellTags": [
+      "Trait_Ultimate",
+      "Trait_AttackBuff_Duration"
+    ],
+    "mSpellCalculations": {},
+    "dataValues": {
+      "RDuration": {
+        "values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "type": "SpellDataValue"
+      },
+      "RASBonus": {
+        "values": [
+          5,
+          25,
+          45,
+          65,
+          85,
+          105,
+          125
+        ],
+        "type": "SpellDataValue"
+      },
+      "RMSBonus": {
+        "values": [
+          25,
+          35,
+          45,
+          55,
+          65,
+          75,
+          85
+        ],
+        "type": "SpellDataValue"
+      },
+      "RKillAssistExtension": {
+        "values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "type": "SpellDataValue"
+      },
+      "RCooldownRefund": {
+        "values": [
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071
+        ],
+        "type": "SpellDataValue"
+      }
+    },
+    "spellCastTime": 0.4043000042438507,
+    "cooldownTime": [
+      85,
+      85,
+      85,
+      85,
+      85,
+      85,
+      85
+    ],
+    "mana": [
+      100,
+      100,
+      100,
+      100,
+      100,
+      0
+    ],
+    "targetingType": {
+      "__type": "Self"
+    },
+    "tooltipLists": {
+      "LevelUp": {
+        "levelCount": 3,
+        "Elements": [
+          {
+            "type": "RASBonus",
+            "typeIndex": 2,
+            "nameOverride": "Spell_ListType_AttackSpeed",
+            "Style": 1,
+            "__type": "TooltipInstanceListElement"
+          },
+          {
+            "type": "RMSBonus",
+            "typeIndex": 3,
+            "nameOverride": "Spell_ListType_MovementSpeed",
+            "Style": 1,
+            "__type": "TooltipInstanceListElement"
+          }
+        ],
+        "__type": "TooltipInstanceList"
+      }
+    },
+    "selectedFacts": [
+      "客户端 Highlander 的 RDuration 为 7 秒；RASBonus 的技能等级值为 25/45/65%，RMSBonus 为 35/45/55%。",
+      "官方主动段同时写明攻击速度、移动速度和持续时间；免疫减速、参与击杀延长及普通技能冷却减少不属于本次两个效果动作。"
+    ]
+  },
+  "official": {
+    "zh": {
+      "filePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\MasterYi.json",
+      "version": "16.17.1",
+      "spell": {
+        "id": "Highlander",
+        "name": "高原血统",
+        "description": "易以超乎想象的身法进行移动，短时间内提升移动速度和攻击速度，并免疫减速效果。该技能激活期间，易在参与击杀一名敌方英雄的同时，会延长该技能的持续时间。在击杀和助攻后，也会被动地减少易其它技能的冷却时间。",
+        "tooltip": "<spellPassive>被动：</spellPassive>在参与击杀后，易大师的普通技能的剩余冷却时间会减少{{ rcooldownrefund*100 }}%。<br /><br /><spellActive>主动：</spellActive>获得<speed>{{ rmsbonus }}%移动速度</speed>，<attackSpeed>{{ rasbonus }}%攻击速度</attackSpeed>，并且免疫<status>减速</status>效果，持续{{ rduration }}秒。每次参与击杀后都会使此技能的持续时间延长{{ rkillassistextension }}秒。{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "攻击速度",
+            "移动速度"
+          ],
+          "effect": [
+            "{{ rasbonus }}% -> {{ rasbonusNL }}%",
+            "{{ rmsbonus }}% -> {{ rmsbonusNL }}%"
+          ]
+        },
+        "maxrank": 3,
+        "cooldown": [
+          85,
+          85,
+          85
+        ],
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "range": [
+          1,
+          1,
+          1
+        ],
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "image": {
+          "full": "Highlander.png",
+          "sprite": "spell9.png",
+          "group": "spell",
+          "x": 48,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "en": {
+      "filePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\MasterYi.json",
+      "version": "16.17.1",
+      "spell": {
+        "id": "Highlander",
+        "name": "Highlander",
+        "description": "Master Yi moves with unparalleled agility, temporarily increasing his Move Speed and Attack Speed as well as making him immune to all slowing effects. While active, Champion kills or assists extend Highlander's duration. Passively reduces cooldown for his other abilities on a kill or assist.",
+        "tooltip": "<spellPassive>Passive:</spellPassive> Champion takedowns reduce the remaining Cooldown of Master Yi's basic Abilities by {{ rcooldownrefund*100 }}%.<br /><br /><spellActive>Active:</spellActive> Master Yi enters a trance, gaining <speed>{{ rmsbonus }}% Move Speed</speed>, <attackSpeed>{{ rasbonus }}% Attack Speed</attackSpeed>, and immunity to <status>Slows</status> for {{ rduration }} seconds. Champion takedowns extend the duration of this Ability by {{ rkillassistextension }} seconds.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Attack Speed",
+            "Move Speed"
+          ],
+          "effect": [
+            "{{ rasbonus }}% -> {{ rasbonusNL }}%",
+            "{{ rmsbonus }}% -> {{ rmsbonusNL }}%"
+          ]
+        },
+        "maxrank": 3,
+        "cooldown": [
+          85,
+          85,
+          85
+        ],
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "range": [
+          1,
+          1,
+          1
+        ],
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "image": {
+          "full": "Highlander.png",
+          "sprite": "spell9.png",
+          "group": "spell",
+          "x": 48,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        }
+      }
+    }
+  },
+  "acceptedFacts": {
+    "skillKey": "masteryi_r",
+    "sourceVersion": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "target": "触发动作传入 CURRENT_TARGET；已有效果的结果目标决定最终作用对象。",
+    "scope": [
+      "客户端 Highlander 的 RDuration 为 7 秒；RASBonus 的技能等级值为 25/45/65%，RMSBonus 为 35/45/55%。",
+      "官方主动段同时写明攻击速度、移动速度和持续时间；免疫减速、参与击杀延长及普通技能冷却减少不属于本次两个效果动作。"
+    ],
+    "excluded": [],
+    "deferred": [
+      "主动期间减速免疫",
+      "击杀/助攻延长主动持续时间",
+      "击杀/助攻后普通技能冷却变化",
+      "法力消耗和基础冷却",
+      "被动段行为"
+    ]
+  },
+  "sourceChecks": {
+    "clientArchiveVersion": true,
+    "officialZhVersion": true,
+    "officialEnVersion": true,
+    "officialZhHasExpectedSpell": true,
+    "officialEnHasExpectedSpell": true,
+    "officialZhMentionsExpectedEffects": true,
+    "officialEnMentionsExpectedEffects": true,
+    "clientPointerPresent": true,
+    "sourceValuesPresent": true,
+    "candidateScopeIsExplicit": true,
+    "clientDuration7s": true,
+    "clientAttackSpeed25_45_65": true,
+    "clientMoveSpeed35_45_55": true,
+    "clientHasAttackAndMoveTooltipRows": true
+  }
+}

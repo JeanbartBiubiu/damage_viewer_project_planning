@@ -1,0 +1,23 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 160,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/parameters",
+    "detailRoute": "/skills/tahmkench_r/parameters/mana_cost",
+    "skillKey": "tahmkench_r",
+    "kind": "parameters",
+    "stableKey": "mana_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mana_cost",
+      "name": "大快朵颐法力消耗",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "当前keyCost直接消费DataManaCost=100；虽然包装层标有mDoesNotConsumeMana，仍按当前消费树保存基础法力值，不自动扣费。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,668 @@
+{
+  "capturedAt": "2026-09-11T14:54:21.860Z",
+  "requestPolicy": {
+    "method": "GET",
+    "businessWriteIssued": false,
+    "authorizationValueRecorded": false
+  },
+  "getCount": 29,
+  "requests": [
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/formulas/spellblade_damage_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/effects/spellblade_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/formulas/spellblade_healing_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_2510_passive/effects/spellblade_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3107_active/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3107_active/formulas/enemy_true_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3107_active/effects/enemy_true_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3137_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3137_passive/formulas/self_healing",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3137_passive/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3152_active/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3152_active/formulas/firebolt_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3152_active/effects/firebolt_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3181_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3181_passive/formulas/melee_bonus_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3181_passive/effects/melee_bonus_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3181_passive/formulas/ranged_bonus_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3181_passive/effects/ranged_bonus_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_passive/formulas/primary_on_hit_damage_melee",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_passive/effects/primary_on_hit_melee",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_passive/formulas/primary_on_hit_damage_ranged",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_passive/effects/primary_on_hit_ranged",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_active/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_active/formulas/active_primary_damage_melee",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_active/effects/active_primary_melee",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_active/formulas/active_primary_damage_ranged",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3748_active/effects/active_primary_ranged",
+      "status": 200
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "item_2510_passive",
+      "effectKey": "spellblade_damage",
+      "formulaKey": "spellblade_damage_value",
+      "attributes": {
+        "SOURCE.attack_damage.BASE": 100,
+        "SOURCE.ability_power.TOTAL": 200
+      },
+      "expected": 95,
+      "fixedParameters": {
+        "spellblade_cooldown_ms": 1500,
+        "spellblade_damage_mstat2_formula1_ratio": 0.75,
+        "spellblade_damage_default_ratio": 0.1,
+        "spellblade_healing_default_ratio": 0.1,
+        "spellblade_healing_mstat12_formula2_ratio": 0.03
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "spellblade_damage_mstat2_formula1_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BASE",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "spellblade_damage_default_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "actual": 95,
+      "passed": true
+    },
+    {
+      "skillKey": "item_2510_passive",
+      "effectKey": "spellblade_heal",
+      "formulaKey": "spellblade_healing_value",
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 200,
+        "SOURCE.hp.BONUS": 500
+      },
+      "expected": 35,
+      "fixedParameters": {
+        "spellblade_cooldown_ms": 1500,
+        "spellblade_damage_mstat2_formula1_ratio": 0.75,
+        "spellblade_damage_default_ratio": 0.1,
+        "spellblade_healing_default_ratio": 0.1,
+        "spellblade_healing_mstat12_formula2_ratio": 0.03
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "spellblade_healing_default_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "spellblade_healing_mstat12_formula2_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "actual": 35,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3107_active",
+      "effectKey": "enemy_true_damage",
+      "formulaKey": "enemy_true_damage",
+      "runtimeParameters": {
+        "actual_target_max_health": 2500
+      },
+      "attributes": {},
+      "expected": 250,
+      "fixedParameters": {
+        "enemy_true_damage_ratio": 0.1,
+        "impact_delay_ms": 2500,
+        "area_radius": 550,
+        "cast_range": 5500,
+        "active_cooldown_ms": 90000,
+        "ally_heal_min": 150,
+        "ally_heal_max": 350,
+        "repeated_effect_ratio": 0.5,
+        "actual_target_max_health": 2500
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "enemy_true_damage_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_target_max_health"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 250,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3137_passive",
+      "effectKey": "self_heal",
+      "formulaKey": "self_healing",
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 200
+      },
+      "expected": 140,
+      "fixedParameters": {
+        "base_heal": 100,
+        "ap_heal_ratio": 0.2,
+        "cooldown_ms": 60000,
+        "takedown_window_ms": 3000
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_heal"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_heal_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "actual": 140,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "effectKey": "firebolt_hit",
+      "formulaKey": "firebolt_damage",
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 200
+      },
+      "expected": 120,
+      "fixedParameters": {
+        "cooldown_ms": 50000,
+        "firebolt_base_damage": 100,
+        "firebolt_scaling_ratio": 0.1
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "firebolt_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "firebolt_scaling_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "actual": 120,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3181_passive",
+      "effectKey": "melee_bonus_damage",
+      "formulaKey": "melee_bonus_damage",
+      "attributes": {
+        "SOURCE.attack_damage.BASE": 100,
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "expected": 220,
+      "fixedParameters": {
+        "base_ad_ratio": 1.2,
+        "mstat12_formula0_ratio": 0.05,
+        "attacks_required": 5,
+        "ranged_damage_multiplier": 0.7
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BASE",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mstat12_formula0_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "actual": 220,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3181_passive",
+      "effectKey": "ranged_bonus_damage",
+      "formulaKey": "ranged_bonus_damage",
+      "attributes": {
+        "SOURCE.attack_damage.BASE": 100,
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "expected": 154,
+      "fixedParameters": {
+        "base_ad_ratio": 1.2,
+        "mstat12_formula0_ratio": 0.05,
+        "attacks_required": 5,
+        "ranged_damage_multiplier": 0.7
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ranged_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BASE",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mstat12_formula0_ratio"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 154,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3748_passive",
+      "effectKey": "primary_on_hit_melee",
+      "formulaKey": "primary_on_hit_damage_melee",
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2500
+      },
+      "expected": 25,
+      "fixedParameters": {
+        "primary_target_hp_ratio": 0.01,
+        "ranged_effectiveness": 0.5
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "primary_target_hp_ratio"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 25,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3748_passive",
+      "effectKey": "primary_on_hit_ranged",
+      "formulaKey": "primary_on_hit_damage_ranged",
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2500
+      },
+      "expected": 12.5,
+      "fixedParameters": {
+        "primary_target_hp_ratio": 0.01,
+        "ranged_effectiveness": 0.5
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "primary_target_hp_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ranged_effectiveness"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 12.5,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3748_active",
+      "effectKey": "active_primary_melee",
+      "formulaKey": "active_primary_damage_melee",
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2500
+      },
+      "expected": 100,
+      "fixedParameters": {
+        "active_primary_target_hp_ratio": 0.04,
+        "ranged_effectiveness": 0.5,
+        "active_cooldown_ms": 10000
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_primary_target_hp_ratio"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 100,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3748_active",
+      "effectKey": "active_primary_ranged",
+      "formulaKey": "active_primary_damage_ranged",
+      "attributes": {
+        "SOURCE.hp.TOTAL": 2500
+      },
+      "expected": 50,
+      "fixedParameters": {
+        "active_primary_target_hp_ratio": 0.04,
+        "ranged_effectiveness": 0.5,
+        "active_cooldown_ms": 10000
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_primary_target_hp_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ranged_effectiveness"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 50,
+      "passed": true
+    }
+  ],
+  "invariants": {
+    "item3181RangedIsSeventyPercent": true,
+    "item3748PassiveRangedIsHalf": true,
+    "item3748ActiveRangedIsHalf": true
+  },
+  "passed": true
+}

@@ -1,0 +1,23 @@
+{
+  "i": 33,
+  "intent": {
+    "sequence": 34,
+    "method": "POST",
+    "route": "/skills/monkeyking_p/parameters",
+    "detailRoute": "/skills/monkeyking_p/parameters/health_percent_per_5_ratio",
+    "skillKey": "monkeyking_p",
+    "kind": "parameters",
+    "stableKey": "health_percent_per_5_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_percent_per_5_ratio",
+      "name": "每5秒最大生命回复比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0035000001,
+      "levelValues": null,
+      "description": "来源0.0035，比例本身按1表示100%。",
+      "sortOrder": 20
+    }
+  }
+}

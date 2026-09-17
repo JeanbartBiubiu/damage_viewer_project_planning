@@ -1,0 +1,27 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "method": "POST",
+    "route": "/skills/lulu_r/parameters",
+    "detailRoute": "/skills/lulu_r/parameters/slow_percent_points",
+    "skillKey": "lulu_r",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "范围减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 45,
+        "3": 60
+      },
+      "description": "客户端DataValues.SlowPercent取等级索引1至3，得到30/45/60；只作唯一敌人控制参数。",
+      "sortOrder": 20
+    }
+  }
+}

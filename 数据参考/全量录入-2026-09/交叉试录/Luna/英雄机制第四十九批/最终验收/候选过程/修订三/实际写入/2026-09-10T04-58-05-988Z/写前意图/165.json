@@ -1,0 +1,37 @@
+{
+  "i": 164,
+  "intent": {
+    "sequence": 165,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_q/formulas",
+    "detailRoute": "/skills/reksai_q/formulas/unburrowed_physical_damage",
+    "skillKey": "reksai_q",
+    "kind": "formulas",
+    "stableKey": "unburrowed_physical_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "unburrowed_physical_damage",
+      "name": "女王之怒地表额外物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "total_ad_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "地表每次额外伤害只有总攻击力倍率，不加UnburrowedBaseDamage。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "method": "POST",
+    "route": "/skills/yasuo_e/parameters",
+    "detailRoute": "/skills/yasuo_e/parameters/current_stack_count",
+    "skillKey": "yasuo_e",
+    "kind": "parameters",
+    "stableKey": "current_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_stack_count",
+      "name": "本次计算已有层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "已有层数由运行输入提供，必须是0至4的非负整数；本次新命中不自动加入，也不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/parameters",
+    "detailRoute": "/skills/udyr_e/parameters/unstoppable_duration_ms",
+    "skillKey": "udyr_e",
+    "kind": "parameters",
+    "stableKey": "unstoppable_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "unstoppable_duration_ms",
+      "name": "觉醒免疫与额外移速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "UnstoppableDuration=1.5秒，精确换算为1500毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

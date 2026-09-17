@@ -1,0 +1,291 @@
+{
+  "batch": "第二十三批阿木木扎克",
+  "revision": "修订一",
+  "status": "静态候选，未录入",
+  "generatedAt": "2026-09-09T13:57:51.152Z",
+  "inputFrozenAt": "2026-09-09T12:42:18.066Z",
+  "preservedInitial": {
+    "artifactDir": "C:/project/damage_web_dev/.agents/artifacts/hero23-root-recovery",
+    "candidateSha256": "1bce13b11171e163d619feb739a3b040ad3b6d8fbe04dc345b8918ed9d3c08b3",
+    "planSha256": "c2758747a781a25290e9bc4e4b36bc17c0526e7cf72e279e09df7c704694185b",
+    "sourceManifestSha256": "1175441b37c73588fc2a40bc86b51de025670622716db9b90d2bdd62d53e609d",
+    "note": "初稿及其来源、请求、核算和报告字节保留；当前设计以修订一为准。"
+  },
+  "revisionFiles": {
+    "candidateSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
+    "planSha256": "ba31f93dee47c0ce73128cb1d1e94283c74c00aae4a5d42791dbbfbff84c3169",
+    "sourceManifestSha256": "9ce4a9e55a1057d34906e8669750632af6ba234be7453cbd9e829bab22184e39",
+    "mathSha256": "7c95ace928bb4475eafcb62d2de8a65f65e0c47ca7f31f93ca94503b82eeb796",
+    "generatorSha256": "b93f4e070b28a540ac862a752e8e9e1977401a4e31d8f551828aa43b7065d23c",
+    "mathScriptSha256": "9cbb31f29f04d76e66beb1b8b1d932f458951672e7877927453b9bd683ff09a0",
+    "resourceEvidenceSha256": "b558da88feae51789cc07dcf8b05a1a58b5cc18d0c56247d4847a9971253e129"
+  },
+  "counts": {
+    "skills": 10,
+    "parametersInWrite": 90,
+    "newParameterIntents": 81,
+    "formulas": 22,
+    "effects": 6,
+    "postIntents": 109,
+    "reusedPublicParameters": 9,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "apiWrites": 0
+  },
+  "strictMath": {
+    "formulaCount": 22,
+    "positiveCaseCount": 44,
+    "positivePassed": 44,
+    "missingValueRejected": 32,
+    "integerHalfChecks": 3,
+    "integerNormalizationChecks": [
+      {
+        "skillKey": "zac_r",
+        "parameterKey": "slow_percent_points",
+        "sourceValue": 20.000000298023224,
+        "candidateValue": 20,
+        "expected": 20
+      }
+    ],
+    "binaryOperationCount": 64,
+    "binaryOperationArityPassed": true,
+    "capChecks": 5,
+    "candidateMathReady": true,
+    "businessMathReady": false,
+    "apiWrites": 0
+  },
+  "corrections": [
+    "阿木木E改为固定物理减免点数：基础点数+0.03×来源额外护甲+0.03×来源额外魔抗；封顶为MIN(点数,0.5×本次承受物理伤害)，移除0.01换算。",
+    "所有公式运算树折叠为严格二元；生成器和独立核算均拒绝非二元操作。",
+    "扎克R减速值由客户端浮点20.000000298...归一为INTEGER 20，并独立保留源值核对。",
+    "扎克P复活冷却及四组织复活分支移出写入，转为来源排除；保留粘液回复。",
+    "扎克Q三个不同目标投掷/碰撞专属距离与范围移出写入，原始值保留来源证据。",
+    "阿木木W两个匿名计算树及0.5/0.005修饰只保留来源证据，不写入业务公式。",
+    "扎克E VFXWarningTime表现预警移出写入，原始值保留来源证据。"
+  ],
+  "removedFromWrite": [
+    "amumu_w/half_tick_multiplier",
+    "amumu_w/modified_health_damage_multiplier",
+    "amumu_w/half_tick_base_value",
+    "amumu_w/modified_health_damage_value",
+    "amumu_e/percent_point_ratio",
+    "zac_p/revive_cooldown_ms",
+    "zac_q/max_slam_distance",
+    "zac_q/yank_distance",
+    "zac_q/collision_aoe_radius",
+    "zac_e/warning_time_ms"
+  ],
+  "pendingAndExcluded": {
+    "pending": [
+      {
+        "skillKey": "amumu_p",
+        "kind": "事件",
+        "item": "攻击命中、诅咒施加与魔法伤害联动",
+        "reason": "当前候选只保留比例和持续时间，不创建攻击命中、诅咒或伤害结果。"
+      },
+      {
+        "skillKey": "amumu_p",
+        "kind": "输入",
+        "item": "魔法伤害基准所处减伤阶段",
+        "reason": "根正文未说明额外真实伤害取减伤前或减伤后魔法值，使用无默认运行输入。"
+      },
+      {
+        "skillKey": "amumu_q",
+        "kind": "事件",
+        "item": "第一命中、位移和两层充能消耗",
+        "reason": "命中资格、位移时序和充能过程未接线。"
+      },
+      {
+        "skillKey": "amumu_w",
+        "kind": "事件",
+        "item": "开启、关闭和每秒伤害周期",
+        "reason": "当前只保留每秒数值；匿名根节点只保留来源证据，未创建开关、周期或伤害结果。"
+      },
+      {
+        "skillKey": "amumu_e",
+        "kind": "属性",
+        "item": "mStat=1/6、mStatFormula=2具体选择器",
+        "reason": "当前窄口径未证具体属性含义，额外护甲与额外魔抗保留为无默认输入。"
+      },
+      {
+        "skillKey": "amumu_e",
+        "kind": "事件",
+        "item": "被攻击后冷却缩短与主动命中",
+        "reason": "只保留750毫秒和主动公式，不创建受击、冷却变更或伤害结果。"
+      },
+      {
+        "skillKey": "amumu_r",
+        "kind": "事件",
+        "item": "区域命中、诅咒、晕眩和中断位移",
+        "reason": "当前只保留数值公式和1500毫秒文本值，不创建事件或结果。"
+      },
+      {
+        "skillKey": "zac_p",
+        "kind": "曲线",
+        "item": "HealPercent角色等级插值",
+        "reason": "只保留无默认运行输入0.04至0.08的来源边界，不猜1至18级曲线。"
+      },
+      {
+        "skillKey": "zac_p",
+        "kind": "事件",
+        "item": "技能命中产出粘液与拾取",
+        "reason": "不创建命中、拾取或直接治疗事件。"
+      },
+      {
+        "skillKey": "zac_q",
+        "kind": "输入",
+        "item": "施放前当前生命值",
+        "reason": "当前生命值不是已证的SOURCE/TARGET总/基础/额外属性节点，保留无默认运行输入。"
+      },
+      {
+        "skillKey": "zac_q",
+        "kind": "时序",
+        "item": "spellCastTime=0与mCastTime=0.33秒冲突",
+        "reason": "冲突字段不任选，不生成施法时间参数。"
+      },
+      {
+        "skillKey": "zac_q",
+        "kind": "事件",
+        "item": "第二次攻击、不同目标投掷、碰撞伤害和减速",
+        "reason": "当前1V1候选仅保留首击/后续普攻可共用的静态伤害与减速值，排除不同目标碰撞事件。"
+      },
+      {
+        "skillKey": "zac_w",
+        "kind": "输入",
+        "item": "施放前当前生命值",
+        "reason": "当前生命值输入未形成可用属性节点，保留无默认运行输入。"
+      },
+      {
+        "skillKey": "zac_w",
+        "kind": "事件",
+        "item": "粘液拾取与冷却缩短",
+        "reason": "只保留1000毫秒数值，不创建拾取事件或冷却变更。"
+      },
+      {
+        "skillKey": "zac_e",
+        "kind": "输入",
+        "item": "施放前当前生命值",
+        "reason": "当前生命值输入未形成可用属性节点，保留无默认运行输入。"
+      },
+      {
+        "skillKey": "zac_e",
+        "kind": "曲线",
+        "item": "蓄力时间到击飞持续、速度与距离中间曲线",
+        "reason": "只保留最短/最大端点和原始等级数据，不猜中间求值。"
+      },
+      {
+        "skillKey": "zac_e",
+        "kind": "事件",
+        "item": "蓄力、释放、取消、着陆命中和额外粘液",
+        "reason": "保留正文参数，未创建过程、触发或结果。"
+      },
+      {
+        "skillKey": "zac_r",
+        "kind": "时序",
+        "item": "spellCastTime=0与mCastTime=0.3秒冲突",
+        "reason": "冲突字段不任选，不生成施法时间参数。"
+      },
+      {
+        "skillKey": "zac_r",
+        "kind": "曲线",
+        "item": "弹跳命中、减速和移动速度中间曲线",
+        "reason": "保留4跳、1秒间隔及移动速度端点，未猜中间求值。"
+      },
+      {
+        "skillKey": "zac_r",
+        "kind": "事件",
+        "item": "四次实际命中、击退、减速和期间施放W",
+        "reason": "只保留可解析数值公式，不创建碰撞或嵌套施法过程。"
+      }
+    ],
+    "excluded": [
+      {
+        "skillKey": "amumu_w",
+        "kind": "消耗",
+        "item": "一次性法力消耗效果",
+        "reason": "根资源文本明确为每秒8点法力，不以普通一次CONSUME表示。"
+      },
+      {
+        "skillKey": "amumu_w",
+        "kind": "客户端计算树",
+        "item": "{c8e45bc3}与{8a96509c}匿名修饰",
+        "reason": "两个匿名节点及其0.5/0.005修饰只保留原始来源证据；时序、单位和业务消费者未证，不写入业务公式。"
+      },
+      {
+        "skillKey": "zac_p",
+        "kind": "死亡分支",
+        "item": "ReviveCooldown、ReviveBlobletDuration、组织12%生命值、50%护甲和魔抗",
+        "reason": "当前1V1数值候选只保留粘液回复；死亡后四个独立组织分支及被动冷却不写入，保留为来源排除证据。"
+      },
+      {
+        "skillKey": "zac_q",
+        "kind": "目标分支",
+        "item": "MaxSlamDistance、YankDistance、CollisionAoE",
+        "reason": "三个距离/范围值只属于扎克Q投掷到另一目标的碰撞分支；当前1V1同目标候选不写入，原始值留在来源证据。"
+      },
+      {
+        "skillKey": "zac_w",
+        "kind": "目标类别",
+        "item": "小兵和野怪百分比伤害上限200",
+        "reason": "当前1V1候选目标为英雄，正文专用上限不进入英雄伤害公式。"
+      },
+      {
+        "skillKey": "zac_e",
+        "kind": "表现",
+        "item": "VFXWarningTime预警时间",
+        "reason": "这是客户端表现预警字段，不属于技能业务数值写入；原始值只保留在来源证据。"
+      },
+      {
+        "skillKey": "zac_r",
+        "kind": "碰撞",
+        "item": "幽灵状态无视碰撞体积",
+        "reason": "当前正文为碰撞规则说明，不作为数值参数或事件结果。"
+      }
+    ]
+  },
+  "resourceChangeEvidence": {
+    "file": "C:/project/damage_web_dev/.agents/artifacts/hero23-root-recovery/修订一/生命值资源变化同类证据.json",
+    "sha256": "b558da88feae51789cc07dcf8b05a1a58b5cc18d0c56247d4847a9971253e129",
+    "hero23Effects": [
+      "zac_q/health_cost",
+      "zac_w/health_cost",
+      "zac_e/health_cost"
+    ],
+    "businessWriteProof": "本批静态生成，不是业务实录。"
+  },
+  "protectedFiles": [
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/冻结根绑定与当前文本.json",
+      "sha256": "96aa039bb2e14a0f4ba5841f13a5a56c4ae3bc068e55023f904f396f19808b34",
+      "byteSize": 141097
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/写前原始保护快照.json",
+      "sha256": "74372b237e786367ccfbc0feaeb5e4bec0c0f35668915a5c9927f7f84fd2d417",
+      "byteSize": 69723
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/Cursor输入版本.json",
+      "sha256": "0ab4777628d9facd5f4e86745767157b63e2f0cec626cc07ba48b5194e5863d2",
+      "byteSize": 2579
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/Cursor冻结输入散列.json",
+      "sha256": "e612d9bcdf38de6e0d2aff399a7289c9d7c5719b09be01cca94890554600318b",
+      "byteSize": 2334
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/Cursor失败与接手审计.json",
+      "sha256": "ac5717722ef8d40cdec1016e71fca735ac036bba3b2fe31ddee68add5d7bd2fd",
+      "byteSize": 6506
+    }
+  ],
+  "input": {
+    "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+    "sourceBindingSha256": "96aa039bb2e14a0f4ba5841f13a5a56c4ae3bc068e55023f904f396f19808b34",
+    "protectionSnapshotSha256": "74372b237e786367ccfbc0feaeb5e4bec0c0f35668915a5c9927f7f84fd2d417",
+    "protectionSnapshotGETs": 97,
+    "inputFilesChecked": 17
+  }
+}

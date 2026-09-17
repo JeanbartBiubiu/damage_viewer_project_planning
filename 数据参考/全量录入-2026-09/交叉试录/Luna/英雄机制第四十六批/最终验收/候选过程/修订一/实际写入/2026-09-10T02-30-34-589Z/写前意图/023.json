@@ -1,0 +1,46 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_q/formulas",
+    "detailRoute": "/skills/belveth_q/formulas/dash_physical_damage",
+    "skillKey": "belveth_q",
+    "kind": "formulas",
+    "stableKey": "dash_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dash_physical_damage",
+      "name": "虚空激流单敌物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "基础伤害+1.05×来源总攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

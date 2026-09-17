@@ -1,0 +1,60 @@
+{
+  "i": 60,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_q/formulas",
+    "skillKey": "hecarim_q",
+    "kind": "formulas",
+    "stableKey": "cooldown_at_stacks_ms",
+    "body": {
+      "formulaKey": "cooldown_at_stacks_ms",
+      "name": "指定层数的基础冷却（毫秒）",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MAX",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "zero"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "SUBTRACT",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MIN",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_stacks"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "max_stacks"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "cooldown_reduction_per_stack_ms"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MAX(0,基础冷却-MIN(层数,3)×750ms)，不表示技能急速或冷却事件已接。",
+      "sortOrder": 40
+    }
+  }
+}

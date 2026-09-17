@@ -1,0 +1,35 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 118,
+    "method": "POST",
+    "route": "/skills/skarner_w/formulas",
+    "detailRoute": "/skills/skarner_w/formulas/shield_value",
+    "skillKey": "skarner_w",
+    "kind": "formulas",
+    "stableKey": "shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_value",
+      "name": "震地壁垒自身护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_stat12_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前InitialShield=0.08×来源生命总值；mStat12映射依据同版窄证。",
+      "sortOrder": 20
+    }
+  }
+}

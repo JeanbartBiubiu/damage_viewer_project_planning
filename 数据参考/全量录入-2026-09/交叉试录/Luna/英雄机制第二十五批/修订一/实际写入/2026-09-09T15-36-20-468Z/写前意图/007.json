@@ -1,0 +1,39 @@
+{
+  "sequence": 7,
+  "intent": {
+    "sequence": 7,
+    "method": "POST",
+    "route": "/skills/drmundo_p/parameters",
+    "detailRoute": "/skills/drmundo_p/parameters/max_health_regen_ratio",
+    "skillKey": "drmundo_p",
+    "kind": "parameters",
+    "stableKey": "max_health_regen_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_health_regen_ratio",
+      "name": "每5秒最大生命回复比例（等级曲线外供）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前计算树 MaxHealthRegen 的等级断点曲线以百分数显示；求值规则未证，保留无默认比例输入。原始起点约0.004，仅作来源证据，不作为全等级固定值。",
+      "sortOrder": 70
+    }
+  },
+  "before": {
+    "sequence": 223,
+    "method": "GET",
+    "route": "/skills/drmundo_p/parameters/max_health_regen_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "max_health_regen_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:36:38.034Z"
+  }
+}

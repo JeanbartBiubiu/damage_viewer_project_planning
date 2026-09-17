@@ -1,0 +1,105 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "method": "POST",
+    "route": "/skills/akshan_r/formulas",
+    "detailRoute": "/skills/akshan_r/formulas/max_damage_per_bullet",
+    "skillKey": "akshan_r",
+    "kind": "formulas",
+    "stableKey": "max_damage_per_bullet",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "max_damage_per_bullet",
+      "name": "恩怨相抵每颗子弹最高物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "total_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "critical_multiplier_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "critical_mstat8_value"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "critical_damage_effectiveness_ratio"
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operation": "ADD",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "critical_mstat9_value"
+                              },
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "critical_stat_offset"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_increase_multiplier"
+          }
+        ]
+      },
+      "description": "当前MaxDamagePerBullet=完整DamagePerBulletWithCrit×MaxIncrease；已损生命中间曲线未编。",
+      "sortOrder": 20
+    }
+  }
+}

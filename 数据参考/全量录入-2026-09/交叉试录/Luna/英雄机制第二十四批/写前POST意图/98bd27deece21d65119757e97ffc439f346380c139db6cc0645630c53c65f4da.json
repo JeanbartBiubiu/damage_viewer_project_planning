@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:38:46.458Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sejuani_r/parameters",
+  "detailRoute": "/skills/sejuani_r/parameters/base_damage",
+  "skillKey": "sejuani_r",
+  "kind": "parameters",
+  "stableKey": "base_damage",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "极冰寒狱普通基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 125,
+      "2": 150,
+      "3": 175
+    },
+    "description": "当前根绑定 DataValues.BaseDamage 取索引1至3",
+    "sortOrder": 40
+  }
+}

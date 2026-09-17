@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/leesin_w/parameters",
+    "detailRoute": "/skills/leesin_w/parameters/shield_ap_ratio",
+    "skillKey": "leesin_w",
+    "kind": "parameters",
+    "stableKey": "shield_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_ap_ratio",
+      "name": "金钟罩法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.80000001,
+      "levelValues": null,
+      "description": "ShieldAmount第二项无mStat，按同版窄证读取来源总法术强度。",
+      "sortOrder": 20
+    }
+  }
+}

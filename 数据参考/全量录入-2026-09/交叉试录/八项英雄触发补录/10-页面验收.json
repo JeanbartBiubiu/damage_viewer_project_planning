@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev4",
+  "capturedAt": "2026-09-12T16:41:29.997Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 264
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "garen_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "盖伦·勇气代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "shield",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "upfront_shield",
+        "resultKey": "shield",
+        "effectExpectedTextsVisible": true,
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "on_used",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "vex_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "薇古丝·生人勿近代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "shield_value",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "self_shield",
+        "resultKey": "shield",
+        "effectExpectedTextsVisible": true,
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "on_used",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "kassadin_q",
+      "passed": true,
+      "representativeImage": {
+        "alt": "卡萨丁·虚无法球代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "magic_shield_amount",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "magic_shield",
+        "resultKey": "shield",
+        "effectExpectedTextsVisible": true,
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "on_used",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "ivern_q",
+      "passed": true,
+      "representativeImage": {
+        "alt": "艾翁·根深敌固代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "magic_damage",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "damage",
+        "resultKey": "damage",
+        "effectExpectedTextsVisible": true,
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "screenshots": [
+    "garen_w-on_used规则.png",
+    "garen_w-shield公式.png",
+    "garen_w-shield结果.png",
+    "garen_w-列表图片.png",
+    "ivern_q-actual_hit规则.png",
+    "ivern_q-damage结果.png",
+    "ivern_q-magic_damage公式.png",
+    "ivern_q-列表图片.png",
+    "kassadin_q-magic_shield_amount公式.png",
+    "kassadin_q-on_used规则.png",
+    "kassadin_q-shield结果.png",
+    "kassadin_q-列表图片.png",
+    "vex_w-on_used规则.png",
+    "vex_w-shield_value公式.png",
+    "vex_w-shield结果.png",
+    "vex_w-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "aff408727c57c9b2da64baec3c8d6be44dde68022baea28738ec098fe2f9535b"
+}

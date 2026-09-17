@@ -1,0 +1,2219 @@
+{
+  "generatedAt": "2026-09-09T12:58:45.751Z",
+  "status": "PASS",
+  "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+  "candidateMathSha256": "910d4db5adbeca11b85c19e894766df1be3c9e0e24586876347855520ad0a638",
+  "actualReadbackSha256": "c237472e4b6b56436f14d0c33b1ba68908f7084d9d729d43c1bb158969e98d0f",
+  "source": "写后独立GET实际详情；冻结候选参数与独立期望公式；不重复GET，不使用默认运行时输入。",
+  "totals": {
+    "expectedFormulaCount": 24,
+    "actualFormulaCount": 24,
+    "formulaBodyChecks": 24,
+    "formulaCaseChecks": 48,
+    "missingRuntimeRejections": 19,
+    "missingAttributeRejections": 18,
+    "integerInputRejections": 4,
+    "boundaryChecks": 13,
+    "shieldNoDefaultChecks": 2
+  },
+  "formulaRecords": [
+    {
+      "skillKey": "chogath_q",
+      "formulaKey": "magic_damage",
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_w",
+      "formulaKey": "magic_damage",
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "flat_damage",
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "parameters": [
+        "percent_point_ratio",
+        "target_max_health_percent_points",
+        "actual_feast_stacks",
+        "feast_stack_multiplier_percent_points"
+      ],
+      "attributes": [
+        "TARGET.hp.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "hero_true_damage",
+      "parameters": [
+        "hero_base_damage",
+        "ap_ratio",
+        "unmapped_ratio",
+        "source_bonus_health_for_hero_damage"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "parameters": [
+        "actual_feast_stacks",
+        "health_per_stack"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "parameters": [
+        "max_bonus_cast_range",
+        "actual_feast_stacks",
+        "cast_range_per_stack"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "parameters": [
+        "max_bonus_attack_range",
+        "actual_feast_stacks",
+        "attack_range_per_stack"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "parameters": [
+        "passive_base_damage",
+        "total_attack_damage_ratio",
+        "ap_ratio",
+        "unmapped_ratio",
+        "source_mstat6_for_passive"
+      ],
+      "attributes": [
+        "SOURCE.attack_damage.TOTAL",
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "missile_damage",
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "parameters": [
+        "percent_point_ratio",
+        "tornado_ticks",
+        "super_q_base_percent_points",
+        "super_q_ap_percent_points_per_ap"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL",
+        "TARGET.hp.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "parameters": [
+        "passive_shield_health_ratio_by_skill_level",
+        "source_hp_for_passive_shield"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "parameters": [
+        "damage_reduction_base",
+        "ap_ratio",
+        "mstat6_ratio",
+        "source_mstat6_for_reduction",
+        "mstat12_ratio",
+        "source_mstat12_for_reduction"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "parameters": [
+        "physical_damage_reduction_ratio",
+        "damage_reduction_base",
+        "ap_ratio",
+        "mstat6_ratio",
+        "source_mstat6_for_reduction",
+        "mstat12_ratio",
+        "source_mstat12_for_reduction"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "minimum_magic_damage",
+      "parameters": [
+        "minimum_base_damage",
+        "ap_damage_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "maximum_magic_damage",
+      "parameters": [
+        "maximum_damage_multiplier",
+        "minimum_base_damage",
+        "ap_damage_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_e",
+      "formulaKey": "first_champion_magic_damage",
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_r",
+      "formulaKey": "landing_magic_damage",
+      "parameters": [
+        "base_damage",
+        "ap_ratio",
+        "unmapped_ratio",
+        "source_mstat6_for_landing_damage"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "rammus_p",
+      "formulaKey": "bonus_attack_damage",
+      "parameters": [
+        "armor_ratio",
+        "source_armor_for_passive",
+        "magic_resistance_ratio",
+        "source_magic_resistance_for_passive"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "rammus_q",
+      "formulaKey": "power_ball_magic_damage",
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "parameters": [
+        "flat_damage_return",
+        "damage_armor_ratio",
+        "source_armor_for_w",
+        "damage_magic_resistance_ratio",
+        "source_magic_resistance_for_w"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_armor",
+      "parameters": [
+        "flat_bonus_armor",
+        "one",
+        "bonus_armor_ratio",
+        "source_armor_for_w"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_magic_resistance",
+      "parameters": [
+        "flat_bonus_magic_resistance",
+        "one",
+        "bonus_magic_resistance_ratio",
+        "source_magic_resistance_for_w"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "rammus_r",
+      "formulaKey": "initial_magic_damage",
+      "parameters": [
+        "initial_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    }
+  ],
+  "formulaBodyChecks": [
+    {
+      "skillKey": "chogath_q",
+      "formulaKey": "magic_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "chogath_w",
+      "formulaKey": "magic_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "flat_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "hero_true_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "missile_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "minimum_magic_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "maximum_magic_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_e",
+      "formulaKey": "first_champion_magic_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "galio_r",
+      "formulaKey": "landing_magic_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "rammus_p",
+      "formulaKey": "bonus_attack_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "rammus_q",
+      "formulaKey": "power_ball_magic_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_armor",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_magic_resistance",
+      "passed": true,
+      "diff": null
+    },
+    {
+      "skillKey": "rammus_r",
+      "formulaKey": "initial_magic_damage",
+      "passed": true,
+      "diff": null
+    }
+  ],
+  "formulaCases": [
+    {
+      "skillKey": "chogath_q",
+      "formulaKey": "magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 160,
+      "expectedValue": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "formulaKey": "magic_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 540,
+      "expectedValue": 540,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "formulaKey": "magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 136,
+      "expectedValue": 136,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "formulaKey": "magic_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 448,
+      "expectedValue": 448,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "flat_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "actual_feast_stacks": 2
+      },
+      "actualValue": 54,
+      "expectedValue": 54,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "flat_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "actual_feast_stacks": 7
+      },
+      "actualValue": 182,
+      "expectedValue": 182,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "actual_feast_stacks": 2
+      },
+      "actualValue": 49.00000000000001,
+      "expectedValue": 49.00000000000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "actual_feast_stacks": 7
+      },
+      "actualValue": 207.20000000000002,
+      "expectedValue": 207.20000000000002,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "hero_true_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_bonus_health_for_hero_damage": 250,
+        "actual_feast_stacks": 4
+      },
+      "actualValue": 365,
+      "expectedValue": 365,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "hero_true_damage",
+      "caseId": "caseB",
+      "rank": 3,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_bonus_health_for_hero_damage": 500,
+        "actual_feast_stacks": 12
+      },
+      "actualValue": 820,
+      "expectedValue": 820,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_bonus_health_for_hero_damage": 250,
+        "actual_feast_stacks": 4
+      },
+      "actualValue": 320,
+      "expectedValue": 320,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "caseId": "caseB",
+      "rank": 3,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_bonus_health_for_hero_damage": 500,
+        "actual_feast_stacks": 12
+      },
+      "actualValue": 1920,
+      "expectedValue": 1920,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_bonus_health_for_hero_damage": 250,
+        "actual_feast_stacks": 4
+      },
+      "actualValue": 10,
+      "expectedValue": 10,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "caseId": "caseB",
+      "rank": 3,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_bonus_health_for_hero_damage": 500,
+        "actual_feast_stacks": 12
+      },
+      "actualValue": 25,
+      "expectedValue": 25,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_bonus_health_for_hero_damage": 250,
+        "actual_feast_stacks": 4
+      },
+      "actualValue": 18.8,
+      "expectedValue": 18.8,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "caseId": "caseB",
+      "rank": 3,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_bonus_health_for_hero_damage": 500,
+        "actual_feast_stacks": 12
+      },
+      "actualValue": 75,
+      "expectedValue": 75,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "passive_base_damage": 65,
+        "source_mstat6_for_passive": 120
+      },
+      "actualValue": 279,
+      "expectedValue": 279,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "caseId": "caseB",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "passive_base_damage": 105,
+        "source_mstat6_for_passive": 220
+      },
+      "actualValue": 518,
+      "expectedValue": 518,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "missile_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 126,
+      "expectedValue": 126,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "missile_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 378,
+      "expectedValue": 378,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 156.79999999999998,
+      "expectedValue": 156.79999999999998,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 492.80000000000007,
+      "expectedValue": 492.80000000000007,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 80,
+        "source_mstat12_for_reduction": 50,
+        "source_hp_for_passive_shield": 1200
+      },
+      "actualValue": 90,
+      "expectedValue": 90,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 140,
+        "source_mstat12_for_reduction": 110,
+        "source_hp_for_passive_shield": 2400
+      },
+      "actualValue": 324,
+      "expectedValue": 324,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 80,
+        "source_mstat12_for_reduction": 50,
+        "source_hp_for_passive_shield": 1200
+      },
+      "actualValue": 0.35100000000000003,
+      "expectedValue": 0.35100000000000003,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 140,
+        "source_mstat12_for_reduction": 110,
+        "source_hp_for_passive_shield": 2400
+      },
+      "actualValue": 0.669,
+      "expectedValue": 0.669,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 80,
+        "source_mstat12_for_reduction": 50,
+        "source_hp_for_passive_shield": 1200
+      },
+      "actualValue": 0.17550000000000002,
+      "expectedValue": 0.17550000000000002,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 140,
+        "source_mstat12_for_reduction": 110,
+        "source_hp_for_passive_shield": 2400
+      },
+      "actualValue": 0.3345,
+      "expectedValue": 0.3345,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "minimum_magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 80,
+        "source_mstat12_for_reduction": 50,
+        "source_hp_for_passive_shield": 1200
+      },
+      "actualValue": 44,
+      "expectedValue": 44,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "minimum_magic_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 140,
+        "source_mstat12_for_reduction": 110,
+        "source_hp_for_passive_shield": 2400
+      },
+      "actualValue": 132,
+      "expectedValue": 132,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "maximum_magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 80,
+        "source_mstat12_for_reduction": 50,
+        "source_hp_for_passive_shield": 1200
+      },
+      "actualValue": 132,
+      "expectedValue": 132,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "maximum_magic_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_reduction": 140,
+        "source_mstat12_for_reduction": 110,
+        "source_hp_for_passive_shield": 2400
+      },
+      "actualValue": 396,
+      "expectedValue": 396,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_e",
+      "formulaKey": "first_champion_magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 180,
+      "expectedValue": 180,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_e",
+      "formulaKey": "first_champion_magic_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 480,
+      "expectedValue": 480,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_r",
+      "formulaKey": "landing_magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_landing_damage": 90
+      },
+      "actualValue": 296,
+      "expectedValue": 296,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_r",
+      "formulaKey": "landing_magic_damage",
+      "caseId": "caseB",
+      "rank": 3,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_mstat6_for_landing_damage": 170
+      },
+      "actualValue": 688,
+      "expectedValue": 688,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_p",
+      "formulaKey": "bonus_attack_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_armor_for_passive": 140,
+        "source_magic_resistance_for_passive": 90
+      },
+      "actualValue": 34.5,
+      "expectedValue": 34.5,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_p",
+      "formulaKey": "bonus_attack_damage",
+      "caseId": "caseB",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_armor_for_passive": 220,
+        "source_magic_resistance_for_passive": 140
+      },
+      "actualValue": 54,
+      "expectedValue": 54,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "formulaKey": "power_ball_magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "minimum_move_speed_ratio": 0.31
+      },
+      "actualValue": 160,
+      "expectedValue": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "formulaKey": "power_ball_magic_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "minimum_move_speed_ratio": 0.37
+      },
+      "actualValue": 480,
+      "expectedValue": 480,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_armor_for_w": 180,
+        "source_magic_resistance_for_w": 100
+      },
+      "actualValue": 43,
+      "expectedValue": 43,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_armor_for_w": 260,
+        "source_magic_resistance_for_w": 160
+      },
+      "actualValue": 57,
+      "expectedValue": 57,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_armor",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_armor_for_w": 180,
+        "source_magic_resistance_for_w": 100
+      },
+      "actualValue": 89.1,
+      "expectedValue": 89.1,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_armor",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_armor_for_w": 260,
+        "source_magic_resistance_for_w": 160
+      },
+      "actualValue": 231.2,
+      "expectedValue": 231.2,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_magic_resistance",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {
+        "source_armor_for_w": 180,
+        "source_magic_resistance_for_w": 100
+      },
+      "actualValue": 56,
+      "expectedValue": 56,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_magic_resistance",
+      "caseId": "caseB",
+      "rank": 5,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {
+        "source_armor_for_w": 260,
+        "source_magic_resistance_for_w": 160
+      },
+      "actualValue": 160,
+      "expectedValue": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_r",
+      "formulaKey": "initial_magic_damage",
+      "caseId": "caseA",
+      "rank": 1,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 80
+          },
+          "attack_damage": {
+            "TOTAL": 110
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 1400
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 198,
+      "expectedValue": 198,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_r",
+      "formulaKey": "initial_magic_damage",
+      "caseId": "caseB",
+      "rank": 3,
+      "attributes": {
+        "SOURCE": {
+          "ability_power": {
+            "TOTAL": 240
+          },
+          "attack_damage": {
+            "TOTAL": 185
+          }
+        },
+        "TARGET": {
+          "hp": {
+            "TOTAL": 2800
+          }
+        }
+      },
+      "runtime": {},
+      "actualValue": 494,
+      "expectedValue": 494,
+      "passed": true
+    }
+  ],
+  "missingRuntimeRejections": [
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "missing": "actual_feast_stacks",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "hero_true_damage",
+      "missing": "source_bonus_health_for_hero_damage",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_bonus_health_for_hero_damage"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "missing": "actual_feast_stacks",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "missing": "actual_feast_stacks",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "missing": "actual_feast_stacks",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:actual_feast_stacks"
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "missing": "passive_base_damage",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:passive_base_damage"
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "missing": "source_mstat6_for_passive",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_mstat6_for_passive"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "missing": "source_hp_for_passive_shield",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_hp_for_passive_shield"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "missing": "source_mstat6_for_reduction",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_mstat6_for_reduction"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "missing": "source_mstat12_for_reduction",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_mstat12_for_reduction"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "missing": "source_mstat6_for_reduction",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_mstat6_for_reduction"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "missing": "source_mstat12_for_reduction",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_mstat12_for_reduction"
+    },
+    {
+      "skillKey": "galio_r",
+      "formulaKey": "landing_magic_damage",
+      "missing": "source_mstat6_for_landing_damage",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_mstat6_for_landing_damage"
+    },
+    {
+      "skillKey": "rammus_p",
+      "formulaKey": "bonus_attack_damage",
+      "missing": "source_armor_for_passive",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_armor_for_passive"
+    },
+    {
+      "skillKey": "rammus_p",
+      "formulaKey": "bonus_attack_damage",
+      "missing": "source_magic_resistance_for_passive",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_magic_resistance_for_passive"
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "missing": "source_armor_for_w",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_armor_for_w"
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "missing": "source_magic_resistance_for_w",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_magic_resistance_for_w"
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_armor",
+      "missing": "source_armor_for_w",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_armor_for_w"
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_magic_resistance",
+      "missing": "source_magic_resistance_for_w",
+      "rejected": true,
+      "error": "MISSING_RUNTIME_INPUT:source_magic_resistance_for_w"
+    }
+  ],
+  "missingAttributeRejections": [
+    {
+      "skillKey": "chogath_q",
+      "formulaKey": "magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "chogath_w",
+      "formulaKey": "magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "flat_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "missing": "TARGET.hp.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:TARGET.hp.TOTAL"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "hero_true_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "missing": "SOURCE.attack_damage.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.attack_damage.TOTAL"
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "missile_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "missing": "TARGET.hp.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:TARGET.hp.TOTAL"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "minimum_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "maximum_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_e",
+      "formulaKey": "first_champion_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_r",
+      "formulaKey": "landing_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "rammus_q",
+      "formulaKey": "power_ball_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "rammus_r",
+      "formulaKey": "initial_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejected": true,
+      "error": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    }
+  ],
+  "integerInputRejections": [
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "parameterKey": "actual_feast_stacks",
+      "testValue": 0.5,
+      "rejected": true,
+      "error": "INTEGER参数不是整数：actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "parameterKey": "actual_feast_stacks",
+      "testValue": 0.5,
+      "rejected": true,
+      "error": "INTEGER参数不是整数：actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "parameterKey": "actual_feast_stacks",
+      "testValue": 0.5,
+      "rejected": true,
+      "error": "INTEGER参数不是整数：actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "parameterKey": "actual_feast_stacks",
+      "testValue": 0.5,
+      "rejected": true,
+      "error": "INTEGER参数不是整数：actual_feast_stacks"
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "label": "科加斯R施法距离9层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "rank": 3,
+      "stacks": 9,
+      "actualValue": 22.5,
+      "expectedValue": 22.5,
+      "passed": true
+    },
+    {
+      "label": "科加斯R施法距离10层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "rank": 3,
+      "stacks": 10,
+      "actualValue": 25,
+      "expectedValue": 25,
+      "passed": true
+    },
+    {
+      "label": "科加斯R施法距离11层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "rank": 3,
+      "stacks": 11,
+      "actualValue": 25,
+      "expectedValue": 25,
+      "passed": true
+    },
+    {
+      "label": "科加斯R施法距离20层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "rank": 3,
+      "stacks": 20,
+      "actualValue": 25,
+      "expectedValue": 25,
+      "passed": true
+    },
+    {
+      "label": "科加斯R攻击距离等级1/9层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "rank": 1,
+      "stacks": 9,
+      "actualValue": 42.300000000000004,
+      "expectedValue": 42.300000000000004,
+      "passed": true
+    },
+    {
+      "label": "科加斯R攻击距离等级1/10层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "rank": 1,
+      "stacks": 10,
+      "actualValue": 47,
+      "expectedValue": 47,
+      "passed": true
+    },
+    {
+      "label": "科加斯R攻击距离等级1/11层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "rank": 1,
+      "stacks": 11,
+      "actualValue": 51.7,
+      "expectedValue": 51.7,
+      "passed": true
+    },
+    {
+      "label": "科加斯R攻击距离等级1/20层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "rank": 1,
+      "stacks": 20,
+      "actualValue": 75,
+      "expectedValue": 75,
+      "passed": true
+    },
+    {
+      "label": "科加斯R攻击距离等级3/9层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "rank": 3,
+      "stacks": 9,
+      "actualValue": 69.3,
+      "expectedValue": 69.3,
+      "passed": true
+    },
+    {
+      "label": "科加斯R攻击距离等级3/10层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "rank": 3,
+      "stacks": 10,
+      "actualValue": 75,
+      "expectedValue": 75,
+      "passed": true
+    },
+    {
+      "label": "科加斯R攻击距离等级3/11层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "rank": 3,
+      "stacks": 11,
+      "actualValue": 75,
+      "expectedValue": 75,
+      "passed": true
+    },
+    {
+      "label": "科加斯R攻击距离等级3/20层",
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "rank": 3,
+      "stacks": 20,
+      "actualValue": 75,
+      "expectedValue": 75,
+      "passed": true
+    },
+    {
+      "label": "科加斯R十二层生命收益不受六层截断",
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "rank": 3,
+      "stacks": 12,
+      "actualValue": 1920,
+      "expectedValue": 1920,
+      "passed": true
+    }
+  ],
+  "shieldNoDefaultChecks": [
+    {
+      "parameterKey": "passive_shield_health_ratio_by_skill_level",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.075,
+        "2": 0.09,
+        "3": 0.105,
+        "4": 0.12,
+        "5": 0.135
+      },
+      "passed": true
+    },
+    {
+      "parameterKey": "source_hp_for_passive_shield",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "policy": {
+    "expectedFormula": "按24个公式键逐项编码冻结业务含义，独立计算期望值，再与实际GET表达式求值比较。",
+    "runtimeInput": "每个测试场景明确提供运行时值；删除值必须拒绝；INTEGER输入0.5必须拒绝。",
+    "boundary": "科加斯R施法距离和攻击距离分别检查9、10、11、20层，实际层数不套用RMinionMaxStacks=6。",
+    "shield": "加里奥W护盾等级倍率必须为五级值，生命输入必须为无默认RUNTIME_INPUT。"
+  }
+}

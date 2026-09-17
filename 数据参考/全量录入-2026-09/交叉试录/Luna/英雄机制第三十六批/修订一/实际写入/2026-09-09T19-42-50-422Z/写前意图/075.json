@@ -1,0 +1,29 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "method": "POST",
+    "route": "/skills/lillia_e/parameters",
+    "detailRoute": "/skills/lillia_e/parameters/impact_damage_base",
+    "skillKey": "lillia_e",
+    "kind": "parameters",
+    "stableKey": "impact_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "impact_damage_base",
+      "name": "流涡种基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 85,
+        "3": 110,
+        "4": 135,
+        "5": 160
+      },
+      "description": "ImpactDamage取索引1至5；索引0的35不是技能等级1。",
+      "sortOrder": 10
+    }
+  }
+}

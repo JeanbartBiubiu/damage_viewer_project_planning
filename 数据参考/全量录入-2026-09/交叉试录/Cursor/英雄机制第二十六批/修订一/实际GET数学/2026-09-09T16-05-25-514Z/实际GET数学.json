@@ -1,0 +1,1858 @@
+{
+  "generatedAt": "2026-09-09T16:05:28.904Z",
+  "runId": "2026-09-09T16-05-25-514Z",
+  "status": "实际GET数学失败",
+  "mode": "独立fresh-GET后数学",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "readerRun": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\独立回读\\2026-09-09T15-58-17-510Z",
+  "readerEvidenceSha256": "8d55af6798d1287e37c99495cc3aa45170e80357301b581e8c6c58dcf13838d1",
+  "freshGET": {
+    "count": 78,
+    "routes": 78,
+    "statuses": {
+      "200": 78
+    }
+  },
+  "counts": {
+    "formulas": 10,
+    "formulaCases": 20,
+    "rejectionCases": 10,
+    "boundaryCases": 10,
+    "sourceSeriesChecks": 3,
+    "checks": 51,
+    "failures": 2
+  },
+  "formulaResults": [
+    {
+      "skillKey": "alistar_p",
+      "formulaKey": "self_heal_amount",
+      "route": "/skills/alistar_p/formulas/self_heal_amount",
+      "actualResponseSha256": "9d99cd2b712fa37a3e258588f6bb4c7372fb923660f95f6ce88c30f0ef80a175",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_heal_ratio"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 150,
+          "expected": 150,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 1,
+          "actual": 240,
+          "expected": 240,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "alistar_q",
+      "formulaKey": "magic_damage",
+      "route": "/skills/alistar_q/formulas/magic_damage",
+      "actualResponseSha256": "aa00f6821e6c520efd21c5d1ddfe907dbc30834356d6e61bd3a598e2f02f2fc1",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 100,
+          "expected": 100,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 5,
+          "actual": 440,
+          "expected": 440,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "alistar_w",
+      "formulaKey": "magic_damage",
+      "route": "/skills/alistar_w/formulas/magic_damage",
+      "actualResponseSha256": "589b3356c51123a3a46f0ed71579225062362f55a4a47ce5b8e32114f5914be0",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 105,
+          "expected": 105,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 5,
+          "actual": 550,
+          "expected": 550,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "alistar_e",
+      "formulaKey": "total_magic_damage",
+      "route": "/skills/alistar_e/formulas/total_magic_damage",
+      "actualResponseSha256": "52ae47253479543bcdc2611a9869ebf3d62042c8c9b5157a83be3fdaad6d8564",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "trample_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 115,
+          "expected": 115,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 5,
+          "actual": 392.5,
+          "expected": 392.5,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "alistar_r",
+      "formulaKey": "damage_reduction_ratio",
+      "route": "/skills/alistar_r/formulas/damage_reduction_ratio",
+      "actualResponseSha256": "3949d5075203033f0bfc600237cf0c7628add0b0046de92085c4e1a2ca782cc8",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_reduction_percent_points"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_to_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 0.55,
+          "expected": 0.55,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 3,
+          "actual": 0.75,
+          "expected": 0.75,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_p",
+      "formulaKey": "shield_amount",
+      "route": "/skills/blitzcrank_p/formulas/shield_amount",
+      "actualResponseSha256": "fdab9c7a57ad86a1caf43b7c81c3e4503bb7fc6144a62914b3806fc95b8f7c43",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ability_resource_value"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 280,
+          "expected": 280,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 1,
+          "actual": 536.55,
+          "expected": 536.55,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_q",
+      "formulaKey": "magic_damage",
+      "route": "/skills/blitzcrank_q/formulas/magic_damage",
+      "actualResponseSha256": "84b854b98864919fba7b0d05e851c8dcf8cc83bc1fdb0a977b2ac70a2c56d369",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 170,
+          "expected": 170,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 5,
+          "actual": 640,
+          "expected": 640,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_e",
+      "formulaKey": "physical_damage",
+      "route": "/skills/blitzcrank_e/formulas/physical_damage",
+      "actualResponseSha256": "47ea42a2e91a8bb7b3133fc045aacffa294573e05b02e591c4efbb98f2b4a82a",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_attack_damage_multiplier"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 332.5,
+          "expected": 332.5,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 5,
+          "actual": 878.75,
+          "expected": 878.75,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "formulaKey": "passive_magic_damage",
+      "route": "/skills/blitzcrank_r/formulas/passive_magic_damage",
+      "actualResponseSha256": "24622677a5feddb99926e889ee24596c53daaeabef815029b51f53d145128182",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_resource_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_ability_resource_value"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 75,
+          "expected": 75,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 3,
+          "actual": 322,
+          "expected": 322,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "formulaKey": "active_magic_damage",
+      "route": "/skills/blitzcrank_r/formulas/active_magic_damage",
+      "actualResponseSha256": "6303624657ad0e2970d504ea25d21fee4398f67a61497489f86dce890c31697e",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "index": 1,
+          "level": 1,
+          "actual": 325,
+          "expected": 325,
+          "passed": true
+        },
+        {
+          "index": 2,
+          "level": 3,
+          "actual": 800,
+          "expected": 800,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "rejectionResults": [
+    {
+      "skillKey": "alistar_p",
+      "formulaKey": "self_heal_amount",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/hp/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/hp/TOTAL"
+    },
+    {
+      "skillKey": "alistar_q",
+      "formulaKey": "magic_damage",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/ability_power/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+    },
+    {
+      "skillKey": "alistar_w",
+      "formulaKey": "magic_damage",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/ability_power/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+    },
+    {
+      "skillKey": "alistar_e",
+      "formulaKey": "total_magic_damage",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/ability_power/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+    },
+    {
+      "skillKey": "alistar_r",
+      "formulaKey": "damage_reduction_ratio",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "damage_reduction_percent_points"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 alistar_r/damage_reduction_percent_points"
+    },
+    {
+      "skillKey": "blitzcrank_p",
+      "formulaKey": "shield_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "shield_ratio"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 blitzcrank_p/shield_ratio"
+    },
+    {
+      "skillKey": "blitzcrank_q",
+      "formulaKey": "magic_damage",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/ability_power/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+    },
+    {
+      "skillKey": "blitzcrank_e",
+      "formulaKey": "physical_damage",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/attack_damage/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/attack_damage/TOTAL"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "formulaKey": "passive_magic_damage",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/ability_power/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "formulaKey": "active_magic_damage",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/ability_power/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+    }
+  ],
+  "boundaryResults": [
+    {
+      "name": "阿利斯塔R减伤55到75百分点",
+      "passed": true,
+      "detail": {
+        "rank1": 0.55,
+        "rank3": 0.75
+      }
+    },
+    {
+      "name": "布里茨E使用总攻击力",
+      "passed": true,
+      "detail": 430
+    },
+    {
+      "name": "布里茨P资源0与2000",
+      "passed": true,
+      "detail": {
+        "zero": 0,
+        "high": 700
+      }
+    },
+    {
+      "name": "布里茨P缺资源不默认0",
+      "passed": true,
+      "detail": "缺少实际资源输入时必须拒绝求值"
+    },
+    {
+      "name": "布里茨R被动资源输入变化",
+      "passed": true,
+      "detail": {
+        "zero": 65,
+        "high": 85
+      }
+    },
+    {
+      "name": "布里茨W衰减终点和时间窗口",
+      "passed": true,
+      "detail": {
+        "duration": 5000,
+        "decay": 2500,
+        "minimum": 0.1
+      }
+    },
+    {
+      "name": "布里茨W只保留移动端点而不创建移动效果",
+      "passed": true,
+      "detail": {
+        "moveEffectRoutes": [
+          "mana_cost",
+          "attack_speed_boost",
+          "post_overdrive_slow"
+        ]
+      }
+    },
+    {
+      "name": "布里茨W移动和攻击速度取值不混用",
+      "passed": true,
+      "detail": {
+        "move": {
+          "1": 0.6,
+          "2": 0.65,
+          "3": 0.7,
+          "4": 0.75,
+          "5": 0.8
+        },
+        "attack": {
+          "1": 0.3,
+          "2": 0.4,
+          "3": 0.5,
+          "4": 0.6,
+          "5": 0.7
+        }
+      }
+    },
+    {
+      "name": "布里茨W攻速五秒与结束减速分离",
+      "passed": true,
+      "detail": {
+        "attack": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "slow": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        }
+      }
+    },
+    {
+      "name": "布里茨E实际GET冷却等级1至5",
+      "passed": true,
+      "detail": {
+        "1": 7000,
+        "2": 6500,
+        "3": 6000,
+        "4": 5500,
+        "5": 5000
+      }
+    }
+  ],
+  "sourceSeries": [
+    {
+      "name": "布里茨W移动速度原数组等级1至5",
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "move_speed_ratio",
+      "sourceName": "MoveSpeedMod",
+      "raw": [
+        0.550000011920929,
+        0.6000000238418579,
+        0.6499999761581421,
+        0.699999988079071,
+        0.75,
+        0.800000011920929,
+        0.8500000238418579
+      ],
+      "rawRankSlice": [
+        0.6000000238418579,
+        0.6499999761581421,
+        0.699999988079071,
+        0.75,
+        0.800000011920929
+      ],
+      "actualValues": [
+        0.6,
+        0.65,
+        0.7,
+        0.75,
+        0.8
+      ],
+      "expected": [
+        0.6,
+        0.65,
+        0.7,
+        0.75,
+        0.8
+      ],
+      "passed": false
+    },
+    {
+      "name": "布里茨W攻击速度原数组等级1至5",
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "attack_speed_ratio",
+      "sourceName": "AttackSpeedMod",
+      "raw": [
+        0.20000000298023224,
+        0.30000001192092896,
+        0.4000000059604645,
+        0.5,
+        0.6000000238418579,
+        0.699999988079071,
+        0.800000011920929
+      ],
+      "rawRankSlice": [
+        0.30000001192092896,
+        0.4000000059604645,
+        0.5,
+        0.6000000238418579,
+        0.699999988079071
+      ],
+      "actualValues": [
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7
+      ],
+      "expected": [
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7
+      ],
+      "passed": false
+    },
+    {
+      "name": "布里茨E客户端与官方冷却等级1至5",
+      "clientRaw": [
+        7,
+        7,
+        6.5,
+        6,
+        5.5,
+        5,
+        5
+      ],
+      "clientRankSlice": [
+        7,
+        6.5,
+        6,
+        5.5,
+        5
+      ],
+      "official": [
+        7,
+        6.5,
+        6,
+        5.5,
+        5
+      ],
+      "expectedSeconds": [
+        7,
+        6.5,
+        6,
+        5.5,
+        5
+      ],
+      "actualMs": [
+        7000,
+        6500,
+        6000,
+        5500,
+        5000
+      ],
+      "passed": true
+    }
+  ],
+  "structural": {
+    "operationNodes": 20,
+    "operationArityFailures": [],
+    "runtimeDefaultsFailures": [],
+    "integerTypeFailures": [],
+    "formulaCount": 10,
+    "parameterCount": 57
+  },
+  "checks": [
+    {
+      "name": "独立回读输入为present且通过",
+      "passed": true,
+      "detail": {
+        "readerRun": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\独立回读\\2026-09-09T15-58-17-510Z",
+        "expectation": "present",
+        "passed": true,
+        "missing": 0
+      }
+    },
+    {
+      "name": "实际GET路由为78个唯一候选详情",
+      "passed": true,
+      "detail": {
+        "entries": 78,
+        "uniqueRoutes": 78
+      }
+    },
+    {
+      "name": "实际GET参数详情全部返回",
+      "passed": true,
+      "detail": {
+        "expected": 57,
+        "actual": 57
+      }
+    },
+    {
+      "name": "实际GET公式详情全部返回",
+      "passed": true,
+      "detail": {
+        "expected": 10,
+        "actual": 10
+      }
+    },
+    {
+      "name": "alistar_p/self_heal_amount场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 150,
+        "expected": 150,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 3000
+            },
+            "ability_power": {
+              "TOTAL": 50
+            },
+            "attack_damage": {
+              "TOTAL": 160,
+              "BONUS": 90
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_p/self_heal_amount场景2",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 240,
+        "expected": 240,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 4800
+            },
+            "ability_power": {
+              "TOTAL": 275
+            },
+            "attack_damage": {
+              "TOTAL": 405,
+              "BONUS": 325
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_p/self_heal_amount缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "ATTRIBUTE",
+          "key": "SOURCE/hp/TOTAL"
+        },
+        "error": "缺少属性输入 SOURCE/hp/TOTAL"
+      }
+    },
+    {
+      "name": "alistar_q/magic_damage场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 100,
+        "expected": 100,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 3000
+            },
+            "ability_power": {
+              "TOTAL": 50
+            },
+            "attack_damage": {
+              "TOTAL": 160,
+              "BONUS": 90
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_q/magic_damage场景2",
+      "passed": true,
+      "detail": {
+        "level": 5,
+        "actual": 440,
+        "expected": 440,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 4800
+            },
+            "ability_power": {
+              "TOTAL": 275
+            },
+            "attack_damage": {
+              "TOTAL": 405,
+              "BONUS": 325
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_q/magic_damage缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "ATTRIBUTE",
+          "key": "SOURCE/ability_power/TOTAL"
+        },
+        "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+      }
+    },
+    {
+      "name": "alistar_w/magic_damage场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 105,
+        "expected": 105,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 3000
+            },
+            "ability_power": {
+              "TOTAL": 50
+            },
+            "attack_damage": {
+              "TOTAL": 160,
+              "BONUS": 90
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_w/magic_damage场景2",
+      "passed": true,
+      "detail": {
+        "level": 5,
+        "actual": 550,
+        "expected": 550,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 4800
+            },
+            "ability_power": {
+              "TOTAL": 275
+            },
+            "attack_damage": {
+              "TOTAL": 405,
+              "BONUS": 325
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_w/magic_damage缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "ATTRIBUTE",
+          "key": "SOURCE/ability_power/TOTAL"
+        },
+        "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+      }
+    },
+    {
+      "name": "alistar_e/total_magic_damage场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 115,
+        "expected": 115,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 3000
+            },
+            "ability_power": {
+              "TOTAL": 50
+            },
+            "attack_damage": {
+              "TOTAL": 160,
+              "BONUS": 90
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_e/total_magic_damage场景2",
+      "passed": true,
+      "detail": {
+        "level": 5,
+        "actual": 392.5,
+        "expected": 392.5,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 4800
+            },
+            "ability_power": {
+              "TOTAL": 275
+            },
+            "attack_damage": {
+              "TOTAL": 405,
+              "BONUS": 325
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_e/total_magic_damage缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "ATTRIBUTE",
+          "key": "SOURCE/ability_power/TOTAL"
+        },
+        "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+      }
+    },
+    {
+      "name": "alistar_r/damage_reduction_ratio场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 0.55,
+        "expected": 0.55,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 3000
+            },
+            "ability_power": {
+              "TOTAL": 50
+            },
+            "attack_damage": {
+              "TOTAL": 160,
+              "BONUS": 90
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_r/damage_reduction_ratio场景2",
+      "passed": true,
+      "detail": {
+        "level": 3,
+        "actual": 0.75,
+        "expected": 0.75,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 4800
+            },
+            "ability_power": {
+              "TOTAL": 275
+            },
+            "attack_damage": {
+              "TOTAL": 405,
+              "BONUS": 325
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "alistar_r/damage_reduction_ratio缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "PARAMETER",
+          "key": "damage_reduction_percent_points"
+        },
+        "error": "缺少参数输入 alistar_r/damage_reduction_percent_points"
+      }
+    },
+    {
+      "name": "blitzcrank_p/shield_amount场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 280,
+        "expected": 280,
+        "attributes": {},
+        "runtimeInputs": {
+          "blitzcrank_p": {
+            "ability_resource_value": 800
+          }
+        }
+      }
+    },
+    {
+      "name": "blitzcrank_p/shield_amount场景2",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 536.55,
+        "expected": 536.55,
+        "attributes": {},
+        "runtimeInputs": {
+          "blitzcrank_p": {
+            "ability_resource_value": 1533
+          }
+        }
+      }
+    },
+    {
+      "name": "blitzcrank_p/shield_amount缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "PARAMETER",
+          "key": "shield_ratio"
+        },
+        "error": "缺少参数输入 blitzcrank_p/shield_ratio"
+      }
+    },
+    {
+      "name": "blitzcrank_q/magic_damage场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 170,
+        "expected": 170,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 3000
+            },
+            "ability_power": {
+              "TOTAL": 50
+            },
+            "attack_damage": {
+              "TOTAL": 160,
+              "BONUS": 90
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "blitzcrank_q/magic_damage场景2",
+      "passed": true,
+      "detail": {
+        "level": 5,
+        "actual": 640,
+        "expected": 640,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 4800
+            },
+            "ability_power": {
+              "TOTAL": 275
+            },
+            "attack_damage": {
+              "TOTAL": 405,
+              "BONUS": 325
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "blitzcrank_q/magic_damage缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "ATTRIBUTE",
+          "key": "SOURCE/ability_power/TOTAL"
+        },
+        "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+      }
+    },
+    {
+      "name": "blitzcrank_e/physical_damage场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 332.5,
+        "expected": 332.5,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 3000
+            },
+            "ability_power": {
+              "TOTAL": 50
+            },
+            "attack_damage": {
+              "TOTAL": 160,
+              "BONUS": 90
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "blitzcrank_e/physical_damage场景2",
+      "passed": true,
+      "detail": {
+        "level": 5,
+        "actual": 878.75,
+        "expected": 878.75,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 4800
+            },
+            "ability_power": {
+              "TOTAL": 275
+            },
+            "attack_damage": {
+              "TOTAL": 405,
+              "BONUS": 325
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "blitzcrank_e/physical_damage缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "ATTRIBUTE",
+          "key": "SOURCE/attack_damage/TOTAL"
+        },
+        "error": "缺少属性输入 SOURCE/attack_damage/TOTAL"
+      }
+    },
+    {
+      "name": "blitzcrank_r/passive_magic_damage场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 75,
+        "expected": 75,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 3000
+            },
+            "ability_power": {
+              "TOTAL": 50
+            },
+            "attack_damage": {
+              "TOTAL": 160,
+              "BONUS": 90
+            }
+          }
+        },
+        "runtimeInputs": {
+          "blitzcrank_r": {
+            "passive_ability_resource_value": 500
+          }
+        }
+      }
+    },
+    {
+      "name": "blitzcrank_r/passive_magic_damage场景2",
+      "passed": true,
+      "detail": {
+        "level": 3,
+        "actual": 322,
+        "expected": 322,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 4800
+            },
+            "ability_power": {
+              "TOTAL": 275
+            },
+            "attack_damage": {
+              "TOTAL": 405,
+              "BONUS": 325
+            }
+          }
+        },
+        "runtimeInputs": {
+          "blitzcrank_r": {
+            "passive_ability_resource_value": 1725
+          }
+        }
+      }
+    },
+    {
+      "name": "blitzcrank_r/passive_magic_damage缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "ATTRIBUTE",
+          "key": "SOURCE/ability_power/TOTAL"
+        },
+        "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+      }
+    },
+    {
+      "name": "blitzcrank_r/active_magic_damage场景1",
+      "passed": true,
+      "detail": {
+        "level": 1,
+        "actual": 325,
+        "expected": 325,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 3000
+            },
+            "ability_power": {
+              "TOTAL": 50
+            },
+            "attack_damage": {
+              "TOTAL": 160,
+              "BONUS": 90
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "blitzcrank_r/active_magic_damage场景2",
+      "passed": true,
+      "detail": {
+        "level": 3,
+        "actual": 800,
+        "expected": 800,
+        "attributes": {
+          "SOURCE": {
+            "hp": {
+              "TOTAL": 4800
+            },
+            "ability_power": {
+              "TOTAL": 275
+            },
+            "attack_damage": {
+              "TOTAL": 405,
+              "BONUS": 325
+            }
+          }
+        },
+        "runtimeInputs": {}
+      }
+    },
+    {
+      "name": "blitzcrank_r/active_magic_damage缺失输入拒绝",
+      "passed": true,
+      "detail": {
+        "removed": {
+          "type": "ATTRIBUTE",
+          "key": "SOURCE/ability_power/TOTAL"
+        },
+        "error": "缺少属性输入 SOURCE/ability_power/TOTAL"
+      }
+    },
+    {
+      "name": "边界 阿利斯塔R减伤55到75百分点",
+      "passed": true,
+      "detail": {
+        "rank1": 0.55,
+        "rank3": 0.75
+      }
+    },
+    {
+      "name": "边界 布里茨E使用总攻击力",
+      "passed": true,
+      "detail": 430
+    },
+    {
+      "name": "边界 布里茨P资源0与2000",
+      "passed": true,
+      "detail": {
+        "zero": 0,
+        "high": 700
+      }
+    },
+    {
+      "name": "边界 布里茨P缺资源不默认0",
+      "passed": true,
+      "detail": "缺少实际资源输入时必须拒绝求值"
+    },
+    {
+      "name": "边界 布里茨R被动资源输入变化",
+      "passed": true,
+      "detail": {
+        "zero": 65,
+        "high": 85
+      }
+    },
+    {
+      "name": "边界 布里茨W衰减终点和时间窗口",
+      "passed": true,
+      "detail": {
+        "duration": 5000,
+        "decay": 2500,
+        "minimum": 0.1
+      }
+    },
+    {
+      "name": "边界 布里茨W只保留移动端点而不创建移动效果",
+      "passed": true,
+      "detail": {
+        "moveEffectRoutes": [
+          "mana_cost",
+          "attack_speed_boost",
+          "post_overdrive_slow"
+        ]
+      }
+    },
+    {
+      "name": "边界 布里茨W移动和攻击速度取值不混用",
+      "passed": true,
+      "detail": {
+        "move": {
+          "1": 0.6,
+          "2": 0.65,
+          "3": 0.7,
+          "4": 0.75,
+          "5": 0.8
+        },
+        "attack": {
+          "1": 0.3,
+          "2": 0.4,
+          "3": 0.5,
+          "4": 0.6,
+          "5": 0.7
+        }
+      }
+    },
+    {
+      "name": "边界 布里茨W攻速五秒与结束减速分离",
+      "passed": true,
+      "detail": {
+        "attack": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "slow": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        }
+      }
+    },
+    {
+      "name": "边界 布里茨E实际GET冷却等级1至5",
+      "passed": true,
+      "detail": {
+        "1": 7000,
+        "2": 6500,
+        "3": 6000,
+        "4": 5500,
+        "5": 5000
+      }
+    },
+    {
+      "name": "源数组 布里茨W移动速度原数组等级1至5",
+      "passed": false,
+      "detail": {
+        "name": "布里茨W移动速度原数组等级1至5",
+        "skillKey": "blitzcrank_w",
+        "parameterKey": "move_speed_ratio",
+        "sourceName": "MoveSpeedMod",
+        "raw": [
+          0.550000011920929,
+          0.6000000238418579,
+          0.6499999761581421,
+          0.699999988079071,
+          0.75,
+          0.800000011920929,
+          0.8500000238418579
+        ],
+        "rawRankSlice": [
+          0.6000000238418579,
+          0.6499999761581421,
+          0.699999988079071,
+          0.75,
+          0.800000011920929
+        ],
+        "actualValues": [
+          0.6,
+          0.65,
+          0.7,
+          0.75,
+          0.8
+        ],
+        "expected": [
+          0.6,
+          0.65,
+          0.7,
+          0.75,
+          0.8
+        ],
+        "passed": false
+      }
+    },
+    {
+      "name": "源数组 布里茨W攻击速度原数组等级1至5",
+      "passed": false,
+      "detail": {
+        "name": "布里茨W攻击速度原数组等级1至5",
+        "skillKey": "blitzcrank_w",
+        "parameterKey": "attack_speed_ratio",
+        "sourceName": "AttackSpeedMod",
+        "raw": [
+          0.20000000298023224,
+          0.30000001192092896,
+          0.4000000059604645,
+          0.5,
+          0.6000000238418579,
+          0.699999988079071,
+          0.800000011920929
+        ],
+        "rawRankSlice": [
+          0.30000001192092896,
+          0.4000000059604645,
+          0.5,
+          0.6000000238418579,
+          0.699999988079071
+        ],
+        "actualValues": [
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7
+        ],
+        "expected": [
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7
+        ],
+        "passed": false
+      }
+    },
+    {
+      "name": "源数组 布里茨E客户端与官方冷却等级1至5",
+      "passed": true,
+      "detail": {
+        "name": "布里茨E客户端与官方冷却等级1至5",
+        "clientRaw": [
+          7,
+          7,
+          6.5,
+          6,
+          5.5,
+          5,
+          5
+        ],
+        "clientRankSlice": [
+          7,
+          6.5,
+          6,
+          5.5,
+          5
+        ],
+        "official": [
+          7,
+          6.5,
+          6,
+          5.5,
+          5
+        ],
+        "expectedSeconds": [
+          7,
+          6.5,
+          6,
+          5.5,
+          5
+        ],
+        "actualMs": [
+          7000,
+          6500,
+          6000,
+          5500,
+          5000
+        ],
+        "passed": true
+      }
+    },
+    {
+      "name": "源字段保留客户端首项重复说明",
+      "passed": true,
+      "detail": {
+        "clientCooldown": [
+          7,
+          7,
+          6.5,
+          6,
+          5.5,
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "name": "实际GET表达式全部为二元运算",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "实际GET运行输入无默认值",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "实际GET毫秒参数为整数",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "failures": [
+    {
+      "name": "源数组 布里茨W移动速度原数组等级1至5",
+      "passed": false,
+      "detail": {
+        "name": "布里茨W移动速度原数组等级1至5",
+        "skillKey": "blitzcrank_w",
+        "parameterKey": "move_speed_ratio",
+        "sourceName": "MoveSpeedMod",
+        "raw": [
+          0.550000011920929,
+          0.6000000238418579,
+          0.6499999761581421,
+          0.699999988079071,
+          0.75,
+          0.800000011920929,
+          0.8500000238418579
+        ],
+        "rawRankSlice": [
+          0.6000000238418579,
+          0.6499999761581421,
+          0.699999988079071,
+          0.75,
+          0.800000011920929
+        ],
+        "actualValues": [
+          0.6,
+          0.65,
+          0.7,
+          0.75,
+          0.8
+        ],
+        "expected": [
+          0.6,
+          0.65,
+          0.7,
+          0.75,
+          0.8
+        ],
+        "passed": false
+      }
+    },
+    {
+      "name": "源数组 布里茨W攻击速度原数组等级1至5",
+      "passed": false,
+      "detail": {
+        "name": "布里茨W攻击速度原数组等级1至5",
+        "skillKey": "blitzcrank_w",
+        "parameterKey": "attack_speed_ratio",
+        "sourceName": "AttackSpeedMod",
+        "raw": [
+          0.20000000298023224,
+          0.30000001192092896,
+          0.4000000059604645,
+          0.5,
+          0.6000000238418579,
+          0.699999988079071,
+          0.800000011920929
+        ],
+        "rawRankSlice": [
+          0.30000001192092896,
+          0.4000000059604645,
+          0.5,
+          0.6000000238418579,
+          0.699999988079071
+        ],
+        "actualValues": [
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7
+        ],
+        "expected": [
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7
+        ],
+        "passed": false
+      }
+    }
+  ],
+  "apiWrites": 0,
+  "noBusinessWrites": true,
+  "noPostPutDelete": true,
+  "passed": false,
+  "rawResponseFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\实际GET数学\\2026-09-09T16-05-25-514Z\\实际GET原始响应.jsonl"
+}

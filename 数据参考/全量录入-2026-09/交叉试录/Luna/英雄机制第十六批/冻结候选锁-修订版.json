@@ -1,0 +1,59 @@
+{
+  "lockedAt": "2026-09-09T09:51:01.379Z",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "revision": true,
+  "historicalLock": {
+    "file": "冻结候选锁.json",
+    "sha256": "9d7f2b3dcfc321a4f499a428a84ecee704faff717d341a3db4758ed45b6f2fee",
+    "candidateSha256": "7bf7f7a2e2571c40d34961407532ecc5457510227b4487146be7039967a044fb"
+  },
+  "scope": "修订版：玛尔扎哈、艾尼维亚、丽桑卓、卡尔萨斯各P/Q/W/E/R共20个技能位。保留本技能可独立核验数值、混合技能自身收益、单一敌人==1分支、非英雄前置进度和资源依赖；独立虚灵/冰奴/纯冰墙/完整蛋形态/死亡状态事件按逐支路排除。独立召唤物专用伤害、数量和生命周期不进入写入候选；卡尔萨斯P只排除死亡状态覆盖，Q/W/E/R主体仍保留。",
+  "source": "client16.17/official16.17.1",
+  "candidateSha256": "2dbb94fc014619c16e0f3671d37ec0106ebde64ddcdd7ddda8c6e075e4cba27c",
+  "candidatePlanSha256": "002497434556fc227929a54bb73762aba97a7af320a9d87f63e5a0025a04f13f",
+  "candidateVersionSha256": "6fca1f06092f0b3dc00efa6dc57077c882547d46c703168ec16753de51bda603",
+  "writePlanSha256": "7e8c3dbbe5b064e3adffd9bb3daf9cb5c446844a44dc3ccb8ca0498e4658eb7b",
+  "independentReportSha256": "477ab16d6148d06d69fe7347756949bb4ce653ca0acc3e061b61f1c5cb7dc0b6",
+  "sourceEvidenceSha256": "9b169f4a107d47cd4e1393c2e41b6f21ca4a6817d3d6f638c664ab4ce57563f6",
+  "protectionFile": "关联与图片保护快照-终稿.json",
+  "protectionSha256": "bc2e2cbc99cc940644e05ed575467a143c146eb5e17ef01f7bca593b67e78938",
+  "sourceFreezeSha256": "56aa23cd30d258984598adecdfa405e69662adbcc6d702fbc82b13abcda97431",
+  "textEvidenceSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "stageLedgerSha256": "388d28d70d34f4116fa57d8359045756f815c298b632f19418586d203bc7c5e7",
+  "counts": {
+    "parameters": 119,
+    "formulas": 22,
+    "effects": 17,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": 22,
+  "writeIntentCount": 136,
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "browserValidation": false,
+  "runtimeValidation": false,
+  "protectedScope": {
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "skillImages": 20,
+    "apiWrites": 0
+  },
+  "replacement": {
+    "excluded": "Veigar",
+    "selected": "Karthus",
+    "reason": "Veigar已有完整六类组成；Karthus仅有公共参数。"
+  },
+  "revisionChanges": [
+    "玛尔扎哈W移除独立虚灵专用伤害、数量、生命周期及小兵/野怪比例；只保留W主体公共参数与排除证据。",
+    "玛尔扎哈E移除小兵处决阈值。",
+    "丽桑卓P移除全部独立冰奴专用组成。",
+    "卡尔萨斯Q移除无消费者的MAX目标数量下限公式，保留actual_target_count说明==1。",
+    "卡尔萨斯E将0.5秒字段改为基础施放冷却，不解释为伤害/资源周期。",
+    "丽桑卓Q/R将正文*-100的负移速字段转为正减速百分数点。",
+    "丽桑卓R HealAmount改为SelfCastFlatHeal+0.55×来源总法强，保留PerAbove和提升百分比参数并待核分段算法。",
+    "卡尔萨斯P仅排除死亡状态覆盖，明确Q/W/E/R主体与资源限制仍保留。"
+  ],
+  "parentAction": "由父负责人审查修订版后决定是否实际保存；本锁不授权任何业务写入。"
+}

@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:40:04.611Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_r/formulas",
+  "detailRoute": "/skills/sion_r/formulas/minimum_damage",
+  "skillKey": "sion_r",
+  "kind": "formulas",
+  "stableKey": "minimum_damage",
+  "body": {
+    "formulaKey": "minimum_damage",
+    "name": "蛮横冲撞最低物理伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "minimum_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_bonus_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "MinDamageTotal = MinDamage + 0.6×来源额外攻击力。",
+    "sortOrder": 10
+  }
+}

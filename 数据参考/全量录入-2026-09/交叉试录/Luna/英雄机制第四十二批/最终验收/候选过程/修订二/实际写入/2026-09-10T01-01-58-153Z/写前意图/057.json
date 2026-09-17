@@ -1,0 +1,21 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "skillKey": "ksante_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_q/parameters",
+    "stableKey": "cast_time_max_ms",
+    "body": {
+      "parameterKey": "cast_time_max_ms",
+      "name": "施放时间上界（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 450,
+      "levelValues": null,
+      "description": "只作0.45秒边界，不任选mCastTime固定值。",
+      "sortOrder": 130
+    }
+  }
+}

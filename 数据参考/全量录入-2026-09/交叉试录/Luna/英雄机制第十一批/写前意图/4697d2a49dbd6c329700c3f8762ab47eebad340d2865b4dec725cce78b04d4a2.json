@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-09T04:53:45.037Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_w/parameters/final_physical_reduction_percent",
+  "id": "final_physical_reduction_percent",
+  "method": "POST",
+  "body": {
+    "parameterKey": "final_physical_reduction_percent",
+    "name": "蓄力期间物理减伤（百分比点）",
+    "valueType": "DECIMAL",
+    "valueMode": "CHARACTER_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 40,
+      "2": 41.764706,
+      "3": 43.529412,
+      "4": 45.294118,
+      "5": 47.058824,
+      "6": 48.823529,
+      "7": 50.588235,
+      "8": 52.352941,
+      "9": 54.117647,
+      "10": 55.882353,
+      "11": 57.647059,
+      "12": 59.411765,
+      "13": 61.176471,
+      "14": 62.941176,
+      "15": 64.705882,
+      "16": 66.470588,
+      "17": 68.235294,
+      "18": 70
+    },
+    "description": "当前计算树角色等级端点线性插值，取1至18级；未扩展未给出的等级或特殊模式。",
+    "sortOrder": 110
+  }
+}

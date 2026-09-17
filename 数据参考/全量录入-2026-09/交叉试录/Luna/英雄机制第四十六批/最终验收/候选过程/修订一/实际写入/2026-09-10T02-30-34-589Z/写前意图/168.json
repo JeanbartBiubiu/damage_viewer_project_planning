@@ -1,0 +1,46 @@
+{
+  "i": 167,
+  "intent": {
+    "sequence": 168,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_p/formulas",
+    "detailRoute": "/skills/locke_p/formulas/maximum_magic_damage",
+    "skillKey": "locke_p",
+    "kind": "formulas",
+    "stableKey": "maximum_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "maximum_magic_damage",
+      "name": "圣银穿心最高魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_max_onhit_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_onhit_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "最高档=当前插值基础+0.2×法强。",
+      "sortOrder": 120
+    }
+  }
+}

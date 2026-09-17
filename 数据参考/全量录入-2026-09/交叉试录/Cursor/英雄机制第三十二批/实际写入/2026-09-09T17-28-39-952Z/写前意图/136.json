@@ -1,0 +1,95 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 136,
+    "method": "POST",
+    "route": "/skills/xayah_e/formulas",
+    "detailRoute": "/skills/xayah_e/formulas/feather_damage_before_falloff",
+    "skillKey": "xayah_e",
+    "kind": "formulas",
+    "stableKey": "feather_damage_before_falloff",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "feather_damage_before_falloff",
+      "name": "单根羽毛暴击后未计序号伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "critical_effectiveness_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_critical_chance_ratio"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "SUBTRACT",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_critical_damage_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "one_ratio"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "先把暴击效能乘完整单根基础，尚未应用同一敌人的逐根衰减。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:33.427Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "draven",
+    "name": "德莱文 W",
+    "skillKey": "draven_w",
+    "ownerKey": "champion_draven",
+    "acceptedEvent": {
+      "sourceSkillKey": "draven_w",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_attack_speed_gain",
+        "name": "执行血性冲刺攻击速度",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "attack_speed_gain"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "attack_speed_gain",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "attack_speed_gain_ratio",
+        "durationParameterKey": "attack_speed_duration_ms"
+      }
+    ],
+    "omitted": [
+      "移动速度及衰减",
+      "接斧刷新冷却",
+      "法力消耗和战斗冷却"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第八批/后十技能候选.json",
+      "sha256": "1c53cef13e9fa5ffdf64f6325210140d1459324b1e3fdc51a15dfc5cf760e2a8",
+      "bytes": 124965
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 110,
+    "method": "POST",
+    "route": "/skills/vex_w/parameters",
+    "detailRoute": "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes",
+    "skillKey": "vex_w",
+    "kind": "parameters",
+    "stableKey": "bonus_aoe_radius_vs_dashes",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_aoe_radius_vs_dashes",
+      "name": "针对位移目标的额外范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 75,
+      "levelValues": null,
+      "description": "客户端BonusAOERadiusVsDashes取索引1；条件事件待接。",
+      "sortOrder": 70
+    }
+  }
+}

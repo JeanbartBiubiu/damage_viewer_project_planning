@@ -1,0 +1,681 @@
+{
+  "generatedAt": "2026-09-09T13:08:42.621Z",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "businessWrites": 0,
+  "summary": {
+    "requestCount": 201,
+    "statusCounts": {
+      "200": 201
+    },
+    "failures": 0,
+    "businessWrites": 0,
+    "skills": 20,
+    "characters": 4,
+    "relations": 4,
+    "images": 20,
+    "componentRows": {
+      "parameters": 29,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "nonPublicSkills": []
+  },
+  "protectedScope": "四名英雄20槽主体、六类列表、现有组成详情、公共目录、角色关系和20张代表图均来自当前只读快照；非公共组成槽整槽保护。",
+  "skills": {
+    "leona_p": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:09.534092Z",
+        "description": "技能会在敌人身上施加【日光】效果，持续1.5秒。在此期间，蕾欧娜友军对这些目标造成伤害时，会触发【日光】，使目标受到额外的魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "蕾欧娜·日光",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "leona_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:09.534092Z"
+      },
+      "existing": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [],
+      "protectedExisting": false,
+      "reusedParameters": [],
+      "newComponents": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "leona_q": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:09.784028Z",
+        "description": "蕾欧娜用盾进行下次普通攻击，造成额外魔法伤害并晕眩目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蕾欧娜·破晓之盾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "leona_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:09.784028Z"
+      },
+      "existing": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [
+        {
+          "createdAt": "2026-09-07T16:00:31.514554Z",
+          "description": "DDragon16.17.1 Leona.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "leona_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:31.514554Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:31.830484Z",
+          "description": "DDragon16.17.1 Leona.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 35,
+            "3": 40,
+            "4": 45,
+            "5": 50
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leona_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:31.830484Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "protectedExisting": false,
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "newComponents": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "leona_w": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:10.055159Z",
+        "description": "蕾欧娜举起盾牌，提供伤害减免、护甲和魔法抗性。当持续时间首次结束时，如果附近有敌人，那么她会对其造成魔法伤害并延长效果的持续时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蕾欧娜·日蚀",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "leona_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:10.055159Z"
+      },
+      "existing": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [
+        {
+          "createdAt": "2026-09-07T16:00:32.118161Z",
+          "description": "DDragon16.17.1 Leona.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "leona_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:32.118161Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:32.408581Z",
+          "description": "DDragon16.17.1 Leona.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leona_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:32.408581Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "protectedExisting": false,
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "newComponents": {
+        "parameters": 11,
+        "formulas": 3,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "leona_e": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:10.3365Z",
+        "description": "蕾欧娜投掷一束日光，对直线上的所有敌人造成魔法伤害。当效果消失时，蕾欧娜会冲向最后一个被击中的敌人并使其无法移动。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蕾欧娜·天顶之刃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "leona_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:10.3365Z"
+      },
+      "existing": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [
+        {
+          "createdAt": "2026-09-07T16:00:32.673512Z",
+          "description": "DDragon16.17.1 Leona.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 10500,
+            "3": 9000,
+            "4": 7500,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "leona_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:32.673512Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:32.996694Z",
+          "description": "DDragon16.17.1 Leona.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leona_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:32.996694Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "protectedExisting": false,
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "newComponents": {
+        "parameters": 4,
+        "formulas": 1,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "leona_r": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:10.6793Z",
+        "description": "蕾欧娜召唤一道太阳光束，对区域内的敌人造成伤害。区域中心的敌人会被晕眩，并且外围的敌人会被减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "蕾欧娜·日炎耀斑",
+        "skillCategoryKeys": [],
+        "skillKey": "leona_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:10.6793Z"
+      },
+      "existing": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [
+        {
+          "createdAt": "2026-09-07T16:00:33.284488Z",
+          "description": "DDragon16.17.1 Leona.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 90000,
+            "2": 75000,
+            "3": 60000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "leona_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:33.284488Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:33.598386Z",
+          "description": "DDragon16.17.1 Leona.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leona_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:33.598386Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "protectedExisting": false,
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "newComponents": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "nautilus_p": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:35.488251Z",
+        "description": "诺提勒斯对一名目标发起的第一次攻击会造成提升过的物理伤害并将其暂时禁锢。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "诺提勒斯·排山倒海",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "nautilus_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:35.488251Z"
+      },
+      "existing": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [],
+      "protectedExisting": false,
+      "reusedParameters": [],
+      "newComponents": {
+        "parameters": 3,
+        "formulas": 1,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "nautilus_q": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:35.741592Z",
+        "description": "诺提勒斯向前抛出他的船锚。在与敌人碰撞后，船锚会将目标与诺提勒斯拉到一起，并造成魔法伤害。与地形碰撞时会将诺提勒斯拉向它。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "诺提勒斯·疏通航道",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nautilus_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:35.741592Z"
+      },
+      "existing": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [
+        {
+          "createdAt": "2026-09-07T17:38:50.581123Z",
+          "description": "DDragon16.17.1 Nautilus.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nautilus_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:50.581123Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:50.921833Z",
+          "description": "DDragon16.17.1 Nautilus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nautilus_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:50.921833Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "protectedExisting": false,
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "newComponents": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "nautilus_w": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:35.990679Z",
+        "description": "诺提勒斯获得一个临时护盾。当护盾存在时，他的攻击会对目标及目标周围的敌人造成持续伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "诺提勒斯·泰坦之怒",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nautilus_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:35.990679Z"
+      },
+      "existing": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [
+        {
+          "createdAt": "2026-09-07T17:38:51.347927Z",
+          "description": "DDragon16.17.1 Nautilus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nautilus_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:51.347927Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:51.715818Z",
+          "description": "DDragon16.17.1 Nautilus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nautilus_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:51.715818Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "protectedExisting": false,
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "newComponents": {
+        "parameters": 7,
+        "formulas": 2,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "nautilus_e": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:36.309034Z",
+        "description": "诺提勒斯在他身边生成3道爆炸波纹。每道爆炸波纹都会伤害并减速敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "诺提勒斯·暗流涌动",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nautilus_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:36.309034Z"
+      },
+      "existing": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [
+        {
+          "createdAt": "2026-09-07T17:38:52.048883Z",
+          "description": "DDragon16.17.1 Nautilus.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 6500,
+            "3": 6000,
+            "4": 5500,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nautilus_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:52.048883Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:52.481913Z",
+          "description": "DDragon16.17.1 Nautilus.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nautilus_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:52.481913Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "protectedExisting": false,
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "newComponents": {
+        "parameters": 9,
+        "formulas": 2,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "nautilus_r": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:36.583867Z",
+        "description": "诺提勒斯将一束冲击波打进土里，来追击敌方目标。这束冲击波会撕裂它上面的地表，将敌人震到半空中。当它命中目标时，冲击波会喷发，将他的目标震到半空中，并使目标晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "诺提勒斯·深海冲击",
+        "skillCategoryKeys": [],
+        "skillKey": "nautilus_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:36.583867Z"
+      },
+      "existing": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentParameters": [
+        {
+          "createdAt": "2026-09-07T17:38:52.852375Z",
+          "description": "DDragon16.17.1 Nautilus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nautilus_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:52.852375Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:53.27792Z",
+          "description": "DDragon16.17.1 Nautilus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nautilus_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:53.27792Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "protectedExisting": false,
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "newComponents": {
+        "parameters": 6,
+        "formulas": 2,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    }
+  }
+}

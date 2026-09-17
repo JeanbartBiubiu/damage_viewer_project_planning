@@ -1,0 +1,27 @@
+{
+  "i": 171,
+  "intent": {
+    "sequence": 172,
+    "method": "POST",
+    "route": "/skills/renata_r/parameters",
+    "detailRoute": "/skills/renata_r/parameters/berserk_duration_ms",
+    "skillKey": "renata_r",
+    "kind": "parameters",
+    "stableKey": "berserk_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "berserk_duration_ms",
+      "name": "狂暴持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1250,
+        "2": 1750,
+        "3": 2250
+      },
+      "description": "等级索引1至3，秒转毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

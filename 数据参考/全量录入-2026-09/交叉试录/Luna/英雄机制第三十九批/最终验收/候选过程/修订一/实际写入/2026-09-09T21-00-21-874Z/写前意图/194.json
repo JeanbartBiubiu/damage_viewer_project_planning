@@ -1,0 +1,24 @@
+{
+  "i": 193,
+  "intent": {
+    "sequence": 194,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_e/parameters",
+    "detailRoute": "/skills/smolder_e/parameters/actual_attack_count_integer",
+    "skillKey": "smolder_e",
+    "kind": "parameters",
+    "stableKey": "actual_attack_count_integer",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_attack_count_integer",
+      "name": "扑棱实际向下取整弹数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前正文明确弹数向下取整；由于二元表达式没有取整运算，运行层必须提供实际非负整数结果，不能把小数直接当次数。",
+      "sortOrder": 60
+    }
+  }
+}

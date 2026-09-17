@@ -1,0 +1,23 @@
+{
+  "i": 228,
+  "intent": {
+    "sequence": 229,
+    "method": "POST",
+    "route": "/skills/briar_e/parameters",
+    "detailRoute": "/skills/briar_e/parameters/slow_duration_ms",
+    "skillKey": "briar_e",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "惊吼减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前SlowDuration=0.5秒，转换为500毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

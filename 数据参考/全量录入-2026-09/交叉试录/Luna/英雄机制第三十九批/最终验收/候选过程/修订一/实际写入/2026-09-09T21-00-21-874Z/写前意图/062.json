@@ -1,0 +1,24 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_q/parameters",
+    "detailRoute": "/skills/samira_q/parameters/actual_crit_multiplier",
+    "skillKey": "samira_q",
+    "kind": "parameters",
+    "stableKey": "actual_crit_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_crit_multiplier",
+      "name": "交火实际暴击倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "CriticalDamageCalc的mStat9未绑定到已有属性枚举；运行层提供实际暴击倍率，不设默认。",
+      "sortOrder": 60
+    }
+  }
+}

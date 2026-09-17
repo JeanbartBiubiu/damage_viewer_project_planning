@@ -1,0 +1,56 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_q/formulas",
+    "detailRoute": "/skills/kayn_q/formulas/double_physical_damage",
+    "skillKey": "kayn_q",
+    "kind": "formulas",
+    "stableKey": "double_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "double_physical_damage",
+      "name": "巨镰横扫双段物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "double_hit_multiplier"
+          }
+        ]
+      },
+      "description": "冲刺段和旋转段各造成一次TotalDamage，完整双段以内联式表达。",
+      "sortOrder": 20
+    }
+  }
+}

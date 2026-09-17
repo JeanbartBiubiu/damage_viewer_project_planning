@@ -1,0 +1,23 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/attack_refund_unit",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "attack_refund_unit",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_refund_unit",
+      "name": "回充公式单位常数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前AttackRefund树的NumberCalculationPart=1。",
+      "sortOrder": 110
+    }
+  }
+}

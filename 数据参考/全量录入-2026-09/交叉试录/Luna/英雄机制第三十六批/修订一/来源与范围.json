@@ -1,0 +1,723 @@
+{
+  "generatedAt": "2026-09-09T19:31:36.143Z",
+  "batch": "英雄机制第三十六批",
+  "revision": "hero36-source-v1-revision-1",
+  "status": "修订一范围说明；未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "inputPackage": ".agents/artifacts/hero36-root-entry-20260910",
+  "sourceBindingSha256": "9fe03948856d29d6c74d6f01c14a9be81d626dbf0f84d6e8991658ac7e606a13",
+  "inputVersionSha256": "96cc77b529a7fdc8f9ee7936550a561db50a28c8849f485efdd8bbe4a487de66",
+  "rootReviewSha256": "02c5b97265c0f5f8b666536245a8231f4b6d308ed50aa8ad00dc862924ff28b3",
+  "cursorReviewSha256": "044a8074bb7220c6ec294f689c9fc6217996e5bdae9fb9dfb33e209b873ab2e3",
+  "categories": [
+    "当前正文和树可录确定值",
+    "一对一无关分支",
+    "属性/目标/时序/曲线待核"
+  ],
+  "perSkill": {
+    "evelynn_p": {
+      "recordable": [
+        "demon_shade_delay_ms",
+        "stealth_drop_duration_ms",
+        "stealth_start_level",
+        "actual_healing_threshold_base",
+        "healing_threshold_ap_ratio",
+        "actual_heal_per_second",
+        "healing_threshold"
+      ],
+      "pending": [
+        {
+          "kind": "输入",
+          "item": "治疗阈值与每秒治疗角色等级求值",
+          "reason": "当前树只有断点起点/增量及插值端点，没有完整运行算法；保留无默认实际输入。"
+        },
+        {
+          "kind": "时序",
+          "item": "脱战回复、伤害移除和伪装资格",
+          "reason": "数值和正文明确，状态触发与实际应用时点未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "饰品/额外视野载体",
+          "reason": "本槽是自身恶魔魅影，未创建独立视野或召唤物效果。"
+        }
+      ]
+    },
+    "evelynn_q": {
+      "recordable": [
+        "hate_spike_base_damage",
+        "hate_spike_ap_ratio",
+        "bonus_damage_base",
+        "bonus_damage_ap_ratio",
+        "max_recasts",
+        "cast_time_ms",
+        "missile_magic_damage",
+        "marked_bonus_magic_damage",
+        "marked_bonus_max_hits"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "首击标记、重施消耗与下三次增伤",
+          "reason": "当前正文给出首发、至多3次重施和下3次攻击/技能，具体事件顺序未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "尖刺命中的额外敌人",
+          "reason": "本轮一对一只保留单个敌方伤害载体，不把多目标数量乘入公式。"
+        }
+      ]
+    },
+    "evelynn_w": {
+      "recordable": [
+        "mark_duration_ms",
+        "early_slow_ratio",
+        "early_slow_duration_ms",
+        "charm_duration_ms",
+        "mr_shred_ratio",
+        "mr_shred_duration_ms",
+        "charm_charge_time_ms"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "标记蓄满、命中抹除与返还法力",
+          "reason": "满2.5秒才获得英雄魅惑和减抗；返还及命中时点未接线。"
+        },
+        {
+          "kind": "目标资格",
+          "item": "英雄目标施加顺序",
+          "reason": "英雄/野怪分支及伤害前后顺序另核，本轮只保留英雄确定数值。"
+        },
+        {
+          "kind": "时序/范围",
+          "item": "cast_time_ms",
+          "reason": "与当前mCastTime冲突或缺乏独立施法依据，本修订暂不录入，待时序证据补齐。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "野怪魅惑和野怪伤害",
+          "reason": "本轮唯一敌方英雄范围排除野怪专用MonsterCharm、MonsterDamage分支。"
+        }
+      ]
+    },
+    "evelynn_e": {
+      "recordable": [
+        "base_damage",
+        "empowered_damage",
+        "base_percent_health_points",
+        "empowered_percent_health_points",
+        "percent_points_to_ratio",
+        "base_percent_ap_ratio",
+        "empowered_percent_ap_ratio",
+        "speed_bonus_ratio",
+        "speed_duration_ms",
+        "cast_time_ms",
+        "ordinary_magic_damage",
+        "empowered_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "状态",
+          "item": "恶魔魅影刷新冷却和强化资格",
+          "reason": "正文给出进入恶魔魅影会刷新并强化E；本候选保存两条互斥数值树，不自动创建跨技能事件。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "沿途额外目标和野怪封顶",
+          "reason": "本轮一对一英雄范围排除额外目标及野怪封顶分支。"
+        }
+      ]
+    },
+    "evelynn_r": {
+      "recordable": [
+        "base_damage",
+        "ap_ratio",
+        "low_health_threshold",
+        "low_health_multiplier",
+        "passive_reset_ms",
+        "normal_magic_damage",
+        "low_health_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "低生命判断、不可选取和后退位移",
+          "reason": "正文明确低于30%分支和施放后被动刷新；不可选取持续时间与实际事件未给，不编造。"
+        },
+        {
+          "kind": "时序/范围",
+          "item": "cast_time_ms",
+          "reason": "与当前mCastTime冲突或缺乏独立施法依据，本修订暂不录入，待时序证据补齐。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "区域内额外敌人分配",
+          "reason": "本轮唯一敌方英雄只保留单目标载体，不把范围目标数乘入。"
+        }
+      ]
+    },
+    "lillia_p": {
+      "recordable": [
+        "dot_duration_ms",
+        "dot_damage_percent_points",
+        "percent_points_to_ratio",
+        "dot_ap_ratio",
+        "dot_ticks",
+        "actual_champion_heal_base",
+        "champion_heal_ap_ratio",
+        "dot_total_magic_damage",
+        "champion_heal_per_tick",
+        "champion_heal_total"
+      ],
+      "pending": [
+        {
+          "kind": "输入",
+          "item": "角色等级治疗曲线",
+          "reason": "客户端只有1至15插值端点且带成长倍率，未证完整角色等级求值；使用无默认实际输入。"
+        },
+        {
+          "kind": "时序",
+          "item": "首跳、刷新和梦尘来源分配",
+          "reason": "跳数和持续时间有来源，首跳时点及刷新细节未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "野怪治疗、封顶和额外来源效能",
+          "reason": "本轮唯一敌方英雄排除野怪专用分支及额外来源15%效能分配。"
+        }
+      ]
+    },
+    "lillia_q": {
+      "recordable": [
+        "inner_damage_base",
+        "outer_true_damage_base",
+        "ap_ratio",
+        "prance_bonus_ratio_per_stack",
+        "prance_ap_ratio",
+        "prance_duration_ms",
+        "prance_max_stacks",
+        "prance_falloff_ms",
+        "inner_radius",
+        "outer_radius",
+        "inner_magic_damage",
+        "outer_true_damage",
+        "move_speed_per_stack"
+      ],
+      "pending": [
+        {
+          "kind": "输入",
+          "item": "当前移速层数",
+          "reason": "本轮只保存层数上限和每层公式；实际层数是运行时整数输入，不设默认、不自动乘满。"
+        },
+        {
+          "kind": "时序",
+          "item": "命中、层刷新和衰减",
+          "reason": "持续时间、衰减间隔和上限有来源，具体刷新顺序未接线。"
+        },
+        {
+          "kind": "时序/范围",
+          "item": "cast_time_ms",
+          "reason": "与当前mCastTime冲突或缺乏独立施法依据，本修订暂不录入，待时序证据补齐。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "多名敌人伤害分配",
+          "reason": "唯一敌方范围不把外圈可命中目标数量乘入单目标公式。"
+        }
+      ]
+    },
+    "lillia_w": {
+      "recordable": [
+        "base_damage",
+        "ap_ratio",
+        "sweet_spot_multiplier",
+        "minimum_cast_time_ms",
+        "maximum_cast_time_ms",
+        "minimum_radius",
+        "sweet_spot_radius",
+        "magic_damage",
+        "sweet_spot_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "蓄力与中心命中判定",
+          "reason": "最短/最长准备时间有来源，几何求值和命中时点未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "小兵减伤",
+          "reason": "本轮唯一敌方英雄范围排除小兵50%分支。"
+        }
+      ]
+    },
+    "lillia_e": {
+      "recordable": [
+        "impact_damage_base",
+        "ap_ratio",
+        "slow_ratio",
+        "slow_duration_ms",
+        "impact_range_check",
+        "cast_time_ms",
+        "impact_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "滚动、撞墙和命中时点",
+          "reason": "当前正文说明未命中会继续滚动；事件链和远端命中时点未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "纯显形及远处额外目标",
+          "reason": "本轮只保留唯一敌人命中载体，不创建自主召唤或远处多目标结果。"
+        }
+      ]
+    },
+    "lillia_r": {
+      "recordable": [
+        "drowsy_duration_ms",
+        "sleep_duration_ms",
+        "break_damage_base",
+        "ap_ratio",
+        "initial_slow_ratio",
+        "break_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "梦尘前置、困倦、昏睡与唤醒",
+          "reason": "当前正文给出1.5秒困倦和2秒昏睡；非周期性伤害唤醒条件未接事件。"
+        },
+        {
+          "kind": "输入",
+          "item": "SlowIncrement完整曲线",
+          "reason": "当前SlowIncrement节点无值，不能把初始-0.1扩成等级曲线。"
+        },
+        {
+          "kind": "时序/范围",
+          "item": "cast_time_ms",
+          "reason": "与当前mCastTime冲突或缺乏独立施法依据，本修订暂不录入，待时序证据补齐。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "周期性梦尘自动唤醒",
+          "reason": "本轮明确持续梦尘伤害不自动打醒，不能把P周期伤害接成R唤醒事件。"
+        }
+      ]
+    },
+    "fiddlesticks_p": {
+      "recordable": [
+        "self_stationary_duration_ms"
+      ],
+      "pending": [
+        {
+          "kind": "资格",
+          "item": "本体静止后Q被动恐惧",
+          "reason": "本体冒充草间人是Q被动明确路径，资格事件仍待接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "饰品草间人自主替身与视野",
+          "reason": "本轮排除自主召唤/视野载体，但不删除本体静止资格。"
+        }
+      ]
+    },
+    "fiddlesticks_q": {
+      "recordable": [
+        "current_health_ratio",
+        "current_health_ap_ratio",
+        "minimum_damage",
+        "fear_duration_ms",
+        "recent_fear_multiplier",
+        "cast_time_ms",
+        "normal_magic_damage",
+        "feared_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "近期恐惧窗口",
+          "reason": "当前正文只写近期，不给具体时间；保留双倍参数，不伪造窗口。"
+        },
+        {
+          "kind": "资格",
+          "item": "非战斗/未被看见或冒充草间人",
+          "reason": "当前文本给出Q被动恐惧资格，资格判定事件未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "小兵和野怪400伤害上限",
+          "reason": "本轮唯一敌方英雄排除兵野专用封顶。"
+        }
+      ]
+    },
+    "fiddlesticks_w": {
+      "recordable": [
+        "damage_per_second_base",
+        "ap_ratio",
+        "ticks_per_second",
+        "drain_duration_ms",
+        "end_missing_health_percent_points",
+        "champion_heal_percent_points",
+        "percent_points_to_ratio",
+        "cooldown_refund_ratio",
+        "actual_target_missing_health",
+        "actual_hero_pre_mitigation_damage",
+        "cast_time_ms",
+        "damage_per_second",
+        "end_missing_health_damage",
+        "champion_heal_amount"
+      ],
+      "pending": [
+        {
+          "kind": "输入",
+          "item": "结尾已损生命和折前伤害",
+          "reason": "两者都是当前阶段运行输入，不能默认或互换。"
+        },
+        {
+          "kind": "时序",
+          "item": "四跳、被打断与60%返还",
+          "reason": "当前树给每秒伤害，正文给2秒/完成返还；未创建周期过程和引导事件。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "兵野伤害/治疗专用倍率",
+          "reason": "本轮唯一敌方英雄排除Monster/Minion分支。"
+        }
+      ]
+    },
+    "fiddlesticks_e": {
+      "recordable": [
+        "base_damage",
+        "ap_ratio",
+        "slow_ratio",
+        "silence_duration_ms",
+        "cast_range",
+        "magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "资格",
+          "item": "中心沉默命中判定",
+          "reason": "当前正文明确中心沉默，具体几何资格未接线。"
+        },
+        {
+          "kind": "时序/范围",
+          "item": "cast_time_ms",
+          "reason": "与当前mCastTime冲突或缺乏独立施法依据，本修订暂不录入，待时序证据补齐。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "EmpoweredSlowAmount强化减速",
+          "reason": "当前EmpoweredSlowAmount未被普通Damage/Slow正文消费，本轮不擅自录入。"
+        }
+      ]
+    },
+    "fiddlesticks_r": {
+      "recordable": [
+        "damage_per_second_base",
+        "ap_ratio",
+        "full_duration_seconds",
+        "full_duration_ms",
+        "channel_time_ms",
+        "single_damage_multiplier",
+        "damage_per_second",
+        "damage_done_single_tick",
+        "total_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "引导、传送、每秒伤害和单次系数含义",
+          "reason": "当前源树明确5秒总量和0.25单次根系数，但具体伤害间隔/伤害次数未证。"
+        },
+        {
+          "kind": "时序/范围",
+          "item": "cast_time_ms",
+          "reason": "与当前mCastTime冲突或缺乏独立施法依据，本修订暂不录入，待时序证据补齐。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "额外敌人数量",
+          "reason": "本轮一对一只保留单个敌方承伤载体，不把范围目标数乘入。"
+        }
+      ]
+    },
+    "singed_p": {
+      "recordable": [
+        "ms_bonus_ratio",
+        "ms_duration_ms",
+        "per_target_cooldown_ms",
+        "trigger_area"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "经过、再次进入与每目标冷却",
+          "reason": "正文和数据值给出触发范围/持续/冷却，具体再次进入判定未接线。"
+        },
+        {
+          "kind": "时序/范围",
+          "item": "cast_time_seconds",
+          "reason": "与当前mCastTime冲突或缺乏独立施法依据，本修订暂不录入，待时序证据补齐。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "其他友方英雄触发",
+          "reason": "本轮不扩展第三方友军收益，但不排除唯一敌方英雄触发自身移速。"
+        }
+      ]
+    },
+    "singed_q": {
+      "recordable": [
+        "damage_per_second_base",
+        "ap_ratio",
+        "toggle_cooldown_ms",
+        "cloud_duration_ms",
+        "poison_duration_ms",
+        "ticks_per_second",
+        "max_linger_ticks",
+        "approximate_total_multiplier",
+        "damage_per_second",
+        "approximate_total_damage",
+        "mana_per_second"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "毒状态刷新/层叠和实际接触",
+          "reason": "当前正文给出云/毒时长、跳数和展示估计，实际接触时长及刷新层叠未接线。"
+        },
+        {
+          "kind": "资源",
+          "item": "每秒法力消耗",
+          "reason": "当前keyCost明确为每秒法力；本批公共参数不含开关Q，避免把它误作每次命中费用。"
+        },
+        {
+          "kind": "时序/范围",
+          "item": "cast_time_seconds",
+          "reason": "与当前mCastTime冲突或缺乏独立施法依据，本修订暂不录入，待时序证据补齐。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "小兵击杀金币",
+          "reason": "本轮唯一敌方英雄排除小兵金币分支。"
+        }
+      ]
+    },
+    "singed_w": {
+      "recordable": [
+        "slow_percent_points",
+        "duration_ms",
+        "radius",
+        "execute_delay_ms",
+        "cast_time_ms"
+      ],
+      "pending": [
+        {
+          "kind": "资格",
+          "item": "区域内缚地及E追加禁锢",
+          "reason": "W是E追加控制的依赖；区域命中和落点事件未接线。"
+        }
+      ],
+      "excluded": []
+    },
+    "singed_e": {
+      "recordable": [
+        "base_damage_value",
+        "ap_ratio",
+        "max_health_percent_points",
+        "percent_points_to_ratio",
+        "root_duration_ms",
+        "fling_distance",
+        "cast_time_ms",
+        "base_magic_damage",
+        "max_health_magic_component",
+        "total_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "资格",
+          "item": "W落点追加禁锢",
+          "reason": "当前正文明确目标摔到W粘胶上才禁锢；落点判定未接线。"
+        },
+        {
+          "kind": "目标阶段",
+          "item": "最大生命属性阶段",
+          "reason": "当前只使用目标总最大生命属性；减伤和阶段规则另核。"
+        },
+        {
+          "kind": "时序/范围",
+          "item": "nonchampion_damage_cap",
+          "reason": "本轮唯一敌方英雄范围不保存非英雄封顶参数。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "兵野300上限",
+          "reason": "只在非英雄分支使用，本轮唯一敌方英雄不套用该上限。"
+        }
+      ]
+    },
+    "singed_r": {
+      "recordable": [
+        "stat_amount",
+        "duration_ms",
+        "grievous_ratio",
+        "grievous_duration_ms",
+        "cast_time_ms"
+      ],
+      "pending": [
+        {
+          "kind": "单位",
+          "item": "生命/法力回复属性的单位与层",
+          "reason": "正文给出属性种类与数值，回复单位和应用层未证，不当成瞬间治疗或资源结果。"
+        },
+        {
+          "kind": "条件",
+          "item": "R期间Q施加重伤",
+          "reason": "跨技能条件已由正文确认，具体Q命中事件未接线。"
+        }
+      ],
+      "excluded": []
+    }
+  },
+  "protectedSummary": {
+    "inputGETs": 202,
+    "protectedSubjects": 20,
+    "protectedCompositionLists": 120,
+    "protectedRepresentativeImages": 20,
+    "protectedCharacters": [
+      "champion_evelynn",
+      "champion_lillia",
+      "champion_fiddlesticks",
+      "champion_singed"
+    ],
+    "protectedCharacterRelations": [
+      "champion_evelynn",
+      "champion_lillia",
+      "champion_fiddlesticks",
+      "champion_singed"
+    ],
+    "protectedCatalogs": [
+      "/attributes",
+      "/skill-categories",
+      "/modifier-zones",
+      "/damage-types"
+    ],
+    "publicParameterDetails": 30,
+    "nonPublicExisting": []
+  },
+  "counts": {
+    "skills": 20,
+    "parameters": 129,
+    "formulas": 31,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requestCount": 160,
+  "publicReuse": 30,
+  "apiWrites": 0,
+  "noApiCalls": true,
+  "revisionChanges": {
+    "removedParameters": [
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "evelynn_r",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "lillia_r",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "fiddlesticks_e",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "singed_p",
+        "parameterKey": "cast_time_seconds"
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "cast_time_seconds"
+      },
+      {
+        "skillKey": "singed_e",
+        "parameterKey": "nonchampion_damage_cap"
+      }
+    ],
+    "addedParameters": [
+      {
+        "skillKey": "evelynn_q",
+        "parameterKey": "marked_bonus_max_hits",
+        "fixedValue": 3
+      },
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "charm_charge_time_ms",
+        "fixedValue": 2500
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "mana_per_second",
+        "fixedValue": 13
+      }
+    ],
+    "reason": "修正mCastTime与spellCastTime冲突、无独立施法依据的时间字段及一对一范围外的非英雄封顶；补录当前正文明确的触发次数、蓄力窗口和每秒法力成本。"
+  }
+}

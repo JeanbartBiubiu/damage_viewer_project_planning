@@ -1,0 +1,23 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "method": "POST",
+    "route": "/skills/kaisa_w/parameters",
+    "detailRoute": "/skills/kaisa_w/parameters/ability_power_ratio",
+    "skillKey": "kaisa_w",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.45,
+      "levelValues": null,
+      "description": "当前TotalDamage树mCoefficient约0.45，取来源总法强。",
+      "sortOrder": 30
+    }
+  }
+}

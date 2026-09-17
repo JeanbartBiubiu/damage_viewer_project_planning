@@ -1,0 +1,23 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "method": "POST",
+    "route": "/skills/milio_w/formulas",
+    "detailRoute": "/skills/milio_w/formulas/range_percent",
+    "skillKey": "milio_w",
+    "kind": "formulas",
+    "stableKey": "range_percent",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "range_percent",
+      "name": "攻击距离提升",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "range_increase_ratio"
+      },
+      "description": "对应RangePercent，输出比例。",
+      "sortOrder": 10
+    }
+  }
+}

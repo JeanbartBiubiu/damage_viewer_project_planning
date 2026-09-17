@@ -1,0 +1,23 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "method": "POST",
+    "route": "/skills/thresh_r/parameters",
+    "detailRoute": "/skills/thresh_r/parameters/slow_ratio",
+    "skillKey": "thresh_r",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "幽冥监牢首墙减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.99,
+      "levelValues": null,
+      "description": "当前SlowAmount=99是百分数点，按0.99比例保存。",
+      "sortOrder": 30
+    }
+  }
+}

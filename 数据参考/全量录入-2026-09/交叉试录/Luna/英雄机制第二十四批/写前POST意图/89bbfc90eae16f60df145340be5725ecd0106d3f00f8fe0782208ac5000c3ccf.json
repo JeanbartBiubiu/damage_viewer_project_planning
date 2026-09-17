@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:40:21.138Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_q/parameters",
+  "detailRoute": "/skills/volibear_q/parameters/minimum_speed_ratio",
+  "skillKey": "volibear_q",
+  "kind": "parameters",
+  "stableKey": "minimum_speed_ratio",
+  "body": {
+    "parameterKey": "minimum_speed_ratio",
+    "name": "擂首一击最低移动速度比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.12,
+      "2": 0.155,
+      "3": 0.19,
+      "4": 0.225,
+      "5": 0.26
+    },
+    "description": "当前根MinSpeed；正文按比例显示，1表示100%。",
+    "sortOrder": 50
+  }
+}

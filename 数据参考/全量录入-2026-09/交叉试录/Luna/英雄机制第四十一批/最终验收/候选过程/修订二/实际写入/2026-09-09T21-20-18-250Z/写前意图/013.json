@@ -1,0 +1,45 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "method": "POST",
+    "route": "/skills/bard_p/formulas",
+    "detailRoute": "/skills/bard_p/formulas/meep_damage_no_chime",
+    "skillKey": "bard_p",
+    "kind": "formulas",
+    "stableKey": "meep_damage_no_chime",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "meep_damage_no_chime",
+      "name": "无调和之音木灵伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "meep_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "meep_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应MeepDamageNoChime。",
+      "sortOrder": 10
+    }
+  }
+}

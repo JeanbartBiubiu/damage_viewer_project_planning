@@ -1,0 +1,25 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_e/parameters",
+    "detailRoute": "/skills/kled_e/parameters/hero_move_speed_duration_ms",
+    "skillKey": "kled_e",
+    "kind": "parameters",
+    "stableKey": "hero_move_speed_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "hero_move_speed_duration_ms",
+      "name": "命中英雄移速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "源值1秒。",
+      "sortOrder": 40
+    }
+  }
+}

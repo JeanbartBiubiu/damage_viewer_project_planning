@@ -1,0 +1,30 @@
+{
+  "i": 60,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_w/formulas",
+    "skillKey": "poppy_w",
+    "kind": "formulas",
+    "stableKey": "passive_bonus_armor",
+    "body": {
+      "formulaKey": "passive_bonus_armor",
+      "name": "被动额外护甲",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_resist_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_source_armor_before_passive"
+          }
+        ]
+      },
+      "description": "BonusArmor的mStat1窄口径表达为0.16×应用前来源护甲；基准实际输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 163,
+  "intent": {
+    "sequence": 164,
+    "method": "POST",
+    "route": "/skills/aurora_e/parameters",
+    "detailRoute": "/skills/aurora_e/parameters/base_damage",
+    "skillKey": "aurora_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "怪奇喷涌基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 110,
+        "3": 150,
+        "4": 190,
+        "5": 230
+      },
+      "description": "当前BaseDamage技能等级1至5为70/110/150/190/230；索引0为旧占位30。",
+      "sortOrder": 10
+    }
+  }
+}

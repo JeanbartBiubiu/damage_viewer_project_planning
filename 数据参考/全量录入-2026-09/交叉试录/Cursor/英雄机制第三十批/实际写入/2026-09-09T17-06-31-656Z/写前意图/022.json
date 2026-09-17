@@ -1,0 +1,23 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "method": "POST",
+    "route": "/skills/yasuo_e/parameters",
+    "detailRoute": "/skills/yasuo_e/parameters/cast_time_ms",
+    "skillKey": "yasuo_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "客户端spellCastTime=0.25秒，转换为250毫秒；不表示命中和层数事件已接线。",
+      "sortOrder": 10
+    }
+  }
+}

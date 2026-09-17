@@ -1,0 +1,735 @@
+{
+  "schemaVersion": 2,
+  "createdAt": "2026-09-12T18:00:09.479Z",
+  "status": "READY",
+  "verdict": "READY",
+  "accepted": true,
+  "revision": "rev1",
+  "reviewedPlanRevision": 1,
+  "resultStatus": "finished",
+  "runId": "run-3b4ec4db-dae0-42ae-93d6-09b650c299b5",
+  "requestId": "eb6078e9-8c52-403a-b48e-b0cefe7cf0b4",
+  "agentId": "agent-14cb87d9-75d7-4c02-9366-410b1b6b5c2c",
+  "runtimeUsed": "sdk",
+  "sdkVersion": "1.0.24",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "command": "node \"数据参考\\全量录入-2026-09\\交叉试录\\六项英雄主动触发补录\\Cursor终审只读检查.mjs\"",
+  "reviewedFiles": [
+    "批次配置.mjs",
+    "00-独立语义评审.json",
+    "README.md",
+    "01-合并方案.md",
+    "02-合并冻结请求.json",
+    "03-来源散列快照.json",
+    "04-共享写前现值.json",
+    "受保护写入.mjs",
+    "独立GET回读.mjs",
+    "只读页面验收.mjs",
+    "Cursor终审只读检查.mjs"
+  ],
+  "approvedInputHashes": {
+    "批次配置.mjs": "dda823b4dde2c9056a149748240ee780679be1e32ed47d5b78bb296dd198b03c",
+    "00-独立语义评审.json": "63b104f25dc6307c047ce37ac6619ffd0e380bbdef2f74f1cc3290086ec1fe1c",
+    "README.md": "b23b04fd41bbe9f99a8e93ca678f8c467250e4bca3ae0a6549ba7c44a1d0f2f4",
+    "01-合并方案.md": "49070a637140e193b6a10126b104925b0aa0c988fb0d11a7a970a8a4b95d41b0",
+    "02-合并冻结请求.json": "936793a0d1428fc6a488349efbfc77d7ae1d8068a41eee54ad0e6a96eda3c1cd",
+    "03-来源散列快照.json": "33d9c4bbe716dfcc308971244c87af0b052f008de242d5bf33e44aefe5fe985c",
+    "04-共享写前现值.json": "9c9b99de4a4fc6d3fdcf2bc1e4b2e31b82de50b012b31d241e52fb6aea304586",
+    "受保护写入.mjs": "cecfaf8e2404731a8c8027fe9d385fda2701b584fc81c3194e519d0615401ffd",
+    "独立GET回读.mjs": "7f8b04889ba4fc15e08940b9e41c58c209110949d959206c376e40c193456d28",
+    "只读页面验收.mjs": "43863331fbd9c54eb4bd3075fe03c322ebc486e60fcb9f6d7f3e6cbcbada78fe",
+    "Cursor终审只读检查.mjs": "f735b58b1927bd01356cef846ca5d736ac95a97dec107bd1dbce0162c1455732"
+  },
+  "checker": {
+    "status": "READY",
+    "verdict": "READY",
+    "planRevision": 1,
+    "semanticReview": {
+      "verdict": "READY_WITH_DEFERRED",
+      "accepted": [
+        {
+          "id": "tristana",
+          "skillKey": "tristana_q",
+          "ruleKey": "active",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "tristana_q",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "START_PROCESS:cast"
+          ],
+          "reason": "已有主动cast过程在开始时处理冷却和法力，并在activate步骤执行rapid_fire；规则只启动过程，避免重复执行效果。",
+          "evidence": [
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十二批/完整候选.json:7140",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json:4268",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json:4328"
+          ]
+        },
+        {
+          "id": "twitch",
+          "skillKey": "twitch_r",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "twitch_r",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "START_PROCESS:cast"
+          ],
+          "reason": "已有主动cast过程处理冷却、法力并依次执行bonus_ad与bonus_range；穿透和后续目标衰减不进入本条1V1窄规则。",
+          "evidence": [
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十二批/完整候选.json:4854",
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十二批/完整候选.json:4952",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json:8206"
+          ]
+        },
+        {
+          "id": "vayne",
+          "skillKey": "vayne_r",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "vayne_r",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "START_PROCESS:cast"
+          ],
+          "reason": "已有主动cast过程处理冷却、法力和基础持续时间内的bonus_attack_damage；移动速度替换、Q变化与续时仍待补。",
+          "evidence": [
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json:9111",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json:9351",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json:9411",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json:9636"
+          ]
+        },
+        {
+          "id": "masteryi",
+          "skillKey": "masteryi_r",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "masteryi_r",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "EXECUTE_EFFECT:attack_speed",
+            "EXECUTE_EFFECT:move_speed"
+          ],
+          "reason": "当前没有过程；只连接已有7000毫秒初始攻速和移速，自身减速免疫、续时、普通技能冷却变化及计时暂停待补。",
+          "evidence": [
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/完整候选.json:2580",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/完整候选.json:2721",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/完整候选.json:2779",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/完整候选.json:2968"
+          ]
+        },
+        {
+          "id": "skarner",
+          "skillKey": "skarner_w",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "skarner_w",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "EXECUTE_EFFECT:self_shield"
+          ],
+          "reason": "当前没有过程；只连接已有2500毫秒自身护盾，地震伤害、减速、资源与冷却仍待补。",
+          "evidence": [
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json:4401",
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json:4572",
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json:4702",
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json:4778"
+          ]
+        },
+        {
+          "id": "diana",
+          "skillKey": "diana_w",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "diana_w",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "START_PROCESS:cast"
+          ],
+          "reason": "已有主动cast过程处理冷却、法力和首次护盾；法球碰撞、第三球追加护盾与刷新不进入本规则。",
+          "evidence": [
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json:5344",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json:5401",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json:5441",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/来源处置清单.md:182"
+          ]
+        }
+      ],
+      "deferred": [
+        {
+          "id": "sion",
+          "skillKey": "sion_w",
+          "ruleKey": "on_used",
+          "reason": "首次施放与三秒后重施都可能进入同一主动使用事件；当前没有阶段条件或过程，直接执行REFRESH_ALL护盾会在重施引爆时错误刷新。"
+        },
+        {
+          "id": "vi",
+          "skillKey": "vi_p",
+          "ruleKey": null,
+          "reason": "被动冷却等级断点、内部冷却状态、W第三次攻击减冷却和Q/E/R命中生产未证；直接规则会绕过冷却重复刷新护盾。"
+        }
+      ],
+      "businessWrites": 0,
+      "fileWrites": 0
+    },
+    "baseline": {
+      "getCount": 2656,
+      "statusCounts": {
+        "200": 2644,
+        "404": 12
+      },
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "sourceInitializedCount": 24,
+      "oldRuleDetails": 108,
+      "candidateStatuses": [
+        {
+          "id": "tristana",
+          "status": 404
+        },
+        {
+          "id": "twitch",
+          "status": 404
+        },
+        {
+          "id": "vayne",
+          "status": 404
+        },
+        {
+          "id": "masteryi",
+          "status": 404
+        },
+        {
+          "id": "skarner",
+          "status": 404
+        },
+        {
+          "id": "diana",
+          "status": 404
+        }
+      ]
+    },
+    "requests": [
+      {
+        "id": "tristana",
+        "route": "/skills/tristana_q/trigger-rules",
+        "detailRoute": "/skills/tristana_q/trigger-rules/active",
+        "bodySha256": "213efe75968f043bafd5d8b26d36f9bb819f9309636adda9197a4798b68ffd34"
+      },
+      {
+        "id": "twitch",
+        "route": "/skills/twitch_r/trigger-rules",
+        "detailRoute": "/skills/twitch_r/trigger-rules/on_used",
+        "bodySha256": "2ea450642faffb34d243c164fb83217755c814cf1540d695d09447b080df1221"
+      },
+      {
+        "id": "vayne",
+        "route": "/skills/vayne_r/trigger-rules",
+        "detailRoute": "/skills/vayne_r/trigger-rules/on_used",
+        "bodySha256": "0d7164e5a3abd18150a2e1098aacb87a6fba50a8f7a5df62c14bb68ae114faa8"
+      },
+      {
+        "id": "masteryi",
+        "route": "/skills/masteryi_r/trigger-rules",
+        "detailRoute": "/skills/masteryi_r/trigger-rules/on_used",
+        "bodySha256": "7fb2c58994d6cafccf0b531ee00e71729e0ac03712f7f5f8502b13627480d9ef"
+      },
+      {
+        "id": "skarner",
+        "route": "/skills/skarner_w/trigger-rules",
+        "detailRoute": "/skills/skarner_w/trigger-rules/on_used",
+        "bodySha256": "b32f92ef6e8bc9d3503f0dfe02fec6604e023b60e43b898a77442a1c7b7a97d7"
+      },
+      {
+        "id": "diana",
+        "route": "/skills/diana_w/trigger-rules",
+        "detailRoute": "/skills/diana_w/trigger-rules/on_used",
+        "bodySha256": "896bebc9c8d3878bacff22417d662455bec6e950d446ade8fc260b4cd46ec338"
+      }
+    ],
+    "semanticChecks": {
+      "tristana": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "tristana_q",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动急速射击施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": {
+          "processKey": "cast",
+          "activationType": "ACTIVE",
+          "cooldownParameterKey": "cooldown_ms",
+          "steps": [
+            {
+              "stepKey": "activate",
+              "stepType": "IMMEDIATE",
+              "sortOrder": 10
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "sortOrder": 10
+            },
+            {
+              "bindingKey": "rapid_fire",
+              "effectKey": "rapid_fire",
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "activate",
+              "sortOrder": 20
+            }
+          ]
+        },
+        "effectChecks": [
+          {
+            "effectKey": "rapid_fire",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "bonus_attack_speed_ratio",
+            "durationParameterKey": "buff_duration_ms"
+          }
+        ]
+      },
+      "twitch": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "twitch_r",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动火力全开施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": {
+          "processKey": "cast",
+          "activationType": "ACTIVE",
+          "cooldownParameterKey": "cooldown_ms",
+          "steps": [
+            {
+              "stepKey": "activate",
+              "stepType": "IMMEDIATE",
+              "sortOrder": 10
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "sortOrder": 10
+            },
+            {
+              "bindingKey": "bonus_ad",
+              "effectKey": "bonus_ad",
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "activate",
+              "sortOrder": 20
+            },
+            {
+              "bindingKey": "bonus_range",
+              "effectKey": "bonus_range",
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "activate",
+              "sortOrder": 30
+            }
+          ]
+        },
+        "effectChecks": [
+          {
+            "effectKey": "bonus_ad",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "bonus_attack_damage",
+            "durationParameterKey": "buff_duration_ms"
+          },
+          {
+            "effectKey": "bonus_range",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "bonus_attack_range",
+            "durationParameterKey": "buff_duration_ms"
+          }
+        ]
+      },
+      "vayne": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "vayne_r",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动终极时刻施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": {
+          "processKey": "cast",
+          "activationType": "ACTIVE",
+          "cooldownParameterKey": "cooldown_ms",
+          "steps": [
+            {
+              "stepKey": "start",
+              "stepType": "IMMEDIATE",
+              "sortOrder": 10
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "sortOrder": 10
+            },
+            {
+              "bindingKey": "bonus_attack_damage",
+              "effectKey": "bonus_attack_damage",
+              "momentType": "STEP_COMPLETE",
+              "stepKey": "start",
+              "sortOrder": 20
+            }
+          ]
+        },
+        "effectChecks": [
+          {
+            "effectKey": "bonus_attack_damage",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "bonus_attack_damage",
+            "durationParameterKey": "base_duration_ms"
+          }
+        ]
+      },
+      "masteryi": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "masteryi_r",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "execute_attack_speed",
+            "name": "执行高原血统额外攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "execute_move_speed",
+            "name": "执行高原血统额外移动速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": null,
+        "effectChecks": [
+          {
+            "effectKey": "attack_speed",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "attack_speed_ratio",
+            "durationParameterKey": "duration_ms"
+          },
+          {
+            "effectKey": "move_speed",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "move_speed_ratio",
+            "durationParameterKey": "duration_ms"
+          }
+        ]
+      },
+      "skarner": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "skarner_w",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "execute_self_shield",
+            "name": "执行震地壁垒自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": null,
+        "effectChecks": [
+          {
+            "effectKey": "self_shield",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "resultTarget": "SOURCE",
+            "valueKind": "FORMULA",
+            "valueKey": "shield_value",
+            "durationParameterKey": "shield_duration_ms"
+          }
+        ]
+      },
+      "diana": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "diana_w",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动苍白之瀑施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": {
+          "processKey": "cast",
+          "activationType": "ACTIVE",
+          "cooldownParameterKey": "cooldown_ms",
+          "steps": [
+            {
+              "stepKey": "cast_time",
+              "stepType": "DELAY",
+              "sortOrder": 10
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "sortOrder": 10
+            },
+            {
+              "bindingKey": "pale_cascade_shield",
+              "effectKey": "pale_cascade_shield",
+              "momentType": "STEP_COMPLETE",
+              "stepKey": "cast_time",
+              "sortOrder": 20
+            }
+          ]
+        },
+        "effectChecks": [
+          {
+            "effectKey": "pale_cascade_shield",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "resultTarget": "SOURCE",
+            "valueKind": "FORMULA",
+            "valueKey": "shield",
+            "durationParameterKey": "shield_duration_ms"
+          }
+        ]
+      }
+    },
+    "deferred": [
+      {
+        "id": "sion",
+        "directoryName": "LunaMax/亡灵战神W触发补录",
+        "skillKey": "sion_w",
+        "ruleKey": "on_used",
+        "reason": "首次施放与三秒后重施无法由当前技能使用事件区分；无条件挂护盾会在重施引爆时错误刷新六秒护盾。"
+      },
+      {
+        "id": "vi",
+        "directoryName": null,
+        "skillKey": "vi_p",
+        "ruleKey": null,
+        "reason": "被动冷却的等级断点、内部冷却状态及Q/E/R命中事件生产尚未冻结。"
+      }
+    ],
+    "guardChecks": {
+      "explicitWriteSwitch": true,
+      "replayLock": true,
+      "approvedHashes": true,
+      "terminalCompletion": true,
+      "writerMethodsBounded": true,
+      "writerActionsExact": true,
+      "writerProcessChecks": true,
+      "writerEffectChecks": true,
+      "writerOutput": true,
+      "readbackGetOnly": true,
+      "readbackProcessChecks": true,
+      "readbackEffectChecks": true,
+      "browserWriteCount": true,
+      "browserNoFixedTokenValue": true,
+      "browserTargetFilter": true,
+      "noPreviousBatchFiles": true
+    },
+    "reviewedFiles": [
+      "批次配置.mjs",
+      "00-独立语义评审.json",
+      "README.md",
+      "01-合并方案.md",
+      "02-合并冻结请求.json",
+      "03-来源散列快照.json",
+      "04-共享写前现值.json",
+      "受保护写入.mjs",
+      "独立GET回读.mjs",
+      "只读页面验收.mjs",
+      "Cursor终审只读检查.mjs"
+    ],
+    "approvedInputHashes": {
+      "批次配置.mjs": "dda823b4dde2c9056a149748240ee780679be1e32ed47d5b78bb296dd198b03c",
+      "00-独立语义评审.json": "63b104f25dc6307c047ce37ac6619ffd0e380bbdef2f74f1cc3290086ec1fe1c",
+      "README.md": "b23b04fd41bbe9f99a8e93ca678f8c467250e4bca3ae0a6549ba7c44a1d0f2f4",
+      "01-合并方案.md": "49070a637140e193b6a10126b104925b0aa0c988fb0d11a7a970a8a4b95d41b0",
+      "02-合并冻结请求.json": "936793a0d1428fc6a488349efbfc77d7ae1d8068a41eee54ad0e6a96eda3c1cd",
+      "03-来源散列快照.json": "33d9c4bbe716dfcc308971244c87af0b052f008de242d5bf33e44aefe5fe985c",
+      "04-共享写前现值.json": "9c9b99de4a4fc6d3fdcf2bc1e4b2e31b82de50b012b31d241e52fb6aea304586",
+      "受保护写入.mjs": "cecfaf8e2404731a8c8027fe9d385fda2701b584fc81c3194e519d0615401ffd",
+      "独立GET回读.mjs": "7f8b04889ba4fc15e08940b9e41c58c209110949d959206c376e40c193456d28",
+      "只读页面验收.mjs": "43863331fbd9c54eb4bd3075fe03c322ebc486e60fcb9f6d7f3e6cbcbada78fe",
+      "Cursor终审只读检查.mjs": "f735b58b1927bd01356cef846ca5d736ac95a97dec107bd1dbce0162c1455732"
+    },
+    "businessWrites": 0,
+    "blockers": [],
+    "limits": [
+      "静态、GET与管理页面证据不等于宿主事件、战斗运行或Wasm证明。"
+    ]
+  },
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "toolEvents": {
+    "parseableEventCount": 148,
+    "uniqueToolCallCount": 1,
+    "terminalStatuses": {
+      "call-41260324-ed7d-4767-9a23-d88849d4bf3d-0\nfc_0cb32de4-27b0-951c-b5e2-b86717b7a1b7_0": "completed"
+    },
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false
+  },
+  "artifacts": {
+    "directory": ".agents/artifacts/six-active-trigger-review-r1-20260913",
+    "summarySha256": "d1a535da7e257e4a1f22b0149c7700bde0e202434a67150ee9394accb8465597",
+    "reviewSha256": "92bda490577c1852edad29eeac6c222bcce6c752c2a8642a69404ff513affbda",
+    "eventsSha256": "d0d62426fc4cf953f38db7a2ec367f3501ceec9d164415f398d8a355750877ee",
+    "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "limits": [
+    "静态、GET与管理页面证据不等于宿主事件、战斗运行或Wasm证明。"
+  ]
+}

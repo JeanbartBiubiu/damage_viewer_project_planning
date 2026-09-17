@@ -1,0 +1,23 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/rell_p/parameters",
+    "detailRoute": "/skills/rell_p/parameters/max_stack_count",
+    "skillKey": "rell_p",
+    "kind": "parameters",
+    "stableKey": "max_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_stack_count",
+      "name": "偷取双抗最大层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "客户端MaxStacks=5。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 211,
+  "intent": {
+    "sequence": 212,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/formulas",
+    "detailRoute": "/skills/locke_w/formulas/initial_move_speed_ratio",
+    "skillKey": "locke_w",
+    "kind": "formulas",
+    "stableKey": "initial_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_move_speed_ratio",
+      "name": "灵焰仪式初始移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "move_speed_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "初始移速=0.4+0.0002×法强。",
+      "sortOrder": 210
+    }
+  }
+}

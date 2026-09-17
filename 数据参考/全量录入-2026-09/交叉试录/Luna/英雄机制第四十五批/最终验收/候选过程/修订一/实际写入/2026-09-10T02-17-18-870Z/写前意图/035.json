@@ -1,0 +1,24 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 35,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_p/parameters",
+    "detailRoute": "/skills/shaco_p/parameters/shivs_execute_multiplier",
+    "skillKey": "shaco_p",
+    "kind": "parameters",
+    "stableKey": "shivs_execute_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shivs_execute_multiplier",
+      "name": "背刺E斩杀倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "ShivDamageExecute完整树将ShivDamage乘以1.5。",
+      "sortOrder": 50
+    }
+  }
+}

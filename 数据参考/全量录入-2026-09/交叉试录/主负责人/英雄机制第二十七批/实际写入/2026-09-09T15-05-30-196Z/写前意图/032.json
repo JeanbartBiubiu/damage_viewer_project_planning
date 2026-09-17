@@ -1,0 +1,26 @@
+{
+  "i": 31,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_e/parameters",
+    "skillKey": "gragas_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "description": "当前根DataValues.BaseDamage取索引1至5。",
+      "sortOrder": 20
+    }
+  }
+}

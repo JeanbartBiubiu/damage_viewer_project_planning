@@ -1,0 +1,496 @@
+{
+  "skillKey": "lux_p",
+  "finishedAt": "2026-09-07T14:45:43.095Z",
+  "planned": {
+    "parameters": 3,
+    "formulas": 1,
+    "effects": 1,
+    "processes": 0,
+    "triggerRules": 0,
+    "skipped": 4
+  },
+  "skipped": [
+    {
+      "kind": "parameter",
+      "key": "cooldown_ms",
+      "reason": "P 客户端冷却为 0；旧候选混入 Q 的 10/50/1175，不写入。"
+    },
+    {
+      "kind": "trigger",
+      "key": "apply_on_damaging_skill",
+      "reason": "“伤害类技能”范围（是否含装备/召唤师技能/仅 QER）未无歧义交叉。"
+    },
+    {
+      "kind": "trigger",
+      "key": "consume_on_attack",
+      "reason": "下一次攻击消耗与 R 同时触发并刷新的顺序未在本批确证。"
+    },
+    {
+      "kind": "parameter",
+      "key": "cherry_ap_ratio",
+      "reason": "DataValuesModeOverride.cherry APRatio=0.5 属模式覆盖，不写入。"
+    }
+  ],
+  "readbacks": [
+    {
+      "skillKey": "lux_p",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "base_damage",
+          "actual": "base_damage",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "基础魔法伤害",
+          "actual": "基础魔法伤害",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "CHARACTER_LEVEL",
+          "actual": "CHARACTER_LEVEL",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": {
+            "1": 20,
+            "2": 30,
+            "3": 40,
+            "4": 50,
+            "5": 60,
+            "6": 70,
+            "7": 80,
+            "8": 90,
+            "9": 100,
+            "10": 110,
+            "11": 120,
+            "12": 130,
+            "13": 140,
+            "14": 150,
+            "15": 160,
+            "16": 170,
+            "17": 180,
+            "18": 190
+          },
+          "actual": {
+            "1": 20,
+            "2": 30,
+            "3": 40,
+            "4": 50,
+            "5": 60,
+            "6": 70,
+            "7": 80,
+            "8": 90,
+            "9": 100,
+            "10": 110,
+            "11": 120,
+            "12": 130,
+            "13": 140,
+            "14": 150,
+            "15": 160,
+            "16": 170,
+            "17": 180,
+            "18": 190
+          },
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 TotalDamage 的 ByCharLevel 从 20 起每级 +10，共 31 槽；按游戏等级 1..18 取前 18 项 20..190。不可照抄 DDragon 主动冷却/消耗/范围（旧 P 候选混入 Q）。",
+          "actual": "客户端 TotalDamage 的 ByCharLevel 从 20 起每级 +10，共 31 槽；按游戏等级 1..18 取前 18 项 20..190。不可照抄 DDragon 主动冷却/消耗/范围（旧 P 候选混入 Q）。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 10,
+          "actual": 10,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_p",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "ap_ratio",
+          "actual": "ap_ratio",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "法术强度倍率",
+          "actual": "法术强度倍率",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "DECIMAL",
+          "actual": "DECIMAL",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "FIXED",
+          "actual": "FIXED",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": 0.35,
+          "actual": 0.35,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 APRatio=0.3499999940395355，按设计值归一为 0.35。cherry 覆盖 0.5 不写入召唤师峡谷。",
+          "actual": "客户端 APRatio=0.3499999940395355，按设计值归一为 0.35。cherry 覆盖 0.5 不写入召唤师峡谷。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 20,
+          "actual": 20,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_p",
+      "kind": "parameters",
+      "id": "mark_duration_ms",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "parameterKey": {
+          "match": true,
+          "planned": "mark_duration_ms",
+          "actual": "mark_duration_ms",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "启明持续时间（毫秒）",
+          "actual": "启明持续时间（毫秒）",
+          "diff": null
+        },
+        "valueType": {
+          "match": true,
+          "planned": "INTEGER",
+          "actual": "INTEGER",
+          "diff": null
+        },
+        "valueMode": {
+          "match": true,
+          "planned": "FIXED",
+          "actual": "FIXED",
+          "diff": null
+        },
+        "fixedValue": {
+          "match": true,
+          "planned": 6000,
+          "actual": 6000,
+          "diff": null
+        },
+        "levelValues": {
+          "match": true,
+          "planned": null,
+          "actual": null,
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "客户端 DebuffDuration=6 秒。不是控制状态。",
+          "actual": "客户端 DebuffDuration=6 秒。不是控制状态。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 30,
+          "actual": 30,
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_p",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "formulaKey": {
+          "match": true,
+          "planned": "damage",
+          "actual": "damage",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "启明额外魔法伤害",
+          "actual": "启明额外魔法伤害",
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "角色等级基础伤害 + 法术强度×0.35。来源：客户端 TotalDamage = ByCharLevel + StatByNamedDataValue(APRatio)。",
+          "actual": "角色等级基础伤害 + 法术强度×0.35。来源：客户端 TotalDamage = ByCharLevel + StatByNamedDataValue(APRatio)。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 10,
+          "actual": 10,
+          "diff": null
+        },
+        "expression": {
+          "match": true,
+          "planned": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "actual": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "diff": null
+        }
+      }
+    },
+    {
+      "skillKey": "lux_p",
+      "kind": "effects",
+      "id": "illumination_mark",
+      "action": "created",
+      "match": true,
+      "diff": null,
+      "fields": {
+        "effectKey": {
+          "match": true,
+          "planned": "illumination_mark",
+          "actual": "illumination_mark",
+          "diff": null
+        },
+        "name": {
+          "match": true,
+          "planned": "启明印记",
+          "actual": "启明印记",
+          "diff": null
+        },
+        "description": {
+          "match": true,
+          "planned": "独立生命周期印记：持续 6 秒，提前移除时结算魔法伤害，自然到期不结算。施加/普攻消耗/R 刷新触发因上下文歧义未挂接，不把该效果称为控制。",
+          "actual": "独立生命周期印记：持续 6 秒，提前移除时结算魔法伤害，自然到期不结算。施加/普攻消耗/R 刷新触发因上下文歧义未挂接，不把该效果称为控制。",
+          "diff": null
+        },
+        "sortOrder": {
+          "match": true,
+          "planned": 10,
+          "actual": 10,
+          "diff": null
+        },
+        "lifecycle": {
+          "match": true,
+          "planned": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "mark_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE_TARGET",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "actual": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "mark_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE_TARGET",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "diff": null
+        },
+        "results": {
+          "match": true,
+          "planned": [
+            {
+              "resultKey": "magic_damage",
+              "name": "启明引爆魔法伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": "提前移除时结算；自然到期不结算。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "EARLY_REMOVE",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": null,
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": "DAMAGE_INSTANCE",
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ],
+          "actual": [
+            {
+              "description": "提前移除时结算；自然到期不结算。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": {
+                "moment": "EARLY_REMOVE",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "启明引爆魔法伤害",
+              "resultKey": "magic_damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "DAMAGE_INSTANCE",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "diff": null
+        }
+      }
+    }
+  ],
+  "occupiedConflicts": [],
+  "failures": []
+}

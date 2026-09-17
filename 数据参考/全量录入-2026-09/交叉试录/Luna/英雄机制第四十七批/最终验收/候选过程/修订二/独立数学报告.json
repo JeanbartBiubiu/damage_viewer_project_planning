@@ -1,0 +1,5512 @@
+{
+  "generatedAt": "2026-09-10T03:03:33.130Z",
+  "batch": "英雄机制第四十七批伊莉丝杰斯奈德丽希瓦娜",
+  "revision": "hero47-source-v1-root-revision-2",
+  "status": "独立源值数学核算已执行；未调用业务接口、浏览器或Git",
+  "sourceBasis": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+    "sourceBindingSha256": "0325bce9f1b0ad3b254da0ca89180d9d2e8458d365caa849f9eaf6c974236486",
+    "candidateSha256": "9970f08a9e2569f15604a4339c9b6a5b8c2200814db05835a68f79a6ffbf957c",
+    "qualificationReviewSha256": "90f6694f4aa2f75a367fec7296692b633fe8d8766a2ac560352c3db80e013cf2",
+    "expectedSide": "直接读取冻结输入原始DataValues、计算树和当前文本按源值重算，不从候选参数倒推期望值。",
+    "actualSide": "读取候选表达式，显式提供属性、技能等级、角色等级和无默认运行输入。"
+  },
+  "formulaResults": [
+    {
+      "skillKey": "elise_q",
+      "formulaKey": "current_health_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 53.19999916,
+      "expected": 53.199998248,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "formulaKey": "current_health_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 224.09999433,
+      "expected": 224.099991189,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "formulaKey": "human_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 93.19999916,
+      "expected": 93.199998248,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "formulaKey": "human_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 384.09999433,
+      "expected": 384.099991189,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 150,
+      "expected": 150,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 535,
+      "expected": 535,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "formulaKey": "stun_duration",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 1600,
+      "expected": 1600,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "formulaKey": "stun_duration",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 2400,
+      "expected": 2400,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "formulaKey": "physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 168.00000192,
+      "expected": 168.000001907,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "formulaKey": "physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 6,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 553.00000432,
+      "expected": 553.000004292,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 260,
+      "expected": 260,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 6,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 860,
+      "expected": 860,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 159.999998,
+      "expected": 159.999998212,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 6,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 663.9999978,
+      "expected": 663.999997377,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "formulaKey": "minimum_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 130,
+      "expected": 130,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "formulaKey": "minimum_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 360,
+      "expected": 360,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "formulaKey": "maximum_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 422.5,
+      "expected": 422.5,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "formulaKey": "maximum_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 1170,
+      "expected": 1170,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "formulaKey": "total_healing",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 91.99999928,
+      "expected": 91.999999285,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "formulaKey": "total_healing",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 296.99999748,
+      "expected": 296.999997497,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "formulaKey": "max_healing_multiplier",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 2,
+      "expected": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "formulaKey": "max_healing_multiplier",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 2,
+      "expected": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "formulaKey": "maximum_healing",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 183.99999856,
+      "expected": 183.999998569,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "formulaKey": "maximum_healing",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 593.99999496,
+      "expected": 593.999994993,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "formulaKey": "bonus_armor",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 0.600000024,
+      "expected": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "formulaKey": "bonus_armor",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 2.400000096,
+      "expected": 2.400000095,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "formulaKey": "bonus_magic_resist",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 0.600000024,
+      "expected": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "formulaKey": "bonus_magic_resist",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 2.400000096,
+      "expected": 2.400000095,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "formulaKey": "passive_max_health_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 18.8,
+      "expected": 18.799999845,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "formulaKey": "passive_max_health_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 65.56,
+      "expected": 65.559999848,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "formulaKey": "active_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 244.00000576,
+      "expected": 244.000005722,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "formulaKey": "active_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 508.00001272,
+      "expected": 508.000012636,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "shield_amount",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 131.9999982,
+      "expected": 131.999998391,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "shield_amount",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 307.9999958,
+      "expected": 307.999996245,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "nearby_shield_bonus",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 39.600001044,
+      "expected": 39.600001091,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "nearby_shield_bonus",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 92.400002436,
+      "expected": 92.400002545,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "shield_total",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 131.9999982,
+      "expected": 131.999998391,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "shield_total",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 400.399998236,
+      "expected": 400.39999879,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "toward_move_speed_ratio",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 0.4375,
+      "expected": 0.4375,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "toward_move_speed_ratio",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 0.4375,
+      "expected": 0.4375,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "explosion_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 157.99999712,
+      "expected": 157.999997139,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "explosion_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 432.99998992,
+      "expected": 432.999989986,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "formulaKey": "damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 122.00000288,
+      "expected": 122.000002861,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "formulaKey": "damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 446.00000504,
+      "expected": 446.000005007,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "formulaKey": "max_health_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 50.000001,
+      "expected": 50.000000745,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "formulaKey": "max_health_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 110.0000022,
+      "expected": 110.000001639,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "sourceBonusHP": 600,
+        "targetMaxHP": 1000,
+        "targetCurrentHP": 700,
+        "runtime": {
+          "current_stack_count": 2,
+          "nearby_enemy_count": 0
+        }
+      },
+      "actual": 172.00000388,
+      "expected": 172.000003606,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "sourceBonusHP": 1400,
+        "targetMaxHP": 2200,
+        "targetCurrentHP": 1350,
+        "runtime": {
+          "current_stack_count": 8,
+          "nearby_enemy_count": 1
+        }
+      },
+      "actual": 556.00000724,
+      "expected": 556.000006646,
+      "pass": true
+    }
+  ],
+  "formulaCount": 48,
+  "formulaDefinitionCount": 24,
+  "formulaScenarioCount": 48,
+  "formulaPassCount": 48,
+  "formulaScenarioPassCount": 48,
+  "formulaFailCount": 0,
+  "formulaAtLeastTwoScenes": true,
+  "missingInputCases": [
+    {
+      "skillKey": "shyvana_p",
+      "formulaKey": "bonus_armor",
+      "missingParameterKey": "current_stack_count",
+      "rejected": true,
+      "error": "缺少运行输入shyvana_p/current_stack_count"
+    },
+    {
+      "skillKey": "shyvana_p",
+      "formulaKey": "bonus_magic_resist",
+      "missingParameterKey": "current_stack_count",
+      "rejected": true,
+      "error": "缺少运行输入shyvana_p/current_stack_count"
+    },
+    {
+      "skillKey": "shyvana_w",
+      "formulaKey": "shield_total",
+      "missingParameterKey": "nearby_enemy_count",
+      "rejected": true,
+      "error": "缺少运行输入shyvana_w/nearby_enemy_count"
+    }
+  ],
+  "missingInputCaseCount": 3,
+  "missingInputAllRejected": true,
+  "referencedRuntimeInputs": [
+    "shyvana_p/current_stack_count",
+    "shyvana_w/nearby_enemy_count"
+  ],
+  "parameterChecks": [
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 40,
+        "2": 70,
+        "3": 100,
+        "4": 130,
+        "5": 160
+      },
+      "expected": {
+        "1": 40,
+        "2": 70,
+        "3": 100,
+        "4": 130,
+        "5": 160
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "target_current_health_percent_points",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 4,
+        "2": 4,
+        "3": 4,
+        "4": 4,
+        "5": 4
+      },
+      "expected": {
+        "1": 4,
+        "2": 4,
+        "3": 4,
+        "4": 4,
+        "5": 4
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.029999999,
+      "expected": 0.029999999,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "percent_point_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.01,
+      "expected": 0.01,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "cast_range",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 575,
+      "expected": 575,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "display_range",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 615,
+      "expected": 615,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "missile_speed",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 2200,
+      "expected": 2200,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "expected": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.75,
+      "expected": 0.75,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "explosion_delay_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 3000,
+      "expected": 3000,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "explosion_radius",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 275,
+      "expected": 275,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 125,
+      "expected": 125,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "stun_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 1600,
+        "2": 1800,
+        "3": 2000,
+        "4": 2200,
+        "5": 2400
+      },
+      "expected": {
+        "1": 1600,
+        "2": 1800,
+        "3": 2000,
+        "4": 2200,
+        "5": 2400
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 60,
+        "2": 110,
+        "3": 160,
+        "4": 210,
+        "5": 260,
+        "6": 310
+      },
+      "expected": {
+        "1": 60,
+        "2": 110,
+        "3": 160,
+        "4": 210,
+        "5": 260,
+        "6": 310
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1.350000024,
+      "expected": 1.350000024,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "slow_percent_points",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 34.999999404,
+        "2": 40.000000596,
+        "3": 44.999998808,
+        "4": 50,
+        "5": 55.000001192,
+        "6": 60.000002384
+      },
+      "expected": {
+        "1": 34.999999404,
+        "2": 40.000000596,
+        "3": 44.999998808,
+        "4": 50,
+        "5": 55.000001192,
+        "6": 60.000002384
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "slow_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 2000,
+      "expected": 2000,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 125,
+      "expected": 125,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "mana_gain",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 15,
+        "2": 17,
+        "3": 19,
+        "4": 21,
+        "5": 23,
+        "6": 25
+      },
+      "expected": {
+        "1": 15,
+        "2": 17,
+        "3": 19,
+        "4": 21,
+        "5": 23,
+        "6": 25
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 140,
+        "2": 200,
+        "3": 260,
+        "4": 320,
+        "5": 380,
+        "6": 440
+      },
+      "expected": {
+        "1": 140,
+        "2": 200,
+        "3": 260,
+        "4": 320,
+        "5": 380,
+        "6": 440
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 4000,
+      "expected": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1,
+      "expected": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "target_max_health_damage_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 0.079999998,
+        "2": 0.108000003,
+        "3": 0.136000007,
+        "4": 0.164000005,
+        "5": 0.192000002,
+        "6": 0.219999999
+      },
+      "expected": {
+        "1": 0.079999998,
+        "2": 0.108000003,
+        "3": 0.136000007,
+        "4": 0.164000005,
+        "5": 0.192000002,
+        "6": 0.219999999
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1,
+      "expected": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "knockback_distance",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 600,
+      "expected": 600,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "knockback_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 350,
+      "expected": 350,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "passive_move_speed_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.1,
+      "expected": 0.1,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "move_speed_toward_enemy_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.3,
+      "expected": 0.3,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "toward_enemy_multiplier",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "brush_move_speed_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 2000,
+      "expected": 2000,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "hunt_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 4000,
+      "expected": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "move_speed_cap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.3,
+      "expected": 0.3,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "minimum_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 70,
+        "2": 90,
+        "3": 110,
+        "4": 130,
+        "5": 150
+      },
+      "expected": {
+        "1": 70,
+        "2": 90,
+        "3": 110,
+        "4": 130,
+        "5": 150
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.5,
+      "expected": 0.5,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "maximum_damage_multiplier",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 3.25,
+      "expected": 3.25,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "range_threshold",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 525,
+      "expected": 525,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "cast_range",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1500,
+      "expected": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "display_range",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1500,
+      "expected": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "missile_speed",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1300,
+      "expected": 1300,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "base_heal",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "expected": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "max_heal_multiplier_bonus",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1,
+      "expected": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "max_heal_threshold_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.050000001,
+      "expected": 0.050000001,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.349999994,
+      "expected": 0.349999994,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 0.300000012,
+        "2": 0.400000006,
+        "3": 0.5,
+        "4": 0.600000024,
+        "5": 0.699999988
+      },
+      "expected": {
+        "1": 0.300000012,
+        "2": 0.400000006,
+        "3": 0.5,
+        "4": 0.600000024,
+        "5": 0.699999988
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 7000,
+        "2": 7000,
+        "3": 7000,
+        "4": 7000,
+        "5": 7000
+      },
+      "expected": {
+        "1": 7000,
+        "2": 7000,
+        "3": 7000,
+        "4": 7000,
+        "5": 7000
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "max_heal_base_multiplier",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1,
+      "expected": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "bonus_armor_per_stack",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.300000012,
+      "expected": 0.300000012,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "bonus_magic_resist_per_stack",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.300000012,
+      "expected": 0.300000012,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "champion_takedown_stack_gain",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "current_stack_count",
+      "valueMode": "RUNTIME_INPUT",
+      "expectedMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "max_health_damage_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.01,
+      "expected": 0.01,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "max_health_bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.00011,
+      "expected": 0.00011,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "expected": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_total_ad_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1.100000024,
+      "expected": 1.100000024,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.300000012,
+      "expected": 0.300000012,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "cooldown_reduction_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 500,
+      "expected": 500,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "enhance_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 6000,
+        "2": 6000,
+        "3": 6000,
+        "4": 6000,
+        "5": 6000
+      },
+      "expected": {
+        "1": 6000,
+        "2": 6000,
+        "3": 6000,
+        "4": 6000,
+        "5": 6000
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "recast_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 4000,
+        "2": 4000,
+        "3": 4000,
+        "4": 4000,
+        "5": 4000
+      },
+      "expected": {
+        "1": 4000,
+        "2": 4000,
+        "3": 4000,
+        "4": 4000,
+        "5": 4000
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "lockout_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 1500,
+        "2": 1500,
+        "3": 1500,
+        "4": 1500,
+        "5": 1500
+      },
+      "expected": {
+        "1": 1500,
+        "2": 1500,
+        "3": 1500,
+        "4": 1500,
+        "5": 1500
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "bonus_attack_range",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 50,
+        "2": 50,
+        "3": 50,
+        "4": 50,
+        "5": 50
+      },
+      "expected": {
+        "1": 50,
+        "2": 50,
+        "3": 50,
+        "4": 50,
+        "5": 50
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0,
+      "expected": 0,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 2500,
+        "2": 2500,
+        "3": 2500,
+        "4": 2500,
+        "5": 2500
+      },
+      "expected": {
+        "1": 2500,
+        "2": 2500,
+        "3": 2500,
+        "4": 2500,
+        "5": 2500
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_radius",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 350,
+      "expected": 350,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "shield_radius",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 600,
+      "expected": 600,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "shield_base",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 60,
+        "2": 80,
+        "3": 100,
+        "4": 120,
+        "5": 140
+      },
+      "expected": {
+        "1": 60,
+        "2": 80,
+        "3": 100,
+        "4": 120,
+        "5": 140
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "bonus_health_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.119999997,
+      "expected": 0.119999997,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "nearby_enemy_bonus_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.300000012,
+      "expected": 0.300000012,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "nearby_enemy_count",
+      "valueMode": "RUNTIME_INPUT",
+      "expectedMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 0.25,
+        "2": 0.25,
+        "3": 0.25,
+        "4": 0.25,
+        "5": 0.25
+      },
+      "expected": {
+        "1": 0.25,
+        "2": 0.25,
+        "3": 0.25,
+        "4": 0.25,
+        "5": 0.25
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_toward_multiplier",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 1.75,
+        "2": 1.75,
+        "3": 1.75,
+        "4": 1.75,
+        "5": 1.75
+      },
+      "expected": {
+        "1": 1.75,
+        "2": 1.75,
+        "3": 1.75,
+        "4": 1.75,
+        "5": 1.75
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 80,
+        "2": 100,
+        "3": 120,
+        "4": 140,
+        "5": 160
+      },
+      "expected": {
+        "1": 80,
+        "2": 100,
+        "3": 120,
+        "4": 140,
+        "5": 160
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.649999976,
+      "expected": 0.649999976,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 50,
+        "2": 65,
+        "3": 80,
+        "4": 95,
+        "5": 110
+      },
+      "expected": {
+        "1": 50,
+        "2": 65,
+        "3": 80,
+        "4": 95,
+        "5": 110
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "ap_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 0.600000024,
+        "2": 0.649999976,
+        "3": 0.699999988,
+        "4": 0.75,
+        "5": 0.800000012
+      },
+      "expected": {
+        "1": 0.600000024,
+        "2": 0.649999976,
+        "3": 0.699999988,
+        "4": 0.75,
+        "5": 0.800000012
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "target_max_health_damage_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.050000001,
+      "expected": 0.050000001,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 0.300000012,
+        "2": 0.300000012,
+        "3": 0.300000012,
+        "4": 0.300000012,
+        "5": 0.300000012
+      },
+      "expected": {
+        "1": 0.300000012,
+        "2": 0.300000012,
+        "3": 0.300000012,
+        "4": 0.300000012,
+        "5": 0.300000012
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 2000,
+        "2": 2000,
+        "3": 2000,
+        "4": 2000,
+        "5": 2000
+      },
+      "expected": {
+        "1": 2000,
+        "2": 2000,
+        "3": 2000,
+        "4": 2000,
+        "5": 2000
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    }
+  ],
+  "parameterCheckCount": 83,
+  "parameterCheckPassCount": 83,
+  "parameterCheckFailCount": 0,
+  "levelChecks": [
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "target_current_health_percent_points",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "stun_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "slow_percent_points",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "mana_gain",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "target_max_health_damage_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "minimum_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "base_heal",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "enhance_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "recast_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "lockout_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "bonus_attack_range",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "shield_base",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_toward_multiplier",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "ap_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    }
+  ],
+  "levelCheckAllPass": true,
+  "characterLevelChecks": [],
+  "characterLevelCount": 0,
+  "characterLevelAllPass": true,
+  "indexChecks": [
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "base_damage",
+      "source": "Elise/Q/BaseDamage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 10,
+      "candidateLevel1": 40,
+      "candidateLast": 160,
+      "expectedFirst": 40,
+      "expectedLast": 160,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "target_current_health_percent_points",
+      "source": "Elise/Q/TargetHPDamage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 4,
+      "candidateLevel1": 4,
+      "candidateLast": 4,
+      "expectedFirst": 4,
+      "expectedLast": 4,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "base_damage",
+      "source": "Elise/W/BaseDamage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 20,
+      "candidateLevel1": 60,
+      "candidateLast": 220,
+      "expectedFirst": 60,
+      "expectedLast": 220,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "stun_duration_ms",
+      "source": "Elise/E/BaseStunDuration",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 1.399999976158142,
+      "candidateLevel1": 1600,
+      "candidateLast": 2400,
+      "expectedFirst": 1600,
+      "expectedLast": 2400,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "base_damage",
+      "source": "Jayce/Q/BaseDamage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 6,
+      "zeroIndexValue": 10,
+      "candidateLevel1": 60,
+      "candidateLast": 310,
+      "expectedFirst": 60,
+      "expectedLast": 310,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "slow_percent_points",
+      "source": "Jayce/Q/Slow",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 6,
+      "zeroIndexValue": -0.30000001192092896,
+      "candidateLevel1": 34.999999404,
+      "candidateLast": 60.000002384,
+      "expectedFirst": 34.999999404,
+      "expectedLast": 60.000002384,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "mana_gain",
+      "source": "Jayce/W/ManaGain",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 6,
+      "zeroIndexValue": 13,
+      "candidateLevel1": 15,
+      "candidateLast": 25,
+      "expectedFirst": 15,
+      "expectedLast": 25,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "base_damage",
+      "source": "Jayce/W/BaseDamage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 6,
+      "zeroIndexValue": 80,
+      "candidateLevel1": 140,
+      "candidateLast": 440,
+      "expectedFirst": 140,
+      "expectedLast": 440,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "target_max_health_damage_ratio",
+      "source": "Jayce/E/PercHPDamage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 6,
+      "zeroIndexValue": 0.052000001072883606,
+      "candidateLevel1": 0.079999998,
+      "candidateLast": 0.219999999,
+      "expectedFirst": 0.079999998,
+      "expectedLast": 0.219999999,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "minimum_base_damage",
+      "source": "Nidalee/Q/SpearMinimumDamage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 50,
+      "candidateLevel1": 70,
+      "candidateLast": 150,
+      "expectedFirst": 70,
+      "expectedLast": 150,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "base_heal",
+      "source": "Nidalee/E/BaseHeal",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 25,
+      "candidateLevel1": 50,
+      "candidateLast": 150,
+      "expectedFirst": 50,
+      "expectedLast": 150,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_ratio",
+      "source": "Nidalee/E/BonusAS",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 0.20000000298023224,
+      "candidateLevel1": 0.300000012,
+      "candidateLast": 0.699999988,
+      "expectedFirst": 0.300000012,
+      "expectedLast": 0.699999988,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_duration_ms",
+      "source": "Nidalee/E/ASDuration",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 7,
+      "candidateLevel1": 7000,
+      "candidateLast": 7000,
+      "expectedFirst": 7000,
+      "expectedLast": 7000,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_base_damage",
+      "source": "Shyvana/Q/Base_Damage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 5,
+      "candidateLevel1": 10,
+      "candidateLast": 30,
+      "expectedFirst": 10,
+      "expectedLast": 30,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "enhance_duration_ms",
+      "source": "Shyvana/Q/EnhanceDuration",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 6,
+      "candidateLevel1": 6000,
+      "candidateLast": 6000,
+      "expectedFirst": 6000,
+      "expectedLast": 6000,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "recast_duration_ms",
+      "source": "Shyvana/Q/RecastDuration",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 4,
+      "candidateLevel1": 4000,
+      "candidateLast": 4000,
+      "expectedFirst": 4000,
+      "expectedLast": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "lockout_duration_ms",
+      "source": "Shyvana/Q/LockoutDuration",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 1.5,
+      "candidateLevel1": 1500,
+      "candidateLast": 1500,
+      "expectedFirst": 1500,
+      "expectedLast": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "bonus_attack_range",
+      "source": "Shyvana/Q/Bonus_Attack_Range",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 50,
+      "candidateLevel1": 50,
+      "candidateLast": 50,
+      "expectedFirst": 50,
+      "expectedLast": 50,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "duration_ms",
+      "source": "Shyvana/W/Duration",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 2.5,
+      "candidateLevel1": 2500,
+      "candidateLast": 2500,
+      "expectedFirst": 2500,
+      "expectedLast": 2500,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "shield_base",
+      "source": "Shyvana/W/Shield",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 40,
+      "candidateLevel1": 60,
+      "candidateLast": 140,
+      "expectedFirst": 60,
+      "expectedLast": 140,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_ratio",
+      "source": "Shyvana/W/BaseMoveSpeed",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 0.25,
+      "candidateLevel1": 0.25,
+      "candidateLast": 0.25,
+      "expectedFirst": 0.25,
+      "expectedLast": 0.25,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_toward_multiplier",
+      "source": "Shyvana/W/MoveSpeedAmpTowardsEnemies",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 1.75,
+      "candidateLevel1": 1.75,
+      "candidateLast": 1.75,
+      "expectedFirst": 1.75,
+      "expectedLast": 1.75,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_base_damage",
+      "source": "Shyvana/W/BaseDamage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 60,
+      "candidateLevel1": 80,
+      "candidateLast": 160,
+      "expectedFirst": 80,
+      "expectedLast": 160,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "base_damage",
+      "source": "Shyvana/E/BaseDamage",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 35,
+      "candidateLevel1": 50,
+      "candidateLast": 110,
+      "expectedFirst": 50,
+      "expectedLast": 110,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "ap_ratio",
+      "source": "Shyvana/E/DamageAPRatio",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 0.550000011920929,
+      "candidateLevel1": 0.600000024,
+      "candidateLast": 0.800000012,
+      "expectedFirst": 0.600000024,
+      "expectedLast": 0.800000012,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_ratio",
+      "source": "Shyvana/E/SlowAmount",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 0.30000001192092896,
+      "candidateLevel1": 0.300000012,
+      "candidateLast": 0.300000012,
+      "expectedFirst": 0.300000012,
+      "expectedLast": 0.300000012,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_duration_ms",
+      "source": "Shyvana/E/SlowDuration",
+      "sourceIndexStart": 1,
+      "sourceIndexEnd": 5,
+      "zeroIndexValue": 2,
+      "candidateLevel1": 2000,
+      "candidateLast": 2000,
+      "expectedFirst": 2000,
+      "expectedLast": 2000,
+      "pass": true
+    }
+  ],
+  "sourceArrayIndexAllPass": true,
+  "integerChecks": [
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "target_current_health_percent_points",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "percent_point_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "cast_range",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "display_range",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "missile_speed",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "explosion_delay_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "explosion_radius",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "stun_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "slow_percent_points",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "slow_duration_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "mana_gain",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "duration_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "target_max_health_damage_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "knockback_distance",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "knockback_duration_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "passive_move_speed_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "move_speed_toward_enemy_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "toward_enemy_multiplier",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "brush_move_speed_duration_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "hunt_duration_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "move_speed_cap_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "minimum_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "maximum_damage_multiplier",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "range_threshold",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "cast_range",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "display_range",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "missile_speed",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "base_heal",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "max_heal_multiplier_bonus",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "max_heal_threshold_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "max_heal_base_multiplier",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "bonus_armor_per_stack",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "bonus_magic_resist_per_stack",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "champion_takedown_stack_gain",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "current_stack_count",
+      "valueMode": "RUNTIME_INPUT",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "max_health_damage_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "max_health_bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_total_ad_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_ap_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "cooldown_reduction_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "enhance_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "recast_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "lockout_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "bonus_attack_range",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_radius",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "shield_radius",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "shield_base",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "bonus_health_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "nearby_enemy_bonus_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "nearby_enemy_count",
+      "valueMode": "RUNTIME_INPUT",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_toward_multiplier",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_ap_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "ap_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "target_max_health_damage_ratio",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "finiteOk": true,
+      "integerOk": true,
+      "msOk": true,
+      "pass": true
+    }
+  ],
+  "integerParameterCount": 50,
+  "integerParameters": 50,
+  "integerValueCount": 131,
+  "integerValues": 131,
+  "integerAndModeAllPass": true,
+  "structureIssues": [],
+  "allFormulaOperationsBinary": true,
+  "consumerChecks": [
+    {
+      "skillKey": "elise_q",
+      "heroId": "Elise",
+      "slot": "Q",
+      "name": "HumanPercentHealth",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "heroId": "Elise",
+      "slot": "Q",
+      "name": "MonsterDamageCapCalc",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "野怪专用上限",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "heroId": "Elise",
+      "slot": "W",
+      "name": "TotalDamage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "heroId": "Elise",
+      "slot": "E",
+      "name": "TotalStunDuration",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "heroId": "Jayce",
+      "slot": "Q",
+      "name": "Damage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "heroId": "Jayce",
+      "slot": "Q",
+      "name": "MonsterBonusDamage",
+      "kind": "data",
+      "selected": false,
+      "required": false,
+      "reason": "野怪专用额外伤害",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "heroId": "Jayce",
+      "slot": "W",
+      "name": "Damage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "heroId": "Jayce",
+      "slot": "E",
+      "name": "FlatDamage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "heroId": "Jayce",
+      "slot": "E",
+      "name": "MonsterCap",
+      "kind": "data",
+      "selected": false,
+      "required": false,
+      "reason": "野怪专用上限",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "heroId": "Nidalee",
+      "slot": "R",
+      "textSlot": "P",
+      "name": "PassivePercentMS",
+      "kind": "data",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "heroId": "Nidalee",
+      "slot": "Q",
+      "name": "HumanMinimumDamage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "heroId": "Nidalee",
+      "slot": "Q",
+      "name": "HumanMaximumDamage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_w",
+      "heroId": "Nidalee",
+      "slot": "W",
+      "name": "DamagePerSecond",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "陷阱持续伤害",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_w",
+      "heroId": "Nidalee",
+      "slot": "W",
+      "name": "MaxTraps",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "陷阱数量上限",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "heroId": "Nidalee",
+      "slot": "E",
+      "name": "TotalHealing",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "heroId": "Nidalee",
+      "slot": "E",
+      "name": "MaxHealing",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "heroId": "Shyvana",
+      "slot": "P",
+      "name": "BonusArmor",
+      "kind": "data",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "heroId": "Shyvana",
+      "slot": "P",
+      "name": "BonusMagicResist",
+      "kind": "data",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "heroId": "Shyvana",
+      "slot": "P",
+      "name": "Calc_Bonus_Armor",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "heroId": "Shyvana",
+      "slot": "P",
+      "name": "Calc_Bonus_MR",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "heroId": "Shyvana",
+      "slot": "Q",
+      "name": "Calc_Max_Health_Damage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "heroId": "Shyvana",
+      "slot": "Q",
+      "name": "Calc_Damage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "heroId": "Shyvana",
+      "slot": "Q",
+      "name": "Calc_Dragon_Form_Damage",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "龙形态第三击",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "heroId": "Shyvana",
+      "slot": "W",
+      "name": "Damage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "heroId": "Shyvana",
+      "slot": "W",
+      "name": "MoveSpeed",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "heroId": "Shyvana",
+      "slot": "W",
+      "name": "Calc_Shield",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "heroId": "Shyvana",
+      "slot": "W",
+      "name": "Calc_Shield_Per_Nearby_Champion",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "heroId": "Shyvana",
+      "slot": "W",
+      "name": "MoveSpeedTowardsEnemies",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "heroId": "Shyvana",
+      "slot": "W",
+      "name": "Calc_Base_Heal",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "龙形态治疗旧树",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "heroId": "Shyvana",
+      "slot": "W",
+      "name": "Calc_Missing_Health_Heal",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "龙形态治疗旧树",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "heroId": "Shyvana",
+      "slot": "E",
+      "name": "Damage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "heroId": "Shyvana",
+      "slot": "E",
+      "name": "Calc_Max_Health_Damage",
+      "kind": "calculation",
+      "selected": true,
+      "required": true,
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "heroId": "Shyvana",
+      "slot": "E",
+      "name": "Calc_Dragon_Damage",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "龙形态放大",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "heroId": "Shyvana",
+      "slot": "E",
+      "name": "DamagePerSecond",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "地面轨迹",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    }
+  ],
+  "currentConsumerAllPass": true,
+  "excludedConsumerChecks": [
+    {
+      "skillKey": "elise_q",
+      "heroId": "Elise",
+      "slot": "Q",
+      "name": "MonsterDamageCapCalc",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "野怪专用上限",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "heroId": "Jayce",
+      "slot": "Q",
+      "name": "MonsterBonusDamage",
+      "kind": "data",
+      "selected": false,
+      "required": false,
+      "reason": "野怪专用额外伤害",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "heroId": "Jayce",
+      "slot": "E",
+      "name": "MonsterCap",
+      "kind": "data",
+      "selected": false,
+      "required": false,
+      "reason": "野怪专用上限",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_w",
+      "heroId": "Nidalee",
+      "slot": "W",
+      "name": "DamagePerSecond",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "陷阱持续伤害",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_w",
+      "heroId": "Nidalee",
+      "slot": "W",
+      "name": "MaxTraps",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "陷阱数量上限",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "heroId": "Shyvana",
+      "slot": "Q",
+      "name": "Calc_Dragon_Form_Damage",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "龙形态第三击",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "heroId": "Shyvana",
+      "slot": "W",
+      "name": "Calc_Base_Heal",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "龙形态治疗旧树",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "heroId": "Shyvana",
+      "slot": "W",
+      "name": "Calc_Missing_Health_Heal",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "龙形态治疗旧树",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "heroId": "Shyvana",
+      "slot": "E",
+      "name": "Calc_Dragon_Damage",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "龙形态放大",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "heroId": "Shyvana",
+      "slot": "E",
+      "name": "DamagePerSecond",
+      "kind": "calculation",
+      "selected": false,
+      "required": false,
+      "reason": "地面轨迹",
+      "sourceExists": true,
+      "textContainsName": true,
+      "pass": true
+    }
+  ],
+  "effectChecks": [
+    {
+      "skillKey": "elise_q",
+      "effectKey": "mana_cost",
+      "resultKey": "resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "mana_cost",
+      "finalValue": 100,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "effectKey": "explosion_damage",
+      "resultKey": "damage",
+      "resultType": "DAMAGE",
+      "valueKind": "FORMULA",
+      "valueKey": "magic_damage",
+      "finalValue": 535,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "effectKey": "mana_cost",
+      "resultKey": "resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "mana_cost",
+      "finalValue": 100,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "effectKey": "mana_cost",
+      "resultKey": "resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "mana_cost",
+      "finalValue": 50,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "effectKey": "mana_cost",
+      "resultKey": "resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "mana_cost",
+      "finalValue": 40,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "effectKey": "mana_gain_on_attack",
+      "resultKey": "resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "mana_gain",
+      "finalValue": 25,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "effectKey": "mana_cost",
+      "resultKey": "resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "mana_cost",
+      "finalValue": 40,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "effectKey": "mana_cost",
+      "resultKey": "resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "mana_cost",
+      "finalValue": 55,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "effectKey": "brush_move_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "passive_move_speed_ratio",
+      "finalValue": 0.1,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "effectKey": "brush_move_speed_toward_enemy",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "move_speed_toward_enemy_ratio",
+      "finalValue": 0.3,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "effectKey": "hunt_move_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "passive_move_speed_ratio",
+      "finalValue": 0.1,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "effectKey": "hunt_move_speed_toward_enemy",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "move_speed_toward_enemy_ratio",
+      "finalValue": 0.3,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "effectKey": "mana_cost",
+      "resultKey": "resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "mana_cost",
+      "finalValue": 70,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "effectKey": "self_attack_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "attack_speed_ratio",
+      "finalValue": 0.699999988,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "effectKey": "mana_cost",
+      "resultKey": "resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "mana_cost",
+      "finalValue": 70,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "effectKey": "bonus_armor",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "FORMULA",
+      "valueKey": "bonus_armor",
+      "finalValue": 2.400000096,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "effectKey": "bonus_magic_resist",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "FORMULA",
+      "valueKey": "bonus_magic_resist",
+      "finalValue": 2.400000096,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "effectKey": "reduce_q_cooldown",
+      "resultKey": "reduce_cooldown",
+      "resultType": "COOLDOWN_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "cooldown_reduction_ms",
+      "finalValue": 500,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "effectKey": "shield",
+      "resultKey": "shield",
+      "resultType": "NORMAL_SHIELD",
+      "valueKind": "FORMULA",
+      "valueKey": "shield_total",
+      "finalValue": 400.399998236,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "effectKey": "move_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "valueKey": "move_speed_ratio",
+      "finalValue": 0.25,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "effectKey": "move_speed_toward_enemy",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "FORMULA",
+      "valueKey": "toward_move_speed_ratio",
+      "finalValue": 0.4375,
+      "fixedMultiplier": 1,
+      "valuePass": true,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    }
+  ],
+  "effectCount": 21,
+  "effectFinalMultiplierCheckCount": 21,
+  "effectFinalMultiplierAllPass": true,
+  "ratioAttributeFlatAddChecks": [
+    {
+      "skillKey": "nidalee_p",
+      "effectKey": "brush_move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "effectKey": "brush_move_speed_toward_enemy",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "effectKey": "hunt_move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "effectKey": "hunt_move_speed_toward_enemy",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "effectKey": "self_attack_speed",
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "effectKey": "bonus_armor",
+      "attributeKey": "armor",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "effectKey": "bonus_magic_resist",
+      "attributeKey": "magic_resistance",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "effectKey": "move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "effectKey": "move_speed_toward_enemy",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    }
+  ],
+  "ratioAttributeFlatAddAllPass": true,
+  "nidaleePassiveBranchChecks": {
+    "rule": "同来源内互斥；不同来源可叠加，合计30%封顶",
+    "tests": [
+      {
+        "brush": 0,
+        "hunt": 0,
+        "expected": 0,
+        "actual": 0,
+        "pass": true
+      },
+      {
+        "brush": 1,
+        "hunt": 0,
+        "expected": 0.1,
+        "actual": 0.1,
+        "pass": true
+      },
+      {
+        "brush": 1,
+        "hunt": 1,
+        "expected": 0.2,
+        "actual": 0.2,
+        "pass": true
+      },
+      {
+        "brush": 2,
+        "hunt": 1,
+        "expected": 0.3,
+        "actual": 0.3,
+        "pass": true
+      },
+      {
+        "brush": 1,
+        "hunt": 2,
+        "expected": 0.3,
+        "actual": 0.3,
+        "pass": true
+      },
+      {
+        "brush": 2,
+        "hunt": 2,
+        "expected": 0.3,
+        "actual": 0.3,
+        "pass": true
+      }
+    ],
+    "sourceExtended": "{{Spell_NidaleePassiveHunt_Tooltip}}<br><br><rules><br><speed>移动速度</speed>可以叠加但无法超过30%<br></rules>",
+    "pass": true
+  },
+  "nidaleePassiveBranchAllPass": true,
+  "shyvanaPassiveAttributeChecks": [
+    {
+      "effectKey": "bonus_armor",
+      "expectedAttributeKey": "armor",
+      "actualAttributeKey": "armor",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "effectKey": "bonus_magic_resist",
+      "expectedAttributeKey": "magic_resistance",
+      "actualAttributeKey": "magic_resistance",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    }
+  ],
+  "shyvanaPassiveAttributeAllPass": true,
+  "shyvanaPassiveUnitChecks": [
+    {
+      "formulaKey": "bonus_armor",
+      "stackCount": 3,
+      "actual": 0.900000036,
+      "expected": 0.9,
+      "pass": true
+    },
+    {
+      "formulaKey": "bonus_magic_resist",
+      "stackCount": 3,
+      "actual": 0.900000036,
+      "expected": 0.9,
+      "pass": true
+    }
+  ],
+  "shyvanaPassiveUnitAllPass": true,
+  "shyvanaWBranchChecks": [
+    {
+      "rank": 1,
+      "actualBase": 0.25,
+      "expectedBase": 0.25,
+      "actualToward": 0.4375,
+      "expectedToward": 0.4375,
+      "combinedIfAdded": 0.6875,
+      "sourceBase": 0.25,
+      "sourceMultiplier": 1.75,
+      "levelValuesPass": true,
+      "replacementPass": true,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "actualBase": 0.25,
+      "expectedBase": 0.25,
+      "actualToward": 0.4375,
+      "expectedToward": 0.4375,
+      "combinedIfAdded": 0.6875,
+      "sourceBase": 0.25,
+      "sourceMultiplier": 1.75,
+      "levelValuesPass": true,
+      "replacementPass": true,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "actualBase": 0.25,
+      "expectedBase": 0.25,
+      "actualToward": 0.4375,
+      "expectedToward": 0.4375,
+      "combinedIfAdded": 0.6875,
+      "sourceBase": 0.25,
+      "sourceMultiplier": 1.75,
+      "levelValuesPass": true,
+      "replacementPass": true,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "actualBase": 0.25,
+      "expectedBase": 0.25,
+      "actualToward": 0.4375,
+      "expectedToward": 0.4375,
+      "combinedIfAdded": 0.6875,
+      "sourceBase": 0.25,
+      "sourceMultiplier": 1.75,
+      "levelValuesPass": true,
+      "replacementPass": true,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "actualBase": 0.25,
+      "expectedBase": 0.25,
+      "actualToward": 0.4375,
+      "expectedToward": 0.4375,
+      "combinedIfAdded": 0.6875,
+      "sourceBase": 0.25,
+      "sourceMultiplier": 1.75,
+      "levelValuesPass": true,
+      "replacementPass": true,
+      "pass": true
+    }
+  ],
+  "shyvanaWBranchAllPass": true,
+  "qualificationChecks": [
+    {
+      "skillKey": "elise_w",
+      "rule": "一次性本体技能伤害载体",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "rule": "本轮仅保留自身效果",
+      "pass": true
+    }
+  ],
+  "qualificationAllPass": true,
+  "selectedBannedParameterChecks": [
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "target_current_health_percent_points",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "percent_point_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "cast_range",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "display_range",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "missile_speed",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "explosion_delay_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "explosion_radius",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "stun_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "slow_percent_points",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "mana_gain",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "target_max_health_damage_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "knockback_distance",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "knockback_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "passive_move_speed_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "move_speed_toward_enemy_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "toward_enemy_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "brush_move_speed_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "hunt_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "parameterKey": "move_speed_cap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "minimum_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "maximum_damage_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "range_threshold",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "cast_range",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "display_range",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "missile_speed",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "base_heal",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "max_heal_multiplier_bonus",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "max_heal_threshold_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "attack_speed_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "max_heal_base_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "bonus_armor_per_stack",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "bonus_magic_resist_per_stack",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "champion_takedown_stack_gain",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "parameterKey": "current_stack_count",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "max_health_damage_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "max_health_bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_total_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "active_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "cooldown_reduction_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "enhance_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "recast_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "lockout_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "bonus_attack_range",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_radius",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "shield_radius",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "shield_base",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "bonus_health_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "nearby_enemy_bonus_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "nearby_enemy_count",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "move_speed_toward_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "explosion_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "target_max_health_damage_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    }
+  ],
+  "noUnitExclusionParameters": true,
+  "publicReuseCount": 21,
+  "publicReuseExpected": 21,
+  "publicReuseAllProtected": true,
+  "protectedSubjectsAllPresent": true,
+  "maxLevelChecks": [
+    {
+      "skillKey": "elise_p",
+      "candidateMaxLevel": 1,
+      "protectedMaxLevel": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_q",
+      "candidateMaxLevel": 5,
+      "protectedMaxLevel": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_w",
+      "candidateMaxLevel": 5,
+      "protectedMaxLevel": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_e",
+      "candidateMaxLevel": 5,
+      "protectedMaxLevel": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "elise_r",
+      "candidateMaxLevel": 4,
+      "protectedMaxLevel": 4,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_p",
+      "candidateMaxLevel": 1,
+      "protectedMaxLevel": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_q",
+      "candidateMaxLevel": 6,
+      "protectedMaxLevel": 6,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_w",
+      "candidateMaxLevel": 6,
+      "protectedMaxLevel": 6,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_e",
+      "candidateMaxLevel": 6,
+      "protectedMaxLevel": 6,
+      "pass": true
+    },
+    {
+      "skillKey": "jayce_r",
+      "candidateMaxLevel": 1,
+      "protectedMaxLevel": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_p",
+      "candidateMaxLevel": 1,
+      "protectedMaxLevel": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_q",
+      "candidateMaxLevel": 5,
+      "protectedMaxLevel": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_w",
+      "candidateMaxLevel": 5,
+      "protectedMaxLevel": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_e",
+      "candidateMaxLevel": 5,
+      "protectedMaxLevel": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "nidalee_r",
+      "candidateMaxLevel": 4,
+      "protectedMaxLevel": 4,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_p",
+      "candidateMaxLevel": 1,
+      "protectedMaxLevel": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_q",
+      "candidateMaxLevel": 5,
+      "protectedMaxLevel": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_w",
+      "candidateMaxLevel": 5,
+      "protectedMaxLevel": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_e",
+      "candidateMaxLevel": 5,
+      "protectedMaxLevel": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "shyvana_r",
+      "candidateMaxLevel": 3,
+      "protectedMaxLevel": 3,
+      "pass": true
+    }
+  ],
+  "maxLevelAllPass": true,
+  "inputProtection": {
+    "GETs": 193,
+    "expectedGETs": 193,
+    "apiWrites": 0,
+    "expectedApiWrites": 0
+  },
+  "noApiCalls": true,
+  "noBrowserCalls": true,
+  "noGitWrites": true,
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "statusPass": true,
+  "scenarios": {
+    "基础场景": "技能等级1（R为自身保护等级的1级场景）、角色等级1；总攻击力180、额外攻击力80、法强120、额外生命600；目标最大生命1000、当前生命700；希瓦娜P层数2、W附近合格敌人数0。",
+    "强化场景": "技能取各自保护快照最高等级、角色等级18；总攻击力320、额外攻击力180、法强420、额外生命1400；目标最大生命2200、当前生命1350；希瓦娜P层数8、W附近合格敌人数1。",
+    "missingInput": "逐公式移除所引用的RUNTIME_INPUT，必须拒绝计算；候选没有默认值。"
+  },
+  "rootAdditionalChecks": {
+    "typedReferences": 88,
+    "attributeReferences": 44,
+    "nativeFiniteValues": 194,
+    "invalidReferences": 0,
+    "nidaleeHealEffectDeferred": true,
+    "passed": true
+  }
+}

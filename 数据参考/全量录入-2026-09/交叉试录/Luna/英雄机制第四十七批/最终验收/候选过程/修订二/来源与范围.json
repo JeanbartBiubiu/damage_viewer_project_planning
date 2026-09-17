@@ -1,0 +1,445 @@
+{
+  "at": "2026-09-10T03:03:33.060Z",
+  "revision": "hero47-source-v1-root-revision-2",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "inputGETs": 193,
+  "reusedPublicParameters": 21,
+  "sourceBindingSha256": "0325bce9f1b0ad3b254da0ca89180d9d2e8458d365caa849f9eaf6c974236486",
+  "originalCandidateSha256": "9d6644e80d31631a4cfbc5e3cfce49a1dffa16cd5fe4eae8972ee88b671c1452",
+  "counts": {
+    "newParameters": 83,
+    "newFormulas": 24,
+    "newEffects": 21,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 128,
+    "reusedPublicParameters": 21,
+    "plannedTotalIncludingReused": 149,
+    "protectedCurrentCompositionLists": 120
+  },
+  "skills": [
+    {
+      "skillKey": "elise_p",
+      "excluded": [
+        "蜘蛛形态的普攻附伤、回血和小蜘蛛准备均依赖完整变形或独立召唤单位，本轮不制造本体伤害。"
+      ],
+      "pending": [
+        "蜘蛛形态切换、小蜘蛛生成和攻击链需后续完整形态与召唤单位能力。"
+      ],
+      "parameters": [],
+      "formulas": [],
+      "effects": []
+    },
+    {
+      "skillKey": "elise_q",
+      "excluded": [
+        "野怪伤害上限与蜘蛛形态剧毒之蜇分支排除。"
+      ],
+      "pending": [
+        "0.25秒与0.125秒施法字段冲突，不任选；命中时点待运行层接线。",
+        "目标当前生命输入必须由运行层提供，不以目标最大或已损生命替代。"
+      ],
+      "parameters": [
+        "base_damage",
+        "target_current_health_percent_points",
+        "ap_ratio",
+        "percent_point_ratio",
+        "cast_range",
+        "display_range",
+        "missile_speed"
+      ],
+      "formulas": [
+        "current_health_magic_damage",
+        "human_magic_damage"
+      ],
+      "effects": [
+        "mana_cost"
+      ]
+    },
+    {
+      "skillKey": "elise_w",
+      "excluded": [
+        "蜘蛛形态攻速和兵野专用分支排除。"
+      ],
+      "pending": [
+        "资格审查已按一次施放、一次爆炸的本体技能伤害载体处理；敌方是否能单独选中或击杀仍待运行层核对，不建立独立单位接线。",
+        "接近敌人或3秒后爆炸的事件资格待运行层接线。"
+      ],
+      "parameters": [
+        "base_damage",
+        "ap_ratio",
+        "explosion_delay_ms",
+        "explosion_radius",
+        "cast_time_ms"
+      ],
+      "formulas": [
+        "magic_damage"
+      ],
+      "effects": [
+        "explosion_damage",
+        "mana_cost"
+      ]
+    },
+    {
+      "skillKey": "elise_e",
+      "excluded": [
+        "纯视野、蜘蛛形态盘丝、被动增强和兵野专用分支排除；没有伤害字段，不添加零伤害。"
+      ],
+      "pending": [
+        "首个敌人命中与眩晕事件待运行层接线。"
+      ],
+      "parameters": [
+        "stun_duration_ms",
+        "cast_time_ms"
+      ],
+      "formulas": [
+        "stun_duration"
+      ],
+      "effects": [
+        "mana_cost"
+      ]
+    },
+    {
+      "skillKey": "elise_r",
+      "excluded": [
+        "完整变形、蜘蛛普攻附伤/回血和小蜘蛛全链按本轮范围排除。"
+      ],
+      "pending": [
+        "变形切换和R跨技能引用待后续完整形态处理；0.528699994秒不作为本轮施法参数。"
+      ],
+      "parameters": [],
+      "formulas": [],
+      "effects": []
+    },
+    {
+      "skillKey": "jayce_p",
+      "excluded": [
+        "武器切换触发的移动速度属于完整变形切换链，本轮不当常驻自身移速。"
+      ],
+      "pending": [
+        "形态切换事件和30移速/0.75秒效果待后续完整变形处理。"
+      ],
+      "parameters": [],
+      "formulas": [],
+      "effects": []
+    },
+    {
+      "skillKey": "jayce_q",
+      "excluded": [
+        "野怪额外10伤害与炮形态电能震荡弹道排除。"
+      ],
+      "pending": [
+        "目标命中、减速和锤形态切换资格待运行层接线。"
+      ],
+      "parameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "cast_time_ms"
+      ],
+      "formulas": [
+        "physical_damage"
+      ],
+      "effects": [
+        "mana_cost"
+      ]
+    },
+    {
+      "skillKey": "jayce_w",
+      "excluded": [
+        "炮形态超能电荷的攻速强化排除。"
+      ],
+      "pending": [
+        "锤形态普攻回复和领域持续伤害结算时点待运行层接线；当前根没有冷却字段，不另猜冷却。"
+      ],
+      "parameters": [
+        "mana_gain",
+        "base_damage",
+        "duration_ms",
+        "ap_ratio",
+        "cast_time_ms"
+      ],
+      "formulas": [
+        "magic_damage"
+      ],
+      "effects": [
+        "mana_gain_on_attack",
+        "mana_cost"
+      ]
+    },
+    {
+      "skillKey": "jayce_e",
+      "excluded": [
+        "炮形态加速之门和野怪最大伤害上限排除。"
+      ],
+      "pending": [
+        "锤形态命中、击退和唯一目标资格待运行层接线。"
+      ],
+      "parameters": [
+        "target_max_health_damage_ratio",
+        "bonus_ad_ratio",
+        "knockback_distance",
+        "knockback_duration_ms",
+        "cast_time_ms"
+      ],
+      "formulas": [
+        "magic_damage"
+      ],
+      "effects": [
+        "mana_cost"
+      ]
+    },
+    {
+      "skillKey": "jayce_r",
+      "excluded": [
+        "完整武器切换、下一次攻击削减双抗和炮形态第一次攻击额外魔法伤害按范围排除。"
+      ],
+      "pending": [
+        "变形前后顺序、削减持续与第一次攻击事件待后续完整形态处理。"
+      ],
+      "parameters": [],
+      "formulas": [],
+      "effects": []
+    },
+    {
+      "skillKey": "nidalee_p",
+      "excluded": [
+        "纯野怪捕猎、真实视野、陷阱及整套变形不在本轮录入范围，不计为本轮待接任务。"
+      ],
+      "pending": [
+        "草丛进入后2秒增益与Q命中当前敌方英雄后4秒捕猎资格待事件层接线；草丛刷新和离开时的精确事件未证，不凭空添加离开立即移除。",
+        "每个来源内部10%基础与朝目标30%是互斥替代；草丛与捕猎两个来源可以叠加，总计最多30%。例如10%+10%=20%，30%+10%封顶30%；先选择各来源状态，再合计封顶。"
+      ],
+      "parameters": [
+        "passive_move_speed_ratio",
+        "move_speed_toward_enemy_ratio",
+        "toward_enemy_multiplier",
+        "brush_move_speed_duration_ms",
+        "hunt_duration_ms",
+        "move_speed_cap_ratio"
+      ],
+      "formulas": [],
+      "effects": [
+        "brush_move_speed",
+        "brush_move_speed_toward_enemy",
+        "hunt_move_speed",
+        "hunt_move_speed_toward_enemy"
+      ]
+    },
+    {
+      "skillKey": "nidalee_q",
+      "excluded": [
+        "豹形态推倒、陷阱和野怪分支排除；不把tooltipOnly豹形态树当作人类伤害。"
+      ],
+      "pending": [
+        "标枪飞行距离到中间伤害的曲线、525距离阈值具体语义和命中事件待核；不得把525直接当满伤或默认线性。"
+      ],
+      "parameters": [
+        "minimum_base_damage",
+        "ap_ratio",
+        "maximum_damage_multiplier",
+        "range_threshold",
+        "cast_range",
+        "display_range",
+        "missile_speed",
+        "cast_time_ms"
+      ],
+      "formulas": [
+        "minimum_magic_damage",
+        "maximum_magic_damage"
+      ],
+      "effects": [
+        "mana_cost"
+      ]
+    },
+    {
+      "skillKey": "nidalee_w",
+      "excluded": [
+        "人类陷阱的持续伤害、持续时间、数量上限及豹形态猛扑均属于独立陷阱或完整变形套装，本轮六类写入保持空。"
+      ],
+      "pending": [
+        "陷阱生成与触发、视野暴露、豹形态切换和猛扑命中不在当前可独立表达范围。"
+      ],
+      "parameters": [],
+      "formulas": [],
+      "effects": []
+    },
+    {
+      "skillKey": "nidalee_e",
+      "excluded": [
+        "豹形态挥击和第三友方目标排除；未知已损生命治疗曲线不写成线性公式。"
+      ],
+      "pending": [
+        "运行层具体如何限制为自身单一目标仍待接线；第三方友方虽有技能事实支持，按本轮1V1范围排除。",
+        "最大治疗的已损生命中间曲线、阈值判定和攻速跨形态持续事件仍待运行层核对。",
+        "最小和最大治疗公式已保存；中间已损生命曲线及实际分支未知，暂不保存把最小治疗误当全量治疗的self_heal效果。7秒自身攻速独立保留。"
+      ],
+      "parameters": [
+        "base_heal",
+        "max_heal_multiplier_bonus",
+        "max_heal_threshold_ratio",
+        "ap_ratio",
+        "attack_speed_ratio",
+        "attack_speed_duration_ms",
+        "cast_time_ms",
+        "max_heal_base_multiplier"
+      ],
+      "formulas": [
+        "total_healing",
+        "max_healing_multiplier",
+        "maximum_healing"
+      ],
+      "effects": [
+        "self_attack_speed",
+        "mana_cost"
+      ]
+    },
+    {
+      "skillKey": "nidalee_r",
+      "excluded": [
+        "完整变形、豹形态替换技能和相应攻击链按本轮范围排除；人类P跨R消费的PassivePercentMS已移入P记录。"
+      ],
+      "pending": [
+        "变形切换及捕猎刷新R的事件顺序待后续完整形态处理；0.528699994秒不作为本轮施法参数。"
+      ],
+      "parameters": [],
+      "formulas": [],
+      "effects": []
+    },
+    {
+      "skillKey": "shyvana_p",
+      "excluded": [
+        "兵线、普通野怪和史诗野怪的层数获取途径不录；不使用旧版小龙双抗说明。"
+      ],
+      "pending": [
+        "战前当前层数和英雄参与击杀事件由运行层提供；Stacks_Per_Epic_Monster与英雄文本的共同语义不额外推断。"
+      ],
+      "parameters": [
+        "bonus_armor_per_stack",
+        "bonus_magic_resist_per_stack",
+        "champion_takedown_stack_gain",
+        "current_stack_count"
+      ],
+      "formulas": [
+        "bonus_armor",
+        "bonus_magic_resist"
+      ],
+      "effects": [
+        "bonus_armor",
+        "bonus_magic_resist"
+      ]
+    },
+    {
+      "skillKey": "shyvana_q",
+      "excluded": [
+        "龙形态第三击真实伤害放大、额外敌人锥形分配和兵野专用分支排除。"
+      ],
+      "pending": [
+        "普攻后触发、同一敌人第一与第二次命中、强化窗口和锁定时序待运行层接线；spellCastTime=0不折算为同时攻击。"
+      ],
+      "parameters": [
+        "max_health_damage_ratio",
+        "max_health_bonus_ad_ratio",
+        "active_base_damage",
+        "active_total_ad_ratio",
+        "active_ap_ratio",
+        "cooldown_reduction_ms",
+        "enhance_duration_ms",
+        "recast_duration_ms",
+        "lockout_duration_ms",
+        "bonus_attack_range",
+        "cast_time_ms"
+      ],
+      "formulas": [
+        "passive_max_health_magic_damage",
+        "active_physical_damage"
+      ],
+      "effects": [
+        "reduce_q_cooldown"
+      ]
+    },
+    {
+      "skillKey": "shyvana_w",
+      "excluded": [
+        "龙形态治疗和额外变形爆炸链排除；未消费的旧Heal_Min/Heal_Max插值树不录。"
+      ],
+      "pending": [
+        "护盾范围内合格敌人数必须由运行层提供0或1；护盾生成、附近目标资格、移动方向和结束事件待接线。",
+        "朝敌方移动的43.75%与25%基础移动速度是完整状态替代，不能叠加为68.75%；各技能等级均按源数组核对，唯一敌人资格与状态切换由运行层接线。"
+      ],
+      "parameters": [
+        "duration_ms",
+        "explosion_radius",
+        "shield_radius",
+        "shield_base",
+        "bonus_health_ratio",
+        "nearby_enemy_bonus_ratio",
+        "nearby_enemy_count",
+        "move_speed_ratio",
+        "move_speed_toward_multiplier",
+        "explosion_base_damage",
+        "explosion_ap_ratio"
+      ],
+      "formulas": [
+        "shield_amount",
+        "nearby_shield_bonus",
+        "shield_total",
+        "toward_move_speed_ratio",
+        "explosion_magic_damage"
+      ],
+      "effects": [
+        "shield",
+        "move_speed",
+        "move_speed_toward_enemy"
+      ]
+    },
+    {
+      "skillKey": "shyvana_e",
+      "excluded": [
+        "龙形态放大、穿透、地面轨迹每秒伤害、重复爆炸和兵野专用最大伤害上限排除；普通形态不生成地面持续伤害。"
+      ],
+      "pending": [
+        "普通火球命中、减速目标和最终伤害结算事件待运行层接线。"
+      ],
+      "parameters": [
+        "base_damage",
+        "ap_ratio",
+        "target_max_health_damage_ratio",
+        "slow_ratio",
+        "slow_duration_ms",
+        "cast_time_ms"
+      ],
+      "formulas": [
+        "damage",
+        "max_health_damage",
+        "magic_damage"
+      ],
+      "effects": []
+    },
+    {
+      "skillKey": "shyvana_r",
+      "excluded": [
+        "完整变形、飞跃喷火、怒气消耗与龙形态替换链按本轮范围排除。"
+      ],
+      "pending": [
+        "mCastTime=0.25秒与spellCastTime=0冲突不任选；龙怒100和0.75秒逃跑事件待后续完整形态处理。"
+      ],
+      "parameters": [],
+      "formulas": [],
+      "effects": []
+    }
+  ],
+  "changes": [
+    "奈德丽E攻速改为现有bonus_attack_speed_percent属性",
+    "不把未知治疗曲线降级为最小治疗效果，保留已证端点公式和7秒自身攻速",
+    "奈德丽P同来源内互斥、跨来源可叠加且30%封顶；不编造离草立即移除",
+    "希瓦娜P参数名称及说明统一固定点数，公式和效果仍为固定护甲/魔抗",
+    "野怪、真实视野、陷阱和变形明确为范围外"
+  ]
+}

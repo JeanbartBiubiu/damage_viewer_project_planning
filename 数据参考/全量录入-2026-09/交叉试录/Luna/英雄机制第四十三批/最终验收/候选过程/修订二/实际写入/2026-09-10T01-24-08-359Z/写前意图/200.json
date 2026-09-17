@@ -1,0 +1,24 @@
+{
+  "i": 199,
+  "intent": {
+    "sequence": 200,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_r/parameters",
+    "detailRoute": "/skills/zed_r/parameters/swap_window_ms",
+    "skillKey": "zed_r",
+    "kind": "parameters",
+    "stableKey": "swap_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "swap_window_ms",
+      "name": "分身换位窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 7500,
+      "levelValues": null,
+      "description": "当前根明确7.5秒；不是死亡印记持续。",
+      "sortOrder": 50
+    }
+  }
+}

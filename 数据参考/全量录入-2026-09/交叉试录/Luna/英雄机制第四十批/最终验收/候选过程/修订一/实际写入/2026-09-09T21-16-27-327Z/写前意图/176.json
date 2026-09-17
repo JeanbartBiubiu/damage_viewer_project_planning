@@ -1,0 +1,23 @@
+{
+  "i": 175,
+  "intent": {
+    "sequence": 176,
+    "method": "POST",
+    "route": "/skills/pyke_r/parameters",
+    "detailRoute": "/skills/pyke_r/parameters/lethality_ratio",
+    "skillKey": "pyke_r",
+    "kind": "parameters",
+    "stableKey": "lethality_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lethality_ratio",
+      "name": "涌泉之恨穿甲伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "当前RDamage第三项为mStat29×1.5，保留无默认穿甲点输入。",
+      "sortOrder": 140
+    }
+  }
+}

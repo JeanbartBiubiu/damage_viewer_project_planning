@@ -1,0 +1,1028 @@
+{
+  "capturedAt": "2026-09-12T04:17:45.184Z",
+  "readbackAgent": "luna-independent-readback-v1",
+  "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+  "evidenceBoundary": "仅本次管理接口的纯 GET 与公式独立复算证据；未执行 Wasm 或浏览器运行时验证。",
+  "inputFiles": {
+    "frozen-request-bodies-v1.json": {
+      "path": ".agents/artifacts/equipment-instant-results-20260912/frozen-request-bodies-v1.json",
+      "sha256": "1fba98ec7bd3967d4f825d2f978fc30f83a5a94fef175fbd3c2be2fbc2c4bbd0"
+    },
+    "baseline-v1.json": {
+      "path": ".agents/artifacts/equipment-instant-results-20260912/baseline-v1.json",
+      "sha256": "f13cb27f44d2f261f222288619f06ba6ae3663894cbf57ad74dd65df334f6877"
+    },
+    "source-snapshot-v1.json": {
+      "path": ".agents/artifacts/equipment-instant-results-20260912/source-snapshot-v1.json",
+      "sha256": "5dffaaa46096c780cced244e17f517e22a84d0ee1e94395d788e3b7c2363fb1f"
+    },
+    "write-intent-v1.json": {
+      "path": ".agents/artifacts/equipment-instant-results-20260912/write-intent-v1.json",
+      "sha256": "a826b6cc3bb27a6f0b58652e19d6224c201813fc8a4ab298e48667d87341c85a"
+    },
+    "write-and-readback.json": {
+      "path": ".agents/artifacts/equipment-instant-results-20260912/write-and-readback.json",
+      "sha256": "22a9a3eced3809e6656dafc563e5cc2edff33d613604403e19b5ed7dd4917da0"
+    }
+  },
+  "inputHashChecks": {
+    "frozenMatchesWriteIntent": true,
+    "baselineMatchesWriteIntent": true,
+    "sourceSnapshotMatchesWriteIntent": true,
+    "sourceIdsMatchFrozen": true
+  },
+  "requestPolicy": {
+    "method": "GET_ONLY",
+    "getCount": 110,
+    "expectedGetCount": 110,
+    "businessWriteIssued": false,
+    "writeCount": 0,
+    "authorizationValueRecorded": false
+  },
+  "requestEvidence": {
+    "statusCounts": {
+      "200": 110
+    },
+    "kindCounts": {
+      "subject": 6,
+      "relation": 6,
+      "image": 6,
+      "parameter-list": 6,
+      "parameter-detail": 35,
+      "formula-list": 6,
+      "formula-detail": 14,
+      "effect-list": 6,
+      "effect-detail": 7,
+      "process-list": 6,
+      "state-list": 6,
+      "trigger-rule-list": 6
+    },
+    "failedRequests": []
+  },
+  "targetChecks": [
+    {
+      "skillKey": "item_3042_passive",
+      "protected": {
+        "subject": {
+          "status": 200,
+          "equal": true
+        },
+        "relation": {
+          "status": 200,
+          "equal": true
+        },
+        "image": {
+          "status": 200,
+          "equal": true
+        },
+        "components": {
+          "parameters": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 6,
+            "baselineCount": 6,
+            "empty": false,
+            "currentSha256": "1af7327987544f0489b7c12d963fe825fcd0bb2160d6bfa30065105c21f45c76",
+            "baselineSha256": "1af7327987544f0489b7c12d963fe825fcd0bb2160d6bfa30065105c21f45c76"
+          },
+          "formulas": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 6,
+            "baselineCount": 6,
+            "empty": false,
+            "currentSha256": "5d14a25aea93dbdf23d0236f769e0749df02f33eb52e5172077361c420b83fb1",
+            "baselineSha256": "5d14a25aea93dbdf23d0236f769e0749df02f33eb52e5172077361c420b83fb1"
+          },
+          "effects": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200
+            ],
+            "listEqual": false,
+            "detailsEqual": false,
+            "currentCount": 2,
+            "baselineCount": 0,
+            "empty": false,
+            "currentSha256": "7b04bed600d8b8777a43f9d505443f6ccc3b8c44decd0c227927a4c2b10ec7f2",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "processes": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "internal-states": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "trigger-rules": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        }
+      },
+      "protectedAllEqual": true,
+      "effects": {
+        "actualCount": 2,
+        "expectedCount": 2,
+        "actualKeys": [
+          "bonus_attack_damage_from_max_mana",
+          "on_hit_damage_from_max_mana"
+        ],
+        "expectedKeys": [
+          "bonus_attack_damage_from_max_mana",
+          "on_hit_damage_from_max_mana"
+        ],
+        "keyOrderExact": true,
+        "unique": true,
+        "detailKeysUnexpected": [],
+        "resultCount": 2,
+        "expectedResultCount": 2,
+        "effectChecks": [
+          {
+            "effectKey": "bonus_attack_damage_from_max_mana",
+            "listPresent": true,
+            "listProjectionConsistent": true,
+            "detailStatus": 200,
+            "frozenProjectionEqual": true,
+            "resultCount": 1,
+            "expectedResultCount": 1,
+            "resultKeys": [
+              "bonus_attack_damage"
+            ],
+            "expectedResultKeys": [
+              "bonus_attack_damage"
+            ],
+            "resultKeysExact": true
+          },
+          {
+            "effectKey": "on_hit_damage_from_max_mana",
+            "listPresent": true,
+            "listProjectionConsistent": true,
+            "detailStatus": 200,
+            "frozenProjectionEqual": true,
+            "resultCount": 1,
+            "expectedResultCount": 1,
+            "resultKeys": [
+              "damage"
+            ],
+            "expectedResultKeys": [
+              "damage"
+            ],
+            "resultKeysExact": true
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3026_passive",
+      "protected": {
+        "subject": {
+          "status": 200,
+          "equal": true
+        },
+        "relation": {
+          "status": 200,
+          "equal": true
+        },
+        "image": {
+          "status": 200,
+          "equal": true
+        },
+        "components": {
+          "parameters": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200,
+              200,
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 4,
+            "baselineCount": 4,
+            "empty": false,
+            "currentSha256": "2e87fbf4a91b0612ef6cd6c2c385de08074f2ddab278ab8c6e6d46d925f9af3f",
+            "baselineSha256": "2e87fbf4a91b0612ef6cd6c2c385de08074f2ddab278ab8c6e6d46d925f9af3f"
+          },
+          "formulas": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 2,
+            "baselineCount": 2,
+            "empty": false,
+            "currentSha256": "ae96583da3d0676459eb1a63b06fa46c2a62376b03c0354d340aab4827fee85b",
+            "baselineSha256": "ae96583da3d0676459eb1a63b06fa46c2a62376b03c0354d340aab4827fee85b"
+          },
+          "effects": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200
+            ],
+            "listEqual": false,
+            "detailsEqual": false,
+            "currentCount": 1,
+            "baselineCount": 0,
+            "empty": false,
+            "currentSha256": "c13110f0a0dedd64744fdde7d5216dbbe82a5a4a31168ec3ac5f6461ac51790e",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "processes": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "internal-states": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "trigger-rules": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        }
+      },
+      "protectedAllEqual": true,
+      "effects": {
+        "actualCount": 1,
+        "expectedCount": 1,
+        "actualKeys": [
+          "revive_restore"
+        ],
+        "expectedKeys": [
+          "revive_restore"
+        ],
+        "keyOrderExact": true,
+        "unique": true,
+        "detailKeysUnexpected": [],
+        "resultCount": 2,
+        "expectedResultCount": 2,
+        "effectChecks": [
+          {
+            "effectKey": "revive_restore",
+            "listPresent": true,
+            "listProjectionConsistent": true,
+            "detailStatus": 200,
+            "frozenProjectionEqual": true,
+            "resultCount": 2,
+            "expectedResultCount": 2,
+            "resultKeys": [
+              "health_restore",
+              "mana_restore"
+            ],
+            "expectedResultKeys": [
+              "health_restore",
+              "mana_restore"
+            ],
+            "resultKeysExact": true
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3742_passive",
+      "protected": {
+        "subject": {
+          "status": 200,
+          "equal": true
+        },
+        "relation": {
+          "status": 200,
+          "equal": true
+        },
+        "image": {
+          "status": 200,
+          "equal": true
+        },
+        "components": {
+          "parameters": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 6,
+            "baselineCount": 6,
+            "empty": false,
+            "currentSha256": "5a17fadc0f207e56f700386faa60b9e43583e729d667bfee0c8e47b636af3754",
+            "baselineSha256": "5a17fadc0f207e56f700386faa60b9e43583e729d667bfee0c8e47b636af3754"
+          },
+          "formulas": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 1,
+            "baselineCount": 1,
+            "empty": false,
+            "currentSha256": "b4f87e561264e5630bee92ac07590c81d67d4ac4ac881b9ecc9d9f93f6e5bf8d",
+            "baselineSha256": "b4f87e561264e5630bee92ac07590c81d67d4ac4ac881b9ecc9d9f93f6e5bf8d"
+          },
+          "effects": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200
+            ],
+            "listEqual": false,
+            "detailsEqual": false,
+            "currentCount": 1,
+            "baselineCount": 0,
+            "empty": false,
+            "currentSha256": "79ef37ec515ccb3a2a22790e4967c34b089c8455d2c983860981912ac8266ad5",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "processes": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "internal-states": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "trigger-rules": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        }
+      },
+      "protectedAllEqual": true,
+      "effects": {
+        "actualCount": 1,
+        "expectedCount": 1,
+        "actualKeys": [
+          "max_momentum_hit"
+        ],
+        "expectedKeys": [
+          "max_momentum_hit"
+        ],
+        "keyOrderExact": true,
+        "unique": true,
+        "detailKeysUnexpected": [],
+        "resultCount": 1,
+        "expectedResultCount": 1,
+        "effectChecks": [
+          {
+            "effectKey": "max_momentum_hit",
+            "listPresent": true,
+            "listProjectionConsistent": true,
+            "detailStatus": 200,
+            "frozenProjectionEqual": true,
+            "resultCount": 1,
+            "expectedResultCount": 1,
+            "resultKeys": [
+              "damage"
+            ],
+            "expectedResultKeys": [
+              "damage"
+            ],
+            "resultKeysExact": true
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_6631_active",
+      "protected": {
+        "subject": {
+          "status": 200,
+          "equal": true
+        },
+        "relation": {
+          "status": 200,
+          "equal": true
+        },
+        "image": {
+          "status": 200,
+          "equal": true
+        },
+        "components": {
+          "parameters": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 6,
+            "baselineCount": 6,
+            "empty": false,
+            "currentSha256": "bcb9c0079e36c6da3a4d4080da9f1e52251f75ad782fe511b61318e9cd814479",
+            "baselineSha256": "bcb9c0079e36c6da3a4d4080da9f1e52251f75ad782fe511b61318e9cd814479"
+          },
+          "formulas": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 1,
+            "baselineCount": 1,
+            "empty": false,
+            "currentSha256": "39de55e416f797bf2896b4937df97784173bbfa7e4708943ece1046a262f4460",
+            "baselineSha256": "39de55e416f797bf2896b4937df97784173bbfa7e4708943ece1046a262f4460"
+          },
+          "effects": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200
+            ],
+            "listEqual": false,
+            "detailsEqual": false,
+            "currentCount": 1,
+            "baselineCount": 0,
+            "empty": false,
+            "currentSha256": "f977ef950cd73a5f4880d8ece17d10ec3ac5e4d8ee571d7e82fb659c32fc57c3",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "processes": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "internal-states": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "trigger-rules": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        }
+      },
+      "protectedAllEqual": true,
+      "effects": {
+        "actualCount": 1,
+        "expectedCount": 1,
+        "actualKeys": [
+          "active_hit"
+        ],
+        "expectedKeys": [
+          "active_hit"
+        ],
+        "keyOrderExact": true,
+        "unique": true,
+        "detailKeysUnexpected": [],
+        "resultCount": 1,
+        "expectedResultCount": 1,
+        "effectChecks": [
+          {
+            "effectKey": "active_hit",
+            "listPresent": true,
+            "listProjectionConsistent": true,
+            "detailStatus": 200,
+            "frozenProjectionEqual": true,
+            "resultCount": 1,
+            "expectedResultCount": 1,
+            "resultKeys": [
+              "damage"
+            ],
+            "expectedResultKeys": [
+              "damage"
+            ],
+            "resultKeysExact": true
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_6662_passive",
+      "protected": {
+        "subject": {
+          "status": 200,
+          "equal": true
+        },
+        "relation": {
+          "status": 200,
+          "equal": true
+        },
+        "image": {
+          "status": 200,
+          "equal": true
+        },
+        "components": {
+          "parameters": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 6,
+            "baselineCount": 6,
+            "empty": false,
+            "currentSha256": "a679c88bb90ee95184e05827d87a8e098b84bf5117b1d11f1a6a9092bc273358",
+            "baselineSha256": "a679c88bb90ee95184e05827d87a8e098b84bf5117b1d11f1a6a9092bc273358"
+          },
+          "formulas": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 1,
+            "baselineCount": 1,
+            "empty": false,
+            "currentSha256": "294234bc7025c810d5d219a9fedb5fa7392e7fcaaa035157675038b2218383ae",
+            "baselineSha256": "294234bc7025c810d5d219a9fedb5fa7392e7fcaaa035157675038b2218383ae"
+          },
+          "effects": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200
+            ],
+            "listEqual": false,
+            "detailsEqual": false,
+            "currentCount": 1,
+            "baselineCount": 0,
+            "empty": false,
+            "currentSha256": "80f6b7ef160a02dd98b6a6108a329d6b54202d207a1940ed907434124703a07a",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "processes": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "internal-states": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "trigger-rules": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        }
+      },
+      "protectedAllEqual": true,
+      "effects": {
+        "actualCount": 1,
+        "expectedCount": 1,
+        "actualKeys": [
+          "spellblade_damage"
+        ],
+        "expectedKeys": [
+          "spellblade_damage"
+        ],
+        "keyOrderExact": true,
+        "unique": true,
+        "detailKeysUnexpected": [],
+        "resultCount": 1,
+        "expectedResultCount": 1,
+        "effectChecks": [
+          {
+            "effectKey": "spellblade_damage",
+            "listPresent": true,
+            "listProjectionConsistent": true,
+            "detailStatus": 200,
+            "frozenProjectionEqual": true,
+            "resultCount": 1,
+            "expectedResultCount": 1,
+            "resultKeys": [
+              "damage"
+            ],
+            "expectedResultKeys": [
+              "damage"
+            ],
+            "resultKeysExact": true
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "protected": {
+        "subject": {
+          "status": 200,
+          "equal": true
+        },
+        "relation": {
+          "status": 200,
+          "equal": true
+        },
+        "image": {
+          "status": 200,
+          "equal": true
+        },
+        "components": {
+          "parameters": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 7,
+            "baselineCount": 7,
+            "empty": false,
+            "currentSha256": "503656dca82180ed3c8a9839f682c7165e7d08654845f9a2264bdcddf80dd9de",
+            "baselineSha256": "503656dca82180ed3c8a9839f682c7165e7d08654845f9a2264bdcddf80dd9de"
+          },
+          "formulas": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200,
+              200,
+              200
+            ],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 3,
+            "baselineCount": 3,
+            "empty": false,
+            "currentSha256": "a5a85fbd33b3f4036cec39dbe2ea84865ae0e7e8d6872b672dfc43b208d75a1d",
+            "baselineSha256": "a5a85fbd33b3f4036cec39dbe2ea84865ae0e7e8d6872b672dfc43b208d75a1d"
+          },
+          "effects": {
+            "listStatus": 200,
+            "detailStatuses": [
+              200
+            ],
+            "listEqual": false,
+            "detailsEqual": false,
+            "currentCount": 1,
+            "baselineCount": 0,
+            "empty": false,
+            "currentSha256": "4f39f7781b2833a8eb954c978f807f2d5d8d2f5fd6be4ed1d2ce67cfc5942d04",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "processes": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "internal-states": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "trigger-rules": {
+            "listStatus": 200,
+            "detailStatuses": [],
+            "listEqual": true,
+            "detailsEqual": true,
+            "currentCount": 0,
+            "baselineCount": 0,
+            "empty": true,
+            "currentSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "baselineSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          }
+        }
+      },
+      "protectedAllEqual": true,
+      "effects": {
+        "actualCount": 1,
+        "expectedCount": 1,
+        "actualKeys": [
+          "single_target_max_damage"
+        ],
+        "expectedKeys": [
+          "single_target_max_damage"
+        ],
+        "keyOrderExact": true,
+        "unique": true,
+        "detailKeysUnexpected": [],
+        "resultCount": 1,
+        "expectedResultCount": 1,
+        "effectChecks": [
+          {
+            "effectKey": "single_target_max_damage",
+            "listPresent": true,
+            "listProjectionConsistent": true,
+            "detailStatus": 200,
+            "frozenProjectionEqual": true,
+            "resultCount": 1,
+            "expectedResultCount": 1,
+            "resultKeys": [
+              "damage"
+            ],
+            "expectedResultKeys": [
+              "damage"
+            ],
+            "resultKeysExact": true
+          }
+        ]
+      }
+    }
+  ],
+  "formulaRecalculation": {
+    "caseCount": 8,
+    "cases": [
+      {
+        "skillKey": "item_3042_passive",
+        "formulaKey": "bonus_attack_damage_from_max_mana",
+        "resultKey": "bonus_attack_damage",
+        "attributes": {
+          "SOURCE.mana.TOTAL": 2500
+        },
+        "expected": 50,
+        "actual": 50,
+        "delta": 0,
+        "formulaExpressionSha256": "2ef4874df48a2b486201a05f0b4c6f63fb95b038ce804af1196bbe6d5854c351",
+        "formulaBoundToResult": true,
+        "passed": true,
+        "error": null
+      },
+      {
+        "skillKey": "item_3042_passive",
+        "formulaKey": "on_hit_damage_from_max_mana",
+        "resultKey": "damage",
+        "attributes": {
+          "SOURCE.mana.TOTAL": 2500
+        },
+        "expected": 30,
+        "actual": 30,
+        "delta": 0,
+        "formulaExpressionSha256": "eddb5de91e257b132f6e67aafed9a9eeab5886caefa6d20800103fb9cc7b7770",
+        "formulaBoundToResult": true,
+        "passed": true,
+        "error": null
+      },
+      {
+        "skillKey": "item_3026_passive",
+        "formulaKey": "revive_base_health",
+        "resultKey": "health_restore",
+        "attributes": {
+          "SOURCE.hp.BASE": 800
+        },
+        "expected": 400,
+        "actual": 400,
+        "delta": 0,
+        "formulaExpressionSha256": "0f956e6847f9e787189275d029dfc68504f4e06192d3e2df2e5cee1000f55a80",
+        "formulaBoundToResult": true,
+        "passed": true,
+        "error": null
+      },
+      {
+        "skillKey": "item_3026_passive",
+        "formulaKey": "revive_max_mana",
+        "resultKey": "mana_restore",
+        "attributes": {
+          "SOURCE.mana.TOTAL": 1200
+        },
+        "expected": 1200,
+        "actual": 1200,
+        "delta": 0,
+        "formulaExpressionSha256": "202cb26c3e751462a980b382af019999cdf6b98d81e5f00945180c154d991179",
+        "formulaBoundToResult": true,
+        "passed": true,
+        "error": null
+      },
+      {
+        "skillKey": "item_3742_passive",
+        "formulaKey": "max_bonus_damage",
+        "resultKey": "damage",
+        "attributes": {
+          "SOURCE.attack_damage.BASE": 100
+        },
+        "expected": 140,
+        "actual": 140,
+        "delta": 0,
+        "formulaExpressionSha256": "b7cbe7740ba8442ffed75c013b627653b61525648b8d5e3286f15d39978d9c22",
+        "formulaBoundToResult": true,
+        "passed": true,
+        "error": null
+      },
+      {
+        "skillKey": "item_6631_active",
+        "formulaKey": "active_damage",
+        "resultKey": "damage",
+        "attributes": {
+          "SOURCE.attack_damage.TOTAL": 250
+        },
+        "expected": 200,
+        "actual": 200,
+        "delta": 0,
+        "formulaExpressionSha256": "93d85a156cdbab39771029f0209448b6ed6d5284aa498e08d67e707e518fc05f",
+        "formulaBoundToResult": true,
+        "passed": true,
+        "error": null
+      },
+      {
+        "skillKey": "item_6662_passive",
+        "formulaKey": "spellblade_damage",
+        "resultKey": "damage",
+        "attributes": {
+          "SOURCE.attack_damage.BASE": 100
+        },
+        "expected": 150,
+        "actual": 150,
+        "delta": 0,
+        "formulaExpressionSha256": "22c5617e9b2b5eff8b51d9c2d60d7b13a0ac08c55e92c6b560dde7ea53b27727",
+        "formulaBoundToResult": true,
+        "passed": true,
+        "error": null
+      },
+      {
+        "skillKey": "item_6655_passive",
+        "formulaKey": "single_target_max_damage",
+        "resultKey": "damage",
+        "attributes": {
+          "SOURCE.ability_power.TOTAL": 300
+        },
+        "expected": 180,
+        "actual": 180,
+        "delta": 0,
+        "formulaExpressionSha256": "6f8dabb074623656883e16fa70d085b6ce78c17c4bb23c3747817ee147c69d58",
+        "formulaBoundToResult": true,
+        "passed": true,
+        "error": null
+      }
+    ]
+  },
+  "priorWriteArtifactCheck": {
+    "originalWritesRecorded": 7,
+    "originalOperationsRecorded": 7,
+    "recoveryGETRecorded": 110,
+    "recoveryWritesRecorded": 0,
+    "sevenPost201": true,
+    "assertions": {
+      "sevenEffectsUnique": true,
+      "eightResultsExact": true,
+      "protectedSubjectsUnchanged": true,
+      "protectedParametersAndFormulasUnchanged": true,
+      "protectedRelationsAndImagesUnchanged": true,
+      "processesStatesAndRulesRemainEmpty": true,
+      "recoveryUsedGetOnly": true
+    }
+  },
+  "assertions": {
+    "sixSkillsHandled": true,
+    "sevenEffectsExact": true,
+    "eightResultsExact": true,
+    "protectedSubjectsRelationsImagesUnchanged": true,
+    "protectedParamsFormulasUnchanged": true,
+    "processesStatesTriggersUnchangedAndEmpty": true,
+    "formulaCasesExact": true,
+    "sourceSnapshotConsistent": true,
+    "priorWriteArtifactConsistent": true,
+    "currentAuditUsedGetOnly": true,
+    "authorizationValueRecorded": false,
+    "runtimeValidation": "未执行"
+  },
+  "passed": true
+}

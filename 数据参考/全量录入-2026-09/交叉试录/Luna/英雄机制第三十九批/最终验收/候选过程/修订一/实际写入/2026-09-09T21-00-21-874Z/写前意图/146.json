@@ -1,0 +1,24 @@
+{
+  "i": 145,
+  "intent": {
+    "sequence": 146,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_p/parameters",
+    "detailRoute": "/skills/smolder_p/parameters/q_crit_ratio",
+    "skillKey": "smolder_p",
+    "kind": "parameters",
+    "stableKey": "q_crit_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_crit_ratio",
+      "name": "Q额外魔法伤害暴击属性比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.2000000476837158,
+      "levelValues": null,
+      "description": "Passive_QDamageIncrease根mStat8×QCritRatio×(mStat9-1)，QCritRatio=1.2；mStat8/9保持原始输入。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 239,
+  "intent": {
+    "sequence": 240,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/formulas",
+    "detailRoute": "/skills/locke_r/formulas/magic_damage",
+    "skillKey": "locke_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "万魔狱封印法器魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "封印伤害=150/225/300+0.6×法强。",
+      "sortOrder": 120
+    }
+  }
+}

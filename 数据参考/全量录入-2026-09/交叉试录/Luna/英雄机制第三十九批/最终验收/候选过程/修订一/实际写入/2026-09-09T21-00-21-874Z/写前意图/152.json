@@ -1,0 +1,24 @@
+{
+  "i": 151,
+  "intent": {
+    "sequence": 152,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_p/parameters",
+    "detailRoute": "/skills/smolder_p/parameters/hero_hit_stack_gain",
+    "skillKey": "smolder_p",
+    "kind": "parameters",
+    "stableKey": "hero_hit_stack_gain",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "hero_hit_stack_gain",
+      "name": "技能命中英雄叠层",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确技能命中英雄获得一层；事件资格待运行层接线。",
+      "sortOrder": 110
+    }
+  }
+}

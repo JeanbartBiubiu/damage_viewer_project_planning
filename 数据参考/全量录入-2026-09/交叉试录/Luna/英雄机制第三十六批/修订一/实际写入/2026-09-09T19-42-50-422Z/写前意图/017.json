@@ -1,0 +1,23 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/evelynn_w/parameters",
+    "detailRoute": "/skills/evelynn_w/parameters/mark_duration_ms",
+    "skillKey": "evelynn_w",
+    "kind": "parameters",
+    "stableKey": "mark_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_duration_ms",
+      "name": "标记持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前正文明确标记英雄或野怪5秒，转换为5000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

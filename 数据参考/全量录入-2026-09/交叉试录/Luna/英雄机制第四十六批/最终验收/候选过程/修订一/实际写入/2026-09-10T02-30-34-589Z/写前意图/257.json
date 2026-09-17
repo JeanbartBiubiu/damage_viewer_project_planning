@@ -1,0 +1,24 @@
+{
+  "i": 256,
+  "intent": {
+    "sequence": 257,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/formulas",
+    "detailRoute": "/skills/zaahen_p/formulas/revive_health_ratio",
+    "skillKey": "zaahen_p",
+    "kind": "formulas",
+    "stableKey": "revive_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "revive_health_ratio",
+      "name": "不落之志当前复活生命比例",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_revive_health_ratio"
+      },
+      "description": "运行层提供空字段语义核对后的实际比例。",
+      "sortOrder": 150
+    }
+  }
+}

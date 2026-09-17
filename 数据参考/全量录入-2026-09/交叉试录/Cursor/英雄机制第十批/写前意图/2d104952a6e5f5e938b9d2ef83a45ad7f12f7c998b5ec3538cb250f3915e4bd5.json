@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T04:28:45.894Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_w/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "q_empower_max_ratio",
+    "name": "主动Q满蓄力已损生命比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "max_q_empower_multiplier"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "q_empower_missing_hp_ratio"
+        }
+      ]
+    },
+    "description": "确定上限1.5倍，实际蓄力过程不插值；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 50
+  }
+}

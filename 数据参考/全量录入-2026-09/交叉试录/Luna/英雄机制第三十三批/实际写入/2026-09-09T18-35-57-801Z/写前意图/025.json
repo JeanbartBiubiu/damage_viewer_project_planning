@@ -1,0 +1,29 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/sona_w/parameters",
+    "detailRoute": "/skills/sona_w/parameters/base_heal",
+    "skillKey": "sona_w",
+    "kind": "parameters",
+    "stableKey": "base_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_heal",
+      "name": "自身治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 45,
+        "3": 60,
+        "4": 75,
+        "5": 90
+      },
+      "description": "当前BaseHeal技能等级1至5。",
+      "sortOrder": 20
+    }
+  }
+}

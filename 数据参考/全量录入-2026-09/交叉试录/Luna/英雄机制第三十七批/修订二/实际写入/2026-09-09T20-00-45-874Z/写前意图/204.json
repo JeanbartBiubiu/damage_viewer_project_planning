@@ -1,0 +1,23 @@
+{
+  "i": 203,
+  "intent": {
+    "sequence": 204,
+    "method": "POST",
+    "route": "/skills/briar_q/parameters",
+    "detailRoute": "/skills/briar_q/parameters/stun_duration_ms",
+    "skillKey": "briar_q",
+    "kind": "parameters",
+    "stableKey": "stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_ms",
+      "name": "冲头晕眩持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 850,
+      "levelValues": null,
+      "description": "当前StunDuration=0.85秒，转换为850毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

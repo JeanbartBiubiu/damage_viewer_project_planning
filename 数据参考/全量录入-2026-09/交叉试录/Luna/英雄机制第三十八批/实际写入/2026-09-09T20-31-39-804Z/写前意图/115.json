@@ -1,0 +1,23 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 115,
+    "method": "POST",
+    "route": "/skills/skarner_w/parameters",
+    "detailRoute": "/skills/skarner_w/parameters/slow_duration_ms",
+    "skillKey": "skarner_w",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "震地壁垒减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前SlowDuration=1秒，转换为1000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

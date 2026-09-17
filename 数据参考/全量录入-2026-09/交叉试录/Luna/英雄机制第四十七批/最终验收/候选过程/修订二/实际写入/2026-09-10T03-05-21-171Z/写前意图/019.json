@@ -1,0 +1,30 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_e/parameters",
+    "detailRoute": "/skills/elise_e/parameters/stun_duration_ms",
+    "skillKey": "elise_e",
+    "kind": "parameters",
+    "stableKey": "stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_ms",
+      "name": "人类形态眩晕持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1600,
+        "2": 1800,
+        "3": 2000,
+        "4": 2200,
+        "5": 2400
+      },
+      "description": "当前根BaseStunDuration索引1至5为1.6/1.8/2/2.2/2.4秒，按原始浮点值精确换算整数毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

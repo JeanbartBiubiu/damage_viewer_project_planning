@@ -1,0 +1,29 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 110,
+    "method": "POST",
+    "route": "/skills/taric_e/parameters",
+    "detailRoute": "/skills/taric_e/parameters/base_damage",
+    "skillKey": "taric_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "炫光基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 90,
+        "2": 130,
+        "3": 170,
+        "4": 210,
+        "5": 250
+      },
+      "description": "客户端BaseDamage取技能等级索引1至5的90/130/170/210/250。",
+      "sortOrder": 10
+    }
+  }
+}

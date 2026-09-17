@@ -1,0 +1,27 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 72,
+    "method": "POST",
+    "route": "/skills/monkeyking_r/parameters",
+    "detailRoute": "/skills/monkeyking_r/parameters/max_hp_damage_per_second_ratio",
+    "skillKey": "monkeyking_r",
+    "kind": "parameters",
+    "stableKey": "max_hp_damage_per_second_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_hp_damage_per_second_ratio",
+      "name": "目标最大生命每秒伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.0399999991,
+        "2": 0.0599999987,
+        "3": 0.0799999982
+      },
+      "description": "来源4/6/8%，数组已转为0.04/0.06/0.08比例。",
+      "sortOrder": 40
+    }
+  }
+}

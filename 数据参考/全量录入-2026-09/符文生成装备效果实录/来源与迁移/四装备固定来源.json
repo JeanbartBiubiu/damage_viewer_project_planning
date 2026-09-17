@@ -1,0 +1,596 @@
+{
+  "generatedAt": "2026-09-08T16:02:30.791Z",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sources": [
+    {
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "rawSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    }
+  ],
+  "objects": [
+    {
+      "itemId": "2010",
+      "equipmentKey": "item_2010",
+      "name": "永续意志夹心饼干",
+      "imageKey": "item_2010",
+      "description": "来源：官方16.17.1装备2010及客户端16.17。原始说明：主动 - 消耗： 食用饼干，以在5秒里持续回复 生命值 ，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供 30最大生命值 。 符文生成装备；本批保存主体和明确直接属性，生成关系、消耗及技能效果另行录入。",
+      "attributeValues": {},
+      "proofs": [],
+      "source": {
+        "pointer": "/Items~12010",
+        "object": {
+          "spellName": "Item2010",
+          "mDisplayName": "Item_2010_Name",
+          "itemID": 2010,
+          "maxStack": 10,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/TotalBiscuit"
+          ],
+          "price": 50,
+          "consumed": true,
+          "clickable": true,
+          "mCanBeSold": true,
+          "epicness": 1,
+          "mEffectAmount": [
+            10
+          ],
+          "mDataValues": [
+            {
+              "mName": "PotionDurationTOOLTIP",
+              "mValue": 5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "BonusMaxHealthTOOLTIP",
+              "mValue": 30,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "FlatHealTOOLTIP",
+              "mValue": 20,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxHPMultiplierTOOLTIP",
+              "mValue": 0.014999999664723873,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxHealIncreaseTOOLTIP",
+              "mValue": 100,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MinHPThresholdTOOLTIP",
+              "mValue": 0.30000001192092896,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "TotalHealCalcTOOLTIP": {
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mDataValue": "{d3850e11}",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "{4fe025a7}",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "sellBackModifier": 0.10000000149011612,
+          "mItemDataAvailability": {
+            "mForceLoad": true,
+            "mHidefromAll": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            1
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "2010",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_2010_Name",
+                "keyActive": "Item_2010_Active",
+                "keyActiveExternal": "Item_2010_ActiveExternal",
+                "keyActiveExtended": "Item_2010_ActiveExtended"
+              },
+              "mLists": {
+                "Stats": {
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_2010_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_2010_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_2010_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/2010_class_t1_totalbiscuitofeverlastingwill.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2010_Class_T1_TotalBiscuitofEverlastingWill.png",
+            "epicness": 0,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "永续意志夹心饼干",
+          "description": "<mainText><stats></stats><br><br><active>主动 - 消耗：</active>食用饼干，以在5秒里持续回复<healing>生命值</healing>，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供<healing>30最大生命值</healing>。 </mainText>",
+          "colloq": ";",
+          "plaintext": "",
+          "stacks": 10,
+          "consumed": true,
+          "inStore": false,
+          "hideFromAll": true,
+          "image": {
+            "full": "2010.png",
+            "sprite": "item0.png",
+            "group": "item",
+            "x": 432,
+            "y": 384,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 50,
+            "purchasable": false,
+            "total": 50,
+            "sell": 5
+          },
+          "tags": [],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": true,
+            "453": true
+          },
+          "stats": {},
+          "effect": {
+            "Effect1Amount": "10"
+          }
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_2010_Name",
+            "pointer": "/entries/item_2010_name",
+            "text": "永续意志夹心饼干"
+          },
+          {
+            "field": "keyActive",
+            "key": "Item_2010_Active",
+            "pointer": "/entries/item_2010_active",
+            "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复共<healing>@TotalHealCalcTOOLTIP@生命值</healing>，基于你的已损失生命值至多提升至@MaxHealIncreaseTOOLTIP@%。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。 "
+          },
+          {
+            "field": "keyActiveExternal",
+            "key": "Item_2010_ActiveExternal",
+            "pointer": "/entries/item_2010_activeexternal",
+            "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复<healing>生命值</healing>，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。 "
+          },
+          {
+            "field": "keyActiveExtended",
+            "key": "Item_2010_ActiveExtended",
+            "pointer": "/entries/item_2010_activeextended",
+            "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复共<healing>@TotalHealCalcTOOLTIP@生命值</healing>，基于你的已损失生命值获得提升，至多至@MaxHealIncreaseTOOLTIP@%。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。<br><br><rules>最大治疗效果会在@MinHPThresholdTOOLTIP*100@%生命值时达成。</rules>"
+          }
+        ]
+      },
+      "scope": "饼干的自疗及永久最大生命保留；明确无携带即生效的直接属性。治疗倍率来源冲突及消耗或出售后的永久属性另行核对。"
+    },
+    {
+      "itemId": "2150",
+      "equipmentKey": "item_2150",
+      "name": "技能合剂",
+      "imageKey": "item_2150",
+      "description": "来源：官方16.17.1装备2150及客户端16.17。原始说明：消耗 提供1技能点数。 这个装备不会提升你的等级或允许对那些已经升满的技能投入技能点数。 符文生成装备；本批保存主体和明确直接属性，生成关系、消耗及技能效果另行录入。",
+      "attributeValues": {},
+      "proofs": [],
+      "source": {
+        "pointer": "/Items~12150",
+        "object": {
+          "spellName": "ItemElixirOfSkill",
+          "mDisplayName": "Item_2150_Name",
+          "itemID": 2150,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/Consumable"
+          ],
+          "itemVOGroup": "Elixir",
+          "RestrictedBuffName": "HeroPassive",
+          "consumed": true,
+          "clickable": true,
+          "epicness": 7,
+          "sellBackModifier": 1,
+          "mCategories": [
+            "Consumable"
+          ],
+          "mItemAttributes": [
+            32
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "2150",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_2150_Name",
+                "keyActive": "Item_2150_Active"
+              },
+              "mLists": {
+                "Stats": {
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_2150_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_2150_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_2150_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/2048_ichorofillumination.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2048_IchorofIllumination.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/2048_IchorofIllumination.png",
+            "epicness": 7,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{2a03bda7}": "Items/2150/Particles/2150_Glow"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "技能合剂",
+          "description": "<mainText><stats></stats><br><br><active>消耗</active><br>提供1技能点数。<br><br><rules>这个装备不会提升你的等级或允许对那些已经升满的技能投入技能点数。</rules></mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "consumed": true,
+          "inStore": false,
+          "image": {
+            "full": "2150.png",
+            "sprite": "item1.png",
+            "group": "item",
+            "x": 192,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 0,
+            "purchasable": false,
+            "total": 0,
+            "sell": 0
+          },
+          "tags": [
+            "Consumable"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {}
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_2150_Name",
+            "pointer": "/entries/item_2150_name",
+            "text": "技能合剂"
+          },
+          {
+            "field": "keyActive",
+            "key": "Item_2150_Active",
+            "pointer": "/entries/item_2150_active",
+            "text": "%i:activeEffect%<active>消耗</active><br>提供1技能点数。<br><br><rules>这个装备不会提升你的等级或允许对那些已经升满的技能投入技能点数。</rules>"
+          }
+        ]
+      },
+      "scope": "提供技能点可影响技能等级，保留；明确无携带直接属性，不把技能点记成英雄等级。"
+    },
+    {
+      "itemId": "2152",
+      "equipmentKey": "item_2152",
+      "name": "原力合剂",
+      "imageKey": "item_2152",
+      "description": "来源：官方16.17.1装备2152及客户端16.17。原始说明：消耗 提供25适应之力，持续60秒。 符文生成装备；本批保存主体和明确直接属性，生成关系、消耗及技能效果另行录入。",
+      "attributeValues": {},
+      "proofs": [],
+      "source": {
+        "pointer": "/Items~12152",
+        "object": {
+          "spellName": "2152Active",
+          "mDisplayName": "Item_2152_Name",
+          "itemID": 2152,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/Elixir",
+            "Items/ItemGroups/Consumable"
+          ],
+          "itemVOGroup": "Elixir",
+          "price": 50,
+          "consumed": true,
+          "clickable": true,
+          "mCanBeSold": true,
+          "epicness": 7,
+          "mDataValues": [
+            {
+              "mName": "AdaptiveAmount",
+              "mValue": 25,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Duration",
+              "mValue": 60,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "sellBackModifier": 0.4000000059604645,
+          "mCategories": [
+            "Consumable",
+            "Tenacity"
+          ],
+          "mItemAttributes": [
+            1
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "2152",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_2152_Name",
+                "keyActive": "Item_2152_Active"
+              },
+              "mLists": {
+                "Stats": {
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_2152_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_2152_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_2152_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/elixir_of_force.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2152_Elixir_of_Force.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/2152_Elixir_of_Force.png",
+            "epicness": 7,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "原力合剂",
+          "description": "<mainText><stats></stats><br><br><active>消耗</active><br>提供25适应之力，持续60秒。 </mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "consumed": true,
+          "inStore": false,
+          "image": {
+            "full": "2152.png",
+            "sprite": "item1.png",
+            "group": "item",
+            "x": 288,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 50,
+            "purchasable": false,
+            "total": 50,
+            "sell": 20
+          },
+          "tags": [
+            "Consumable",
+            "Tenacity"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {}
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_2152_Name",
+            "pointer": "/entries/item_2152_name",
+            "text": "原力合剂"
+          },
+          {
+            "field": "keyActive",
+            "key": "Item_2152_Active",
+            "pointer": "/entries/item_2152_active",
+            "text": "%i:activeEffect%<active>消耗</active><br>提供@AdaptiveAmount@适应之力，持续@Duration@秒。 "
+          }
+        ]
+      },
+      "scope": "25适应之力持续60秒与1V1有关；明确无携带直接属性，暂不把适应选择猜成同时增加攻击力和法术强度。"
+    },
+    {
+      "itemId": "2422",
+      "equipmentKey": "item_2422",
+      "name": "有点神奇之鞋",
+      "imageKey": "item_2422",
+      "description": "来源：官方16.17.1装备2422及客户端16.17。原始说明：25 移动速度 提供额外的 10移动速度 。通过【有点神奇之鞋】合成的鞋类装备都会保持这个移动速度加成。 符文生成装备；本批保存主体和明确直接属性，生成关系、消耗及技能效果另行录入。",
+      "attributeValues": {
+        "move_speed": 25
+      },
+      "proofs": [
+        {
+          "attributeKey": "move_speed",
+          "value": 25,
+          "sourceValue": 25,
+          "pointer": "/Items~12422/mFlatMovementSpeedMod"
+        }
+      ],
+      "source": {
+        "pointer": "/Items~12422",
+        "object": {
+          "mDisplayName": "Item_2422_Name",
+          "itemID": 2422,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/Boots",
+            "Items/ItemGroups/BootsOfSpeed",
+            "Items/ItemGroups/BootsWithoutActives"
+          ],
+          "price": 300,
+          "mCanBeSold": true,
+          "mFlatMovementSpeedMod": 25,
+          "sellBackModifier": 0.30000001192092896,
+          "mItemDataBuild": {
+            "itemLinks": [
+              "Items/3006",
+              "Items/3047",
+              "Items/3020",
+              "Items/3158",
+              "Items/3111",
+              "Items/3117",
+              "Items/3009",
+              "Items/3008"
+            ],
+            "__type": "ItemDataBuild"
+          },
+          "mCategories": [
+            "Boots"
+          ],
+          "mItemDataAvailability": {
+            "mForceLoad": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            32
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "2422",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_2422_Name",
+                "keyColloquialism": "Item_1001_Colloquialism",
+                "keyTooltip": "Item_2422_Tooltip"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "MoveSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_2422_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_2422_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_2422_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/2422_class_t1_slightlymagicalboots.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2422_Class_T1_SlightlyMagicalBoots.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/2422_Class_T1_SlightlyMagicalBoots.png",
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "official": {
+          "name": "有点神奇之鞋",
+          "description": "<mainText><stats><attention>25</attention>移动速度</stats><br><br>提供额外的<speed>10移动速度</speed>。通过【有点神奇之鞋】合成的鞋类装备都会保持这个移动速度加成。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "inStore": false,
+          "into": [
+            "3006",
+            "3047",
+            "3020",
+            "3158",
+            "3111",
+            "3117",
+            "3009",
+            "3008"
+          ],
+          "image": {
+            "full": "2422.png",
+            "sprite": "item2.png",
+            "group": "item",
+            "x": 432,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 300,
+            "purchasable": false,
+            "total": 300,
+            "sell": 90
+          },
+          "tags": [
+            "Boots"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMovementSpeedMod": 25
+          }
+        },
+        "bindings": [
+          {
+            "field": "keyName",
+            "key": "Item_2422_Name",
+            "pointer": "/entries/item_2422_name",
+            "text": "有点神奇之鞋"
+          },
+          {
+            "field": "keyColloquialism",
+            "key": "Item_1001_Colloquialism",
+            "pointer": "/entries/item_1001_colloquialism",
+            "text": ";Boots;xiezi;xie"
+          },
+          {
+            "field": "keyTooltip",
+            "key": "Item_2422_Tooltip",
+            "pointer": "/entries/item_2422_tooltip",
+            "text": "提供额外的<speed>10移动速度</speed>。通过【有点神奇之鞋】合成的鞋类装备都会保持这个移动速度加成。"
+          }
+        ]
+      },
+      "scope": "客户端直接移动速度25；额外10及升级保留属于另外的效果，不重复写成35直接属性。"
+    }
+  ]
+}

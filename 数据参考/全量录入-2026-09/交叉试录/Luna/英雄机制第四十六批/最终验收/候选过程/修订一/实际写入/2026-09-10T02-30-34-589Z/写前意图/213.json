@@ -1,0 +1,34 @@
+{
+  "i": 212,
+  "intent": {
+    "sequence": 213,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/formulas",
+    "detailRoute": "/skills/locke_w/formulas/decay_total_time_ms",
+    "skillKey": "locke_w",
+    "kind": "formulas",
+    "stableKey": "decay_total_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "decay_total_time_ms",
+      "name": "灵焰仪式移动速度衰减总时长",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "decay_time_ms"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "time_max_power_ms"
+          }
+        ]
+      },
+      "description": "DecayTimeHelper=1+1=2秒。",
+      "sortOrder": 220
+    }
+  }
+}

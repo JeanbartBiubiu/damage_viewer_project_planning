@@ -1,0 +1,24 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_q/parameters",
+    "detailRoute": "/skills/nidalee_q/parameters/ap_ratio",
+    "skillKey": "nidalee_q",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "标枪法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "HumanMinimumDamage第二分支读取SpearMinimumAPRatio=0.5。",
+      "sortOrder": 20
+    }
+  }
+}

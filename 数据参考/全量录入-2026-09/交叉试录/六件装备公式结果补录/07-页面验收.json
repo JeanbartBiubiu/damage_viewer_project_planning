@@ -1,0 +1,130 @@
+{
+  "capturedAt": "2026-09-12T04:12:58.536Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browser": "Playwright Chromium",
+  "headless": true,
+  "liveFrontend": "http://127.0.0.1:5173",
+  "liveBackend": "http://127.0.0.1:8080",
+  "authorizationValueRecorded": false,
+  "serverWrites": 0,
+  "imageCacheSeed": {
+    "source": "live management image GET",
+    "serverWrites": 0,
+    "imageKeys": [
+      "item_3042",
+      "item_3026",
+      "item_6655"
+    ]
+  },
+  "targets": [
+    {
+      "skillKey": "item_3042_passive",
+      "skillName": "魔切·敬畏与冲击",
+      "rowText": "加载中\n\t\n魔切·敬畏与冲击\n\t\nitem_3042_passive\n\t\n1\n\t\n被动技能\n\t\n启用\n\t\n0\n\t\n2026/9/9 11:39:01\n\t\n挂载对象代表图片\n查看\n编辑\n参数与公式\n效果与结果\n过程与内部状态\n条件与触发\n停用\n删除",
+      "imageAlt": "魔切·敬畏与冲击代表图片",
+      "effectKey": "bonus_attack_damage_from_max_mana",
+      "effectRowText": "加载中\n\t\n敬畏最大法力转额外攻击力\n\t\nbonus_attack_damage_from_max_mana\n\t\n1\n\t\n有生命周期\n\t\n10\n\t\n2026/9/12 12:02:45\n\t\n代表图片\n查看\n编辑\n复制为新效果\n删除",
+      "effectText": "查看效果\n 效果标识\n 效果名称\n说明\n30/2000\n 排序\n生命周期\n生命周期\n持续时间取值\n固定数值\n技能参数\n技能公式\n 最大层数取值\n固定数值\n技能参数\n技能公式\n 每次施加层数取值\n固定数值\n技能参数\n技能公式\n 实例范围\n按来源对象\n 重复层数\n保留层数\n 到期方式\n仅显式移除\n结果\n结果名称\n\t\n稳定标识\n\t\n结果种类\n\t\n作用对象\n\t\n法术护盾阻挡\n\t\n生命周期时点\n\t\n数值读取\n\t\n层数值方式\n\t\n周期执行\n\t\n关键引用摘要\n\t\n特殊交互\n\t\n排序\n\t\n操作\n\n\n最大法力提供的额外攻击力\n\t\nbonus_attack_damage\n\t\n属性变化\n\t\n施法者\n\t\n—\n\t\n持续生效\n\t\n到当前时点重新读取\n\t\n整个实例共享数值\n\t\n—\n\t\nattack_damage\n\t\n—\n\t\n10\n\t\n查看\n关闭",
+      "effectDescription": "复用已核对的2%最大法力值公式，持续向持有者提供额外攻击力。",
+      "results": [
+        {
+          "resultKey": "bonus_attack_damage",
+          "resultRowText": "最大法力提供的额外攻击力\n\t\nbonus_attack_damage\n\t\n属性变化\n\t\n施法者\n\t\n—\n\t\n持续生效\n\t\n到当前时点重新读取\n\t\n整个实例共享数值\n\t\n—\n\t\nattack_damage\n\t\n—\n\t\n10\n\t\n查看",
+          "resultText": "查看结果\n 结果标识\n 结果名称\n 结果种类\n属性变化\n 作用对象\n施法者\n当前目标\n 排序\n说明\n36/2000\n 数值\n固定数值\n技能参数\n技能公式\n敬畏最大法力转额外攻击力（bonus_attack_damage_from_max_mana）\n 固定倍率\n固定最小值\n固定最大值\n 属性\n攻击力\n 操作\n增加\n减少\n覆盖\n 乘区\n属性固定加算\n 生命周期时点\n持续生效\n 数值读取\n施加时留存\n到当前时点重新读取\n 层数值方式\n整个实例共享数值\n每层分别贡献数值\n关闭",
+          "resultDescription": "按当前总最大法力值动态读取额外攻击力；装备启用与卸除由后续运行装配负责。",
+          "expectedText": [
+            "最大法力提供的额外攻击力",
+            "属性变化",
+            "bonus_attack_damage_from_max_mana",
+            "attack_damage",
+            "增加",
+            "到当前时点重新读取",
+            "整个实例共享数值"
+          ],
+          "screenshot": "item_3042_passive-bonus_attack_damage_from_max_mana-bonus_attack_damage-页面.png",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "item_3026_passive",
+      "skillName": "守护天使·重生",
+      "rowText": "加载中\n\t\n守护天使·重生\n\t\nitem_3026_passive\n\t\n1\n\t\n被动技能\n\t\n启用\n\t\n0\n\t\n2026/9/8 09:03:00\n\t\n挂载对象代表图片\n查看\n编辑\n参数与公式\n效果与结果\n过程与内部状态\n条件与触发\n停用\n删除",
+      "imageAlt": "守护天使·重生代表图片",
+      "effectKey": "revive_restore",
+      "effectRowText": "加载中\n\t\n重生结束恢复\n\t\nrevive_restore\n\t\n2\n\t\n无生命周期\n\t\n10\n\t\n2026/9/12 12:02:49\n\t\n代表图片\n查看\n编辑\n复制为新效果\n删除",
+      "effectText": "查看效果\n 效果标识\n 效果名称\n说明\n69/2000\n 排序\n生命周期\n生命周期\n结果\n结果名称\n\t\n稳定标识\n\t\n结果种类\n\t\n作用对象\n\t\n法术护盾阻挡\n\t\n关键引用摘要\n\t\n特殊交互\n\t\n排序\n\t\n操作\n\n\n重生生命恢复\n\t\nhealth_restore\n\t\n直接治疗\n\t\n施法者\n\t\n—\n\t\nrevive_base_health\n\t\n—\n\t\n10\n\t\n查看\n\n\n重生法力恢复\n\t\nmana_restore\n\t\n资源变化\n\t\n施法者\n\t\n—\n\t\nmana\n\t\n—\n\t\n20\n\t\n查看\n关闭",
+      "effectDescription": "保存复活结束时恢复50%基础生命值和100%最大法力值的两个独立结果；致命伤害、4秒复活、无敌、不可选取、无法行动和300秒冷却尚未接线。",
+      "results": [
+        {
+          "resultKey": "health_restore",
+          "resultRowText": "重生生命恢复\n\t\nhealth_restore\n\t\n直接治疗\n\t\n施法者\n\t\n—\n\t\nrevive_base_health\n\t\n—\n\t\n10\n\t\n查看",
+          "resultText": "查看结果\n 结果标识\n 结果名称\n 结果种类\n直接治疗\n 作用对象\n施法者\n当前目标\n 排序\n说明\n32/2000\n 数值\n固定数值\n技能参数\n技能公式\n重生基础生命恢复量（revive_base_health）\n 固定倍率\n固定最小值\n固定最大值\n关闭",
+          "resultDescription": "仅保存复活结束时的生命恢复量，不表示致命伤害和复活时序已经接线。",
+          "expectedText": [
+            "重生生命恢复",
+            "直接治疗",
+            "revive_base_health",
+            "施法者"
+          ],
+          "screenshot": "item_3026_passive-revive_restore-health_restore-页面.png",
+          "passed": true
+        },
+        {
+          "resultKey": "mana_restore",
+          "resultRowText": "重生法力恢复\n\t\nmana_restore\n\t\n资源变化\n\t\n施法者\n\t\n—\n\t\nmana\n\t\n—\n\t\n20\n\t\n查看",
+          "resultText": "查看结果\n 结果标识\n 结果名称\n 结果种类\n资源变化\n 作用对象\n施法者\n当前目标\n 排序\n说明\n32/2000\n 数值\n固定数值\n技能参数\n技能公式\n重生最大法力恢复量（revive_max_mana）\n 固定倍率\n固定最小值\n固定最大值\n 资源属性\n法力值\n 操作\n恢复\n扣除\n返还\n关闭",
+          "resultDescription": "仅保存复活结束时的法力恢复量，不表示致命伤害和复活时序已经接线。",
+          "expectedText": [
+            "重生法力恢复",
+            "资源变化",
+            "revive_max_mana",
+            "mana",
+            "恢复",
+            "施法者"
+          ],
+          "screenshot": "item_3026_passive-revive_restore-mana_restore-页面.png",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "skillName": "卢登的回声·回声",
+      "rowText": "加载中\n\t\n卢登的回声·回声\n\t\nitem_6655_passive\n\t\n1\n\t\n被动技能\n\t\n启用\n\t\n0\n\t\n2026/9/9 10:54:27\n\t\n挂载对象代表图片\n查看\n编辑\n参数与公式\n效果与结果\n过程与内部状态\n条件与触发\n停用\n删除",
+      "imageAlt": "卢登的回声·回声代表图片",
+      "effectKey": "single_target_max_damage",
+      "effectRowText": "加载中\n\t\n单目标满充能回声伤害\n\t\nsingle_target_max_damage\n\t\n1\n\t\n无生命周期\n\t\n10\n\t\n2026/9/12 12:02:54\n\t\n代表图片\n查看\n编辑\n复制为新效果\n删除",
+      "effectText": "查看效果\n 效果标识\n 效果名称\n说明\n62/2000\n 排序\n生命周期\n生命周期\n结果\n结果名称\n\t\n稳定标识\n\t\n结果种类\n\t\n作用对象\n\t\n法术护盾阻挡\n\t\n关键引用摘要\n\t\n特殊交互\n\t\n排序\n\t\n操作\n\n\n单目标满充能回声魔法伤害\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nmagic\n\t\n技能 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看\n关闭",
+      "effectDescription": "使用现有单目标总倍率公式保存严格一对一且6层回声全部结算到主目标时的魔法伤害；充能、技能伤害触发、弹道和12秒冷却尚未接线。",
+      "results": [
+        {
+          "resultKey": "damage",
+          "resultRowText": "单目标满充能回声魔法伤害\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nmagic\n\t\n技能 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看",
+          "resultText": "查看结果\n 结果标识\n 结果名称\n 结果种类\n伤害\n 作用对象\n施法者\n当前目标\n 排序\n说明\n26/2000\n 数值\n固定数值\n技能参数\n技能公式\n单目标最大回声伤害（single_target_max_damage）\n 固定倍率\n固定最小值\n固定最大值\n 伤害类型\n魔法伤害\n 伤害产生方式\n技能\n普通攻击\n 伤害来源性质\n直接伤害\n反伤\n 暴击方式\n不允许暴击\n按来源对象暴击率判定\n强制暴击\n吸血规则\n法术护盾阻挡粒度\n不参与法术护盾阻挡\n关闭",
+          "resultDescription": "仅适用于没有额外目标且6层全部消费的严格一对一场景。",
+          "expectedText": [
+            "单目标满充能回声魔法伤害",
+            "伤害",
+            "single_target_max_damage",
+            "魔法伤害",
+            "技能",
+            "严格一对一"
+          ],
+          "screenshot": "item_6655_passive-single_target_max_damage-damage-页面.png",
+          "passed": true
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "diagnostics": {
+    "pageErrors": [],
+    "consoleErrors": [],
+    "failedRequests": [],
+    "errorResponses": []
+  },
+  "passed": true
+}

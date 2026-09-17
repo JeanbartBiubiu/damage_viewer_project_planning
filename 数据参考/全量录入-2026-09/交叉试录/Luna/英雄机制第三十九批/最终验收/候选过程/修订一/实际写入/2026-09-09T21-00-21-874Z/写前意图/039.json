@@ -1,0 +1,24 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_r/parameters",
+    "detailRoute": "/skills/urgot_r/parameters/slow_per_missing_health_percent_points",
+    "skillKey": "urgot_r",
+    "kind": "parameters",
+    "stableKey": "slow_per_missing_health_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_per_missing_health_percent_points",
+      "name": "超越死亡每百分之一已损生命减速增量",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "正文明确每1%已损生命增加1%减速；RSlowMultiplier=1按百分数点保存。",
+      "sortOrder": 50
+    }
+  }
+}

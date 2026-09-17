@@ -1,0 +1,5725 @@
+{
+  "summary": {
+    "generatedAt": "2026-09-09T11:10:53.526Z",
+    "source": "client16.17/official16.17.1",
+    "candidateSha256": "7a09c5e2597c819aa38c7ac0901e047c2709cfcdb1be6310ebafe9ff926cc14a",
+    "skillCount": 20,
+    "candidateCounts": {
+      "parameters": 228,
+      "formulas": 47,
+      "effects": 14,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "reusedPublicParameters": 22,
+    "independentChecks": {
+      "total": 489,
+      "passed": 489,
+      "failed": 0
+    },
+    "attributeKeysObserved": [
+      "ability_power",
+      "hp"
+    ],
+    "explicitExampleInputs": {
+      "attributes": {
+        "SOURCE:ability_power:TOTAL": 100,
+        "SOURCE:hp:BONUS": 300,
+        "SOURCE:hp:TOTAL": 1000
+      },
+      "runtime": {
+        "vladimir_p/source_bonus_health_before_passive": 300,
+        "vladimir_p/source_ability_power_before_passive": 100,
+        "vladimir_q/missing_health_for_empowered_heal": 500,
+        "vladimir_q/empowered_heal_base": 100,
+        "vladimir_q/q2_move_speed_percent_points": 10,
+        "vladimir_w/source_current_hp_for_cost": 800,
+        "vladimir_e/source_max_health_for_charge": 2000,
+        "swain_p/soul_shard_count": 4,
+        "swain_p/source_max_health_for_soul": 2000,
+        "swain_r/source_bonus_health_for_swain_r": 300,
+        "rumble_p/overheat_attack_base_damage": 20,
+        "rumble_p/overheat_attack_speed_ratio": 0.5,
+        "rumble_w/source_health_for_shield": 500,
+        "aurelionsol_p/stardust_count": 10,
+        "aurelionsol_q/stardust_count": 10,
+        "aurelionsol_q/target_max_health": 5000,
+        "aurelionsol_q/level_based_range": 800,
+        "aurelionsol_w/dash_speed_stat": 20,
+        "aurelionsol_e/stardust_count": 10,
+        "aurelionsol_e/level_based_range": 800,
+        "aurelionsol_r/stardust_count": 10
+      }
+    },
+    "examples": [
+      {
+        "skillKey": "vladimir_p",
+        "formulaKey": "ability_power_from_bonus_health",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "source_bonus_health_before_passive": 300,
+          "source_ability_power_before_passive": 100
+        },
+        "actual": 10,
+        "expected": 10,
+        "ok": true
+      },
+      {
+        "skillKey": "vladimir_p",
+        "formulaKey": "bonus_health_from_ability_power",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "source_bonus_health_before_passive": 300,
+          "source_ability_power_before_passive": 100
+        },
+        "actual": 160,
+        "expected": 160,
+        "ok": true
+      },
+      {
+        "skillKey": "vladimir_q",
+        "formulaKey": "base_damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "missing_health_for_empowered_heal": 500,
+          "empowered_heal_base": 100,
+          "q2_move_speed_percent_points": 10
+        },
+        "actual": 140,
+        "expected": 140,
+        "ok": true
+      },
+      {
+        "skillKey": "vladimir_w",
+        "formulaKey": "pool_damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "source_current_hp_for_cost": 800
+        },
+        "actual": 125,
+        "expected": 125,
+        "ok": true
+      },
+      {
+        "skillKey": "vladimir_e",
+        "formulaKey": "min_damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "source_max_health_for_charge": 2000
+        },
+        "actual": 95,
+        "expected": 95,
+        "ok": true
+      },
+      {
+        "skillKey": "vladimir_r",
+        "formulaKey": "damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "actual": 220,
+        "expected": 220,
+        "ok": true
+      },
+      {
+        "skillKey": "swain_p",
+        "formulaKey": "soul_bonus_max_health",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "soul_shard_count": 4,
+          "source_max_health_for_soul": 2000
+        },
+        "actual": 60,
+        "expected": 60,
+        "ok": true
+      },
+      {
+        "skillKey": "swain_p",
+        "formulaKey": "soul_heal_amount",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "soul_shard_count": 4,
+          "source_max_health_for_soul": 2000
+        },
+        "actual": 120,
+        "expected": 120,
+        "ok": true
+      },
+      {
+        "skillKey": "swain_q",
+        "formulaKey": "initial_damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "actual": 105,
+        "expected": 105,
+        "ok": true
+      },
+      {
+        "skillKey": "swain_w",
+        "formulaKey": "damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "actual": 130,
+        "expected": 130,
+        "ok": true
+      },
+      {
+        "skillKey": "swain_e",
+        "formulaKey": "secondary_damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "actual": 160,
+        "expected": 160,
+        "ok": true
+      },
+      {
+        "skillKey": "swain_r",
+        "formulaKey": "damage_per_second",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "source_bonus_health_for_swain_r": 300
+        },
+        "actual": 19,
+        "expected": 19,
+        "ok": true
+      },
+      {
+        "skillKey": "swain_r",
+        "formulaKey": "healing_per_second",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "source_bonus_health_for_swain_r": 300
+        },
+        "actual": 24.5,
+        "expected": 24.5,
+        "ok": true
+      },
+      {
+        "skillKey": "rumble_p",
+        "formulaKey": "overheat_attack_damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "overheat_attack_base_damage": 20,
+          "overheat_attack_speed_ratio": 0.5
+        },
+        "actual": 45,
+        "expected": 45,
+        "ok": true
+      },
+      {
+        "skillKey": "rumble_q",
+        "formulaKey": "flat_damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "actual": 155,
+        "expected": 155,
+        "ok": true
+      },
+      {
+        "skillKey": "rumble_w",
+        "formulaKey": "shield_amount",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "source_health_for_shield": 500
+        },
+        "actual": 75,
+        "expected": 75,
+        "ok": true
+      },
+      {
+        "skillKey": "rumble_e",
+        "formulaKey": "damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "actual": 105,
+        "expected": 105,
+        "ok": true
+      },
+      {
+        "skillKey": "rumble_r",
+        "formulaKey": "damage_per_second",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000
+        },
+        "actual": 155,
+        "expected": 155,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_p",
+        "formulaKey": "q_bonus_max_health_damage_ratio",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "stardust_count": 10
+        },
+        "actual": 0.0031,
+        "expected": 0.0031,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_p",
+        "formulaKey": "e_execute_threshold_ratio",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "stardust_count": 10
+        },
+        "actual": 0.0526,
+        "expected": 0.0526,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_q",
+        "formulaKey": "damage_per_second",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "stardust_count": 10,
+          "target_max_health": 5000,
+          "level_based_range": 800
+        },
+        "actual": 100,
+        "expected": 100,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_q",
+        "formulaKey": "bonus_max_health_magic_damage_amount",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "stardust_count": 10,
+          "target_max_health": 5000,
+          "level_based_range": 800
+        },
+        "actual": 15.5,
+        "expected": 15.5,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_w",
+        "formulaKey": "dash_speed",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "dash_speed_stat": 20
+        },
+        "actual": 360,
+        "expected": 360,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_e",
+        "formulaKey": "damage_per_second",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "stardust_count": 10,
+          "level_based_range": 800
+        },
+        "actual": 22,
+        "expected": 22,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_e",
+        "formulaKey": "current_execute_threshold_ratio",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "stardust_count": 10,
+          "level_based_range": 800
+        },
+        "actual": 0.0526,
+        "expected": 0.0526,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_r",
+        "formulaKey": "damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "stardust_count": 10
+        },
+        "actual": 225,
+        "expected": 225,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_r",
+        "formulaKey": "skies_descend_damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "stardust_count": 10
+        },
+        "actual": 281.25,
+        "expected": 281.25,
+        "ok": true
+      },
+      {
+        "skillKey": "aurelionsol_r",
+        "formulaKey": "shockwave_damage",
+        "inputs": {
+          "SOURCE:ability_power:TOTAL": 100,
+          "SOURCE:hp:BONUS": 300,
+          "SOURCE:hp:TOTAL": 1000,
+          "stardust_count": 10
+        },
+        "actual": 202.5,
+        "expected": 202.5,
+        "ok": true
+      }
+    ],
+    "errors": []
+  },
+  "checks": [
+    {
+      "name": "候选20技能顺序",
+      "ok": true,
+      "detail": {
+        "actual": [
+          "vladimir_p",
+          "vladimir_q",
+          "vladimir_w",
+          "vladimir_e",
+          "vladimir_r",
+          "swain_p",
+          "swain_q",
+          "swain_w",
+          "swain_e",
+          "swain_r",
+          "rumble_p",
+          "rumble_q",
+          "rumble_w",
+          "rumble_e",
+          "rumble_r",
+          "aurelionsol_p",
+          "aurelionsol_q",
+          "aurelionsol_w",
+          "aurelionsol_e",
+          "aurelionsol_r"
+        ]
+      }
+    },
+    {
+      "name": "来源证据4英雄",
+      "ok": true,
+      "detail": [
+        "Vladimir",
+        "Swain",
+        "Rumble",
+        "AurelionSol"
+      ]
+    },
+    {
+      "name": "候选业务写入标记为0",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "只读证据53请求且无失败写入",
+      "ok": true,
+      "detail": {
+        "publicParameterDetails": 22,
+        "characters": 4,
+        "relations": 4,
+        "images": 20,
+        "catalogs": 3,
+        "requests": 53,
+        "statusCounts": {
+          "200": 53
+        },
+        "failures": 0,
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "vladimir_p有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Vladimir",
+        "rootPath": "Characters/Vladimir/CharacterRecords/Root",
+        "spellPath": "Characters/Vladimir/Spells/VladimirBloodGorgedAbility/VladimirBloodGorged",
+        "clientSha256": "6417376f7de2a253a42585a60b48f05b951f17d68f92f9f8b4182952a5af8147",
+        "officialSha256": "b6f1848c17d57deb50b6084eee7bc154ae2c3e5f588a889ede865318c45f0d23",
+        "currentBoundText": {
+          "binding": "Characters/Vladimir/Spells/VladimirBloodGorgedAbility/VladimirBloodGorged",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VladimirP_Name",
+              "key": "spell_vladimirp_name",
+              "text": "血色契约"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_VladimirP_Tooltip",
+              "key": "spell_vladimirp_tooltip",
+              "text": "弗拉基米尔的每<scaleHealth>@HPforAP@额外生命值</scaleHealth>为他提供<scaleAP>1法术强度</scaleAP>。他的每<scaleAP>1法术强度</scaleAP>也为他提供<scaleHealth>@APRatioBonusHP@最大生命值</scaleHealth>。<br><br><scaleAP>额外法术强度：@ApproximateAPBonusAvoidingRecursion@</scaleAP><br><scaleHealth>额外生命值：@ApproximateHPBonusAvoidingRecursion@</scaleHealth>"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VladimirP_Summary",
+              "key": "spell_vladimirp_summary",
+              "text": "每30生命值加成给予弗拉基米尔1法术强度，每1法术强度给予弗拉基米尔1.6生命值（不会自我循环叠加）。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_VladimirBloodGorged_TooltipExtended",
+              "key": "spell_vladimirbloodgorged_tooltipextended",
+              "text": "{{Spell_VladimirP_Tooltip}}<br><br><rules>这些加成不会循环叠加。</rules>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "vladimir_p保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "vladimir_p六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "vladimir_p组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_p/source_bonus_health_before_passive外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_p/source_ability_power_before_passive外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_p/DataValues.HPforAP独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          30
+        ],
+        "actual": [
+          30
+        ]
+      }
+    },
+    {
+      "name": "vladimir_p/DataValues.APRatioBonusHP独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1.6
+        ],
+        "actual": [
+          1.6
+        ]
+      }
+    },
+    {
+      "name": "vladimir_p/mSpellCalculations.ApproximateAPBonusAvoidingRecursion计算树存在",
+      "ok": true,
+      "detail": "ApproximateAPBonusAvoidingRecursion"
+    },
+    {
+      "name": "vladimir_p/mSpellCalculations.ApproximateHPBonusAvoidingRecursion计算树存在",
+      "ok": true,
+      "detail": "ApproximateHPBonusAvoidingRecursion"
+    },
+    {
+      "name": "vladimir_p/ability_power_from_bonus_health引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_p/ability_power_from_bonus_health独立算例可求值",
+      "ok": true,
+      "detail": 10
+    },
+    {
+      "name": "vladimir_p/bonus_health_from_ability_power引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_p/bonus_health_from_ability_power独立算例可求值",
+      "ok": true,
+      "detail": 160
+    },
+    {
+      "name": "vladimir_q有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Vladimir",
+        "rootPath": "Characters/Vladimir/CharacterRecords/Root",
+        "spellPath": "Characters/Vladimir/Spells/VladimirQAbility/VladimirQ",
+        "clientSha256": "6417376f7de2a253a42585a60b48f05b951f17d68f92f9f8b4182952a5af8147",
+        "officialSha256": "b6f1848c17d57deb50b6084eee7bc154ae2c3e5f588a889ede865318c45f0d23",
+        "currentBoundText": {
+          "binding": "Characters/Vladimir/Spells/VladimirQAbility/VladimirQ",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VladimirQ_Name",
+              "key": "spell_vladimirq_name",
+              "text": "鲜血转换"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VladimirQ_Summary",
+              "key": "spell_vladimirq_summary",
+              "text": "弗拉基米尔从目标敌人身上偷取生命值。当弗拉基米尔的资源槽攒满后，鲜血转换将暂时获得增益，提升伤害和治疗效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_VladimirQ_Tooltip",
+              "key": "spell_vladimirq_tooltip",
+              "text": "弗拉基米尔汲取目标的生命力，造成<magicDamage>@BaseDamageTooltip@魔法伤害</magicDamage>并回复<healing>@BaseHealTooltip@生命值</healing>。在使用2次这个技能后，弗拉基米尔会获得持续0.5秒的<speed>@MovementSpeedOnQ2@%移动速度</speed>，并强化这个技能的下一次使用，持续@FrenzyDuration@秒。<br><br>这个技能的强化版会转而造成<magicDamage>@EmpoweredDamageTooltip@魔法伤害</magicDamage>并回复额外的<healing>@EmpoweredHealTooltip@加上@EmpoweredHealPercentTooltip@已损失生命值</healing>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "key": "spell_cost_nocost",
+              "text": "无消耗"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_VladimirQ_TooltipExtendedBelowLine",
+              "key": "spell_vladimirq_tooltipextendedbelowline",
+              "text": "<rules>对小兵的强化治疗效果降低至30%。</rules>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "vladimir_q保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "vladimir_q六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "vladimir_q组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_q/missing_health_for_empowered_heal外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_q/empowered_heal_base外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_q/q2_move_speed_percent_points外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_q/DataValues.BaseDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          80,
+          100,
+          120,
+          140,
+          160
+        ],
+        "actual": [
+          80,
+          100,
+          120,
+          140,
+          160
+        ]
+      }
+    },
+    {
+      "name": "vladimir_q/DataValues.BaseHeal独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ],
+        "actual": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
+      }
+    },
+    {
+      "name": "vladimir_q/DataValues.HealAPRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.35,
+          0.35,
+          0.35,
+          0.35,
+          0.35
+        ],
+        "actual": [
+          0.35,
+          0.35,
+          0.35,
+          0.35,
+          0.35
+        ]
+      }
+    },
+    {
+      "name": "vladimir_q/DataValues.DamagePercentAmp独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.85,
+          0.85,
+          0.85,
+          0.85,
+          0.85
+        ],
+        "actual": [
+          0.85,
+          0.85,
+          0.85,
+          0.85,
+          0.85
+        ]
+      }
+    },
+    {
+      "name": "vladimir_q/DataValues.FrenzyDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2500,
+          2500,
+          2500,
+          2500,
+          2500
+        ],
+        "actual": [
+          2500,
+          2500,
+          2500,
+          2500,
+          2500
+        ]
+      }
+    },
+    {
+      "name": "vladimir_q/mSpellCalculations.{097cda4f}计算树存在",
+      "ok": true,
+      "detail": "{097cda4f}"
+    },
+    {
+      "name": "vladimir_q/DataValues.Empowered___HealPer100AP_0_1_独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.0004,
+          0.0004,
+          0.0004,
+          0.0004,
+          0.0004
+        ],
+        "actual": [
+          0.0004,
+          0.0004,
+          0.0004,
+          0.0004,
+          0.0004
+        ]
+      }
+    },
+    {
+      "name": "vladimir_q/mSpellCalculations.BaseDamageTooltip计算树存在",
+      "ok": true,
+      "detail": "BaseDamageTooltip"
+    },
+    {
+      "name": "vladimir_q/mSpellCalculations.BaseHealTooltip计算树存在",
+      "ok": true,
+      "detail": "BaseHealTooltip"
+    },
+    {
+      "name": "vladimir_q/mSpellCalculations.EmpoweredDamageTooltip计算树存在",
+      "ok": true,
+      "detail": "EmpoweredDamageTooltip"
+    },
+    {
+      "name": "vladimir_q/mSpellCalculations.EmpoweredHealPercentTooltip计算树存在",
+      "ok": true,
+      "detail": "EmpoweredHealPercentTooltip"
+    },
+    {
+      "name": "vladimir_q/mSpellCalculations.EmpoweredHealTooltip计算树存在",
+      "ok": true,
+      "detail": "EmpoweredHealTooltip"
+    },
+    {
+      "name": "vladimir_q/mSpellCalculations.MovementSpeedOnQ2计算树存在",
+      "ok": true,
+      "detail": "MovementSpeedOnQ2"
+    },
+    {
+      "name": "vladimir_q/mSpellCalculations.EmpoweredHealPercent计算树存在",
+      "ok": true,
+      "detail": "EmpoweredHealPercent"
+    },
+    {
+      "name": "vladimir_q/base_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_q/base_damage独立算例可求值",
+      "ok": true,
+      "detail": 140
+    },
+    {
+      "name": "vladimir_q/base_heal引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_q/base_heal独立算例可求值",
+      "ok": true,
+      "detail": 55
+    },
+    {
+      "name": "vladimir_q/empowered_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_q/empowered_damage独立算例可求值",
+      "ok": true,
+      "detail": 259
+    },
+    {
+      "name": "vladimir_q/empowered_heal引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_q/empowered_heal独立算例可求值",
+      "ok": true,
+      "detail": 145
+    },
+    {
+      "name": "vladimir_w有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Vladimir",
+        "rootPath": "Characters/Vladimir/CharacterRecords/Root",
+        "spellPath": "Characters/Vladimir/Spells/VladimirSanguinePoolAbility/VladimirSanguinePool",
+        "clientSha256": "6417376f7de2a253a42585a60b48f05b951f17d68f92f9f8b4182952a5af8147",
+        "officialSha256": "b6f1848c17d57deb50b6084eee7bc154ae2c3e5f588a889ede865318c45f0d23",
+        "currentBoundText": {
+          "binding": "Characters/Vladimir/Spells/VladimirSanguinePoolAbility/VladimirSanguinePool",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VladimirSanguinePool_Name",
+              "key": "spell_vladimirsanguinepool_name",
+              "text": "血红之池"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VladimirSanguinePool_Summary",
+              "key": "spell_vladimirsanguinepool_summary",
+              "text": "弗拉基米尔潜入血泊之中，变得不可被选取，持续2秒。血泊上的敌人被减速，同时弗拉基米尔会从他们身上吸取生命。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_VladimirSanguinePool_Tooltip",
+              "key": "spell_vladimirsanguinepool_tooltip",
+              "text": "弗拉基米尔化成一滩持续2秒的血池，获得<speed>@HasteBoost*100@%持续衰减的移动速度</speed>，持续@HasteDuration@秒，并进入<keyword>无法被选取</keyword>和<keyword>幽灵</keyword>状态，同时使血池中的敌人<status>减速</status>@MoveSpeedMod*-100@%。<br><br>弗拉基米尔在期间会持续造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，并且每命中一个敌人就会为弗拉基米尔回复<healing>@TotalHeal@生命值</healing>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_VladimirSanguinePool_Cost",
+              "key": "spell_vladimirsanguinepool_cost",
+              "text": "消耗<font color='#CC3300'>@HealthCost*100@%当前生命值(@f2@)</font>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_VladimirSanguinePool_TooltipExtendedBelowLine",
+              "key": "spell_vladimirsanguinepool_tooltipextendedbelowline",
+              "text": "<rules>这个技能可在<spellName>血之潮汐</spellName>的蓄力期间施放。<br>弗拉基米尔在血池中时无法攻击或使用其它技能。<br>对小兵的<healing>治疗效果</healing>的效能为@MinionHealingMod*100@%。<br>{{Reminder_Untargetable}}<br>{{Reminder_Ghosted}}</rules>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "vladimir_w保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "vladimir_w六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "vladimir_w组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_w/source_current_hp_for_cost外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_w/DataValues.BaseDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          80,
+          135,
+          190,
+          245,
+          300
+        ],
+        "actual": [
+          80,
+          135,
+          190,
+          245,
+          300
+        ]
+      }
+    },
+    {
+      "name": "vladimir_w/DataValues.BonusHealthRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ],
+        "actual": [
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      }
+    },
+    {
+      "name": "vladimir_w/DataValues.HealthCost独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ],
+        "actual": [
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      }
+    },
+    {
+      "name": "vladimir_w/DataValues.MoveSpeedMod独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4
+        ],
+        "actual": [
+          0.4,
+          0.4,
+          0.4,
+          0.4,
+          0.4
+        ]
+      }
+    },
+    {
+      "name": "vladimir_w/DataValues.VampPercent独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "actual": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ]
+      }
+    },
+    {
+      "name": "vladimir_w/DataValues.HasteBoost独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375
+        ],
+        "actual": [
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375
+        ]
+      }
+    },
+    {
+      "name": "vladimir_w/DataValues.HasteDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "actual": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ]
+      }
+    },
+    {
+      "name": "vladimir_w/mSpellCalculations.TotalDamage计算树存在",
+      "ok": true,
+      "detail": "TotalDamage"
+    },
+    {
+      "name": "vladimir_w/mSpellCalculations.TotalHeal计算树存在",
+      "ok": true,
+      "detail": "TotalHeal"
+    },
+    {
+      "name": "vladimir_w/pool_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_w/pool_damage独立算例可求值",
+      "ok": true,
+      "detail": 125
+    },
+    {
+      "name": "vladimir_w/pool_heal引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_w/pool_heal独立算例可求值",
+      "ok": true,
+      "detail": 37.5
+    },
+    {
+      "name": "vladimir_w/health_cost引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_w/health_cost独立算例可求值",
+      "ok": true,
+      "detail": 120
+    },
+    {
+      "name": "vladimir_w/health_cost$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "vladimir_w/health_cost$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "hp"
+    },
+    {
+      "name": "vladimir_e有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Vladimir",
+        "rootPath": "Characters/Vladimir/CharacterRecords/Root",
+        "spellPath": "Characters/Vladimir/Spells/VladimirEAbility/VladimirE",
+        "clientSha256": "6417376f7de2a253a42585a60b48f05b951f17d68f92f9f8b4182952a5af8147",
+        "officialSha256": "b6f1848c17d57deb50b6084eee7bc154ae2c3e5f588a889ede865318c45f0d23",
+        "currentBoundText": {
+          "binding": "Characters/Vladimir/Spells/VladimirEAbility/VladimirE",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VladimirE_Name",
+              "key": "spell_vladimire_name",
+              "text": "血之潮汐"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VladimirE_Summary",
+              "key": "spell_vladimire_summary",
+              "text": "弗拉基米尔消耗他的生命值来持续灌注一个蓄血库，蓄血库在释放时会对他身边的敌人造成伤害，但会被敌方单位所阻挡。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_VladimirE_Tooltip",
+              "key": "spell_vladimire_tooltip",
+              "text": "<charge>开始蓄力：</charge>弗拉基米尔积攒一个蓄血库，至多消耗<font color='#CC3300'>@ChargeHealthTooltip@生命值</font>。在攒满后，弗拉基米尔会被<status>减速</status>20%。<br><br><release>释放：</release>弗拉基米尔对附近的敌人释放一股血弹激流，基于蓄力时间造成<magicDamage>@MinDamageTooltip@</magicDamage>至<magicDamage>@MaxDamageTooltip@魔法伤害</magicDamage>。如果这个技能蓄力了至少1秒，那么它还会对目标造成持续0.5秒的@SlowPercent@%<status>减速</status>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_VladimirE_Cost",
+              "key": "spell_vladimire_cost",
+              "text": "引导过程消耗<font color='#CC3300'>@MaxHealthCost@%最大生命值(@ChargeHealthTooltip@)</font>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_VladimirE_TooltipExtendedBelowLine",
+              "key": "spell_vladimire_tooltipextendedbelowline",
+              "text": "<rules>这个技能会在@MaxChannelTime@秒后自动释放。<br>敌人可以被多个<br>血弹命中，但只会受到第一个血弹的伤害。</rules>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "vladimir_e保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "vladimir_e六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "vladimir_e组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_e/source_max_health_for_charge外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_e/DataValues.BaseDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          30,
+          45,
+          60,
+          75,
+          90
+        ],
+        "actual": [
+          30,
+          45,
+          60,
+          75,
+          90
+        ]
+      }
+    },
+    {
+      "name": "vladimir_e/DataValues.BaseMaxDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          60,
+          90,
+          120,
+          150,
+          180
+        ],
+        "actual": [
+          60,
+          90,
+          120,
+          150,
+          180
+        ]
+      }
+    },
+    {
+      "name": "vladimir_e/DataValues.SlowPercent独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.4,
+          0.45,
+          0.5,
+          0.55,
+          0.6
+        ],
+        "actual": [
+          0.4,
+          0.45,
+          0.5,
+          0.55,
+          0.6
+        ]
+      }
+    },
+    {
+      "name": "vladimir_e/DataValues.MaxHealthCost独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.08,
+          0.08,
+          0.08,
+          0.08,
+          0.08
+        ],
+        "actual": [
+          0.08,
+          0.08,
+          0.08,
+          0.08,
+          0.08
+        ]
+      }
+    },
+    {
+      "name": "vladimir_e/DataValues.TotalMaxHPDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.06,
+          0.06,
+          0.06,
+          0.06,
+          0.06
+        ],
+        "actual": [
+          0.06,
+          0.06,
+          0.06,
+          0.06,
+          0.06
+        ]
+      }
+    },
+    {
+      "name": "vladimir_e/DataValues.MaxChannelTime独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "actual": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ]
+      }
+    },
+    {
+      "name": "vladimir_e/DataValues.TimetoRampMaxDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "actual": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ]
+      }
+    },
+    {
+      "name": "vladimir_e/mSpellCalculations.MinDamageTooltip计算树存在",
+      "ok": true,
+      "detail": "MinDamageTooltip"
+    },
+    {
+      "name": "vladimir_e/mSpellCalculations.MaxDamageTooltip计算树存在",
+      "ok": true,
+      "detail": "MaxDamageTooltip"
+    },
+    {
+      "name": "vladimir_e/mSpellCalculations.ChargeHealthTooltip计算树存在",
+      "ok": true,
+      "detail": "ChargeHealthTooltip"
+    },
+    {
+      "name": "vladimir_e/min_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_e/min_damage独立算例可求值",
+      "ok": true,
+      "detail": 95
+    },
+    {
+      "name": "vladimir_e/max_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_e/max_damage独立算例可求值",
+      "ok": true,
+      "detail": 260
+    },
+    {
+      "name": "vladimir_e/charge_health_cost引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_e/charge_health_cost独立算例可求值",
+      "ok": true,
+      "detail": 160
+    },
+    {
+      "name": "vladimir_e/max_health_cost$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "vladimir_e/max_health_cost$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "hp"
+    },
+    {
+      "name": "vladimir_r有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Vladimir",
+        "rootPath": "Characters/Vladimir/CharacterRecords/Root",
+        "spellPath": "Characters/Vladimir/Spells/VladimirHemoplagueAbility/VladimirHemoplague",
+        "clientSha256": "6417376f7de2a253a42585a60b48f05b951f17d68f92f9f8b4182952a5af8147",
+        "officialSha256": "b6f1848c17d57deb50b6084eee7bc154ae2c3e5f588a889ede865318c45f0d23",
+        "currentBoundText": {
+          "binding": "Characters/Vladimir/Spells/VladimirHemoplagueAbility/VladimirHemoplague",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VladimirHemoplague_Name",
+              "key": "spell_vladimirhemoplague_name",
+              "text": "血之瘟疫"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VladimirHemoplague_Summary",
+              "key": "spell_vladimirhemoplague_summary",
+              "text": "弗拉基米尔令一片区域感染上剧毒瘟疫，增加受感染敌人所受的伤害。在几秒后，血之瘟疫会对被感染的敌人造成魔法伤害，并根据命中的敌方英雄数来治疗弗拉基米尔。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_VladimirHemoplague_Tooltip",
+              "key": "spell_vladimirhemoplague_tooltip",
+              "text": "弗拉基米尔生成一个剧毒瘟疫，使他的目标们所受伤害(所有来源)提高@DamageAmp@%，持续@Duration@秒。在它消散后，弗拉基米尔对所有被感染的目标造成<magicDamage>@Damage@魔法伤害</magicDamage>。如果弗拉基米尔命中了一名敌方英雄，那么就会回复自身<healing>@Damage@生命值</healing>，此后每命中一名敌方英雄会回复自身额外的 <healing>@SecondaryHealingTooltip@生命值</healing>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "key": "spell_cost_nocost",
+              "text": "无消耗"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "vladimir_r保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "vladimir_r六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "vladimir_r组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "vladimir_r/DataValues.BaseDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          150,
+          250,
+          350
+        ],
+        "actual": [
+          150,
+          250,
+          350
+        ]
+      }
+    },
+    {
+      "name": "vladimir_r/DataValues.DamageAmp独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.1,
+          0.1,
+          0.1
+        ],
+        "actual": [
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    },
+    {
+      "name": "vladimir_r/DataValues.Duration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          4000,
+          4000,
+          4000
+        ],
+        "actual": [
+          4000,
+          4000,
+          4000
+        ]
+      }
+    },
+    {
+      "name": "vladimir_r/DataValues.VampPercentFirstChamp独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1,
+          1,
+          1
+        ],
+        "actual": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "name": "vladimir_r/mSpellCalculations.Damage计算树存在",
+      "ok": true,
+      "detail": "Damage"
+    },
+    {
+      "name": "vladimir_r/mSpellCalculations.SecondaryHealingTooltip计算树存在",
+      "ok": true,
+      "detail": "SecondaryHealingTooltip"
+    },
+    {
+      "name": "vladimir_r/damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_r/damage独立算例可求值",
+      "ok": true,
+      "detail": 220
+    },
+    {
+      "name": "vladimir_r/first_champion_heal引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "vladimir_r/first_champion_heal独立算例可求值",
+      "ok": true,
+      "detail": 220
+    },
+    {
+      "name": "swain_p有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Swain",
+        "rootPath": "Characters/Swain/CharacterRecords/Root",
+        "spellPath": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
+        "clientSha256": "02d529b9d242100cd968da8300be5e241c5afbce3937b8c97d97fe1a649a313b",
+        "officialSha256": "543c939c76a1b0c63595c3ad3b0cc13fb99400583a09d613cf7c11ddfd13c73a",
+        "currentBoundText": {
+          "binding": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
+          "keys": {
+            "keyName": {
+              "sourceKey": "game_character_passiveName_Swain",
+              "key": "game_character_passivename_swain",
+              "text": "狂食鸦群"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_SwainPassive_Tooltip2",
+              "key": "spell_swainpassive_tooltip2",
+              "text": "斯维因可从<spellName>帝国视界</spellName>、<spellName>永不复行</spellName>和敌方英雄的阵亡之中收集<font color='#FF3F3F' size='18'>魂屑</font>。<font color='#FF3F3F' size='18'>魂屑</font>回复<healing>@PassiveHealPercent@最大生命值</healing>并且为斯维因永久提供<healing>@HealthIncrement@最大生命值</healing>。<br><br>已收集的魂屑数量：@f1@<br>已获得的生命值总和：<scaleHealth>@MaxHealthGained@</scaleHealth>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "swain_p保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "swain_p六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "swain_p组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "swain_p/soul_shard_count外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "swain_p/source_max_health_for_soul外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "swain_p/DataValues.SoulCollectionRange独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1100
+        ],
+        "actual": [
+          1100
+        ]
+      }
+    },
+    {
+      "name": "swain_p/DataValues.HealthIncrement独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          15
+        ],
+        "actual": [
+          15
+        ]
+      }
+    },
+    {
+      "name": "swain_p/mSpellCalculations.PassiveHealPercent计算树存在",
+      "ok": true,
+      "detail": "PassiveHealPercent"
+    },
+    {
+      "name": "swain_p/mSpellCalculations.PassiveHealCalculated计算树存在",
+      "ok": true,
+      "detail": "PassiveHealCalculated"
+    },
+    {
+      "name": "swain_p/mSpellCalculations.MaxHealthGained计算树存在",
+      "ok": true,
+      "detail": "MaxHealthGained"
+    },
+    {
+      "name": "swain_p/soul_bonus_max_health引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_p/soul_bonus_max_health独立算例可求值",
+      "ok": true,
+      "detail": 60
+    },
+    {
+      "name": "swain_p/soul_heal_amount引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_p/soul_heal_amount独立算例可求值",
+      "ok": true,
+      "detail": 120
+    },
+    {
+      "name": "swain_q有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Swain",
+        "rootPath": "Characters/Swain/CharacterRecords/Root",
+        "spellPath": "Characters/Swain/Spells/SwainQAbility/SwainQ",
+        "clientSha256": "02d529b9d242100cd968da8300be5e241c5afbce3937b8c97d97fe1a649a313b",
+        "officialSha256": "543c939c76a1b0c63595c3ad3b0cc13fb99400583a09d613cf7c11ddfd13c73a",
+        "currentBoundText": {
+          "binding": "Characters/Swain/Spells/SwainQAbility/SwainQ",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_SwainQ_Name",
+              "key": "spell_swainq_name",
+              "text": "解脱之触"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_SwainQ_Summary",
+              "key": "spell_swainq_summary",
+              "text": "斯维因释放多道恶魔之力，这种力量可以穿透命中的目标。被一道以上的恶魔之力所命中的敌人，会受到基于恶魔之力数量的更多伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_SwainQ_Tooltip",
+              "key": "spell_swainq_tooltip",
+              "text": "斯维因释放5道恶魔之力，造成<magicDamage>@InitialDamage@魔法伤害</magicDamage>，第一道之后的每道恶魔之力造成<magicDamage>@ExtraBoltDamage@魔法伤害</magicDamage>(最大伤害为<magicDamage>@MaxDamage@魔法伤害</magicDamage>)。"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "swain_q保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "swain_q六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "swain_q组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "swain_q/DataValues.BaseDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          60,
+          90,
+          120,
+          150,
+          180
+        ],
+        "actual": [
+          60,
+          90,
+          120,
+          150,
+          180
+        ]
+      }
+    },
+    {
+      "name": "swain_q/DataValues.FirstBoltAPRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.45,
+          0.45,
+          0.45,
+          0.45,
+          0.45
+        ],
+        "actual": [
+          0.45,
+          0.45,
+          0.45,
+          0.45,
+          0.45
+        ]
+      }
+    },
+    {
+      "name": "swain_q/DataValues.ExtraBoltRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "actual": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ]
+      }
+    },
+    {
+      "name": "swain_q/DataValues.BoundaryCheckRange独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          725,
+          725,
+          725,
+          725,
+          725
+        ],
+        "actual": [
+          725,
+          725,
+          725,
+          725,
+          725
+        ]
+      }
+    },
+    {
+      "name": "swain_q/DataValues.MaxDamageMultiTOOLTIP独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "actual": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "name": "swain_q/mSpellCalculations.InitialDamage计算树存在",
+      "ok": true,
+      "detail": "InitialDamage"
+    },
+    {
+      "name": "swain_q/mSpellCalculations.ExtraBoltDamage计算树存在",
+      "ok": true,
+      "detail": "ExtraBoltDamage"
+    },
+    {
+      "name": "swain_q/mSpellCalculations.MaxDamage计算树存在",
+      "ok": true,
+      "detail": "MaxDamage"
+    },
+    {
+      "name": "swain_q/initial_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_q/initial_damage独立算例可求值",
+      "ok": true,
+      "detail": 105
+    },
+    {
+      "name": "swain_q/extra_bolt_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_q/extra_bolt_damage独立算例可求值",
+      "ok": true,
+      "detail": 26.25
+    },
+    {
+      "name": "swain_q/max_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_q/max_damage独立算例可求值",
+      "ok": true,
+      "detail": 210
+    },
+    {
+      "name": "swain_q/mana_cost$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "swain_q/mana_cost$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "mana"
+    },
+    {
+      "name": "swain_w有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Swain",
+        "rootPath": "Characters/Swain/CharacterRecords/Root",
+        "spellPath": "Characters/Swain/Spells/SwainWAbility/SwainW",
+        "clientSha256": "02d529b9d242100cd968da8300be5e241c5afbce3937b8c97d97fe1a649a313b",
+        "officialSha256": "543c939c76a1b0c63595c3ad3b0cc13fb99400583a09d613cf7c11ddfd13c73a",
+        "currentBoundText": {
+          "binding": "Characters/Swain/Spells/SwainWAbility/SwainW",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_SwainW_Name",
+              "key": "spell_swainw_name",
+              "text": "帝国视界"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_SwainW_Summary",
+              "key": "spell_swainw_summary",
+              "text": "斯维因睁开恶魔之眼来对敌人造成伤害和减速效果。在命中敌方英雄时会使该英雄显形，并为斯维因提供一片魂屑。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_SwainW_Tooltip",
+              "key": "spell_swainw_tooltip",
+              "text": "斯维因睁开一只恶魔之眼，来使一个位置显形1.5秒，然后造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@Slow*-100@%<status>减速</status>。<br><br>被命中的英雄会为斯维因提供一片<font color='#FF3F3F' size='18'>魂屑</font>并显形@RevealDuration@秒。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_SwainW_TooltipExtendedBelowLine",
+              "key": "spell_swainw_tooltipextendedbelowline",
+              "text": "<rules>对小兵转而造成<magicDamage>@MinionDamage@伤害</magicDamage>。</rules>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "swain_w保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "swain_w六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "swain_w组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "swain_w/DataValues.BaseDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          70,
+          105,
+          140,
+          175,
+          210
+        ],
+        "actual": [
+          70,
+          105,
+          140,
+          175,
+          210
+        ]
+      }
+    },
+    {
+      "name": "swain_w/DataValues.APRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.6
+        ],
+        "actual": [
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.6
+        ]
+      }
+    },
+    {
+      "name": "swain_w/DataValues.Slow独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "actual": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      }
+    },
+    {
+      "name": "swain_w/DataValues.SlowDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "actual": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ]
+      }
+    },
+    {
+      "name": "swain_w/DataValues.RevealDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          6000,
+          6000,
+          6000,
+          6000,
+          6000
+        ],
+        "actual": [
+          6000,
+          6000,
+          6000,
+          6000,
+          6000
+        ]
+      }
+    },
+    {
+      "name": "swain_w/DataValues.EffectRadius独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          325,
+          325,
+          325,
+          325,
+          325
+        ],
+        "actual": [
+          325,
+          325,
+          325,
+          325,
+          325
+        ]
+      }
+    },
+    {
+      "name": "swain_w/mSpellCalculations.TotalDamage计算树存在",
+      "ok": true,
+      "detail": "TotalDamage"
+    },
+    {
+      "name": "swain_w/mSpellCalculations.MinionDamage计算树存在",
+      "ok": true,
+      "detail": "MinionDamage"
+    },
+    {
+      "name": "swain_w/damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_w/damage独立算例可求值",
+      "ok": true,
+      "detail": 130
+    },
+    {
+      "name": "swain_w/mana_cost$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "swain_w/mana_cost$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "mana"
+    },
+    {
+      "name": "swain_e有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Swain",
+        "rootPath": "Characters/Swain/CharacterRecords/Root",
+        "spellPath": "Characters/Swain/Spells/SwainEAbility/SwainE",
+        "clientSha256": "02d529b9d242100cd968da8300be5e241c5afbce3937b8c97d97fe1a649a313b",
+        "officialSha256": "543c939c76a1b0c63595c3ad3b0cc13fb99400583a09d613cf7c11ddfd13c73a",
+        "currentBoundText": {
+          "binding": "Characters/Swain/Spells/SwainEAbility/SwainE",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_SwainE_Name",
+              "key": "spell_swaine_name",
+              "text": "永不复行"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_SwainE_Summary",
+              "key": "spell_swaine_summary",
+              "text": "斯维因释放一道恶魔之手向前击出。手臂随后会返回至斯维因处，并禁锢它命中的敌人。斯维因之后可以选择将所有被禁锢的英雄们拉拽得更靠近他。这个技能在【恶魔升华】期间会有一个更短的冷却时间。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_SwainE_Tooltip",
+              "key": "spell_swaine_tooltip",
+              "text": "斯维因发射一道会折返的恶魔能量波，在命中的第一个敌人身上引爆，对一个区域内的敌人造成<magicDamage>@SecondaryDamage@魔法伤害</magicDamage>和@RootDuration@秒<status>禁锢</status>。<br><br>用这个技能<status>禁锢</status>一名英雄后，可使斯维因再次施放这个技能来拉拽所有被<spellName>永不复行</spellName><status>禁锢</status>的英雄们，并且每个被他拉拽的英雄将为他提供一个<font color='#FF3F3F' size='18'>魂屑</font>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_SwainE_TooltipExtended",
+              "key": "spell_swaine_tooltipextended",
+              "text": "<rules><spellName>永不复行</spellName>会暂时提供被禁锢英雄们的视野。</rules>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "swain_e保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "swain_e六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "swain_e组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "swain_e/DataValues.E2Damage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          90,
+          130,
+          170,
+          210,
+          250
+        ],
+        "actual": [
+          90,
+          130,
+          170,
+          210,
+          250
+        ]
+      }
+    },
+    {
+      "name": "swain_e/DataValues.E2Ratio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "actual": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ]
+      }
+    },
+    {
+      "name": "swain_e/DataValues.RootDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "actual": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ]
+      }
+    },
+    {
+      "name": "swain_e/DataValues.PullDistance独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          290,
+          290,
+          290,
+          290,
+          290
+        ],
+        "actual": [
+          290,
+          290,
+          290,
+          290,
+          290
+        ]
+      }
+    },
+    {
+      "name": "swain_e/DataValues.CooldownRefund独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        "actual": [
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ]
+      }
+    },
+    {
+      "name": "swain_e/DataValues.ExplosionRadius独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          205,
+          205,
+          205,
+          205,
+          205
+        ],
+        "actual": [
+          205,
+          205,
+          205,
+          205,
+          205
+        ]
+      }
+    },
+    {
+      "name": "swain_e/mSpellCalculations.SecondaryDamage计算树存在",
+      "ok": true,
+      "detail": "SecondaryDamage"
+    },
+    {
+      "name": "swain_e/secondary_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_e/secondary_damage独立算例可求值",
+      "ok": true,
+      "detail": 160
+    },
+    {
+      "name": "swain_e/mana_cost$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "swain_e/mana_cost$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "mana"
+    },
+    {
+      "name": "swain_r有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Swain",
+        "rootPath": "Characters/Swain/CharacterRecords/Root",
+        "spellPath": "Characters/Swain/Spells/SwainRAbility/SwainR",
+        "clientSha256": "02d529b9d242100cd968da8300be5e241c5afbce3937b8c97d97fe1a649a313b",
+        "officialSha256": "543c939c76a1b0c63595c3ad3b0cc13fb99400583a09d613cf7c11ddfd13c73a",
+        "currentBoundText": {
+          "binding": "Characters/Swain/Spells/SwainRAbility/SwainR",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_SwainR_Name",
+              "key": "spell_swainr_name",
+              "text": "恶魔升华"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_SwainR_Summary",
+              "key": "spell_swainr_summary",
+              "text": "斯维因变身为恶魔并从附近的敌方英雄、小兵和中立野怪身上汲取生命值。斯维因能施放【恶魔耀光】来用一道魂焰新星残害并减速附近的敌人们。这个形态可以在斯维因汲取敌方英雄时无限持续。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_SwainR_Tooltip",
+              "key": "spell_swainr_tooltip",
+              "text": "斯维因使体内的恶魔解脱，每秒造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>并从附近的敌人们身上汲取<healing>@HealingCalc@生命值</healing>。他的恶魔能量会持续消耗，但可通过汲取敌方英雄来无限期地充能并且会在参与击杀英雄后完全回复。<br><br>在@DemonflareCastDelay@秒后以及之后的每@DemonflareCooldownTooltip@秒，斯维因能够在变身状态下施放<spellName>恶魔耀光</spellName>来对敌人们造成<magicDamage>@DemonflareDamageTotal@魔法伤害</magicDamage>和在@DemonflareSlowDuration@秒里持续衰减的@DemonflareSlowAmount*100@%<status>减速</status>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_SwainR_TooltipExtendedBelowLine",
+              "key": "spell_swainr_tooltipextendedbelowline",
+              "text": "<rules>对非英雄单位的治疗效果降低至<healing>@MinionMonsterHealReduction*100@%</healing>。<br>每秒消耗@DemonPowerDegen@恶魔能量。在@AmpTime@秒后，每秒消耗的恶魔能量提升至@DegenAmpAmount@。<br>在汲取英雄时，每秒回复@DemonPowerRegen@恶魔能量。</rules>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "swain_r保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "swain_r六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "swain_r组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "swain_r/source_bonus_health_for_swain_r外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "swain_r/DataValues.DamagePerSecond独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          15,
+          25,
+          35
+        ],
+        "actual": [
+          15,
+          25,
+          35
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DamageAPRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.04,
+          0.04,
+          0.04
+        ],
+        "actual": [
+          0.04,
+          0.04,
+          0.04
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.HealPerSecond独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          15,
+          30,
+          45
+        ],
+        "actual": [
+          15,
+          30,
+          45
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.HealAPRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.05,
+          0.05,
+          0.05
+        ],
+        "actual": [
+          0.05,
+          0.05,
+          0.05
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.HealHPRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.015,
+          0.015,
+          0.015
+        ],
+        "actual": [
+          0.015,
+          0.015,
+          0.015
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DemonPowerMax独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          50,
+          50,
+          50
+        ],
+        "actual": [
+          50,
+          50,
+          50
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DemonPowerDegen独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          10,
+          10,
+          10
+        ],
+        "actual": [
+          10,
+          10,
+          10
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DemonPowerRegen独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          20,
+          20,
+          20
+        ],
+        "actual": [
+          20,
+          20,
+          20
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DemonflareDamageBase独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          150,
+          250,
+          350
+        ],
+        "actual": [
+          150,
+          250,
+          350
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DemonflareDamageRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.4,
+          0.4,
+          0.4
+        ],
+        "actual": [
+          0.4,
+          0.4,
+          0.4
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DemonflareSlowAmount独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "actual": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DemonflareSlowDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1500,
+          1500,
+          1500
+        ],
+        "actual": [
+          1500,
+          1500,
+          1500
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.AmpTime独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          5000,
+          5000,
+          5000
+        ],
+        "actual": [
+          5000,
+          5000,
+          5000
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DegenAmpAmount独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          15,
+          15,
+          15
+        ],
+        "actual": [
+          15,
+          15,
+          15
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DemonflareCastDelay独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2000,
+          2000,
+          2000
+        ],
+        "actual": [
+          2000,
+          2000,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.MaxDemonflareCast独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          100,
+          100,
+          100
+        ],
+        "actual": [
+          100,
+          100,
+          100
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.TimeBetweenTicks独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          500,
+          500,
+          500
+        ],
+        "actual": [
+          500,
+          500,
+          500
+        ]
+      }
+    },
+    {
+      "name": "swain_r/DataValues.DemonflareCooldownTooltip独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          8000,
+          8000,
+          8000
+        ],
+        "actual": [
+          8000,
+          8000,
+          8000
+        ]
+      }
+    },
+    {
+      "name": "swain_r/mSpellCalculations.DamageCalc计算树存在",
+      "ok": true,
+      "detail": "DamageCalc"
+    },
+    {
+      "name": "swain_r/mSpellCalculations.HealingCalc计算树存在",
+      "ok": true,
+      "detail": "HealingCalc"
+    },
+    {
+      "name": "swain_r/mSpellCalculations.DemonflareDamageTotal计算树存在",
+      "ok": true,
+      "detail": "DemonflareDamageTotal"
+    },
+    {
+      "name": "swain_r/mSpellCalculations.MinionMonsterHeal计算树存在",
+      "ok": true,
+      "detail": "MinionMonsterHeal"
+    },
+    {
+      "name": "swain_r/damage_per_second引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_r/damage_per_second独立算例可求值",
+      "ok": true,
+      "detail": 19
+    },
+    {
+      "name": "swain_r/healing_per_second引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_r/healing_per_second独立算例可求值",
+      "ok": true,
+      "detail": 24.5
+    },
+    {
+      "name": "swain_r/demonflare_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "swain_r/demonflare_damage独立算例可求值",
+      "ok": true,
+      "detail": 190
+    },
+    {
+      "name": "swain_r/mana_cost$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "swain_r/mana_cost$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "mana"
+    },
+    {
+      "name": "rumble_p有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Rumble",
+        "rootPath": "Characters/Rumble/CharacterRecords/Root",
+        "spellPath": "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem",
+        "clientSha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+        "officialSha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3",
+        "currentBoundText": {
+          "binding": "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_RumbleHeatSystem_Name",
+              "key": "spell_rumbleheatsystem_name",
+              "text": "机械重组"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_RumbleHeatSystem_Summary",
+              "key": "spell_rumbleheatsystem_summary",
+              "text": "兰博的技能都能使其获得热量。当兰博的热量达到50%时，他会处于危险温度状态，所有基础技能都会获得额外效果。当热量达到100%时，他会进入过热状态，获得额外的攻击速度并让他的普通攻击造成额外伤害，但也会让他在数秒内无法施放技能。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_RumbleHeatSystem_Tooltip",
+              "key": "spell_rumbleheatsystem_tooltip",
+              "text": "兰博的技能生成<keywordMajor>热量</keywordMajor>。在<keywordMajor>@DangerZoneHeat@热量</keywordMajor>以上时，他会进入<keywordMajor>危险温度</keywordMajor>，使他的基础技能可以获得额外效果。当他到达<keywordMajor>@OverheatingHeat@热量</keywordMajor>时，他会进入持续@OverheatDuration@秒的过热状态。<br><br>在过热状态下，兰博会<status>沉默</status>自身，但会获得<attackSpeed>@OverheatAS@攻击速度</attackSpeed>并使他的攻击造成额外的<magicDamage>@TotalBaseDamage@外加@OverheatPercBonusDamage*100@%最大生命值的魔法伤害</magicDamage>。<br><br><rules>对野怪的百分比伤害的上限为@MonsterCapScaling@。</rules>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "rumble_p保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "rumble_p六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "rumble_p组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "rumble_p/overheat_attack_base_damage外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "rumble_p/overheat_attack_speed_ratio外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "rumble_p/DataValues.OverheatDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          4000
+        ],
+        "actual": [
+          4000
+        ]
+      }
+    },
+    {
+      "name": "rumble_p/DataValues.DangerZoneHeat独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          50
+        ],
+        "actual": [
+          50
+        ]
+      }
+    },
+    {
+      "name": "rumble_p/DataValues.OverheatingHeat独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          150
+        ],
+        "actual": [
+          150
+        ]
+      }
+    },
+    {
+      "name": "rumble_p/DataValues.OverheatPercBonusDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.04
+        ],
+        "actual": [
+          0.04
+        ]
+      }
+    },
+    {
+      "name": "rumble_p/DataValues.HeatDecayPerS独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          -10
+        ],
+        "actual": [
+          -10
+        ]
+      }
+    },
+    {
+      "name": "rumble_p/mSpellCalculations.TotalBaseDamage计算树存在",
+      "ok": true,
+      "detail": "TotalBaseDamage"
+    },
+    {
+      "name": "rumble_p/mSpellCalculations.OverheatAS计算树存在",
+      "ok": true,
+      "detail": "OverheatAS"
+    },
+    {
+      "name": "rumble_p/mSpellCalculations.MonsterCapScaling计算树存在",
+      "ok": true,
+      "detail": "MonsterCapScaling"
+    },
+    {
+      "name": "rumble_p/mSpellCalculations.TotalBaseDamage计算树存在",
+      "ok": true,
+      "detail": "TotalBaseDamage"
+    },
+    {
+      "name": "rumble_p/mSpellCalculations.OverheatAS计算树存在",
+      "ok": true,
+      "detail": "OverheatAS"
+    },
+    {
+      "name": "rumble_p/overheat_attack_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_p/overheat_attack_damage独立算例可求值",
+      "ok": true,
+      "detail": 45
+    },
+    {
+      "name": "rumble_q有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Rumble",
+        "rootPath": "Characters/Rumble/CharacterRecords/Root",
+        "spellPath": "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower",
+        "clientSha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+        "officialSha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3",
+        "currentBoundText": {
+          "binding": "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_RumbleFlameThrower_Name",
+              "key": "spell_rumbleflamethrower_name",
+              "text": "纵火盛宴"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_RumbleFlameThrower_Summary",
+              "key": "spell_rumbleflamethrower_summary",
+              "text": "兰博朝敌人放火，每秒对前方锥形范围内的敌人造成伤害，持续3秒。在危险温度时，兰博增加对其造成的伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_RumbleFlameThrower_Tooltip",
+              "key": "spell_rumbleflamethrower_tooltip",
+              "text": "兰博点燃他的火焰喷射器，在@FlamespitterDuration@秒里持续造成共<magicDamage>@FlatDamage@外加@HealthDamage*100@%最大生命值的魔法伤害</magicDamage>，对小兵降低至<attention>@MinionMod*100@%</attention>。<br><br><keywordMajor>危险温度：</keywordMajor>提升至<magicDamage>@EmpoweredDamage@外加@EmpoweredHealth@最大生命值的魔法伤害</magicDamage>。<br><br><rules>对野怪的百分比伤害的上限为@MonsterCap@。</rules>"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_RumbleFlameThrower_Cost",
+              "key": "spell_rumbleflamethrower_cost",
+              "text": "@InitialHeatCost@热量"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "rumble_q保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "rumble_q六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "rumble_q组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "rumble_q/DataValues.BaseDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          50,
+          75,
+          100,
+          125,
+          150
+        ],
+        "actual": [
+          50,
+          75,
+          100,
+          125,
+          150
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.MinionMod独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "actual": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.HealthDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.06,
+          0.065,
+          0.07,
+          0.075,
+          0.08
+        ],
+        "actual": [
+          0.06,
+          0.065,
+          0.07,
+          0.075,
+          0.08
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.APRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1.05,
+          1.05,
+          1.05,
+          1.05,
+          1.05
+        ],
+        "actual": [
+          1.05,
+          1.05,
+          1.05,
+          1.05,
+          1.05
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.OverheatMulti独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "actual": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.FlamespitterDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          3000,
+          3000,
+          3000,
+          3000,
+          3000
+        ],
+        "actual": [
+          3000,
+          3000,
+          3000,
+          3000,
+          3000
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.DebuffTicks独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "actual": [
+          3,
+          3,
+          3,
+          3,
+          3
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.TickRate独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          250,
+          250,
+          250,
+          250,
+          250
+        ],
+        "actual": [
+          250,
+          250,
+          250,
+          250,
+          250
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.TotalTicks独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          12,
+          12,
+          12,
+          12,
+          12
+        ],
+        "actual": [
+          12,
+          12,
+          12,
+          12,
+          12
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.InitialHeatCost独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "actual": [
+          20,
+          20,
+          20,
+          20,
+          20
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/DataValues.BurnDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          600.000024,
+          600.000024,
+          600.000024,
+          600.000024,
+          600.000024
+        ],
+        "actual": [
+          600.000024,
+          600.000024,
+          600.000024,
+          600.000024,
+          600.000024
+        ]
+      }
+    },
+    {
+      "name": "rumble_q/mSpellCalculations.MonsterCap计算树存在",
+      "ok": true,
+      "detail": "MonsterCap"
+    },
+    {
+      "name": "rumble_q/mSpellCalculations.FlatDamage计算树存在",
+      "ok": true,
+      "detail": "FlatDamage"
+    },
+    {
+      "name": "rumble_q/mSpellCalculations.MinionDamage计算树存在",
+      "ok": true,
+      "detail": "MinionDamage"
+    },
+    {
+      "name": "rumble_q/mSpellCalculations.EmpoweredDamage计算树存在",
+      "ok": true,
+      "detail": "EmpoweredDamage"
+    },
+    {
+      "name": "rumble_q/mSpellCalculations.EmpoweredHealth计算树存在",
+      "ok": true,
+      "detail": "EmpoweredHealth"
+    },
+    {
+      "name": "rumble_q/flat_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_q/flat_damage独立算例可求值",
+      "ok": true,
+      "detail": 155
+    },
+    {
+      "name": "rumble_q/minion_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_q/minion_damage独立算例可求值",
+      "ok": true,
+      "detail": 108.5
+    },
+    {
+      "name": "rumble_q/empowered_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_q/empowered_damage独立算例可求值",
+      "ok": true,
+      "detail": 232.5
+    },
+    {
+      "name": "rumble_q/empowered_health_damage_ratio引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_q/empowered_health_damage_ratio独立算例可求值",
+      "ok": true,
+      "detail": 0.09
+    },
+    {
+      "name": "rumble_w有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Rumble",
+        "rootPath": "Characters/Rumble/CharacterRecords/Root",
+        "spellPath": "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield",
+        "clientSha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+        "officialSha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3",
+        "currentBoundText": {
+          "binding": "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_RumbleShield_Name",
+              "key": "spell_rumbleshield_name",
+              "text": "破碎护盾"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_RumbleShield_Summary",
+              "key": "spell_rumbleshield_summary",
+              "text": "兰博制造一个护盾，保护自己免受伤害，并短时间内增加移动速度。在危险温度时，兰博增加护盾强度和速度加成。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_RumbleShield_Tooltip",
+              "key": "spell_rumbleshield_tooltip",
+              "text": "兰博开启一道屏障，获得持续@ShieldDuration.1@秒的<shield>@TotalShield@护盾值</shield>和持续@MoveSpeedDuration@秒的<speed>@MoveSpeed*100@%移动速度</speed>。<br><br><keywordMajor>危险温度：</keywordMajor>屏障转而提供<shield>@EmpoweredShield@护盾值</shield>和<speed>@EmpoweredMS@移动速度</speed>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_RumbleShield_Cost",
+              "key": "spell_rumbleshield_cost",
+              "text": "@HeatCost@热量"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "rumble_w保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "rumble_w六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "rumble_w组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "rumble_w/source_health_for_shield外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "rumble_w/DataValues.HeatCost独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "actual": [
+          20,
+          20,
+          20,
+          20,
+          20
+        ]
+      }
+    },
+    {
+      "name": "rumble_w/DataValues.BaseShield独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          25,
+          55,
+          85,
+          115,
+          145
+        ],
+        "actual": [
+          25,
+          55,
+          85,
+          115,
+          145
+        ]
+      }
+    },
+    {
+      "name": "rumble_w/DataValues.HealthShield独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.04,
+          0.04,
+          0.04,
+          0.04,
+          0.04
+        ],
+        "actual": [
+          0.04,
+          0.04,
+          0.04,
+          0.04,
+          0.04
+        ]
+      }
+    },
+    {
+      "name": "rumble_w/DataValues.MoveSpeed独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.1,
+          0.15,
+          0.2,
+          0.25,
+          0.3
+        ],
+        "actual": [
+          0.1,
+          0.15,
+          0.2,
+          0.25,
+          0.3
+        ]
+      }
+    },
+    {
+      "name": "rumble_w/DataValues.APRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "actual": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ]
+      }
+    },
+    {
+      "name": "rumble_w/DataValues.ShieldDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "actual": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ]
+      }
+    },
+    {
+      "name": "rumble_w/DataValues.MoveSpeedDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "actual": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ]
+      }
+    },
+    {
+      "name": "rumble_w/mSpellCalculations.TotalShield计算树存在",
+      "ok": true,
+      "detail": "TotalShield"
+    },
+    {
+      "name": "rumble_w/mSpellCalculations.EmpoweredShield计算树存在",
+      "ok": true,
+      "detail": "EmpoweredShield"
+    },
+    {
+      "name": "rumble_w/mSpellCalculations.EmpoweredMS计算树存在",
+      "ok": true,
+      "detail": "EmpoweredMS"
+    },
+    {
+      "name": "rumble_w/shield_amount引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_w/shield_amount独立算例可求值",
+      "ok": true,
+      "detail": 75
+    },
+    {
+      "name": "rumble_w/empowered_shield_amount引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_w/empowered_shield_amount独立算例可求值",
+      "ok": true,
+      "detail": 112.5
+    },
+    {
+      "name": "rumble_w/empowered_move_speed_ratio引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_w/empowered_move_speed_ratio独立算例可求值",
+      "ok": true,
+      "detail": 0.15000000000000002
+    },
+    {
+      "name": "rumble_w/shield$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "NORMAL_SHIELD"
+    },
+    {
+      "name": "rumble_w/shield$.results.0.lifecycleBehavior不含瞬时求值",
+      "ok": true,
+      "detail": "PERSISTENT"
+    },
+    {
+      "name": "rumble_w/empowered_shield$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "NORMAL_SHIELD"
+    },
+    {
+      "name": "rumble_w/empowered_shield$.results.0.lifecycleBehavior不含瞬时求值",
+      "ok": true,
+      "detail": "PERSISTENT"
+    },
+    {
+      "name": "rumble_w/move_speed$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "ATTRIBUTE_CHANGE"
+    },
+    {
+      "name": "rumble_w/move_speed$.results.0.lifecycleBehavior不含瞬时求值",
+      "ok": true,
+      "detail": "PERSISTENT"
+    },
+    {
+      "name": "rumble_w/move_speed$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "move_speed_percent"
+    },
+    {
+      "name": "rumble_w/move_speed$.results.0.detail修正区目录键受保护",
+      "ok": true,
+      "detail": "attribute_flat_add"
+    },
+    {
+      "name": "rumble_w/empowered_move_speed$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "ATTRIBUTE_CHANGE"
+    },
+    {
+      "name": "rumble_w/empowered_move_speed$.results.0.lifecycleBehavior不含瞬时求值",
+      "ok": true,
+      "detail": "PERSISTENT"
+    },
+    {
+      "name": "rumble_w/empowered_move_speed$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "move_speed_percent"
+    },
+    {
+      "name": "rumble_w/empowered_move_speed$.results.0.detail修正区目录键受保护",
+      "ok": true,
+      "detail": "attribute_flat_add"
+    },
+    {
+      "name": "rumble_e有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Rumble",
+        "rootPath": "Characters/Rumble/CharacterRecords/Root",
+        "spellPath": "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
+        "clientSha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+        "officialSha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3",
+        "currentBoundText": {
+          "binding": "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_RumbleGrenade_Name",
+              "key": "spell_rumblegrenade_name",
+              "text": "电子鱼叉"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_RumbleGrenade_Summary",
+              "key": "spell_rumblegrenade_summary",
+              "text": "兰博发射一把鱼叉，对敌人造成魔法伤害、减速效果和魔法抗性击碎效果。兰博可同时持有2发鱼叉。在危险温度时，兰博增加其伤害和减速百分比。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_RumbleGrenade_Tooltip",
+              "key": "spell_rumblegrenade_tooltip",
+              "text": "兰博发射一柄电子鱼叉，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>、持续@SlowDuration@秒的@BaseSlowAmount@%<status>减速</status>、以及持续@ShredDuration@秒的@PercMagicPen*100@%<scaleMR>魔抗</scaleMR>击碎效果。<br><br>命中一名已被此技能<status>减速</status>的敌人时，会将<status>减速</status>提升至@EmpoweredSlowAmount@%并使敌人的<scaleMR>魔抗</scaleMR>降低@EnhancedMagicPen*100@%。<br><br><keywordMajor>危险温度：</keywordMajor>鱼叉转而造成<magicDamage>@EmpDamage@魔法伤害</magicDamage>并且<status>减速</status>和<scaleMR>魔抗击碎</scaleMR>效果提升50%。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_RumbleGrenade_Cost",
+              "key": "spell_rumblegrenade_cost",
+              "text": " @FirstCastHeatCost@ 热量"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_RumbleGrenade_Cooldown",
+              "key": "spell_rumblegrenade_cooldown",
+              "text": "@AmmoRechargeTime@秒充能时间(最大充能数：@MaxAmmo@)"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "rumble_e保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "rumble_e六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "rumble_e组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "rumble_e/DataValues.BaseDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          55,
+          80,
+          105,
+          130,
+          155
+        ],
+        "actual": [
+          55,
+          80,
+          105,
+          130,
+          155
+        ]
+      }
+    },
+    {
+      "name": "rumble_e/DataValues.FirstCastHeatCost独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "actual": [
+          20,
+          20,
+          20,
+          20,
+          20
+        ]
+      }
+    },
+    {
+      "name": "rumble_e/DataValues.PercMagicPen独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.1,
+          0.12,
+          0.14,
+          0.16,
+          0.18
+        ],
+        "actual": [
+          0.1,
+          0.12,
+          0.14,
+          0.16,
+          0.18
+        ]
+      }
+    },
+    {
+      "name": "rumble_e/DataValues.EnhancedMagicPen独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.2,
+          0.24,
+          0.28,
+          0.32,
+          0.36
+        ],
+        "actual": [
+          0.2,
+          0.24,
+          0.28,
+          0.32,
+          0.36
+        ]
+      }
+    },
+    {
+      "name": "rumble_e/DataValues.ShredDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          4000,
+          4000,
+          4000,
+          4000,
+          4000
+        ],
+        "actual": [
+          4000,
+          4000,
+          4000,
+          4000,
+          4000
+        ]
+      }
+    },
+    {
+      "name": "rumble_e/DataValues.SlowDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ],
+        "actual": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "rumble_e/DataValues.BaseSlowAmount独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.15,
+          0.2,
+          0.25,
+          0.3,
+          0.35
+        ],
+        "actual": [
+          0.15,
+          0.2,
+          0.25,
+          0.3,
+          0.35
+        ]
+      }
+    },
+    {
+      "name": "rumble_e/DataValues.EmpoweredSlowAmount独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7
+        ],
+        "actual": [
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7
+        ]
+      }
+    },
+    {
+      "name": "rumble_e/mSpellCalculations.TotalDamage计算树存在",
+      "ok": true,
+      "detail": "TotalDamage"
+    },
+    {
+      "name": "rumble_e/mSpellCalculations.EmpDamage计算树存在",
+      "ok": true,
+      "detail": "EmpDamage"
+    },
+    {
+      "name": "rumble_e/damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_e/damage独立算例可求值",
+      "ok": true,
+      "detail": 105
+    },
+    {
+      "name": "rumble_e/empowered_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_e/empowered_damage独立算例可求值",
+      "ok": true,
+      "detail": 157.5
+    },
+    {
+      "name": "rumble_r有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "Rumble",
+        "rootPath": "Characters/Rumble/CharacterRecords/Root",
+        "spellPath": "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb",
+        "clientSha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+        "officialSha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3",
+        "currentBoundText": {
+          "binding": "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_RumbleCarpetBomb_Name",
+              "key": "spell_rumblecarpetbomb_name",
+              "text": "恒温灼烧"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_RumbleCarpetBomb_Summary",
+              "key": "spell_rumblecarpetbomb_summary",
+              "text": "兰博朝目标区域发射火箭，形成一堵火焰之墙，对范围内的敌人造成伤害并减速。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_RumbleCarpetBomb_Tooltip",
+              "key": "spell_rumblecarpetbomb_tooltip",
+              "text": "兰博发射一列火箭，生成一道持续@TrailDuration@秒的燃烧小径，造成@SlowAmount@%<status>减速</status>并每秒造成<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>。<br><br>兰博可以在施放这个技能时，通过点击并拖拽来控制燃烧小径的方向。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "key": "spell_cost_nocost",
+              "text": "无消耗"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "rumble_r保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "rumble_r六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "rumble_r组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "rumble_r/DataValues.NumMissiles独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          6,
+          6,
+          6
+        ],
+        "actual": [
+          6,
+          6,
+          6
+        ]
+      }
+    },
+    {
+      "name": "rumble_r/DataValues.TrailDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          4500,
+          4500,
+          4500
+        ],
+        "actual": [
+          4500,
+          4500,
+          4500
+        ]
+      }
+    },
+    {
+      "name": "rumble_r/DataValues.TickRate独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          250,
+          250,
+          250
+        ],
+        "actual": [
+          250,
+          250,
+          250
+        ]
+      }
+    },
+    {
+      "name": "rumble_r/DataValues.SlowAmount独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.35,
+          0.35,
+          0.35
+        ],
+        "actual": [
+          0.35,
+          0.35,
+          0.35
+        ]
+      }
+    },
+    {
+      "name": "rumble_r/DataValues.BaseDamagePerSecond独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          120,
+          200,
+          280
+        ],
+        "actual": [
+          120,
+          200,
+          280
+        ]
+      }
+    },
+    {
+      "name": "rumble_r/DataValues.MaxBurnSeconds独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          5000,
+          5000,
+          5000
+        ],
+        "actual": [
+          5000,
+          5000,
+          5000
+        ]
+      }
+    },
+    {
+      "name": "rumble_r/DataValues.BurnLingerTime独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1000,
+          1000,
+          1000
+        ],
+        "actual": [
+          1000,
+          1000,
+          1000
+        ]
+      }
+    },
+    {
+      "name": "rumble_r/mSpellCalculations.DamagePerSecond计算树存在",
+      "ok": true,
+      "detail": "DamagePerSecond"
+    },
+    {
+      "name": "rumble_r/mSpellCalculations.TotalDamage计算树存在",
+      "ok": true,
+      "detail": "TotalDamage"
+    },
+    {
+      "name": "rumble_r/damage_per_second引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "rumble_r/damage_per_second独立算例可求值",
+      "ok": true,
+      "detail": 155
+    },
+    {
+      "name": "aurelionsol_p有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "AurelionSol",
+        "rootPath": "Characters/AurelionSol/CharacterRecords/Root",
+        "spellPath": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+        "clientSha256": "8d59b9548b7b0e7f863ed2c78781b6710c7f97c55cbe2ebcb2a78bc6791bcce7",
+        "officialSha256": "9b14944c4135d278230cfdc0a00edfc9323fe8641fc7a3e0c24f05cb1e2c1d65",
+        "currentBoundText": {
+          "binding": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_AurelionSolPassive_Name",
+              "key": "spell_aurelionsolpassive_name",
+              "text": "星海焕然"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_AurelionSolPassive_Tooltip",
+              "key": "spell_aurelionsolpassive_tooltip",
+              "text": "奥瑞利安·索尔的伤害型技能会将敌人们化为<font color='#3458eb'>星尘</font>，星尘可用来永久增强他的每个技能。<li><spellName>{{Spell_AurelionSolQ_Name}}</spellName>：爆发造成额外的<magicDamage>@QPassiveScaling@最大生命值的魔法伤害</magicDamage></li><li><spellName>{{Spell_AurelionSolW_Name}}</spellName>：@f2.1@%距离提升。</li><li><spellName>{{Spell_AurelionSolE_Name}}</spellName>：@f3.1@%区域提升和<scaleHealth>@EPassiveScalingExecute@</scaleHealth>额外处决阈值。</li><li><spellName>{{Spell_AurelionSolR1_Name}}和{{Spell_AurelionSolR2_Name}}</spellName>：@f4.1@%区域提升。</li><br><rules>奥瑞利安·索尔已获取的<font color='#3458eb'>星尘</font>数量：<font color='#3458eb'>@f1@</font></rules>"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_AurelionSolPassive_Summary",
+              "key": "spell_aurelionsolpassive_summary",
+              "text": "奥瑞利安·索尔的伤害型技能会将敌人们化为<font color='#3458eb'>星尘</font>，星尘可用来永久增强他的每个技能。 "
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "aurelionsol_p保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "aurelionsol_p六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "aurelionsol_p组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_p/stardust_count外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_p/DataValues.QMaxHealthTrueDamagePerStack独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.00031
+        ],
+        "actual": [
+          0.00031
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_p/DataValues.BaseExecutionThreshold独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.05
+        ],
+        "actual": [
+          0.05
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_p/DataValues.ExecutionGrowthPerBreakpoint独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.00026
+        ],
+        "actual": [
+          0.00026
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_p/mSpellCalculations.QPassiveScaling计算树存在",
+      "ok": true,
+      "detail": "QPassiveScaling"
+    },
+    {
+      "name": "aurelionsol_p/mSpellCalculations.EPassiveScalingExecute计算树存在",
+      "ok": true,
+      "detail": "EPassiveScalingExecute"
+    },
+    {
+      "name": "aurelionsol_p/mSpellCalculations.ExecuteHealthThreshold计算树存在",
+      "ok": true,
+      "detail": "ExecuteHealthThreshold"
+    },
+    {
+      "name": "aurelionsol_p/q_bonus_max_health_damage_ratio引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_p/q_bonus_max_health_damage_ratio独立算例可求值",
+      "ok": true,
+      "detail": 0.0031
+    },
+    {
+      "name": "aurelionsol_p/e_execute_threshold_ratio引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_p/e_execute_threshold_ratio独立算例可求值",
+      "ok": true,
+      "detail": 0.0526
+    },
+    {
+      "name": "aurelionsol_q有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "AurelionSol",
+        "rootPath": "Characters/AurelionSol/CharacterRecords/Root",
+        "spellPath": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+        "clientSha256": "8d59b9548b7b0e7f863ed2c78781b6710c7f97c55cbe2ebcb2a78bc6791bcce7",
+        "officialSha256": "9b14944c4135d278230cfdc0a00edfc9323fe8641fc7a3e0c24f05cb1e2c1d65",
+        "currentBoundText": {
+          "binding": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_AurelionSolQ_Name",
+              "key": "spell_aurelionsolq_name",
+              "text": "星河冲荡"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_AurelionSolQ_Tooltip",
+              "key": "spell_aurelionsolq_tooltip",
+              "text": "奥瑞利安·索尔喷吐星焰，至多持续@MaxChannelDuration@秒，每秒对首个命中的敌人造成<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>并对附近的敌人们造成@AOEModifier*100@%此伤害。<br><br>对相同敌人每进行一整秒的吐息，就会造成一次爆发性的<magicDamage>@BurstDamage@魔法伤害</magicDamage>外加<magicDamage>@BurstBonusTrueDamageToChamps@最大生命值的魔法伤害</magicDamage>，并且如果这个敌人是英雄，还会吸收<font color='#3458eb'>@QMassStolen@星尘</font>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_AurelionSolQ1_Cost",
+              "key": "spell_aurelionsolq1_cost",
+              "text": "每秒@ManaCostPerSecond@法力"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_AurelionSolQ_TooltipExtendedBelowLine",
+              "key": "spell_aurelionsolq_tooltipextendedbelowline",
+              "text": "<rules>这个技能的距离是@LevelBasedRangeScaling@。<br>在施放这个技能的0.25秒内将其取消，会使这个技能锁定1秒。<br>每次施放的最小法力消耗为@ManaCostPerSecond@。<br>百分比伤害对野怪的上限为<magicDamage>@MonsterDamageCap@魔法伤害</magicDamage>。</rules>"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_AurelionSolQ_Summary",
+              "key": "spell_aurelionsolq_summary",
+              "text": "奥瑞利安·索尔引导他的龙息若干秒，伤害首个命中的敌人并对附近的敌人们造成削减过的溅射伤害。龙息在一个敌人身上每直接引导一秒就会造成额外伤害，这个伤害可通过已收集的【星尘】来提升。如果目标是一名英雄，那么这个技能还会收集【星尘】。"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "aurelionsol_q保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "aurelionsol_q六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "aurelionsol_q组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_q/stardust_count外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_q/target_max_health外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_q/level_based_range外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_q/DataValues.AngularDegreesPerSec独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          180,
+          180,
+          180,
+          180,
+          180
+        ],
+        "actual": [
+          180,
+          180,
+          180,
+          180,
+          180
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.BeamWidth独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          140,
+          140,
+          140,
+          140,
+          140
+        ],
+        "actual": [
+          140,
+          140,
+          140,
+          140,
+          140
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.BurstAfter独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "actual": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.ManaCostPerSecond独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          30,
+          35,
+          40,
+          45,
+          50
+        ],
+        "actual": [
+          30,
+          35,
+          40,
+          45,
+          50
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.RankDamagePerSecond独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          45,
+          60,
+          75,
+          90,
+          105
+        ],
+        "actual": [
+          45,
+          60,
+          75,
+          90,
+          105
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.APPerSecond独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ],
+        "actual": [
+          0.55,
+          0.55,
+          0.55,
+          0.55,
+          0.55
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.RankBurstDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          60,
+          70,
+          80,
+          90,
+          100
+        ],
+        "actual": [
+          60,
+          70,
+          80,
+          90,
+          100
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.BurstAPRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "actual": [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.BeamSegments独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "actual": [
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.WProcCooldown独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "actual": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.QMassStolen独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "actual": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.DistancePerMass独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375
+        ],
+        "actual": [
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/DataValues.QMaxHealthTrueDamagePerStack独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.00031,
+          0.00031,
+          0.00031,
+          0.00031,
+          0.00031
+        ],
+        "actual": [
+          0.00031,
+          0.00031,
+          0.00031,
+          0.00031,
+          0.00031
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_q/mSpellCalculations.LevelBasedRangeScaling计算树存在",
+      "ok": true,
+      "detail": "LevelBasedRangeScaling"
+    },
+    {
+      "name": "aurelionsol_q/mSpellCalculations.DamagePerSecond计算树存在",
+      "ok": true,
+      "detail": "DamagePerSecond"
+    },
+    {
+      "name": "aurelionsol_q/mSpellCalculations.BurstDamage计算树存在",
+      "ok": true,
+      "detail": "BurstDamage"
+    },
+    {
+      "name": "aurelionsol_q/mSpellCalculations.BurstBonusTrueDamageToChamps计算树存在",
+      "ok": true,
+      "detail": "BurstBonusTrueDamageToChamps"
+    },
+    {
+      "name": "aurelionsol_q/mSpellCalculations.LevelBasedRangeScaling计算树存在",
+      "ok": true,
+      "detail": "LevelBasedRangeScaling"
+    },
+    {
+      "name": "aurelionsol_q/damage_per_second引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_q/damage_per_second独立算例可求值",
+      "ok": true,
+      "detail": 100
+    },
+    {
+      "name": "aurelionsol_q/burst_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_q/burst_damage独立算例可求值",
+      "ok": true,
+      "detail": 90
+    },
+    {
+      "name": "aurelionsol_q/bonus_max_health_magic_damage_ratio引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_q/bonus_max_health_magic_damage_ratio独立算例可求值",
+      "ok": true,
+      "detail": 0.0031
+    },
+    {
+      "name": "aurelionsol_q/bonus_max_health_magic_damage_amount引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_q/bonus_max_health_magic_damage_amount独立算例可求值",
+      "ok": true,
+      "detail": 15.5
+    },
+    {
+      "name": "aurelionsol_q/mana_per_second$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "aurelionsol_q/mana_per_second$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "mana"
+    },
+    {
+      "name": "aurelionsol_w有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "AurelionSol",
+        "rootPath": "Characters/AurelionSol/CharacterRecords/Root",
+        "spellPath": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+        "clientSha256": "8d59b9548b7b0e7f863ed2c78781b6710c7f97c55cbe2ebcb2a78bc6791bcce7",
+        "officialSha256": "9b14944c4135d278230cfdc0a00edfc9323fe8641fc7a3e0c24f05cb1e2c1d65",
+        "currentBoundText": {
+          "binding": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_AurelionSolW_Name",
+              "key": "spell_aurelionsolw_name",
+              "text": "星穹流丽"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_AurelionSolW_Tooltip",
+              "key": "spell_aurelionsolw_tooltip",
+              "text": "奥瑞利安·索尔向一个方向飞行。在飞行时，<spellName>{{Spell_AurelionSolQ_Name}}</spellName>没有冷却时间，没有最大引导时长，并且它的固定伤害提升@TrueDamageBonus*100@%。<br><br>参与击杀那些在@ResetWindow@秒内被你造成过伤害的英雄后，会返还这个技能@TooltipTakedownCooldownMultiplier@%的冷却时间。<br><br><recast>再次施放：</recast>提前结束飞行。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_AurelionSolW_TooltipExtendedBelowLine",
+              "key": "spell_aurelionsolw_tooltipextendedbelowline",
+              "text": "<rules>在飞行时施放<spellName>{{Spell_AurelionSolQ_Name}}</spellName>会使飞行速度降低50%。<br>飞行速度是@DashSpeed@。</rules>"
+            },
+            "keySummary": {
+              "sourceKey": "game_spell_description_AurelionSolW",
+              "key": "game_spell_description_aurelionsolw",
+              "text": "奥瑞利安 · 索尔沿着目标方向飞越地形。在这个状态下，他可以施放其它技能。飞行期间，星河冲荡没有冷却时间，也没有最长蓄力时间，并且造成的伤害会提升。<br><br>如果有敌方英雄因为奥瑞利安 · 索尔近期造成的伤害阵亡，星穹流丽的冷却时间会缩短。<br><br>星尘会提升星穹流丽的最大飞行距离。"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "aurelionsol_w保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "aurelionsol_w六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "aurelionsol_w组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_w/dash_speed_stat外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_w/DataValues.TrueDamageBonus独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.08,
+          0.09,
+          0.1,
+          0.11,
+          0.12
+        ],
+        "actual": [
+          0.08,
+          0.09,
+          0.1,
+          0.11,
+          0.12
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_w/DataValues.BaseMS独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          340,
+          340,
+          340,
+          340,
+          340
+        ],
+        "actual": [
+          340,
+          340,
+          340,
+          340,
+          340
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_w/DataValues.BaseCruiseMS独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          340,
+          340,
+          340,
+          340,
+          340
+        ],
+        "actual": [
+          340,
+          340,
+          340,
+          340,
+          340
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_w/DataValues.DistancePerMass独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          7.5,
+          7.5,
+          7.5,
+          7.5,
+          7.5
+        ],
+        "actual": [
+          7.5,
+          7.5,
+          7.5,
+          7.5,
+          7.5
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_w/DataValues.ResetWindow独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          3000,
+          3000,
+          3000,
+          3000,
+          3000
+        ],
+        "actual": [
+          3000,
+          3000,
+          3000,
+          3000,
+          3000
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_w/DataValues.TooltipTakedownCooldownMultiplier独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9
+        ],
+        "actual": [
+          0.9,
+          0.9,
+          0.9,
+          0.9,
+          0.9
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_w/DataValues.FakeCastTime独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          375,
+          375,
+          375,
+          375,
+          375
+        ],
+        "actual": [
+          375,
+          375,
+          375,
+          375,
+          375
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_w/DataValues.OverrideECastRange独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1100,
+          1100,
+          1100,
+          1100,
+          1100
+        ],
+        "actual": [
+          1100,
+          1100,
+          1100,
+          1100,
+          1100
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_w/mSpellCalculations.DashSpeed计算树存在",
+      "ok": true,
+      "detail": "DashSpeed"
+    },
+    {
+      "name": "aurelionsol_w/mSpellCalculations.{70212d39}计算树存在",
+      "ok": true,
+      "detail": "{70212d39}"
+    },
+    {
+      "name": "aurelionsol_w/mSpellCalculations.{ffd78035}计算树存在",
+      "ok": true,
+      "detail": "{ffd78035}"
+    },
+    {
+      "name": "aurelionsol_w/mSpellCalculations.{e3ddb2ca}计算树存在",
+      "ok": true,
+      "detail": "{e3ddb2ca}"
+    },
+    {
+      "name": "aurelionsol_w/dash_speed引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_w/dash_speed独立算例可求值",
+      "ok": true,
+      "detail": 360
+    },
+    {
+      "name": "aurelionsol_w/mana_cost$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "aurelionsol_w/mana_cost$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "mana"
+    },
+    {
+      "name": "aurelionsol_e有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "AurelionSol",
+        "rootPath": "Characters/AurelionSol/CharacterRecords/Root",
+        "spellPath": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+        "clientSha256": "8d59b9548b7b0e7f863ed2c78781b6710c7f97c55cbe2ebcb2a78bc6791bcce7",
+        "officialSha256": "9b14944c4135d278230cfdc0a00edfc9323fe8641fc7a3e0c24f05cb1e2c1d65",
+        "currentBoundText": {
+          "binding": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_AurelionSolE_Name",
+              "key": "spell_aurelionsole_name",
+              "text": "星芒凝汇"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_AurelionSolE_Tooltip",
+              "key": "spell_aurelionsole_tooltip",
+              "text": "奥瑞利安·索尔召唤一个黑洞，对敌人们每秒造成<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>并缓慢地将他们<status>拉拽</status>向黑洞的中心，持续@Duration@秒。黑洞中心的敌人一旦低于<scaleHealth>@CurrentExecutionThreshold@%最大生命值</scaleHealth>就会立刻阵亡。<br><br>每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，黑洞就会吸收<font color='#3458eb'>星尘</font>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_AurelionSolE_TooltipExtendedBelowLine",
+              "key": "spell_aurelionsole_tooltipextendedbelowline",
+              "text": "<rules>这个技能的施放距离为@LevelBasedRangeScaling@。<br>黑洞中的线上小兵和野怪拥有<speed>0移动速度</speed>。<br>史诗级野怪无法被处决。<br>英雄们每秒提供<font color='#3458eb'>@ChampionMassPerSecond@星尘</font>。<br>阵亡于黑洞中的单位们提供的<font color='#3458eb'>星尘</font>：<li>英雄：<font color='#3458eb'>@ChampionCountBonus@星尘</font></li><li>史诗级野怪：<font color='#3458eb'>@EpicMonsterCountBonus@星尘</font></li><li>大型野怪：<font color='#3458eb'>@LargeMonsterCountBonus@星尘</font></li><li>攻城小兵：<font color='#3458eb'>@LargeMinionCountBonus@星尘</font></li><li>小兵和小型野怪：<font color='#3458eb'>@MinionMassDeath@星尘</font></li></rules>"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_AurelionSolE_Summary",
+              "key": "spell_aurelionsole_summary",
+              "text": "奥瑞利安·索尔召唤一个黑洞，对敌人们造成伤害并缓慢地将他们拉拽向黑洞的中心。每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，这个技能都会提供【星尘】。黑洞的中心会处决低于一定百分比最大生命值的敌人。【星尘】会提升【星芒凝汇】的区域以及处决阈值。"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "aurelionsol_e保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "aurelionsol_e六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "aurelionsol_e组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_e/stardust_count外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_e/level_based_range外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_e/DataValues.ChampionMassPerSecond独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "actual": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.MinionMassDeath独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "actual": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.LargeMinionCountBonus独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "actual": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.LargeMonsterCountBonus独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "actual": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.ChampionCountBonus独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "actual": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.EpicMonsterCountBonus独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "actual": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.StartingRadius独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          275,
+          275,
+          275,
+          275,
+          275
+        ],
+        "actual": [
+          275,
+          275,
+          275,
+          275,
+          275
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.StartingInnerRadius独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          120,
+          120,
+          120,
+          120,
+          120
+        ],
+        "actual": [
+          120,
+          120,
+          120,
+          120,
+          120
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.StartingGravity独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          150,
+          150,
+          150,
+          150,
+          150
+        ],
+        "actual": [
+          150,
+          150,
+          150,
+          150,
+          150
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.NonChampGravity独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "actual": [
+          300,
+          300,
+          300,
+          300,
+          300
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.Duration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          5000,
+          5000,
+          5000,
+          5000,
+          5000
+        ],
+        "actual": [
+          5000,
+          5000,
+          5000,
+          5000,
+          5000
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.BaseDamagePerSecond独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          10,
+          15,
+          20,
+          25,
+          30
+        ],
+        "actual": [
+          10,
+          15,
+          20,
+          25,
+          30
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.DamageperSecondAPRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.12,
+          0.12,
+          0.12,
+          0.12,
+          0.12
+        ],
+        "actual": [
+          0.12,
+          0.12,
+          0.12,
+          0.12,
+          0.12
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.BaseExecutionThreshold独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05
+        ],
+        "actual": [
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/DataValues.ExecutionGrowthPerBreakpoint独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.00026,
+          0.00026,
+          0.00026,
+          0.00026,
+          0.00026
+        ],
+        "actual": [
+          0.00026,
+          0.00026,
+          0.00026,
+          0.00026,
+          0.00026
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_e/mSpellCalculations.LevelBasedRangeScaling计算树存在",
+      "ok": true,
+      "detail": "LevelBasedRangeScaling"
+    },
+    {
+      "name": "aurelionsol_e/mSpellCalculations.DamagePerSecond计算树存在",
+      "ok": true,
+      "detail": "DamagePerSecond"
+    },
+    {
+      "name": "aurelionsol_e/mSpellCalculations.CurrentExecutionThreshold计算树存在",
+      "ok": true,
+      "detail": "CurrentExecutionThreshold"
+    },
+    {
+      "name": "aurelionsol_e/mSpellCalculations.{5dfac189}计算树存在",
+      "ok": true,
+      "detail": "{5dfac189}"
+    },
+    {
+      "name": "aurelionsol_e/mSpellCalculations.{94f76880}计算树存在",
+      "ok": true,
+      "detail": "{94f76880}"
+    },
+    {
+      "name": "aurelionsol_e/mSpellCalculations.{b0a79c98}计算树存在",
+      "ok": true,
+      "detail": "{b0a79c98}"
+    },
+    {
+      "name": "aurelionsol_e/mSpellCalculations.{57c521f0}计算树存在",
+      "ok": true,
+      "detail": "{57c521f0}"
+    },
+    {
+      "name": "aurelionsol_e/mSpellCalculations.{7741d788}计算树存在",
+      "ok": true,
+      "detail": "{7741d788}"
+    },
+    {
+      "name": "aurelionsol_e/damage_per_second引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_e/damage_per_second独立算例可求值",
+      "ok": true,
+      "detail": 22
+    },
+    {
+      "name": "aurelionsol_e/current_execute_threshold_ratio引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_e/current_execute_threshold_ratio独立算例可求值",
+      "ok": true,
+      "detail": 0.0526
+    },
+    {
+      "name": "aurelionsol_e/mana_cost$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "aurelionsol_e/mana_cost$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "mana"
+    },
+    {
+      "name": "aurelionsol_r有冻结根绑定",
+      "ok": true,
+      "detail": {
+        "hero": "AurelionSol",
+        "rootPath": "Characters/AurelionSol/CharacterRecords/Root",
+        "spellPath": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+        "clientSha256": "8d59b9548b7b0e7f863ed2c78781b6710c7f97c55cbe2ebcb2a78bc6791bcce7",
+        "officialSha256": "9b14944c4135d278230cfdc0a00edfc9323fe8641fc7a3e0c24f05cb1e2c1d65",
+        "currentBoundText": {
+          "binding": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_AurelionSolR_Name",
+              "key": "spell_aurelionsolr_name",
+              "text": "星天落瀑"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_AurelionSolR_Tooltip",
+              "key": "spell_aurelionsolr_tooltip",
+              "text": "奥瑞利安·索尔从诸天摘取一颗巨型星星并将其砸入大地中，对敌人造成<magicDamage>@MaxDamageTooltip@魔法伤害</magicDamage>、@StunDuration@秒<status>晕眩</status>并且每命中一名英雄就会吸收<font color='#3458eb'>@MassStolen@星尘</font>。<br><br>收集<font color='#3458eb'>@CalamityStacks@星尘</font>时会使下一个<spellName>{{Spell_AurelionSolR1_Name}}</spellName>转变为<spellName>{{Spell_AurelionSolR2_Name}}</spellName>。<br><br><spellName>{{Spell_AurelionSolR2_Name}}</spellName>：奥瑞利安·索尔从宇宙中拖来一个星座的怒火，在一个更大的区域造成<magicDamage>@R2Damage@魔法伤害</magicDamage>，对命中的敌人们造成@StunDuration@秒<status>击飞</status>，并释放一道巨型冲击波，对英雄和史诗级野怪造成<magicDamage>@ShockwaveDamage@魔法伤害</magicDamage>并对命中的所有敌人造成持续1秒的@ShockwaveSlow*100@%<status>减速</status>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_AurelionSolR_TooltipExtendedBelowLine",
+              "key": "spell_aurelionsolr_tooltipextendedbelowline",
+              "text": "<rules>已收集的用于激活<spellName>{{Spell_AurelionSolR2_Name}}</spellName>的<font color='#3458eb'>星尘</font>数量：<font color='#3458eb'>@f1@/@CalamityStacks@。</font></rules>"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_AurelionSolR_Summary",
+              "key": "spell_aurelionsolr_summary",
+              "text": "星落：奥瑞利安 · 索尔召唤一颗星辰坠落地面。这次冲击造成魔法伤害并眩晕敌人，并且每命中一个敌方英雄还会提供星尘。收集足够的星尘后，奥瑞利安·索尔的下一次星落将会升级为天瀑。<br><br>天瀑：奥瑞利安 · 索尔从诸天拽下一颗巨大的星辰撞击地面，拥有提升过的冲击范围和提升过的伤害，并且会对敌人们造成击飞而非晕眩。随后会有一道冲击波从冲击范围的边缘散播出去，对命中的敌人们造成伤害和减速。星尘会提升【星落】和【天瀑】的冲击范围。"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "aurelionsol_r保留当前正文",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "aurelionsol_r六类只含参数公式效果",
+      "ok": true,
+      "detail": {
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "aurelionsol_r组成键不重复",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_r/stardust_count外供参数无默认",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "aurelionsol_r/DataValues.CalamityStacks独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          75,
+          75,
+          75
+        ],
+        "actual": [
+          75,
+          75,
+          75
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.StartingRadius独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          275,
+          275,
+          275
+        ],
+        "actual": [
+          275,
+          275,
+          275
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.SkiesDescendStartingRadius独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          550,
+          550,
+          550
+        ],
+        "actual": [
+          550,
+          550,
+          550
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.CalamitySizeBonus独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          2,
+          2,
+          2
+        ],
+        "actual": [
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.MassStolen独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          5,
+          5,
+          5
+        ],
+        "actual": [
+          5,
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.BaseDamage独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          150,
+          250,
+          350
+        ],
+        "actual": [
+          150,
+          250,
+          350
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.APRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.75,
+          0.75,
+          0.75
+        ],
+        "actual": [
+          0.75,
+          0.75,
+          0.75
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.StunDuration独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1000,
+          1000,
+          1000
+        ],
+        "actual": [
+          1000,
+          1000,
+          1000
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.R2DamageRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          1.25,
+          1.25,
+          1.25
+        ],
+        "actual": [
+          1.25,
+          1.25,
+          1.25
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.ShockwaveDamageRatio独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.9,
+          0.9,
+          0.9
+        ],
+        "actual": [
+          0.9,
+          0.9,
+          0.9
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/DataValues.ShockwaveSlow独立实值展开一致",
+      "ok": true,
+      "detail": {
+        "expected": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "actual": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      }
+    },
+    {
+      "name": "aurelionsol_r/mSpellCalculations.MaxDamageTooltip计算树存在",
+      "ok": true,
+      "detail": "MaxDamageTooltip"
+    },
+    {
+      "name": "aurelionsol_r/mSpellCalculations.R2Damage计算树存在",
+      "ok": true,
+      "detail": "R2Damage"
+    },
+    {
+      "name": "aurelionsol_r/mSpellCalculations.ShockwaveDamage计算树存在",
+      "ok": true,
+      "detail": "ShockwaveDamage"
+    },
+    {
+      "name": "aurelionsol_r/mSpellCalculations.{1d7ce9ef}计算树存在",
+      "ok": true,
+      "detail": "{1d7ce9ef}"
+    },
+    {
+      "name": "aurelionsol_r/damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_r/damage独立算例可求值",
+      "ok": true,
+      "detail": 225
+    },
+    {
+      "name": "aurelionsol_r/skies_descend_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_r/skies_descend_damage独立算例可求值",
+      "ok": true,
+      "detail": 281.25
+    },
+    {
+      "name": "aurelionsol_r/shockwave_damage引用本技能参数",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "aurelionsol_r/shockwave_damage独立算例可求值",
+      "ok": true,
+      "detail": 202.5
+    },
+    {
+      "name": "aurelionsol_r/mana_cost$.results.0不含即时伤害治疗",
+      "ok": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "aurelionsol_r/mana_cost$.results.0.detail属性目录键受保护",
+      "ok": true,
+      "detail": "mana"
+    },
+    {
+      "name": "aurelionsol_p处决基础原值为5百分数点",
+      "ok": true,
+      "detail": 5
+    },
+    {
+      "name": "aurelionsol_p处决成长原值为0.026百分数点",
+      "ok": true,
+      "detail": 0.026000000536441803
+    },
+    {
+      "name": "aurelionsol_p处决0星尘正文单位",
+      "ok": true,
+      "detail": {
+        "actual": 0.05,
+        "expected": 0.05,
+        "renderedPercent": 5
+      }
+    },
+    {
+      "name": "aurelionsol_p处决100星尘正文单位",
+      "ok": true,
+      "detail": {
+        "actual": 0.076,
+        "expected": 0.076,
+        "renderedPercent": 7.6
+      }
+    },
+    {
+      "name": "aurelionsol_e处决基础原值为5百分数点",
+      "ok": true,
+      "detail": 5
+    },
+    {
+      "name": "aurelionsol_e处决成长原值为0.026百分数点",
+      "ok": true,
+      "detail": 0.026000000536441803
+    },
+    {
+      "name": "aurelionsol_e处决0星尘正文单位",
+      "ok": true,
+      "detail": {
+        "actual": 0.05,
+        "expected": 0.05,
+        "renderedPercent": 5
+      }
+    },
+    {
+      "name": "aurelionsol_e处决100星尘正文单位",
+      "ok": true,
+      "detail": {
+        "actual": 0.076,
+        "expected": 0.076,
+        "renderedPercent": 7.6
+      }
+    },
+    {
+      "name": "vladimir_p/ability_power_from_bonus_health代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 10,
+        "expected": 10
+      }
+    },
+    {
+      "name": "vladimir_p/bonus_health_from_ability_power代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 160,
+        "expected": 160
+      }
+    },
+    {
+      "name": "vladimir_q/base_damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 140,
+        "expected": 140
+      }
+    },
+    {
+      "name": "vladimir_w/pool_damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 125,
+        "expected": 125
+      }
+    },
+    {
+      "name": "vladimir_e/min_damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 95,
+        "expected": 95
+      }
+    },
+    {
+      "name": "vladimir_r/damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 220,
+        "expected": 220
+      }
+    },
+    {
+      "name": "swain_p/soul_bonus_max_health代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 60,
+        "expected": 60
+      }
+    },
+    {
+      "name": "swain_p/soul_heal_amount代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 120,
+        "expected": 120
+      }
+    },
+    {
+      "name": "swain_q/initial_damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 105,
+        "expected": 105
+      }
+    },
+    {
+      "name": "swain_w/damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 130,
+        "expected": 130
+      }
+    },
+    {
+      "name": "swain_e/secondary_damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 160,
+        "expected": 160
+      }
+    },
+    {
+      "name": "swain_r/damage_per_second代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 19,
+        "expected": 19
+      }
+    },
+    {
+      "name": "swain_r/healing_per_second代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 24.5,
+        "expected": 24.5
+      }
+    },
+    {
+      "name": "rumble_p/overheat_attack_damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 45,
+        "expected": 45
+      }
+    },
+    {
+      "name": "rumble_q/flat_damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 155,
+        "expected": 155
+      }
+    },
+    {
+      "name": "rumble_w/shield_amount代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 75,
+        "expected": 75
+      }
+    },
+    {
+      "name": "rumble_e/damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 105,
+        "expected": 105
+      }
+    },
+    {
+      "name": "rumble_r/damage_per_second代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 155,
+        "expected": 155
+      }
+    },
+    {
+      "name": "aurelionsol_p/q_bonus_max_health_damage_ratio代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 0.0031,
+        "expected": 0.0031
+      }
+    },
+    {
+      "name": "aurelionsol_p/e_execute_threshold_ratio代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 0.0526,
+        "expected": 0.0526
+      }
+    },
+    {
+      "name": "aurelionsol_q/damage_per_second代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 100,
+        "expected": 100
+      }
+    },
+    {
+      "name": "aurelionsol_q/bonus_max_health_magic_damage_amount代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 15.5,
+        "expected": 15.5
+      }
+    },
+    {
+      "name": "aurelionsol_w/dash_speed代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 360,
+        "expected": 360
+      }
+    },
+    {
+      "name": "aurelionsol_e/damage_per_second代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 22,
+        "expected": 22
+      }
+    },
+    {
+      "name": "aurelionsol_e/current_execute_threshold_ratio代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 0.0526,
+        "expected": 0.0526
+      }
+    },
+    {
+      "name": "aurelionsol_r/damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 225,
+        "expected": 225
+      }
+    },
+    {
+      "name": "aurelionsol_r/skies_descend_damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 281.25,
+        "expected": 281.25
+      }
+    },
+    {
+      "name": "aurelionsol_r/shockwave_damage代表算例值一致",
+      "ok": true,
+      "detail": {
+        "actual": 202.5,
+        "expected": 202.5
+      }
+    }
+  ]
+}

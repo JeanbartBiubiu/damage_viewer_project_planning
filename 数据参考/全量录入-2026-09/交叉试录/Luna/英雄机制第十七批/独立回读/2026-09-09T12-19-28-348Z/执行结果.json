@@ -1,0 +1,155 @@
+{
+  "at": "2026-09-09T12:19:53.636Z",
+  "status": "READY_FOR_POST_WRITE_MATH",
+  "mode": "独立第二轮全量GET；不读取受保护录入器运行目录，不发送业务写入",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "planFileSha256": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718",
+  "source": "client16.17/official16.17.1",
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "expected": {
+    "catalogs": 4,
+    "characters": 4,
+    "relations": 4,
+    "subjects": 20,
+    "images": 20,
+    "lists": 120,
+    "candidateDetails": 285
+  },
+  "actual": {
+    "calls": 457,
+    "methods": {
+      "GET": 457
+    },
+    "statuses": {
+      "200": 457
+    },
+    "lists": 120,
+    "details": 285,
+    "protectionConflicts": 0,
+    "listConflicts": 0,
+    "componentConflicts": 0
+  },
+  "checks": [
+    {
+      "name": "候选散列冻结",
+      "passed": true,
+      "detail": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7"
+    },
+    {
+      "name": "计划散列冻结",
+      "passed": true,
+      "detail": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718"
+    },
+    {
+      "name": "冻结锁散列冻结",
+      "passed": true,
+      "detail": "baee05b688db36f42cfce7fd8e2376e5e93c64888b0ecebc96cfa9752fbec258"
+    },
+    {
+      "name": "旧只读散列冻结",
+      "passed": true,
+      "detail": "ba50c2f11595df9c64d95345b4af156f9e468656b3bcdb8634558048bad8b62c"
+    },
+    {
+      "name": "写前完整保护基线散列冻结",
+      "passed": true,
+      "detail": "cff6dd7a97ed589f57fcee22052814496dcab6f1f5492bf7e18626d379a2d457"
+    },
+    {
+      "name": "独立回读只读策略",
+      "passed": true,
+      "detail": {
+        "candidateApiWrites": 0,
+        "freezeApi": {
+          "readOnlyRequests": 53,
+          "successfulReadOnlyRequests": 53,
+          "failures": 0,
+          "businessWrites": 0,
+          "apiCalls": 0
+        }
+      }
+    },
+    {
+      "name": "候选技能位恰为20项",
+      "passed": true,
+      "detail": [
+        "vladimir_p",
+        "vladimir_q",
+        "vladimir_w",
+        "vladimir_e",
+        "vladimir_r",
+        "swain_p",
+        "swain_q",
+        "swain_w",
+        "swain_e",
+        "swain_r",
+        "rumble_p",
+        "rumble_q",
+        "rumble_w",
+        "rumble_e",
+        "rumble_r",
+        "aurelionsol_p",
+        "aurelionsol_q",
+        "aurelionsol_w",
+        "aurelionsol_e",
+        "aurelionsol_r"
+      ]
+    },
+    {
+      "name": "候选组成总数恰为285",
+      "passed": true,
+      "detail": 285
+    },
+    {
+      "name": "计划请求恰为263条",
+      "passed": true,
+      "detail": {
+        "requestCount": 263,
+        "requests": 263
+      }
+    },
+    {
+      "name": "独立详情数量恰为285",
+      "passed": true,
+      "detail": {
+        "details": 285,
+        "unique": 285
+      }
+    },
+    {
+      "name": "独立列表数量恰为120",
+      "passed": true,
+      "detail": 120
+    },
+    {
+      "name": "独立详情完整对应候选",
+      "passed": true,
+      "detail": {
+        "candidate": 285,
+        "actual": 285,
+        "conflicts": 0
+      }
+    },
+    {
+      "name": "保护对象无漂移",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "列表和详情无冲突",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "独立回读只使用GET",
+      "passed": true,
+      "detail": {
+        "GET": 457
+      }
+    }
+  ],
+  "failures": [],
+  "output": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十七批\\独立回读\\2026-09-09T12-19-28-348Z"
+}

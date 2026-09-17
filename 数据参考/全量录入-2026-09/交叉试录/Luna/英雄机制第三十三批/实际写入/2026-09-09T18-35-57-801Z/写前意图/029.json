@@ -1,0 +1,23 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "method": "POST",
+    "route": "/skills/sona_w/parameters",
+    "detailRoute": "/skills/sona_w/parameters/shield_duration_ms",
+    "skillKey": "sona_w",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "护盾持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前ShieldDuration=1.5秒，转换为1500毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

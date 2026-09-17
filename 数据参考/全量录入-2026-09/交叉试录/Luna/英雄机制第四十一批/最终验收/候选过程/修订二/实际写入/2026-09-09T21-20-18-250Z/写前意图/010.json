@@ -1,0 +1,23 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "method": "POST",
+    "route": "/skills/bard_p/parameters",
+    "detailRoute": "/skills/bard_p/parameters/max_speed_stacks",
+    "skillKey": "bard_p",
+    "kind": "parameters",
+    "stableKey": "max_speed_stacks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_speed_stacks",
+      "name": "非战斗移速最大层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10,
+      "levelValues": null,
+      "description": "当前正文直接消费10。",
+      "sortOrder": 100
+    }
+  }
+}

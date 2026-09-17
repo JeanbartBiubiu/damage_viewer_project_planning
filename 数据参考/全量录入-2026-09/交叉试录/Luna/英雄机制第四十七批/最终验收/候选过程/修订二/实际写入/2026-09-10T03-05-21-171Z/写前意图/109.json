@@ -1,0 +1,30 @@
+{
+  "i": 108,
+  "intent": {
+    "sequence": 110,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/move_speed_toward_multiplier",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "move_speed_toward_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_toward_multiplier",
+      "name": "朝敌方英雄移动倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1.75,
+        "2": 1.75,
+        "3": 1.75,
+        "4": 1.75,
+        "5": 1.75
+      },
+      "description": "当前根MoveSpeedAmpTowardsEnemies索引1至5均为1.75。",
+      "sortOrder": 90
+    }
+  }
+}

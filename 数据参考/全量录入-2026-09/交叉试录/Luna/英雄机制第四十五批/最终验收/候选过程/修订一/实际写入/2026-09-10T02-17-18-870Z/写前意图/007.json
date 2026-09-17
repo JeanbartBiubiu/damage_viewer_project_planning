@@ -1,0 +1,30 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_q/parameters",
+    "detailRoute": "/skills/teemo_q/parameters/blind_duration_ms",
+    "skillKey": "teemo_q",
+    "kind": "parameters",
+    "stableKey": "blind_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "blind_duration_ms",
+      "name": "致盲持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2000,
+        "2": 2250,
+        "3": 2500,
+        "4": 2750,
+        "5": 3000
+      },
+      "description": "BlindDuration索引1至5为2/2.25/2.5/2.75/3秒；转换为整数毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

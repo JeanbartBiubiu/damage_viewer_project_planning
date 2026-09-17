@@ -1,0 +1,24 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_p/parameters",
+    "detailRoute": "/skills/urgot_p/parameters/actual_target_max_health",
+    "skillKey": "urgot_p",
+    "kind": "parameters",
+    "stableKey": "actual_target_max_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_target_max_health",
+      "name": "逐腿命中时目标实际最大生命",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "PercentHPRatio的生命池归属和读取阶段未由当前树单独证明；运行层必须提供实际目标最大生命，不设默认。",
+      "sortOrder": 60
+    }
+  }
+}

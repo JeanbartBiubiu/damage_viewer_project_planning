@@ -1,0 +1,23 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 32,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/duration_seconds",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "duration_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "duration_seconds",
+      "name": "持续时间（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2.5,
+      "levelValues": null,
+      "description": "客户端Duration取索引1的2.5秒；总量公式保留来源单位。",
+      "sortOrder": 40
+    }
+  }
+}

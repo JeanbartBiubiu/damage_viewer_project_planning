@@ -1,0 +1,42 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 93,
+    "method": "POST",
+    "route": "/skills/vex_p/parameters",
+    "detailRoute": "/skills/vex_p/parameters/doom_cooldown_seconds_by_character_level",
+    "skillKey": "vex_p",
+    "kind": "parameters",
+    "stableKey": "doom_cooldown_seconds_by_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "doom_cooldown_seconds_by_character_level",
+      "name": "终焉基础冷却（角色等级秒数）",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 25,
+        "3": 25,
+        "4": 25,
+        "5": 25,
+        "6": 22,
+        "7": 22,
+        "8": 22,
+        "9": 22,
+        "10": 22,
+        "11": 19,
+        "12": 19,
+        "13": 19,
+        "14": 19,
+        "15": 19,
+        "16": 16,
+        "17": 16,
+        "18": 16
+      },
+      "description": "DoomCD树：25秒起，角色等级6/11/16各减少3秒；按角色等级1至18保存明确阶梯。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,3007 @@
+{
+  "at": "2026-09-09T12:18:49.350Z",
+  "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+  "counts": {
+    "parameters": 105,
+    "formulas": 21,
+    "effects": 8,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedParameters": 15,
+  "requestCount": 119,
+  "requests": [
+    {
+      "method": "POST",
+      "skillKey": "ekko_p",
+      "kind": "parameters",
+      "stableKey": "hit_count_to_trigger",
+      "route": "/skills/ekko_p/parameters",
+      "readRoute": "/skills/ekko_p/parameters/hit_count_to_trigger",
+      "body": {
+        "parameterKey": "hit_count_to_trigger",
+        "name": "触发所需同目标命中次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前根绑定正文 Spell_EkkoPassive_Tooltip「每第三次攻击或伤害型技能」。次数用整数。不是运行中的叠层事件。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_p",
+      "kind": "parameters",
+      "stableKey": "lockout_ms",
+      "route": "/skills/ekko_p/parameters",
+      "readRoute": "/skills/ekko_p/parameters/lockout_ms",
+      "body": {
+        "parameterKey": "lockout_ms",
+        "name": "同目标锁定间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.LockoutTime 取索引1，原值4秒转毫秒。仅基础间隔，未接线实际锁定。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_p",
+      "kind": "parameters",
+      "stableKey": "modes_multiplier",
+      "route": "/skills/ekko_p/parameters",
+      "readRoute": "/skills/ekko_p/parameters/modes_multiplier",
+      "body": {
+        "parameterKey": "modes_multiplier",
+        "name": "召唤师峡谷模式倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "ThreeHitDamage.mMultiplier 绑定 DataValues.ModesMultiplier 索引1至1，召唤师峡谷为1。樱桃模式覆盖1.1不进入本1v1候选。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_p",
+      "kind": "parameters",
+      "stableKey": "char_level_base_damage",
+      "route": "/skills/ekko_p/parameters",
+      "readRoute": "/skills/ekko_p/parameters/char_level_base_damage",
+      "body": {
+        "parameterKey": "char_level_base_damage",
+        "name": "角色等级基础魔法伤害（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "ThreeHitDamage 第一项 ByCharLevelBreakpointsCalculationPart：mLevel1Value=30、mInitialBonusPerLevel=10，7级起 mBonusPerLevelAtAndAfter=5。求值循环未证，不展开1至18级，不默认0。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_p",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/ekko_p/parameters",
+      "readRoute": "/skills/ekko_p/parameters/ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "三次命中法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "ThreeHitDamage 第二项 StatByCoefficientCalculationPart mCoefficient 原始 0.800000011920929，按明确设计值归一为0.8。省略 mStat/mStatFormula，按同版本窄口径映射来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_p",
+      "kind": "parameters",
+      "stableKey": "bonus_move_speed_ratio",
+      "route": "/skills/ekko_p/parameters",
+      "readRoute": "/skills/ekko_p/parameters/bonus_move_speed_ratio",
+      "body": {
+        "parameterKey": "bonus_move_speed_ratio",
+        "name": "对英雄爆发移动速度比例（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "BonusMS 为角色等级断点，mDisplayAsPercent。mLevel1Value=0.5，6/11/16级各 mAdditionalBonusAtThisLevel=0.1。求值循环未证，不猜线性，不默认0。单位：1=100%。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_p",
+      "kind": "parameters",
+      "stableKey": "bonus_move_speed_duration_seconds",
+      "route": "/skills/ekko_p/parameters",
+      "readRoute": "/skills/ekko_p/parameters/bonus_move_speed_duration_seconds",
+      "body": {
+        "parameterKey": "bonus_move_speed_duration_seconds",
+        "name": "爆发移动速度持续（秒，实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "SpeedDuration 为角色等级断点：mLevel1Value=2，6/11级各 mAdditionalBonusAtThisLevel=0.5。求值循环未证，不换算成毫秒表，不默认0。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_p",
+      "kind": "formulas",
+      "stableKey": "three_hit_damage",
+      "route": "/skills/ekko_p/formulas",
+      "readRoute": "/skills/ekko_p/formulas/three_hit_damage",
+      "body": {
+        "formulaKey": "three_hit_damage",
+        "name": "三次命中额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "modes_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "char_level_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ThreeHitDamage = ModesMultiplier ×（角色等级断点外供 + 0.8×来源总法强）。含 mMultiplier。不是减伤后实伤，也不把第三次命中写成可运行触发。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/ekko_q/parameters",
+      "readRoute": "/skills/ekko_q/parameters/cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根 spellCastTime=0.25，无冲突的 mCastTime。仅保存根字段，不表示往程或返程命中发生在施法结束。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "parameters",
+      "stableKey": "outgoing_base_damage",
+      "route": "/skills/ekko_q/parameters",
+      "readRoute": "/skills/ekko_q/parameters/outgoing_base_damage",
+      "body": {
+        "parameterKey": "outgoing_base_damage",
+        "name": "往程基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 95,
+          "3": 110,
+          "4": 125,
+          "5": 140
+        },
+        "description": "客户端当前根绑定 DataValues.OutgoingDamage 取索引1至5。官方 effect[1] 为70起旧数组，不覆盖当前树。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "parameters",
+      "stableKey": "outgoing_ap_ratio",
+      "route": "/skills/ekko_q/parameters",
+      "readRoute": "/skills/ekko_q/parameters/outgoing_ap_ratio",
+      "body": {
+        "parameterKey": "outgoing_ap_ratio",
+        "name": "往程法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "InitialDamage 第二项 StatByCoefficient mCoefficient 原始 0.30000001192092896，归一为0.3。省略选择器，窄口径来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "parameters",
+      "stableKey": "return_base_damage",
+      "route": "/skills/ekko_q/parameters",
+      "readRoute": "/skills/ekko_q/parameters/return_base_damage",
+      "body": {
+        "parameterKey": "return_base_damage",
+        "name": "返程基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 65,
+          "3": 90,
+          "4": 115,
+          "5": 140
+        },
+        "description": "客户端当前根绑定 DataValues.ReturnDamage 取索引1至5。与往程分开，不把两次命中加成总伤害。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "parameters",
+      "stableKey": "return_ap_ratio",
+      "route": "/skills/ekko_q/parameters",
+      "readRoute": "/skills/ekko_q/parameters/return_ap_ratio",
+      "body": {
+        "parameterKey": "return_ap_ratio",
+        "name": "返程法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "RecallDamage 第二项 StatByCoefficient mCoefficient 原始 0.6000000238418579，归一为0.6。省略选择器，窄口径来源总法强。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "route": "/skills/ekko_q/parameters",
+      "readRoute": "/skills/ekko_q/parameters/slow_percent_points",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "时间扭曲力场减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "description": "客户端当前根绑定 DataValues.SlowPercent 索引1至5原始为负移速修正；当前正文 @SlowPercent*-100@%，转为正的40至60百分数点。不把负哨兵当持续时间。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "parameters",
+      "stableKey": "expand_duration_ms",
+      "route": "/skills/ekko_q/parameters",
+      "readRoute": "/skills/ekko_q/parameters/expand_duration_ms",
+      "body": {
+        "parameterKey": "expand_duration_ms",
+        "name": "力场展开持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1750,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ExpandDuration 取索引1至5，原值1.75秒转毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "parameters",
+      "stableKey": "slow_zone_radius",
+      "route": "/skills/ekko_q/parameters",
+      "readRoute": "/skills/ekko_q/parameters/slow_zone_radius",
+      "body": {
+        "parameterKey": "slow_zone_radius",
+        "name": "减速力场半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 165,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowZoneRadius 取索引1至5。1v1 下唯一敌人可处于该范围。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "formulas",
+      "stableKey": "initial_damage",
+      "route": "/skills/ekko_q/formulas",
+      "readRoute": "/skills/ekko_q/formulas/initial_damage",
+      "body": {
+        "formulaKey": "initial_damage",
+        "name": "往程魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "outgoing_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "outgoing_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "InitialDamage = OutgoingDamage + 0.3×来源总法强。tooltipOnly。同目标可再吃返程，不在此相加。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "formulas",
+      "stableKey": "recall_damage",
+      "route": "/skills/ekko_q/formulas",
+      "readRoute": "/skills/ekko_q/formulas/recall_damage",
+      "body": {
+        "formulaKey": "recall_damage",
+        "name": "返程魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "return_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "return_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RecallDamage = ReturnDamage + 0.6×来源总法强。tooltipOnly。不是往返合计。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/ekko_q/effects",
+      "readRoute": "/skills/ekko_q/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根 spellCastTime=0.25，无冲突的 mCastTime。仅保存根字段。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "below_health_threshold_ratio",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/below_health_threshold_ratio",
+      "body": {
+        "parameterKey": "below_health_threshold_ratio",
+        "name": "额外伤害生命阈值比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BelowHealthThreshold 原始 0.30000001192092896，归一为0.3。正文 @BelowHealthThreshold*100@%。单位：1=100%。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "on_hit_base",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/on_hit_base",
+      "body": {
+        "parameterKey": "on_hit_base",
+        "name": "已损失生命伤害基础点数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BaseOnHitDamage 取索引1至5。进入 MissingHealthPercent 后再乘 0.01。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "on_hit_ap_ratio",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/on_hit_ap_ratio",
+      "body": {
+        "parameterKey": "on_hit_ap_ratio",
+        "name": "已损失生命伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.03,
+        "levelValues": null,
+        "description": "MissingHealthPercent 第二项 StatByCoefficient mCoefficient 原始 0.029999999329447746，归一为0.03。省略选择器，窄口径来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "missing_health_ratio_multiplier",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/missing_health_ratio_multiplier",
+      "body": {
+        "parameterKey": "missing_health_ratio_multiplier",
+        "name": "已损失生命比例换算",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "MissingHealthPercent.mMultiplier NumberCalculationPart 原始 0.009999999776482582，归一为0.01。mDisplayAsPercent。该公式是已损失生命比例，不是实际造成伤害。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "shield_base",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/shield_base",
+      "body": {
+        "parameterKey": "shield_base",
+        "name": "自身护盾基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 120,
+          "3": 140,
+          "4": 160,
+          "5": 180
+        },
+        "description": "客户端当前根绑定 DataValues.ShieldBase 取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/shield_ap_ratio",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "TotalShield 第二项 StatByCoefficient mCoefficient=1.5。省略选择器，窄口径来源总法强。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/slow_percent_points",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "球体减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5，正文直接显示 @SlowPercent@%，已是百分数点，不乘0.01。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "slow_zone_duration_ms",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/slow_zone_duration_ms",
+      "body": {
+        "parameterKey": "slow_zone_duration_ms",
+        "name": "减速球体持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowZoneDuration 取索引1至5，原值1.5秒转毫秒。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/stun_duration_ms",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "引爆晕眩持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2250,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5，原值2.25秒转毫秒。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "detonation_delay_ms",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/detonation_delay_ms",
+      "body": {
+        "parameterKey": "detonation_delay_ms",
+        "name": "引爆前延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DelayBeforeDetonation 取索引1至5，原值3秒转毫秒。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "aoe_radius",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/aoe_radius",
+      "body": {
+        "parameterKey": "aoe_radius",
+        "name": "球体半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 375,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AoERadius 取索引1至5。1v1 下唯一敌人可处于该范围。",
+        "sortOrder": 150
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "on_hit_minimum_damage",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/on_hit_minimum_damage",
+      "body": {
+        "parameterKey": "on_hit_minimum_damage",
+        "name": "低生命值攻击额外伤害下限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15,
+        "levelValues": null,
+        "description": "当前根扩展正文第一句明确额外攻击伤害最少OnHitMinMinionDamage=15；后半句才把150最大值限制到小兵野怪，不能因字段名含Minion把一般下限排除。",
+        "sortOrder": 160
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "parameters",
+      "stableKey": "target_missing_health_for_on_hit",
+      "route": "/skills/ekko_w/parameters",
+      "readRoute": "/skills/ekko_w/parameters/target_missing_health_for_on_hit",
+      "body": {
+        "parameterKey": "target_missing_health_for_on_hit",
+        "name": "目标实际已损失生命值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前根正文明确以目标已损失生命值计算。仅用于目标低于30%生命且攻击资格已满足的数值，无默认，不映射未知mStat15或自动命中。",
+        "sortOrder": 170
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "formulas",
+      "stableKey": "missing_health_damage_ratio",
+      "route": "/skills/ekko_w/formulas",
+      "readRoute": "/skills/ekko_w/formulas/missing_health_damage_ratio",
+      "body": {
+        "formulaKey": "missing_health_damage_ratio",
+        "name": "已损失生命魔法伤害比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "missing_health_ratio_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_hit_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "on_hit_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MissingHealthPercent = 0.01×(BaseOnHitDamage + 0.03×来源总法强)。这是已损失生命比例，不是实际造成伤害；目标已损失生命仍待外供。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "formulas",
+      "stableKey": "total_shield",
+      "route": "/skills/ekko_w/formulas",
+      "readRoute": "/skills/ekko_w/formulas/total_shield",
+      "body": {
+        "formulaKey": "total_shield",
+        "name": "自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalShield = ShieldBase + 1.5×来源总法强。护盾持续未出现在 DataValues，不创建可运行护盾效果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "formulas",
+      "stableKey": "eligible_on_hit_damage",
+      "route": "/skills/ekko_w/formulas",
+      "readRoute": "/skills/ekko_w/formulas/eligible_on_hit_damage",
+      "body": {
+        "formulaKey": "eligible_on_hit_damage",
+        "name": "低于生命阈值目标的攻击额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "on_hit_minimum_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "missing_health_ratio_multiplier"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "on_hit_base"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "on_hit_ap_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "ability_power",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_missing_health_for_on_hit"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前根正文及扩展正文：已满足低于30%生命资格时，取15与(3+0.03×法强)%乘已损失生命值的较大值。兵野150上限不进入英雄分支；资格、普攻事件与结果待接。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/ekko_w/effects",
+      "readRoute": "/skills/ekko_w/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/ekko_e/parameters",
+      "readRoute": "/skills/ekko_e/parameters/cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根仅有 mCastTime=0.25，无 spellCastTime。子节点 EkkoEAttack 同时有 spellCastTime=0.39 与 mCastTime=0.25，冲突字段不选，不用于本根参数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "route": "/skills/ekko_e/parameters",
+      "readRoute": "/skills/ekko_e/parameters/base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "强化攻击基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/ekko_e/parameters",
+      "readRoute": "/skills/ekko_e/parameters/ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "强化攻击法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "TotalDamage 第二项 StatByCoefficient mCoefficient 原始 0.4000000059604645，归一为0.4。省略选择器，窄口径来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_e",
+      "kind": "parameters",
+      "stableKey": "dash_distance",
+      "route": "/skills/ekko_e/parameters",
+      "readRoute": "/skills/ekko_e/parameters/dash_distance",
+      "body": {
+        "parameterKey": "dash_distance",
+        "name": "突进距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DashDistance 取索引1至5。位移过程未接线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_e",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "route": "/skills/ekko_e/parameters",
+      "readRoute": "/skills/ekko_e/parameters/buff_duration_ms",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "强化攻击持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5，原值3秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_e",
+      "kind": "parameters",
+      "stableKey": "attack_range_increase",
+      "route": "/skills/ekko_e/parameters",
+      "readRoute": "/skills/ekko_e/parameters/attack_range_increase",
+      "body": {
+        "parameterKey": "attack_range_increase",
+        "name": "攻击距离增加",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 300,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AttackRangeIncrease 取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "route": "/skills/ekko_e/formulas",
+      "readRoute": "/skills/ekko_e/formulas/damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "相位俯冲额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + 0.4×来源总法强。tooltipOnly。不把传送到目标旁写成可运行位移。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/ekko_e/effects",
+      "readRoute": "/skills/ekko_e/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根仅有 mCastTime=0.25，无 spellCastTime。仅保存根字段。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "到达基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200,
+          "2": 350,
+          "3": 500
+        },
+        "description": "客户端当前根绑定 DataValues.Damage 取索引1至3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "到达伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.75,
+        "levelValues": null,
+        "description": "TotalDamage 第二项 StatByCoefficient mCoefficient=1.75。省略选择器，窄口径来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "flat_heal",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/flat_heal",
+      "body": {
+        "parameterKey": "flat_heal",
+        "name": "基础治疗固定值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 150,
+          "3": 200
+        },
+        "description": "客户端当前根绑定 DataValues.FlatHeal 取索引1至3。这是 TotalBaseHeal 基础项，不是已放大后的实际治疗。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/heal_ap_ratio",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "基础治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "TotalBaseHeal 第二项 StatByCoefficient mCoefficient 原始 0.6000000238418579，归一为0.6。省略选择器，窄口径来源总法强。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "heal_amp_percent_per_missing_percent",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/heal_amp_percent_per_missing_percent",
+      "body": {
+        "parameterKey": "heal_amp_percent_per_missing_percent",
+        "name": "每损失生命百分数点提升治疗百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PercentHealAmpPerPercentMissingHealth 取索引1至3。正文写每损失1%生命提升该值%。不把它与 BotData 里乘20的机器人占位合成完整治疗函数。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "rewind_window_ms",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/rewind_window_ms",
+      "body": {
+        "parameterKey": "rewind_window_ms",
+        "name": "回溯时间窗（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前根正文写「4秒前」和「最近4秒」，不是 DataValues。只记录时间窗长度。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "past_missing_health_percent_points",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/past_missing_health_percent_points",
+      "body": {
+        "parameterKey": "past_missing_health_percent_points",
+        "name": "最近时间窗已损失生命百分数点（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "历史位置和实际过去受伤量不能伪造。无默认。不把该输入填进可运行治疗结果。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "aoe_radius",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/aoe_radius",
+      "body": {
+        "parameterKey": "aoe_radius",
+        "name": "到达范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 375,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AoERadius 取索引1至3。1v1 下唯一敌人可承受该范围伤害。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "heal_multiplier_one",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/heal_multiplier_one",
+      "body": {
+        "parameterKey": "heal_multiplier_one",
+        "name": "基础治疗倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "百分比提升表达式的基础倍率1。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "parameters",
+      "stableKey": "percentage_point_ratio",
+      "route": "/skills/ekko_r/parameters",
+      "readRoute": "/skills/ekko_r/parameters/percentage_point_ratio",
+      "body": {
+        "parameterKey": "percentage_point_ratio",
+        "name": "百分数点换算比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "当前根正文每损失1%生命提升3%治疗，百分数点乘0.01换算为比例。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "route": "/skills/ekko_r/formulas",
+      "readRoute": "/skills/ekko_r/formulas/damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "到达范围魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = Damage + 1.75×来源总法强。到达事件未接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "formulas",
+      "stableKey": "total_base_heal",
+      "route": "/skills/ekko_r/formulas",
+      "readRoute": "/skills/ekko_r/formulas/total_base_heal",
+      "body": {
+        "formulaKey": "total_base_heal",
+        "name": "基础治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalBaseHeal = FlatHeal + 0.6×来源总法强。这是基础治疗，不是按过去受伤放大后的实际治疗，也不创建直接治疗结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "formulas",
+      "stableKey": "history_amplified_heal",
+      "route": "/skills/ekko_r/formulas",
+      "readRoute": "/skills/ekko_r/formulas/history_amplified_heal",
+      "body": {
+        "formulaKey": "history_amplified_heal",
+        "name": "按过去四秒损失生命比例提升的治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_multiplier_one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percentage_point_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "heal_amp_percent_per_missing_percent"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "past_missing_health_percent_points"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前根正文明确最近4秒每损失1%生命值使基础治疗提升3%。历史损失百分数点为无默认外供实值，完整数学为基础治疗×(1+0.03×历史损失百分数点)；不由当前位置或当前缺血值代替历史输入，不推断回溯事件或实际治疗结果。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "ekko_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/ekko_r/effects",
+      "readRoute": "/skills/ekko_r/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_p",
+      "kind": "parameters",
+      "stableKey": "damage_reduction_flat",
+      "route": "/skills/fizz_p/parameters",
+      "readRoute": "/skills/fizz_p/parameters/damage_reduction_flat",
+      "body": {
+        "parameterKey": "damage_reduction_flat",
+        "name": "固定伤害减免",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DamageReduction 取索引1至1。单位：伤害点数，不是减伤后实伤。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_p",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/fizz_p/parameters",
+      "readRoute": "/skills/fizz_p/parameters/ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "伤害减免法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "DamageReductionCalc 的 StatByNamedDataValue 绑定 APRatio，原始 0.009999999776482582，归一为0.01。省略 mStat/mStatFormula，窄口径来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_p",
+      "kind": "parameters",
+      "stableKey": "damage_reduction_max_ratio",
+      "route": "/skills/fizz_p/parameters",
+      "readRoute": "/skills/fizz_p/parameters/damage_reduction_max_ratio",
+      "body": {
+        "parameterKey": "damage_reduction_max_ratio",
+        "name": "减免占比上限比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DamageReductionMax 取索引1至1。当前扩展行写占比不能超过该值×100%。上限未进入 DamageReductionCalc 树，不把 MIN(当次伤害×0.5) 写成完整函数。单位：1=100%。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_p",
+      "kind": "parameters",
+      "stableKey": "damage_before_this_reduction",
+      "route": "/skills/fizz_p/parameters",
+      "readRoute": "/skills/fizz_p/parameters/damage_before_this_reduction",
+      "body": {
+        "parameterKey": "damage_before_this_reduction",
+        "name": "进入本次减免步骤的伤害量",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "该次伤害在应用本被动前的实际输入，无默认；抗性、护盾与本次减免的先后顺序仍待接，不能由本公式猜测。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_p",
+      "kind": "formulas",
+      "stableKey": "damage_reduction",
+      "route": "/skills/fizz_p/formulas",
+      "readRoute": "/skills/fizz_p/formulas/damage_reduction",
+      "body": {
+        "formulaKey": "damage_reduction",
+        "name": "固定伤害减免基数",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_reduction_flat"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DamageReductionCalc = DamageReduction + APRatio×来源总法强。这是固定减免点数，不是减伤后实际受到伤害，也不含占比上限。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_p",
+      "kind": "formulas",
+      "stableKey": "capped_damage_reduction",
+      "route": "/skills/fizz_p/formulas",
+      "readRoute": "/skills/fizz_p/formulas/capped_damage_reduction",
+      "body": {
+        "formulaKey": "capped_damage_reduction",
+        "name": "受50%上限约束的伤害减免",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MIN",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_reduction_flat"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_reduction_max_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_before_this_reduction"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前根扩展正文限定减免占比不超过DamageReductionMax=0.5，最终式取固定基数与该次伤害50%的较小值。只计算已给定步骤输入的减免量，不创建伤害或减伤结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/fizz_q/parameters",
+      "readRoute": "/skills/fizz_q/parameters/cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根 spellCastTime=0.25，无冲突的 mCastTime。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_q",
+      "kind": "parameters",
+      "stableKey": "magic_base_damage",
+      "route": "/skills/fizz_q/parameters",
+      "readRoute": "/skills/fizz_q/parameters/magic_base_damage",
+      "body": {
+        "parameterKey": "magic_base_damage",
+        "name": "额外基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 25,
+          "3": 40,
+          "4": 55,
+          "5": 70
+        },
+        "description": "QDamage 使用 EffectValueCalculationPart mEffectIndex=1，对应 mEffectAmount[0] 取索引1至5。根无 DataValues。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_q",
+      "kind": "parameters",
+      "stableKey": "magic_ap_ratio",
+      "route": "/skills/fizz_q/parameters",
+      "readRoute": "/skills/fizz_q/parameters/magic_ap_ratio",
+      "body": {
+        "parameterKey": "magic_ap_ratio",
+        "name": "额外魔法伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "QDamage 第二项 StatByCoefficient mCoefficient 原始 0.550000011920929，归一为0.55。省略选择器，窄口径来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_q",
+      "kind": "parameters",
+      "stableKey": "physical_ad_ratio",
+      "route": "/skills/fizz_q/parameters",
+      "readRoute": "/skills/fizz_q/parameters/physical_ad_ratio",
+      "body": {
+        "parameterKey": "physical_ad_ratio",
+        "name": "物理伤害总攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "TotalDamage tooltipOnly：StatByCoefficient 显式 mStat=2、mCoefficient=1，mStatFormula 省略按构造为0。同版本 mStat2 省略公式对应来源总攻击力，不能套额外攻击力。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "route": "/skills/fizz_q/formulas",
+      "readRoute": "/skills/fizz_q/formulas/magic_damage",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "淘气打击额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "magic_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "magic_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QDamage = Effect1 + 0.55×来源总法强。与物理部分分开。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_q",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "route": "/skills/fizz_q/formulas",
+      "readRoute": "/skills/fizz_q/formulas/physical_damage",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "淘气打击物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "physical_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "TotalDamage = 1×来源总攻击力。显式 mStat=2。总攻击力200、额外攻击力100时该项为200，误用额外攻击力会得到100。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/fizz_q/effects",
+      "readRoute": "/skills/fizz_q/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根 spellCastTime=0.25，无冲突的 mCastTime。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "dot_base_damage",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/dot_base_damage",
+      "body": {
+        "parameterKey": "dot_base_damage",
+        "name": "流血总基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60,
+          "4": 75,
+          "5": 90
+        },
+        "description": "客户端当前根绑定 DataValues.DoTBaseDamage 取索引1至5。正文写持续时间内共造成，是总量不是每次跳数。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "dot_ap_ratio",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/dot_ap_ratio",
+      "body": {
+        "parameterKey": "dot_ap_ratio",
+        "name": "流血总量法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "DoTDamage 的 StatByNamedDataValue 绑定 DoTRatio 索引1至5。省略选择器，窄口径来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "bleed_duration_ms",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/bleed_duration_ms",
+      "body": {
+        "parameterKey": "bleed_duration_ms",
+        "name": "流血持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BleedDuration 取索引1至5，原值3秒转毫秒。与 PassiveDoTDuration 同为3，不另造每次伤害。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "dot_ticks_per_second",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/dot_ticks_per_second",
+      "body": {
+        "parameterKey": "dot_ticks_per_second",
+        "name": "流血每秒跳数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DoTTicksPerSecond 取索引1至5。次数用整数。不把总量除以跳数冒充每次伤害公式。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "active_base_damage",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/active_base_damage",
+      "body": {
+        "parameterKey": "active_base_damage",
+        "name": "强化攻击基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "description": "客户端当前根绑定 DataValues.ActiveBaseDamage 取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "active_ap_ratio",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/active_ap_ratio",
+      "body": {
+        "parameterKey": "active_ap_ratio",
+        "name": "强化攻击法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.45,
+        "levelValues": null,
+        "description": "ActiveDamage 的 StatByNamedDataValue 绑定 ActiveRatio 原始 0.44999998807907104，归一为0.45。省略选择器，窄口径来源总法强。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "active_duration_ms",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/active_duration_ms",
+      "body": {
+        "parameterKey": "active_duration_ms",
+        "name": "强化攻击窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ActiveDuration 取索引1至5，原值4秒转毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "on_hit_buff_base_damage",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/on_hit_buff_base_damage",
+      "body": {
+        "parameterKey": "on_hit_buff_base_damage",
+        "name": "后续攻击基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30,
+          "4": 35,
+          "5": 40
+        },
+        "description": "客户端当前根绑定 DataValues.OnHitBuffBaseDamage 取索引1至5。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "on_hit_ap_ratio",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/on_hit_ap_ratio",
+      "body": {
+        "parameterKey": "on_hit_ap_ratio",
+        "name": "后续攻击法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "OnHitBuffDamage 的 StatByNamedDataValue 绑定 OnHitRatio 原始 0.30000001192092896，归一为0.3。省略选择器，窄口径来源总法强。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "on_hit_buff_duration_ms",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/on_hit_buff_duration_ms",
+      "body": {
+        "parameterKey": "on_hit_buff_duration_ms",
+        "name": "后续强化持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.OnHitBuffDuration 取索引1至5，原值5秒转毫秒。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "on_kill_mana_refund",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/on_kill_mana_refund",
+      "body": {
+        "parameterKey": "on_kill_mana_refund",
+        "name": "击杀返还法力",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 40,
+          "3": 50,
+          "4": 60,
+          "5": 70
+        },
+        "description": "客户端当前根绑定 DataValues.OnKillManaRefund 取索引1至5。击杀事件未接线，只保存数值。",
+        "sortOrder": 150
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "parameters",
+      "stableKey": "on_kill_new_cooldown_ms",
+      "route": "/skills/fizz_w/parameters",
+      "readRoute": "/skills/fizz_w/parameters/on_kill_new_cooldown_ms",
+      "body": {
+        "parameterKey": "on_kill_new_cooldown_ms",
+        "name": "击杀后冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.OnKillNewCooldown 取索引1至5，原值1秒转毫秒。缩短冷却事件未接线。",
+        "sortOrder": 160
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "formulas",
+      "stableKey": "dot_damage",
+      "route": "/skills/fizz_w/formulas",
+      "readRoute": "/skills/fizz_w/formulas/dot_damage",
+      "body": {
+        "formulaKey": "dot_damage",
+        "name": "流血期间总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "dot_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "dot_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DoTDamage = DoTBaseDamage + DoTRatio×来源总法强。正文为持续时间内共造成的总量，不是每秒或每次跳数。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "formulas",
+      "stableKey": "active_damage",
+      "route": "/skills/fizz_w/formulas",
+      "readRoute": "/skills/fizz_w/formulas/active_damage",
+      "body": {
+        "formulaKey": "active_damage",
+        "name": "强化攻击额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ActiveDamage = ActiveBaseDamage + ActiveRatio×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "formulas",
+      "stableKey": "on_hit_buff_damage",
+      "route": "/skills/fizz_w/formulas",
+      "readRoute": "/skills/fizz_w/formulas/on_hit_buff_damage",
+      "body": {
+        "formulaKey": "on_hit_buff_damage",
+        "name": "后续攻击额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "on_hit_buff_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_hit_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "OnHitBuffDamage = OnHitBuffBaseDamage + OnHitRatio×来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/fizz_w/effects",
+      "readRoute": "/skills/fizz_w/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "route": "/skills/fizz_e/parameters",
+      "readRoute": "/skills/fizz_e/parameters/cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 16000,
+          "2": 14000,
+          "3": 12000,
+          "4": 10000,
+          "5": 8000
+        },
+        "description": "DDragon16.17.1 Fizz.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。当前快照无该公共参数，属新增缺项。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/fizz_e/parameters",
+      "readRoute": "/skills/fizz_e/parameters/cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根 spellCastTime=0.25，无冲突的 mCastTime。再次施放子节点冷却不同，不把子节点冷却写进本根。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "route": "/skills/fizz_e/parameters",
+      "readRoute": "/skills/fizz_e/parameters/base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "落地基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 130,
+          "3": 180,
+          "4": 230,
+          "5": 280
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。再次施放使用同一 EDamage 树，不另造伤害。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/fizz_e/parameters",
+      "readRoute": "/skills/fizz_e/parameters/ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "落地法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.95,
+        "levelValues": null,
+        "description": "EDamage 第二项 StatByCoefficient mCoefficient 原始 0.949999988079071，归一为0.95。省略选择器，窄口径来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "route": "/skills/fizz_e/parameters",
+      "readRoute": "/skills/fizz_e/parameters/slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "首次落地减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.4,
+          "2": 0.45,
+          "3": 0.5,
+          "4": 0.55,
+          "5": 0.6
+        },
+        "description": "客户端当前根绑定 DataValues.SlowAmount 索引1至5原始约0.40至0.60，按明确百分数点归一。正文 @SlowAmount*100@%。再次施放不减速。单位：1=100%。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "route": "/skills/fizz_e/parameters",
+      "readRoute": "/skills/fizz_e/parameters/slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5，原值2秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "parameters",
+      "stableKey": "large_aoe_radius",
+      "route": "/skills/fizz_e/parameters",
+      "readRoute": "/skills/fizz_e/parameters/large_aoe_radius",
+      "body": {
+        "parameterKey": "large_aoe_radius",
+        "name": "首次落地半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 375,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.LargeAoESize 取索引1至5。1v1 下唯一敌人可处于该范围。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "parameters",
+      "stableKey": "small_aoe_radius",
+      "route": "/skills/fizz_e/parameters",
+      "readRoute": "/skills/fizz_e/parameters/small_aoe_radius",
+      "body": {
+        "parameterKey": "small_aoe_radius",
+        "name": "再次施放落地半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 225,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SmallAoESize 取索引1至5。再次施放事件未接线。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "parameters",
+      "stableKey": "untargetable_window_ms",
+      "route": "/skills/fizz_e/parameters",
+      "readRoute": "/skills/fizz_e/parameters/untargetable_window_ms",
+      "body": {
+        "parameterKey": "untargetable_window_ms",
+        "name": "未提前再施放时不可被选取窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前根Spell_FizzE_Tooltip字面0.75秒，乘1000；再次施放会提前结束，不将750当固定落地时点。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "route": "/skills/fizz_e/formulas",
+      "readRoute": "/skills/fizz_e/formulas/damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "古灵精怪魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "EDamage = BaseDamage + 0.95×来源总法强。首次与再次施放共用该树；再次施放无减速。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/fizz_e/effects",
+      "readRoute": "/skills/fizz_e/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根 spellCastTime 与 mCastTime 均为0.25，同值。子节点 FizzRMissile/FizzRHop 为0.25与约0.251，不把子节点差用于本根。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "small_base_damage",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/small_base_damage",
+      "body": {
+        "parameterKey": "small_base_damage",
+        "name": "小鲨鱼基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 180,
+          "2": 300,
+          "3": 420
+        },
+        "description": "客户端当前根绑定 DataValues.SmallDamage 取索引1至3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "small_ap_ratio",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/small_ap_ratio",
+      "body": {
+        "parameterKey": "small_ap_ratio",
+        "name": "小鲨鱼法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "SmallSharkDamage 的 StatByNamedDataValue 绑定 SmallAPRatio 原始 0.6000000238418579，归一为0.6。省略选择器，窄口径来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "mid_damage_multiplier",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/mid_damage_multiplier",
+      "body": {
+        "parameterKey": "mid_damage_multiplier",
+        "name": "中鲨鱼伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.25,
+        "levelValues": null,
+        "description": "匿名计算 {262c3c02} 为 GameCalculationModified，mModifiedGameCalculation=SmallSharkDamage，mMultiplier 绑定 MidDamageMulti=1.25。不能跳过中分支。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "large_damage_multiplier",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/large_damage_multiplier",
+      "body": {
+        "parameterKey": "large_damage_multiplier",
+        "name": "大鲨鱼伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "BigSharkDamage 为 GameCalculationModified，mModifiedGameCalculation=SmallSharkDamage，mMultiplier 绑定 LargeDamageMulti=1.5。不能无条件默认最大。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "detonation_time_ms",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/detonation_time_ms",
+      "body": {
+        "parameterKey": "detonation_time_ms",
+        "name": "引爆延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DetonationTime 取索引1至3，原值2秒转毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至3，原值2秒转毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "max_distance",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/max_distance",
+      "body": {
+        "parameterKey": "max_distance",
+        "name": "小鱼最大飞行距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1300,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MaxDistance 取索引1至3。飞行距离本身不是伤害默认最大。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "small_fish_radius",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/small_fish_radius",
+      "body": {
+        "parameterKey": "small_fish_radius",
+        "name": "小鲨鱼范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 200,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SmallFishSize 取索引1至3。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "mid_fish_radius",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/mid_fish_radius",
+      "body": {
+        "parameterKey": "mid_fish_radius",
+        "name": "中鲨鱼范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 325,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MidFishSize 取索引1至3。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "big_fish_radius",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/big_fish_radius",
+      "body": {
+        "parameterKey": "big_fish_radius",
+        "name": "大鲨鱼范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 450,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BigFishSize 取索引1至3。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "attached_target_knockup_ms",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/attached_target_knockup_ms",
+      "body": {
+        "parameterKey": "attached_target_knockup_ms",
+        "name": "吸附目标击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前根Spell_FizzR_Tooltip明确携鱼目标击飞1秒；只记录唯一目标控制持续，事件待接。",
+        "sortOrder": 150
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "minimum_slow_percent_points",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/minimum_slow_percent_points",
+      "body": {
+        "parameterKey": "minimum_slow_percent_points",
+        "name": "最小减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "当前根正文明确40%到80%，仅保存端点；实际距离分段尚未证明，不采用根SlowAmount60推定中距。",
+        "sortOrder": 160
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "parameters",
+      "stableKey": "maximum_slow_percent_points",
+      "route": "/skills/fizz_r/parameters",
+      "readRoute": "/skills/fizz_r/parameters/maximum_slow_percent_points",
+      "body": {
+        "parameterKey": "maximum_slow_percent_points",
+        "name": "最大减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 80,
+        "levelValues": null,
+        "description": "当前根正文明确40%到80%，只保存端点，不默认最大。",
+        "sortOrder": 170
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "formulas",
+      "stableKey": "small_shark_damage",
+      "route": "/skills/fizz_r/formulas",
+      "readRoute": "/skills/fizz_r/formulas/small_shark_damage",
+      "body": {
+        "formulaKey": "small_shark_damage",
+        "name": "小鲨鱼魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "small_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "small_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "SmallSharkDamage = SmallDamage + SmallAPRatio×来源总法强。短距分支，不是最大。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "formulas",
+      "stableKey": "mid_shark_damage",
+      "route": "/skills/fizz_r/formulas",
+      "readRoute": "/skills/fizz_r/formulas/mid_shark_damage",
+      "body": {
+        "formulaKey": "mid_shark_damage",
+        "name": "中鲨鱼魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mid_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "small_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "small_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "匿名 {262c3c02} = MidDamageMulti × SmallSharkDamage。中距分支单独核对。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "formulas",
+      "stableKey": "big_shark_damage",
+      "route": "/skills/fizz_r/formulas",
+      "readRoute": "/skills/fizz_r/formulas/big_shark_damage",
+      "body": {
+        "formulaKey": "big_shark_damage",
+        "name": "大鲨鱼魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "large_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "small_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "small_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BigSharkDamage = LargeDamageMulti × SmallSharkDamage。长距分支；上限倍率在表达式内，不冒充飞行距离插值函数。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "skillKey": "fizz_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/fizz_r/effects",
+      "readRoute": "/skills/fizz_r/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "apiWrites": 0
+}

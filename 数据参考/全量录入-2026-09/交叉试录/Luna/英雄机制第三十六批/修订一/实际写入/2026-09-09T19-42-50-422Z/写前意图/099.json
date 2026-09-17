@@ -1,0 +1,23 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 99,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_w/parameters",
+    "detailRoute": "/skills/fiddlesticks_w/parameters/ticks_per_second",
+    "skillKey": "fiddlesticks_w",
+    "kind": "parameters",
+    "stableKey": "ticks_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ticks_per_second",
+      "name": "每秒跳数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "当前TicksPerSecond=4；只记录源时序参数，不创建未经证明的周期过程。",
+      "sortOrder": 30
+    }
+  }
+}

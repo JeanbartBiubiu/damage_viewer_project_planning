@@ -1,0 +1,23 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/milio_e/parameters",
+    "detailRoute": "/skills/milio_e/parameters/move_speed_duration_ms",
+    "skillKey": "milio_e",
+    "kind": "parameters",
+    "stableKey": "move_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_duration_ms",
+      "name": "移动速度持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "2.5秒转毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

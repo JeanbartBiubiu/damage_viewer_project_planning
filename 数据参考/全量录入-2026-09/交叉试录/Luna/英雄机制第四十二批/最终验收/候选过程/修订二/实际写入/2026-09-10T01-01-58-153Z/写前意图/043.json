@@ -1,0 +1,21 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "skillKey": "ksante_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_p/parameters",
+    "stableKey": "mark_target_max_health_ratio",
+    "body": {
+      "parameterKey": "mark_target_max_health_ratio",
+      "name": "当前标记消耗目标最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "运行层提供1%至2%范围内当前比例；中间等级未证，不设默认。",
+      "sortOrder": 50
+    }
+  }
+}

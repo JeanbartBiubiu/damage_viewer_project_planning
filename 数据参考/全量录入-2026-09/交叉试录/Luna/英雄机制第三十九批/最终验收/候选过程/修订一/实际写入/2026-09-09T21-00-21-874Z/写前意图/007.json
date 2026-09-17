@@ -1,0 +1,56 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_p/formulas",
+    "detailRoute": "/skills/urgot_p/formulas/leg_physical_damage",
+    "skillKey": "urgot_p",
+    "kind": "formulas",
+    "stableKey": "leg_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "leg_physical_damage",
+      "name": "逐腿单次物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "leg_attack_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "leg_attack_target_max_health_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_target_max_health"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "单次逐腿伤害保留ADDamage与PercentHPRatio两项；总攻击力来源归属依据mStat=2无formula窄证，生命值阶段留给实际输入。",
+      "sortOrder": 10
+    }
+  }
+}

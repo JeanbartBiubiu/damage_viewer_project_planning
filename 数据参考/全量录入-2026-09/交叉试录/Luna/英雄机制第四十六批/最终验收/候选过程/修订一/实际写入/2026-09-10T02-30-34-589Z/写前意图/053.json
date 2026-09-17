@@ -1,0 +1,24 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_r/parameters",
+    "detailRoute": "/skills/belveth_r/parameters/qualified_hit_count",
+    "skillKey": "belveth_r",
+    "kind": "parameters",
+    "stableKey": "qualified_hit_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "qualified_hit_count",
+      "name": "当前合资格触发次数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "叠层、触发频率和同一敌人资格由运行事件提供，不设默认。",
+      "sortOrder": 30
+    }
+  }
+}

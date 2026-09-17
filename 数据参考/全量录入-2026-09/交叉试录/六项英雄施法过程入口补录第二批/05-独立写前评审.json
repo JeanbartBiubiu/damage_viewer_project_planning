@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T12:39:54.695Z",
+  "status": "APPROVED",
+  "reviewer": "既有独立来源复核加新进程完整事件明细GET契约检查",
+  "approvedBatchSha256": "194bfab3cb2171daceb79216b3bfcb88f6faa88334a7e195f5040d7f1440ff97",
+  "preflightSha256": "5d064543b773271ddb031c21e708ea2cc552081a601724141037afa2f50184b4",
+  "bodyRulesSha256": "3339cf273ae4a9c6930b3caedd4054fdb98f27175386cc6d97f0829dff381506",
+  "metadataRulesSha256": "93bdefe86d5e4c95d5cf659b576455cbda46106977d54e4bfcf95d02ff70d927",
+  "targetNonRuleSha256": [
+    {
+      "id": "ahri_w_start_cast",
+      "sha256": "cedfb2d86c76a437cfa9c447bdf819aab1276537bf01d02cc64b27e56ba89a52"
+    },
+    {
+      "id": "diana_r_start_cast",
+      "sha256": "bec4b4fa889ebd0cb6d562ac38cbf5992b642d4b0c2c7a256f7084c75b3956bb"
+    },
+    {
+      "id": "lucian_e_start_cast",
+      "sha256": "ef9093684a9896e693a89d508baffa777d93308dab55364b28914500504ded8c"
+    },
+    {
+      "id": "twitch_w_start_cast",
+      "sha256": "d9a67fff6f1a8c52ffacbf3bb66f6b6f4df63b7658999c80904aa4723d6e0659"
+    },
+    {
+      "id": "warwick_q_start_cast",
+      "sha256": "2a6295154a34616661769e57b9de4bd9f3e9d78a2cf56bb5d2f5ad5cbd0b509b"
+    },
+    {
+      "id": "xinzhao_q_start_cast",
+      "sha256": "f7a152b297fab17f8ef06eae9bc3304ec756ade08cb4e787bf6aef74a3242c6a"
+    }
+  ],
+  "approvalDecisionSha256": "87db13a3cb80198f717d03e22b71220baebd4e535723a756f220b722518cf5db",
+  "getCount": 1341,
+  "statusCounts": {
+    "200": 1335,
+    "404": 6
+  },
+  "skillCount": 1062,
+  "ruleCount": 146,
+  "sourceInitializedCount": 29,
+  "businessWrites": 0,
+  "requestPathsSha256": "7e46e7f983240f4fc324ab5d9c67f9a9dd4f05f94b30d50f897520b0df8cdd1e",
+  "boundary": "独立批准只覆盖冻结的六个主动使用入口；不批准各技能剩余命中、伤害、治疗、控制、叠层、位移或阶段分支。"
+}

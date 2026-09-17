@@ -1,0 +1,29 @@
+{
+  "i": 162,
+  "intent": {
+    "sequence": 163,
+    "method": "POST",
+    "route": "/skills/renata_e/parameters",
+    "detailRoute": "/skills/renata_e/parameters/shield_base",
+    "skillKey": "renata_e",
+    "kind": "parameters",
+    "stableKey": "shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "护盾基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 65,
+        "3": 80,
+        "4": 95,
+        "5": 110
+      },
+      "description": "等级索引1至5。",
+      "sortOrder": 50
+    }
+  }
+}

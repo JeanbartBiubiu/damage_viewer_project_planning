@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:54:53.958Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_r/formulas/r_vital_true_damage",
+  "id": "r_vital_true_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "r_vital_true_damage",
+    "name": "无双挑战四处破绽最大生命真实伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "r_vital_count"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_vital_damage_ratio"
+            }
+          ]
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "TARGET",
+          "attributeKey": "hp",
+          "attributeValueKind": "TOTAL"
+        }
+      ]
+    },
+    "description": "RDamageTotal=4×被动破绽伤害比例×目标最大生命；跨技能被动值作为运行输入。",
+    "sortOrder": 20
+  }
+}

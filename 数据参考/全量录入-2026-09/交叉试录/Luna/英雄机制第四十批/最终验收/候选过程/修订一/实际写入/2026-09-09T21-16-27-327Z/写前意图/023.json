@@ -1,0 +1,35 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "method": "POST",
+    "route": "/skills/senna_p/formulas",
+    "detailRoute": "/skills/senna_p/formulas/bonus_on_hit_damage",
+    "skillKey": "senna_p",
+    "kind": "formulas",
+    "stableKey": "bonus_on_hit_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bonus_on_hit_damage",
+      "name": "赦除普攻额外物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_on_hit_ad_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前BonusOnHitDamage=0.2×来源总攻击力；两次命中吸魂触发另由事件层接线。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,923 @@
+{
+  "at": "2026-09-09T16:09:26.680Z",
+  "candidateSha256": "ce5c1a4f433040fcbbe014b916a80bd26e74a897eefd34d3c36238a14c0696e8",
+  "sourceBindingSha256": "f09cf7a5e4f515d89860cf5f05cfd89eb3f2f42b7b19294c906740f6910f6341",
+  "sourceInputSha256": "85459db3db119841a7950124c3661b7cc5625b7be3b2283fe5e31fc61d66349f",
+  "status": "PASS",
+  "candidateMathReady": true,
+  "businessMathReady": false,
+  "apiWrites": 0,
+  "formulaCount": 18,
+  "positiveCaseCount": 36,
+  "missingValueRejectionCount": 30,
+  "runtimeParameterMissingRejectionCount": 11,
+  "integerRuntimeRejectionCount": 4,
+  "invalidCharacterLevelRejectionCount": 3,
+  "negativeMasterworkRejectionCount": 1,
+  "boundaryCheckCount": 24,
+  "sourceCheckCount": 10,
+  "positiveCases": [
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "stat_amplification_ratio",
+      "group": "低等级低属性",
+      "actual": 0.1,
+      "expected": 0.10000000149011612,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "stat_amplification_ratio",
+      "group": "高等级高属性",
+      "actual": 0.22,
+      "expected": 0.2199999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_health",
+      "group": "低等级低属性",
+      "actual": 300,
+      "expected": 300.00000447034836,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_health",
+      "group": "高等级高属性",
+      "actual": 1056,
+      "expected": 1055.999994277954,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_armor",
+      "group": "低等级低属性",
+      "actual": 8,
+      "expected": 8.00000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_armor",
+      "group": "高等级高属性",
+      "actual": 33,
+      "expected": 32.999999821186066,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_magic_resistance",
+      "group": "低等级低属性",
+      "actual": 4,
+      "expected": 4.000000059604645,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_magic_resistance",
+      "group": "高等级高属性",
+      "actual": 22,
+      "expected": 21.99999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_q",
+      "formulaKey": "physical_damage",
+      "group": "低等级低属性",
+      "actual": 218.00000000000003,
+      "expected": 218.00000429153442,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_q",
+      "formulaKey": "physical_damage",
+      "group": "高等级高属性",
+      "actual": 505.00000000000006,
+      "expected": 505.00000834465027,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "minimum_damage_total",
+      "group": "低等级低属性",
+      "actual": 80,
+      "expected": 80,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "minimum_damage_total",
+      "group": "高等级高属性",
+      "actual": 280,
+      "expected": 280,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "damage_per_tick",
+      "group": "低等级低属性",
+      "actual": 52.800000000000004,
+      "expected": 52.800000458955765,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "damage_per_tick",
+      "group": "高等级高属性",
+      "actual": 192,
+      "expected": 192.00000911951065,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "five_tick_damage_total",
+      "group": "低等级低属性",
+      "actual": 264,
+      "expected": 264.0000022947788,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "five_tick_damage_total",
+      "group": "高等级高属性",
+      "actual": 960,
+      "expected": 960.0000455975533,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "brittle_extra_magic_damage",
+      "group": "低等级低属性",
+      "actual": 198,
+      "expected": 198,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "brittle_extra_magic_damage",
+      "group": "高等级高属性",
+      "actual": 1020.0000000000001,
+      "expected": 1020.0000000000001,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_e",
+      "formulaKey": "physical_damage",
+      "group": "低等级低属性",
+      "actual": 118,
+      "expected": 118.00000056624413,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_e",
+      "formulaKey": "physical_damage",
+      "group": "高等级高属性",
+      "actual": 408,
+      "expected": 408.00000220537186,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_r",
+      "formulaKey": "magic_damage_per_pass",
+      "group": "低等级低属性",
+      "actual": 155,
+      "expected": 155.00000044703484,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_r",
+      "formulaKey": "magic_damage_per_pass",
+      "group": "高等级高属性",
+      "actual": 315,
+      "expected": 315.0000013411045,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_r",
+      "formulaKey": "magic_damage_same_enemy_total",
+      "group": "低等级低属性",
+      "actual": 310,
+      "expected": 310.0000008940697,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_r",
+      "formulaKey": "magic_damage_same_enemy_total",
+      "group": "高等级高属性",
+      "actual": 630,
+      "expected": 630.000002682209,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_p",
+      "formulaKey": "default_shield_value",
+      "group": "低等级低属性",
+      "actual": 131.5,
+      "expected": 131.49999690055847,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_p",
+      "formulaKey": "default_shield_value",
+      "group": "高等级高属性",
+      "actual": 354,
+      "expected": 353.99999141693115,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_p",
+      "formulaKey": "conditional_shield_value",
+      "group": "低等级低属性",
+      "actual": 170.95000000000002,
+      "expected": 170.94998970031753,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_p",
+      "formulaKey": "conditional_shield_value",
+      "group": "高等级高属性",
+      "actual": 460.2,
+      "expected": 460.1999719619755,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "normal_enhanced_attack_magic_damage",
+      "group": "低等级低属性",
+      "actual": 103.5,
+      "expected": 103.49999680370094,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "normal_enhanced_attack_magic_damage",
+      "group": "高等级高属性",
+      "actual": 685,
+      "expected": 684.9999765306713,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage",
+      "group": "低等级低属性",
+      "actual": 186,
+      "expected": 185.99999459087852,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage",
+      "group": "高等级高属性",
+      "actual": 1000,
+      "expected": 999.9999664723875,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage_total",
+      "group": "低等级低属性",
+      "actual": 558,
+      "expected": 557.9999837726356,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage_total",
+      "group": "高等级高属性",
+      "actual": 3000,
+      "expected": 2999.999899417163,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_e",
+      "formulaKey": "physical_damage",
+      "group": "低等级低属性",
+      "actual": 131.5,
+      "expected": 131.4999996125698,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_e",
+      "formulaKey": "physical_damage",
+      "group": "高等级高属性",
+      "actual": 358,
+      "expected": 357.9999989271164,
+      "passed": true
+    }
+  ],
+  "missingCases": [
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "stat_amplification_ratio",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_masterwork_count"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_health",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_masterwork_count"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_health",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_source_hp_before_ornn_passive"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_armor",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_masterwork_count"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_armor",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_source_armor_before_ornn_passive"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_magic_resistance",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_masterwork_count"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "formulaKey": "bonus_magic_resistance",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_source_magic_resistance_before_ornn_passive"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_q",
+      "formulaKey": "physical_damage",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.attack_damage.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "damage_per_tick",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "TARGET.hp.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "five_tick_damage_total",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "TARGET.hp.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "brittle_extra_magic_damage",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_brittle_extra_magic_ratio"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "brittle_extra_magic_damage",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "TARGET.hp.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_e",
+      "formulaKey": "physical_damage",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_source_armor_for_ornn_e"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_e",
+      "formulaKey": "physical_damage",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.magic_resistance.BONUS"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_r",
+      "formulaKey": "magic_damage_per_pass",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.ability_power.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_r",
+      "formulaKey": "magic_damage_same_enemy_total",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.ability_power.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_p",
+      "formulaKey": "default_shield_value",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_base_shield_value"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_p",
+      "formulaKey": "default_shield_value",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.hp.BONUS"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_p",
+      "formulaKey": "conditional_shield_value",
+      "dependency": {
+        "kind": "RUNTIME_INPUT",
+        "key": "actual_base_shield_value"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_p",
+      "formulaKey": "conditional_shield_value",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.hp.BONUS"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "normal_enhanced_attack_magic_damage",
+      "dependency": {
+        "kind": "CHARACTER_LEVEL",
+        "key": "characterLevel"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "normal_enhanced_attack_magic_damage",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.ability_power.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "normal_enhanced_attack_magic_damage",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "TARGET.hp.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage",
+      "dependency": {
+        "kind": "CHARACTER_LEVEL",
+        "key": "characterLevel"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.ability_power.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "TARGET.hp.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage_total",
+      "dependency": {
+        "kind": "CHARACTER_LEVEL",
+        "key": "characterLevel"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage_total",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.ability_power.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage_total",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "TARGET.hp.TOTAL"
+      },
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_e",
+      "formulaKey": "physical_damage",
+      "dependency": {
+        "kind": "ATTRIBUTE",
+        "key": "SOURCE.hp.BONUS"
+      },
+      "rejected": true
+    }
+  ],
+  "runtimeParameters": [
+    {
+      "skillKey": "ornn_p",
+      "parameterKey": "actual_masterwork_count",
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "parameterKey": "actual_source_hp_before_ornn_passive",
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "parameterKey": "actual_source_armor_before_ornn_passive",
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_p",
+      "parameterKey": "actual_source_magic_resistance_before_ornn_passive",
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_q",
+      "parameterKey": "actual_cast_time_ms",
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "parameterKey": "actual_brittle_extra_magic_ratio",
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_e",
+      "parameterKey": "actual_cast_time_ms",
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_e",
+      "parameterKey": "actual_source_armor_for_ornn_e",
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_r",
+      "parameterKey": "actual_cast_time_ms",
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_p",
+      "parameterKey": "actual_base_shield_value",
+      "rejected": true
+    },
+    {
+      "skillKey": "shen_p",
+      "parameterKey": "actual_shield_cooldown_reduction_ms",
+      "rejected": true
+    }
+  ],
+  "integerRuntimeRejections": [
+    {
+      "skillKey": "ornn_p",
+      "parameterKey": "actual_masterwork_count",
+      "value": 0.5,
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_q",
+      "parameterKey": "actual_cast_time_ms",
+      "value": 0.5,
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_e",
+      "parameterKey": "actual_cast_time_ms",
+      "value": 0.5,
+      "rejected": true
+    },
+    {
+      "skillKey": "ornn_r",
+      "parameterKey": "actual_cast_time_ms",
+      "value": 0.5,
+      "rejected": true
+    }
+  ],
+  "invalidCharacterLevelRejections": [
+    {
+      "value": 0,
+      "rejected": true
+    },
+    {
+      "value": 19,
+      "rejected": true
+    },
+    {
+      "value": 1.5,
+      "rejected": true
+    }
+  ],
+  "negativeMasterworkRejected": true,
+  "boundaryCases": [
+    {
+      "key": "shen_q/character_level",
+      "level": 1,
+      "actual": 103.5,
+      "expected": 103.49999680370094,
+      "passed": true
+    },
+    {
+      "key": "shen_q/character_level",
+      "level": 3,
+      "actual": 103.5,
+      "expected": 103.49999680370094,
+      "passed": true
+    },
+    {
+      "key": "shen_q/character_level",
+      "level": 4,
+      "actual": 109.5,
+      "expected": 109.49999680370094,
+      "passed": true
+    },
+    {
+      "key": "shen_q/character_level",
+      "level": 7,
+      "actual": 115.5,
+      "expected": 115.49999680370094,
+      "passed": true
+    },
+    {
+      "key": "shen_q/character_level",
+      "level": 10,
+      "actual": 121.5,
+      "expected": 121.49999680370094,
+      "passed": true
+    },
+    {
+      "key": "shen_q/character_level",
+      "level": 13,
+      "actual": 127.5,
+      "expected": 127.49999680370094,
+      "passed": true
+    },
+    {
+      "key": "shen_q/character_level",
+      "level": 16,
+      "actual": 133.5,
+      "expected": 133.49999680370092,
+      "passed": true
+    },
+    {
+      "key": "shen_q/character_level",
+      "level": 18,
+      "actual": 133.5,
+      "expected": 133.49999680370092,
+      "passed": true
+    },
+    {
+      "key": "shen_e/energy_refund_character_level",
+      "level": 1,
+      "actual": 30,
+      "expected": 30,
+      "passed": true
+    },
+    {
+      "key": "shen_e/energy_refund_character_level",
+      "level": 3,
+      "actual": 30,
+      "expected": 30,
+      "passed": true
+    },
+    {
+      "key": "shen_e/energy_refund_character_level",
+      "level": 4,
+      "actual": 40,
+      "expected": 40,
+      "passed": true
+    },
+    {
+      "key": "shen_e/energy_refund_character_level",
+      "level": 11,
+      "actual": 40,
+      "expected": 40,
+      "passed": true
+    },
+    {
+      "key": "shen_e/energy_refund_character_level",
+      "level": 12,
+      "actual": 50,
+      "expected": 50,
+      "passed": true
+    },
+    {
+      "key": "shen_e/energy_refund_character_level",
+      "level": 18,
+      "actual": 50,
+      "expected": 50,
+      "passed": true
+    },
+    {
+      "key": "ornn_w/damage_per_tick_floor",
+      "targetHp": 1,
+      "actual": 16,
+      "expected": 16,
+      "passed": true
+    },
+    {
+      "key": "ornn_w/damage_per_tick_floor",
+      "targetHp": 1000,
+      "actual": 24,
+      "expected": 24.000000208616257,
+      "passed": true
+    },
+    {
+      "key": "ornn_w/damage_per_tick_floor",
+      "targetHp": 100000,
+      "actual": 2400,
+      "expected": 2400.0000208616257,
+      "passed": true
+    },
+    {
+      "key": "ornn_p/masterwork_count",
+      "count": 0,
+      "actual": 0.1,
+      "expected": 0.10000000149011612,
+      "passed": true
+    },
+    {
+      "key": "ornn_p/masterwork_count",
+      "count": 1,
+      "actual": 0.14,
+      "expected": 0.14000000059604645,
+      "passed": true
+    },
+    {
+      "key": "ornn_p/masterwork_count",
+      "count": 13,
+      "actual": 0.62,
+      "expected": 0.6199999898672104,
+      "passed": true
+    },
+    {
+      "key": "ornn_p/masterwork_count",
+      "count": 50,
+      "actual": 2.1,
+      "expected": 2.0999999567866325,
+      "passed": true
+    },
+    {
+      "key": "ornn_r/two_passes",
+      "actual": 630,
+      "expected": 630,
+      "passed": true
+    },
+    {
+      "key": "shen_q/three_attacks",
+      "actual": 3000,
+      "expected": 3000,
+      "passed": true
+    },
+    {
+      "key": "shen_p/conditional_multiplier",
+      "actual": 460.2,
+      "expected": 460.1999831199646,
+      "passed": true
+    }
+  ],
+  "sourceChecks": [
+    {
+      "skillKey": "ornn_p",
+      "parameters": 6,
+      "formulas": 4,
+      "effects": 0,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_q",
+      "parameters": 8,
+      "formulas": 1,
+      "effects": 1,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "parameters": 13,
+      "formulas": 4,
+      "effects": 1,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_e",
+      "parameters": 8,
+      "formulas": 1,
+      "effects": 1,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_r",
+      "parameters": 11,
+      "formulas": 2,
+      "effects": 1,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_p",
+      "parameters": 8,
+      "formulas": 2,
+      "effects": 0,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "parameters": 15,
+      "formulas": 3,
+      "effects": 1,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_w",
+      "parameters": 4,
+      "formulas": 0,
+      "effects": 1,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_e",
+      "parameters": 9,
+      "formulas": 1,
+      "effects": 2,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_r",
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "passed": true
+    }
+  ],
+  "basis": "独立脚本从候选实际公式表达式树求值；公式常数、等级数组、根倍率、角色等级断点和结果乘数从冻结绑定源计算独立期望，不调用候选生成器中的期望函数，也不调用业务接口。",
+  "limits": [
+    "当前仅证明候选表达式结构和冻结来源数值，未证明业务接口已保存或业务运行时会触发伤害、控制和资源效果。",
+    "未给施法时间、奥恩W易碎比例、奥恩E护甲、慎P护盾基础值和冷却缩短曲线设置默认值；缺值测试必须拒绝。"
+  ]
+}

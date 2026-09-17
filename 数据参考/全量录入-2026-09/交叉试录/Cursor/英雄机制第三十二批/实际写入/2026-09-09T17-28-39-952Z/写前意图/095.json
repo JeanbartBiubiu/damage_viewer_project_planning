@@ -1,0 +1,27 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 95,
+    "method": "POST",
+    "route": "/skills/kaisa_r/parameters",
+    "detailRoute": "/skills/kaisa_r/parameters/shield_base_value",
+    "skillKey": "kaisa_r",
+    "kind": "parameters",
+    "stableKey": "shield_base_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base_value",
+      "name": "基础护盾值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 150,
+        "3": 200
+      },
+      "description": "客户端RCalculatedShieldValue树RBaseValue取等级1至3，为100/150/200。",
+      "sortOrder": 10
+    }
+  }
+}

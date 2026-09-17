@@ -1,0 +1,21 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 35,
+    "skillKey": "qiyana_r",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_r/parameters",
+    "stableKey": "target_max_health_ratio",
+    "body": {
+      "parameterKey": "target_max_health_ratio",
+      "name": "目标最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.10000000149011612,
+      "levelValues": null,
+      "description": "正文明确目标最大生命10%，不因计算名MissingHealth反转。",
+      "sortOrder": 30
+    }
+  }
+}

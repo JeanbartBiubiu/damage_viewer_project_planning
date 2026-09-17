@@ -1,0 +1,24 @@
+{
+  "i": 159,
+  "intent": {
+    "sequence": 160,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/parameters",
+    "detailRoute": "/skills/naafiri_r/parameters/w_refresh_extension_ms",
+    "skillKey": "naafiri_r",
+    "kind": "parameters",
+    "stableKey": "w_refresh_extension_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "w_refresh_extension_ms",
+      "name": "暴吼延长原始值（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1750,
+      "levelValues": null,
+      "description": "正文只说短暂延长暴吼，原始1.75秒的算法未证，不当作已接刷新。",
+      "sortOrder": 100
+    }
+  }
+}

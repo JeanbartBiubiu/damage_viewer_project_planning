@@ -1,0 +1,66 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_r/formulas",
+    "detailRoute": "/skills/hwei_r/formulas/total_max_magic_damage",
+    "skillKey": "hwei_r",
+    "kind": "formulas",
+    "stableKey": "total_max_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_max_magic_damage",
+      "name": "焚心绚华绘完整最大魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "explosion_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "dot_base_damage_per_second"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "duration_seconds"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_max_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "完整最大=爆炸基础+每秒基础×3+0.95×法强，得到230/385/540+0.95AP。",
+      "sortOrder": 150
+    }
+  }
+}

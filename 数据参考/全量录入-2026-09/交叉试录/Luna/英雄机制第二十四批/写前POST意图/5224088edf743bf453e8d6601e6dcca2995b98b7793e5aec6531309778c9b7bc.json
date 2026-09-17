@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:37:56.937Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_r/effects",
+  "detailRoute": "/skills/nunu_r/effects/mana_cost",
+  "skillKey": "nunu_r",
+  "kind": "effects",
+  "stableKey": "mana_cost",
+  "body": {
+    "effectKey": "mana_cost",
+    "name": "施放法力消耗",
+    "description": "仅记录官方基础法力消耗；实际扣除资格、扣除时点与资源不足处理尚未接线。",
+    "sortOrder": 10,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "consume_mana",
+        "name": "消耗法力",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "CONSUME"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,452 @@
+{
+  "meta": {
+    "batch": "Luna第六轮英雄触发候选",
+    "round": 2,
+    "status": "只读探针已收口",
+    "gameId": "lol",
+    "targetSkills": [
+      "janna_e",
+      "lulu_w",
+      "lulu_r",
+      "morgana_e"
+    ],
+    "uniqueConclusion": "四项均为DEFERRED；无READY、无整项EXCLUDED",
+    "sourceVersion": {
+      "client": "16.17",
+      "official": "16.17.1",
+      "clientBuild": "16.17.8104348+branch.releases-16-17.content.release"
+    },
+    "policy": "只依据固定候选、当前绑定文本、客户端根对象、客户端计算树和官方中英文原文；未知目标资格、分支、时序和运行接线不猜，不把效果存在当作可执行证明。"
+  },
+  "fixedSources": [
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/修订三/完整候选.json",
+      "sha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+      "role": "固定候选"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/来源绑定与当前文本.json",
+      "sha256": "3903525c50256f6c7df36e692f9648d13a073bffe105e280fd80653c99302330",
+      "role": "完整角色根绑定、当前文本、数据值和计算树"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/来源与范围.json",
+      "sha256": "27f83bd55ed75570921c2482b03a60e336a6df442531fb60bad149557d2c6d47",
+      "role": "来源范围与未知缺口"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/官方中英文对照.jsonl",
+      "sha256": "3c2ea04e052f725553d11b1c56b182f8f8a2c3aa5b90c49d08ca264d064ea61f",
+      "role": "官方中英文对照；目标行 janna_e=4、lulu_w=8、lulu_r=10、morgana_e=19"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/候选前关键语义核对证据.json",
+      "sha256": "9f05e1619004821c3e217aa8f9397cac898d247f353d81ac71dbabaf40f1b5e4",
+      "role": "候选前关键语义摘录"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/候选前关键语义核对.md",
+      "sha256": "9dc832573a1dcf854e92ea4ca818a576ff206702c0f08ebc1afe509a3161b55e",
+      "role": "候选前语义边界说明"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/客户端原文/Janna.json.gz",
+      "sha256": "0e391039ad77b2b0d39527efc10a702783073e2da50e42a57c927907652b4e10",
+      "role": "janna_e 客户端根对象"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/官方中文/Janna.json",
+      "sha256": "8c316afb077627ac96c26f4b36cf401ce8a73d65a94e62c473f30419bd7f5f90",
+      "role": "janna_e 官方中文"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/官方英文/Janna.json",
+      "sha256": "c665a98569145613b2207f92c5861cac396cfc8f526d1eb4d6213cab77b51b36",
+      "role": "janna_e 官方英文"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/客户端原文/Lulu.json.gz",
+      "sha256": "ba8e1fd3b20e8503f5d3447c1041c4aab339d7a7d10357205d38f7f85c5c93f7",
+      "role": "lulu_w、lulu_r 客户端根对象"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/官方中文/Lulu.json",
+      "sha256": "0abb079c4f6724a5dbb91ca76fecd712ceac6668dd76ea66ca6ee249a87f009a",
+      "role": "lulu_w、lulu_r 官方中文"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/官方英文/Lulu.json",
+      "sha256": "a996746c361e538c2fa9823c891dd4f4a950440f1a21ac0e253f569101ffba95",
+      "role": "lulu_w、lulu_r 官方英文"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/客户端原文/Morgana.json.gz",
+      "sha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+      "role": "morgana_e 客户端根对象"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/官方中文/Morgana.json",
+      "sha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903",
+      "role": "morgana_e 官方中文"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/官方英文/Morgana.json",
+      "sha256": "ccee87151700b5aead65c5da0ceadf9285848137b6451fe6d2893c96ee6ecf69",
+      "role": "morgana_e 官方英文"
+    }
+  ],
+  "probe": {
+    "apiBase": "http://127.0.0.1:8080",
+    "latestDeduplicatedGetCount": 56,
+    "http200Count": 56,
+    "httpNon200Count": 0,
+    "nonGetApiCount": 0,
+    "databaseOperations": 0,
+    "requestBreakdown": {
+      "skillSubjects": 4,
+      "compositionLists": 24,
+      "formulaDetails": 5,
+      "effectDetails": 9,
+      "characterSkillRelations": 4,
+      "skillRepresentativeImages": 4,
+      "characterSubjectsAndRepresentativeImages": 6
+    },
+    "targetedRoutes": [
+      "/api/admin/games/lol/skills/{janna_e,lulu_w,lulu_r,morgana_e}",
+      "/api/admin/games/lol/skills/{skillKey}/{parameters,formulas,effects,processes,internal-states,trigger-rules}",
+      "/api/admin/games/lol/skills/{skillKey}/formulas/{formulaKey}",
+      "/api/admin/games/lol/skills/{skillKey}/effects/{effectKey}",
+      "/api/admin/games/lol/character-skill-relations?characterKey={characterKey}&skillKey={skillKey}",
+      "/api/admin/games/lol/characters/{characterKey}",
+      "/api/admin/games/lol/characters/{characterKey}/representative-image",
+      "/api/admin/games/lol/skills/{skillKey}/representative-image"
+    ],
+    "notRead": [
+      "全量技能列表",
+      "全量触发规则列表",
+      "全量规则事件基线",
+      "SOURCE_INITIALIZED 全局明细"
+    ],
+    "providedBaselineNotQueried": {
+      "skills": 1062,
+      "triggerRules": 131,
+      "sourceInitialized": 24,
+      "reason": "任务明确禁止读取全量技能或规则基线"
+    }
+  },
+  "targets": [
+    {
+      "skillKey": "janna_e",
+      "verdict": "DEFERRED",
+      "subject": {
+        "skillKey": "janna_e",
+        "name": "迦娜·风暴之眼",
+        "maxLevel": 5,
+        "skillCategoryKeys": ["common"],
+        "status": "ENABLED"
+      },
+      "character": {
+        "characterKey": "champion_janna",
+        "name": "迦娜",
+        "representativeImage": {
+          "imageKey": "entry_16171_champion_janna",
+          "name": "champion_janna",
+          "enabled": true
+        }
+      },
+      "relation": {
+        "total": 1,
+        "item": {
+          "characterKey": "champion_janna",
+          "skillKey": "janna_e",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      },
+      "skillRepresentativeImage": {
+        "imageKey": "entry_16171_janna_e",
+        "name": "janna_e",
+        "enabled": true
+      },
+      "sourceEvidence": {
+        "binding": "Characters/Janna/Spells/EyeOfTheStormAbility/EyeOfTheStorm",
+        "official": {
+          "zh": {
+            "name": "风暴之眼",
+            "description": "迦娜制造出一阵防御性的气旋，来为目标友军或防御塔吸收即将到来的伤害，并提高目标的攻击力。",
+            "tooltip": "迦娜为一个友军或防御塔提供持续{{ shieldduration }}秒的护盾值。在护盾存在时，该友军目标获得攻击力。迦娜在每次用一个技能使一名敌方英雄的移动速度受损时，会使这个冷却时间缩短。"
+          },
+          "en": {
+            "name": "Eye Of The Storm",
+            "description": "Janna conjures a defensive gale that shields an ally champion or turret from incoming damage and increases their Attack Damage.",
+            "tooltip": "Janna grants an ally champion or turret Shield for shieldduration seconds. While shielded, they gain Attack Damage. Janna refunds cooldown whenever she impairs an enemy champion's movement with an Ability."
+          }
+        },
+        "client": {
+          "mAffectsTypeFlags": 65,
+          "mSpellTags": ["PositiveEffect_Boon", "Trait_Shield"],
+          "dataValues": {
+            "ECDRefundforCC": 0.2,
+            "EmpowerDuration": 5,
+            "EmpowerPercent": null,
+            "DecayGracePeriod": 4,
+            "BaseShield": [80, 120, 160, 200, 240],
+            "ShieldAPRatio": 0.55,
+            "BonusAD": [10, 15, 20, 25, 30],
+            "ADAPRatio": 0.1,
+            "ShieldDuration": 4
+          },
+          "calculations": {
+            "TotalShield": ["BaseShield", "ShieldAPRatio"],
+            "TotalAD": ["BonusAD", "ADAPRatio"]
+          },
+          "targetingForgiveness": {
+            "hasUnitTags": ["{ea595ca6}", "{c02a7870}"],
+            "sameTeamCastRequirement": true,
+            "selfTargetExplicit": false
+          }
+        }
+      },
+      "currentComposition": {
+        "parameters": [
+          {"parameterKey": "cc_cooldown_refund_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.2, "levelValues": null},
+          {"parameterKey": "empower_duration_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 5000, "levelValues": null},
+          {"parameterKey": "decay_grace_period_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 4000, "levelValues": null},
+          {"parameterKey": "base_shield", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 80, "2": 120, "3": 160, "4": 200, "5": 240}},
+          {"parameterKey": "shield_ap_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.55, "levelValues": null},
+          {"parameterKey": "bonus_attack_damage", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 10, "2": 15, "3": 20, "4": 25, "5": 30}},
+          {"parameterKey": "attack_damage_ap_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.1, "levelValues": null},
+          {"parameterKey": "shield_duration_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 4000, "levelValues": null},
+          {"parameterKey": "cooldown_ms", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 16000, "2": 15000, "3": 14000, "4": 13000, "5": 12000}},
+          {"parameterKey": "mana_cost", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 70, "2": 75, "3": 80, "4": 85, "5": 90}}
+        ],
+        "formulas": [
+          {"formulaKey": "total_shield", "expression": {"nodeType": "OPERATION", "operation": "ADD", "operands": [{"nodeType": "PARAMETER", "parameterKey": "base_shield"}, {"nodeType": "OPERATION", "operation": "MULTIPLY", "operands": [{"nodeType": "PARAMETER", "parameterKey": "shield_ap_ratio"}, {"nodeType": "ATTRIBUTE", "attributeOwner": "SOURCE", "attributeKey": "ability_power", "attributeValueKind": "TOTAL"}]}]}},
+          {"formulaKey": "total_attack_damage_bonus", "expression": {"nodeType": "OPERATION", "operation": "ADD", "operands": [{"nodeType": "PARAMETER", "parameterKey": "bonus_attack_damage"}, {"nodeType": "OPERATION", "operation": "MULTIPLY", "operands": [{"nodeType": "PARAMETER", "parameterKey": "attack_damage_ap_ratio"}, {"nodeType": "ATTRIBUTE", "attributeOwner": "SOURCE", "attributeKey": "ability_power", "attributeValueKind": "TOTAL"}]}]}}
+        ],
+        "effects": [
+          {"effectKey": "mana_cost", "lifecycle": null, "result": {"resultKey": "resource", "resultType": "RESOURCE_CHANGE", "target": "SOURCE", "value": {"kind": "PARAMETER", "parameterKey": "mana_cost"}, "detail": {"attributeKey": "mana", "operation": "CONSUME"}}},
+          {"effectKey": "self_shield", "lifecycle": {"durationValue": {"kind": "PARAMETER", "parameterKey": "shield_duration_ms"}, "maxStacksValue": {"kind": "FIXED", "value": 1}, "applicationStacksValue": {"kind": "FIXED", "value": 1}, "instanceScope": "SOURCE", "reapplicationStackMode": "KEEP", "reapplicationDurationMode": "REFRESH_ALL", "expiryMode": "ALL_AT_ONCE", "periodicIntervalValue": null, "firstPeriodicExecution": null}, "result": {"resultKey": "shield", "resultType": "NORMAL_SHIELD", "target": "SOURCE", "lifecycleBehavior": {"moment": "PERSISTENT", "valueReadMode": "APPLICATION_SNAPSHOT", "stackValueMode": "SHARED", "reapplicationValueMode": "REPLACE", "periodicExecutionMode": null}, "value": {"kind": "FORMULA", "formulaKey": "total_shield"}, "detail": {"absorbedDamageTypeKey": null, "decayMode": "NONE"}}}
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "runtimeInputRecursiveCheck": {
+        "result": "PASS_NO_RUNTIME_INPUT",
+        "walked": "全部拟执行效果、生命周期数值、结果值规则、公式参数引用",
+        "usedParameterClosure": ["mana_cost", "shield_duration_ms", "base_shield", "shield_ap_ratio"],
+        "runtimeInputParameters": [],
+        "missingParameterOrFormulaReferences": [],
+        "unusedPreservedParameters": ["cc_cooldown_refund_ratio", "empower_duration_ms", "decay_grace_period_ms", "bonus_attack_damage", "attack_damage_ap_ratio", "cooldown_ms"]
+      },
+      "candidateAlignment": {"subject": true, "parameters": true, "formulas": true, "effects": true, "candidateWriteCounts": {"parameters": 8, "formulas": 2, "effects": 2}},
+      "gaps": [
+        "官方中英文仅证明友军英雄或防御塔；客户端目标宽限中出现不透明单位标签和SameTeamCastRequirement，但未直接证明施法者自身可选。",
+        "护盾存在期间攻击力增益、衰减宽限、控制命中返还冷却没有事件和时序接线；EmpowerPercent无来源值。",
+        "SKILL_USED当前目标为显式目标、无显式目标时回退来源对象，且没有目标类别条件；不能安全保证只在自施时执行self_shield。"
+      ],
+      "safeRetainedBranches": ["self_shield普通护盾的数值、生命周期和来源对象目标", "mana_cost记录", "TotalShield与TotalAD数值参数和公式作为待接配置"],
+      "excludedBranches": ["严格一对一范围内没有其他友军或防御塔，因此不纳入其他友方/防御塔收益"],
+      "triggerDisposition": {"newRules": 0, "ready": false, "reason": "自身目标资格未证，且攻击增益等时序未接线；不生成SKILL_USED规则"}
+    },
+    {
+      "skillKey": "lulu_w",
+      "verdict": "DEFERRED",
+      "subject": {"skillKey": "lulu_w", "name": "璐璐·奇思妙想", "maxLevel": 5, "skillCategoryKeys": ["common"], "status": "ENABLED"},
+      "character": {"characterKey": "champion_lulu", "name": "璐璐", "representativeImage": {"imageKey": "entry_16171_champion_lulu", "name": "champion_lulu", "enabled": true}},
+      "relation": {"total": 1, "item": {"characterKey": "champion_lulu", "skillKey": "lulu_w", "skillStatus": "ENABLED", "sortOrder": 2}},
+      "skillRepresentativeImage": {"imageKey": "entry_16171_lulu_w", "name": "lulu_w", "enabled": true},
+      "sourceEvidence": {
+        "binding": "Characters/Lulu/Spells/LuluWAbility/LuluW",
+        "official": {
+          "zh": {"name": "奇思妙想", "description": "如果对友军施放，会暂时增加目标友军的攻击速度和移动速度。如果对敌人施放，会将一名敌方英雄变成可爱的动物，使其无法攻击或施法。", "tooltip": "友方分支提供移动速度和攻击速度；敌方分支使目标变形。"},
+          "en": {"name": "Whimsy", "description": "If cast on an ally, grants them Attack Speed and Move Speed for a short time. If cast on an enemy, turns them into an adorable critter that can't attack or cast spells.", "tooltip": "When used on an ally, Lulu grants Move Speed and Attack Speed; when used on an enemy, Lulu Polymorphs them."}
+        },
+        "client": {
+          "mAffectsTypeFlags": 5135,
+          "mRequiredUnitTags": ["{ea595ca6}"],
+          "mSpellTags": ["PositiveEffect_Boon", "Trait_ImmobilizingCCSpell", "Trait_AttackBuff_Duration", "Trait_SignatureSpell"],
+          "dataValues": {"BaseMS": 0.25, "CCDuration": [1.2, 1.4, 1.6, 1.8, 2], "SlowAmount": -60, "MSDuration": [3, 3.25, 3.5, 3.75, 4], "ASBonus": [0.2, 0.225, 0.25, 0.275, 0.3]},
+          "calculations": {"TotalMS": ["BaseMS", "0.0005×SOURCE ability_power TOTAL"]},
+          "targetBranchDiscriminator": null
+        }
+      },
+      "currentComposition": {
+        "parameters": [
+          {"parameterKey": "base_move_speed_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.25, "levelValues": null},
+          {"parameterKey": "polymorph_duration_ms", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 1200, "2": 1400, "3": 1600, "4": 1800, "5": 2000}},
+          {"parameterKey": "polymorph_slow_amount", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": -60, "levelValues": null},
+          {"parameterKey": "ally_buff_duration_ms", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 3000, "2": 3250, "3": 3500, "4": 3750, "5": 4000}},
+          {"parameterKey": "attack_speed_bonus_ratio", "valueType": "DECIMAL", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 0.2, "2": 0.225, "3": 0.25, "4": 0.275, "5": 0.3}},
+          {"parameterKey": "move_speed_ap_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.0005, "levelValues": null},
+          {"parameterKey": "cooldown_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 18000, "levelValues": null},
+          {"parameterKey": "mana_cost", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 65, "levelValues": null}
+        ],
+        "formulas": [{"formulaKey": "ally_move_speed_ratio", "expression": {"nodeType": "OPERATION", "operation": "ADD", "operands": [{"nodeType": "PARAMETER", "parameterKey": "base_move_speed_ratio"}, {"nodeType": "OPERATION", "operation": "MULTIPLY", "operands": [{"nodeType": "PARAMETER", "parameterKey": "move_speed_ap_ratio"}, {"nodeType": "ATTRIBUTE", "attributeOwner": "SOURCE", "attributeKey": "ability_power", "attributeValueKind": "TOTAL"}]}]}}],
+        "effects": [
+          {"effectKey": "mana_cost", "lifecycle": null, "result": {"resultKey": "resource", "resultType": "RESOURCE_CHANGE", "target": "SOURCE", "value": {"kind": "PARAMETER", "parameterKey": "mana_cost"}, "detail": {"attributeKey": "mana", "operation": "CONSUME"}}},
+          {"effectKey": "self_move_speed", "lifecycle": {"durationValue": {"kind": "PARAMETER", "parameterKey": "ally_buff_duration_ms"}, "maxStacksValue": {"kind": "FIXED", "value": 1}, "applicationStacksValue": {"kind": "FIXED", "value": 1}, "instanceScope": "SOURCE", "reapplicationStackMode": "KEEP", "reapplicationDurationMode": "REFRESH_ALL", "expiryMode": "ALL_AT_ONCE"}, "result": {"resultKey": "attribute", "resultType": "ATTRIBUTE_CHANGE", "target": "SOURCE", "lifecycleBehavior": {"moment": "PERSISTENT", "valueReadMode": "APPLICATION_SNAPSHOT", "stackValueMode": "SHARED", "reapplicationValueMode": "REPLACE", "periodicExecutionMode": null}, "value": {"kind": "FORMULA", "formulaKey": "ally_move_speed_ratio"}, "detail": {"attributeKey": "move_speed_percent", "modifierZoneKey": "attribute_flat_add", "operation": "INCREASE"}}},
+          {"effectKey": "self_attack_speed", "lifecycle": {"durationValue": {"kind": "PARAMETER", "parameterKey": "ally_buff_duration_ms"}, "maxStacksValue": {"kind": "FIXED", "value": 1}, "applicationStacksValue": {"kind": "FIXED", "value": 1}, "instanceScope": "SOURCE", "reapplicationStackMode": "KEEP", "reapplicationDurationMode": "REFRESH_ALL", "expiryMode": "ALL_AT_ONCE"}, "result": {"resultKey": "attribute", "resultType": "ATTRIBUTE_CHANGE", "target": "SOURCE", "lifecycleBehavior": {"moment": "PERSISTENT", "valueReadMode": "APPLICATION_SNAPSHOT", "stackValueMode": "SHARED", "reapplicationValueMode": "REPLACE", "periodicExecutionMode": null}, "value": {"kind": "PARAMETER", "parameterKey": "attack_speed_bonus_ratio"}, "detail": {"attributeKey": "bonus_attack_speed_percent", "modifierZoneKey": "attribute_flat_add", "operation": "INCREASE"}}}
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "runtimeInputRecursiveCheck": {
+        "result": "PASS_NO_RUNTIME_INPUT",
+        "walked": "全部拟执行效果、生命周期数值、结果值规则、公式参数引用",
+        "usedParameterClosure": ["mana_cost", "ally_buff_duration_ms", "attack_speed_bonus_ratio", "base_move_speed_ratio", "move_speed_ap_ratio"],
+        "runtimeInputParameters": [],
+        "missingParameterOrFormulaReferences": [],
+        "unusedPreservedParameters": ["polymorph_duration_ms", "polymorph_slow_amount", "cooldown_ms"]
+      },
+      "candidateAlignment": {"subject": true, "parameters": true, "formulas": true, "effects": true, "candidateWriteCounts": {"parameters": 6, "formulas": 1, "effects": 3}},
+      "gaps": [
+        "官方中英文把友方增益和敌方变形分成两条分支；客户端根对象没有可供当前规则使用的分支目标判别字段。",
+        "SKILL_USED只有sourceSkillKey/useKind，当前目标为显式目标或来源对象，不能表达当前目标与来源对象的同一性或敌我类别。",
+        "若无条件执行self_move_speed/self_attack_speed，敌方变形施放也会执行来源对象增益；变形、沉默、缴械、减速没有已绑定状态结果。"
+      ],
+      "safeRetainedBranches": ["自身移动速度增益数值路径", "自身攻击速度增益数值路径", "敌方变形分支的持续和减速参数仅作待补来源"],
+      "excludedBranches": [],
+      "triggerDisposition": {"newRules": 0, "ready": false, "reason": "当前事件无法区分友方增益与敌方变形，不生成SKILL_USED规则"}
+    },
+    {
+      "skillKey": "lulu_r",
+      "verdict": "DEFERRED",
+      "subject": {"skillKey": "lulu_r", "name": "璐璐·狂野生长", "maxLevel": 3, "skillCategoryKeys": [], "status": "ENABLED"},
+      "character": {"characterKey": "champion_lulu", "name": "璐璐", "representativeImage": {"imageKey": "entry_16171_champion_lulu", "name": "champion_lulu", "enabled": true}},
+      "relation": {"total": 1, "item": {"characterKey": "champion_lulu", "skillKey": "lulu_r", "skillStatus": "ENABLED", "sortOrder": 4}},
+      "skillRepresentativeImage": {"imageKey": "entry_16171_lulu_r", "name": "lulu_r", "enabled": true},
+      "sourceEvidence": {
+        "binding": "Characters/Lulu/Spells/LuluRAbility/LuluR",
+        "official": {
+          "zh": {"name": "狂野生长", "description": "璐璐让她的友军变大，击飞目标附近的敌人，同时为她的友军提供大量生命值加成。接下来的数秒内，该友军会获得一个减少附近敌人速度的光环。", "tooltip": "友方英雄获得最大生命值，附近敌人被击飞并减速。"},
+          "en": {"name": "Wild Growth", "description": "Lulu enlarges an ally, knocking nearby enemies into the air and granting the ally a large amount of bonus health. For the next few seconds, that ally gains an aura that slows nearby enemies.", "tooltip": "The enlarged ally gains max Health; surrounding enemies are knocked up and slowed."}
+        },
+        "client": {
+          "mAffectsTypeFlags": 1029,
+          "mRequiredUnitTags": ["{ea595ca6}"],
+          "mSpellTags": ["Trait_Ultimate", "PositiveEffect_Boon", "Trait_ImmobilizingCCSpell", "Trait_AttackBuff_Duration", "Trait_AoE"],
+          "dataValues": {"BonusHealth": [275, 425, 575], "SlowPercent": [30, 45, 60], "BuffDuration": 7, "AoERadius": 400, "KnockbackDuration": 1, "KnockbackDistance": 275},
+          "calculations": {"TotalBonusHealth": ["BonusHealth", "0.55×SOURCE ability_power TOTAL"]},
+          "selfTargetExplicit": false
+        }
+      },
+      "currentComposition": {
+        "parameters": [
+          {"parameterKey": "bonus_health", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 275, "2": 425, "3": 575}},
+          {"parameterKey": "slow_percent_points", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 30, "2": 45, "3": 60}},
+          {"parameterKey": "buff_duration_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 7000, "levelValues": null},
+          {"parameterKey": "aoe_radius", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 400, "levelValues": null},
+          {"parameterKey": "knockup_duration_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 1000, "levelValues": null},
+          {"parameterKey": "knockback_distance", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 275, "levelValues": null},
+          {"parameterKey": "bonus_health_ap_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.55, "levelValues": null},
+          {"parameterKey": "cooldown_ms", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 120000, "2": 100000, "3": 80000}},
+          {"parameterKey": "mana_cost", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 100, "levelValues": null}
+        ],
+        "formulas": [{"formulaKey": "bonus_health_value", "expression": {"nodeType": "OPERATION", "operation": "ADD", "operands": [{"nodeType": "PARAMETER", "parameterKey": "bonus_health"}, {"nodeType": "OPERATION", "operation": "MULTIPLY", "operands": [{"nodeType": "PARAMETER", "parameterKey": "bonus_health_ap_ratio"}, {"nodeType": "ATTRIBUTE", "attributeOwner": "SOURCE", "attributeKey": "ability_power", "attributeValueKind": "TOTAL"}]}]}}],
+        "effects": [
+          {"effectKey": "mana_cost", "lifecycle": null, "result": {"resultKey": "resource", "resultType": "RESOURCE_CHANGE", "target": "SOURCE", "value": {"kind": "PARAMETER", "parameterKey": "mana_cost"}, "detail": {"attributeKey": "mana", "operation": "CONSUME"}}},
+          {"effectKey": "self_max_health", "lifecycle": {"durationValue": {"kind": "PARAMETER", "parameterKey": "buff_duration_ms"}, "maxStacksValue": {"kind": "FIXED", "value": 1}, "applicationStacksValue": {"kind": "FIXED", "value": 1}, "instanceScope": "SOURCE", "reapplicationStackMode": "KEEP", "reapplicationDurationMode": "REFRESH_ALL", "expiryMode": "ALL_AT_ONCE"}, "result": {"resultKey": "attribute", "resultType": "ATTRIBUTE_CHANGE", "target": "SOURCE", "lifecycleBehavior": {"moment": "PERSISTENT", "valueReadMode": "APPLICATION_SNAPSHOT", "stackValueMode": "SHARED", "reapplicationValueMode": "REPLACE", "periodicExecutionMode": null}, "value": {"kind": "FORMULA", "formulaKey": "bonus_health_value"}, "detail": {"attributeKey": "hp", "modifierZoneKey": "attribute_flat_add", "operation": "INCREASE"}}}
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "runtimeInputRecursiveCheck": {
+        "result": "PASS_NO_RUNTIME_INPUT",
+        "walked": "全部拟执行效果、生命周期数值、结果值规则、公式参数引用",
+        "usedParameterClosure": ["mana_cost", "buff_duration_ms", "bonus_health", "bonus_health_ap_ratio"],
+        "runtimeInputParameters": [],
+        "missingParameterOrFormulaReferences": [],
+        "unusedPreservedParameters": ["slow_percent_points", "aoe_radius", "knockup_duration_ms", "knockback_distance", "cooldown_ms"]
+      },
+      "candidateAlignment": {"subject": true, "parameters": true, "formulas": true, "effects": true, "candidateWriteCounts": {"parameters": 7, "formulas": 1, "effects": 2}},
+      "gaps": [
+        "官方中英文只说明友方英雄；客户端只有通用单位标签，没有直接的自施放证明。无友军的一对一场景不能替代资格证据。",
+        "self_max_health的公式、属性结果和生命周期完整，但击飞、减速、范围目标分配和施放时序没有执行接线。",
+        "SKILL_USED没有目标身份相等条件；在自身资格未证前不能安全执行self_max_health。"
+      ],
+      "safeRetainedBranches": ["self_max_health数值、生命周期和来源对象目标", "mana_cost记录", "击飞/减速的已证参数作为未执行来源"],
+      "excludedBranches": ["严格一对一范围内没有其他友方英雄，因此不纳入其他友方生命增益"],
+      "triggerDisposition": {"newRules": 0, "ready": false, "reason": "自施放资格和施放/范围时序未证，不生成SKILL_USED规则"}
+    },
+    {
+      "skillKey": "morgana_e",
+      "verdict": "DEFERRED",
+      "subject": {"skillKey": "morgana_e", "name": "莫甘娜·黑暗之盾", "maxLevel": 5, "skillCategoryKeys": ["common"], "status": "ENABLED"},
+      "character": {"characterKey": "champion_morgana", "name": "莫甘娜", "representativeImage": {"imageKey": "image_02c88ae8-b32b-4908-8471-c512265df278", "name": "莫甘娜代表图片_02c88ae8-b32b-4908-8471-c512265df278", "enabled": true}},
+      "relation": {"total": 1, "item": {"characterKey": "champion_morgana", "skillKey": "morgana_e", "skillStatus": "ENABLED", "sortOrder": 3}},
+      "skillRepresentativeImage": {"imageKey": "entry_16171_morgana_e", "name": "morgana_e", "enabled": true},
+      "sourceEvidence": {
+        "binding": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
+        "official": {
+          "zh": {"name": "黑暗之盾", "description": "莫甘娜为一名友方英雄涂上一层保护性的星火屏障，在被打破之前吸收魔法伤害和限制效果。", "tooltip": "莫甘娜为一名友方英雄提供魔法护盾，持续5秒；护盾阻挡限制和定身效果，直至被打破。"},
+          "en": {"name": "Black Shield", "description": "Morgana anoints an ally with a protective barrier of starfire, which absorbs magical damage and disabling effects until it is broken.", "tooltip": "Morgana grants an ally champion Magic Shield for 5 seconds. The shield prevents Disabling and Immobilizing effects until it breaks."}
+        },
+        "client": {
+          "mAffectsTypeFlags": 1,
+          "mRequiredUnitTags": ["{ea595ca6}"],
+          "mSpellTags": ["PositiveEffect_Boon", "Trait_Shield", "Trait_CCImmune"],
+          "dataValues": {"ShieldStrength": [100, 155, 210, 265, 320], "ShieldDuration": 5},
+          "calculations": {"TotalShieldStrength": ["ShieldStrength", "0.7×SOURCE ability_power TOTAL"]},
+          "targetingForgiveness": {"hasUnitTags": ["{ea595ca6}", "{c02a7870}"], "sameTeamCastRequirement": "未出现", "selfTargetExplicit": false}
+        }
+      },
+      "currentComposition": {
+        "parameters": [
+          {"parameterKey": "base_shield", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 100, "2": 155, "3": 210, "4": 265, "5": 320}},
+          {"parameterKey": "shield_duration_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 5000, "levelValues": null},
+          {"parameterKey": "shield_ap_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.7, "levelValues": null},
+          {"parameterKey": "cooldown_ms", "valueType": "INTEGER", "valueMode": "SKILL_LEVEL", "fixedValue": null, "levelValues": {"1": 26000, "2": 23500, "3": 21000, "4": 18500, "5": 16000}},
+          {"parameterKey": "mana_cost", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 80, "levelValues": null}
+        ],
+        "formulas": [{"formulaKey": "magic_shield_value", "expression": {"nodeType": "OPERATION", "operation": "ADD", "operands": [{"nodeType": "PARAMETER", "parameterKey": "base_shield"}, {"nodeType": "OPERATION", "operation": "MULTIPLY", "operands": [{"nodeType": "PARAMETER", "parameterKey": "shield_ap_ratio"}, {"nodeType": "ATTRIBUTE", "attributeOwner": "SOURCE", "attributeKey": "ability_power", "attributeValueKind": "TOTAL"}]}]}}],
+        "effects": [
+          {"effectKey": "mana_cost", "lifecycle": null, "result": {"resultKey": "resource", "resultType": "RESOURCE_CHANGE", "target": "SOURCE", "value": {"kind": "PARAMETER", "parameterKey": "mana_cost"}, "detail": {"attributeKey": "mana", "operation": "CONSUME"}}},
+          {"effectKey": "magic_shield", "lifecycle": {"durationValue": {"kind": "PARAMETER", "parameterKey": "shield_duration_ms"}, "maxStacksValue": {"kind": "FIXED", "value": 1}, "applicationStacksValue": {"kind": "FIXED", "value": 1}, "instanceScope": "SOURCE", "reapplicationStackMode": "KEEP", "reapplicationDurationMode": "REFRESH_ALL", "expiryMode": "ALL_AT_ONCE"}, "result": {"resultKey": "shield", "resultType": "NORMAL_SHIELD", "target": "SOURCE", "lifecycleBehavior": {"moment": "PERSISTENT", "valueReadMode": "APPLICATION_SNAPSHOT", "stackValueMode": "SHARED", "reapplicationValueMode": "REPLACE", "periodicExecutionMode": null}, "value": {"kind": "FORMULA", "formulaKey": "magic_shield_value"}, "detail": {"absorbedDamageTypeKey": "magic", "decayMode": "NONE"}}}
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "runtimeInputRecursiveCheck": {
+        "result": "PASS_NO_RUNTIME_INPUT",
+        "walked": "全部拟执行效果、生命周期数值、结果值规则、公式参数引用",
+        "usedParameterClosure": ["mana_cost", "shield_duration_ms", "base_shield", "shield_ap_ratio"],
+        "runtimeInputParameters": [],
+        "missingParameterOrFormulaReferences": [],
+        "unusedPreservedParameters": ["cooldown_ms"]
+      },
+      "candidateAlignment": {"subject": true, "parameters": true, "formulas": true, "effects": true, "candidateWriteCounts": {"parameters": 3, "formulas": 1, "effects": 2}},
+      "gaps": [
+        "官方中英文只说明友方英雄；客户端通用单位标签和目标宽限不透明字段没有直接证明施法者自身可选。",
+        "magic_shield的普通魔法护盾数值结果完整，但Trait_CCImmune的限制/定身免疫没有独立状态或结果，不能把它改写成一次性法术护盾。",
+        "自身目标资格、施放时序和护盾控制免疫接线未证；SKILL_USED不能安全保证仅自施触发。"
+      ],
+      "safeRetainedBranches": ["magic_shield普通魔法护盾的数值、生命周期和magic吸收类型", "mana_cost记录", "控制免疫语义作为待接来源，不创建伪状态"],
+      "excludedBranches": ["严格一对一范围内没有其他友方英雄，因此不纳入其他友方护盾"],
+      "triggerDisposition": {"newRules": 0, "ready": false, "reason": "自身目标资格和控制免疫接线未证，不生成SKILL_USED规则"}
+    }
+  ],
+  "sharedTriggerBoundary": {
+    "eventType": "SKILL_USED",
+    "detailShape": {"sourceSkillKey": "可空；本技能自身可作为来源技能", "useKind": "ACTIVE/CONSUMABLE/ANY"},
+    "currentTarget": "显式目标；没有显式目标时为来源对象",
+    "eventValues": [],
+    "actionTargetContext": ["CURRENT_TARGET"],
+    "effectResultSource": "结果target=SOURCE仍表示技能拥有者",
+    "implication": "当前规则没有目标身份相等、友敌类别或自施判定；不能用无条件EXECUTE_EFFECT伪装四项已可执行。"
+  },
+  "safetyAndScope": {
+    "businessWrites": 0,
+    "wasmOrHostValidation": false,
+    "battleRuntimeValidation": false,
+    "browserValidation": false,
+    "serviceStarted": false,
+    "gitUsed": false,
+    "tokensPersistedOrPrinted": false,
+    "readOnlyEvidenceBoundary": "本文件仅固化固定来源和当前定点GET证据，不代表真实战斗运行、Wasm、宿主、浏览器或全局基线已重新验证。"
+  }
+}

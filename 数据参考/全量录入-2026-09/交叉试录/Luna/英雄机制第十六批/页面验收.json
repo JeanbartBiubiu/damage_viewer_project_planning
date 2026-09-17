@@ -1,0 +1,595 @@
+{
+  "at": "2026-09-09T10:54:51.778Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browser": "Codex内置浏览器现有标签2",
+  "representativePages": 4,
+  "observations": [
+    {
+      "skillKey": "lissandra_r",
+      "observed": "基础治疗100/150/200、治疗法强系数0.55、减速正百分数点45/60/75；公式详情使用施法者总法强，缺失生命提升分段仍单独待核。"
+    },
+    {
+      "skillKey": "karthus_p",
+      "observed": "死亡后施法窗口7000毫秒可见，系统待接不作整项排除。"
+    },
+    {
+      "skillKey": "karthus_e",
+      "observed": "500毫秒在基础冷却字段中，未出现误造的伤害节拍参数；保留每秒伤害与击杀回蓝明确值。"
+    },
+    {
+      "skillKey": "anivia_p",
+      "observed": "完整蛋形态专用参数和公式均为空，公共技能主体与图片仍存在。"
+    }
+  ],
+  "GETs": 17,
+  "requests": [
+    {
+      "route": "/skills/lissandra_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:13.299361Z",
+        "description": "如果对敌方英雄施放，那么会冻结目标，对目标造成晕眩效果，如果对丽桑卓自己施放，那么她会暂时用暗黑之冰裹住自己，治疗自身并免疫任何伤害且不可被选取，但也无法进行任何动作。暗黑之冰可以从目标处放射寒芒对敌人造成魔法伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "丽桑卓·冰封陵墓",
+        "skillCategoryKeys": [],
+        "skillKey": "lissandra_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:13.299361Z"
+      }
+    },
+    {
+      "route": "/skills/lissandra_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_r",
+          "name": "lissandra_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/lissandra_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:36:46.358999Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "lissandra_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:36:46.358999Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:47.340726Z",
+          "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+          "fixedValue": 0.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冰封陵墓法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "lissandra_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T10:36:47.340726Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:48.643513Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 150,
+            "2": 250,
+            "3": 350
+          },
+          "name": "冰封陵墓基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "lissandra_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T10:36:48.643513Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:49.70427Z",
+          "description": "客户端当前根绑定 DataValues.SlowAmount；原始值为负移速修正，当前正文占位为 @SlowAmount*-100@%，转为正的45至75百分数点。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 45,
+            "2": 60,
+            "3": 75
+          },
+          "name": "区域减速百分数点",
+          "parameterKey": "slow_percent",
+          "skillKey": "lissandra_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T10:36:49.70427Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:50.692287Z",
+          "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "区域减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "lissandra_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T10:36:50.692287Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:51.866298Z",
+          "description": "客户端当前根绑定 DataValues.EnemyCastDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "对敌人眩晕持续（毫秒）",
+          "parameterKey": "enemy_stun_duration_ms",
+          "skillKey": "lissandra_r",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T10:36:51.866298Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:52.966989Z",
+          "description": "客户端当前根绑定 DataValues.SelfCastDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "自身凝滞持续（毫秒）",
+          "parameterKey": "self_stasis_duration_ms",
+          "skillKey": "lissandra_r",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T10:36:52.966989Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:49.81556Z",
+          "description": "DDragon16.17.1 Lissandra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "lissandra_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:49.81556Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:54.000527Z",
+          "description": "客户端当前根绑定 DataValues.SelfCastFlatHeal 取索引1至3。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100,
+            "2": 150,
+            "3": 200
+          },
+          "name": "自身施放基础治疗",
+          "parameterKey": "self_heal_flat",
+          "skillKey": "lissandra_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T10:36:54.000527Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:50.181819Z",
+          "description": "DDragon16.17.1 Lissandra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "lissandra_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:50.181819Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:55.279293Z",
+          "description": "客户端当前根绑定 DataValues.SelfCastMissingHPRatio 取索引1至3；单位正文写百分号，保留1，不乘0.01。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每缺失生命提升治疗百分数点",
+          "parameterKey": "self_heal_missing_hp_percent",
+          "skillKey": "lissandra_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T10:36:55.279293Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:56.397921Z",
+          "description": "客户端当前根绑定 DataValues.SelfCastMissingHPPerAbove 取索引1至3；单位正文写百分号，保留1，不乘0.01。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每段缺失生命百分数点",
+          "parameterKey": "self_heal_missing_hp_per_above_percent",
+          "skillKey": "lissandra_r",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T10:36:56.397921Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:57.544506Z",
+          "description": "客户端当前根绑定 DataValues.PercentMissingHPRatio；HealAmount节点省略mStat/mStatFormula，与同版本mStat0默认法强窄证一致，作为基础治疗的来源总法强倍率0.55；不按字段名绑定缺失生命或hp。",
+          "fixedValue": 0.55,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础治疗法强倍率",
+          "parameterKey": "heal_ap_ratio",
+          "skillKey": "lissandra_r",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T10:36:57.544506Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/lissandra_r/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:36:58.588249Z",
+          "description": "CalculatedDamage = BaseDamage + APRatio×法强；省略统计选择器的具名节点按当前版本窄口径映射法强。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "冰封陵墓对敌魔法伤害",
+          "skillKey": "lissandra_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:36:58.588249Z"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:59.722398Z",
+          "description": "HealAmount基础项 = SelfCastFlatHeal + PercentMissingHPRatio×来源总法强；同版本省略mStat/mStatFormula的默认法强窄证仅支持这一基础项。已损生命提升另由正文两个数据值描述，未猜分段、取整或封顶。",
+          "formulaKey": "self_heal",
+          "gameId": "lol",
+          "name": "自身施放治疗量",
+          "skillKey": "lissandra_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T10:36:59.722398Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/karthus_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:51.416974Z",
+        "description": "在死亡时，卡尔萨斯会化为一个灵体，能够继续施放技能。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "卡尔萨斯·死亡契约",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "karthus_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:51.416974Z"
+      }
+    },
+    {
+      "route": "/skills/karthus_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_p",
+          "name": "karthus_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/karthus_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:37:02.01472Z",
+          "description": "客户端当前根绑定 DataValues.PassiveDuration 取索引1至1；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 7000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "死亡后施法窗口（毫秒）",
+          "parameterKey": "death_recast_window_ms",
+          "skillKey": "karthus_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:37:02.01472Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/karthus_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/karthus_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:52.209544Z",
+        "description": "卡尔萨斯被动地从他的猎物那里窃取法力，每杀死一个敌人就会获得法力。卡尔萨斯也可以转化这种力量，用猎物的灵魂环绕自身，对附近的敌人造成伤害，但会急速消耗他自己的法力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡尔萨斯·亵渎",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "karthus_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:52.209544Z"
+      }
+    },
+    {
+      "route": "/skills/karthus_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_e",
+          "name": "karthus_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/karthus_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:37:22.223815Z",
+          "description": "官方cooldown与当前根cooldownTime[0]均为0.5秒；秒转换为毫秒。仅表示基础施放冷却，不表示伤害或资源结算周期。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "karthus_e",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-09T10:37:22.223815Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:37:17.788762Z",
+          "description": "官方cost与当前根manaValues逐级一致；法力值；未接入实际扣除时点。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 42,
+            "3": 54,
+            "4": 66,
+            "5": 78
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "karthus_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:37:17.788762Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:37:18.912863Z",
+          "description": "客户端当前根绑定 DataValues.DamagePerSecond 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 50,
+            "3": 70,
+            "4": 90,
+            "5": 110
+          },
+          "name": "污染每秒基础魔法伤害",
+          "parameterKey": "damage_per_second_base",
+          "skillKey": "karthus_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T10:37:18.912863Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:37:19.99943Z",
+          "description": "客户端当前根绑定 DataValues.APRatioPerSecond 取索引1至5。",
+          "fixedValue": 0.2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "污染每秒法强倍率",
+          "parameterKey": "ap_ratio_per_second",
+          "skillKey": "karthus_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:37:19.99943Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:37:21.175113Z",
+          "description": "客户端当前根绑定 DataValues.ManaRestoreOnKill 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10,
+            "2": 20,
+            "3": 30,
+            "4": 40,
+            "5": 50
+          },
+          "name": "击杀单位回复法力",
+          "parameterKey": "mana_restore_on_kill",
+          "skillKey": "karthus_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T10:37:21.175113Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:37:23.288571Z",
+          "description": "原树{57456bbc}明确为0.25倍。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "四分之一倍率",
+          "parameterKey": "quarter_multiplier",
+          "skillKey": "karthus_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T10:37:23.288571Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/karthus_e/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T10:37:24.479498Z",
+          "description": "TotalDPS = DamagePerSecond + APRatioPerSecond×法强；保留每秒量，不创建周期伤害。",
+          "formulaKey": "damage_per_second",
+          "gameId": "lol",
+          "name": "污染每秒魔法伤害",
+          "skillKey": "karthus_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:37:24.479498Z"
+        },
+        {
+          "createdAt": "2026-09-09T10:37:25.466996Z",
+          "description": "原树{57456bbc}=0.25×TotalDPS；仅作为来源树核对，不创建瞬时伤害。",
+          "formulaKey": "quarter_damage_per_second",
+          "gameId": "lol",
+          "name": "污染四分之一每秒量核对",
+          "skillKey": "karthus_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T10:37:25.466996Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/anivia_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:24.033571Z",
+        "description": "在受到致命伤害后，艾尼维亚将化身为凤凰蛋，然后满血复活。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "艾尼维亚·寒霜涅槃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "anivia_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:24.033571Z"
+      }
+    },
+    {
+      "route": "/skills/anivia_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_p",
+          "name": "anivia_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/anivia_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/anivia_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/lissandra_r/formulas/self_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T10:36:59.722398Z",
+        "description": "HealAmount基础项 = SelfCastFlatHeal + PercentMissingHPRatio×来源总法强；同版本省略mStat/mStatFormula的默认法强窄证仅支持这一基础项。已损生命提升另由正文两个数据值描述，未猜分段、取整或封顶。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_heal_flat"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "self_heal",
+        "gameId": "lol",
+        "name": "自身施放治疗量",
+        "skillKey": "lissandra_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T10:36:59.722398Z"
+      }
+    }
+  ],
+  "baseHealChecks": [
+    {
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "result": 155
+    },
+    {
+      "skillLevel": 3,
+      "abilityPower": 100,
+      "result": 255
+    }
+  ],
+  "passed": true,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

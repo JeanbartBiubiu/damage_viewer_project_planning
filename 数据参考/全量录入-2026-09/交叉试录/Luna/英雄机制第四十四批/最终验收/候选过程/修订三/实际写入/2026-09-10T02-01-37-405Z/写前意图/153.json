@@ -1,0 +1,23 @@
+{
+  "i": 152,
+  "intent": {
+    "sequence": 153,
+    "method": "POST",
+    "route": "/skills/yuumi_r/parameters",
+    "detailRoute": "/skills/yuumi_r/parameters/subsequent_wave_multiplier",
+    "skillKey": "yuumi_r",
+    "kind": "parameters",
+    "stableKey": "subsequent_wave_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "subsequent_wave_multiplier",
+      "name": "后续波纹伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "来源0.25；同一敌人后续每波使用整段25%。",
+      "sortOrder": 30
+    }
+  }
+}

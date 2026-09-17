@@ -1,0 +1,24 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_p/parameters",
+    "detailRoute": "/skills/kindred_p/parameters/e_missing_health_per_mark_ratio",
+    "skillKey": "kindred_p",
+    "kind": "parameters",
+    "stableKey": "e_missing_health_per_mark_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "e_missing_health_per_mark_ratio",
+      "name": "E每层已损生命伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.005,
+      "levelValues": null,
+      "description": "EMarkBonus原始显示比例0.005。",
+      "sortOrder": 90
+    }
+  }
+}

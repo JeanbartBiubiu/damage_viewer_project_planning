@@ -1,0 +1,24 @@
+{
+  "i": 198,
+  "intent": {
+    "sequence": 199,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/parameters",
+    "detailRoute": "/skills/locke_w/parameters/time_max_power_ms",
+    "skillKey": "locke_w",
+    "kind": "parameters",
+    "stableKey": "time_max_power_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "time_max_power_ms",
+      "name": "衰减第二段时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "TimeMaxPower=1秒。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/taric_q/formulas",
+    "detailRoute": "/skills/taric_q/formulas/healing_per_charge",
+    "skillKey": "taric_q",
+    "kind": "formulas",
+    "stableKey": "healing_per_charge",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "healing_per_charge",
+      "name": "星光之触每层治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "healing_per_charge_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "healing_hp_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前HealingPerStack=25+0.15×来源总法强+0.01×来源最大生命。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "method": "POST",
+    "route": "/skills/milio_p/parameters",
+    "detailRoute": "/skills/milio_p/parameters/burn_base_damage_at_character_level",
+    "skillKey": "milio_p",
+    "kind": "parameters",
+    "stableKey": "burn_base_damage_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "burn_base_damage_at_character_level",
+      "name": "灼烧角色等级基础伤害（实际值外供）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BurnDamage的匿名等级插值端点为10至50，中间曲线未知，实际值无默认。",
+      "sortOrder": 20
+    }
+  }
+}

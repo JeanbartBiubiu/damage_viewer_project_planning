@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:13.460Z",
+  "method": "POST",
+  "skillKey": "ekko_p",
+  "kind": "parameters",
+  "stableKey": "hit_count_to_trigger",
+  "route": "/skills/ekko_p/parameters",
+  "readRoute": "/skills/ekko_p/parameters/hit_count_to_trigger",
+  "body": {
+    "parameterKey": "hit_count_to_trigger",
+    "name": "触发所需同目标命中次数",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 3,
+    "levelValues": null,
+    "description": "当前根绑定正文 Spell_EkkoPassive_Tooltip「每第三次攻击或伤害型技能」。次数用整数。不是运行中的叠层事件。",
+    "sortOrder": 10
+  }
+}

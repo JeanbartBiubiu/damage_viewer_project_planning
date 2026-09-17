@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "capturedAt": "2026-09-13T15:05:12.000Z",
+  "status": "NO_BUSINESS_CHANGE",
+  "failedRequest": {
+    "method": "PUT",
+    "path": "/skills/item_3107_active/formulas/enemy_true_damage",
+    "responseStatus": 400,
+    "errorCode": "400.VALIDATION_FAILED",
+    "fieldIssue": {
+      "field": "formulaKey",
+      "code": "IMMUTABLE",
+      "message": "公式标识不能修改"
+    }
+  },
+  "readback": {
+    "formulaRemainsOriginal": true,
+    "runtimeParameterRemainsPresent": true,
+    "redemptionRuleStatus": 404,
+    "qssProcessStatus": 404,
+    "zhonyasProcessStatus": 404
+  },
+  "businessWritesLanded": 0,
+  "retryPerformed": false,
+  "configSha256": "574404c5f30028a9c843c6e41165f898ae5e9699ec74c3f5029203a6a9c1c9cf",
+  "runnerSha256": "0b1d177b00af4f315cd1b8965ce64c46b1a9b6837e32ee4ad5a8af51f3350846",
+  "disposition": "保留修订一原脚本和流水；修订二仅纠正PUT请求体，稳定键继续只存在于路径和预期响应中。"
+}

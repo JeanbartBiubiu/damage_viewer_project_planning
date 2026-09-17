@@ -1,0 +1,25 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 144,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_r/parameters",
+    "detailRoute": "/skills/quinn_r/parameters/channel_duration_ms",
+    "skillKey": "quinn_r",
+    "kind": "parameters",
+    "stableKey": "channel_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "channel_duration_ms",
+      "name": "合体引导时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "官方中文正文明确引导2秒；不与250毫秒施法字段混合。",
+      "sortOrder": 40
+    }
+  }
+}

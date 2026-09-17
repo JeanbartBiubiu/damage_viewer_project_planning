@@ -1,0 +1,23 @@
+{
+  "i": 182,
+  "intent": {
+    "sequence": 183,
+    "method": "POST",
+    "route": "/skills/zeri_e/parameters",
+    "detailRoute": "/skills/zeri_e/parameters/critical_cooldown_reduction_ms",
+    "skillKey": "zeri_e",
+    "kind": "parameters",
+    "stableKey": "critical_cooldown_reduction_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_cooldown_reduction_ms",
+      "name": "暴击命中英雄冷却缩短（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前正文暴击转为1.5秒缩短，转换为1500毫秒，不与普通0.5秒相加。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T07:33:45.046Z",
+  "sourceVersion": "16.17/16.17.1",
+  "files": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/主负责人/英雄机制第二十七批/完整候选.json",
+      "bytes": 94425,
+      "sha256": "046f2671121092a906008b6b07909156a90d4bc241e18ce646fc12480f3303cf"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/主负责人/英雄机制第二十七批/输入包/参考资料/客户端原文/Hecarim.json.gz",
+      "bytes": 9547,
+      "sha256": "e687038f382c97de90950ddc51690c11ed4330ac8a02f60f5ce54e2bae3cefbc"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/主负责人/英雄机制第二十七批/输入包/参考资料/官方中文/Hecarim.json",
+      "bytes": 13439,
+      "sha256": "f6f7db213eccfc9e1e42073d628ac328dd9c74bae031cf42d7e39db5b03105f7"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/主负责人/英雄机制第二十七批/输入包/参考资料/官方英文/Hecarim.json",
+      "bytes": 12630,
+      "sha256": "4baafc18f4deecffc7d2242d11bdff63e188b07bc62a55645ee7916f08b25db1"
+    }
+  ],
+  "objectPath": "skills.hecarim_w",
+  "objectSha256": "e66956f0c8131a57a4df68117ef9622e089405eb1f7046809997d1b204e4c114",
+  "relevant": {
+    "summary": {
+      "sourceKey": "Spell_HecarimW_Summary",
+      "text": "赫卡里姆获得护甲和魔抗。赫卡里姆对附近敌人造成魔法伤害，并基于敌人所受的伤害来恢复生命值。"
+    },
+    "tooltip": {
+      "sourceKey": "Spell_HecarimW_Tooltip",
+      "text": "赫卡里姆在@BuffDuration@秒里对附近的敌人们持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br>赫卡里姆获得<passive>@ResistAmount@</passive> <scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>并治疗自身，治疗数额相当于这些敌人受到的来自赫卡里姆的<healing>@LeechAmount@%伤害</healing>和来自赫卡里姆友军的<healing>@AllyTooltipLeachValue@%伤害</healing>。"
+    },
+    "parameters": [
+      {
+        "parameterKey": "duration_ms",
+        "name": "恐惧之灵持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前根DataValues.BuffDuration取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 40
+      },
+      {
+        "parameterKey": "resistance_gain",
+        "name": "自身护甲和魔抗增加量",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 5,
+          "2": 10,
+          "3": 15,
+          "4": 20,
+          "5": 25
+        },
+        "description": "当前根DataValues.ResistAmount取索引1至5。",
+        "sortOrder": 60
+      }
+    ],
+    "formulas": [
+      {
+        "formulaKey": "magic_damage_total",
+        "name": "恐惧之灵四秒总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage_total"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage为4秒总量，不当每次伤害。",
+        "sortOrder": 10
+      },
+      {
+        "formulaKey": "self_healing_from_damage",
+        "name": "自身实际伤害对应回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_damage_heal_percent_points"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_point_ratio"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_self_damage_dealt"
+            }
+          ]
+        },
+        "description": "当前LeechAmount只取25；回复=.25×来自自身的实际伤害，不自动触发治疗。",
+        "sortOrder": 20
+      }
+    ],
+    "effects": [
+      {
+        "effectKey": "armor_gain",
+        "name": "恐惧之灵自身护甲",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "armor_gain",
+            "name": "恐惧之灵自身护甲",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "resistance_gain"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "armor",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      {
+        "effectKey": "magic_resistance_gain",
+        "name": "恐惧之灵自身魔抗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "magic_resistance_gain",
+            "name": "恐惧之灵自身魔抗",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "resistance_gain"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "magic_resistance",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    ],
+    "pending": [
+      "首次/末次周期调度、实际伤害快照、持续吸取资格待接。",
+      "本批没有创建伤害、直接治疗、命中过程或触发规则，明确数值不代表完整战斗运行。"
+    ],
+    "excluded": [
+      "友军伤害回复、兵野治疗上限以及未被LeechAmount消费的HealBonusADRatio。"
+    ]
+  },
+  "boundary": "固定来源证明管理组成，不证明Wasm组装、宿主事件或战斗运行。"
+}

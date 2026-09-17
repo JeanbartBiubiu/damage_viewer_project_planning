@@ -1,0 +1,40 @@
+{
+  "sequence": 12,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 12,
+    "method": "POST",
+    "route": "/skills/alistar_w/parameters",
+    "detailRoute": "/skills/alistar_w/parameters/cast_time_ms",
+    "skillKey": "alistar_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 506,
+      "levelValues": null,
+      "description": "当前绑定spellCastTime约0.5056秒，按毫秒四舍五入为506；不表示位移过程已经接线。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 213,
+    "method": "GET",
+    "route": "/skills/alistar_w/parameters/cast_time_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "cast_time_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:55:55.311Z"
+  }
+}

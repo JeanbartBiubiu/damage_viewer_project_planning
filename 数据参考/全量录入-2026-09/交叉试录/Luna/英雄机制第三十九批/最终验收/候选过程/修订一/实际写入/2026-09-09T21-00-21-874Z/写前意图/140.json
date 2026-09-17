@@ -1,0 +1,54 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/formulas",
+    "detailRoute": "/skills/nilah_r/formulas/self_healing_ratio",
+    "skillKey": "nilah_r",
+    "kind": "formulas",
+    "stableKey": "self_healing_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_healing_ratio",
+      "name": "神恩激荡自身治疗比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_healing_base_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "self_healing_mstat8_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_mstat8_value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_q_crit_lifesteal_ratio"
+          }
+        ]
+      },
+      "description": "自身治疗比例=0.2+0.1×实际mStat8+Q的CritLifesteal；三项均保留，不把Q未知值默认为0。",
+      "sortOrder": 40
+    }
+  }
+}

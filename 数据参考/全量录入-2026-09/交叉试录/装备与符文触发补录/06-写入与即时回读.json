@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev2",
+  "startedAt": "2026-09-12T14:35:34.397Z",
+  "status": "PASS",
+  "authorizationValueRecorded": false,
+  "approvedHashFile": "批准散列.json",
+  "approvedHashes": {
+    "只读页面验收.mjs": "a1e98a0be740d9b2ee520d0beafe36a640961fae6140734d8aa6490a4ba2aba3",
+    "README.md": "fc7a45179b56a85ba4b9b80b90e1cc16ffa869bb6851ec450cb23539fbf40fa1",
+    "01-合并方案.md": "efeebfb1764462e4daa1d87d2ddaac503a945747a8301ffe790031e79781287c",
+    "02-合并冻结请求.json": "f6c9b114c008d87c909f0ea4c7b91928daf5c4069fabd1b0eec96993b7ea0005",
+    "05-Cursor独立评审.json": "f449579f5e67a5abe0754226ad4b3bff912dac29476374e809e50a1906aa06e8",
+    "03-来源散列快照.json": "87811d099c41feb51145d58676020dbe787c18bbd60e2f23dea2d28a0bba1243",
+    "受保护写入.mjs": "93b445a4b714f794c34a13682b17c0b5de8cac74c503c06aa69606b2e25ad348",
+    "独立GET回读.mjs": "86070b7869b70807d2eebb3fb726daa10aa7f40d4ced4a52f3398816e6531871",
+    "04-共享写前现值.json": "988cdcc0e19a40aa08f622e014eac24fbb10789bab78cad6e09f9b5e0be5f89a"
+  },
+  "cursorReview": {
+    "file": "05-Cursor独立评审.json",
+    "status": "READY",
+    "finished": true,
+    "accepted": true,
+    "revision": "rev2",
+    "businessWrites": 0,
+    "approvedInputHashes": {
+      "README.md": "fc7a45179b56a85ba4b9b80b90e1cc16ffa869bb6851ec450cb23539fbf40fa1",
+      "01-合并方案.md": "efeebfb1764462e4daa1d87d2ddaac503a945747a8301ffe790031e79781287c",
+      "02-合并冻结请求.json": "f6c9b114c008d87c909f0ea4c7b91928daf5c4069fabd1b0eec96993b7ea0005",
+      "03-来源散列快照.json": "87811d099c41feb51145d58676020dbe787c18bbd60e2f23dea2d28a0bba1243",
+      "04-共享写前现值.json": "988cdcc0e19a40aa08f622e014eac24fbb10789bab78cad6e09f9b5e0be5f89a",
+      "受保护写入.mjs": "93b445a4b714f794c34a13682b17c0b5de8cac74c503c06aa69606b2e25ad348",
+      "独立GET回读.mjs": "86070b7869b70807d2eebb3fb726daa10aa7f40d4ced4a52f3398816e6531871",
+      "只读页面验收.mjs": "a1e98a0be740d9b2ee520d0beafe36a640961fae6140734d8aa6490a4ba2aba3"
+    },
+    "writeAllowlistAudit": {
+      "kind": "audited-write-allowlist",
+      "osSandbox": false,
+      "auditAvailable": true,
+      "outsideScopeCount": 0,
+      "outsideScopePaths": [],
+      "runDeltaOutsideScopeCount": 0,
+      "runDeltaOutsideScopePaths": [],
+      "runDeltaCount": 0,
+      "failClosed": false
+    },
+    "toolEvents": {
+      "uniqueCallCount": 1,
+      "completedCallCount": 1,
+      "byName": {
+        "shell": 1
+      },
+      "allTerminalCallsCompleted": true,
+      "anyTruncated": false
+    }
+  },
+  "preflight": {
+    "rounds": [
+      {
+        "pass": "写入前第一轮",
+        "skillCount": 1062,
+        "ruleCount": 96,
+        "sourceInitializedCount": 24,
+        "ruleKeysSha256": "234807bc5d3a9051861f56cf2d7bcd30fc961ef9257ddcd898a65ba46f1d014b"
+      },
+      {
+        "pass": "写入前第二轮",
+        "skillCount": 1062,
+        "ruleCount": 96,
+        "sourceInitializedCount": 24,
+        "ruleKeysSha256": "234807bc5d3a9051861f56cf2d7bcd30fc961ef9257ddcd898a65ba46f1d014b"
+      }
+    ],
+    "targetRounds": [
+      {
+        "pass": "写入前第一轮",
+        "snapshots": [
+          {
+            "id": "black",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "ffd01976f64b2961bd9fdbba9a10586a39f153e0aa4a76bf99e1b1554e42085f"
+          },
+          {
+            "id": "magic",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "dc61daecb351d852174b70520edd13235f82193eba9f23d0615a9dbabdfb90fb"
+          },
+          {
+            "id": "stridebreaker",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "1bc707fce37f6ed00dc96553f7ffdc437d524596f3ebdbe3944e8bbbec36d233"
+          },
+          {
+            "id": "triumph",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "72b40d34dee6582998f3d788c6466ac51e1ab3fe4f8c03b3bdd02279b68667dd"
+          }
+        ]
+      },
+      {
+        "pass": "写入前第二轮",
+        "snapshots": [
+          {
+            "id": "black",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "ffd01976f64b2961bd9fdbba9a10586a39f153e0aa4a76bf99e1b1554e42085f"
+          },
+          {
+            "id": "magic",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "dc61daecb351d852174b70520edd13235f82193eba9f23d0615a9dbabdfb90fb"
+          },
+          {
+            "id": "stridebreaker",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "1bc707fce37f6ed00dc96553f7ffdc437d524596f3ebdbe3944e8bbbec36d233"
+          },
+          {
+            "id": "triumph",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "72b40d34dee6582998f3d788c6466ac51e1ab3fe4f8c03b3bdd02279b68667dd"
+          }
+        ]
+      }
+    ]
+  },
+  "writes": [
+    {
+      "id": "black",
+      "ruleKey": "on_physical_damage_dealt_to_champion",
+      "method": "POST",
+      "route": "/skills/item_3071_passive/trigger-rules",
+      "detailRoute": "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion",
+      "expectedStatus": 201,
+      "bodySha256": "cacd4107f9f33421d59ec58166d47cd33b5e4a2f620ecebf74249b03146c66f8",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_armor_shred",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "armor_shred"
+              },
+              "name": "执行切割目标护甲削减",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_counterparty",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_counterparty",
+              "name": "伤害承受对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "来源对象对英雄造成物理伤害后，在当前目标上执行已有的 armor_shred；当前接口的物理伤害目录键为 physics。perTargetCooldown 保持 null，不把客户端 10 毫秒字段解释为逐目标冷却。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": "physics",
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "eventType": "DAMAGE_DEALT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "对英雄造成物理伤害触发切割",
+          "perTargetCooldown": null,
+          "ruleKey": "on_physical_damage_dealt_to_champion",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "magic",
+      "ruleKey": "on_basic_attack_hit_to_champion",
+      "method": "POST",
+      "route": "/skills/item_3042_passive/trigger-rules",
+      "detailRoute": "/skills/item_3042_passive/trigger-rules/on_basic_attack_hit_to_champion",
+      "expectedStatus": 201,
+      "bodySha256": "206f4ef043f9f3fd793db052841b2327a42fdcaefa3366270454fa6a71d42c0a",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_3042_passive/trigger-rules/on_basic_attack_hit_to_champion",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_on_hit_damage_from_max_mana",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "on_hit_damage_from_max_mana"
+              },
+              "name": "执行冲击攻击特效伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "命中对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "普通攻击命中英雄后，对当前目标执行既有冲击攻击特效伤害；不接入技能伤害分支，不设置未经证实的冷却。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "普攻命中英雄触发魔切冲击",
+          "perTargetCooldown": null,
+          "ruleKey": "on_basic_attack_hit_to_champion",
+          "sortOrder": 20
+        }
+      }
+    },
+    {
+      "id": "stridebreaker",
+      "ruleKey": "actual_hit",
+      "method": "POST",
+      "route": "/skills/item_6631_active/trigger-rules",
+      "detailRoute": "/skills/item_6631_active/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "bodySha256": "2ce647f2f4269fc3b1cbd5dc8cf0efccce6f2603d448b58a0681c04bb951c809",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_6631_active/trigger-rules/actual_hit",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_active_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "active_hit"
+              },
+              "name": "执行破阵冲击波主动命中",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "命中对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "仅在运行时确认 item_6631_active 已命中英雄后，在当前目标上执行已有的 active_hit；本批不生成范围命中，不接入减速、自身移动速度、衰减或冷却。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "item_6631_active",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "破阵冲击波命中英雄",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "triumph",
+      "ruleKey": "on_champion_kill",
+      "method": "POST",
+      "route": "/skills/rune_9111_passive/trigger-rules",
+      "detailRoute": "/skills/rune_9111_passive/trigger-rules/on_champion_kill",
+      "expectedStatus": 201,
+      "bodySha256": "27678748b1a5cfbad4202af4e27385ece67efcc152497408ef710d731d518b34",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/rune_9111_passive/trigger-rules/on_champion_kill",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_triumph_heal",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "triumph_heal"
+              },
+              "name": "执行凯旋治疗",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "被击杀对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "严格一对一模型中，来源对象击杀当前英雄目标后，在当前目标上下文执行已有的 triumph_heal；KILL 没有 EVENT_SOURCE，已有结果 target=SOURCE，因此治疗技能拥有者。多人助攻和完整参与击杀不由本规则描述。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "KILL"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "击杀英雄触发凯旋治疗",
+          "perTargetCooldown": null,
+          "ruleKey": "on_champion_kill",
+          "sortOrder": 10
+        }
+      }
+    }
+  ],
+  "finalReadback": {
+    "targetSnapshots": [
+      {
+        "id": "black",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "ffd01976f64b2961bd9fdbba9a10586a39f153e0aa4a76bf99e1b1554e42085f"
+      },
+      {
+        "id": "magic",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "dc61daecb351d852174b70520edd13235f82193eba9f23d0615a9dbabdfb90fb"
+      },
+      {
+        "id": "stridebreaker",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "1bc707fce37f6ed00dc96553f7ffdc437d524596f3ebdbe3944e8bbbec36d233"
+      },
+      {
+        "id": "triumph",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "72b40d34dee6582998f3d788c6466ac51e1ab3fe4f8c03b3bdd02279b68667dd"
+      }
+    ],
+    "skillCount": 1062,
+    "ruleCount": 100,
+    "sourceInitializedCount": 24,
+    "ruleKeysSha256": "76c4682d02a05c6f3310bfc5227889d3a38a4c2bf7fcc72873bc83a81ce790d8",
+    "newRuleDetails": [
+      {
+        "id": "magic",
+        "status": 200,
+        "bodySha256": "206f4ef043f9f3fd793db052841b2327a42fdcaefa3366270454fa6a71d42c0a"
+      },
+      {
+        "id": "black",
+        "status": 200,
+        "bodySha256": "cacd4107f9f33421d59ec58166d47cd33b5e4a2f620ecebf74249b03146c66f8"
+      },
+      {
+        "id": "stridebreaker",
+        "status": 200,
+        "bodySha256": "2ce647f2f4269fc3b1cbd5dc8cf0efccce6f2603d448b58a0681c04bb951c809"
+      },
+      {
+        "id": "triumph",
+        "status": 200,
+        "bodySha256": "27678748b1a5cfbad4202af4e27385ece67efcc152497408ef710d731d518b34"
+      }
+    ]
+  },
+  "businessWriteCount": 4,
+  "getCount": 3751,
+  "error": null,
+  "completedAt": "2026-09-12T14:36:05.975Z"
+}

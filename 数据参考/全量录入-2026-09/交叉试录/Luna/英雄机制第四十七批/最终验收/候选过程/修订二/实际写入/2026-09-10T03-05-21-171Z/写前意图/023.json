@@ -1,0 +1,31 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/jayce_q/parameters",
+    "detailRoute": "/skills/jayce_q/parameters/base_damage",
+    "skillKey": "jayce_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "锤形态物理伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 110,
+        "3": 160,
+        "4": 210,
+        "5": 260,
+        "6": 310
+      },
+      "description": "当前根BaseDamage索引1至6为60/110/160/210/260/310；按保护主体6级读取。",
+      "sortOrder": 10
+    }
+  }
+}

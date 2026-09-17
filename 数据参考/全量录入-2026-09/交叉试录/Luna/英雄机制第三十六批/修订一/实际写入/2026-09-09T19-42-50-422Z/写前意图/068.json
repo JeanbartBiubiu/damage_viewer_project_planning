@@ -1,0 +1,23 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/lillia_w/parameters",
+    "detailRoute": "/skills/lillia_w/parameters/sweet_spot_multiplier",
+    "skillKey": "lillia_w",
+    "kind": "parameters",
+    "stableKey": "sweet_spot_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "sweet_spot_multiplier",
+      "name": "中心伤害倍率",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "FlatDamageSweetSpot根mMultiplier=3；中心值替代普通命中值，不与普通值相加。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "method": "POST",
+    "route": "/skills/neeko_w/parameters",
+    "detailRoute": "/skills/neeko_w/parameters/passive_damage_base",
+    "skillKey": "neeko_w",
+    "kind": "parameters",
+    "stableKey": "passive_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_damage_base",
+      "name": "第三次攻击基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 65,
+        "3": 100,
+        "4": 135,
+        "5": 170
+      },
+      "description": "来源30/65/100/135/170。",
+      "sortOrder": 10
+    }
+  }
+}

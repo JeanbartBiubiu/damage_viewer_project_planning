@@ -1,0 +1,29 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_w/parameters",
+    "detailRoute": "/skills/fiddlesticks_w/parameters/champion_heal_percent_points",
+    "skillKey": "fiddlesticks_w",
+    "kind": "parameters",
+    "stableKey": "champion_heal_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "champion_heal_percent_points",
+      "name": "英雄折前伤害治疗百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 32.5,
+        "3": 40,
+        "4": 47.5,
+        "5": 55
+      },
+      "description": "英雄治疗消费VampPercentage，取索引1至5；正文明确基于折前伤害。",
+      "sortOrder": 60
+    }
+  }
+}

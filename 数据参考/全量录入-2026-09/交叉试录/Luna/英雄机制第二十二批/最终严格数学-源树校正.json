@@ -1,0 +1,1290 @@
+{
+  "generatedAt": "2026-09-09T13:38:36.705Z",
+  "revision": "最终版（承接修订二）",
+  "candidateFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero22-candidate\\最终候选.json",
+  "sourceFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero22-candidate\\候选源值核对.json",
+  "sourceVersion": "客户端16.17/官方16.17.1，构建16.17.8104348+branch.releases-16-17.content.release",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "sourceTreeBasis": {
+    "skillKey": "leona_w",
+    "calculationKey": "BonusMRTooltip",
+    "dataValue": "ArmorBaseBonus",
+    "note": "当前绑定树实际使用ArmorBaseBonus；候选本体保留原参数键和值，数学期望按此树读取。"
+  },
+  "independentFromCandidateFormula": false,
+  "independentSourceExpectation": true,
+  "businessWrites": 0,
+  "formulaChecks": [
+    {
+      "skillKey": "leona_q",
+      "formulaKey": "magic_damage",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 0
+        }
+      },
+      "candidateValue": 10,
+      "sourceExpected": 10,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_q",
+      "formulaKey": "magic_damage",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 600
+        }
+      },
+      "candidateValue": 290,
+      "sourceExpected": 290,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_w",
+      "formulaKey": "magic_damage",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 0
+        }
+      },
+      "candidateValue": 55,
+      "sourceExpected": 55,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_w",
+      "formulaKey": "magic_damage",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 400
+        }
+      },
+      "candidateValue": 335,
+      "sourceExpected": 335,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_w",
+      "formulaKey": "bonus_armor",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "runtime": {
+          "source_mstat1_for_armor_bonus": 0
+        }
+      },
+      "candidateValue": 20,
+      "sourceExpected": 20,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_w",
+      "formulaKey": "bonus_armor",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "runtime": {
+          "source_mstat1_for_armor_bonus": 100
+        }
+      },
+      "candidateValue": 70,
+      "sourceExpected": 70,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_w",
+      "formulaKey": "bonus_magic_resistance",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|magic_resistance|BONUS": 0
+        }
+      },
+      "candidateValue": 20,
+      "sourceExpected": 20,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_w",
+      "formulaKey": "bonus_magic_resistance",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE|magic_resistance|BONUS": 100
+        }
+      },
+      "candidateValue": 70,
+      "sourceExpected": 70,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_w",
+      "formulaKey": "damage_reduction_amount",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "runtime": {
+          "incoming_damage_for_reduction": 10
+        }
+      },
+      "candidateValue": 5,
+      "sourceExpected": 5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_w",
+      "formulaKey": "damage_reduction_amount",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "runtime": {
+          "incoming_damage_for_reduction": 100
+        }
+      },
+      "candidateValue": 24,
+      "sourceExpected": 24,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_e",
+      "formulaKey": "magic_damage",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 0
+        }
+      },
+      "candidateValue": 50,
+      "sourceExpected": 50,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_e",
+      "formulaKey": "magic_damage",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 250
+        }
+      },
+      "candidateValue": 310,
+      "sourceExpected": 310,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_r",
+      "formulaKey": "magic_damage",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 0
+        }
+      },
+      "candidateValue": 150,
+      "sourceExpected": 150,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "leona_r",
+      "formulaKey": "magic_damage",
+      "caseId": "B",
+      "input": {
+        "rank": 3,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 500
+        }
+      },
+      "candidateValue": 700,
+      "sourceExpected": 700,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_p",
+      "formulaKey": "physical_damage",
+      "caseId": "A",
+      "input": {
+        "rank": null,
+        "characterLevel": 1,
+        "attributes": {
+          "SOURCE|attack_damage|TOTAL": 0
+        }
+      },
+      "candidateValue": 8,
+      "sourceExpected": 8,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_p",
+      "formulaKey": "physical_damage",
+      "caseId": "B",
+      "input": {
+        "rank": null,
+        "characterLevel": 18,
+        "attributes": {
+          "SOURCE|attack_damage|TOTAL": 200
+        }
+      },
+      "candidateValue": 310,
+      "sourceExpected": 310,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_q",
+      "formulaKey": "magic_damage",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 0
+        }
+      },
+      "candidateValue": 85,
+      "sourceExpected": 85,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_q",
+      "formulaKey": "magic_damage",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 400
+        }
+      },
+      "candidateValue": 625,
+      "sourceExpected": 625,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_w",
+      "formulaKey": "shield_value",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|hp|TOTAL": 0
+        }
+      },
+      "candidateValue": 50,
+      "sourceExpected": 50,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_w",
+      "formulaKey": "shield_value",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE|hp|TOTAL": 3000
+        }
+      },
+      "candidateValue": 450,
+      "sourceExpected": 450,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_w",
+      "formulaKey": "bonus_magic_damage_total",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 0
+        }
+      },
+      "candidateValue": 30,
+      "sourceExpected": 30,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_w",
+      "formulaKey": "bonus_magic_damage_total",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 300
+        }
+      },
+      "candidateValue": 190,
+      "sourceExpected": 190,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_e",
+      "formulaKey": "magic_damage",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 0
+        }
+      },
+      "candidateValue": 55,
+      "sourceExpected": 55,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_e",
+      "formulaKey": "magic_damage",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 200
+        }
+      },
+      "candidateValue": 295,
+      "sourceExpected": 295,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_e",
+      "formulaKey": "later_wave_magic_damage",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 0
+        }
+      },
+      "candidateValue": 27.5,
+      "sourceExpected": 27.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_e",
+      "formulaKey": "later_wave_magic_damage",
+      "caseId": "B",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 200
+        }
+      },
+      "candidateValue": 147.5,
+      "sourceExpected": 147.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_r",
+      "formulaKey": "primary_magic_damage",
+      "caseId": "A",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 0
+        }
+      },
+      "candidateValue": 150,
+      "sourceExpected": 150,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "nautilus_r",
+      "formulaKey": "primary_magic_damage",
+      "caseId": "B",
+      "input": {
+        "rank": 3,
+        "attributes": {
+          "SOURCE|ability_power|TOTAL": 400
+        }
+      },
+      "candidateValue": 720,
+      "sourceExpected": 720,
+      "passed": true,
+      "error": null
+    }
+  ],
+  "rejectionChecks": [
+    {
+      "id": "缺少Leona W进入伤害",
+      "skillKey": "leona_w",
+      "formulaKey": "damage_reduction_amount",
+      "input": {
+        "rank": 5
+      },
+      "rejected": true,
+      "error": "缺少运行时输入：leona_w/incoming_damage_for_reduction"
+    },
+    {
+      "id": "缺少Leona W未映射护甲属性",
+      "skillKey": "leona_w",
+      "formulaKey": "bonus_armor",
+      "input": {
+        "rank": 5
+      },
+      "rejected": true,
+      "error": "缺少运行时输入：leona_w/source_mstat1_for_armor_bonus"
+    },
+    {
+      "id": "缺少Leona W额外魔抗属性",
+      "skillKey": "leona_w",
+      "formulaKey": "bonus_magic_resistance",
+      "input": {
+        "rank": 5
+      },
+      "rejected": true,
+      "error": "缺少属性输入：SOURCE|magic_resistance|BONUS"
+    },
+    {
+      "id": "缺少Nautilus W总生命属性",
+      "skillKey": "nautilus_w",
+      "formulaKey": "shield_value",
+      "input": {
+        "rank": 5
+      },
+      "rejected": true,
+      "error": "缺少属性输入：SOURCE|hp|TOTAL"
+    },
+    {
+      "id": "缺少Nautilus P总攻击力属性",
+      "skillKey": "nautilus_p",
+      "formulaKey": "physical_damage",
+      "input": {
+        "rank": null,
+        "characterLevel": 18
+      },
+      "rejected": true,
+      "error": "缺少属性输入：SOURCE|attack_damage|TOTAL"
+    },
+    {
+      "id": "缺少Leona Q法术强度属性",
+      "skillKey": "leona_q",
+      "formulaKey": "magic_damage",
+      "input": {
+        "rank": 5
+      },
+      "rejected": true,
+      "error": "缺少属性输入：SOURCE|ability_power|TOTAL"
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "input": 0,
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "input": 10,
+      "actual": 5,
+      "expected": 5,
+      "passed": true
+    },
+    {
+      "input": 1000,
+      "actual": 24,
+      "expected": 24,
+      "passed": true
+    }
+  ],
+  "structuralChecks": [
+    {
+      "name": "Leona W BonusMR树实际引用ArmorBaseBonus",
+      "passed": true,
+      "detail": {
+        "calculation": "BonusMRTooltip",
+        "actualDataValue": "ArmorBaseBonus",
+        "expectedDataValue": "ArmorBaseBonus"
+      }
+    },
+    {
+      "name": "leona_q/magic_damage/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_q",
+        "formulaKey": "magic_damage",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 0
+          }
+        },
+        "candidateValue": 10,
+        "sourceExpected": 10,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_q/magic_damage/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_q",
+        "formulaKey": "magic_damage",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 600
+          }
+        },
+        "candidateValue": 290,
+        "sourceExpected": 290,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_w/magic_damage/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_w",
+        "formulaKey": "magic_damage",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 0
+          }
+        },
+        "candidateValue": 55,
+        "sourceExpected": 55,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_w/magic_damage/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_w",
+        "formulaKey": "magic_damage",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 400
+          }
+        },
+        "candidateValue": 335,
+        "sourceExpected": 335,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_w/bonus_armor/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_w",
+        "formulaKey": "bonus_armor",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "runtime": {
+            "source_mstat1_for_armor_bonus": 0
+          }
+        },
+        "candidateValue": 20,
+        "sourceExpected": 20,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_w/bonus_armor/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_w",
+        "formulaKey": "bonus_armor",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "runtime": {
+            "source_mstat1_for_armor_bonus": 100
+          }
+        },
+        "candidateValue": 70,
+        "sourceExpected": 70,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_w/bonus_magic_resistance/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_w",
+        "formulaKey": "bonus_magic_resistance",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|magic_resistance|BONUS": 0
+          }
+        },
+        "candidateValue": 20,
+        "sourceExpected": 20,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_w/bonus_magic_resistance/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_w",
+        "formulaKey": "bonus_magic_resistance",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "attributes": {
+            "SOURCE|magic_resistance|BONUS": 100
+          }
+        },
+        "candidateValue": 70,
+        "sourceExpected": 70,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_w/damage_reduction_amount/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_w",
+        "formulaKey": "damage_reduction_amount",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "runtime": {
+            "incoming_damage_for_reduction": 10
+          }
+        },
+        "candidateValue": 5,
+        "sourceExpected": 5,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_w/damage_reduction_amount/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_w",
+        "formulaKey": "damage_reduction_amount",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "runtime": {
+            "incoming_damage_for_reduction": 100
+          }
+        },
+        "candidateValue": 24,
+        "sourceExpected": 24,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_e/magic_damage/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_e",
+        "formulaKey": "magic_damage",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 0
+          }
+        },
+        "candidateValue": 50,
+        "sourceExpected": 50,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_e/magic_damage/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_e",
+        "formulaKey": "magic_damage",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 250
+          }
+        },
+        "candidateValue": 310,
+        "sourceExpected": 310,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_r/magic_damage/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_r",
+        "formulaKey": "magic_damage",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 0
+          }
+        },
+        "candidateValue": 150,
+        "sourceExpected": 150,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "leona_r/magic_damage/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "leona_r",
+        "formulaKey": "magic_damage",
+        "caseId": "B",
+        "input": {
+          "rank": 3,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 500
+          }
+        },
+        "candidateValue": 700,
+        "sourceExpected": 700,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_p/physical_damage/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_p",
+        "formulaKey": "physical_damage",
+        "caseId": "A",
+        "input": {
+          "rank": null,
+          "characterLevel": 1,
+          "attributes": {
+            "SOURCE|attack_damage|TOTAL": 0
+          }
+        },
+        "candidateValue": 8,
+        "sourceExpected": 8,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_p/physical_damage/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_p",
+        "formulaKey": "physical_damage",
+        "caseId": "B",
+        "input": {
+          "rank": null,
+          "characterLevel": 18,
+          "attributes": {
+            "SOURCE|attack_damage|TOTAL": 200
+          }
+        },
+        "candidateValue": 310,
+        "sourceExpected": 310,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_q/magic_damage/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_q",
+        "formulaKey": "magic_damage",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 0
+          }
+        },
+        "candidateValue": 85,
+        "sourceExpected": 85,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_q/magic_damage/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_q",
+        "formulaKey": "magic_damage",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 400
+          }
+        },
+        "candidateValue": 625,
+        "sourceExpected": 625,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_w/shield_value/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_w",
+        "formulaKey": "shield_value",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|hp|TOTAL": 0
+          }
+        },
+        "candidateValue": 50,
+        "sourceExpected": 50,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_w/shield_value/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_w",
+        "formulaKey": "shield_value",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "attributes": {
+            "SOURCE|hp|TOTAL": 3000
+          }
+        },
+        "candidateValue": 450,
+        "sourceExpected": 450,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_w/bonus_magic_damage_total/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_w",
+        "formulaKey": "bonus_magic_damage_total",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 0
+          }
+        },
+        "candidateValue": 30,
+        "sourceExpected": 30,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_w/bonus_magic_damage_total/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_w",
+        "formulaKey": "bonus_magic_damage_total",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 300
+          }
+        },
+        "candidateValue": 190,
+        "sourceExpected": 190,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_e/magic_damage/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_e",
+        "formulaKey": "magic_damage",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 0
+          }
+        },
+        "candidateValue": 55,
+        "sourceExpected": 55,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_e/magic_damage/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_e",
+        "formulaKey": "magic_damage",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 200
+          }
+        },
+        "candidateValue": 295,
+        "sourceExpected": 295,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_e/later_wave_magic_damage/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_e",
+        "formulaKey": "later_wave_magic_damage",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 0
+          }
+        },
+        "candidateValue": 27.5,
+        "sourceExpected": 27.5,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_e/later_wave_magic_damage/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_e",
+        "formulaKey": "later_wave_magic_damage",
+        "caseId": "B",
+        "input": {
+          "rank": 5,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 200
+          }
+        },
+        "candidateValue": 147.5,
+        "sourceExpected": 147.5,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_r/primary_magic_damage/A",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_r",
+        "formulaKey": "primary_magic_damage",
+        "caseId": "A",
+        "input": {
+          "rank": 1,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 0
+          }
+        },
+        "candidateValue": 150,
+        "sourceExpected": 150,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "nautilus_r/primary_magic_damage/B",
+      "passed": true,
+      "detail": {
+        "skillKey": "nautilus_r",
+        "formulaKey": "primary_magic_damage",
+        "caseId": "B",
+        "input": {
+          "rank": 3,
+          "attributes": {
+            "SOURCE|ability_power|TOTAL": 400
+          }
+        },
+        "candidateValue": 720,
+        "sourceExpected": 720,
+        "passed": true,
+        "error": null
+      }
+    },
+    {
+      "name": "Leona P整槽范围移除",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Nautilus R沿途支路移除",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "八个主动法力效果",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Nautilus W自身护盾结构",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "未创建直接结果",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "未创建第三友军P公式",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "leona_q冲突施法时间无默认",
+      "passed": false,
+      "detail": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前根同时存在spellCastTime=0.5217499732971191秒与mCastTime=0.25秒，字段冲突；保留为无默认运行时输入，不能选定施法时长，也不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "name": "nautilus_r冲突施法时间无默认",
+      "passed": false,
+      "detail": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前根同时存在spellCastTime=0.25秒与mCastTime=0.46000000834465027秒，字段冲突；保留为无默认运行时输入，不能选定施法时长，也不表示命中或控制发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "name": "缺少Leona W进入伤害",
+      "passed": true,
+      "detail": {
+        "id": "缺少Leona W进入伤害",
+        "skillKey": "leona_w",
+        "formulaKey": "damage_reduction_amount",
+        "input": {
+          "rank": 5
+        },
+        "rejected": true,
+        "error": "缺少运行时输入：leona_w/incoming_damage_for_reduction"
+      }
+    },
+    {
+      "name": "缺少Leona W未映射护甲属性",
+      "passed": true,
+      "detail": {
+        "id": "缺少Leona W未映射护甲属性",
+        "skillKey": "leona_w",
+        "formulaKey": "bonus_armor",
+        "input": {
+          "rank": 5
+        },
+        "rejected": true,
+        "error": "缺少运行时输入：leona_w/source_mstat1_for_armor_bonus"
+      }
+    },
+    {
+      "name": "缺少Leona W额外魔抗属性",
+      "passed": true,
+      "detail": {
+        "id": "缺少Leona W额外魔抗属性",
+        "skillKey": "leona_w",
+        "formulaKey": "bonus_magic_resistance",
+        "input": {
+          "rank": 5
+        },
+        "rejected": true,
+        "error": "缺少属性输入：SOURCE|magic_resistance|BONUS"
+      }
+    },
+    {
+      "name": "缺少Nautilus W总生命属性",
+      "passed": true,
+      "detail": {
+        "id": "缺少Nautilus W总生命属性",
+        "skillKey": "nautilus_w",
+        "formulaKey": "shield_value",
+        "input": {
+          "rank": 5
+        },
+        "rejected": true,
+        "error": "缺少属性输入：SOURCE|hp|TOTAL"
+      }
+    },
+    {
+      "name": "缺少Nautilus P总攻击力属性",
+      "passed": true,
+      "detail": {
+        "id": "缺少Nautilus P总攻击力属性",
+        "skillKey": "nautilus_p",
+        "formulaKey": "physical_damage",
+        "input": {
+          "rank": null,
+          "characterLevel": 18
+        },
+        "rejected": true,
+        "error": "缺少属性输入：SOURCE|attack_damage|TOTAL"
+      }
+    },
+    {
+      "name": "缺少Leona Q法术强度属性",
+      "passed": true,
+      "detail": {
+        "id": "缺少Leona Q法术强度属性",
+        "skillKey": "leona_q",
+        "formulaKey": "magic_damage",
+        "input": {
+          "rank": 5
+        },
+        "rejected": true,
+        "error": "缺少属性输入：SOURCE|ability_power|TOTAL"
+      }
+    },
+    {
+      "name": "Leona W减免边界输入0",
+      "passed": true,
+      "detail": {
+        "input": 0,
+        "actual": 0,
+        "expected": 0,
+        "passed": true
+      }
+    },
+    {
+      "name": "Leona W减免边界输入10",
+      "passed": true,
+      "detail": {
+        "input": 10,
+        "actual": 5,
+        "expected": 5,
+        "passed": true
+      }
+    },
+    {
+      "name": "Leona W减免边界输入1000",
+      "passed": true,
+      "detail": {
+        "input": 1000,
+        "actual": 24,
+        "expected": 24,
+        "passed": true
+      }
+    },
+    {
+      "name": "最终公式集合完整且无额外项",
+      "passed": true,
+      "detail": {
+        "expectedFormulaKeys": [
+          "leona_e/magic_damage",
+          "leona_q/magic_damage",
+          "leona_r/magic_damage",
+          "leona_w/bonus_armor",
+          "leona_w/bonus_magic_resistance",
+          "leona_w/damage_reduction_amount",
+          "leona_w/magic_damage",
+          "nautilus_e/later_wave_magic_damage",
+          "nautilus_e/magic_damage",
+          "nautilus_p/physical_damage",
+          "nautilus_q/magic_damage",
+          "nautilus_r/primary_magic_damage",
+          "nautilus_w/bonus_magic_damage_total",
+          "nautilus_w/shield_value"
+        ],
+        "actualFormulaKeys": [
+          "leona_e/magic_damage",
+          "leona_q/magic_damage",
+          "leona_r/magic_damage",
+          "leona_w/bonus_armor",
+          "leona_w/bonus_magic_resistance",
+          "leona_w/damage_reduction_amount",
+          "leona_w/magic_damage",
+          "nautilus_e/later_wave_magic_damage",
+          "nautilus_e/magic_damage",
+          "nautilus_p/physical_damage",
+          "nautilus_q/magic_damage",
+          "nautilus_r/primary_magic_damage",
+          "nautilus_w/bonus_magic_damage_total",
+          "nautilus_w/shield_value"
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "finalFormulaCount": 14,
+    "formulaCases": 28,
+    "expectedCases": 28,
+    "rejectionCases": 6,
+    "boundaryCases": 3,
+    "checks": 47,
+    "failures": 2,
+    "passed": false
+  }
+}

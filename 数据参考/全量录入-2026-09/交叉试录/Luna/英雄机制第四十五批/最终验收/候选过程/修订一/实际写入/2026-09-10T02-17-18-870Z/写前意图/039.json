@@ -1,0 +1,56 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_p/formulas",
+    "detailRoute": "/skills/shaco_p/formulas/backstab_shiv_execute_magic_damage",
+    "skillKey": "shaco_p",
+    "kind": "formulas",
+    "stableKey": "backstab_shiv_execute_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "backstab_shiv_execute_magic_damage",
+      "name": "背刺E斩杀附加魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shivs_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shivs_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shivs_execute_multiplier"
+          }
+        ]
+      },
+      "description": "ShivDamageExecute=完整ShivDamage×1.5；不是只乘基础段。",
+      "sortOrder": 30
+    }
+  }
+}

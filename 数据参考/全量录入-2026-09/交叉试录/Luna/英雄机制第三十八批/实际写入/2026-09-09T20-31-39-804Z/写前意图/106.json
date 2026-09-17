@@ -1,0 +1,23 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/rock_hold_duration_ms",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "rock_hold_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rock_hold_duration_ms",
+      "name": "撼地巨石持有时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前RockHoldDuration=5秒，转换为5000毫秒。",
+      "sortOrder": 90
+    }
+  }
+}

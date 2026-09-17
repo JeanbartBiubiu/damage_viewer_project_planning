@@ -1,0 +1,44 @@
+{
+  "sequence": 68,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/blitzcrank_r/parameters",
+    "detailRoute": "/skills/blitzcrank_r/parameters/passive_ap_ratio",
+    "skillKey": "blitzcrank_r",
+    "kind": "parameters",
+    "stableKey": "passive_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_ap_ratio",
+      "name": "被动法术强度倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.4,
+        "3": 0.5
+      },
+      "description": "当前绑定DataValues.PassiveAPRatio索引1至3为0.3/0.4/0.5；正文以百分号显示时由比例×100。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 381,
+    "method": "GET",
+    "route": "/skills/blitzcrank_r/parameters/passive_ap_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "passive_ap_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:59.353Z"
+  }
+}

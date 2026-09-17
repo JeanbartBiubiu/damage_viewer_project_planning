@@ -1,0 +1,23 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "method": "POST",
+    "route": "/skills/corki_w/parameters",
+    "detailRoute": "/skills/corki_w/parameters/maximum_ticks",
+    "skillKey": "corki_w",
+    "kind": "parameters",
+    "stableKey": "maximum_ticks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "maximum_ticks",
+      "name": "最大过程次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前DataValues.MaximumTicks=5；不据此推断每跳均分或首末跳时序。",
+      "sortOrder": 60
+    }
+  }
+}

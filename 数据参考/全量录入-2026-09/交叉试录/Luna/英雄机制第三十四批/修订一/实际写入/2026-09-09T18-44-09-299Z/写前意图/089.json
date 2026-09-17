@@ -1,0 +1,45 @@
+{
+  "i": 88,
+  "intent": {
+    "sequence": 92,
+    "method": "POST",
+    "route": "/skills/leblanc_r/formulas",
+    "detailRoute": "/skills/leblanc_r/formulas/replicated_e_delayed_damage",
+    "skillKey": "leblanc_r",
+    "kind": "formulas",
+    "stableKey": "replicated_e_delayed_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "replicated_e_delayed_damage",
+      "name": "故技重施复制E延迟魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "re2_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "re2_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "RE2Damage = RE2Base + 0.85×来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "method": "POST",
+    "route": "/skills/karma_r/formulas",
+    "detailRoute": "/skills/karma_r/formulas/re_bonus_shield_value",
+    "skillKey": "karma_r",
+    "kind": "formulas",
+    "stableKey": "re_bonus_shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "re_bonus_shield_value",
+      "name": "梵咒E主目标额外护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "re_bonus_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "re_bonus_shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "主目标额外护盾值；附近友方范围不录。",
+      "sortOrder": 60
+    }
+  }
+}

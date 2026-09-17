@@ -1,0 +1,29 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "method": "POST",
+    "route": "/skills/thresh_e/parameters",
+    "detailRoute": "/skills/thresh_e/parameters/active_base_damage",
+    "skillKey": "thresh_e",
+    "kind": "parameters",
+    "stableKey": "active_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_base_damage",
+      "name": "厄运钟摆主动基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 65,
+        "2": 110,
+        "3": 155,
+        "4": 200,
+        "5": 245
+      },
+      "description": "当前ActiveBaseDamage技能等级1至5为65/110/155/200/245；索引0的20不是一级。",
+      "sortOrder": 40
+    }
+  }
+}

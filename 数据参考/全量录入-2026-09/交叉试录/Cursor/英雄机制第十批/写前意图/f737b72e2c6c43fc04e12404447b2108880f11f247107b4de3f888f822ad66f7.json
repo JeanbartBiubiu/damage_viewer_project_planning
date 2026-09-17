@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:29:15.483Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/kogmaw_w/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "max_health_percent_points",
+    "name": "每次附伤最大生命百分比点数",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 3,
+      "2": 3.75,
+      "3": 4.5,
+      "4": 5.25,
+      "5": 6
+    },
+    "description": "客户端当前根绑定 DataValues.MaxHealthDamage 取索引1至5。",
+    "sortOrder": 40
+  }
+}

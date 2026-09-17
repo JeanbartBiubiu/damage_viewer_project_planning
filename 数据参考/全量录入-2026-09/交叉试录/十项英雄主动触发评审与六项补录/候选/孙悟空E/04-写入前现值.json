@@ -1,0 +1,974 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:34.985Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 126
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "d495d8bb9c7b1d70f2f1af52e8bd3cbbbd4b0ff12b2cde5bf4f32987d40f92ba",
+  "frozenRequestSha256": "531e38b2fa13ed34741257886ad0ba925a0dc4b9d6c233288ce6eb1470dc4654",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/monkeyking_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:28.249752Z",
+          "description": "孙悟空突进至一名目标敌人处，并放出幻象来攻击他目标附近的敌人，同时对每个被击中的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "孙悟空·腾云突击",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "monkeyking_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:28.249752Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_monkeyking",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_monkeyking",
+          "createdAt": "2026-09-06T17:15:37.521888Z",
+          "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+          "gameId": "lol",
+          "name": "孙悟空",
+          "updatedAt": "2026-09-06T17:15:37.521888Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_monkeyking/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_monkeyking",
+          "levelValues": {
+            "1": {
+              "move_speed": 340,
+              "hp": 610,
+              "hp_regen": 3.5,
+              "mana": 330,
+              "mana_regen": 8,
+              "armor": 31,
+              "magic_resistance": 28,
+              "attack_damage": 66,
+              "attack_speed": 0.69,
+              "attack_range": 175
+            },
+            "2": {
+              "move_speed": 340,
+              "hp": 681.28,
+              "hp_regen": 3.968,
+              "mana": 376.8,
+              "mana_regen": 8.576,
+              "armor": 34.384,
+              "magic_resistance": 29.476,
+              "attack_damage": 68.52,
+              "attack_speed": 0.704213,
+              "attack_range": 175
+            },
+            "3": {
+              "move_speed": 340,
+              "hp": 756.025,
+              "hp_regen": 4.45875,
+              "mana": 425.875,
+              "mana_regen": 9.18,
+              "armor": 37.9325,
+              "magic_resistance": 31.02375,
+              "attack_damage": 71.1625,
+              "attack_speed": 0.719116,
+              "attack_range": 175
+            },
+            "4": {
+              "move_speed": 340,
+              "hp": 834.235,
+              "hp_regen": 4.97225,
+              "mana": 477.225,
+              "mana_regen": 9.812,
+              "armor": 41.6455,
+              "magic_resistance": 32.64325,
+              "attack_damage": 73.9275,
+              "attack_speed": 0.734711,
+              "attack_range": 175
+            },
+            "5": {
+              "move_speed": 340,
+              "hp": 915.91,
+              "hp_regen": 5.5085,
+              "mana": 530.85,
+              "mana_regen": 10.472,
+              "armor": 45.523,
+              "magic_resistance": 34.3345,
+              "attack_damage": 76.815,
+              "attack_speed": 0.750997,
+              "attack_range": 175
+            },
+            "6": {
+              "move_speed": 340,
+              "hp": 1001.05,
+              "hp_regen": 6.0675,
+              "mana": 586.75,
+              "mana_regen": 11.16,
+              "armor": 49.565,
+              "magic_resistance": 36.0975,
+              "attack_damage": 79.825,
+              "attack_speed": 0.767973,
+              "attack_range": 175
+            },
+            "7": {
+              "move_speed": 340,
+              "hp": 1089.655,
+              "hp_regen": 6.64925,
+              "mana": 644.925,
+              "mana_regen": 11.876,
+              "armor": 53.7715,
+              "magic_resistance": 37.93225,
+              "attack_damage": 82.9575,
+              "attack_speed": 0.78564,
+              "attack_range": 175
+            },
+            "8": {
+              "move_speed": 340,
+              "hp": 1181.725,
+              "hp_regen": 7.25375,
+              "mana": 705.375,
+              "mana_regen": 12.62,
+              "armor": 58.1425,
+              "magic_resistance": 39.83875,
+              "attack_damage": 86.2125,
+              "attack_speed": 0.803998,
+              "attack_range": 175
+            },
+            "9": {
+              "move_speed": 340,
+              "hp": 1277.26,
+              "hp_regen": 7.881,
+              "mana": 768.1,
+              "mana_regen": 13.392,
+              "armor": 62.678,
+              "magic_resistance": 41.817,
+              "attack_damage": 89.59,
+              "attack_speed": 0.823048,
+              "attack_range": 175
+            },
+            "10": {
+              "move_speed": 340,
+              "hp": 1376.26,
+              "hp_regen": 8.531,
+              "mana": 833.1,
+              "mana_regen": 14.192,
+              "armor": 67.378,
+              "magic_resistance": 43.867,
+              "attack_damage": 93.09,
+              "attack_speed": 0.842788,
+              "attack_range": 175
+            },
+            "11": {
+              "move_speed": 340,
+              "hp": 1478.725,
+              "hp_regen": 9.20375,
+              "mana": 900.375,
+              "mana_regen": 15.02,
+              "armor": 72.2425,
+              "magic_resistance": 45.98875,
+              "attack_damage": 96.7125,
+              "attack_speed": 0.863218,
+              "attack_range": 175
+            },
+            "12": {
+              "move_speed": 340,
+              "hp": 1584.655,
+              "hp_regen": 9.89925,
+              "mana": 969.925,
+              "mana_regen": 15.876,
+              "armor": 77.2715,
+              "magic_resistance": 48.18225,
+              "attack_damage": 100.4575,
+              "attack_speed": 0.88434,
+              "attack_range": 175
+            },
+            "13": {
+              "move_speed": 340,
+              "hp": 1694.05,
+              "hp_regen": 10.6175,
+              "mana": 1041.75,
+              "mana_regen": 16.76,
+              "armor": 82.465,
+              "magic_resistance": 50.4475,
+              "attack_damage": 104.325,
+              "attack_speed": 0.906153,
+              "attack_range": 175
+            },
+            "14": {
+              "move_speed": 340,
+              "hp": 1806.91,
+              "hp_regen": 11.3585,
+              "mana": 1115.85,
+              "mana_regen": 17.672,
+              "armor": 87.823,
+              "magic_resistance": 52.7845,
+              "attack_damage": 108.315,
+              "attack_speed": 0.928657,
+              "attack_range": 175
+            },
+            "15": {
+              "move_speed": 340,
+              "hp": 1923.235,
+              "hp_regen": 12.12225,
+              "mana": 1192.225,
+              "mana_regen": 18.612,
+              "armor": 93.3455,
+              "magic_resistance": 55.19325,
+              "attack_damage": 112.4275,
+              "attack_speed": 0.951851,
+              "attack_range": 175
+            },
+            "16": {
+              "move_speed": 340,
+              "hp": 2043.025,
+              "hp_regen": 12.90875,
+              "mana": 1270.875,
+              "mana_regen": 19.58,
+              "armor": 99.0325,
+              "magic_resistance": 57.67375,
+              "attack_damage": 116.6625,
+              "attack_speed": 0.975737,
+              "attack_range": 175
+            },
+            "17": {
+              "move_speed": 340,
+              "hp": 2166.28,
+              "hp_regen": 13.718,
+              "mana": 1351.8,
+              "mana_regen": 20.576,
+              "armor": 104.884,
+              "magic_resistance": 60.226,
+              "attack_damage": 121.02,
+              "attack_speed": 1.000313,
+              "attack_range": 175
+            },
+            "18": {
+              "move_speed": 340,
+              "hp": 2293,
+              "hp_regen": 14.55,
+              "mana": 1435,
+              "mana_regen": 21.6,
+              "armor": 110.9,
+              "magic_resistance": 62.85,
+              "attack_damage": 125.5,
+              "attack_speed": 1.02558,
+              "attack_range": 175
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_monkeyking/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_monkeyking",
+            "name": "champion_monkeyking"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_monkeyking",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_monkeyking",
+              "characterName": "孙悟空",
+              "gameId": "lol",
+              "skillKey": "monkeyking_p",
+              "skillName": "孙悟空·金刚不坏",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_monkeyking",
+              "characterName": "孙悟空",
+              "gameId": "lol",
+              "skillKey": "monkeyking_q",
+              "skillName": "孙悟空·粉碎打击",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_monkeyking",
+              "characterName": "孙悟空",
+              "gameId": "lol",
+              "skillKey": "monkeyking_w",
+              "skillName": "孙悟空·真假猴王",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_monkeyking",
+              "characterName": "孙悟空",
+              "gameId": "lol",
+              "skillKey": "monkeyking_e",
+              "skillName": "孙悟空·腾云突击",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_monkeyking",
+              "characterName": "孙悟空",
+              "gameId": "lol",
+              "skillKey": "monkeyking_r",
+              "skillName": "孙悟空·大闹天宫",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=monkeyking_e",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_monkeyking",
+              "characterName": "孙悟空",
+              "gameId": "lol",
+              "skillKey": "monkeyking_e",
+              "skillName": "孙悟空·腾云突击",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/monkeyking_e/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_monkeyking_e",
+            "name": "monkeyking_e"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/monkeyking_e/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/monkeyking_e/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-10T02:03:30.760501Z",
+              "description": "来源80/120/160/200/240。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 80,
+                "2": 120,
+                "3": 160,
+                "4": 200,
+                "5": 240
+              },
+              "name": "当前敌人基础魔法伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T02:03:30.760501Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-10T02:03:32.249046Z",
+              "description": "当前树mCoefficient=1，按来源法强。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法强倍率",
+              "parameterKey": "ap_ratio",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-10T02:03:32.249046Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-10T02:03:34.047803Z",
+              "description": "来源0.40至0.60，比例本身按1表示100%；属性增量用平加区。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.400000006,
+                "2": 0.4499999881,
+                "3": 0.5,
+                "4": 0.5500000119,
+                "5": 0.6000000238
+              },
+              "name": "自身攻击速度增加比例",
+              "parameterKey": "attack_speed_ratio",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-10T02:03:34.047803Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-10T02:03:35.553338Z",
+              "description": "5秒转毫秒。",
+              "fixedValue": 5000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "攻击速度持续（毫秒）",
+              "parameterKey": "attack_speed_duration_ms",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-10T02:03:35.553338Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-10T02:03:37.144755Z",
+              "description": "当前E单目标本体突进DataValues.DashSpeed=1050；不是导弹速度2200，额外目标分身排除。",
+              "fixedValue": 1050,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "本体突进速度",
+              "parameterKey": "dash_speed",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-10T02:03:37.144755Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T02:40:46.053838Z",
+              "description": "DDragon16.17.1 MonkeyKing.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 10000,
+                "2": 9250,
+                "3": 8500,
+                "4": 7750,
+                "5": 7000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-08T02:40:46.053838Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T02:40:46.552849Z",
+              "description": "DDragon16.17.1 MonkeyKing.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 30,
+                "2": 35,
+                "3": 40,
+                "4": 45,
+                "5": 50
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-08T02:40:46.552849Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "ap_ratio",
+          "attack_speed_duration_ms",
+          "attack_speed_ratio",
+          "base_damage",
+          "cooldown_ms",
+          "dash_speed",
+          "mana_cost"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/parameters/ap_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-10T02:03:32.249046Z",
+              "description": "当前树mCoefficient=1，按来源法强。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法强倍率",
+              "parameterKey": "ap_ratio",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-10T02:03:32.249046Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/parameters/attack_speed_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-10T02:03:35.553338Z",
+              "description": "5秒转毫秒。",
+              "fixedValue": 5000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "攻击速度持续（毫秒）",
+              "parameterKey": "attack_speed_duration_ms",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-10T02:03:35.553338Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/parameters/attack_speed_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-10T02:03:34.047803Z",
+              "description": "来源0.40至0.60，比例本身按1表示100%；属性增量用平加区。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.400000006,
+                "2": 0.4499999881,
+                "3": 0.5,
+                "4": 0.5500000119,
+                "5": 0.6000000238
+              },
+              "name": "自身攻击速度增加比例",
+              "parameterKey": "attack_speed_ratio",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-10T02:03:34.047803Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/parameters/base_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-10T02:03:30.760501Z",
+              "description": "来源80/120/160/200/240。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 80,
+                "2": 120,
+                "3": 160,
+                "4": 200,
+                "5": 240
+              },
+              "name": "当前敌人基础魔法伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T02:03:30.760501Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T02:40:46.053838Z",
+              "description": "DDragon16.17.1 MonkeyKing.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 10000,
+                "2": 9250,
+                "3": 8500,
+                "4": 7750,
+                "5": 7000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-08T02:40:46.053838Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/parameters/dash_speed",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-10T02:03:37.144755Z",
+              "description": "当前E单目标本体突进DataValues.DashSpeed=1050；不是导弹速度2200，额外目标分身排除。",
+              "fixedValue": 1050,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "本体突进速度",
+              "parameterKey": "dash_speed",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-10T02:03:37.144755Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/parameters/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T02:40:46.552849Z",
+              "description": "DDragon16.17.1 MonkeyKing.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 30,
+                "2": 35,
+                "3": 40,
+                "4": 45,
+                "5": 50
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-08T02:40:46.552849Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/monkeyking_e/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-10T02:03:38.696738Z",
+              "description": "本体当前敌人结果=基础值+1.0×法强。",
+              "formulaKey": "damage",
+              "gameId": "lol",
+              "name": "腾云突击当前敌人魔法伤害",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T02:03:38.696738Z"
+            },
+            {
+              "createdAt": "2026-09-10T02:03:40.155143Z",
+              "description": "来源0.40至0.60直接是系统比例；效果使用attribute_flat_add。",
+              "formulaKey": "attack_speed_ratio",
+              "gameId": "lol",
+              "name": "腾云突击自身攻击速度增加",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-10T02:03:40.155143Z"
+            }
+          ]
+        },
+        "keys": [
+          "attack_speed_ratio",
+          "damage"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/formulas/attack_speed_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-10T02:03:40.155143Z",
+              "description": "来源0.40至0.60直接是系统比例；效果使用attribute_flat_add。",
+              "expression": {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_speed_ratio"
+              },
+              "formulaKey": "attack_speed_ratio",
+              "gameId": "lol",
+              "name": "腾云突击自身攻击速度增加",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-10T02:03:40.155143Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/formulas/damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-10T02:03:38.696738Z",
+              "description": "本体当前敌人结果=基础值+1.0×法强。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "damage",
+              "gameId": "lol",
+              "name": "腾云突击当前敌人魔法伤害",
+              "skillKey": "monkeyking_e",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T02:03:38.696738Z"
+            }
+          }
+        ]
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/monkeyking_e/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-10T02:03:41.61829Z",
+              "description": "自身攻速增量保留；分身和额外敌人事件排除。",
+              "effectKey": "self_attack_speed",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "腾云突击自身攻击速度",
+              "resultCount": 1,
+              "skillKey": "monkeyking_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-10T02:03:41.61829Z"
+            },
+            {
+              "createdAt": "2026-09-10T02:03:43.156457Z",
+              "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "施放法力消耗",
+              "resultCount": 1,
+              "skillKey": "monkeyking_e",
+              "sortOrder": 900,
+              "updatedAt": "2026-09-10T02:03:43.156457Z"
+            }
+          ]
+        },
+        "keys": [
+          "mana_cost",
+          "self_attack_speed"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/effects/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-10T02:03:43.156457Z",
+              "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "施放法力消耗",
+              "results": [
+                {
+                  "description": "不表示战斗事件已经接线。",
+                  "detail": {
+                    "attributeKey": "mana",
+                    "operation": "CONSUME"
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "施放资源消耗",
+                  "resultKey": "consume_resource",
+                  "resultType": "RESOURCE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mana_cost"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "monkeyking_e",
+              "sortOrder": 900,
+              "updatedAt": "2026-09-10T02:03:43.156457Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/monkeyking_e/effects/self_attack_speed",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-10T02:03:41.61829Z",
+              "description": "自身攻速增量保留；分身和额外敌人事件排除。",
+              "effectKey": "self_attack_speed",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "attack_speed_duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "腾云突击自身攻击速度",
+              "results": [
+                {
+                  "description": "只定义自身属性变化，触发条件由事件层接线。",
+                  "detail": {
+                    "attributeKey": "bonus_attack_speed_percent",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "腾云突击自身攻击速度",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "attack_speed_ratio",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "monkeyking_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-10T02:03:41.61829Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/monkeyking_e/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/monkeyking_e/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/monkeyking_e/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

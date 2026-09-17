@@ -1,0 +1,45 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "method": "POST",
+    "route": "/skills/thresh_q/formulas",
+    "detailRoute": "/skills/thresh_q/formulas/enemy_magic_damage",
+    "skillKey": "thresh_q",
+    "kind": "formulas",
+    "stableKey": "enemy_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "enemy_magic_damage",
+      "name": "死亡判决单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=BaseDamage+0.9×来源总法强；真实视野是过程附带信息，不生成结果。",
+      "sortOrder": 10
+    }
+  }
+}

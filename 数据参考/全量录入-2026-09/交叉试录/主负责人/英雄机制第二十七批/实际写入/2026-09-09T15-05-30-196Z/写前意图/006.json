@@ -1,0 +1,26 @@
+{
+  "i": 5,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_q/parameters",
+    "skillKey": "gragas_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "最低基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "description": "当前根DataValues.BaseDamage取索引1至5。",
+      "sortOrder": 30
+    }
+  }
+}

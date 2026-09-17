@@ -1,0 +1,24 @@
+{
+  "i": 217,
+  "intent": {
+    "sequence": 218,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/formulas",
+    "detailRoute": "/skills/locke_w/formulas/max_healing_threshold",
+    "skillKey": "locke_w",
+    "kind": "formulas",
+    "stableKey": "max_healing_threshold",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "max_healing_threshold",
+      "name": "灵焰仪式剩余生命治疗上限",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_max_healing_threshold"
+      },
+      "description": "运行层提供当前角色等级和法强后的实际上限。",
+      "sortOrder": 270
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_r/formulas",
+    "detailRoute": "/skills/gangplank_r/formulas/full_magic_damage_with_extra_waves",
+    "skillKey": "gangplank_r",
+    "kind": "formulas",
+    "stableKey": "full_magic_damage_with_extra_waves",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "full_magic_damage_with_extra_waves",
+      "name": "随意开火升级全程魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_waves"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "additional_waves"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_wave"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "随意开火全程波数=12+6；只记录来源明确的战前升级分支。",
+      "sortOrder": 30
+    }
+  }
+}

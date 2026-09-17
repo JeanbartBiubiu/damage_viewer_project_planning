@@ -1,0 +1,45 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "method": "POST",
+    "route": "/skills/yone_q/formulas",
+    "detailRoute": "/skills/yone_q/formulas/physical_damage",
+    "skillKey": "yone_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "错玉切单一敌方物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前QDamage树=基础伤害+1.1×来源总攻击力；第三次旋风同一伤害不重复计算。",
+      "sortOrder": 10
+    }
+  }
+}

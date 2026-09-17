@@ -1,0 +1,3305 @@
+{
+  "at": "2026-09-09T09:58:35.691Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "phase": "写后",
+  "runId": "2026-09-09T09-58-13-337Z",
+  "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "planSha256": "eefb4349d27c7ac42b3192eac33981551b5dfeebe2fbdb4957f1948feeed3991",
+  "originalSnapshotSha256": "79142b374fba9a9b5f099dda33525788ca1071ea35bc668b5998721cabe8f834",
+  "sourceVersion": "client16.17/official16.17.1",
+  "scope": "读取实际参数、公式、效果详情后独立求值；与冻结客户端原树和明确算例交叉核对。未知输入拒绝求值，不代表战斗运行通过。",
+  "checks": 1104,
+  "failedChecks": 0,
+  "failures": [],
+  "readback": {
+    "phase": "写后",
+    "successfulDetails": 219,
+    "expectedFull": 219,
+    "missingComponents": [],
+    "fullComparisons": [
+      {
+        "skillKey": "viktor_p",
+        "kind": "parameters",
+        "id": "minion_stacks",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_p",
+        "kind": "parameters",
+        "id": "cannon_stacks",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_p",
+        "kind": "parameters",
+        "id": "champion_stacks",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_p",
+        "kind": "parameters",
+        "id": "evolution_stack_breakpoint",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "missile_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "next_attack_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "buff_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "missile_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "next_attack_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "shield_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "augmented_shield_multiplier",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "augment_move_speed_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "shield_amount_level_value",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "next_attack_window_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "formulas",
+        "id": "missile_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "formulas",
+        "id": "next_attack_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "formulas",
+        "id": "shield_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "formulas",
+        "id": "augmented_shield_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "effects",
+        "id": "shield",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "effects",
+        "id": "augmented_shield",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "effects",
+        "id": "augment_move_speed",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "stun_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "field_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "stack_cadence_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "stun_stack_count",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "augment_slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "stun_residence_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "laser_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "aftershock_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "aftershock_delay_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "laser_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "aftershock_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "formulas",
+        "id": "laser_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "formulas",
+        "id": "aftershock_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "initial_burst_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "subsequent_burst_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "storm_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "tick_cadence_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "max_ticks",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "augment_boost_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "max_growths",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "subsequent_burst_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "initial_burst_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "duration_extension_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "formulas",
+        "id": "initial_burst_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "formulas",
+        "id": "subsequent_burst_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "stack_damage_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "stack_count",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "stack_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "passive_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "passive_total_damage_level_value",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "formulas",
+        "id": "passive_total_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "formulas",
+        "id": "passive_stack_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "formulas",
+        "id": "passive_max_stack_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "reduced_damage_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "minimum_damage_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "calculation_constant_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "formulas",
+        "id": "minimum_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "self_haste_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "field_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "slow_haste_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "shield_base_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "defense_bonus",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "pass_through_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "shield_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "calculation_constant_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "formulas",
+        "id": "pass_through_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "formulas",
+        "id": "shield_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "control_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "mark_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "q_upgrade_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "w_upgrade_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "e_upgrade_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "r_upgrade_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "capstone_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "max_stack_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "stack_per_siege",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "passive_mark_cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "passive_stacks_per_level",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "stacks_per_proc_level_value",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "mana_per_proc_level_value_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "q_upgrade_max_ammo",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "sphere_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_3",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_4",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_5",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "formulas",
+        "id": "throw_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "formulas",
+        "id": "passive_bonus_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "formulas",
+        "id": "passive_bonus_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "stun_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "upgraded_slow_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "upgraded_slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "damage_per_sphere",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "max_spheres_to_use",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "execute_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "q_haste_per_rank",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "tooltip_q_haste",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "min_spheres_to_use",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "formulas",
+        "id": "damage_per_sphere_total",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "formulas",
+        "id": "minimum_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "formulas",
+        "id": "maximum_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_p",
+        "kind": "parameters",
+        "id": "wall_speed_falloff_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_p",
+        "kind": "parameters",
+        "id": "wall_move_speed_ratio_level_value",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "worked_ground_cooldown_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "minimum_worked_ground_cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "big_rock_damage_multiplier",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "subsequent_rock_reduction_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "worked_ground_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "worked_ground_mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "formulas",
+        "id": "rock_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "formulas",
+        "id": "big_rock_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "formulas",
+        "id": "max_rock_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "effects",
+        "id": "worked_ground_mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_w",
+        "kind": "parameters",
+        "id": "knockup_delay_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "scatter_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "detonation_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "stun_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "max_stun_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "mine_damage_falloff_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "delay_between_rows_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "mine_lifetime_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "calculation_constant_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "calculation_constant_3",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "formulas",
+        "id": "scatter_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "formulas",
+        "id": "detonation_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "formulas",
+        "id": "max_detonation_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "parameters",
+        "id": "channel_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "parameters",
+        "id": "damage_lockout_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      }
+    ],
+    "listChecks": [
+      {
+        "skillKey": "viktor_p",
+        "kind": "parameters",
+        "id": "minion_stacks",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_p",
+        "kind": "parameters",
+        "id": "cannon_stacks",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_p",
+        "kind": "parameters",
+        "id": "champion_stacks",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_p",
+        "kind": "parameters",
+        "id": "evolution_stack_breakpoint",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "missile_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "next_attack_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "buff_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "next_attack_window_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "missile_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "next_attack_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "shield_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "augmented_shield_multiplier",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "augment_move_speed_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "parameters",
+        "id": "shield_amount_level_value",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "formulas",
+        "id": "missile_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "formulas",
+        "id": "next_attack_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "formulas",
+        "id": "shield_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "formulas",
+        "id": "augmented_shield_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "effects",
+        "id": "shield",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "effects",
+        "id": "augmented_shield",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_q",
+        "kind": "effects",
+        "id": "augment_move_speed",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "stun_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "field_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "stack_cadence_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "stun_stack_count",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "augment_slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "stun_residence_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "laser_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "aftershock_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "aftershock_delay_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "laser_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "aftershock_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "formulas",
+        "id": "laser_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "formulas",
+        "id": "aftershock_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "initial_burst_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "subsequent_burst_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "storm_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "tick_cadence_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "max_ticks",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "augment_boost_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "max_growths",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "subsequent_burst_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "initial_burst_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "parameters",
+        "id": "duration_extension_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "formulas",
+        "id": "initial_burst_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "formulas",
+        "id": "subsequent_burst_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "viktor_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "stack_damage_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "stack_count",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "stack_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "passive_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "passive_total_damage_level_value",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "formulas",
+        "id": "passive_total_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "formulas",
+        "id": "passive_stack_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_p",
+        "kind": "formulas",
+        "id": "passive_max_stack_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "reduced_damage_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "minimum_damage_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "calculation_constant_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "formulas",
+        "id": "minimum_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "self_haste_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "field_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "slow_haste_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "shield_base_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "defense_bonus",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "pass_through_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "shield_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "calculation_constant_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "formulas",
+        "id": "pass_through_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "formulas",
+        "id": "shield_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "control_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "orianna_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "mark_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "q_upgrade_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "w_upgrade_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "e_upgrade_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "r_upgrade_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "capstone_ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "max_stack_amount",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "stack_per_siege",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "passive_mark_cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "passive_stacks_per_level",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "stacks_per_proc_level_value",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_p",
+        "kind": "parameters",
+        "id": "mana_per_proc_level_value_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "q_upgrade_max_ammo",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "sphere_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_3",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_4",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "calculation_constant_5",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "formulas",
+        "id": "throw_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "formulas",
+        "id": "passive_bonus_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "formulas",
+        "id": "passive_bonus_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "stun_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "upgraded_slow_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "upgraded_slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "formulas",
+        "id": "damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "damage_per_sphere",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "max_spheres_to_use",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "execute_threshold",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "q_haste_per_rank",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "tooltip_q_haste",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "min_spheres_to_use",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "formulas",
+        "id": "damage_per_sphere_total",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "formulas",
+        "id": "minimum_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "formulas",
+        "id": "maximum_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "syndra_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_p",
+        "kind": "parameters",
+        "id": "wall_speed_falloff_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_p",
+        "kind": "parameters",
+        "id": "wall_move_speed_ratio_level_value",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "worked_ground_cooldown_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "minimum_worked_ground_cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "big_rock_damage_multiplier",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "subsequent_rock_reduction_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "worked_ground_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "worked_ground_mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "formulas",
+        "id": "rock_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "formulas",
+        "id": "big_rock_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "formulas",
+        "id": "max_rock_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_q",
+        "kind": "effects",
+        "id": "worked_ground_mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_w",
+        "kind": "parameters",
+        "id": "knockup_delay_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "scatter_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "detonation_base_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "stun_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "max_stun_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "mine_damage_falloff_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "delay_between_rows_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "mine_lifetime_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "calculation_constant_1",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "calculation_constant_2",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "parameters",
+        "id": "calculation_constant_3",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "formulas",
+        "id": "scatter_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "formulas",
+        "id": "detonation_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "formulas",
+        "id": "max_detonation_damage",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "parameters",
+        "id": "channel_duration_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "parameters",
+        "id": "damage_lockout_ms",
+        "passed": true,
+        "diff": null
+      },
+      {
+        "skillKey": "taliyah_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "passed": true,
+        "diff": null
+      }
+    ]
+  },
+  "formulas": {
+    "total": 31,
+    "checks": [
+      {
+        "formulaKey": "viktor_q/missile_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "viktor_q/next_attack_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "viktor_q/shield_amount",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "viktor_q/augmented_shield_amount",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "viktor_e/laser_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "viktor_e/aftershock_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "viktor_r/initial_burst_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "viktor_r/subsequent_burst_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "orianna_p/passive_total_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "orianna_p/passive_stack_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "orianna_p/passive_max_stack_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "orianna_q/damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "orianna_q/minimum_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "orianna_w/damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "orianna_e/pass_through_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "orianna_e/shield_amount",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "orianna_r/damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "syndra_q/damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "syndra_w/throw_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "syndra_w/passive_bonus_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "syndra_w/passive_bonus_ratio",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "syndra_e/damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "syndra_r/damage_per_sphere_total",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "syndra_r/minimum_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "syndra_r/maximum_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "taliyah_q/rock_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "taliyah_q/big_rock_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "taliyah_q/max_rock_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "taliyah_e/scatter_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "taliyah_e/detonation_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      },
+      {
+        "formulaKey": "taliyah_e/max_detonation_damage",
+        "status": "MISSING_COMPONENT",
+        "passed": null,
+        "actualStatus": null
+      }
+    ],
+    "sourceChecks": [],
+    "inputRejections": []
+  },
+  "requiredCatalogReferences": [
+    {
+      "catalogKey": "attributeKey",
+      "value": "mana",
+      "present": true
+    },
+    {
+      "catalogKey": "attributeKey",
+      "value": "move_speed_percent",
+      "present": true
+    },
+    {
+      "catalogKey": "modifierZoneKey",
+      "value": "attribute_flat_add",
+      "present": true
+    }
+  ],
+  "notes": [
+    "syndra_p/stacks_per_proc_level_value是外供参数，当前没有公式消费；没有为它制造直通公式。",
+    "syndra_p/mana_per_proc_level_value_2是外供参数，当前没有公式消费；没有为它制造直通公式。",
+    "taliyah_p/wall_move_speed_ratio_level_value是外供参数，当前没有公式消费；没有为它制造直通公式。"
+  ]
+}

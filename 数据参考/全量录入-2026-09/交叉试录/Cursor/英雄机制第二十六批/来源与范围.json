@@ -1,0 +1,42 @@
+{
+  "batch": "英雄机制第二十六批",
+  "status": "候选已冻结，严格数学通过，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "sourcePolicy": "固定客户端16.17、官方16.17.1和构建16.17.8104348；沿当前根绑定正文和当前计算树；未知等级曲线、资源类型和运行输入不猜、不设默认。",
+  "included": [
+    "阿利斯塔：自身治疗、单一敌方魔法伤害、控制持续、践踏持续总量、满层参数和R减伤公式。",
+    "布里茨：自身护盾、单一敌方魔法伤害、W自身属性效果、E整次强化攻击公式、R被动/主动伤害公式和沉默持续。",
+    "明确的一次法力消耗组成、来源明确的冷却/施法/持续时间参数。"
+  ],
+  "excludedOrPending": [
+    "第三友军治疗、兵野专用规则、范围和位移几何、纯碰撞/视觉规则、匿名旧公式。",
+    "伤害结果、直接治疗结果、瞬时求值、周期过程和自动触发。",
+    "未证等级断点中间曲线、能力资源类型及当前/总值资格、命中/控制/净化/标记/护盾移除事件。",
+    "阿利斯塔R减伤效果：当前乘区目录无可复用伤害减免乘区，本轮不新建乘区。"
+  ],
+  "counts": {
+    "parameters": 57,
+    "formulas": 10,
+    "effects": 12,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "requestCount": 79,
+    "reusedPublicParameters": 13,
+    "protectedSubjects": 10,
+    "protectedCompositionLists": 60
+  },
+  "hashes": {
+    "candidateSha256": "f43dd3ed4a1a7b14b41e45fc555693657b6d9d821336c3202dbd82e0eb737876",
+    "planSha256": "94f4ca00ad33135ab9cc2108548c34f0051b477e38d4411d05cfce2d6ed91a97",
+    "sourceValuesSha256": "a917e238455e40ce47a27aa9c3a3ad6e62172a6a17423eb827cd571d13894556",
+    "sourceManifestSha256": "09effbee73db1747adfe757e0cf0092522fdf709b702a4d8184604c82fc25eca",
+    "strictMathSha256": "d5e5cde10813026b6416fef86680338d6040982cc0203f5b113f5c6aa9a20809"
+  },
+  "noApiCalls": true
+}

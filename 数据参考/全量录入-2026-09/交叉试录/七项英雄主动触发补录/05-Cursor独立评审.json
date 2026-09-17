@@ -1,0 +1,677 @@
+{
+  "schemaVersion": 2,
+  "createdAt": "2026-09-13T04:10:41.762Z",
+  "status": "READY",
+  "verdict": "READY",
+  "accepted": true,
+  "revision": "rev1",
+  "reviewedPlanRevision": 1,
+  "resultStatus": "finished",
+  "runId": "run-680e3a81-1eb3-4c85-ad62-e18ee8e2d741",
+  "requestId": "8cd0b710-eb26-455b-9205-4c590033b77f",
+  "agentId": "agent-024b3e6d-dde3-4d94-9b67-ff56357e94f3",
+  "runtimeUsed": "sdk",
+  "sdkVersion": "1.0.24",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "command": "node \"数据参考\\全量录入-2026-09\\交叉试录\\七项英雄主动触发补录\\Cursor终审只读检查.mjs\"",
+  "reviewedFiles": [
+    "批次配置.mjs",
+    "00-独立语义评审.json",
+    "README.md",
+    "01-合并方案.md",
+    "02-合并冻结请求.json",
+    "03-来源散列快照.json",
+    "04-共享写前现值.json",
+    "受保护写入.mjs",
+    "独立GET回读.mjs",
+    "只读页面验收.mjs",
+    "Cursor终审只读检查.mjs"
+  ],
+  "approvedInputHashes": {
+    "批次配置.mjs": "107c7073a3277407f1c2870b55e1d2523e44f013bf393c769327c64059011c49",
+    "00-独立语义评审.json": "4bdef5f1f8d596fa183264d33100b8bd664079d4bf2910dc080b700d9a766721",
+    "README.md": "0e19856775c2f21951fe48153096a2c82427b15689c169fbe119c5b3377dd9c6",
+    "01-合并方案.md": "a006d1716d1bf4974739dc39d45de645dcf1869ba30dcf45a242a356fd2febac",
+    "02-合并冻结请求.json": "5685a38960a58b4f9b99de150da8bfc0dd80b99c3e3918f1dd7febc4dd030ec2",
+    "03-来源散列快照.json": "073a2210f6ba063d1f21254ddf6dc44111d30ccdcb3cac12cf1e75de9b037217",
+    "04-共享写前现值.json": "141d76464e5529d3bd38679692c53830bf259d8157643fc553070845546c34c1",
+    "受保护写入.mjs": "d8d2be02714f51f531ce87411e950163ae80062f1cc3e605a89eeeacf7bf2fc1",
+    "独立GET回读.mjs": "a47cf803ed1f14f7b03f193e7ec50bd188fd1b40dafc544535203870982e1c28",
+    "只读页面验收.mjs": "0f9f32689401a6315e27886cbc0f6451ebdd39169756d7dd5da947f4eac2977e",
+    "Cursor终审只读检查.mjs": "f735b58b1927bd01356cef846ca5d736ac95a97dec107bd1dbce0162c1455732"
+  },
+  "checker": {
+    "status": "READY",
+    "verdict": "READY",
+    "planRevision": 1,
+    "semanticReview": {
+      "verdict": "READY_WITH_DEFERRED",
+      "accepted": [
+        {
+          "id": "nautilus",
+          "skillKey": "nautilus_w",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "nautilus_w",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "EXECUTE_EFFECT:shield"
+          ],
+          "reason": "已有 shield 完整定义自身普通护盾、等级数值、6000毫秒持续时间和刷新方式，且不依赖动态输入；未形成效果的攻击附伤不会被本动作执行。",
+          "omitted": [
+            "法力消耗与冷却",
+            "护盾存在期间的当前目标和附近目标攻击附伤",
+            "两秒伤害的周期与总量分配"
+          ],
+          "evidence": [
+            "GET /skills/nautilus_w/effects/shield 为200",
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十二批/最终候选.json"
+          ]
+        },
+        {
+          "id": "missfortune",
+          "skillKey": "missfortune_w",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "missfortune_w",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "EXECUTE_EFFECT:active_attack_speed"
+          ],
+          "reason": "已有 active_attack_speed 独立表达自身四秒攻击速度增益，等级参数不依赖动态输入；两阶段移速及受击清除不改变该结果本身。",
+          "omitted": [
+            "被动基础移速与满额移速状态",
+            "主动时达到满额移速及受击清除",
+            "厄运的眷顾冷却返还",
+            "法力消耗与基础冷却"
+          ],
+          "evidence": [
+            "GET /skills/missfortune_w/effects/active_attack_speed 为200",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json"
+          ]
+        },
+        {
+          "id": "aatrox",
+          "skillKey": "aatrox_r",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "aatrox_r",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "EXECUTE_EFFECT:attack_damage_amp"
+          ],
+          "reason": "已有 attack_damage_amp 独立表达自身攻击力百分比增幅、等级值和基础十秒持续时间，不依赖动态输入。",
+          "omitted": [
+            "衰减移动速度与自身治疗增幅",
+            "参与击杀延长和移速刷新",
+            "小兵恐惧及未收敛的施法时间"
+          ],
+          "evidence": [
+            "GET /skills/aatrox_r/effects/attack_damage_amp 为200",
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十九批/修订一候选.json"
+          ]
+        },
+        {
+          "id": "kennen",
+          "skillKey": "kennen_r",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "kennen_r",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "EXECUTE_EFFECT:armor",
+            "EXECUTE_EFFECT:magic_resistance"
+          ],
+          "reason": "已有 armor 与 magic_resistance 分别表达三秒自身护甲和魔抗，等级参数相同、修改属性不同且不依赖动态输入。",
+          "omitted": [
+            "每500毫秒周期伤害与首末次时点",
+            "同一目标后续命中伤害提高",
+            "雷缚印层数和附近多目标处理"
+          ],
+          "evidence": [
+            "GET /skills/kennen_r/effects/armor 为200",
+            "GET /skills/kennen_r/effects/magic_resistance 为200",
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十四批/最终候选.json"
+          ]
+        },
+        {
+          "id": "sivir",
+          "skillKey": "sivir_w",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "sivir_w",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "START_PROCESS:cast"
+          ],
+          "reason": "已有主动 cast 过程在开始时处理冷却和法力，并在 activate 步骤执行四秒攻击速度；规则只启动过程可避免重复结算。",
+          "omitted": [
+            "强化攻击次数与消费",
+            "弹射目标选择、额外目标伤害和共享暴击",
+            "小兵斩杀"
+          ],
+          "evidence": [
+            "GET /skills/sivir_w/processes/cast 为200",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json"
+          ]
+        },
+        {
+          "id": "renekton",
+          "skillKey": "renekton_r",
+          "ruleKey": "on_used",
+          "event": {
+            "eventType": "SKILL_USED",
+            "detail": {
+              "sourceSkillKey": "renekton_r",
+              "useKind": "ACTIVE"
+            }
+          },
+          "actions": [
+            "START_PROCESS:cast"
+          ],
+          "reason": "已有主动 cast 过程在开始时处理冷却，并在 start 步骤完成时执行十五秒最大生命增加；规则只启动过程，避免重复执行 dominance_health。",
+          "omitted": [
+            "当前生命值随最大生命值变化的资源语义",
+            "施放时和周期怒气",
+            "周期范围伤害、体型变化及技能范围交互"
+          ],
+          "evidence": [
+            "GET /skills/renekton_r/processes/cast 为200",
+            "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第六批/完整候选.json"
+          ]
+        }
+      ],
+      "deferred": [
+        {
+          "id": "ambessa",
+          "skillKey": "ambessa_w",
+          "ruleKey": "on_used",
+          "reason": "self_shield 的 shield_value 可达 RUNTIME_INPUT 参数 shield_base_at_character_level，但拟议动作没有绑定；当前 SKILL_USED 事件、内部状态和已支持绑定来源都不能提供角色等级。空绑定会被后端以400.INVALID_RUNTIME_INPUT_BINDING和BINDING_MISSING拒绝。",
+          "resolveBeforeWrite": [
+            "提供有来源证据的角色等级运行值绑定",
+            "或调整已保存参数和公式，使护盾基础值不再依赖未供给的动态输入"
+          ],
+          "evidence": [
+            "GET /skills/ambessa_w/formulas/shield_value 为200",
+            "GET /skills/ambessa_w/internal-states 为200且列表为空",
+            "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java:1783",
+            "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十七批/修订二/完整候选.json"
+          ]
+        }
+      ],
+      "businessWrites": 0,
+      "fileWrites": 0
+    },
+    "baseline": {
+      "getCount": 2644,
+      "statusCounts": {
+        "200": 2632,
+        "404": 12
+      },
+      "skillCount": 1062,
+      "ruleCount": 114,
+      "sourceInitializedCount": 24,
+      "oldRuleDetails": 114,
+      "candidateStatuses": [
+        {
+          "id": "nautilus",
+          "status": 404
+        },
+        {
+          "id": "missfortune",
+          "status": 404
+        },
+        {
+          "id": "aatrox",
+          "status": 404
+        },
+        {
+          "id": "kennen",
+          "status": 404
+        },
+        {
+          "id": "sivir",
+          "status": 404
+        },
+        {
+          "id": "renekton",
+          "status": 404
+        }
+      ]
+    },
+    "requests": [
+      {
+        "id": "nautilus",
+        "route": "/skills/nautilus_w/trigger-rules",
+        "detailRoute": "/skills/nautilus_w/trigger-rules/on_used",
+        "bodySha256": "1007cf6a7449610e4c512fe145acc3e6f5047d9e3544021aad2fe0340caee9bb"
+      },
+      {
+        "id": "missfortune",
+        "route": "/skills/missfortune_w/trigger-rules",
+        "detailRoute": "/skills/missfortune_w/trigger-rules/on_used",
+        "bodySha256": "ab5464b42c057fd2ffcb737411dcb5c2367401a20eeea1a55e1979b793e6f7a6"
+      },
+      {
+        "id": "aatrox",
+        "route": "/skills/aatrox_r/trigger-rules",
+        "detailRoute": "/skills/aatrox_r/trigger-rules/on_used",
+        "bodySha256": "9446f3aa0b12a88321dd7409f7beebc5bffb05128aa6051bd3b08d310bf72e2f"
+      },
+      {
+        "id": "kennen",
+        "route": "/skills/kennen_r/trigger-rules",
+        "detailRoute": "/skills/kennen_r/trigger-rules/on_used",
+        "bodySha256": "ed56a8bc52a199288b34f4dbb03d3539c14967946ba836690b67968134611287"
+      },
+      {
+        "id": "sivir",
+        "route": "/skills/sivir_w/trigger-rules",
+        "detailRoute": "/skills/sivir_w/trigger-rules/on_used",
+        "bodySha256": "fa1abd42d9391cbf51d942d83493cf4e17e6ceee14061a97bc7beed01f35e18d"
+      },
+      {
+        "id": "renekton",
+        "route": "/skills/renekton_r/trigger-rules",
+        "detailRoute": "/skills/renekton_r/trigger-rules/on_used",
+        "bodySha256": "aff9bbe31a2de468031db007e08e3f48f7ae544cd80ed9e61d87d2698744ea79"
+      }
+    ],
+    "semanticChecks": {
+      "nautilus": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "nautilus_w",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "execute_shield",
+            "name": "执行泰坦之怒自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": null,
+        "effectChecks": [
+          {
+            "effectKey": "shield",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "resultTarget": "SOURCE",
+            "valueKind": "FORMULA",
+            "valueKey": "shield_value",
+            "durationParameterKey": "shield_duration_ms"
+          }
+        ]
+      },
+      "missfortune": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "missfortune_w",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "execute_attack_speed",
+            "name": "执行大步流星主动攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "active_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": null,
+        "effectChecks": [
+          {
+            "effectKey": "active_attack_speed",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "bonus_attack_speed_ratio",
+            "durationParameterKey": "active_duration_ms"
+          }
+        ]
+      },
+      "aatrox": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "aatrox_r",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "execute_attack_damage_amp",
+            "name": "执行大灭自身攻击力提升",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_damage_amp"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": null,
+        "effectChecks": [
+          {
+            "effectKey": "attack_damage_amp",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "attack_damage_amp_ratio",
+            "durationParameterKey": "form_duration_ms"
+          }
+        ]
+      },
+      "kennen": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "kennen_r",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "execute_armor",
+            "name": "执行万雷天牢引自身护甲",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "armor"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "execute_magic_resistance",
+            "name": "执行万雷天牢引自身魔法抗性",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "magic_resistance"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": null,
+        "effectChecks": [
+          {
+            "effectKey": "armor",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "bonus_resistances",
+            "durationParameterKey": "duration_ms"
+          },
+          {
+            "effectKey": "magic_resistance",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "bonus_resistances",
+            "durationParameterKey": "duration_ms"
+          }
+        ]
+      },
+      "sivir": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "sivir_w",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动弹射施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": {
+          "processKey": "cast",
+          "activationType": "ACTIVE",
+          "cooldownParameterKey": "cooldown_ms",
+          "steps": [
+            {
+              "stepKey": "activate",
+              "stepType": "IMMEDIATE",
+              "sortOrder": 10
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "sortOrder": 10
+            },
+            {
+              "bindingKey": "ricochet_attack_speed",
+              "effectKey": "ricochet_attack_speed",
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "activate",
+              "sortOrder": 20
+            }
+          ]
+        },
+        "effectChecks": [
+          {
+            "effectKey": "ricochet_attack_speed",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "bonus_attack_speed_ratio",
+            "durationParameterKey": "buff_duration_ms"
+          }
+        ]
+      },
+      "renekton": {
+        "eventType": "SKILL_USED",
+        "eventDetail": {
+          "sourceSkillKey": "renekton_r",
+          "useKind": "ACTIVE"
+        },
+        "conditionKind": "NONE",
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动终极统治施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "processCheck": {
+          "processKey": "cast",
+          "activationType": "ACTIVE",
+          "cooldownParameterKey": "cooldown_ms",
+          "steps": [
+            {
+              "stepKey": "start",
+              "stepType": "IMMEDIATE",
+              "sortOrder": 10
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "dominance_health",
+              "effectKey": "dominance_health",
+              "momentType": "STEP_COMPLETE",
+              "stepKey": "start",
+              "sortOrder": 20
+            }
+          ]
+        },
+        "effectChecks": [
+          {
+            "effectKey": "dominance_health",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "maximum_health_gain",
+            "durationParameterKey": "duration_ms"
+          }
+        ]
+      }
+    },
+    "deferred": [
+      {
+        "id": "ambessa",
+        "directoryName": "七项英雄主动触发补录/候选/安蓓萨W",
+        "skillKey": "ambessa_w",
+        "ruleKey": "on_used",
+        "reason": "self_shield 可达公式依赖 RUNTIME_INPUT 参数 shield_base_at_character_level；当前 SKILL_USED 事件、内部状态和已支持来源均不能提供角色等级，空绑定会被后端拒绝。"
+      }
+    ],
+    "guardChecks": {
+      "explicitWriteSwitch": true,
+      "replayLock": true,
+      "approvedHashes": true,
+      "terminalCompletion": true,
+      "writerMethodsBounded": true,
+      "writerActionsExact": true,
+      "writerProcessChecks": true,
+      "writerEffectChecks": true,
+      "writerOutput": true,
+      "readbackGetOnly": true,
+      "readbackProcessChecks": true,
+      "readbackEffectChecks": true,
+      "browserWriteCount": true,
+      "browserNoFixedTokenValue": true,
+      "browserTargetFilter": true,
+      "noPreviousBatchFiles": true
+    },
+    "reviewedFiles": [
+      "批次配置.mjs",
+      "00-独立语义评审.json",
+      "README.md",
+      "01-合并方案.md",
+      "02-合并冻结请求.json",
+      "03-来源散列快照.json",
+      "04-共享写前现值.json",
+      "受保护写入.mjs",
+      "独立GET回读.mjs",
+      "只读页面验收.mjs",
+      "Cursor终审只读检查.mjs"
+    ],
+    "approvedInputHashes": {
+      "批次配置.mjs": "107c7073a3277407f1c2870b55e1d2523e44f013bf393c769327c64059011c49",
+      "00-独立语义评审.json": "4bdef5f1f8d596fa183264d33100b8bd664079d4bf2910dc080b700d9a766721",
+      "README.md": "0e19856775c2f21951fe48153096a2c82427b15689c169fbe119c5b3377dd9c6",
+      "01-合并方案.md": "a006d1716d1bf4974739dc39d45de645dcf1869ba30dcf45a242a356fd2febac",
+      "02-合并冻结请求.json": "5685a38960a58b4f9b99de150da8bfc0dd80b99c3e3918f1dd7febc4dd030ec2",
+      "03-来源散列快照.json": "073a2210f6ba063d1f21254ddf6dc44111d30ccdcb3cac12cf1e75de9b037217",
+      "04-共享写前现值.json": "141d76464e5529d3bd38679692c53830bf259d8157643fc553070845546c34c1",
+      "受保护写入.mjs": "d8d2be02714f51f531ce87411e950163ae80062f1cc3e605a89eeeacf7bf2fc1",
+      "独立GET回读.mjs": "a47cf803ed1f14f7b03f193e7ec50bd188fd1b40dafc544535203870982e1c28",
+      "只读页面验收.mjs": "0f9f32689401a6315e27886cbc0f6451ebdd39169756d7dd5da947f4eac2977e",
+      "Cursor终审只读检查.mjs": "f735b58b1927bd01356cef846ca5d736ac95a97dec107bd1dbce0162c1455732"
+    },
+    "businessWrites": 0,
+    "blockers": [],
+    "limits": [
+      "静态、GET与管理页面证据不等于宿主事件、战斗运行或Wasm证明。"
+    ]
+  },
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "toolEvents": {
+    "parseableEventCount": 115,
+    "uniqueToolCallCount": 1,
+    "terminalStatuses": {
+      "call-50fb3663-5f71-4f68-8a60-8845e49cda7a-0\nfc_f05a2a05-304e-90bb-b2c8-0ff437aceb77_0": "completed"
+    },
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false
+  },
+  "artifacts": {
+    "directory": ".agents/artifacts/seven-active-trigger-review-r1-audit-clean-20260913",
+    "summarySha256": "7b6a89e67f562139d736be3ece27c626297d91a167ae17f982912eb8b967fe0d",
+    "reviewSha256": "0cec48f79b7bf199c7e5efbfcd2434c9076599e5a19fd1eafa4f166d24abaf34",
+    "eventsSha256": "71d8582ba542a395a68905bdc1ec1ef61a5c63c080eeef721d52de8e12c93f39",
+    "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "limits": [
+    "静态、GET与管理页面证据不等于宿主事件、战斗运行或Wasm证明。"
+  ]
+}

@@ -1,0 +1,584 @@
+{
+  "at": "2026-09-09T08:50:38.155Z",
+  "mode": "只读 GET；保护四个角色主体、四个角色技能关联列表和二十个技能代表图；不读取或修改图片字节",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "heroes": [
+    "Viktor",
+    "Orianna",
+    "Syndra",
+    "Taliyah"
+  ],
+  "skillKeys": [
+    "viktor_p",
+    "viktor_q",
+    "viktor_w",
+    "viktor_e",
+    "viktor_r",
+    "orianna_p",
+    "orianna_q",
+    "orianna_w",
+    "orianna_e",
+    "orianna_r",
+    "syndra_p",
+    "syndra_q",
+    "syndra_w",
+    "syndra_e",
+    "syndra_r",
+    "taliyah_p",
+    "taliyah_q",
+    "taliyah_w",
+    "taliyah_e",
+    "taliyah_r"
+  ],
+  "requests": [
+    {
+      "route": "/characters/champion_viktor",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 67,
+      "data": {
+        "characterKey": "champion_viktor",
+        "createdAt": "2026-09-06T18:05:05.342574Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "维克托",
+        "updatedAt": "2026-09-06T18:05:05.342574Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_viktor",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 64,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_viktor",
+            "characterName": "维克托",
+            "gameId": "lol",
+            "skillKey": "viktor_p",
+            "skillName": "维克托·光荣进化",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_viktor",
+            "characterName": "维克托",
+            "gameId": "lol",
+            "skillKey": "viktor_q",
+            "skillName": "维克托·虹吸能量",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_viktor",
+            "characterName": "维克托",
+            "gameId": "lol",
+            "skillKey": "viktor_w",
+            "skillName": "维克托·重力场",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_viktor",
+            "characterName": "维克托",
+            "gameId": "lol",
+            "skillKey": "viktor_e",
+            "skillName": "维克托·海克斯射线",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_viktor",
+            "characterName": "维克托",
+            "gameId": "lol",
+            "skillKey": "viktor_r",
+            "skillName": "维克托·奥术风暴",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_orianna",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 57,
+      "data": {
+        "characterKey": "champion_orianna",
+        "createdAt": "2026-09-06T16:29:31.963602Z",
+        "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+        "gameId": "lol",
+        "name": "奥莉安娜",
+        "updatedAt": "2026-09-06T16:29:31.963602Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_orianna",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 50,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_orianna",
+            "characterName": "奥莉安娜",
+            "gameId": "lol",
+            "skillKey": "orianna_p",
+            "skillName": "奥莉安娜·发条协奏",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_orianna",
+            "characterName": "奥莉安娜",
+            "gameId": "lol",
+            "skillKey": "orianna_q",
+            "skillName": "奥莉安娜·指令：攻击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_orianna",
+            "characterName": "奥莉安娜",
+            "gameId": "lol",
+            "skillKey": "orianna_w",
+            "skillName": "奥莉安娜·指令：杂音",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_orianna",
+            "characterName": "奥莉安娜",
+            "gameId": "lol",
+            "skillKey": "orianna_e",
+            "skillName": "奥莉安娜·指令：防卫",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_orianna",
+            "characterName": "奥莉安娜",
+            "gameId": "lol",
+            "skillKey": "orianna_r",
+            "skillName": "奥莉安娜·指令：冲击波",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_syndra",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 40,
+      "data": {
+        "characterKey": "champion_syndra",
+        "createdAt": "2026-09-06T17:47:11.105886Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "辛德拉",
+        "updatedAt": "2026-09-06T17:47:11.105886Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_syndra",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 79,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_syndra",
+            "characterName": "辛德拉",
+            "gameId": "lol",
+            "skillKey": "syndra_p",
+            "skillName": "辛德拉·卓尔不凡",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_syndra",
+            "characterName": "辛德拉",
+            "gameId": "lol",
+            "skillKey": "syndra_q",
+            "skillName": "辛德拉·暗黑法球",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_syndra",
+            "characterName": "辛德拉",
+            "gameId": "lol",
+            "skillKey": "syndra_w",
+            "skillName": "辛德拉·驱使念力",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_syndra",
+            "characterName": "辛德拉",
+            "gameId": "lol",
+            "skillKey": "syndra_e",
+            "skillName": "辛德拉·弱者退散",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_syndra",
+            "characterName": "辛德拉",
+            "gameId": "lol",
+            "skillKey": "syndra_r",
+            "skillName": "辛德拉·能量倾泻",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_taliyah",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 41,
+      "data": {
+        "characterKey": "champion_taliyah",
+        "createdAt": "2026-09-06T17:48:21.780823Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "塔莉垭",
+        "updatedAt": "2026-09-06T17:48:21.780823Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_taliyah",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 51,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_taliyah",
+            "characterName": "塔莉垭",
+            "gameId": "lol",
+            "skillKey": "taliyah_p",
+            "skillName": "塔莉垭·浮石冲",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_taliyah",
+            "characterName": "塔莉垭",
+            "gameId": "lol",
+            "skillKey": "taliyah_q",
+            "skillName": "塔莉垭·石穿",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_taliyah",
+            "characterName": "塔莉垭",
+            "gameId": "lol",
+            "skillKey": "taliyah_w",
+            "skillName": "塔莉垭·岩突",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_taliyah",
+            "characterName": "塔莉垭",
+            "gameId": "lol",
+            "skillKey": "taliyah_e",
+            "skillName": "塔莉垭·撒石阵",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_taliyah",
+            "characterName": "塔莉垭",
+            "gameId": "lol",
+            "skillKey": "taliyah_r",
+            "skillName": "塔莉垭·墙幔",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/viktor_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 62,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viktor_p",
+          "name": "viktor_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/viktor_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 64,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viktor_q",
+          "name": "viktor_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/viktor_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 59,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viktor_w",
+          "name": "viktor_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/viktor_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 77,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viktor_e",
+          "name": "viktor_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/viktor_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 56,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viktor_r",
+          "name": "viktor_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/orianna_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 86,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_orianna_p",
+          "name": "orianna_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/orianna_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 59,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_orianna_q",
+          "name": "orianna_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/orianna_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 123,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_orianna_w",
+          "name": "orianna_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/orianna_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 60,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_orianna_e",
+          "name": "orianna_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/orianna_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 66,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_orianna_r",
+          "name": "orianna_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/syndra_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 54,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_syndra_p",
+          "name": "syndra_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/syndra_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 52,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_syndra_q",
+          "name": "syndra_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/syndra_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 53,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_syndra_w",
+          "name": "syndra_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/syndra_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 74,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_syndra_e",
+          "name": "syndra_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/syndra_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 67,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_syndra_r",
+          "name": "syndra_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/taliyah_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 45,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_taliyah_p",
+          "name": "taliyah_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/taliyah_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 50,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_taliyah_q",
+          "name": "taliyah_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/taliyah_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 93,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_taliyah_w",
+          "name": "taliyah_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/taliyah_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 75,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_taliyah_e",
+          "name": "taliyah_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/taliyah_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 64,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_taliyah_r",
+          "name": "taliyah_r"
+        }
+      }
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "requests": 28,
+    "characters": 4,
+    "characterSkillRelationLists": 4,
+    "skillImages": 20,
+    "apiWrites": 0
+  },
+  "snapshotSha256": "10d71c98f2a9106e0ddddd5e6dbc0a01da75d6cb2b7cb9603f40bd1d0daa1ee0"
+}

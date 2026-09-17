@@ -1,0 +1,23 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_w/parameters",
+    "detailRoute": "/skills/fiddlesticks_w/parameters/actual_target_missing_health",
+    "skillKey": "fiddlesticks_w",
+    "kind": "parameters",
+    "stableKey": "actual_target_missing_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_target_missing_health",
+      "name": "结尾阶段目标实际已损生命",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "W结尾额外伤害读取当时已损生命；不能用施法前生命或默认值替代。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/parameters",
+    "detailRoute": "/skills/hwei_w/parameters/we_onhit_base_damage",
+    "skillKey": "hwei_w",
+    "kind": "parameters",
+    "stableKey": "we_onhit_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "we_onhit_base_damage",
+      "name": "宿墨每次基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 30,
+        "3": 40,
+        "4": 50,
+        "5": 60
+      },
+      "description": "宿墨每次20/30/40/50/60。",
+      "sortOrder": 120
+    }
+  }
+}

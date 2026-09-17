@@ -1,0 +1,3253 @@
+{
+  "at": "2026-09-09T10:41:48.933Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "runId": "2026-09-09T10-38-03-072Z",
+  "mode": "读取独立全量新GET的153条详情和120个列表；不读取写入器快照，不发送接口请求",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "planSha256": "6c2e687d3aaa74401d07fe200fa1c4bfe022f183a51f2d20d3492ba41d90b022",
+  "sourceVersion": "client16.17/official16.17.1",
+  "checks": 297,
+  "failedChecks": 0,
+  "failures": [],
+  "readback": {
+    "candidateDetails": 153,
+    "actualDetails": 153,
+    "lists": 120,
+    "componentComparisons": [
+      {
+        "skillKey": "malzahar_p",
+        "kind": "parameters",
+        "id": "damage_reduction_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_p",
+        "kind": "parameters",
+        "id": "damage_reduction_linger_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_p",
+        "kind": "parameters",
+        "id": "shield_cooldown_seconds",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_q",
+        "kind": "parameters",
+        "id": "silence_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_q",
+        "kind": "parameters",
+        "id": "ap_ratio_constant",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_q",
+        "kind": "formulas",
+        "id": "damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_e",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_e",
+        "kind": "parameters",
+        "id": "base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_e",
+        "kind": "parameters",
+        "id": "duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_e",
+        "kind": "parameters",
+        "id": "ap_ratio_constant",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_e",
+        "kind": "formulas",
+        "id": "damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "beam_base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "beam_ap_ratio",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "pool_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "max_health_damage_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "max_health_ratio",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "cc_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "parameters",
+        "id": "zone_multiplier",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "formulas",
+        "id": "beam_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "formulas",
+        "id": "zone_damage_ratio",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "malzahar_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "parameters",
+        "id": "passthrough_base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "parameters",
+        "id": "explosion_base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "parameters",
+        "id": "stun_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "parameters",
+        "id": "passthrough_ap_ratio",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "parameters",
+        "id": "explosion_ap_ratio",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "formulas",
+        "id": "passthrough_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "formulas",
+        "id": "explosion_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_w",
+        "kind": "parameters",
+        "id": "wall_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_w",
+        "kind": "parameters",
+        "id": "wall_width",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_e",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_e",
+        "kind": "parameters",
+        "id": "base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_e",
+        "kind": "parameters",
+        "id": "ap_ratio_constant",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_e",
+        "kind": "parameters",
+        "id": "empowered_multiplier",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_e",
+        "kind": "formulas",
+        "id": "damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_e",
+        "kind": "formulas",
+        "id": "empowered_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "damage_per_second_base",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "mana_cost_per_second",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "slow_amount_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "growth_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "additional_slow_ratio_at_max",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "empowered_slow_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "ap_ratio_constant",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "one",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "parameters",
+        "id": "empowered_dps_multiplier",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "formulas",
+        "id": "damage_per_second",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "formulas",
+        "id": "enhanced_slow",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "formulas",
+        "id": "empowered_damage_per_second",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "anivia_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_q",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_q",
+        "kind": "parameters",
+        "id": "slow_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_q",
+        "kind": "parameters",
+        "id": "ap_ratio_constant",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_q",
+        "kind": "formulas",
+        "id": "damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_w",
+        "kind": "parameters",
+        "id": "base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_w",
+        "kind": "parameters",
+        "id": "snare_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_w",
+        "kind": "parameters",
+        "id": "ap_ratio_constant",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_w",
+        "kind": "formulas",
+        "id": "damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_e",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_e",
+        "kind": "parameters",
+        "id": "base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_e",
+        "kind": "parameters",
+        "id": "ap_ratio_constant",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_e",
+        "kind": "formulas",
+        "id": "damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "slow_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "enemy_stun_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "self_stasis_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "self_heal_flat",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "self_heal_missing_hp_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "self_heal_missing_hp_per_above_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "parameters",
+        "id": "heal_ap_ratio",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "formulas",
+        "id": "damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "formulas",
+        "id": "self_heal",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "lissandra_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_p",
+        "kind": "parameters",
+        "id": "death_recast_window_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_q",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_q",
+        "kind": "parameters",
+        "id": "single_target_multiplier",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_q",
+        "kind": "parameters",
+        "id": "actual_target_count",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_q",
+        "kind": "formulas",
+        "id": "damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_q",
+        "kind": "formulas",
+        "id": "single_target_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_w",
+        "kind": "parameters",
+        "id": "magic_resist_shred_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_w",
+        "kind": "parameters",
+        "id": "wall_width",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_w",
+        "kind": "parameters",
+        "id": "slow_percent",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_w",
+        "kind": "parameters",
+        "id": "wall_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_w",
+        "kind": "parameters",
+        "id": "debuff_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "parameters",
+        "id": "damage_per_second_base",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "parameters",
+        "id": "ap_ratio_per_second",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "parameters",
+        "id": "mana_restore_on_kill",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "parameters",
+        "id": "quarter_multiplier",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "formulas",
+        "id": "damage_per_second",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "formulas",
+        "id": "quarter_damage_per_second",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_e",
+        "kind": "effects",
+        "id": "mana_restore_on_kill",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_r",
+        "kind": "parameters",
+        "id": "base_damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_r",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_r",
+        "kind": "parameters",
+        "id": "channel_duration_ms",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_r",
+        "kind": "formulas",
+        "id": "damage",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      },
+      {
+        "skillKey": "karthus_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "status": 200,
+        "diff": null,
+        "passed": true
+      }
+    ],
+    "listConflicts": [],
+    "protectionConflicts": [],
+    "catalogReferences": [
+      {
+        "at": "malzahar_q/formulas/damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "malzahar_q/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "malzahar_w/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "malzahar_e/formulas/damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "malzahar_e/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "malzahar_r/formulas/beam_damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "malzahar_r/formulas/zone_damage_ratio.expression.operands[1].operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "malzahar_r/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "anivia_q/formulas/passthrough_damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "anivia_q/formulas/explosion_damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "anivia_q/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "anivia_w/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "anivia_e/formulas/damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "anivia_e/formulas/empowered_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "anivia_e/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "anivia_r/formulas/damage_per_second.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "anivia_r/formulas/empowered_damage_per_second.expression.operands[1].operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "anivia_r/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "lissandra_q/formulas/damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "lissandra_q/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "lissandra_w/formulas/damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "lissandra_w/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "lissandra_e/formulas/damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "lissandra_e/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "lissandra_r/formulas/damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "lissandra_r/formulas/self_heal.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "lissandra_r/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "karthus_q/formulas/damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "karthus_q/formulas/single_target_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "karthus_q/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "karthus_w/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "karthus_e/formulas/damage_per_second.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "karthus_e/formulas/quarter_damage_per_second.expression.operands[1].operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "karthus_e/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "karthus_e/effects/mana_restore_on_kill.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      },
+      {
+        "at": "karthus_r/formulas/damage.expression.operands[1].operands[1].attributeKey",
+        "key": "attributeKey",
+        "value": "ability_power",
+        "enabled": true
+      },
+      {
+        "at": "karthus_r/effects/mana_cost.results[0].detail.attributeKey",
+        "key": "attributeKey",
+        "value": "mana",
+        "enabled": true
+      }
+    ]
+  },
+  "formulas": {
+    "total": 21,
+    "checks": [
+      {
+        "formulaKey": "malzahar_q/damage",
+        "rank": 1,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 125,
+        "rawValue": 125.0000011920929,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "malzahar_e/damage",
+        "rank": 2,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 195,
+        "rawValue": 195.0000011920929,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "malzahar_r/beam_damage",
+        "rank": 1,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 205,
+        "rawValue": 205.0000011920929,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "malzahar_r/zone_damage_ratio",
+        "rank": 1,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 0.125,
+        "rawValue": 0.12500000130385158,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "anivia_q/passthrough_damage",
+        "rank": 1,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 75,
+        "rawValue": 75,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "anivia_q/explosion_damage",
+        "rank": 1,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 105,
+        "rawValue": 104.9999988079071,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "anivia_e/damage",
+        "rank": 5,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 265,
+        "rawValue": 265.0000023841858,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 200,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "anivia_e/empowered_damage",
+        "rank": 5,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 530,
+        "rawValue": 530.0000047683716,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 200,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "anivia_r/damage_per_second",
+        "rank": 3,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 72.5,
+        "rawValue": 72.5,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "anivia_r/enhanced_slow",
+        "rank": 3,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 60,
+        "rawValue": 60,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "anivia_r/empowered_damage_per_second",
+        "rank": 3,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 217.5,
+        "rawValue": 217.5,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "lissandra_q/damage",
+        "rank": 4,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 260,
+        "rawValue": 260,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "lissandra_w/damage",
+        "rank": 1,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 140,
+        "rawValue": 139.9999988079071,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "lissandra_e/damage",
+        "rank": 1,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 130,
+        "rawValue": 130.0000023841858,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "lissandra_r/damage",
+        "rank": 3,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 425,
+        "rawValue": 425,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "lissandra_r/self_heal",
+        "rank": 3,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 255,
+        "rawValue": 255.0000011920929,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "karthus_q/damage",
+        "rank": 5,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 151,
+        "rawValue": 150.99999940395355,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "karthus_q/single_target_damage",
+        "rank": 5,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 302,
+        "rawValue": 301.9999988079071,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "karthus_e/damage_per_second",
+        "rank": 5,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 130,
+        "rawValue": 130.00000029802322,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "karthus_e/quarter_damage_per_second",
+        "rank": 5,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 32.5,
+        "rawValue": 32.500000074505806,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      },
+      {
+        "formulaKey": "karthus_r/damage",
+        "rank": 3,
+        "status": "PASSED",
+        "passed": true,
+        "actualValue": 570,
+        "rawValue": 569.9999988079071,
+        "actualError": null,
+        "rawError": null,
+        "attrs": {
+          "ability_power": 100,
+          "attack_damage": 200,
+          "base_attack_damage": 150,
+          "bonus_attack_damage": 50,
+          "bonus_hp": 500
+        },
+        "inputs": {}
+      }
+    ],
+    "sourceChecks": [
+      {
+        "formulaKey": "malzahar_q/damage",
+        "rank": 1,
+        "passed": true,
+        "actualValue": 125,
+        "rawValue": 125.0000011920929
+      },
+      {
+        "formulaKey": "malzahar_e/damage",
+        "rank": 2,
+        "passed": true,
+        "actualValue": 195,
+        "rawValue": 195.0000011920929
+      },
+      {
+        "formulaKey": "malzahar_r/beam_damage",
+        "rank": 1,
+        "passed": true,
+        "actualValue": 205,
+        "rawValue": 205.0000011920929
+      },
+      {
+        "formulaKey": "malzahar_r/zone_damage_ratio",
+        "rank": 1,
+        "passed": true,
+        "actualValue": 0.125,
+        "rawValue": 0.12500000130385158
+      },
+      {
+        "formulaKey": "anivia_q/passthrough_damage",
+        "rank": 1,
+        "passed": true,
+        "actualValue": 75,
+        "rawValue": 75
+      },
+      {
+        "formulaKey": "anivia_q/explosion_damage",
+        "rank": 1,
+        "passed": true,
+        "actualValue": 105,
+        "rawValue": 104.9999988079071
+      },
+      {
+        "formulaKey": "anivia_e/damage",
+        "rank": 5,
+        "passed": true,
+        "actualValue": 265,
+        "rawValue": 265.0000023841858
+      },
+      {
+        "formulaKey": "anivia_e/empowered_damage",
+        "rank": 5,
+        "passed": true,
+        "actualValue": 530,
+        "rawValue": 530.0000047683716
+      },
+      {
+        "formulaKey": "anivia_r/damage_per_second",
+        "rank": 3,
+        "passed": true,
+        "actualValue": 72.5,
+        "rawValue": 72.5
+      },
+      {
+        "formulaKey": "anivia_r/enhanced_slow",
+        "rank": 3,
+        "passed": true,
+        "actualValue": 60,
+        "rawValue": 60
+      },
+      {
+        "formulaKey": "anivia_r/empowered_damage_per_second",
+        "rank": 3,
+        "passed": true,
+        "actualValue": 217.5,
+        "rawValue": 217.5
+      },
+      {
+        "formulaKey": "lissandra_q/damage",
+        "rank": 4,
+        "passed": true,
+        "actualValue": 260,
+        "rawValue": 260
+      },
+      {
+        "formulaKey": "lissandra_w/damage",
+        "rank": 1,
+        "passed": true,
+        "actualValue": 140,
+        "rawValue": 139.9999988079071
+      },
+      {
+        "formulaKey": "lissandra_e/damage",
+        "rank": 1,
+        "passed": true,
+        "actualValue": 130,
+        "rawValue": 130.0000023841858
+      },
+      {
+        "formulaKey": "lissandra_r/damage",
+        "rank": 3,
+        "passed": true,
+        "actualValue": 425,
+        "rawValue": 425
+      },
+      {
+        "formulaKey": "lissandra_r/self_heal",
+        "rank": 3,
+        "passed": true,
+        "actualValue": 255,
+        "rawValue": 255.0000011920929
+      },
+      {
+        "formulaKey": "karthus_q/damage",
+        "rank": 5,
+        "passed": true,
+        "actualValue": 151,
+        "rawValue": 150.99999940395355
+      },
+      {
+        "formulaKey": "karthus_q/single_target_damage",
+        "rank": 5,
+        "passed": true,
+        "actualValue": 302,
+        "rawValue": 301.9999988079071
+      },
+      {
+        "formulaKey": "karthus_e/damage_per_second",
+        "rank": 5,
+        "passed": true,
+        "actualValue": 130,
+        "rawValue": 130.00000029802322
+      },
+      {
+        "formulaKey": "karthus_e/quarter_damage_per_second",
+        "rank": 5,
+        "passed": true,
+        "actualValue": 32.5,
+        "rawValue": 32.500000074505806
+      },
+      {
+        "formulaKey": "karthus_r/damage",
+        "rank": 3,
+        "passed": true,
+        "actualValue": 570,
+        "rawValue": 569.9999988079071
+      }
+    ],
+    "inputRejections": []
+  },
+  "sourceCases": [
+    {
+      "skillKey": "malzahar_q",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamageTooltip",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 125,
+      "candidateResult": 125,
+      "rawResult": 125.0000011920929,
+      "ok": true,
+      "actualValue": 125,
+      "rawValue": 125.0000011920929,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "malzahar_q",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamageTooltip",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 237
+      },
+      "expected": 340.35,
+      "candidateResult": 340.35,
+      "rawResult": 340.35000282526016,
+      "ok": true,
+      "actualValue": 340.35,
+      "rawValue": 340.35000282526016,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "malzahar_e",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 2,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 195,
+      "candidateResult": 195,
+      "rawResult": 195.0000011920929,
+      "ok": true,
+      "actualValue": 195,
+      "rawValue": 195.0000011920929,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "malzahar_r",
+      "formulaKey": "beam_damage",
+      "rawKey": "TotalDamageTooltip",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 205,
+      "candidateResult": 205,
+      "rawResult": 205.0000011920929,
+      "ok": true,
+      "actualValue": 205,
+      "rawValue": 205.0000011920929,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "malzahar_r",
+      "formulaKey": "zone_damage_ratio",
+      "rawKey": "ZoneDamageTooltip",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 0.125,
+      "note": "仅验证当前窄口径算术；目标最大生命所有者不由该节点推出。",
+      "candidateResult": 0.125,
+      "rawResult": 0.12500000130385158,
+      "ok": true,
+      "actualValue": 0.125,
+      "rawValue": 0.12500000130385158,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_q",
+      "formulaKey": "passthrough_damage",
+      "rawKey": "TotalPassthroughDamage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 75,
+      "candidateResult": 75,
+      "rawResult": 75,
+      "ok": true,
+      "actualValue": 75,
+      "rawValue": 75,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_q",
+      "formulaKey": "explosion_damage",
+      "rawKey": "TotalExplosionDamage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 105,
+      "candidateResult": 105,
+      "rawResult": 104.9999988079071,
+      "ok": true,
+      "actualValue": 105,
+      "rawValue": 104.9999988079071,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_e",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 200
+      },
+      "expected": 265,
+      "candidateResult": 265,
+      "rawResult": 265.0000023841858,
+      "ok": true,
+      "actualValue": 265,
+      "rawValue": 265.0000023841858,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_e",
+      "formulaKey": "empowered_damage",
+      "rawKey": "EmpoweredDamage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 200
+      },
+      "expected": 530,
+      "candidateResult": 530,
+      "rawResult": 530.0000047683716,
+      "ok": true,
+      "actualValue": 530,
+      "rawValue": 530.0000047683716,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "damage_per_second",
+      "rawKey": "TotalDamagePerSecond",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 72.5,
+      "candidateResult": 72.5,
+      "rawResult": 72.5,
+      "ok": true,
+      "actualValue": 72.5,
+      "rawValue": 72.5,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "enhanced_slow",
+      "rawKey": "EnhancedSlow",
+      "rank": 3,
+      "attrs": {},
+      "expected": 60,
+      "candidateResult": 60,
+      "rawResult": 60,
+      "ok": true,
+      "actualValue": 60,
+      "rawValue": 60,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "empowered_damage_per_second",
+      "rawKey": "EmpoweredDamagePerSecondTooltipOnly",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 217.5,
+      "candidateResult": 217.5,
+      "rawResult": 217.5,
+      "ok": true,
+      "actualValue": 217.5,
+      "rawValue": 217.5,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "lissandra_q",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 4,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 260,
+      "candidateResult": 260,
+      "rawResult": 260,
+      "ok": true,
+      "actualValue": 260,
+      "rawValue": 260,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "lissandra_w",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 2,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 175,
+      "candidateResult": 175,
+      "rawResult": 174.9999988079071,
+      "ok": true,
+      "actualValue": 175,
+      "rawValue": 174.9999988079071,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "lissandra_e",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 2,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 165,
+      "candidateResult": 165,
+      "rawResult": 165.0000023841858,
+      "ok": true,
+      "actualValue": 165,
+      "rawValue": 165.0000023841858,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "lissandra_r",
+      "formulaKey": "damage",
+      "rawKey": "CalculatedDamage",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 425,
+      "candidateResult": 425,
+      "rawResult": 425,
+      "ok": true,
+      "actualValue": 425,
+      "rawValue": 425,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "lissandra_r",
+      "formulaKey": "self_heal",
+      "rawKey": "HealAmount",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 255,
+      "note": "200+0.55×100；PercentMissingHPRatio按mStat0默认法强窄证进入基础治疗。",
+      "candidateResult": 255,
+      "rawResult": 255.0000011920929,
+      "ok": true,
+      "actualValue": 255,
+      "rawValue": 255.0000011920929,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_q",
+      "formulaKey": "damage",
+      "rawKey": "QDamage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 151,
+      "candidateResult": 151,
+      "rawResult": 150.99999940395355,
+      "ok": true,
+      "actualValue": 151,
+      "rawValue": 150.99999940395355,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_q",
+      "formulaKey": "single_target_damage",
+      "rawKey": "QSingleTargetDamage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 302,
+      "candidateResult": 302,
+      "rawResult": 301.9999988079071,
+      "ok": true,
+      "actualValue": 302,
+      "rawValue": 301.9999988079071,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_e",
+      "formulaKey": "damage_per_second",
+      "rawKey": "TotalDPS",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 130,
+      "candidateResult": 130,
+      "rawResult": 130.00000029802322,
+      "ok": true,
+      "actualValue": 130,
+      "rawValue": 130.00000029802322,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_e",
+      "formulaKey": "quarter_damage_per_second",
+      "rawKey": "{57456bbc}",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 32.5,
+      "candidateResult": 32.5,
+      "rawResult": 32.500000074505806,
+      "ok": true,
+      "actualValue": 32.5,
+      "rawValue": 32.500000074505806,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_r",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 570,
+      "candidateResult": 570,
+      "rawResult": 569.9999988079071,
+      "ok": true,
+      "actualValue": 570,
+      "rawValue": 569.9999988079071,
+      "error": null,
+      "passed": true
+    }
+  ],
+  "manualCases": [
+    {
+      "skillKey": "malzahar_q",
+      "formulaKey": "damage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 125,
+      "note": "70+0.55×100",
+      "actual": 125,
+      "ok": true,
+      "actualValue": 125,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "malzahar_e",
+      "formulaKey": "damage",
+      "rank": 2,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 195,
+      "note": "115+0.8×100",
+      "actual": 195,
+      "ok": true,
+      "actualValue": 195,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "malzahar_r",
+      "formulaKey": "beam_damage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 205,
+      "note": "125+0.8×100",
+      "actual": 205,
+      "ok": true,
+      "actualValue": 205,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "malzahar_r",
+      "formulaKey": "zone_damage_ratio",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 0.125,
+      "note": "0.05×(2+0.005×100)",
+      "actual": 0.125,
+      "ok": true,
+      "actualValue": 0.125,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_q",
+      "formulaKey": "passthrough_damage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 75,
+      "note": "50+0.25×100",
+      "actual": 75,
+      "ok": true,
+      "actualValue": 75,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_q",
+      "formulaKey": "explosion_damage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 105,
+      "note": "60+0.45×100",
+      "actual": 105,
+      "ok": true,
+      "actualValue": 105,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_e",
+      "formulaKey": "damage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 200
+      },
+      "expected": 265,
+      "note": "155+0.55×200",
+      "actual": 265,
+      "ok": true,
+      "actualValue": 265,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_e",
+      "formulaKey": "empowered_damage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 200
+      },
+      "expected": 530,
+      "note": "2×265",
+      "actual": 530,
+      "ok": true,
+      "actualValue": 530,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "damage_per_second",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 72.5,
+      "note": "60+0.125×100",
+      "actual": 72.5,
+      "ok": true,
+      "actualValue": 72.5,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "enhanced_slow",
+      "rank": 3,
+      "expected": 60,
+      "note": "40×(0.5+1)，40为正文百分数点",
+      "actual": 60,
+      "ok": true,
+      "actualValue": 60,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "empowered_damage_per_second",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 217.5,
+      "note": "3×72.5",
+      "actual": 217.5,
+      "ok": true,
+      "actualValue": 217.5,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "lissandra_q",
+      "formulaKey": "damage",
+      "rank": 4,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 260,
+      "note": "185+0.75×100；DataValues索引1起",
+      "actual": 260,
+      "ok": true,
+      "actualValue": 260,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "lissandra_r",
+      "formulaKey": "damage",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 425,
+      "note": "350+0.75×100",
+      "actual": 425,
+      "ok": true,
+      "actualValue": 425,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "lissandra_r",
+      "formulaKey": "self_heal",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 255,
+      "note": "200+0.55×100；PercentMissingHPRatio按mStat0默认法强窄证进入基础治疗",
+      "actual": 255,
+      "ok": true,
+      "actualValue": 255,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_q",
+      "formulaKey": "damage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 151,
+      "note": "116+0.35×100",
+      "actual": 151,
+      "ok": true,
+      "actualValue": 151,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_q",
+      "formulaKey": "single_target_damage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 302,
+      "note": "2×151；仅唯一敌人资格成立时使用",
+      "actual": 302,
+      "ok": true,
+      "actualValue": 302,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_e",
+      "formulaKey": "damage_per_second",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 130,
+      "note": "110+0.2×100",
+      "actual": 130,
+      "ok": true,
+      "actualValue": 130,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_e",
+      "formulaKey": "quarter_damage_per_second",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 32.5,
+      "note": "0.25×130；不是瞬时伤害",
+      "actual": 32.5,
+      "ok": true,
+      "actualValue": 32.5,
+      "error": null,
+      "passed": true
+    },
+    {
+      "skillKey": "karthus_r",
+      "formulaKey": "damage",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 570,
+      "note": "500+0.7×100；DataValues索引1起",
+      "actual": 570,
+      "ok": true,
+      "actualValue": 570,
+      "error": null,
+      "passed": true
+    }
+  ],
+  "negativeControls": [
+    {
+      "name": "范围外虚灵伤害公式已移除",
+      "rejected": true,
+      "error": "实际公式缺失 malzahar_w/voidling_hit_damage"
+    },
+    {
+      "name": "范围外冰奴伤害公式已移除",
+      "rejected": true,
+      "error": "实际公式缺失 lissandra_p/ice_servant_damage"
+    },
+    {
+      "name": "范围外蛋形态双抗显示公式已移除",
+      "rejected": true,
+      "error": "实际公式缺失 anivia_p/bonus_resists_display"
+    },
+    {
+      "name": "无消费者的目标数量下限公式已移除",
+      "rejected": true,
+      "error": "实际公式缺失 karthus_q/single_target_eligibility_lower_bound"
+    },
+    {
+      "name": "目标数量2不得选择唯一敌人分支",
+      "rejected": true,
+      "error": "实际目标数量不是1，禁止选择QSingleTargetDamage"
+    },
+    {
+      "name": "负目标数量不得成为唯一敌人",
+      "rejected": true,
+      "error": "实际目标数量不是1，禁止选择QSingleTargetDamage"
+    }
+  ],
+  "boundaries": [
+    {
+      "name": "丽桑卓R基础治疗采用默认法强窄证",
+      "passed": true,
+      "detail": {
+        "ratio": 0.55,
+        "rank3AtAP100": 255
+      }
+    },
+    {
+      "name": "丽桑卓R低血提升只保留参数边界",
+      "passed": true,
+      "detail": {
+        "missingRatio": 1,
+        "perAbove": 1,
+        "formula": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_heal_flat"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        }
+      }
+    },
+    {
+      "name": "卡尔萨斯E 500毫秒只表示冷却",
+      "passed": true,
+      "detail": {
+        "cooldown": 500
+      }
+    },
+    {
+      "name": "丽桑卓Q/R使用正减速百分数点",
+      "passed": true,
+      "detail": {
+        "q": {
+          "1": 20,
+          "2": 24,
+          "3": 28,
+          "4": 32,
+          "5": 36
+        },
+        "r": {
+          "1": 45,
+          "2": 60,
+          "3": 75
+        }
+      }
+    },
+    {
+      "name": "艾尼维亚P蛋形态专用组成未写入",
+      "passed": true,
+      "detail": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    },
+    {
+      "name": "卡尔萨斯P死亡状态为系统待接",
+      "passed": true,
+      "detail": [
+        {
+          "kind": "系统",
+          "component": "死亡状态下Q/W/E/R可施放与无消耗覆盖",
+          "reason": "正文证明阵亡后持续7秒可继续施放技能且无消耗；死亡触发、灵体状态、Q/W/E/R可施放资格、无消耗覆盖和窗口结束属于本批范围内的系统接线，Q/W/E/R正常技能主体和资源限制已分别保留，不新增假过程。"
+        }
+      ]
+    },
+    {
+      "name": "玛尔扎哈W和丽桑卓P专用召唤物未写入",
+      "passed": true,
+      "detail": {
+        "malzaharW": {
+          "parameters": [
+            {
+              "parameterKey": "cooldown_ms",
+              "name": "基础冷却时间（毫秒）",
+              "valueType": "INTEGER",
+              "valueMode": "FIXED",
+              "fixedValue": 8000,
+              "levelValues": null,
+              "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+              "sortOrder": 10
+            },
+            {
+              "parameterKey": "mana_cost",
+              "name": "基础法力消耗",
+              "valueType": "INTEGER",
+              "valueMode": "SKILL_LEVEL",
+              "fixedValue": null,
+              "levelValues": {
+                "1": 40,
+                "2": 45,
+                "3": 50,
+                "4": 55,
+                "5": 60
+              },
+              "description": "官方cost与当前根manaValues逐级一致；法力值；未接入实际扣除时点。",
+              "sortOrder": 20
+            },
+            {
+              "parameterKey": "cast_time_ms",
+              "name": "施法时间（毫秒）",
+              "valueType": "INTEGER",
+              "valueMode": "FIXED",
+              "fixedValue": 250,
+              "levelValues": null,
+              "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+              "sortOrder": 30
+            }
+          ],
+          "formulas": [],
+          "effects": [
+            {
+              "effectKey": "mana_cost",
+              "name": "施放法力消耗",
+              "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+              "sortOrder": 10,
+              "lifecycle": null,
+              "results": [
+                {
+                  "resultKey": "consume_mana",
+                  "name": "消耗法力",
+                  "resultType": "RESOURCE_CHANGE",
+                  "target": "SOURCE",
+                  "description": null,
+                  "sortOrder": 10,
+                  "lifecycleBehavior": null,
+                  "spellShieldBlockScope": null,
+                  "valueRule": {
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mana_cost"
+                    },
+                    "fixedMultiplier": 1,
+                    "fixedMinValue": 0,
+                    "fixedMaxValue": null
+                  },
+                  "detail": {
+                    "attributeKey": "mana",
+                    "operation": "CONSUME"
+                  }
+                }
+              ]
+            }
+          ],
+          "processes": [],
+          "internalStates": [],
+          "triggerRules": []
+        },
+        "lissandraP": {
+          "parameters": [],
+          "formulas": [],
+          "effects": [],
+          "processes": [],
+          "internalStates": [],
+          "triggerRules": []
+        }
+      }
+    },
+    {
+      "name": "候选没有MOMENT_EVALUATION或即时伤害治疗",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "sourceIntegrity": [
+    {
+      "hero": "Malzahar",
+      "clientCompressedSha256": "6e3f8020a3fb1e4e2f0c617cf493771bf2cda721353461d89c4af6d6b96622eb",
+      "clientSha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+      "officialSha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac",
+      "expectedClientCompressedSha256": "6e3f8020a3fb1e4e2f0c617cf493771bf2cda721353461d89c4af6d6b96622eb",
+      "expectedClientSha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+      "expectedOfficialSha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac",
+      "bindings": [
+        {
+          "skillKey": "malzahar_p",
+          "passed": true,
+          "binding": {
+            "slot": "P",
+            "skillKey": "malzahar_p",
+            "binding": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+            "name": "虚空穿越",
+            "maxrank": 1
+          },
+          "root": {
+            "binding": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+            "maxrank": 1
+          }
+        },
+        {
+          "skillKey": "malzahar_q",
+          "passed": true,
+          "binding": {
+            "slot": "Q",
+            "skillKey": "malzahar_q",
+            "binding": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+            "name": "虚空召唤",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "malzahar_w",
+          "passed": true,
+          "binding": {
+            "slot": "W",
+            "skillKey": "malzahar_w",
+            "binding": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+            "name": "虚空虫群",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "malzahar_e",
+          "passed": true,
+          "binding": {
+            "slot": "E",
+            "skillKey": "malzahar_e",
+            "binding": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+            "name": "煞星幻象",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "malzahar_r",
+          "passed": true,
+          "binding": {
+            "slot": "R",
+            "skillKey": "malzahar_r",
+            "binding": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+            "name": "冥府之握",
+            "maxrank": 3
+          },
+          "root": {
+            "binding": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+            "maxrank": 3
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "hero": "Anivia",
+      "clientCompressedSha256": "37e37a373bd879781d91c124a27f3ca4fa43783432c15b87924deca32cd8cca6",
+      "clientSha256": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+      "officialSha256": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061",
+      "expectedClientCompressedSha256": "37e37a373bd879781d91c124a27f3ca4fa43783432c15b87924deca32cd8cca6",
+      "expectedClientSha256": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+      "expectedOfficialSha256": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061",
+      "bindings": [
+        {
+          "skillKey": "anivia_p",
+          "passed": true,
+          "binding": {
+            "slot": "P",
+            "skillKey": "anivia_p",
+            "binding": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+            "name": "寒霜涅槃",
+            "maxrank": 1
+          },
+          "root": {
+            "binding": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+            "maxrank": 1
+          }
+        },
+        {
+          "skillKey": "anivia_q",
+          "passed": true,
+          "binding": {
+            "slot": "Q",
+            "skillKey": "anivia_q",
+            "binding": "Characters/Anivia/Spells/FlashFrostAbility/FlashFrost",
+            "name": "寒冰闪耀",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Anivia/Spells/FlashFrostAbility/FlashFrost",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "anivia_w",
+          "passed": true,
+          "binding": {
+            "slot": "W",
+            "skillKey": "anivia_w",
+            "binding": "Characters/Anivia/Spells/CrystallizeAbility/Crystallize",
+            "name": "寒冰屏障",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Anivia/Spells/CrystallizeAbility/Crystallize",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "anivia_e",
+          "passed": true,
+          "binding": {
+            "slot": "E",
+            "skillKey": "anivia_e",
+            "binding": "Characters/Anivia/Spells/FrostbiteAbility/Frostbite",
+            "name": "霜寒刺骨",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Anivia/Spells/FrostbiteAbility/Frostbite",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "anivia_r",
+          "passed": true,
+          "binding": {
+            "slot": "R",
+            "skillKey": "anivia_r",
+            "binding": "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm",
+            "name": "冰川风暴",
+            "maxrank": 3
+          },
+          "root": {
+            "binding": "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm",
+            "maxrank": 3
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "hero": "Lissandra",
+      "clientCompressedSha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+      "clientSha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+      "officialSha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+      "expectedClientCompressedSha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+      "expectedClientSha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+      "expectedOfficialSha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+      "bindings": [
+        {
+          "skillKey": "lissandra_p",
+          "passed": true,
+          "binding": {
+            "slot": "P",
+            "skillKey": "lissandra_p",
+            "binding": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+            "name": "冰脉驱役",
+            "maxrank": 1
+          },
+          "root": {
+            "binding": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+            "maxrank": 1
+          }
+        },
+        {
+          "skillKey": "lissandra_q",
+          "passed": true,
+          "binding": {
+            "slot": "Q",
+            "skillKey": "lissandra_q",
+            "binding": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+            "name": "寒冰碎片",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "lissandra_w",
+          "passed": true,
+          "binding": {
+            "slot": "W",
+            "skillKey": "lissandra_w",
+            "binding": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+            "name": "冰霜之环",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "lissandra_e",
+          "passed": true,
+          "binding": {
+            "slot": "E",
+            "skillKey": "lissandra_e",
+            "binding": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+            "name": "冰川之径",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "lissandra_r",
+          "passed": true,
+          "binding": {
+            "slot": "R",
+            "skillKey": "lissandra_r",
+            "binding": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+            "name": "冰封陵墓",
+            "maxrank": 3
+          },
+          "root": {
+            "binding": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+            "maxrank": 3
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "hero": "Karthus",
+      "clientCompressedSha256": "8c12afb5ba6e8ec7f8fd547a8aee38c4a03bce86e55615516cf3cb289265036b",
+      "clientSha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+      "officialSha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018",
+      "expectedClientCompressedSha256": "8c12afb5ba6e8ec7f8fd547a8aee38c4a03bce86e55615516cf3cb289265036b",
+      "expectedClientSha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+      "expectedOfficialSha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018",
+      "bindings": [
+        {
+          "skillKey": "karthus_p",
+          "passed": true,
+          "binding": {
+            "slot": "P",
+            "skillKey": "karthus_p",
+            "binding": "Characters/Karthus/Spells/KarthusDeathDefiedAbility/KarthusDeathDefied",
+            "name": "死亡契约",
+            "maxrank": 1
+          },
+          "root": {
+            "binding": "Characters/Karthus/Spells/KarthusDeathDefiedAbility/KarthusDeathDefied",
+            "maxrank": 1
+          }
+        },
+        {
+          "skillKey": "karthus_q",
+          "passed": true,
+          "binding": {
+            "slot": "Q",
+            "skillKey": "karthus_q",
+            "binding": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+            "name": "荒芜",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "karthus_w",
+          "passed": true,
+          "binding": {
+            "slot": "W",
+            "skillKey": "karthus_w",
+            "binding": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain",
+            "name": "痛苦之墙",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "karthus_e",
+          "passed": true,
+          "binding": {
+            "slot": "E",
+            "skillKey": "karthus_e",
+            "binding": "Characters/Karthus/Spells/KarthusDefileAbility/KarthusDefile",
+            "name": "亵渎",
+            "maxrank": 5
+          },
+          "root": {
+            "binding": "Characters/Karthus/Spells/KarthusDefileAbility/KarthusDefile",
+            "maxrank": 5
+          }
+        },
+        {
+          "skillKey": "karthus_r",
+          "passed": true,
+          "binding": {
+            "slot": "R",
+            "skillKey": "karthus_r",
+            "binding": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne",
+            "name": "安魂曲",
+            "maxrank": 3
+          },
+          "root": {
+            "binding": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne",
+            "maxrank": 3
+          }
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "runtimeNotes": [
+    "malzahar_p/shield_cooldown_seconds只作为外供输入记录，当前没有公式消费；不制造直通公式。",
+    "karthus_q/actual_target_count只作为外供输入记录，当前没有公式消费；不制造直通公式。"
+  ],
+  "currentLimitations": [
+    "未知等级曲线继续要求实际运行输入",
+    "卡尔萨斯死亡状态触发和无消耗覆盖仍待系统接线",
+    "丽桑卓R低血提升的分段、取整和封顶未猜补",
+    "独立召唤物和纯冰墙支路不在本批写入范围"
+  ]
+}

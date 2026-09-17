@@ -1,0 +1,29 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 88,
+    "method": "POST",
+    "route": "/skills/karma_w/parameters",
+    "detailRoute": "/skills/karma_w/parameters/base_damage",
+    "skillKey": "karma_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "坚定不移基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 65,
+        "3": 90,
+        "4": 115,
+        "5": 140
+      },
+      "description": "W技能等级1至5的BaseDamage。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_e/parameters",
+    "detailRoute": "/skills/shaco_e/parameters/slow_percent_points",
+    "skillKey": "shaco_e",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "减速百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20.000000298,
+        "2": 22.499999404,
+        "3": 25,
+        "4": 27.500000596,
+        "5": 30.000001192
+      },
+      "description": "SlowAmount为负的内部减速比例，取绝对值后记录20/22.5/25/27.5/30百分数点。",
+      "sortOrder": 60
+    }
+  }
+}

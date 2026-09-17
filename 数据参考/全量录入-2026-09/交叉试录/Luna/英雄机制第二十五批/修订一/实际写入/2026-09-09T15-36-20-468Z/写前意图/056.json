@@ -1,0 +1,61 @@
+{
+  "sequence": 56,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/drmundo_e/formulas",
+    "detailRoute": "/skills/drmundo_e/formulas/additional_physical_damage",
+    "skillKey": "drmundo_e",
+    "kind": "formulas",
+    "stableKey": "additional_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "additional_physical_damage",
+      "name": "大力行医强化攻击额外物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前AdditionalDamage树=BaseDamage+0.05×来源额外生命；已损失生命提升的中间过程仅由正文端点描述，未并入此基础组成。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 370,
+    "method": "GET",
+    "route": "/skills/drmundo_e/formulas/additional_physical_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "additional_physical_damage"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:30.658Z"
+  }
+}

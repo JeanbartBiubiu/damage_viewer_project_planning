@@ -1,0 +1,23 @@
+{
+  "i": 241,
+  "intent": {
+    "sequence": 242,
+    "method": "POST",
+    "route": "/skills/briar_r/parameters",
+    "detailRoute": "/skills/briar_r/parameters/ideal_dash_time_ms",
+    "skillKey": "briar_r",
+    "kind": "parameters",
+    "stableKey": "ideal_dash_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ideal_dash_time_ms",
+      "name": "毙除理想冲刺时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前IdealDashTime=0.5秒，转换为500毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

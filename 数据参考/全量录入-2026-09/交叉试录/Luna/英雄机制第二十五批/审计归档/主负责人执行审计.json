@@ -1,0 +1,178 @@
+{
+  "at": "2026-09-09T14:10:13.700Z",
+  "status": "完成，主负责人逐条确认全部8个shell命令只读取冻结JSON或gzip原文并打印；其余45工具为read/glob/grep",
+  "events": 1829,
+  "uniqueTools": 53,
+  "toolNames": {
+    "glob": 6,
+    "read": 30,
+    "grep": 9,
+    "shell": 8
+  },
+  "inputs": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "b1e178f51080e980627fb0712d35ed50ecfd0d93e39ec8ca043ad7199e5a1533",
+      "actualSha256": "b1e178f51080e980627fb0712d35ed50ecfd0d93e39ec8ca043ad7199e5a1533"
+    },
+    {
+      "path": "主负责人源值核对说明.md",
+      "sha256": "df459305dadbbc0d78bd891ed5dca4e947b164f623deab6d0cff24ded8ab2ea7",
+      "actualSha256": "df459305dadbbc0d78bd891ed5dca4e947b164f623deab6d0cff24ded8ab2ea7"
+    },
+    {
+      "path": "参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "actualSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "path": "参考资料/公共参数复用清单.json",
+      "sha256": "142eeaaf6fcfbfde7192e5c1af4d6ab74502cffe58d0ede755e1498d6d6f0604",
+      "actualSha256": "142eeaaf6fcfbfde7192e5c1af4d6ab74502cffe58d0ede755e1498d6d6f0604"
+    },
+    {
+      "path": "参考资料/官方中文/DrMundo.json",
+      "sha256": "e7d38d995841cf424c81a225d88446e2a69054405f464bb2bf55e8736824b34b",
+      "actualSha256": "e7d38d995841cf424c81a225d88446e2a69054405f464bb2bf55e8736824b34b"
+    },
+    {
+      "path": "参考资料/官方中文/Tryndamere.json",
+      "sha256": "78def14678945c4197c0d5f56ecc9ca78271ae86361cf7e013dedc2b5f10d957",
+      "actualSha256": "78def14678945c4197c0d5f56ecc9ca78271ae86361cf7e013dedc2b5f10d957"
+    },
+    {
+      "path": "参考资料/官方英文/DrMundo.json",
+      "sha256": "d3908275387b3332bb81e679e98ecc58183f018e2050429832eaf53989061150",
+      "actualSha256": "d3908275387b3332bb81e679e98ecc58183f018e2050429832eaf53989061150"
+    },
+    {
+      "path": "参考资料/官方英文/Tryndamere.json",
+      "sha256": "dfc832a6c016bc41ff32f232a0f0d98c8ab05af07e8b3dd906d9b7743654079f",
+      "actualSha256": "dfc832a6c016bc41ff32f232a0f0d98c8ab05af07e8b3dd906d9b7743654079f"
+    },
+    {
+      "path": "参考资料/客户端原文/DrMundo.json.gz",
+      "sha256": "2cb1ceb70e889b28545546926e7f76afe0844d7606c01b616cb815aa947a91f0",
+      "actualSha256": "2cb1ceb70e889b28545546926e7f76afe0844d7606c01b616cb815aa947a91f0"
+    },
+    {
+      "path": "参考资料/客户端原文/Tryndamere.json.gz",
+      "sha256": "1e13b76cc00efc829af9d94cdaa97075993970c939255df8b93ae2cb31ca3620",
+      "actualSha256": "1e13b76cc00efc829af9d94cdaa97075993970c939255df8b93ae2cb31ca3620"
+    },
+    {
+      "path": "参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "actualSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "path": "参考资料/当前10槽保护快照.json",
+      "sha256": "06d0751e2b4b3f77773157df078cbc30894f707e2dd305982e6ed53c041c4878",
+      "actualSha256": "06d0751e2b4b3f77773157df078cbc30894f707e2dd305982e6ed53c041c4878"
+    },
+    {
+      "path": "参考资料/接口载荷样例.json",
+      "sha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "actualSha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02"
+    },
+    {
+      "path": "来源绑定与当前文本.json",
+      "sha256": "21a6cda27054f95e480984e902ba22d4a7c2c045e67a6f9cd90fe999b87d137d",
+      "actualSha256": "21a6cda27054f95e480984e902ba22d4a7c2c045e67a6f9cd90fe999b87d137d"
+    },
+    {
+      "path": "评审任务.md",
+      "sha256": "29745cf45e00007fbaf62481ff1259c294c3ceeeba9f2901f24770cf0ba2b956",
+      "actualSha256": "29745cf45e00007fbaf62481ff1259c294c3ceeeba9f2901f24770cf0ba2b956"
+    },
+    {
+      "path": "输入版本.json",
+      "sha256": "e9d0b70006b8f9ae6a6524201154504121be9602a4ec0d290839f650aea2bc12",
+      "actualSha256": "e9d0b70006b8f9ae6a6524201154504121be9602a4ec0d290839f650aea2bc12"
+    }
+  ],
+  "shells": [
+    {
+      "callId": "call-aad7c1e9-7941-4c5b-a540-41ef1c9f51d2-46\nfc_31611bdc-faff-9502-a83a-8c91eb8b4c88_0",
+      "args": {
+        "command": "python -c \"\nimport gzip, json, sys\nfrom pathlib import Path\nbase = Path(r'C:\\project\\damage_web_dev\\.agents\\artifacts\\hero25-cursor-review-20260909\\参考资料\\客户端原文')\nfor name in ['Tryndamere.json.gz','DrMundo.json.gz']:\n    p = base/name\n    print('===', name, 'exists', p.exists(), 'size', p.stat().st_size if p.exists() else None)\n    with gzip.open(p, 'rt', encoding='utf-8') as f:\n        data = json.load(f)\n    print('top_keys', len(data) if isinstance(data, dict) else type(data))\n    if isinstance(data, dict):\n        keys = list(data.keys())\n        print('n_keys', len(keys))\n        # print character root-like keys\n        for k in keys:\n            lk = k.lower()\n            if 'characterrecord' in lk or 'root' in lk.lower() or 'passive' in lk:\n                print('KEY', k)\n\"\n",
+        "timeout": 30000
+      },
+      "status": "completed"
+    },
+    {
+      "callId": "call-c3169973-bacc-4c57-9479-252257d2a8cd-47\nfc_809f67a2-a203-938e-b61b-18f57af0072f_0",
+      "args": {
+        "command": "py -3 -c \"import gzip, json; from pathlib import Path; p=Path(r'C:\\project\\damage_web_dev\\.agents\\artifacts\\hero25-cursor-review-20260909\\参考资料\\客户端原文\\Tryndamere.json.gz'); print(p.exists(), p.stat().st_size); data=json.loads(gzip.open(p,'rb').read().decode('utf-8')); print(len(data));\n[print(k) for k in data if 'CharacterRecord' in k or k.endswith('/Root') or 'Passive' in k or 'primaryAbility' in k.lower()]\"",
+        "timeout": 30000
+      },
+      "status": "completed"
+    },
+    {
+      "callId": "call-d345636f-5c3b-4808-bd2b-89715127faf4-48\nfc_f96975fe-9592-9f7e-97fc-b7b70e7f1ca1_0",
+      "args": {
+        "command": "node -e \"const fs=require('fs'); const zlib=require('zlib'); const p='C:/project/damage_web_dev/.agents/artifacts/hero25-cursor-review-20260909/参考资料/客户端原文/Tryndamere.json.gz'; const j=JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8')); const keys=Object.keys(j); console.log('n',keys.length); keys.filter(k=>/CharacterRecord|\\/Root|Passive|AbilityResource|primaryAbility/i.test(k)).forEach(k=>console.log(k));\"",
+        "timeout": 30000
+      },
+      "status": "completed"
+    },
+    {
+      "callId": "call-54728dbf-1094-4ab4-b98a-57f311c793e8-49\nfc_8ba98aa6-3613-9e20-a937-f7a33b2a19f4_0",
+      "args": {
+        "command": "node -e \"\nconst fs=require('fs'); const zlib=require('zlib');\nfunction load(p){return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8'));}\nconst base='C:/project/damage_web_dev/.agents/artifacts/hero25-cursor-review-20260909/参考资料/客户端原文/';\nconst t=load(base+'Tryndamere.json.gz');\nconst root=t['Characters/Tryndamere/CharacterRecords/Root'];\nfunction pick(obj, pred, depth=0, path=''){\n  if(depth>6||obj==null||typeof obj!=='object') return;\n  for (const [k,v] of Object.entries(obj)) {\n    if (pred(k,v)) console.log(path+k, typeof v==='object'?JSON.stringify(v).slice(0,500):v);\n    else pick(v, pred, depth+1, path+k+'.');\n  }\n}\nconsole.log('ROOT_KEYS', Object.keys(root));\npick(root, (k)=>/arType|arIncrements|primaryAbility|AbilityResource|mCharacterPassiveSpell|spellNames|mSpellNames|crit/i.test(k));\nconsole.log('---TRYND KEYS---');\nObject.keys(t).forEach(k=>console.log(k));\n\"\n",
+        "timeout": 30000
+      },
+      "status": "completed"
+    },
+    {
+      "callId": "call-54728dbf-1094-4ab4-b98a-57f311c793e8-50\nfc_8ba98aa6-3613-9e20-a937-f7a33b2a19f4_1",
+      "args": {
+        "command": "node -e \"\nconst fs=require('fs'); const zlib=require('zlib');\nfunction load(p){return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8'));}\nconst base='C:/project/damage_web_dev/.agents/artifacts/hero25-cursor-review-20260909/参考资料/客户端原文/';\nconst d=load(base+'DrMundo.json.gz');\nconsole.log('n', Object.keys(d).length);\nObject.keys(d).forEach(k=>console.log(k));\nconst root=d['Characters/DrMundo/CharacterRecords/Root'];\nconsole.log('---ROOT KEYS---');\nconsole.log(Object.keys(root));\nfunction pick(obj, pred, depth=0, path=''){\n  if(depth>6||obj==null||typeof obj!=='object') return;\n  for (const [k,v] of Object.entries(obj)) {\n    if (pred(k,v)) console.log(path+k, typeof v==='object'?JSON.stringify(v).slice(0,800):v);\n    else pick(v, pred, depth+1, path+k+'.');\n  }\n}\npick(root, (k)=>/arType|arIncrements|primaryAbility|AbilityResource|mCharacterPassiveSpell|spellNames|mSpellNames/i.test(k));\n\"\n",
+        "timeout": 30000
+      },
+      "status": "completed"
+    },
+    {
+      "callId": "call-c5b576e7-a2f8-4468-816c-4f23da51adab-51\nfc_9e31d557-6a1f-922d-b261-62e9ed5086c7_0",
+      "args": {
+        "command": "node -e \"\nconst fs=require('fs'); const zlib=require('zlib');\nfunction load(p){return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8'));}\nconst base='C:/project/damage_web_dev/.agents/artifacts/hero25-cursor-review-20260909/参考资料/客户端原文/';\nconst d=load(base+'DrMundo.json.gz');\nconst keys=[\n 'Characters/DrMundo/Spells/DrMundoWAbility/DrMundoWRecast',\n 'Characters/DrMundo/Spells/DrMundoEAbility/DrMundoEPassive',\n 'Characters/DrMundo/Spells/DrMundoEAbility/DrMundoEAttack',\n 'Characters/DrMundo/Spells/DrMundoRAbility/DrMundoRHeal',\n 'Characters/DrMundo/Spells/DrMundoPassiveAbility/DrMundoPCooldown',\n 'Characters/DrMundo/Spells/DrMundoPassiveAbility/DrMundoPImmunity'\n];\nfunction slim(obj){\n  const o=obj.mSpell||obj;\n  const out={};\n  if(o.DataValues) out.DataValues=o.DataValues;\n  if(o.mSpellCalculations) out.mSpellCalculations=o.mSpellCalculations;\n  if(o.spellCastTime!=null) out.spellCastTime=o.spellCastTime;\n  if(o.mCastTime!=null) out.mCastTime=o.mCastTime;\n  if(o.mSpellTags) out.mSpellTags=o.mSpellTags;\n  if(obj.mBuff) out.mBuffKeys=Object.keys(obj.mBuff);\n  if(obj.mScriptName) out.mScriptName=obj.mScriptName;\n  if(obj.__type) out.__type=obj.__type;\n  return out;\n}\nfor (const k of keys){\n  console.log('\\n====', k);\n  if(!d[k]) { console.log('MISSING'); continue; }\n  console.log(JSON.stringify(slim(d[k]), null, 2).slice(0,4000));\n}\n\"\n",
+        "timeout": 30000
+      },
+      "status": "completed"
+    },
+    {
+      "callId": "call-c5b576e7-a2f8-4468-816c-4f23da51adab-52\nfc_9e31d557-6a1f-922d-b261-62e9ed5086c7_1",
+      "args": {
+        "command": "node -e \"\nconst fs=require('fs'); const zlib=require('zlib');\nfunction load(p){return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8'));}\nconst base='C:/project/damage_web_dev/.agents/artifacts/hero25-cursor-review-20260909/参考资料/客户端原文/';\nconst t=load(base+'Tryndamere.json.gz');\nconst keys=[\n 'Characters/Tryndamere/Spells/Blood_Lust',\n 'Characters/Tryndamere/Spells/UndyingRageAbility/Undying_Rage',\n 'Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereWSlow',\n 'Characters/Tryndamere/CharacterRecords/Root'\n];\nconst root=t['Characters/Tryndamere/CharacterRecords/Root'];\nconsole.log('spells', JSON.stringify(root.spells,null,2));\nconsole.log('extraSpells', JSON.stringify(root.extraSpells,null,2));\nconsole.log('extraSpellsList', JSON.stringify(root.extraSpellsList,null,2));\nconsole.log('mAbilities', JSON.stringify(root.mAbilities,null,2));\nfunction slim(obj){\n  const o=obj.mSpell||obj;\n  const out={mScriptName:obj.mScriptName,__type:obj.__type};\n  if(o.DataValues) out.DataValues=o.DataValues;\n  if(o.mSpellCalculations) out.mSpellCalculations=o.mSpellCalculations;\n  if(o.mSpellTags) out.mSpellTags=o.mSpellTags;\n  return out;\n}\nfor (const k of ['Characters/Tryndamere/Spells/Blood_Lust','Characters/Tryndamere/Spells/UndyingRageAbility/Undying_Rage','Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereWSlow']){\n  console.log('\\n====', k);\n  if(!t[k]) { console.log('MISSING'); continue; }\n  console.log(JSON.stringify(slim(t[k]), null, 2).slice(0,2500));\n}\n\"\n",
+        "timeout": 30000
+      },
+      "status": "completed"
+    },
+    {
+      "callId": "call-7edd36fc-3a39-4ff0-9b10-4214b37082d0-53\nfc_9ce51ce9-14ea-9e4c-b796-d72b8ea34ffd_0",
+      "args": {
+        "command": "node -e \"\nconst fs=require('fs'); const zlib=require('zlib');\nfunction load(p){return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8'));}\nconst base='C:/project/damage_web_dev/.agents/artifacts/hero25-cursor-review-20260909/参考资料/客户端原文/';\nconst d=load(base+'DrMundo.json.gz');\nconst root=d['Characters/DrMundo/CharacterRecords/Root'];\nconsole.log('spells', JSON.stringify(root.spells,null,2));\nconsole.log('spellNames', root.spellNames);\nconsole.log('extraSpells', JSON.stringify(root.extraSpells,null,2));\nconsole.log('extraSpellsList', JSON.stringify(root.extraSpellsList,null,2));\nconsole.log('mAbilities', JSON.stringify(root.mAbilities,null,2));\nconst w=d['Characters/DrMundo/Spells/DrMundoWAbility/DrMundoW'];\nconst wr=d['Characters/DrMundo/Spells/DrMundoWAbility/DrMundoWRecast'];\nconsole.log('W tags', w.mSpell&&w.mSpell.mSpellTags);\nconsole.log('W recast tags', wr.mSpell&&wr.mSpell.mSpellTags);\nconsole.log('W flags', w.mSpell&&w.mSpell.flags, 'mAlternateName', w.mSpell&&w.mSpell.mAlternateName, 'ObjectName', w.ObjectName);\nconsole.log('WR flags', wr.mSpell&&wr.mSpell.flags);\nconsole.log('WR keys', Object.keys(wr));\nconsole.log('WR mSpell keys', wr.mSpell&&Object.keys(wr.mSpell));\n\"\n",
+        "timeout": 30000
+      },
+      "status": "completed"
+    }
+  ],
+  "runId": "run-3e7efe9a-d297-4e24-9521-7d8e95ee1146",
+  "resultStatus": "finished",
+  "gitDelta": [],
+  "readonlyAuditPassed": true,
+  "mutatingTools": 0,
+  "apiCalls": 0,
+  "reviewedPlanRev": "hero25-source-v1",
+  "verdict": "READY",
+  "agentId": "agent-ea2b9aaf-02be-4e5e-8a67-ef9cc86639d6",
+  "completedAt": "2026-09-09T14:00:21.137Z",
+  "reviewSha256": "27ebf769891e88df529d8569ef2292fb49f8098930f7a716ca937adfa950cd0e",
+  "eventsSha256": "b59e4d5eda30b58a2dec71810d139404a6d5f2cfd80b981aa3d4eb517a58b3f3",
+  "summarySha256": "153eddfe332eea3a5e903c11c5edf62047fbaffb693b8157e5742fa7de5201fe",
+  "notes": [
+    "独立评审提出蒙多W旧重施对象不能覆盖当前主对象。",
+    "当前属性目录无fury，必须继续按候选入口检查，不用法力替代怒气。",
+    "来源评审完成不是业务录入完成。"
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-13T10:28:46.581Z",
+  "methodPolicy": {
+    "allowedBusinessMethods": [
+      "POST"
+    ],
+    "allowedRequestCount": 4
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 131,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 135,
+    "finalSourceInitializedCount": 25
+  },
+  "sourceSnapshotSha256": "8ba7d41021f34adc08f02213ef5bd5c0446515a8ffd245f4cb6c92bfd694ca90",
+  "requests": [
+    {
+      "id": "rakan_r_initial_move_speed",
+      "skillKey": "rakan_r",
+      "ownerKey": "champion_rakan",
+      "ruleKey": "on_used",
+      "effectKey": "self_initial_move_speed",
+      "method": "POST",
+      "route": "/skills/rakan_r/trigger-rules",
+      "detailRoute": "/skills/rakan_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十一批/最终验收/候选过程/修订二/完整候选.json",
+      "sourceCandidateSha256": "d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5",
+      "bodySha256": "e263b1324819479d83ef35c3eeb1738c458ad546ab332db0b66d6d97513f6b04",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "惊鸿过隙主动初始移速",
+        "description": "接收 rakan_r 主动使用并执行已有 self_initial_move_speed；触敌伤害、魅惑、首次触敌衰减移速、法力消耗与冷却继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "rakan_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_self_initial_move_speed",
+            "name": "执行惊鸿过隙初始移动速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_initial_move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "volibear_r_attack_range",
+      "skillKey": "volibear_r",
+      "ownerKey": "champion_volibear",
+      "ruleKey": "on_used",
+      "effectKey": "attack_range",
+      "method": "POST",
+      "route": "/skills/volibear_r/trigger-rules",
+      "detailRoute": "/skills/volibear_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十四批/完整候选.json",
+      "sourceCandidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+      "bodySha256": "ea8051e6b22599578dab308d58d8e41a1a1a1a67d49bcd2c2fef8add4cdab279",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "天声震落主动攻击距离",
+        "description": "接收 volibear_r 主动使用并执行已有 attack_range；跳跃落点、直接压中伤害、减速、生命值增益、建筑物、法力消耗与冷却继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "volibear_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_range",
+            "name": "执行天声震落额外攻击距离",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_range"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "akshan_q_champion_hit_move_speed",
+      "skillKey": "akshan_q",
+      "ownerKey": "champion_akshan",
+      "ruleKey": "actual_champion_hit",
+      "effectKey": "champion_hit_move_speed",
+      "method": "POST",
+      "route": "/skills/akshan_q/trigger-rules",
+      "detailRoute": "/skills/akshan_q/trigger-rules/actual_champion_hit",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十七批/修订二/完整候选.json",
+      "sourceCandidateSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
+      "bodySha256": "707520b62b0ab40c30363bd81dfef9efd3037fd12ccf4907443eb90b3346a2df",
+      "body": {
+        "ruleKey": "actual_champion_hit",
+        "name": "命中英雄触发去而复还移速",
+        "description": "仅消费宿主确认的 akshan_q 实际英雄命中，并执行已有 champion_hit_move_speed；去返程次数、投射物距离、显形、伤害结果与衰减函数继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "akshan_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_champion_hit_move_speed",
+            "name": "执行去而复还命中英雄自身移速",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "champion_hit_move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "jarvaniv_e_self_attack_speed",
+      "skillKey": "jarvaniv_e",
+      "ownerKey": "champion_jarvaniv",
+      "ruleKey": "initialize_self_attack_speed",
+      "effectKey": "self_attack_speed",
+      "method": "POST",
+      "route": "/skills/jarvaniv_e/trigger-rules",
+      "detailRoute": "/skills/jarvaniv_e/trigger-rules/initialize_self_attack_speed",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json",
+      "sourceCandidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+      "bodySha256": "0d07e37e9cde059dbbd6638ecbd8d3e312b730a6ae1d4b34ba806bf033ceafa3",
+      "body": {
+        "ruleKey": "initialize_self_attack_speed",
+        "name": "初始化德邦军旗被动攻击速度",
+        "description": "来源对象初始化完成时执行已有 self_attack_speed，建立嘉文E技能等级对应的单层自身被动攻击速度；军旗落点伤害、附近友军光环、旗帜连接和控制继续暂缓。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_self_attack_speed",
+            "name": "执行德邦军旗自身被动攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "self_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "runtimeBoundary": "四条规则可由管理接口保存；Wasm组装、宿主事件生产和真实战斗尚未验证。",
+  "batchSha256": "ee97e37e9d3c1d59a7ec69b0067d9d371da0b0922700f73b4ffccc1b9e7bb165"
+}

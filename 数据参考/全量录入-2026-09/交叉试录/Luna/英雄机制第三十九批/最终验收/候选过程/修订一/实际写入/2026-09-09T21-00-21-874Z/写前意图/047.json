@@ -1,0 +1,24 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/melee_base_damage_per_character_level",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "melee_base_damage_per_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "melee_base_damage_per_character_level",
+      "name": "近战额外伤害每角色等级增量",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "BonusMeleeDamage的mInitialBonusPerLevel=1；不把它误建成纯技能等级阶梯。",
+      "sortOrder": 60
+    }
+  }
+}

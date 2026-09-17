@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:41.883Z",
+  "method": "POST",
+  "skillKey": "fizz_w",
+  "kind": "parameters",
+  "stableKey": "active_duration_ms",
+  "route": "/skills/fizz_w/parameters",
+  "readRoute": "/skills/fizz_w/parameters/active_duration_ms",
+  "body": {
+    "parameterKey": "active_duration_ms",
+    "name": "强化攻击窗口（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 4000,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.ActiveDuration 取索引1至5，原值4秒转毫秒。",
+    "sortOrder": 90
+  }
+}

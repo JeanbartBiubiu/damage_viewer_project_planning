@@ -1,0 +1,43 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_p/parameters",
+    "detailRoute": "/skills/teemo_p/parameters/attack_speed_ratio",
+    "skillKey": "teemo_p",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "离开隐形后的额外攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.200000003,
+        "2": 0.200000003,
+        "3": 0.200000003,
+        "4": 0.200000003,
+        "5": 0.400000006,
+        "6": 0.400000006,
+        "7": 0.400000006,
+        "8": 0.400000006,
+        "9": 0.400000006,
+        "10": 0.600000009,
+        "11": 0.600000009,
+        "12": 0.600000009,
+        "13": 0.600000009,
+        "14": 0.600000009,
+        "15": 0.800000012,
+        "16": 0.800000012,
+        "17": 0.800000012,
+        "18": 0.800000012
+      },
+      "description": "BonusAttackSpeed为角色等级断点：1至4级0.2、5至9级0.4、10至14级0.6、15至18级0.8；比例属性用attribute_flat_add。",
+      "sortOrder": 30
+    }
+  }
+}

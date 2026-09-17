@@ -1,0 +1,20 @@
+{
+  "i": 83,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_e/parameters",
+    "skillKey": "hecarim_e",
+    "kind": "parameters",
+    "stableKey": "time_to_max_move_speed_ms",
+    "body": {
+      "parameterKey": "time_to_max_move_speed_ms",
+      "name": "来源达到最高移速时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前根DataValues.TimeToMaxMoveSpeed取索引1至5，秒转为整数毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

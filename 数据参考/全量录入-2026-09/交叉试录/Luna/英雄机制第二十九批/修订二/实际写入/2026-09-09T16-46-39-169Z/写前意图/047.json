@@ -1,0 +1,20 @@
+{
+  "i": 46,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_r/parameters",
+    "skillKey": "ornn_r",
+    "kind": "parameters",
+    "stableKey": "client_slow_duration_ms",
+    "body": {
+      "parameterKey": "client_slow_duration_ms",
+      "name": "客户端首程减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前根DataValues.RSlowDuration为2秒；与官方英文正文3000毫秒冲突，单独保留。",
+      "sortOrder": 50
+    }
+  }
+}

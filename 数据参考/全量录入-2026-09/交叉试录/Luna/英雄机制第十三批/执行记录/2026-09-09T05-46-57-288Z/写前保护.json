@@ -1,0 +1,1386 @@
+{
+  "catalogs": {
+    "attributes": {
+      "route": "/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    "modifier-zones": {
+      "route": "/modifier-zones",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    "damage-types": {
+      "route": "/damage-types",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    "statuses": {
+      "route": "/statuses",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-28T14:55:06.53067Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "眩晕",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "statusKey": "vertigo",
+            "updatedAt": "2026-08-28T14:55:06.53067Z"
+          }
+        ],
+        "total": 1
+      }
+    }
+  },
+  "relations": {
+    "akali": {
+      "route": "/character-skill-relations?characterKey=champion_akali",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_p",
+            "skillName": "阿卡丽·我流忍法！潜龙印",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_q",
+            "skillName": "阿卡丽·我流奥义！寒影",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_w",
+            "skillName": "阿卡丽·我流奥义！霞阵",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_e",
+            "skillName": "阿卡丽·我流奥义！隼舞",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_r",
+            "skillName": "阿卡丽·我流秘奥义！表里杀缭乱",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "kassadin": {
+      "route": "/character-skill-relations?characterKey=champion_kassadin",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_p",
+            "skillName": "卡萨丁·虚空之石",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_q",
+            "skillName": "卡萨丁·虚无法球",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_w",
+            "skillName": "卡萨丁·虚空之刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_e",
+            "skillName": "卡萨丁·能量脉冲",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_r",
+            "skillName": "卡萨丁·虚空行走",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "ryze": {
+      "route": "/character-skill-relations?characterKey=champion_ryze",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_p",
+            "skillName": "瑞兹·奥术专精",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_q",
+            "skillName": "瑞兹·超负荷",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_w",
+            "skillName": "瑞兹·符文禁锢",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_e",
+            "skillName": "瑞兹·法术涌动",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_r",
+            "skillName": "瑞兹·曲境折跃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "cassiopeia": {
+      "route": "/character-skill-relations?characterKey=champion_cassiopeia",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_p",
+            "skillName": "卡西奥佩娅·优雅蛇行",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_q",
+            "skillName": "卡西奥佩娅·瘟毒爆炸",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_w",
+            "skillName": "卡西奥佩娅·剧毒迷雾",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_e",
+            "skillName": "卡西奥佩娅·双生毒牙",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_r",
+            "skillName": "卡西奥佩娅·石化凝视",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    }
+  },
+  "subjects": {
+    "akali_p": {
+      "route": "/skills/akali_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:15.079554Z",
+        "description": "对一个英雄造成技能伤害时，会在其周围创造一个能量圆环。穿过该圆环时，会增强阿卡丽的下一个攻击的距离和伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "阿卡丽·我流忍法！潜龙印",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "akali_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:15.079554Z"
+      }
+    },
+    "akali_q": {
+      "route": "/skills/akali_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:15.514084Z",
+        "description": "阿卡丽掷出五枚苦无，基于她的额外攻击力和法术强度来造成伤害，并造成减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿卡丽·我流奥义！寒影",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "akali_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:15.514084Z"
+      }
+    },
+    "akali_w": {
+      "route": "/skills/akali_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:15.899823Z",
+        "description": "阿卡丽扔下一颗烟幕弹并暂时提供移动速度。在烟幕中时，阿卡丽会变为隐形状态并且不会被敌方的技能和攻击所选中。进行攻击或使用技能都将使阿卡丽短暂显形。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿卡丽·我流奥义！霞阵",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "akali_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:15.899823Z"
+      }
+    },
+    "akali_e": {
+      "route": "/skills/akali_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:16.221532Z",
+        "description": "进行后空翻并向前掷出一枚手里剑，造成魔法伤害，并标记命中的第一个敌人或【我流奥义！霞阵】。再次施放可突进至被标记的目标处，并造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿卡丽·我流奥义！隼舞",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "akali_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:16.221532Z"
+      }
+    },
+    "akali_r": {
+      "route": "/skills/akali_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:16.613191Z",
+        "description": "阿卡丽朝着一个方向跃出，伤害被她击中的敌人。再次施放：阿卡丽朝着一个方向突进，处决所有被她击中的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿卡丽·我流秘奥义！表里杀缭乱",
+        "skillCategoryKeys": [],
+        "skillKey": "akali_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:16.613191Z"
+      }
+    },
+    "kassadin_p": {
+      "route": "/skills/kassadin_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:52.744202Z",
+        "description": "卡萨丁所受的魔法伤害减少，并无视单位的碰撞体积。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "卡萨丁·虚空之石",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "kassadin_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:52.744202Z"
+      }
+    },
+    "kassadin_q": {
+      "route": "/skills/kassadin_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:53.006891Z",
+        "description": "卡萨丁向目标发射虚空能量法球，造成伤害并打断目标的技能引导。满溢的能量会在他身边环绕，提供一个可吸收魔法伤害的临时护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡萨丁·虚无法球",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kassadin_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:53.006891Z"
+      }
+    },
+    "kassadin_w": {
+      "route": "/skills/kassadin_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:53.304358Z",
+        "description": "被动：卡萨丁的普通攻击会造成额外魔法伤害。主动：卡萨丁的下次普通攻击会造成显著的额外魔法伤害并回复法力值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡萨丁·虚空之刃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kassadin_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:53.304358Z"
+      }
+    },
+    "kassadin_e": {
+      "route": "/skills/kassadin_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:53.571148Z",
+        "description": "附近有单位施放法术技能时，卡萨丁将吸收能量，当充能完毕后，吸收的能量可转化为脉冲，对面前锥形区域内敌人造成伤害并减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡萨丁·能量脉冲",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kassadin_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:53.571148Z"
+      }
+    },
+    "kassadin_r": {
+      "route": "/skills/kassadin_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:53.825502Z",
+        "description": "卡萨丁传送到附近区域，对区域内的敌方单位造成伤害。 在一段时间内连续施放虚空行走技能会消耗更多的法力值，但也会造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡萨丁·虚空行走",
+        "skillCategoryKeys": [],
+        "skillKey": "kassadin_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:53.825502Z"
+      }
+    },
+    "ryze_p": {
+      "route": "/skills/ryze_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:07.887908Z",
+        "description": "<mainText>瑞兹的技能会造成基于他法力值加成的额外伤害，并且他的最大法力值会基于他的法术强度来获得百分比的提升。</mainText>（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "瑞兹·奥术专精",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "ryze_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:07.887908Z"
+      }
+    },
+    "ryze_q": {
+      "route": "/skills/ryze_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:08.204181Z",
+        "description": "被动部分：瑞兹的其它基础技能会重置【超负荷】的冷却时间并且充能一层符文。当瑞兹带着2层符文施放【超负荷】时，他会获得短暂的爆发性移动速度加成。<br><br>施放时，瑞兹会沿直线扔出一团纯粹能量，来对命中的第一个敌人造成伤害。如果目标身上有【涌动】效果，那么【超负荷】会造成额外伤害并弹射至附近带有【涌动】效果的敌人身上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "瑞兹·超负荷",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ryze_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:08.204181Z"
+      }
+    },
+    "ryze_w": {
+      "route": "/skills/ryze_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:08.474592Z",
+        "description": "瑞兹将一个目标陷入一个符文牢笼中，来对其造成伤害和减速效果。如果目标身上带有【涌动】效果，那么减速效果会替换为禁锢效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "瑞兹·符文禁锢",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ryze_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:08.474592Z"
+      }
+    },
+    "ryze_e": {
+      "route": "/skills/ryze_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:08.774217Z",
+        "description": "瑞兹放出一颗纯净魔法能量球，对一名敌人造成伤害并对附近的敌人造成减益效果。瑞兹的技能可以对带有该减益的敌人造成额外效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "瑞兹·法术涌动",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ryze_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:08.774217Z"
+      }
+    },
+    "ryze_r": {
+      "route": "/skills/ryze_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:09.032226Z",
+        "description": "被动部分：【超负荷】对带有【涌动】效果的目标造成更多伤害。<br><br>施放时，瑞兹会创造一个传送门来通向一个附近的位置。在若干秒后，站在传送门附近的友军会被传送至目标位置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "瑞兹·曲境折跃",
+        "skillCategoryKeys": [],
+        "skillKey": "ryze_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:09.032226Z"
+      }
+    },
+    "cassiopeia_p": {
+      "route": "/skills/cassiopeia_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:03.013876Z",
+        "description": "卡西奥佩娅身上的所有移动速度加成效率变得更多。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "卡西奥佩娅·优雅蛇行",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "cassiopeia_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:03.013876Z"
+      }
+    },
+    "cassiopeia_q": {
+      "route": "/skills/cassiopeia_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:03.271071Z",
+        "description": "在短暂的延迟后，卡西奥佩娅用毒素引爆一片区域，并且如果命中了一名敌方英雄，就会获得移动速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡西奥佩娅·瘟毒爆炸",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "cassiopeia_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:03.271071Z"
+      }
+    },
+    "cassiopeia_w": {
+      "route": "/skills/cassiopeia_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:03.566869Z",
+        "description": "卡西奥佩娅释放出若干团毒云，对经过毒云的敌人造成减速效果、缚地效果和轻量伤害。被缚地的敌人无法使用位移技能。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡西奥佩娅·剧毒迷雾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "cassiopeia_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:03.566869Z"
+      }
+    },
+    "cassiopeia_e": {
+      "route": "/skills/cassiopeia_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:03.822872Z",
+        "description": "卡西奥佩娅释放一次攻击，可对中毒的目标造成额外伤害并且基于实际伤害值为她提供治疗效果。如果目标死于这次攻击，卡西奥佩娅会回复法力值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡西奥佩娅·双生毒牙",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "cassiopeia_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:03.822872Z"
+      }
+    },
+    "cassiopeia_r": {
+      "route": "/skills/cassiopeia_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:04.127576Z",
+        "description": "卡西奥佩娅从眼中放出一团魔法能量，对她前方的任何面对她的敌人造成晕眩效果并对其它背对她的敌人造成减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡西奥佩娅·石化凝视",
+        "skillCategoryKeys": [],
+        "skillKey": "cassiopeia_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:04.127576Z"
+      }
+    }
+  },
+  "images": {
+    "akali_p": {
+      "route": "/skills/akali_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_p",
+          "name": "akali_p"
+        }
+      }
+    },
+    "akali_q": {
+      "route": "/skills/akali_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_q",
+          "name": "akali_q"
+        }
+      }
+    },
+    "akali_w": {
+      "route": "/skills/akali_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_w",
+          "name": "akali_w"
+        }
+      }
+    },
+    "akali_e": {
+      "route": "/skills/akali_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_e",
+          "name": "akali_e"
+        }
+      }
+    },
+    "akali_r": {
+      "route": "/skills/akali_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_r",
+          "name": "akali_r"
+        }
+      }
+    },
+    "kassadin_p": {
+      "route": "/skills/kassadin_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_p",
+          "name": "kassadin_p"
+        }
+      }
+    },
+    "kassadin_q": {
+      "route": "/skills/kassadin_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_q",
+          "name": "kassadin_q"
+        }
+      }
+    },
+    "kassadin_w": {
+      "route": "/skills/kassadin_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_w",
+          "name": "kassadin_w"
+        }
+      }
+    },
+    "kassadin_e": {
+      "route": "/skills/kassadin_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_e",
+          "name": "kassadin_e"
+        }
+      }
+    },
+    "kassadin_r": {
+      "route": "/skills/kassadin_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_r",
+          "name": "kassadin_r"
+        }
+      }
+    },
+    "ryze_p": {
+      "route": "/skills/ryze_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_p",
+          "name": "ryze_p"
+        }
+      }
+    },
+    "ryze_q": {
+      "route": "/skills/ryze_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_q",
+          "name": "ryze_q"
+        }
+      }
+    },
+    "ryze_w": {
+      "route": "/skills/ryze_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_w",
+          "name": "ryze_w"
+        }
+      }
+    },
+    "ryze_e": {
+      "route": "/skills/ryze_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_e",
+          "name": "ryze_e"
+        }
+      }
+    },
+    "ryze_r": {
+      "route": "/skills/ryze_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_r",
+          "name": "ryze_r"
+        }
+      }
+    },
+    "cassiopeia_p": {
+      "route": "/skills/cassiopeia_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_p",
+          "name": "cassiopeia_p"
+        }
+      }
+    },
+    "cassiopeia_q": {
+      "route": "/skills/cassiopeia_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_q",
+          "name": "cassiopeia_q"
+        }
+      }
+    },
+    "cassiopeia_w": {
+      "route": "/skills/cassiopeia_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_w",
+          "name": "cassiopeia_w"
+        }
+      }
+    },
+    "cassiopeia_e": {
+      "route": "/skills/cassiopeia_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_e",
+          "name": "cassiopeia_e"
+        }
+      }
+    },
+    "cassiopeia_r": {
+      "route": "/skills/cassiopeia_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_r",
+          "name": "cassiopeia_r"
+        }
+      }
+    }
+  }
+}

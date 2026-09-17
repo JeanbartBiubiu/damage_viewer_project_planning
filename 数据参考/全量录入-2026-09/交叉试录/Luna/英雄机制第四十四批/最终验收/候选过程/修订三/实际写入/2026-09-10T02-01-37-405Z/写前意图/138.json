@@ -1,0 +1,29 @@
+{
+  "i": 137,
+  "intent": {
+    "sequence": 138,
+    "method": "POST",
+    "route": "/skills/yuumi_e/parameters",
+    "detailRoute": "/skills/yuumi_e/parameters/shield_base",
+    "skillKey": "yuumi_e",
+    "kind": "parameters",
+    "stableKey": "shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "自身基础护盾",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 65,
+        "2": 90,
+        "3": 115,
+        "4": 140,
+        "5": 165
+      },
+      "description": "来源65/90/115/140/165。",
+      "sortOrder": 10
+    }
+  }
+}

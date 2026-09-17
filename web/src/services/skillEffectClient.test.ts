@@ -1,3 +1,4 @@
+import { formulaValue } from '../types/numericValue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createSkillEffect,
@@ -32,7 +33,7 @@ const damageResult = {
   spellShieldBlockScope: null,
   lifecycleBehavior: null,
   valueRule: {
-    formulaKey: 'damage',
+    value: formulaValue("damage"),
     fixedMultiplier: 1,
     fixedMinValue: null,
     fixedMaxValue: null
@@ -41,7 +42,7 @@ const damageResult = {
     damageTypeKey: 'physical',
     deliveryKind: 'SKILL',
     originKind: 'DIRECT',
-    critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+    critical: { mode: 'DISALLOWED', multiplierValue: null },
     vampRules: []
   }
 };
@@ -63,6 +64,61 @@ const detail: SkillEffect = {
   ...summary,
   lifecycle: null,
   results: [damageResult]
+};
+
+const persistentStatusLifecycleBehavior = {
+  moment: 'PERSISTENT' as const,
+  valueReadMode: null,
+  stackValueMode: null,
+  reapplicationValueMode: null,
+  periodicExecutionMode: null
+};
+
+const persistentStatusLifecycle = {
+  durationValue: formulaValue('stun_duration_ms'),
+  maxStacksValue: formulaValue('one'),
+  applicationStacksValue: formulaValue('one'),
+  instanceScope: 'SOURCE_TARGET' as const,
+  reapplicationStackMode: 'KEEP' as const,
+  reapplicationDurationMode: 'REFRESH_ALL' as const,
+  expiryMode: 'ALL_AT_ONCE' as const,
+  periodicIntervalValue: null,
+  firstPeriodicExecution: null
+};
+
+const persistentStatusResult = {
+  ...damageResult,
+  resultKey: 'stun',
+  name: '事件视界眩晕',
+  resultType: 'STATUS_OPERATION' as const,
+  spellShieldBlockScope: 'RESULT' as const,
+  lifecycleBehavior: persistentStatusLifecycleBehavior,
+  valueRule: null,
+  detail: { statusKey: 'vertigo', operation: 'APPLY' as const }
+};
+
+const persistentStatusSummary: SkillEffectSummary = {
+  ...summary,
+  skillKey: 'veigar_e',
+  effectKey: 'event_horizon_stun',
+  name: '碰到牢笼边缘眩晕',
+  resultCount: 1,
+  lifecycleEnabled: true
+};
+
+const persistentStatusDetail: SkillEffect = {
+  ...persistentStatusSummary,
+  lifecycle: persistentStatusLifecycle,
+  results: [persistentStatusResult]
+};
+
+const persistentStatusBody: CreateSkillEffectRequest = {
+  effectKey: persistentStatusDetail.effectKey,
+  name: persistentStatusDetail.name,
+  description: persistentStatusDetail.description,
+  sortOrder: persistentStatusDetail.sortOrder,
+  lifecycle: persistentStatusDetail.lifecycle,
+  results: persistentStatusDetail.results
 };
 
 const createBody: CreateSkillEffectRequest = {
@@ -196,14 +252,14 @@ describe('skillEffectClient', () => {
       createdAt: '2026-08-28T00:00:00Z',
       updatedAt: '2026-08-28T00:00:00Z',
       lifecycle: {
-        durationFormulaKey: 'poison_duration_ms',
-        maxStacksFormulaKey: 'one',
-        applicationStacksFormulaKey: 'one',
+        durationValue: formulaValue("poison_duration_ms"),
+        maxStacksValue: formulaValue("one"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'KEEP',
         reapplicationDurationMode: 'REFRESH_ALL',
         expiryMode: 'ALL_AT_ONCE',
-        periodicIntervalFormulaKey: 'poison_tick_interval_ms',
+        periodicIntervalValue: formulaValue("poison_tick_interval_ms"),
         firstPeriodicExecution: 'AFTER_INTERVAL'
       },
       results: [
@@ -223,7 +279,7 @@ describe('skillEffectClient', () => {
             periodicExecutionMode: 'ONCE_PER_INSTANCE'
           },
           valueRule: {
-            formulaKey: 'damage',
+            value: formulaValue("damage"),
             fixedMultiplier: 1,
             fixedMinValue: null,
             fixedMaxValue: null
@@ -232,7 +288,7 @@ describe('skillEffectClient', () => {
             damageTypeKey: 'physical',
             deliveryKind: 'SKILL',
             originKind: 'DIRECT',
-            critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+            critical: { mode: 'DISALLOWED', multiplierValue: null },
             vampRules: []
           }
         },
@@ -246,7 +302,7 @@ describe('skillEffectClient', () => {
           spellShieldBlockScope: null,
           lifecycleBehavior: null,
           valueRule: {
-            formulaKey: 'damage',
+            value: formulaValue("damage"),
             fixedMultiplier: 1,
             fixedMinValue: null,
             fixedMaxValue: null
@@ -336,18 +392,82 @@ describe('skillEffectClient', () => {
     }).results[0]).toMatchObject({ spellShieldBlockScope: 'DAMAGE_INSTANCE' });
   });
 
+  it('parses persistent target status apply RESULT responses through list, get and create', async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const method = init?.method ?? 'GET';
+      if (method === 'GET' && String(input).endsWith('/effects')) {
+        return jsonResponse(200, [persistentStatusSummary]);
+      }
+      return jsonResponse(method === 'POST' ? 201 : 200, persistentStatusDetail);
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const listed = await listSkillEffects('http://localhost:8080', 'demo', 'veigar_e', 'token');
+    expect(listed.data[0]).toMatchObject({ effectKey: 'event_horizon_stun', lifecycleEnabled: true });
+
+    const loaded = await getSkillEffect(
+      'http://localhost:8080', 'demo', 'veigar_e', 'event_horizon_stun', 'token'
+    );
+    expect(loaded.data.results[0]).toMatchObject({
+      resultType: 'STATUS_OPERATION',
+      target: 'TARGET',
+      spellShieldBlockScope: 'RESULT',
+      lifecycleBehavior: persistentStatusLifecycleBehavior,
+      detail: { statusKey: 'vertigo', operation: 'APPLY' }
+    });
+
+    const created = await createSkillEffect(
+      'http://localhost:8080', 'demo', 'veigar_e', 'token', persistentStatusBody
+    );
+    expect(created.status).toBe(201);
+    expect(created.data.results[0]?.spellShieldBlockScope).toBe('RESULT');
+
+    const nullScope = parseSkillEffect({
+      ...persistentStatusDetail,
+      results: [{ ...persistentStatusResult, spellShieldBlockScope: null }]
+    });
+    expect(nullScope.results[0]?.spellShieldBlockScope).toBeNull();
+
+    for (const scope of ['SKILL', 'EFFECT', 'DAMAGE_INSTANCE'] as const) {
+      expect(() => parseSkillEffect({
+        ...persistentStatusDetail,
+        results: [{ ...persistentStatusResult, spellShieldBlockScope: scope }]
+      })).toThrow(/effect\.results\[0\]\.spellShieldBlockScope/);
+    }
+    expect(() => parseSkillEffect({
+      ...persistentStatusDetail,
+      results: [{ ...persistentStatusResult, target: 'SOURCE' as const }]
+    })).toThrow(/effect\.results\[0\]\.spellShieldBlockScope/);
+    expect(() => parseSkillEffect({
+      ...persistentStatusDetail,
+      results: [{
+        ...persistentStatusResult,
+        detail: { statusKey: 'vertigo', operation: 'REMOVE' as const }
+      }]
+    })).toThrow(/effect\.results\[0\]\.spellShieldBlockScope/);
+    expect(() => parseSkillEffect({
+      ...persistentStatusDetail,
+      results: [{
+        ...persistentStatusResult,
+        resultType: 'DAMAGE' as const,
+        valueRule: damageResult.valueRule,
+        detail: damageResult.detail
+      }]
+    })).toThrow(/effect\.results\[0\]\.spellShieldBlockScope/);
+  });
+
   it('parses a persistent spell shield without a value rule', () => {
     const parsed = parseSkillEffect({
       ...detail,
       lifecycle: {
-        durationFormulaKey: null,
-        maxStacksFormulaKey: 'one',
-        applicationStacksFormulaKey: 'one',
+        durationValue: null,
+        maxStacksValue: formulaValue("one"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'KEEP',
         reapplicationDurationMode: null,
         expiryMode: 'EXPLICIT_ONLY',
-        periodicIntervalFormulaKey: null,
+        periodicIntervalValue: null,
         firstPeriodicExecution: null
       },
       results: [{
@@ -383,7 +503,7 @@ describe('skillEffectClient', () => {
       periodicExecutionMode: null
     };
     const valueRule = {
-      formulaKey: 'damage',
+      value: formulaValue('damage'),
       fixedMultiplier: 1,
       fixedMinValue: null,
       fixedMaxValue: null
@@ -391,14 +511,14 @@ describe('skillEffectClient', () => {
     const parsed = parseSkillEffect({
       ...detail,
       lifecycle: {
-        durationFormulaKey: null,
-        maxStacksFormulaKey: 'one',
-        applicationStacksFormulaKey: 'one',
+        durationValue: null,
+        maxStacksValue: formulaValue("one"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'KEEP',
         reapplicationDurationMode: null,
         expiryMode: 'EXPLICIT_ONLY',
-        periodicIntervalFormulaKey: null,
+        periodicIntervalValue: null,
         firstPeriodicExecution: null
       },
       results: [
@@ -584,14 +704,14 @@ describe('skillEffectClient', () => {
     const parsedHaste = parseSkillEffect({
       ...detail,
       lifecycle: {
-        durationFormulaKey: null,
-        maxStacksFormulaKey: 'one',
-        applicationStacksFormulaKey: 'one',
+        durationValue: null,
+        maxStacksValue: formulaValue("one"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'KEEP',
         reapplicationDurationMode: null,
         expiryMode: 'EXPLICIT_ONLY',
-        periodicIntervalFormulaKey: null,
+        periodicIntervalValue: null,
         firstPeriodicExecution: null
       },
       results: [{

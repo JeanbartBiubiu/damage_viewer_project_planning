@@ -1,0 +1,90 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/formulas",
+    "detailRoute": "/skills/udyr_q/formulas/empowered_max_health_physical_damage",
+    "skillKey": "udyr_q",
+    "kind": "formulas",
+    "stableKey": "empowered_max_health_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_max_health_physical_damage",
+      "name": "狂暴爪击觉醒目标最大生命伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "max_hp_on_hit_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "empowered_percent_hp_level_actual"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "empowered_max_hp_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "empowered_source_hp_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "Q2TotalOnHitHPDamage展开为(普通比例+角色等级比例+0.0005×额外攻击力+0.00001×来源额外生命)×目标最大生命；觉醒段替代普通百分比段。",
+      "sortOrder": 30
+    }
+  }
+}

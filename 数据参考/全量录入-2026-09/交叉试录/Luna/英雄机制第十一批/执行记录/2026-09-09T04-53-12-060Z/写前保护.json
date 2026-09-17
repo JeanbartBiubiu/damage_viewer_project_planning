@@ -1,0 +1,1386 @@
+{
+  "catalogs": {
+    "attributes": {
+      "route": "/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    "modifier-zones": {
+      "route": "/modifier-zones",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    "damage-types": {
+      "route": "/damage-types",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    "statuses": {
+      "route": "/statuses",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-28T14:55:06.53067Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "眩晕",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "statusKey": "vertigo",
+            "updatedAt": "2026-08-28T14:55:06.53067Z"
+          }
+        ],
+        "total": 1
+      }
+    }
+  },
+  "relations": {
+    "irelia": {
+      "route": "/character-skill-relations?characterKey=champion_irelia",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_irelia",
+            "characterName": "艾瑞莉娅",
+            "gameId": "lol",
+            "skillKey": "irelia_p",
+            "skillName": "艾瑞莉娅·艾欧尼亚热诚",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_irelia",
+            "characterName": "艾瑞莉娅",
+            "gameId": "lol",
+            "skillKey": "irelia_q",
+            "skillName": "艾瑞莉娅·利刃冲击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_irelia",
+            "characterName": "艾瑞莉娅",
+            "gameId": "lol",
+            "skillKey": "irelia_w",
+            "skillName": "艾瑞莉娅·距破之舞",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_irelia",
+            "characterName": "艾瑞莉娅",
+            "gameId": "lol",
+            "skillKey": "irelia_e",
+            "skillName": "艾瑞莉娅·比翼双刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_irelia",
+            "characterName": "艾瑞莉娅",
+            "gameId": "lol",
+            "skillKey": "irelia_r",
+            "skillName": "艾瑞莉娅·先锋之刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "fiora": {
+      "route": "/character-skill-relations?characterKey=champion_fiora",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_fiora",
+            "characterName": "菲奥娜",
+            "gameId": "lol",
+            "skillKey": "fiora_p",
+            "skillName": "菲奥娜·决斗之舞",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_fiora",
+            "characterName": "菲奥娜",
+            "gameId": "lol",
+            "skillKey": "fiora_q",
+            "skillName": "菲奥娜·破空斩",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_fiora",
+            "characterName": "菲奥娜",
+            "gameId": "lol",
+            "skillKey": "fiora_w",
+            "skillName": "菲奥娜·劳伦特心眼刀",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_fiora",
+            "characterName": "菲奥娜",
+            "gameId": "lol",
+            "skillKey": "fiora_e",
+            "skillName": "菲奥娜·夺命连刺",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_fiora",
+            "characterName": "菲奥娜",
+            "gameId": "lol",
+            "skillKey": "fiora_r",
+            "skillName": "菲奥娜·无双挑战",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "camille": {
+      "route": "/character-skill-relations?characterKey=champion_camille",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_camille",
+            "characterName": "卡蜜尔",
+            "gameId": "lol",
+            "skillKey": "camille_p",
+            "skillName": "卡蜜尔·适应性防御",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_camille",
+            "characterName": "卡蜜尔",
+            "gameId": "lol",
+            "skillKey": "camille_q",
+            "skillName": "卡蜜尔·精准礼仪",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_camille",
+            "characterName": "卡蜜尔",
+            "gameId": "lol",
+            "skillKey": "camille_w",
+            "skillName": "卡蜜尔·战术横扫",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_camille",
+            "characterName": "卡蜜尔",
+            "gameId": "lol",
+            "skillKey": "camille_e",
+            "skillName": "卡蜜尔·钩索",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_camille",
+            "characterName": "卡蜜尔",
+            "gameId": "lol",
+            "skillKey": "camille_r",
+            "skillName": "卡蜜尔·海克斯最后通牒",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "gwen": {
+      "route": "/character-skill-relations?characterKey=champion_gwen",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_gwen",
+            "characterName": "格温",
+            "gameId": "lol",
+            "skillKey": "gwen_p",
+            "skillName": "格温·千穿百孔",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_gwen",
+            "characterName": "格温",
+            "gameId": "lol",
+            "skillKey": "gwen_q",
+            "skillName": "格温·快刀剪乱",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_gwen",
+            "characterName": "格温",
+            "gameId": "lol",
+            "skillKey": "gwen_w",
+            "skillName": "格温·丝缕缠流",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_gwen",
+            "characterName": "格温",
+            "gameId": "lol",
+            "skillKey": "gwen_e",
+            "skillName": "格温·断续疾走",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_gwen",
+            "characterName": "格温",
+            "gameId": "lol",
+            "skillKey": "gwen_r",
+            "skillName": "格温·引针簇射",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    }
+  },
+  "subjects": {
+    "irelia_p": {
+      "route": "/skills/irelia_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:35.76932Z",
+        "description": "当艾瑞莉娅用技能命中敌人时，她会获得可叠加的攻击速度加成。这个效果在满层时还会为艾瑞莉娅提供攻击附伤。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "艾瑞莉娅·艾欧尼亚热诚",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "irelia_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:35.76932Z"
+      }
+    },
+    "irelia_q": {
+      "route": "/skills/irelia_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:36.082161Z",
+        "description": "艾瑞莉娅向前突进以打击她的目标，并治疗自身。如果目标被标记或死于利刃冲击，那么它的冷却时间会刷新。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾瑞莉娅·利刃冲击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "irelia_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:36.082161Z"
+      }
+    },
+    "irelia_w": {
+      "route": "/skills/irelia_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:36.326915Z",
+        "description": "艾瑞莉娅开始蓄力以进行一次打击，蓄力越久则打击造成的伤害越多。在蓄力期间她所受的物理伤害降低。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾瑞莉娅·距破之舞",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "irelia_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:36.326915Z"
+      }
+    },
+    "irelia_e": {
+      "route": "/skills/irelia_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:36.630171Z",
+        "description": "艾瑞莉娅放出两柄相互聚拢的利刃。利刃之间被击中的敌人会受到伤害、晕眩效果并被标记。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾瑞莉娅·比翼双刃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "irelia_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:36.630171Z"
+      }
+    },
+    "irelia_r": {
+      "route": "/skills/irelia_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:36.894519Z",
+        "description": "艾瑞莉娅发射庞大数量的利刃，它们会在命中一名敌方英雄时向外爆开。被利刃命中的敌人会受到伤害并被标记。然后利刃会形成一道刃墙，在敌人穿过时造成伤害、和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾瑞莉娅·先锋之刃",
+        "skillCategoryKeys": [],
+        "skillKey": "irelia_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:36.894519Z"
+      }
+    },
+    "fiora_p": {
+      "route": "/skills/fiora_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:18.389207Z",
+        "description": "菲奥娜已在这名英雄身上发现了一处<keywordMajor>破绽</keywordMajor>。如果她命中了这处<keywordMajor>破绽</keywordMajor>，她就会<healing>回复生命值</healing>并获得<speed>移动速度</speed>。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "菲奥娜·决斗之舞",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "fiora_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:18.389207Z"
+      }
+    },
+    "fiora_q": {
+      "route": "/skills/fiora_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:18.649024Z",
+        "description": "菲奥娜向一个方向冲刺，并刺击一个附近的敌人，造成物理伤害并施加攻击特效。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "菲奥娜·破空斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "fiora_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:18.649024Z"
+      }
+    },
+    "fiora_w": {
+      "route": "/skills/fiora_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:18.928224Z",
+        "description": "菲奥娜在短时间内对所有即将到来的伤害和限制效果进行招架，然后朝着一个方向进行刺击。这个刺击会减速命中的第一个敌方英雄，如果菲奥娜用这个技能格挡掉一个禁锢类效果，那么刺击会造成晕眩效果而非减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "菲奥娜·劳伦特心眼刀",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "fiora_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:18.928224Z"
+      }
+    },
+    "fiora_e": {
+      "route": "/skills/fiora_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:19.177447Z",
+        "description": "菲奥娜的下两次攻击将获得攻击速度加成。第一次攻击会使目标减速，而第二次攻击必定会产生暴击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "菲奥娜·夺命连刺",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "fiora_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:19.177447Z"
+      }
+    },
+    "fiora_r": {
+      "route": "/skills/fiora_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:19.46577Z",
+        "description": "菲奥娜显示出一个敌方英雄身上的所有四处破绽，并在目标附近时获得移动速度加成。如果菲奥娜命中了所有四处破绽，或者目标在死前至少被命中了一处破绽，那么菲奥娜和范围内的友军就会在接下来的几秒里持续获得治疗效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "菲奥娜·无双挑战",
+        "skillCategoryKeys": [],
+        "skillKey": "fiora_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:19.46577Z"
+      }
+    },
+    "camille_p": {
+      "route": "/skills/camille_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:01.703635Z",
+        "description": "对敌方英雄发起的普攻会基于该英雄的伤害类型（物理或魔法）提供一层专门吸收该类型伤害的护盾，护盾的生命值相当于卡蜜尔的一部分最大生命值，持续一小段时间。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "卡蜜尔·适应性防御",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "camille_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:01.703635Z"
+      }
+    },
+    "camille_q": {
+      "route": "/skills/camille_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:01.952779Z",
+        "description": "卡蜜尔的下一次普通攻击会斩击敌人，造成额外物理伤害，并为自身提供短暂的爆发性移动速度加成。这个技能可以在释放后的短时间内再次施放，并且如果两次释放之间存在一定的间隔，那么第二段攻击会造成显著的额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡蜜尔·精准礼仪",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "camille_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:01.952779Z"
+      }
+    },
+    "camille_w": {
+      "route": "/skills/camille_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:02.214301Z",
+        "description": "卡蜜尔在短暂延迟后引爆一个锥形范围，并造成伤害。外沿的敌人会被减速并且受到额外伤害，同时还会治疗卡蜜尔。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡蜜尔·战术横扫",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "camille_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:02.214301Z"
+      }
+    },
+    "camille_e": {
+      "route": "/skills/camille_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:02.467704Z",
+        "description": "卡蜜尔将她自己拉向一个墙体，然后跳下并在落地时击飞敌方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡蜜尔·钩索",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "camille_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:02.467704Z"
+      }
+    },
+    "camille_r": {
+      "route": "/skills/camille_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:02.768261Z",
+        "description": "卡蜜尔冲向目标英雄，并将该英雄锚定在区域中。她对目标英雄发起的普攻还会造成额外的魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡蜜尔·海克斯最后通牒",
+        "skillCategoryKeys": [],
+        "skillKey": "camille_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:02.768261Z"
+      }
+    },
+    "gwen_p": {
+      "route": "/skills/gwen_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:28.855649Z",
+        "description": "格温的攻击会造成基于目标生命值的额外魔法伤害。她自身会获得治疗效果，数额相当于这个效果对英雄造成的一部分伤害值。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "格温·千穿百孔",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "gwen_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:28.855649Z"
+      }
+    },
+    "gwen_q": {
+      "route": "/skills/gwen_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:29.134146Z",
+        "description": "格温在一个锥形区域剪切她的剪刀至多6次，来造成魔法伤害。格温的每次剪切会对中心区域的敌人造成真实伤害并对它们施加她的被动技能。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "格温·快刀剪乱",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gwen_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:29.134146Z"
+      }
+    },
+    "gwen_w": {
+      "route": "/skills/gwen_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:29.36728Z",
+        "description": "格温召唤圣霭来保护她免受圣霭外敌人的进攻。她只会被进入圣霭内的敌人们选为目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "格温·丝缕缠流",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gwen_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:29.36728Z"
+      }
+    },
+    "gwen_e": {
+      "route": "/skills/gwen_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:29.66552Z",
+        "description": "格温冲刺一小段距离然后获得攻击速度、攻击距离和魔法伤害<OnHit>攻击特效</OnHit>，持续若干秒。如果她在此期间命中了一个敌人，那么这个技能的冷却时间会获得部分返还。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "格温·断续疾走",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gwen_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:29.66552Z"
+      }
+    },
+    "gwen_r": {
+      "route": "/skills/gwen_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:29.98861Z",
+        "description": "格温掷出一根针来对命中的敌人们造成减速、魔法伤害，并对命中的英雄们施加【千穿百孔】。<br><br>这个技能至多可进行2段再次施放，每一段再次施放都会投掷更多的针，并造成更多伤害。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "格温·引针簇射",
+        "skillCategoryKeys": [],
+        "skillKey": "gwen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:29.98861Z"
+      }
+    }
+  },
+  "images": {
+    "irelia_p": {
+      "route": "/skills/irelia_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_irelia_p",
+          "name": "irelia_p"
+        }
+      }
+    },
+    "irelia_q": {
+      "route": "/skills/irelia_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_irelia_q",
+          "name": "irelia_q"
+        }
+      }
+    },
+    "irelia_w": {
+      "route": "/skills/irelia_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_irelia_w",
+          "name": "irelia_w"
+        }
+      }
+    },
+    "irelia_e": {
+      "route": "/skills/irelia_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_irelia_e",
+          "name": "irelia_e"
+        }
+      }
+    },
+    "irelia_r": {
+      "route": "/skills/irelia_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_irelia_r",
+          "name": "irelia_r"
+        }
+      }
+    },
+    "fiora_p": {
+      "route": "/skills/fiora_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_fiora_p",
+          "name": "fiora_p"
+        }
+      }
+    },
+    "fiora_q": {
+      "route": "/skills/fiora_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_fiora_q",
+          "name": "fiora_q"
+        }
+      }
+    },
+    "fiora_w": {
+      "route": "/skills/fiora_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_fiora_w",
+          "name": "fiora_w"
+        }
+      }
+    },
+    "fiora_e": {
+      "route": "/skills/fiora_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_fiora_e",
+          "name": "fiora_e"
+        }
+      }
+    },
+    "fiora_r": {
+      "route": "/skills/fiora_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_fiora_r",
+          "name": "fiora_r"
+        }
+      }
+    },
+    "camille_p": {
+      "route": "/skills/camille_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_camille_p",
+          "name": "camille_p"
+        }
+      }
+    },
+    "camille_q": {
+      "route": "/skills/camille_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_camille_q",
+          "name": "camille_q"
+        }
+      }
+    },
+    "camille_w": {
+      "route": "/skills/camille_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_camille_w",
+          "name": "camille_w"
+        }
+      }
+    },
+    "camille_e": {
+      "route": "/skills/camille_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_camille_e",
+          "name": "camille_e"
+        }
+      }
+    },
+    "camille_r": {
+      "route": "/skills/camille_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_camille_r",
+          "name": "camille_r"
+        }
+      }
+    },
+    "gwen_p": {
+      "route": "/skills/gwen_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gwen_p",
+          "name": "gwen_p"
+        }
+      }
+    },
+    "gwen_q": {
+      "route": "/skills/gwen_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gwen_q",
+          "name": "gwen_q"
+        }
+      }
+    },
+    "gwen_w": {
+      "route": "/skills/gwen_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gwen_w",
+          "name": "gwen_w"
+        }
+      }
+    },
+    "gwen_e": {
+      "route": "/skills/gwen_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gwen_e",
+          "name": "gwen_e"
+        }
+      }
+    },
+    "gwen_r": {
+      "route": "/skills/gwen_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gwen_r",
+          "name": "gwen_r"
+        }
+      }
+    }
+  }
+}

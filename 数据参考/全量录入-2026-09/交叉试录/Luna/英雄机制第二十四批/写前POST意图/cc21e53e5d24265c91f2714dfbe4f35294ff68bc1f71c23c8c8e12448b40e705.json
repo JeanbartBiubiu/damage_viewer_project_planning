@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:38:58.395Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sejuani_r/formulas",
+  "detailRoute": "/skills/sejuani_r/formulas/minor_damage",
+  "skillKey": "sejuani_r",
+  "kind": "formulas",
+  "stableKey": "minor_damage",
+  "body": {
+    "formulaKey": "minor_damage",
+    "name": "极冰寒狱普通魔法伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minor_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "MinorDamageTooltip = BaseDamage + 0.4×来源法术强度。",
+    "sortOrder": 10
+  }
+}

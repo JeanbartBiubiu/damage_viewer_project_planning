@@ -1,0 +1,3694 @@
+{
+  "generatedAt": "2026-09-09T18:58:18.965Z",
+  "status": "PASS",
+  "batch": "英雄机制第三十五批",
+  "candidateFileSha256": "9e9d4c15a0e9419e303f6d1c029256fab2102c814ef602bd99831f5d44f54632",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "method": "实际读取候选中的每个表达式，用输入包冻结的客户端DataValues、计算树、当前正文单位和官方源文件重新构造独立期望值；每个公式两组不同等级/属性/输入，缺失运行输入或属性时实际删除后求值；未调用业务接口。",
+  "formulaCaseCount": 64,
+  "formulaResults": [
+    {
+      "skillKey": "braum_p",
+      "formulaKey": "already_stunned_extra_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 10.40000026,
+      "expected": 10.400000154972076,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_p",
+      "formulaKey": "already_stunned_extra_magic_damage",
+      "case": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 78.40000196,
+      "expected": 78.40000116825104,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 100,
+      "expected": 100.00000037252903,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 330,
+      "expected": 330.0000011175871,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_armor_bonus",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 27.200000199999998,
+      "expected": 27.200000286102295,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_armor_bonus",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 68.80000079999999,
+      "expected": 68.80000114440918,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_magic_resistance_bonus",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 23.6000001,
+      "expected": 23.600000143051147,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_magic_resistance_bonus",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 61.6000006,
+      "expected": 61.600000858306885,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 198,
+      "expected": 198,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 530,
+      "expected": 530,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "formulaKey": "on_hit_extra_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 5,
+      "expected": 5.000000074505806,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "formulaKey": "on_hit_extra_magic_damage",
+      "case": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 12.5,
+      "expected": 12.500000186264515,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 108,
+      "expected": 108.00000190734863,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 400,
+      "expected": 400.0000071525574,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_down_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 108,
+      "expected": 108.00000190734863,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_down_magic_damage",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 360,
+      "expected": 360.0000071525574,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_shield_value",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 152,
+      "expected": 151.99999928474426,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_shield_value",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 364,
+      "expected": 363.9999985694885,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "mount_up_extra_attack_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 42.0000008,
+      "expected": 42.00000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "mount_up_extra_attack_magic_damage",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 190.000003,
+      "expected": 190.00000178813934,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "formulaKey": "next_hit_extra_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 74,
+      "expected": 74.00000188499689,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "formulaKey": "next_hit_extra_magic_damage",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 480,
+      "expected": 480.0000137183815,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "damage_per_second_magic",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 119.0000008,
+      "expected": 119.00000095367432,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "damage_per_second_magic",
+      "case": 2,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 340.000003,
+      "expected": 340.0000035762787,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "total_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 238.0000016,
+      "expected": 238.00000190734863,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "total_magic_damage",
+      "case": 2,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 680.000006,
+      "expected": 680.0000071525574,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "empowered_attack_extra_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 38.5000009,
+      "expected": 38.5000005364418,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "empowered_attack_extra_magic_damage",
+      "case": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 129.0000024,
+      "expected": 129.00000143051147,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "basic_ability_cooldown_refund_seconds",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 1.5,
+      "expected": 1.5,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "basic_ability_cooldown_refund_seconds",
+      "case": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 1.25,
+      "expected": 1.25,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "healing_per_charge",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 49.000000799999995,
+      "expected": 49.00000020861626,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "healing_per_charge",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 94.00000299999999,
+      "expected": 94.00000125169754,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "max_charge_healing",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 49.000000799999995,
+      "expected": 49.00000020861626,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "max_charge_healing",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 470.00001499999996,
+      "expected": 470.0000062584877,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "consumed_charge_healing",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 0,
+      "expected": 0,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "consumed_charge_healing",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 470.00001499999996,
+      "expected": 470.0000062584877,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_armor_bonus",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 5.3999999999999995,
+      "expected": 5.399999879300594,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_armor_bonus",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 24,
+      "expected": 24.00000035762787,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_shield_value",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 84.00000000000001,
+      "expected": 84.00000000000001,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_shield_value",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 264,
+      "expected": 264,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 175,
+      "expected": 175,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 520,
+      "expected": 520,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "bonus_hp_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 12,
+      "expected": 11.999999731779099,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "bonus_hp_magic_damage",
+      "case": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 48,
+      "expected": 47.999998927116394,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "ap_bonus_hp_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 3,
+      "expected": 3.0000000447034836,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "ap_bonus_hp_magic_damage",
+      "case": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 45,
+      "expected": 45.000000670552254,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "total_passive_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 40,
+      "expected": 39.99999977648258,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "total_passive_magic_damage",
+      "case": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 186,
+      "expected": 185.99999959766865,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 155,
+      "expected": 155,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 555,
+      "expected": 555,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "self_heal",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 16,
+      "expected": 16.000000089406967,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "self_heal",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 93,
+      "expected": 93.0000002682209,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 220,
+      "expected": 220,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "formulaKey": "magic_damage",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 690,
+      "expected": 690,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_maximum",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 3600,
+      "expected": 3600,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_maximum",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 7200,
+      "expected": 7200,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_heal_value",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 72,
+      "expected": 72,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_heal_value",
+      "case": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 950,
+      "expected": 950,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "target_max_hp_damage_ratio",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 0.20600000999999998,
+      "expected": 0.20600000396370888,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "target_max_hp_damage_ratio",
+      "case": 2,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 0.36000001,
+      "expected": 0.359999998472631,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "enemy_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 306.00001,
+      "expected": 306.0000039637089,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "enemy_magic_damage",
+      "case": 2,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 1480.00003,
+      "expected": 1479.999995417893,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "actual_cooldown_ms",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 60000,
+      "expected": 60000,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "actual_cooldown_ms",
+      "case": 2,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 60000,
+      "expected": 60000,
+      "pass": true
+    }
+  ],
+  "missingInputChecks": [
+    {
+      "skillKey": "braum_p",
+      "formulaKey": "already_stunned_extra_magic_damage",
+      "missingKind": "NONE",
+      "missingKey": null,
+      "rejected": null,
+      "applicable": false
+    },
+    {
+      "skillKey": "braum_q",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "TARGET:hp:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 TARGET:hp:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_armor_bonus",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:armor:BONUS",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:armor:BONUS",
+      "applicable": true
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_magic_resistance_bonus",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:magic_resistance:BONUS",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:magic_resistance:BONUS",
+      "applicable": true
+    },
+    {
+      "skillKey": "braum_r",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "rell_p",
+      "formulaKey": "on_hit_extra_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:armor:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:armor:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "rell_q",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_down_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_shield_value",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:hp:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:hp:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "mount_up_extra_attack_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "rell_e",
+      "formulaKey": "next_hit_extra_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "damage_per_second_magic",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "total_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "empowered_attack_extra_magic_damage",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "character_level_base_damage",
+      "rejected": true,
+      "message": "运行输入缺失 taric_p/character_level_base_damage",
+      "applicable": true
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "basic_ability_cooldown_refund_seconds",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "actual_cooldown_multiplier",
+      "rejected": true,
+      "message": "运行输入缺失 taric_p/actual_cooldown_multiplier",
+      "applicable": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "healing_per_charge",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "max_charge_healing",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "consumed_charge_healing",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "current_consumed_charge_count",
+      "rejected": true,
+      "message": "运行输入缺失 taric_q/current_consumed_charge_count",
+      "applicable": true
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_armor_bonus",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "actual_armor_stage",
+      "rejected": true,
+      "message": "运行输入缺失 taric_w/actual_armor_stage",
+      "applicable": true
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_shield_value",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:hp:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:hp:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "taric_e",
+      "formulaKey": "magic_damage",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "actual_armor_stage",
+      "rejected": true,
+      "message": "运行输入缺失 taric_e/actual_armor_stage",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "bonus_hp_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:hp:BONUS",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:hp:BONUS",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "ap_bonus_hp_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "total_passive_magic_damage",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "character_level_base_damage",
+      "rejected": true,
+      "message": "运行输入缺失 tahmkench_p/character_level_base_damage",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "self_heal",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "cast_stage_missing_hp",
+      "rejected": true,
+      "message": "运行输入缺失 tahmkench_q/cast_stage_missing_hp",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "formulaKey": "magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_maximum",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:hp:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:hp:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_heal_value",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "current_grey_health",
+      "rejected": true,
+      "message": "运行输入缺失 tahmkench_e/current_grey_health",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "target_max_hp_damage_ratio",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "enemy_magic_damage",
+      "missingKind": "ATTRIBUTE",
+      "missingKey": "SOURCE:ability_power:TOTAL",
+      "rejected": true,
+      "message": "属性输入缺失 SOURCE:ability_power:TOTAL",
+      "applicable": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "actual_cooldown_ms",
+      "missingKind": "RUNTIME_INPUT",
+      "missingKey": "actual_cooldown_multiplier",
+      "rejected": true,
+      "message": "运行输入缺失 tahmkench_r/actual_cooldown_multiplier",
+      "applicable": true
+    }
+  ],
+  "binaryChecks": [
+    {
+      "skillKey": "braum_p",
+      "path": "already_stunned_extra_magic_damage",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "path": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "path": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "path": "self_armor_bonus",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "path": "self_armor_bonus.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "path": "self_magic_resistance_bonus",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "path": "self_magic_resistance_bonus.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "path": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "path": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "path": "on_hit_extra_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "path": "on_hit_extra_magic_damage.operands[0]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "path": "on_hit_extra_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_q",
+      "path": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_q",
+      "path": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "path": "crash_down_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "path": "crash_down_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "path": "crash_shield_value",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "path": "crash_shield_value.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "path": "mount_up_extra_attack_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "path": "mount_up_extra_attack_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "path": "next_hit_extra_magic_damage",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "path": "next_hit_extra_magic_damage.operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "path": "next_hit_extra_magic_damage.operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "path": "damage_per_second_magic",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "path": "damage_per_second_magic.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "path": "total_magic_damage",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "path": "total_magic_damage.operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "path": "total_magic_damage.operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "path": "empowered_attack_extra_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "path": "empowered_attack_extra_magic_damage.operands[0]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "path": "empowered_attack_extra_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "path": "basic_ability_cooldown_refund_seconds",
+      "operation": "SUBTRACT",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "healing_per_charge",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "healing_per_charge.operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "healing_per_charge.operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "healing_per_charge.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "max_charge_healing",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "max_charge_healing.operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "max_charge_healing.operands[0].operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "max_charge_healing.operands[0].operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "max_charge_healing.operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "consumed_charge_healing",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "consumed_charge_healing.operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "consumed_charge_healing.operands[0].operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "consumed_charge_healing.operands[0].operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "path": "consumed_charge_healing.operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "path": "self_armor_bonus",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "path": "self_shield_value",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "path": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "path": "magic_damage.operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "path": "magic_damage.operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "path": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "bonus_hp_magic_damage",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "ap_bonus_hp_magic_damage",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "ap_bonus_hp_magic_damage.operands[0]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "ap_bonus_hp_magic_damage.operands[0].operands[0]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "total_passive_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "total_passive_magic_damage.operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "total_passive_magic_damage.operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "total_passive_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "total_passive_magic_damage.operands[1].operands[0]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "path": "total_passive_magic_damage.operands[1].operands[0].operands[0]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "path": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "path": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "path": "self_heal",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "path": "self_heal.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "path": "magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "path": "magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "path": "grey_health_maximum",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "path": "grey_health_heal_value",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "path": "target_max_hp_damage_ratio",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "path": "target_max_hp_damage_ratio.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "path": "enemy_magic_damage",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "path": "enemy_magic_damage.operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "path": "enemy_magic_damage.operands[1].operands[0]",
+      "operation": "ADD",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "path": "enemy_magic_damage.operands[1].operands[0].operands[1]",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "path": "actual_cooldown_ms",
+      "operation": "MULTIPLY",
+      "operands": 2,
+      "pass": true
+    }
+  ],
+  "runtimeInputChecks": [
+    {
+      "skillKey": "rell_p",
+      "parameterKey": "steal_floor_by_character_level",
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "parameterKey": "current_stack_count",
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "parameterKey": "character_level_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "parameterKey": "actual_armor_stage",
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "parameterKey": "actual_cooldown_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "parameterKey": "current_consumed_charge_count",
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "parameterKey": "actual_armor_stage",
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "parameterKey": "actual_armor_stage",
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "parameterKey": "character_level_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "parameterKey": "current_stack_count",
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "target_stack_count_before_hit",
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "cast_stage_missing_hp",
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "parameterKey": "grey_health_healing_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "parameterKey": "current_grey_health",
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "parameterKey": "actual_cooldown_multiplier",
+      "pass": true
+    }
+  ],
+  "integerMillisecondsChecks": [
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "stack_window_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "stun_cooldown_base_ms",
+      "valueType": "INTEGER",
+      "values": [
+        8000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "stun_cooldown_reduction_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "stun_duration_base_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "stun_duration_increase_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "parameterKey": "self_buff_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_e",
+      "parameterKey": "shield_hold_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000,
+        3250,
+        3500,
+        3750,
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "minimum_knockup_ms",
+      "valueType": "INTEGER",
+      "values": [
+        600
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "maximum_knockup_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000,
+        1500,
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "slow_zone_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000,
+        4000,
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "slow_debuff_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "parameterKey": "shred_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_q",
+      "parameterKey": "stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        650
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "crash_knockup_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        400
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "crash_stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        800
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "mount_up_attack_window_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "flip_knockup_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        400
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "flip_stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        600
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "parameterKey": "self_move_speed_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "parameterKey": "duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "parameterKey": "empowered_attack_window_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "parameterKey": "charge_interval_ms",
+      "valueType": "INTEGER",
+      "values": [
+        15000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "parameterKey": "self_shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "parameterKey": "charge_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "parameterKey": "stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_r",
+      "parameterKey": "initial_delay_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_r",
+      "parameterKey": "damage_immunity_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "parameterKey": "stack_window_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "parameterKey": "per_stack_decay_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "parameterKey": "knockup_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "parameterKey": "channel_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1350
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "parameterKey": "aoe_delay_from_channel_start_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "parameterKey": "total_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "parameterKey": "shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "parameterKey": "out_of_combat_timer_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "parameterKey": "cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        120000,
+        100000,
+        80000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "parameterKey": "enemy_devour_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    }
+  ],
+  "ratioChecks": [
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "already_stunned_damage_ratio",
+      "values": [
+        0.40000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "stun_duration_base_ms",
+      "values": [
+        1250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "stun_duration_increase_ms",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "stun_duration_breakpoint_1_level",
+      "values": [
+        7
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_p",
+      "parameterKey": "stun_duration_breakpoint_2_level",
+      "values": [
+        13
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "parameterKey": "target_max_hp_ratio",
+      "values": [
+        0.025
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "parameterKey": "initial_slow_percent_points",
+      "values": [
+        70
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "parameterKey": "minimum_slow_percent_points",
+      "values": [
+        30
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "parameterKey": "slow_duration_ms",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "parameterKey": "self_resistance_ratio",
+      "values": [
+        0.36000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "parameterKey": "self_buff_duration_ms",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_e",
+      "parameterKey": "shield_hold_duration_ms",
+      "values": [
+        3000,
+        3250,
+        3500,
+        3750,
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_e",
+      "parameterKey": "first_projectile_damage_ratio",
+      "values": [
+        0
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_e",
+      "parameterKey": "subsequent_damage_reduction_percent_points",
+      "values": [
+        35,
+        40,
+        45,
+        50,
+        55
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_e",
+      "parameterKey": "self_move_speed_ratio",
+      "values": [
+        0.1
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "ability_power_ratio",
+      "values": [
+        0.6
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "slow_zone_duration_ms",
+      "values": [
+        4000,
+        4000,
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "slow_percent_points",
+      "values": [
+        40,
+        50,
+        60
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "slow_debuff_duration_ms",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "parameterKey": "steal_ratio_per_stack",
+      "values": [
+        0.03
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "parameterKey": "shred_duration_ms",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "parameterKey": "max_steal_percent_points",
+      "values": [
+        15
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "parameterKey": "on_hit_armor_ratio",
+      "values": [
+        0.05
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "parameterKey": "on_hit_magic_resistance_ratio",
+      "values": [
+        0.05
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_q",
+      "parameterKey": "ability_power_ratio",
+      "values": [
+        0.6
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_q",
+      "parameterKey": "stun_duration_ms",
+      "values": [
+        650
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "crash_down_ability_power_ratio",
+      "values": [
+        0.6
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "crash_knockup_duration_ms",
+      "values": [
+        400
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "crash_stun_duration_ms",
+      "values": [
+        800
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "crash_shield_hp_ratio",
+      "values": [
+        0.11
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "resistance_increase_ratio",
+      "values": [
+        0.15000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "dismounted_attack_speed_ratio",
+      "values": [
+        0.2
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "mount_up_extra_attack_ability_power_ratio",
+      "values": [
+        0.40000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "mount_up_move_speed_ratio",
+      "values": [
+        0.30000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "flip_knockup_duration_ms",
+      "values": [
+        400
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "flip_stun_duration_ms",
+      "values": [
+        600
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "parameterKey": "self_move_speed_ratio",
+      "values": [
+        0.15000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "parameterKey": "toward_enemy_move_speed_ratio",
+      "values": [
+        0.30000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "parameterKey": "self_move_speed_duration_ms",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "parameterKey": "next_hit_target_max_hp_ratio",
+      "values": [
+        0.05,
+        0.055,
+        0.06,
+        0.065,
+        0.07
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "parameterKey": "next_hit_ability_power_ratio",
+      "values": [
+        0.0003
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "parameterKey": "ability_power_ratio",
+      "values": [
+        0.55000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "parameterKey": "duration_ms",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "parameterKey": "duration_seconds",
+      "values": [
+        2
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "parameterKey": "empowered_attack_speed_ratio",
+      "values": [
+        1
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "parameterKey": "armor_damage_ratio",
+      "values": [
+        0.15000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "parameterKey": "healing_ap_ratio",
+      "values": [
+        0.15000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "parameterKey": "healing_hp_ratio",
+      "values": [
+        0.01
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "parameterKey": "armor_bonus_ratio",
+      "values": [
+        0.06,
+        0.07,
+        0.08,
+        0.09,
+        0.1
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "parameterKey": "self_shield_hp_ratio",
+      "values": [
+        0.07,
+        0.08,
+        0.09,
+        0.1,
+        0.11
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "parameterKey": "self_shield_duration_ms",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "parameterKey": "ability_power_ratio",
+      "values": [
+        0.5
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "parameterKey": "armor_damage_ratio",
+      "values": [
+        0.5
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "parameterKey": "charge_duration_ms",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "parameterKey": "stun_duration_ms",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_r",
+      "parameterKey": "damage_immunity_duration_ms",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "parameterKey": "bonus_hp_damage_ratio",
+      "values": [
+        0.04
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "parameterKey": "ap_ratio_per_100_bonus_hp",
+      "values": [
+        0.0125
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "parameterKey": "percent_to_ratio",
+      "values": [
+        0.01
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "ability_power_ratio",
+      "values": [
+        1
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "slow_ratio",
+      "values": [
+        0.5
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "slow_duration_ms",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "stun_duration_ms",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "self_heal_missing_hp_ratio",
+      "values": [
+        0.05,
+        0.055,
+        0.06,
+        0.065,
+        0.07
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "parameterKey": "ability_power_ratio",
+      "values": [
+        1.5
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "parameterKey": "knockup_duration_ms",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "parameterKey": "champion_refund_ratio",
+      "values": [
+        0.40000001,
+        0.42500001,
+        0.44999999,
+        0.47499999,
+        0.5
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "parameterKey": "shield_duration_ms",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "parameterKey": "grey_health_conversion_ratio",
+      "values": [
+        0.15000001,
+        0.23,
+        0.31,
+        0.38999999,
+        0.47
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "parameterKey": "grey_health_healing_ratio",
+      "values": [],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "parameterKey": "grey_health_max_hp_ratio",
+      "values": [
+        3
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "parameterKey": "target_max_hp_base_ratio",
+      "values": [
+        0.15000001
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "parameterKey": "target_max_hp_ability_power_ratio",
+      "values": [
+        0.0007
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "parameterKey": "enemy_devour_duration_ms",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "parameterKey": "self_slow_ratio",
+      "values": [
+        0.40000001
+      ],
+      "pass": true
+    }
+  ],
+  "sourceSeriesChecks": [
+    {
+      "skillKey": "braum_q",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "actual": [
+        75,
+        120,
+        165,
+        210,
+        255
+      ],
+      "expected": [
+        75,
+        120,
+        165,
+        210,
+        255
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "parameterKey": "base_resistance",
+      "sourceName": "BaseResists",
+      "actual": [
+        20,
+        25,
+        30,
+        35,
+        40
+      ],
+      "expected": [
+        20,
+        25,
+        30,
+        35,
+        40
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_e",
+      "parameterKey": "shield_hold_duration_ms",
+      "sourceName": "ShieldHoldDuration",
+      "actual": [
+        3000,
+        3250,
+        3500,
+        3750,
+        4000
+      ],
+      "expected": [
+        3000,
+        3250,
+        3500,
+        3750,
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_e",
+      "parameterKey": "subsequent_damage_reduction_percent_points",
+      "sourceName": "ShieldFacingDRAmount",
+      "actual": [
+        35,
+        40,
+        45,
+        50,
+        55
+      ],
+      "expected": [
+        35,
+        40,
+        45,
+        50,
+        55
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "actual": [
+        150,
+        250,
+        350
+      ],
+      "expected": [
+        150,
+        250,
+        350
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "maximum_knockup_ms",
+      "sourceName": "MaxKnockup",
+      "actual": [
+        1000,
+        1500,
+        2000
+      ],
+      "expected": [
+        1000,
+        1500,
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "slow_zone_duration_ms",
+      "sourceName": "SlowZoneDuration",
+      "actual": [
+        4000,
+        4000,
+        4000
+      ],
+      "expected": [
+        4000,
+        4000,
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "parameterKey": "slow_percent_points",
+      "sourceName": "MoveSpeedMod",
+      "actual": [
+        40,
+        50,
+        60
+      ],
+      "expected": [
+        40,
+        50,
+        60
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_q",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "actual": [
+        60,
+        100,
+        140,
+        180,
+        220
+      ],
+      "expected": [
+        60,
+        100,
+        140,
+        180,
+        220
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "crash_down_base_damage",
+      "sourceName": "CrashDownDamage",
+      "actual": [
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "expected": [
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "crash_shield_base",
+      "sourceName": "ShieldBase",
+      "actual": [
+        20,
+        40,
+        60,
+        80,
+        100
+      ],
+      "expected": [
+        20,
+        40,
+        60,
+        80,
+        100
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "mounted_move_speed_points",
+      "sourceName": "MountedMoveSpeed",
+      "actual": [
+        20,
+        25,
+        30,
+        35,
+        40
+      ],
+      "expected": [
+        20,
+        25,
+        30,
+        35,
+        40
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "parameterKey": "mount_up_extra_attack_base_damage",
+      "sourceName": "MountUpDamage",
+      "actual": [
+        10,
+        25,
+        40,
+        55,
+        70
+      ],
+      "expected": [
+        10,
+        25,
+        40,
+        55,
+        70
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "parameterKey": "next_hit_target_max_hp_ratio",
+      "sourceName": "PercentHealthDamage",
+      "actual": [
+        0.05,
+        0.055,
+        0.06,
+        0.065,
+        0.07
+      ],
+      "expected": [
+        0.05,
+        0.055,
+        0.06,
+        0.065,
+        0.07
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "parameterKey": "damage_per_second_base",
+      "sourceName": "BaseDamagePerSecond",
+      "actual": [
+        75,
+        125,
+        175
+      ],
+      "expected": [
+        75,
+        125,
+        175
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "parameterKey": "max_charge_count",
+      "sourceName": "MaxCharges",
+      "actual": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "expected": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "parameterKey": "armor_bonus_ratio",
+      "sourceName": "ArmorBonusPercentage",
+      "actual": [
+        0.06,
+        0.07,
+        0.08,
+        0.09,
+        0.1
+      ],
+      "expected": [
+        0.06,
+        0.07,
+        0.08,
+        0.09,
+        0.1
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "parameterKey": "self_shield_hp_ratio",
+      "sourceName": "ShieldHPRatio",
+      "actual": [
+        0.07,
+        0.08,
+        0.09,
+        0.1,
+        0.11
+      ],
+      "expected": [
+        0.07,
+        0.08,
+        0.09,
+        0.1,
+        0.11
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "actual": [
+        90,
+        130,
+        170,
+        210,
+        250
+      ],
+      "expected": [
+        90,
+        130,
+        170,
+        210,
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "actual": [
+        75,
+        120,
+        165,
+        210,
+        255
+      ],
+      "expected": [
+        75,
+        120,
+        165,
+        210,
+        255
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "self_heal_base",
+      "sourceName": "BaseHeal",
+      "actual": [
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "expected": [
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "parameterKey": "self_heal_missing_hp_ratio",
+      "sourceName": "PercentHealthHealing",
+      "actual": [
+        0.05,
+        0.055,
+        0.06,
+        0.065,
+        0.07
+      ],
+      "expected": [
+        0.05,
+        0.055,
+        0.06,
+        0.065,
+        0.07
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "actual": [
+        100,
+        135,
+        170,
+        205,
+        240
+      ],
+      "expected": [
+        100,
+        135,
+        170,
+        205,
+        240
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "parameterKey": "champion_refund_ratio",
+      "sourceName": "ChampRefund",
+      "actual": [
+        0.40000001,
+        0.42500001,
+        0.44999999,
+        0.47499999,
+        0.5
+      ],
+      "expected": [
+        0.40000001,
+        0.42500001,
+        0.44999999,
+        0.47499999,
+        0.5
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "parameterKey": "grey_health_conversion_ratio",
+      "sourceName": "GreyHealthRatio",
+      "actual": [
+        0.15000001,
+        0.23,
+        0.31,
+        0.38999999,
+        0.47
+      ],
+      "expected": [
+        0.15000001,
+        0.23,
+        0.31,
+        0.38999999,
+        0.47
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "parameterKey": "cooldown_ms",
+      "sourceName": "DataCooldown",
+      "actual": [
+        120000,
+        100000,
+        80000
+      ],
+      "expected": [
+        120000,
+        100000,
+        80000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "actual": [
+        100,
+        250,
+        400
+      ],
+      "expected": [
+        100,
+        250,
+        400
+      ],
+      "pass": true
+    }
+  ],
+  "fixedSourceChecks": [
+    {
+      "name": "braum_p/character_level_damage_1",
+      "actual": 26,
+      "expected": 26,
+      "pass": true
+    },
+    {
+      "name": "braum_p/character_level_damage_18",
+      "actual": 196,
+      "expected": 196,
+      "pass": true
+    },
+    {
+      "name": "rell_p/on_hit_armor_ratio",
+      "actual": 0.05,
+      "expected": 0.05000000074505806,
+      "pass": true
+    },
+    {
+      "name": "rell_p/on_hit_mr_ratio",
+      "actual": 0.05,
+      "expected": 0.05000000074505806,
+      "pass": true
+    },
+    {
+      "name": "taric_q/charge_interval_ms",
+      "actual": 15000,
+      "expected": 15000,
+      "pass": true
+    },
+    {
+      "name": "taric_w/self_shield_rank1_ratio",
+      "actual": 0.07,
+      "expected": 0.07,
+      "pass": true
+    },
+    {
+      "name": "tahmkench_r/mana_cost",
+      "actual": 100,
+      "expected": 100,
+      "pass": true
+    },
+    {
+      "name": "tahmkench_r/cooldown_rank1_ms",
+      "actual": 120000,
+      "expected": 120000,
+      "pass": true
+    },
+    {
+      "name": "tahmkench_r/cooldown_rank3_ms",
+      "actual": 80000,
+      "expected": 80000,
+      "pass": true
+    }
+  ],
+  "effectReferenceChecks": [
+    {
+      "skillKey": "rell_w",
+      "effectKey": "dismount_shield",
+      "duration": null,
+      "value": {
+        "kind": "FORMULA",
+        "formulaKey": "crash_shield_value"
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "effectKey": "grey_health_shield",
+      "duration": {
+        "kind": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      },
+      "value": {
+        "kind": "PARAMETER",
+        "parameterKey": "current_grey_health"
+      },
+      "pass": true
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "name": "taric_q/consumed_zero",
+      "pass": true,
+      "expected": 0
+    },
+    {
+      "name": "taric_q/consumed_max",
+      "pass": true,
+      "expected": 470.0000062584877
+    },
+    {
+      "name": "taric_q/reject_above_rank_max",
+      "pass": true,
+      "rejected": true,
+      "upperBound": 5
+    },
+    {
+      "name": "tahmkench_e/grey_zero",
+      "pass": true,
+      "expected": 0
+    },
+    {
+      "name": "tahmkench_e/grey_cap",
+      "pass": true,
+      "expected": 7200
+    },
+    {
+      "name": "tahmkench_e/reject_negative_grey",
+      "pass": true,
+      "rejected": true
+    },
+    {
+      "name": "tahmkench_r/cooldown_source_values",
+      "pass": true,
+      "actual": [
+        120000,
+        100000,
+        80000
+      ],
+      "expected": [
+        120000,
+        100000,
+        80000
+      ]
+    },
+    {
+      "name": "braum_q/target_max_hp_ratio",
+      "pass": true,
+      "actual": 0.025,
+      "expected": 0.025
+    },
+    {
+      "name": "braum_q/initial_slow_percent_points",
+      "pass": true,
+      "actual": 70,
+      "expected": 70
+    },
+    {
+      "name": "braum_e/self_move_speed_ratio",
+      "pass": true,
+      "actual": 0.1,
+      "expected": 0.1
+    },
+    {
+      "name": "taric_w/self_shield_hp_ratio",
+      "pass": true,
+      "actual": 0.07,
+      "expected": 0.07
+    },
+    {
+      "name": "tahmkench_r/target_max_hp_base_ratio",
+      "pass": true,
+      "actual": 0.15000001,
+      "expected": 0.15
+    },
+    {
+      "name": "taric_q/reuse_cast_interval_not_new",
+      "pass": true
+    },
+    {
+      "name": "tahmkench_r/wrapper_zero_not_used",
+      "pass": true,
+      "actual": [
+        120000,
+        100000,
+        80000
+      ]
+    }
+  ],
+  "failures": [],
+  "sourceExpectedExamples": [
+    {
+      "skillKey": "braum_p",
+      "formulaKey": "already_stunned_extra_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 10.40000026,
+      "expected": 10.400000154972076,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 100,
+      "expected": 100.00000037252903,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_armor_bonus",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 27.200000199999998,
+      "expected": 27.200000286102295,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_magic_resistance_bonus",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 23.6000001,
+      "expected": 23.600000143051147,
+      "pass": true
+    },
+    {
+      "skillKey": "braum_r",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 198,
+      "expected": 198,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_p",
+      "formulaKey": "on_hit_extra_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 5,
+      "expected": 5.000000074505806,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 108,
+      "expected": 108.00000190734863,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_down_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 108,
+      "expected": 108.00000190734863,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_shield_value",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 152,
+      "expected": 151.99999928474426,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "mount_up_extra_attack_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 42.0000008,
+      "expected": 42.00000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_e",
+      "formulaKey": "next_hit_extra_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 74,
+      "expected": 74.00000188499689,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "damage_per_second_magic",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 119.0000008,
+      "expected": 119.00000095367432,
+      "pass": true
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "total_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 238.0000016,
+      "expected": 238.00000190734863,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "empowered_attack_extra_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 38.5000009,
+      "expected": 38.5000005364418,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "basic_ability_cooldown_refund_seconds",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 1.5,
+      "expected": 1.5,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "healing_per_charge",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 49.000000799999995,
+      "expected": 49.00000020861626,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "max_charge_healing",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 49.000000799999995,
+      "expected": 49.00000020861626,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "consumed_charge_healing",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 0,
+      "expected": 0,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_armor_bonus",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 5.3999999999999995,
+      "expected": 5.399999879300594,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_shield_value",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 84.00000000000001,
+      "expected": 84.00000000000001,
+      "pass": true
+    },
+    {
+      "skillKey": "taric_e",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 175,
+      "expected": 175,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "bonus_hp_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 12,
+      "expected": 11.999999731779099,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "ap_bonus_hp_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 3,
+      "expected": 3.0000000447034836,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "total_passive_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 40,
+      "expected": 39.99999977648258,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 155,
+      "expected": 155,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "self_heal",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 16,
+      "expected": 16.000000089406967,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "formulaKey": "magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 220,
+      "expected": 220,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_maximum",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 3600,
+      "expected": 3600,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_heal_value",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 72,
+      "expected": 72,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "target_max_hp_damage_ratio",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 0.20600000999999998,
+      "expected": 0.20600000396370888,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "enemy_magic_damage",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 306.00001,
+      "expected": 306.0000039637089,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "enemy_magic_damage",
+      "case": 2,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "abilityPower": 300,
+      "actual": 1480.00003,
+      "expected": 1479.999995417893,
+      "pass": true
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "actual_cooldown_ms",
+      "case": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "abilityPower": 80,
+      "actual": 60000,
+      "expected": 60000,
+      "pass": true
+    }
+  ],
+  "apiWrites": 0,
+  "apiCalls": 0,
+  "noApiCalls": true,
+  "evaluatorSha256": "49ab5ee9d698a2dc6a334364a9e6a171337bf7501505481b676e4f8ccaa15123"
+}

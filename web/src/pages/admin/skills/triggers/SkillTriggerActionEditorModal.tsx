@@ -11,6 +11,7 @@ import {
 } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useEffect, useState } from 'react';
+import type { Attribute } from '../../../../types/attribute';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillParameter } from '../../../../types/skillParameter';
@@ -40,6 +41,7 @@ import {
   targetContextOptionsForEvent,
   validateResultModifier,
   type NestedFieldError,
+  type CatalogLoadState,
   type SkillTriggerActionDraft
 } from './triggerRuleForm';
 import { SkillTriggerRuntimeInputBindingEditorModal } from './SkillTriggerRuntimeInputBindingEditorModal';
@@ -57,6 +59,10 @@ type SkillTriggerActionEditorModalProps = {
   mode: SkillTriggerActionEditorMode;
   draft: SkillTriggerActionDraft | null;
   existingKeys: readonly string[];
+  originalBindings: readonly SkillTriggerRuntimeInputBinding[];
+  attributes: readonly Attribute[];
+  attributesLoadState?: CatalogLoadState;
+  onRetryAttributes: () => Promise<void>;
   eventSource: SkillTriggerEventSource;
   actions: readonly SkillTriggerActionDraft[];
   currentActionIndex: number;
@@ -83,6 +89,10 @@ export function SkillTriggerActionEditorModal({
   mode,
   draft,
   existingKeys,
+  originalBindings,
+  attributes,
+  attributesLoadState,
+  onRetryAttributes,
   eventSource,
   actions,
   currentActionIndex,
@@ -514,7 +524,11 @@ export function SkillTriggerActionEditorModal({
         visible={bindingEditor !== null}
         mode={bindingEditor?.mode ?? 'create'}
         binding={bindingEditor?.binding ?? null}
-        existingBindingKeys={current.runtimeInputBindings.map((item) => item.bindingKey)}
+        existingBindingKeys={[...new Set([...current.runtimeInputBindings, ...originalBindings].map((item) => item.bindingKey))]}
+        originalSourceType={originalBindings.find((item) => item.bindingKey === bindingEditor?.binding?.bindingKey)?.sourceType}
+        attributes={attributes}
+        attributesLoadState={attributesLoadState}
+        onRetryAttributes={onRetryAttributes}
         reachableParameters={reachableParameters}
         currentBindings={current.runtimeInputBindings}
         eventSource={eventSource}

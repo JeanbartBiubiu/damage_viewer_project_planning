@@ -1,0 +1,24 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/pulse_attack_count",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "pulse_attack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "pulse_attack_count",
+      "name": "风暴脉冲攻击次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前中文正文明确下两次攻击；实际攻击触发待接线。",
+      "sortOrder": 140
+    }
+  }
+}

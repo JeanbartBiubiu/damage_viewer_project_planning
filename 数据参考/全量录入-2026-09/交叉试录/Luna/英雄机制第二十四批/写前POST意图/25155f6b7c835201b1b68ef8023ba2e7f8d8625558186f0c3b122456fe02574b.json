@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T14:37:01.121Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_w/parameters",
+  "detailRoute": "/skills/nunu_w/parameters/slow_ratio",
+  "skillKey": "nunu_w",
+  "kind": "parameters",
+  "stableKey": "slow_ratio",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "史上最大雪球减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.5,
+    "levelValues": null,
+    "description": "当前根SlowAmount为负移动速度修正；按负值取正幅度，避免把负修正称为负减速。",
+    "sortOrder": 140
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:54:19.391Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_p/formulas/passive_damage_ratio",
+  "id": "passive_damage_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "passive_damage_ratio",
+    "name": "破绽最大生命伤害比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "passive_base_damage_ratio"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_bonus_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "PassiveDamageTotal=基础最大生命比例+额外攻击力比例×额外攻击力。",
+    "sortOrder": 10
+  }
+}

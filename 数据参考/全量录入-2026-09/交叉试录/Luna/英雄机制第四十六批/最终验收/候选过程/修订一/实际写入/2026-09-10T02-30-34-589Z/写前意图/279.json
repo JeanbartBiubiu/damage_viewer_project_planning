@@ -1,0 +1,46 @@
+{
+  "i": 278,
+  "intent": {
+    "sequence": 279,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_w/formulas",
+    "detailRoute": "/skills/zaahen_w/formulas/secondary_physical_damage",
+    "skillKey": "zaahen_w",
+    "kind": "formulas",
+    "stableKey": "secondary_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "secondary_physical_damage",
+      "name": "厄影回锋回拉物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "secondary_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "secondary_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "回拉=30至110+0.3×额外攻击力。",
+      "sortOrder": 100
+    }
+  }
+}

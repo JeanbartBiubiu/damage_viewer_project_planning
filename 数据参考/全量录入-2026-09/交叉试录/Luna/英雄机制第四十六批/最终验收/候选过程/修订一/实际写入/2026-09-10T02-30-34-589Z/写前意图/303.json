@@ -1,0 +1,34 @@
+{
+  "i": 302,
+  "intent": {
+    "sequence": 303,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_r/formulas",
+    "detailRoute": "/skills/zaahen_r/formulas/self_healing_from_actual_damage",
+    "skillKey": "zaahen_r",
+    "kind": "formulas",
+    "stableKey": "self_healing_from_actual_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_healing_from_actual_damage",
+      "name": "大赦自身实际伤害治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_damage_heal_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_eligible_damage"
+          }
+        ]
+      },
+      "description": "治疗=33%×当前敌方英雄合资格实际伤害，不把原始伤害树直接当治疗基准。",
+      "sortOrder": 120
+    }
+  }
+}

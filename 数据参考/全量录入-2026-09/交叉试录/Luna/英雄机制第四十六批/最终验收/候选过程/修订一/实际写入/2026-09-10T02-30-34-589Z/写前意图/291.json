@@ -1,0 +1,36 @@
+{
+  "i": 290,
+  "intent": {
+    "sequence": 291,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_e/formulas",
+    "detailRoute": "/skills/zaahen_e/formulas/outer_magic_health_damage",
+    "skillKey": "zaahen_e",
+    "kind": "formulas",
+    "stableKey": "outer_magic_health_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "outer_magic_health_damage",
+      "name": "赤金突袭外圈最大生命魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "outer_target_max_health_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "外圈另加目标最大生命4%至6%的魔法伤害，不乘1.5。",
+      "sortOrder": 120
+    }
+  }
+}

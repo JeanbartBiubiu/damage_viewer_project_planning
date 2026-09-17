@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T04:28:12.823Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_p/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "ordinary_ad",
+    "name": "普通击杀攻击力增益",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "source_stat_4_2_value"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "nonchampion_ad_ratio"
+        }
+      ]
+    },
+    "description": "当前绑定的自身收益，普通击杀与英雄参与击杀为替代分支而非同时叠加；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 40
+  }
+}

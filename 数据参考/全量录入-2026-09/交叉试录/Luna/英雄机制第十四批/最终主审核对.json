@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T06:34:45.337Z",
+  "verdict": "READY",
+  "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "planSha256": "efbe71e316fdf71b7ee2250a9357a906501072abe0fd94a9e7a9fe6d95da7382",
+  "differences": [
+    {
+      "skill": "kennen_e",
+      "effect": "after_attack_speed",
+      "changes": [
+        "lifecycle.durationValue",
+        "description"
+      ]
+    }
+  ],
+  "stats": {
+    "parameters": 154,
+    "formulas": 34,
+    "effects": 25,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "reused": 24
+  },
+  "businessWrites": 0,
+  "rootConclusion": "接受Cursor唯一阻塞修正；初始4秒与延长总上限分开，无默认满档和重复刷新完整总长。其余请求与已独立审查版本全字段相同，24原参数完整复用。"
+}

@@ -1,0 +1,20 @@
+{
+  "i": 16,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_w/parameters",
+    "skillKey": "gragas_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "两个字段冲突：spellCastTime=0.4393500089645386秒，mCastTime=0.0010000000474974513秒；不任选。实际输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}

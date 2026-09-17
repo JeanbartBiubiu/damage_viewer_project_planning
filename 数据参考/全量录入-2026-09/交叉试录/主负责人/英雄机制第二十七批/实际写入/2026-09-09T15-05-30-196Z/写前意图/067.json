@@ -1,0 +1,20 @@
+{
+  "i": 66,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_w/parameters",
+    "skillKey": "hecarim_w",
+    "kind": "parameters",
+    "stableKey": "tick_interval_ms",
+    "body": {
+      "parameterKey": "tick_interval_ms",
+      "name": "来源伤害间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前根DataValues.TickTime取索引1至5，秒转为整数毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

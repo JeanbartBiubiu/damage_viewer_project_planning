@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T12:15:31.733Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/swain_p/formulas/soul_bonus_max_health",
+  "id": "soul_bonus_max_health",
+  "method": "POST",
+  "body": {
+    "formulaKey": "soul_bonus_max_health",
+    "name": "魂屑增加最大生命值",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "soul_shard_count"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "max_health_per_soul"
+        }
+      ]
+    },
+    "description": "MaxHealthGained = 魂屑数量×每魂屑生命值；不创建自动叠层或属性初始化。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "i": 54,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_q/parameters",
+    "skillKey": "hecarim_q",
+    "kind": "parameters",
+    "stableKey": "cooldown_reduction_per_stack_ms",
+    "body": {
+      "parameterKey": "cooldown_reduction_per_stack_ms",
+      "name": "每层冷却缩短（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 750,
+      "levelValues": null,
+      "description": "当前根DataValues.RampageCooldownReduction取索引1至5，秒转为整数毫秒。",
+      "sortOrder": 90
+    }
+  }
+}

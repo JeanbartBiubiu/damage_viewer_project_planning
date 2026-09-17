@@ -1,0 +1,24 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/second_attack_ap_ratio",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "second_attack_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "second_attack_ap_ratio",
+      "name": "二次打击法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.150000006,
+      "levelValues": null,
+      "description": "SecondAttackDamage第二分支读取0.15×来源总法强。",
+      "sortOrder": 80
+    }
+  }
+}

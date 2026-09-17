@@ -1,0 +1,27 @@
+{
+  "i": 116,
+  "intent": {
+    "sequence": 117,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_r/parameters",
+    "detailRoute": "/skills/fiddlesticks_r/parameters/damage_per_second_base",
+    "skillKey": "fiddlesticks_r",
+    "kind": "parameters",
+    "stableKey": "damage_per_second_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_second_base",
+      "name": "群鸦每秒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "当前DataValues.DamagePerSecond取索引1至3为150/250/350；不使用旧effect125/225/325。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 58,
+    "method": "POST",
+    "route": "/skills/kaisa_p/formulas",
+    "detailRoute": "/skills/kaisa_p/formulas/execute_missing_health_damage",
+    "skillKey": "kaisa_p",
+    "kind": "formulas",
+    "stableKey": "execute_missing_health_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "execute_missing_health_damage",
+      "name": "电浆引爆额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "execute_missing_health_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "execute_ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "MISSING"
+          }
+        ]
+      },
+      "description": "当前引爆伤害取该比例乘目标实际已损生命；缺失生命没有默认值，野怪上限和友军定身触发排除。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 150,
+  "intent": {
+    "sequence": 151,
+    "method": "POST",
+    "route": "/skills/seraphine_w/parameters",
+    "detailRoute": "/skills/seraphine_w/parameters/self_missing_health",
+    "skillKey": "seraphine_w",
+    "kind": "parameters",
+    "stableKey": "self_missing_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_missing_health",
+      "name": "护盾后自身已损生命",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "实际治疗阶段已损生命由运行输入提供，无默认。",
+      "sortOrder": 90
+    }
+  }
+}

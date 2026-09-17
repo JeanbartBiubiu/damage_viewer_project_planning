@@ -1,0 +1,30 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_q/parameters",
+    "detailRoute": "/skills/shaco_q/parameters/enhanced_attack_base_damage",
+    "skillKey": "shaco_q",
+    "kind": "parameters",
+    "stableKey": "enhanced_attack_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "enhanced_attack_base_damage",
+      "name": "强化攻击附加基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 35,
+        "3": 45,
+        "4": 55,
+        "5": 65
+      },
+      "description": "TotalDamage的BaseDamage索引1至5为25/35/45/55/65；索引0=15不作1级。",
+      "sortOrder": 20
+    }
+  }
+}

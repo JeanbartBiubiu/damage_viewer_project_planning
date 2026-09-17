@@ -1,0 +1,55 @@
+{
+  "i": 68,
+  "intent": {
+    "sequence": 69,
+    "method": "POST",
+    "route": "/skills/yone_w/formulas",
+    "detailRoute": "/skills/yone_w/formulas/physical_damage",
+    "skillKey": "yone_w",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "凛神斩单一敌方物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "target_max_health_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "TARGET",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_split_ratio"
+          }
+        ]
+      },
+      "description": "物理分量=0.5×(基础值+目标最大生命值比例×目标最大生命)；不是完整基数。",
+      "sortOrder": 10
+    }
+  }
+}

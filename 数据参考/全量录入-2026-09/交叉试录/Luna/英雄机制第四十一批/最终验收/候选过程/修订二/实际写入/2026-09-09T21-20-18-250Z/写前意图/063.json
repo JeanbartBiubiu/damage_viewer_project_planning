@@ -1,0 +1,23 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/milio_q/parameters",
+    "detailRoute": "/skills/milio_q/parameters/fall_time_ms",
+    "skillKey": "milio_q",
+    "kind": "parameters",
+    "stableKey": "fall_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "fall_time_ms",
+      "name": "落地时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 800,
+      "levelValues": null,
+      "description": "0.8秒转毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

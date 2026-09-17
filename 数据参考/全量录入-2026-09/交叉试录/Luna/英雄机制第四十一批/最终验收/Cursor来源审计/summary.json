@@ -1,0 +1,1088 @@
+{
+  "startedAt": "2026-09-09T20:03:00.614Z",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "requestedCwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-20260910",
+  "outDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-run-20260910",
+  "promptSource": "hero41-cursor-prompt.txt",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "timeoutMs": 900000,
+  "maxOldSpaceSizeMb": 6144,
+  "v8HeapSizeLimitMiB": 6336,
+  "settingSources": [
+    "project"
+  ],
+  "allowedPaths": [
+    {
+      "input": ".",
+      "absolute": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-20260910",
+      "relative": ".",
+      "exists": true
+    }
+  ],
+  "allowedPathSpecs": [
+    "."
+  ],
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "startup": {
+    "maxAttempts": 1,
+    "baseDelayMs": 1000,
+    "attemptsUsed": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "phase": "send",
+        "candidateAgentId": "agent-aa8bdd0a-d100-4596-8152-662260ef58db",
+        "error": null,
+        "retryDecision": "success",
+        "delayMs": null
+      }
+    ]
+  },
+  "failurePhase": null,
+  "requestId": "2be8315c-6946-4108-8d0a-544753da9463",
+  "preflight": {
+    "cwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-20260910",
+    "runtime": {
+      "nodeVersion": "24.19.0",
+      "nodeMajor": 24,
+      "nodeMinor": 19,
+      "nodeSupport": "ok",
+      "belowPackageEngine": false,
+      "bunVersion": null,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "env": {
+      "cursorUseHttp1": null,
+      "apiKeyPresent": true,
+      "apiKeyLength": 69
+    },
+    "sdk": {
+      "resolved": true,
+      "path": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js",
+      "source": "shared-cache",
+      "actualVersion": "1.0.24",
+      "expectedVersion": "1.0.24",
+      "versionMatch": true,
+      "error": null
+    },
+    "cliProbe": {
+      "cursorPath": "C:\\Program Files\\cursor\\resources\\app\\bin\\cursor",
+      "cursorAgentPath": null,
+      "programmable": false,
+      "supportsOutputFormat": false,
+      "supportsModelSelection": false,
+      "strictModelFallbackAllowed": false,
+      "status": "blocked",
+      "note": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    },
+    "checks": [
+      {
+        "id": "runtime.node",
+        "status": "ok",
+        "message": "Node 24.19.0 meets @cursor/sdk engines (>=22.13)."
+      },
+      {
+        "id": "runtime.bun",
+        "status": "ok",
+        "message": "Node runtime"
+      },
+      {
+        "id": "env.cursor_use_http1",
+        "status": "ok",
+        "message": "unset"
+      },
+      {
+        "id": "auth.api_key",
+        "status": "ok",
+        "message": "present length=69"
+      },
+      {
+        "id": "sdk.resolve",
+        "status": "ok",
+        "message": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js (source=shared-cache; version=1.0.24; expected=1.0.24; match=true)"
+      },
+      {
+        "id": "cli.probe",
+        "status": "warn",
+        "message": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+      },
+      {
+        "id": "prompt.mode",
+        "status": "ok",
+        "message": "DESIGN_REVIEW_ONLY"
+      }
+    ],
+    "warnings": [
+      "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    ],
+    "blocking": []
+  },
+  "eventCountByType": {
+    "status": 2,
+    "thinking": 375,
+    "assistant": 2772,
+    "tool_call": 140,
+    "usage": 1
+  },
+  "assistantText": "按只读来源复核要求，先定位绑定、当前文本、主负责人范围与 20 槽快照，再逐英雄核对数值与计算树。接下来读 20 槽快照、来源绑定结构，以及四位英雄的官方中英文。来源绑定已定位到 20 槽分段；接着核官方正文、快照槽位，以及 mStat / 施法时间 / 消费链等关键字段。官方中文是单行 JSON，改用整文件读取；同时补齐米利欧 W/E/R 的计算树与指向类型。VERDICT: READY  \nREVIEWED_PLAN_REV: hero41-source-v1\n\n固定客户端 16.17、官方 16.17.1；197 GET 与 25 公共冷却/法力已占用，本批不得改写。gzip 仅作散列证据，与输入版本一致。绑定根对象可直接读。属性包只窄证：省略 `mStat`/`mStatFormula` 的三个具体类默认为 0，且 0≈法强、`mStat2` 省略 formula≈总攻击力。本批计算树全程无 `mStat`/`mStatFormula` 字段，也无 `mStat2`/`mStat12` 节点；凡 `StatBy*` 均按省略默认走法强，不得把正文里的“最大生命”写进属性选择器。快照 20 槽均为 ENABLED，公式/效果/过程/内部状态皆空；不能声称保存或战斗运行通过。施法时间冲突只记录、不任选、不补零；被动根残留施法时间不当已确认值。5 级技能客户端数组按下标 1–5 对等级 1–5（与已复用冷却口径一致），下标 0 不得当 1 级。\n\n**巴德**  \n- P 旅者的召唤：当前正文消费木灵强化普攻。`MeepDamageNoChime` 为 tooltipOnly，须保留：基础 30 + `MeepAPRatio` 0.4×法强。战前调和层按每 5 层 +6（`TooltipChimeDamageCheckpoint`/`DamagePerCheckpoint`）成长。减速/溅射门槛为 1/3/7×`ChimesPerUpgrade`（数组 [0]=0、其余 5，展示字段指向 5，不得把 0 当门槛）。`SlowDuration` 1 秒；`@f2@` 减速幅度未接线。收集经验/法力排除；脱战移速排除。`@f1@/@f4@/@f5@` 与木灵数量/刷新未接线，`BaseMeepSpawnCD` 8 未被正文点名。  \n- Q 星界束缚：`TotalDamage`=基础 [80,120,160,200,240]+0.8 法强。首敌减速 60%、时长 [1,1.2,1.4,1.6,1.8] 秒；撞墙或第二人则晕眩同序列。第二人属额外目标，不删首敌。`mCastTime`=`spellCastTime`=0.25。冷却/法力已复用。  \n- W 游神圣坛：自身可踩。`InitialHeal`/`MaxHeal` 为最小/最大治疗×`HealingMult` 1，AP 比 0.4/0.7；1–5 级最小 [25,50,75,100,125]、最大 [50,87.5,125,162.5,200]。移速树 `Calc_MoveSpeed`=`MoveSpeed_Base`+[0.20…0.30]+0.0006×法强，持续 1.5 秒。充能 5 秒、最多 3 座、弹药 2、回复 18 秒；`@f7@` 未接线。仅有 `spellCastTime` 0.25。法力已复用。  \n- E 神奇旅程：门持续 10 秒，任意英雄可进；友军（含自己）传送快 33%。仅有 `mCastTime` 0.25。  \n- R 调和命运：凝滞 2.5 秒，区域内单位/建筑同一效果，不另造第二目标。仅有 `mCastTime` 0.5。冷却/法力已复用。\n\n**米利欧**（技能球是载体，不按召唤排除；不得因“友方/队友”字样写成仅第三队友）  \n- P 热情洋溢！：正文为技能碰到友方英雄时附加。W 为 `TargetOrLocation`+同队，E 缺指向类型但目标为友方英雄，R 为 `SelfAoe`，自身受益资格未否定。`ADBurstRatio`：1 级 0.07，6/9 级各 +0.04 附加，无每级初值，中间曲线不展开。`BurnDamage`：未知插值类型 `{ee18a47b}`，已知 10→50 +0.2 法强；灼烧 1.5 秒、多次不叠加。野怪上限 100 未被正文消费。`spellCastTime` 0 是被动残值。  \n- Q 火爆飞踢：球击退首敌后爆炸。`Damage`=坠落基础 [80,140,200,260,320]+1.2 法强；减速树为比例 [0.40…0.55]+0.0005 法强（按百分数显示），1.5 秒。命中敌方英雄返还 50% 法力。小兵/野怪更大击退与爆炸排除。客户端无 `cooldownTime`，官方恒 10 秒可作冷却来源。`mCastTime` 0.25 与 `spellCastTime` 0 冲突，不写入施法时间。法力已复用。  \n- W 依依不舍：炉火跟随友方英雄，附近友方得攻距与治疗，每 3 秒再施 P。`RangePercent` tooltipOnly=攻距增 [10,12.5,15,17.5,20]%。`HealingOverTime`=[70,90,110,130,150]+0.15 法强，持续 6 秒。自身若为最近友方则可受益。施法时间同样 0.25/0 冲突。冷却/法力已复用。  \n- E 融融情谊：友方英雄护盾+移速，2 层可叠。`ShieldCalc`=[45,75,105,135,165]+0.45 法强；移速 [12,14,16,18,20]%、2.5 秒。充能 [17,16,15,14,13] 秒。无 `mTargetingTypeData`，不能写成不可对己。`mCastTime`≈0.01 与 `spellCastTime` 0.175 冲突。法力已复用。  \n- R 生生不息：`SelfAoe` 给附近友方净化限制/定身（不净击飞）、治疗、韧性。`HealCalc`=[150,250,350]+0.5 法强；韧性 65%、3 秒。仅有 `mCastTime`≈0.713。冷却/法力已复用。\n\n**洛**  \n- P 异色羽裳：自身护盾。`TotalShield` 角色等级插值上下限 30→225 +0.95 法强，不线性展开 18 级。`ShieldCooldown`：1 级 40、字段 `mInitialBonusPerLevel` −1.5、19 级断点改斜率，算法未证不展开。命中敌方英雄缩短 1 秒。与霞回城排除。无施法时间。  \n- Q 微光飞翎：首敌 `TotalDamage`=[70,115,160,205,250]+0.7 法强。命中英雄（或史诗野怪，野怪触发另列）后 3 秒或碰到友方，**自己**回复 `TotalHeal`（40→210 插值 +0.55 法强）；附近友方治疗排除。施法 0.25 无冲突。冷却/法力已复用。  \n- W 盛大登场：自身冲刺，击飞 1 秒并 `TotalDamage`=[70,120,170,220,270]+0.8 法强。仅有 `spellCastTime` 0。冷却/法力已复用。  \n- E 轻舞成双：只可对友方英雄。正文护盾/3 秒/5 秒再施放属友方独立效果，排除。霞加距离排除。自身冲刺速度 1150 未被正文消费。  \n- R 惊鸿过隙：自身 4 秒 75% 移速；碰敌 `TotalDamageTooltip`=[100,200,300]+0.5 法强，首次命中魅惑 [1,1.25,1.5] 秒；首个敌方英雄再给自己衰减 150% 移速。对当前敌人，不另造第二人。仅有 `spellCastTime` 0.25。冷却/法力已复用。\n\n**烈娜塔**  \n- P 物尽其用：自身攻击附伤保留。`PercentAmpCalcSelf`：1 级 0.01、每级字段 +0.0012，6 级改斜率 0.0013、9 级再 +0.0013，再加 0.0002×法强，按百分数显示后由正文乘最大生命；断点不展开，不是 `mStat12`。标记 6 秒、同时仅一个目标。队友消耗标记的 `PercentAmpCalc` 排除。野怪上限 150 未消费。  \n- Q 铁腕竞合：首敌禁锢 1 秒 + `TotalDamage`=[80,125,170,215,260]+0.8 法强。再施放拉拽；撞到的额外敌人另列；若被拉者为英雄则晕 0.5 秒。自身减速与拉距未被正文消费。`mCastTime` 0.25 / `spellCastTime` 0 冲突。冷却/法力已复用。  \n- W 及时救难：正文与官方均为“一名友方英雄/ally champion”，无 `NeverSelf`，但缺 `mTargetingTypeData`，自选资格未判死，自身攻速/移速/延缓死亡按可自选保留，不写成仅第三队友。`ASCalc`/`MSCalc` 为 0.01×(基础+0.01×法强)，满额 `Final*` 用 0.02（对应倍率 2），持续 5 秒。击杀刷新。阵亡后满血归来再衰减：正文明确 3 秒；匿名树 `{85d7d7f0}`=0.25×10=2.5 未被正文消费，不得覆盖 3。参与击杀则回 20% 最大生命。仅有 `mCastTime` 0.25。冷却/法力已复用。  \n- E 忠诚激励：自身护盾保留；单一敌人伤害+减速保留。`TotalDamage`=[65,95,125,155,185]+0.55 法强；减速正文写死 30%、2 秒（匿名百分数树未消费）。`ShieldCalc`=[50,65,80,95,110]+0.5 法强，3 秒。周围额外敌人另列。施法 0.25/0 冲突。冷却/法力已复用。  \n- R 恶意收购：命中敌人狂暴 [1.25,1.75,2.25] 秒、+100% 攻速，攻击最近单位并优先其友军。对唯一当前敌人只记其狂暴资格与时长/攻速，不编造第二目标。仅有 `mCastTime` 0.75。冷却/法力已复用。\n\n待核但不阻塞本轮拟录：施法时间双字段冲突、断点/插值中间曲线、未接线 `f*`、E/W 缺指向类型、匿名未消费子树。只要不把这些填成确定值，已核消费链可以按上录入。",
+  "toolCalls": [
+    {
+      "callId": "call-49fed08e-3992-4e77-ac0c-52c42f19abe9-0\nfc_29ad2027-482e-9b58-86ff-2c2df974da06_0",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-49fed08e-3992-4e77-ac0c-52c42f19abe9-1\nfc_29ad2027-482e-9b58-86ff-2c2df974da06_1",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-49fed08e-3992-4e77-ac0c-52c42f19abe9-1\nfc_29ad2027-482e-9b58-86ff-2c2df974da06_1",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-49fed08e-3992-4e77-ac0c-52c42f19abe9-0\nfc_29ad2027-482e-9b58-86ff-2c2df974da06_0",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-2\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-2\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-3\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-3\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-4\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-4\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-5\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-5\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-6\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-7\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-6\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-85aa92c1-7355-4d82-9ebe-def5326aceb2-7\nfc_b39f3714-d626-959a-85d1-7ccb50941e34_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6ac867fd-31ac-4fa4-adc1-cc475a06354f-8\nfc_120b33f5-9037-9cb7-8e27-5ac66642fdf0_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6ac867fd-31ac-4fa4-adc1-cc475a06354f-8\nfc_120b33f5-9037-9cb7-8e27-5ac66642fdf0_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6ac867fd-31ac-4fa4-adc1-cc475a06354f-9\nfc_120b33f5-9037-9cb7-8e27-5ac66642fdf0_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6ac867fd-31ac-4fa4-adc1-cc475a06354f-9\nfc_120b33f5-9037-9cb7-8e27-5ac66642fdf0_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6ac867fd-31ac-4fa4-adc1-cc475a06354f-10\nfc_120b33f5-9037-9cb7-8e27-5ac66642fdf0_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6ac867fd-31ac-4fa4-adc1-cc475a06354f-11\nfc_120b33f5-9037-9cb7-8e27-5ac66642fdf0_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6ac867fd-31ac-4fa4-adc1-cc475a06354f-11\nfc_120b33f5-9037-9cb7-8e27-5ac66642fdf0_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6ac867fd-31ac-4fa4-adc1-cc475a06354f-10\nfc_120b33f5-9037-9cb7-8e27-5ac66642fdf0_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-12\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-12\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-13\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-13\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-14\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-14\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-15\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-16\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-15\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-38277d44-b1e4-45af-afaa-71eec2f4a114-16\nfc_f6ccc912-dfca-98ba-9d40-b85fc6d3f73f_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5396a744-060b-455a-98b7-bc38b8d32282-17\nfc_ce3d9ae9-f0fc-9968-a798-82d5ff508839_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5396a744-060b-455a-98b7-bc38b8d32282-17\nfc_ce3d9ae9-f0fc-9968-a798-82d5ff508839_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5396a744-060b-455a-98b7-bc38b8d32282-18\nfc_ce3d9ae9-f0fc-9968-a798-82d5ff508839_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5396a744-060b-455a-98b7-bc38b8d32282-18\nfc_ce3d9ae9-f0fc-9968-a798-82d5ff508839_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5396a744-060b-455a-98b7-bc38b8d32282-19\nfc_ce3d9ae9-f0fc-9968-a798-82d5ff508839_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5396a744-060b-455a-98b7-bc38b8d32282-20\nfc_ce3d9ae9-f0fc-9968-a798-82d5ff508839_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5396a744-060b-455a-98b7-bc38b8d32282-19\nfc_ce3d9ae9-f0fc-9968-a798-82d5ff508839_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5396a744-060b-455a-98b7-bc38b8d32282-20\nfc_ce3d9ae9-f0fc-9968-a798-82d5ff508839_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d2b3b838-cef2-407f-b979-cdd8875960e8-21\nfc_dbfb34e9-a888-9498-8a43-661a1aa3030d_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d2b3b838-cef2-407f-b979-cdd8875960e8-21\nfc_dbfb34e9-a888-9498-8a43-661a1aa3030d_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d2b3b838-cef2-407f-b979-cdd8875960e8-22\nfc_dbfb34e9-a888-9498-8a43-661a1aa3030d_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d2b3b838-cef2-407f-b979-cdd8875960e8-23\nfc_dbfb34e9-a888-9498-8a43-661a1aa3030d_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d2b3b838-cef2-407f-b979-cdd8875960e8-22\nfc_dbfb34e9-a888-9498-8a43-661a1aa3030d_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d2b3b838-cef2-407f-b979-cdd8875960e8-23\nfc_dbfb34e9-a888-9498-8a43-661a1aa3030d_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-60f7fe8d-a4b6-4cd5-944d-1d76c9d4d763-24\nfc_bc6d1f7d-9070-96af-bcf4-5e5e55881cfc_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-60f7fe8d-a4b6-4cd5-944d-1d76c9d4d763-25\nfc_bc6d1f7d-9070-96af-bcf4-5e5e55881cfc_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-60f7fe8d-a4b6-4cd5-944d-1d76c9d4d763-26\nfc_bc6d1f7d-9070-96af-bcf4-5e5e55881cfc_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-60f7fe8d-a4b6-4cd5-944d-1d76c9d4d763-24\nfc_bc6d1f7d-9070-96af-bcf4-5e5e55881cfc_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-60f7fe8d-a4b6-4cd5-944d-1d76c9d4d763-25\nfc_bc6d1f7d-9070-96af-bcf4-5e5e55881cfc_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-60f7fe8d-a4b6-4cd5-944d-1d76c9d4d763-26\nfc_bc6d1f7d-9070-96af-bcf4-5e5e55881cfc_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f6630f77-1b07-4e4c-92dc-d8ba6c7f1150-27\nfc_56dc0c97-2e87-97a3-b0e7-051b584ae082_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f6630f77-1b07-4e4c-92dc-d8ba6c7f1150-28\nfc_56dc0c97-2e87-97a3-b0e7-051b584ae082_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f6630f77-1b07-4e4c-92dc-d8ba6c7f1150-27\nfc_56dc0c97-2e87-97a3-b0e7-051b584ae082_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f6630f77-1b07-4e4c-92dc-d8ba6c7f1150-29\nfc_56dc0c97-2e87-97a3-b0e7-051b584ae082_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f6630f77-1b07-4e4c-92dc-d8ba6c7f1150-28\nfc_56dc0c97-2e87-97a3-b0e7-051b584ae082_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f6630f77-1b07-4e4c-92dc-d8ba6c7f1150-29\nfc_56dc0c97-2e87-97a3-b0e7-051b584ae082_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ca751097-e15d-48ca-ab85-9ae08874f59e-30\nfc_827c6b74-f71f-9258-81a3-d9b3f9438608_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ca751097-e15d-48ca-ab85-9ae08874f59e-31\nfc_827c6b74-f71f-9258-81a3-d9b3f9438608_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ca751097-e15d-48ca-ab85-9ae08874f59e-30\nfc_827c6b74-f71f-9258-81a3-d9b3f9438608_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ca751097-e15d-48ca-ab85-9ae08874f59e-31\nfc_827c6b74-f71f-9258-81a3-d9b3f9438608_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ca751097-e15d-48ca-ab85-9ae08874f59e-32\nfc_827c6b74-f71f-9258-81a3-d9b3f9438608_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ca751097-e15d-48ca-ab85-9ae08874f59e-33\nfc_827c6b74-f71f-9258-81a3-d9b3f9438608_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ca751097-e15d-48ca-ab85-9ae08874f59e-32\nfc_827c6b74-f71f-9258-81a3-d9b3f9438608_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ca751097-e15d-48ca-ab85-9ae08874f59e-33\nfc_827c6b74-f71f-9258-81a3-d9b3f9438608_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-34\nfc_a758556a-b711-98ff-8106-87007f76abe2_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-34\nfc_a758556a-b711-98ff-8106-87007f76abe2_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-35\nfc_a758556a-b711-98ff-8106-87007f76abe2_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-35\nfc_a758556a-b711-98ff-8106-87007f76abe2_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-36\nfc_a758556a-b711-98ff-8106-87007f76abe2_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-36\nfc_a758556a-b711-98ff-8106-87007f76abe2_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-37\nfc_a758556a-b711-98ff-8106-87007f76abe2_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-37\nfc_a758556a-b711-98ff-8106-87007f76abe2_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-38\nfc_a758556a-b711-98ff-8106-87007f76abe2_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-39\nfc_a758556a-b711-98ff-8106-87007f76abe2_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-38\nfc_a758556a-b711-98ff-8106-87007f76abe2_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-65fbd309-c001-49da-9507-9e05b28720af-39\nfc_a758556a-b711-98ff-8106-87007f76abe2_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ad1a5d5d-c660-4ab0-9a8b-45797b0cbeaf-40\nfc_4b994f9d-18df-9f57-9ab8-030615122dd3_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ad1a5d5d-c660-4ab0-9a8b-45797b0cbeaf-40\nfc_4b994f9d-18df-9f57-9ab8-030615122dd3_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ad1a5d5d-c660-4ab0-9a8b-45797b0cbeaf-41\nfc_4b994f9d-18df-9f57-9ab8-030615122dd3_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ad1a5d5d-c660-4ab0-9a8b-45797b0cbeaf-41\nfc_4b994f9d-18df-9f57-9ab8-030615122dd3_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ad1a5d5d-c660-4ab0-9a8b-45797b0cbeaf-42\nfc_4b994f9d-18df-9f57-9ab8-030615122dd3_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ad1a5d5d-c660-4ab0-9a8b-45797b0cbeaf-43\nfc_4b994f9d-18df-9f57-9ab8-030615122dd3_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ad1a5d5d-c660-4ab0-9a8b-45797b0cbeaf-42\nfc_4b994f9d-18df-9f57-9ab8-030615122dd3_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ad1a5d5d-c660-4ab0-9a8b-45797b0cbeaf-43\nfc_4b994f9d-18df-9f57-9ab8-030615122dd3_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce2a68d8-effd-4e09-9898-bd926282f10a-44\nfc_c33a78b1-8680-93c3-befa-ca0fc4dac3a3_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce2a68d8-effd-4e09-9898-bd926282f10a-45\nfc_c33a78b1-8680-93c3-befa-ca0fc4dac3a3_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce2a68d8-effd-4e09-9898-bd926282f10a-46\nfc_c33a78b1-8680-93c3-befa-ca0fc4dac3a3_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce2a68d8-effd-4e09-9898-bd926282f10a-47\nfc_c33a78b1-8680-93c3-befa-ca0fc4dac3a3_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce2a68d8-effd-4e09-9898-bd926282f10a-45\nfc_c33a78b1-8680-93c3-befa-ca0fc4dac3a3_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce2a68d8-effd-4e09-9898-bd926282f10a-47\nfc_c33a78b1-8680-93c3-befa-ca0fc4dac3a3_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce2a68d8-effd-4e09-9898-bd926282f10a-44\nfc_c33a78b1-8680-93c3-befa-ca0fc4dac3a3_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ce2a68d8-effd-4e09-9898-bd926282f10a-46\nfc_c33a78b1-8680-93c3-befa-ca0fc4dac3a3_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d6981afa-941f-48fa-8959-986452c6fb96-48\nfc_b25bec2e-ddc3-92fd-96bb-0bf09ca711bd_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d6981afa-941f-48fa-8959-986452c6fb96-49\nfc_b25bec2e-ddc3-92fd-96bb-0bf09ca711bd_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d6981afa-941f-48fa-8959-986452c6fb96-48\nfc_b25bec2e-ddc3-92fd-96bb-0bf09ca711bd_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d6981afa-941f-48fa-8959-986452c6fb96-50\nfc_b25bec2e-ddc3-92fd-96bb-0bf09ca711bd_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d6981afa-941f-48fa-8959-986452c6fb96-49\nfc_b25bec2e-ddc3-92fd-96bb-0bf09ca711bd_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d6981afa-941f-48fa-8959-986452c6fb96-50\nfc_b25bec2e-ddc3-92fd-96bb-0bf09ca711bd_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-da7c4a2e-6489-40da-8edf-6fb99a93fedb-51\nfc_4a2d735f-8c41-9886-8e4e-c79868901ff3_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-da7c4a2e-6489-40da-8edf-6fb99a93fedb-52\nfc_4a2d735f-8c41-9886-8e4e-c79868901ff3_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-da7c4a2e-6489-40da-8edf-6fb99a93fedb-53\nfc_4a2d735f-8c41-9886-8e4e-c79868901ff3_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-da7c4a2e-6489-40da-8edf-6fb99a93fedb-52\nfc_4a2d735f-8c41-9886-8e4e-c79868901ff3_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-da7c4a2e-6489-40da-8edf-6fb99a93fedb-51\nfc_4a2d735f-8c41-9886-8e4e-c79868901ff3_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-da7c4a2e-6489-40da-8edf-6fb99a93fedb-54\nfc_4a2d735f-8c41-9886-8e4e-c79868901ff3_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-da7c4a2e-6489-40da-8edf-6fb99a93fedb-53\nfc_4a2d735f-8c41-9886-8e4e-c79868901ff3_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-da7c4a2e-6489-40da-8edf-6fb99a93fedb-54\nfc_4a2d735f-8c41-9886-8e4e-c79868901ff3_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-538cac30-de1a-4149-abb0-67d35944cf45-55\nfc_b49d1ca4-7a4b-9279-ab3f-60fc35e5434b_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-538cac30-de1a-4149-abb0-67d35944cf45-56\nfc_b49d1ca4-7a4b-9279-ab3f-60fc35e5434b_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-538cac30-de1a-4149-abb0-67d35944cf45-55\nfc_b49d1ca4-7a4b-9279-ab3f-60fc35e5434b_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-538cac30-de1a-4149-abb0-67d35944cf45-56\nfc_b49d1ca4-7a4b-9279-ab3f-60fc35e5434b_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-dda9ec1c-b4fb-4e32-854a-273c4e080c1e-57\nfc_7418b784-893a-95cc-91be-0b073b9f4df7_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-dda9ec1c-b4fb-4e32-854a-273c4e080c1e-58\nfc_7418b784-893a-95cc-91be-0b073b9f4df7_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-dda9ec1c-b4fb-4e32-854a-273c4e080c1e-57\nfc_7418b784-893a-95cc-91be-0b073b9f4df7_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-dda9ec1c-b4fb-4e32-854a-273c4e080c1e-58\nfc_7418b784-893a-95cc-91be-0b073b9f4df7_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d5256d29-5611-46bb-952c-78f77ee4e384-59\nfc_ff161680-ad0d-907b-a167-bc761b49bc63_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d5256d29-5611-46bb-952c-78f77ee4e384-60\nfc_ff161680-ad0d-907b-a167-bc761b49bc63_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d5256d29-5611-46bb-952c-78f77ee4e384-61\nfc_ff161680-ad0d-907b-a167-bc761b49bc63_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d5256d29-5611-46bb-952c-78f77ee4e384-59\nfc_ff161680-ad0d-907b-a167-bc761b49bc63_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d5256d29-5611-46bb-952c-78f77ee4e384-60\nfc_ff161680-ad0d-907b-a167-bc761b49bc63_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d5256d29-5611-46bb-952c-78f77ee4e384-61\nfc_ff161680-ad0d-907b-a167-bc761b49bc63_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-710ff825-7445-47e3-ba95-e4ce3889b851-62\nfc_71e898fb-815e-9671-be45-3ce2899b9b79_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-710ff825-7445-47e3-ba95-e4ce3889b851-63\nfc_71e898fb-815e-9671-be45-3ce2899b9b79_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-710ff825-7445-47e3-ba95-e4ce3889b851-64\nfc_71e898fb-815e-9671-be45-3ce2899b9b79_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-710ff825-7445-47e3-ba95-e4ce3889b851-62\nfc_71e898fb-815e-9671-be45-3ce2899b9b79_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-710ff825-7445-47e3-ba95-e4ce3889b851-63\nfc_71e898fb-815e-9671-be45-3ce2899b9b79_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-710ff825-7445-47e3-ba95-e4ce3889b851-65\nfc_71e898fb-815e-9671-be45-3ce2899b9b79_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-710ff825-7445-47e3-ba95-e4ce3889b851-64\nfc_71e898fb-815e-9671-be45-3ce2899b9b79_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-710ff825-7445-47e3-ba95-e4ce3889b851-65\nfc_71e898fb-815e-9671-be45-3ce2899b9b79_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-75ccb480-ed89-45f3-978a-c79e0172987f-66\nfc_b43110b2-bc10-95c1-8515-0ab7c9032e83_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-75ccb480-ed89-45f3-978a-c79e0172987f-67\nfc_b43110b2-bc10-95c1-8515-0ab7c9032e83_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-75ccb480-ed89-45f3-978a-c79e0172987f-66\nfc_b43110b2-bc10-95c1-8515-0ab7c9032e83_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-75ccb480-ed89-45f3-978a-c79e0172987f-67\nfc_b43110b2-bc10-95c1-8515-0ab7c9032e83_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-75ccb480-ed89-45f3-978a-c79e0172987f-68\nfc_b43110b2-bc10-95c1-8515-0ab7c9032e83_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-75ccb480-ed89-45f3-978a-c79e0172987f-69\nfc_b43110b2-bc10-95c1-8515-0ab7c9032e83_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-75ccb480-ed89-45f3-978a-c79e0172987f-68\nfc_b43110b2-bc10-95c1-8515-0ab7c9032e83_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-75ccb480-ed89-45f3-978a-c79e0172987f-69\nfc_b43110b2-bc10-95c1-8515-0ab7c9032e83_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    }
+  ],
+  "statuses": [
+    "RUNNING",
+    "FINISHED"
+  ],
+  "cliFallback": {
+    "allowed": false,
+    "modelDriftAccepted": false,
+    "status": "not_attempted"
+  },
+  "git": {
+    "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-run-20260910\\git-status-worktree-before.txt",
+    "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-run-20260910\\git-status-before.txt",
+    "allowedPathsDirtyBefore": false,
+    "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-run-20260910\\path-signatures-before.json",
+    "pathSignaturesBefore": {},
+    "statusEntriesBeforeCount": 0,
+    "beforeAuditAvailable": true,
+    "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-run-20260910\\git-status-worktree-after.txt",
+    "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-run-20260910\\git-status-after.txt",
+    "allowedPathsDirtyAfter": false,
+    "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-run-20260910\\path-signatures-after.json",
+    "pathSignaturesAfter": {},
+    "runDelta": [],
+    "changeClassification": {
+      "afterState": {
+        "inScope": [],
+        "outsideScope": []
+      },
+      "runDelta": {
+        "inScope": [],
+        "outsideScope": []
+      }
+    },
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopePaths": [],
+    "untrackedInScope": [],
+    "untrackedCapture": {
+      "mode": "metadata-only",
+      "files": [],
+      "skipped": []
+    },
+    "diffPatchScope": "allowed-paths",
+    "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero41-cursor-review-run-20260910\\diff.patch"
+  },
+  "runtimeUsed": "sdk",
+  "agentId": "agent-aa8bdd0a-d100-4596-8152-662260ef58db",
+  "runId": "run-e3ec5079-87fd-498f-852f-3772fdaeff74",
+  "result": {
+    "id": "run-e3ec5079-87fd-498f-852f-3772fdaeff74",
+    "requestId": "2be8315c-6946-4108-8d0a-544753da9463",
+    "status": "finished",
+    "result": "VERDICT: READY  \nREVIEWED_PLAN_REV: hero41-source-v1\n\n固定客户端 16.17、官方 16.17.1；197 GET 与 25 公共冷却/法力已占用，本批不得改写。gzip 仅作散列证据，与输入版本一致。绑定根对象可直接读。属性包只窄证：省略 `mStat`/`mStatFormula` 的三个具体类默认为 0，且 0≈法强、`mStat2` 省略 formula≈总攻击力。本批计算树全程无 `mStat`/`mStatFormula` 字段，也无 `mStat2`/`mStat12` 节点；凡 `StatBy*` 均按省略默认走法强，不得把正文里的“最大生命”写进属性选择器。快照 20 槽均为 ENABLED，公式/效果/过程/内部状态皆空；不能声称保存或战斗运行通过。施法时间冲突只记录、不任选、不补零；被动根残留施法时间不当已确认值。5 级技能客户端数组按下标 1–5 对等级 1–5（与已复用冷却口径一致），下标 0 不得当 1 级。\n\n**巴德**  \n- P 旅者的召唤：当前正文消费木灵强化普攻。`MeepDamageNoChime` 为 tooltipOnly，须保留：基础 30 + `MeepAPRatio` 0.4×法强。战前调和层按每 5 层 +6（`TooltipChimeDamageCheckpoint`/`DamagePerCheckpoint`）成长。减速/溅射门槛为 1/3/7×`ChimesPerUpgrade`（数组 [0]=0、其余 5，展示字段指向 5，不得把 0 当门槛）。`SlowDuration` 1 秒；`@f2@` 减速幅度未接线。收集经验/法力排除；脱战移速排除。`@f1@/@f4@/@f5@` 与木灵数量/刷新未接线，`BaseMeepSpawnCD` 8 未被正文点名。  \n- Q 星界束缚：`TotalDamage`=基础 [80,120,160,200,240]+0.8 法强。首敌减速 60%、时长 [1,1.2,1.4,1.6,1.8] 秒；撞墙或第二人则晕眩同序列。第二人属额外目标，不删首敌。`mCastTime`=`spellCastTime`=0.25。冷却/法力已复用。  \n- W 游神圣坛：自身可踩。`InitialHeal`/`MaxHeal` 为最小/最大治疗×`HealingMult` 1，AP 比 0.4/0.7；1–5 级最小 [25,50,75,100,125]、最大 [50,87.5,125,162.5,200]。移速树 `Calc_MoveSpeed`=`MoveSpeed_Base`+[0.20…0.30]+0.0006×法强，持续 1.5 秒。充能 5 秒、最多 3 座、弹药 2、回复 18 秒；`@f7@` 未接线。仅有 `spellCastTime` 0.25。法力已复用。  \n- E 神奇旅程：门持续 10 秒，任意英雄可进；友军（含自己）传送快 33%。仅有 `mCastTime` 0.25。  \n- R 调和命运：凝滞 2.5 秒，区域内单位/建筑同一效果，不另造第二目标。仅有 `mCastTime` 0.5。冷却/法力已复用。\n\n**米利欧**（技能球是载体，不按召唤排除；不得因“友方/队友”字样写成仅第三队友）  \n- P 热情洋溢！：正文为技能碰到友方英雄时附加。W 为 `TargetOrLocation`+同队，E 缺指向类型但目标为友方英雄，R 为 `SelfAoe`，自身受益资格未否定。`ADBurstRatio`：1 级 0.07，6/9 级各 +0.04 附加，无每级初值，中间曲线不展开。`BurnDamage`：未知插值类型 `{ee18a47b}`，已知 10→50 +0.2 法强；灼烧 1.5 秒、多次不叠加。野怪上限 100 未被正文消费。`spellCastTime` 0 是被动残值。  \n- Q 火爆飞踢：球击退首敌后爆炸。`Damage`=坠落基础 [80,140,200,260,320]+1.2 法强；减速树为比例 [0.40…0.55]+0.0005 法强（按百分数显示），1.5 秒。命中敌方英雄返还 50% 法力。小兵/野怪更大击退与爆炸排除。客户端无 `cooldownTime`，官方恒 10 秒可作冷却来源。`mCastTime` 0.25 与 `spellCastTime` 0 冲突，不写入施法时间。法力已复用。  \n- W 依依不舍：炉火跟随友方英雄，附近友方得攻距与治疗，每 3 秒再施 P。`RangePercent` tooltipOnly=攻距增 [10,12.5,15,17.5,20]%。`HealingOverTime`=[70,90,110,130,150]+0.15 法强，持续 6 秒。自身若为最近友方则可受益。施法时间同样 0.25/0 冲突。冷却/法力已复用。  \n- E 融融情谊：友方英雄护盾+移速，2 层可叠。`ShieldCalc`=[45,75,105,135,165]+0.45 法强；移速 [12,14,16,18,20]%、2.5 秒。充能 [17,16,15,14,13] 秒。无 `mTargetingTypeData`，不能写成不可对己。`mCastTime`≈0.01 与 `spellCastTime` 0.175 冲突。法力已复用。  \n- R 生生不息：`SelfAoe` 给附近友方净化限制/定身（不净击飞）、治疗、韧性。`HealCalc`=[150,250,350]+0.5 法强；韧性 65%、3 秒。仅有 `mCastTime`≈0.713。冷却/法力已复用。\n\n**洛**  \n- P 异色羽裳：自身护盾。`TotalShield` 角色等级插值上下限 30→225 +0.95 法强，不线性展开 18 级。`ShieldCooldown`：1 级 40、字段 `mInitialBonusPerLevel` −1.5、19 级断点改斜率，算法未证不展开。命中敌方英雄缩短 1 秒。与霞回城排除。无施法时间。  \n- Q 微光飞翎：首敌 `TotalDamage`=[70,115,160,205,250]+0.7 法强。命中英雄（或史诗野怪，野怪触发另列）后 3 秒或碰到友方，**自己**回复 `TotalHeal`（40→210 插值 +0.55 法强）；附近友方治疗排除。施法 0.25 无冲突。冷却/法力已复用。  \n- W 盛大登场：自身冲刺，击飞 1 秒并 `TotalDamage`=[70,120,170,220,270]+0.8 法强。仅有 `spellCastTime` 0。冷却/法力已复用。  \n- E 轻舞成双：只可对友方英雄。正文护盾/3 秒/5 秒再施放属友方独立效果，排除。霞加距离排除。自身冲刺速度 1150 未被正文消费。  \n- R 惊鸿过隙：自身 4 秒 75% 移速；碰敌 `TotalDamageTooltip`=[100,200,300]+0.5 法强，首次命中魅惑 [1,1.25,1.5] 秒；首个敌方英雄再给自己衰减 150% 移速。对当前敌人，不另造第二人。仅有 `spellCastTime` 0.25。冷却/法力已复用。\n\n**烈娜塔**  \n- P 物尽其用：自身攻击附伤保留。`PercentAmpCalcSelf`：1 级 0.01、每级字段 +0.0012，6 级改斜率 0.0013、9 级再 +0.0013，再加 0.0002×法强，按百分数显示后由正文乘最大生命；断点不展开，不是 `mStat12`。标记 6 秒、同时仅一个目标。队友消耗标记的 `PercentAmpCalc` 排除。野怪上限 150 未消费。  \n- Q 铁腕竞合：首敌禁锢 1 秒 + `TotalDamage`=[80,125,170,215,260]+0.8 法强。再施放拉拽；撞到的额外敌人另列；若被拉者为英雄则晕 0.5 秒。自身减速与拉距未被正文消费。`mCastTime` 0.25 / `spellCastTime` 0 冲突。冷却/法力已复用。  \n- W 及时救难：正文与官方均为“一名友方英雄/ally champion”，无 `NeverSelf`，但缺 `mTargetingTypeData`，自选资格未判死，自身攻速/移速/延缓死亡按可自选保留，不写成仅第三队友。`ASCalc`/`MSCalc` 为 0.01×(基础+0.01×法强)，满额 `Final*` 用 0.02（对应倍率 2），持续 5 秒。击杀刷新。阵亡后满血归来再衰减：正文明确 3 秒；匿名树 `{85d7d7f0}`=0.25×10=2.5 未被正文消费，不得覆盖 3。参与击杀则回 20% 最大生命。仅有 `mCastTime` 0.25。冷却/法力已复用。  \n- E 忠诚激励：自身护盾保留；单一敌人伤害+减速保留。`TotalDamage`=[65,95,125,155,185]+0.55 法强；减速正文写死 30%、2 秒（匿名百分数树未消费）。`ShieldCalc`=[50,65,80,95,110]+0.5 法强，3 秒。周围额外敌人另列。施法 0.25/0 冲突。冷却/法力已复用。  \n- R 恶意收购：命中敌人狂暴 [1.25,1.75,2.25] 秒、+100% 攻速，攻击最近单位并优先其友军。对唯一当前敌人只记其狂暴资格与时长/攻速，不编造第二目标。仅有 `mCastTime` 0.75。冷却/法力已复用。\n\n待核但不阻塞本轮拟录：施法时间双字段冲突、断点/插值中间曲线、未接线 `f*`、E/W 缺指向类型、匿名未消费子树。只要不把这些填成确定值，已核消费链可以按上录入。",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "durationMs": 401670,
+    "usage": {
+      "inputTokens": 1498669,
+      "outputTokens": 19591,
+      "cacheReadTokens": 1349248,
+      "cacheWriteTokens": 0,
+      "totalTokens": 2867508,
+      "reasoningTokens": 13092
+    }
+  },
+  "resultStatus": "finished",
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 401670,
+  "artifacts": [],
+  "disposal": {
+    "method": "asyncDispose"
+  },
+  "completedAt": "2026-09-09T20:09:49.437Z"
+}

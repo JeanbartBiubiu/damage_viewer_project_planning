@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T21:12:42+08:00",
+  "status": "PASS",
+  "browser": "Codex内置Chromium",
+  "title": "Damage Viewer Web",
+  "url": "http://localhost:5173/#/skills",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 6,
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": null,
+  "requestAudit": {
+    "exactBrowserGetCountAvailable": false,
+    "reason": "当前浏览器控制能力未暴露网络方法流水；不猜GET数量。",
+    "writeActionAudit": "复用同一浏览器会话已同步的本地图片缓存；技能页只执行关键词查询、打开过程详情、打开规则列表与编辑查看并取消，没有点击保存、删除、新增或停用。",
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 1069,
+      "skillCount": 1062,
+      "ruleCount": 158,
+      "sourceInitializedCount": 29,
+      "targetDetailCount": 6,
+      "businessWrites": 0
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "targets": [
+    {
+      "id": "twitch_q_start_cast",
+      "skillKey": "twitch_q",
+      "matched": true,
+      "list": {
+        "name": "图奇·埋伏",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "图奇·埋伏代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放埋伏",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动埋伏施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "图奇·埋伏（twitch_q）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动埋伏施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "twitch_e_start_cast",
+      "skillKey": "twitch_e",
+      "matched": true,
+      "list": {
+        "name": "图奇·毒性爆发",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "图奇·毒性爆发代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放毒性爆发",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动毒性爆发施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "图奇·毒性爆发（twitch_e）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动毒性爆发施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "veigar_e_start_cast",
+      "skillKey": "veigar_e",
+      "matched": true,
+      "list": {
+        "name": "维迦·扭曲空间",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "维迦·扭曲空间代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放扭曲空间",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动扭曲空间施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "维迦·扭曲空间（veigar_e）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动扭曲空间施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "veigar_r_start_cast",
+      "skillKey": "veigar_r",
+      "matched": true,
+      "list": {
+        "name": "维迦·能量爆裂",
+        "status": "启用",
+        "maxLevel": 3,
+        "imageAlt": "维迦·能量爆裂代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放能量爆裂",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动能量爆裂施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "维迦·能量爆裂（veigar_r）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动能量爆裂施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "warwick_w_start_cast",
+      "skillKey": "warwick_w",
+      "matched": true,
+      "list": {
+        "name": "沃里克·鲜血追猎",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "沃里克·鲜血追猎代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放鲜血追猎",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施放开始 / start / 立即",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动鲜血追猎施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "沃里克·鲜血追猎（warwick_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动鲜血追猎施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "trundle_w_start_cast",
+      "skillKey": "trundle_w",
+      "matched": true,
+      "list": {
+        "name": "特朗德尔·冰封领域",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "特朗德尔·冰封领域代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放冰封领域",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动冰封领域施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "特朗德尔·冰封领域（trundle_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动冰封领域施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "target": "twitch_q",
+      "sha256": "341bf8fb05e803622d73f45bd1c51c5483c98ec9b326d1068dc1d4fc8649b62c",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "twitch_e",
+      "sha256": "0dad67afa97ee90f56914e9c225975f46162f7a73755996bf418e5a467d9781d",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "veigar_e",
+      "sha256": "9c31ee12eb260a451bba50712627441df09a4e9f972bb6b2aa78f602247480a8",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "veigar_r",
+      "sha256": "986047b68002f3eec1d24dafedaa434c4d1dc5a43bbb1600d0a7db52e82506dc",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "warwick_w",
+      "sha256": "ad3e899d5bb179a6610d093adc0503df60da395f5ae190a35dd6bc82f5b3512f",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "trundle_w",
+      "sha256": "32d4d692e5b69167d92e611e13886c7ff4fd15fc9a8f0de8375d79858aca7e8c",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    }
+  ],
+  "readOnlyCorrections": [
+    "首次全量候选扫描误用过程启动字段名，2125次GET得到0个候选；核对实际过程摘要后改用activationType并重新执行，得到20个候选。两次扫描均为纯GET。",
+    "沃里克W的过程步骤为立即，其余五项为延迟；按各自实际详情核对，没有统一假定施法时长。",
+    "浏览器只读执行环境没有提供网络方法流水，未把不可见的网络信息伪造成精确计数；页面后的独立脚本以1069次GET再次核对总数和六条详情。"
+  ],
+  "boundary": "真实页面确认六个目标保存后可重新打开，列表图、cast过程、步骤、法力挂接、主动使用事件和启动过程动作一致；未点击任何服务端业务写入按钮。伪装、实际命中、伤害、控制、区域增益、目标选择、Wasm、宿主事件和真实战斗未执行。"
+}

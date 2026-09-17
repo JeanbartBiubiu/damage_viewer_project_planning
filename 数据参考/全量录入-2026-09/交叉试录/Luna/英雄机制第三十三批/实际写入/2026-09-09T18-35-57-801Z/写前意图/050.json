@@ -1,0 +1,45 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "method": "POST",
+    "route": "/skills/sona_e/formulas",
+    "detailRoute": "/skills/sona_e/formulas/tempo_slow_ratio",
+    "skillKey": "sona_e",
+    "kind": "formulas",
+    "stableKey": "tempo_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "tempo_slow_ratio",
+      "name": "节奏减速比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "tempo_slow_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "tempo_slow_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "减速比例是数值组成，不自动创建减速事件。",
+      "sortOrder": 20
+    }
+  }
+}

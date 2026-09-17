@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T09:56:27.398Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/syndra_r/formulas/minimum_damage",
+  "id": "minimum_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "minimum_damage",
+    "name": "最低三球总魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "min_spheres_to_use"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_sphere"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "仅表示源树最少三球的算术值，不表示实际施法一定满足命中。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 20
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 26,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_w/parameters",
+    "detailRoute": "/skills/gnar_w/parameters/target_max_hp_ratio",
+    "skillKey": "gnar_w",
+    "kind": "parameters",
+    "stableKey": "target_max_hp_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_max_hp_ratio",
+      "name": "目标最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.059999999,
+        "2": 0.079999998,
+        "3": 0.100000001,
+        "4": 0.119999997,
+        "5": 0.140000001
+      },
+      "description": "MiniPercentHPDamage为6%至14%，比例单位。",
+      "sortOrder": 20
+    }
+  }
+}

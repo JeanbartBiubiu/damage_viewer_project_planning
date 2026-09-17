@@ -1,0 +1,24 @@
+{
+  "i": 112,
+  "intent": {
+    "sequence": 113,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_r/parameters",
+    "detailRoute": "/skills/kayn_r/parameters/cast_time_ms",
+    "skillKey": "kayn_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "mCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "mCastTime=0.1秒，精确转换为100毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

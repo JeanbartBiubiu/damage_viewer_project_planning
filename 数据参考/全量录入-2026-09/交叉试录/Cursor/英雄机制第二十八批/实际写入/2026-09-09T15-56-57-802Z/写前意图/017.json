@@ -1,0 +1,26 @@
+{
+  "i": 16,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_w/parameters",
+    "skillKey": "maokai_w",
+    "kind": "parameters",
+    "stableKey": "root_duration_ms",
+    "body": {
+      "parameterKey": "root_duration_ms",
+      "name": "禁锢持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1000,
+        "2": 1100,
+        "3": 1200,
+        "4": 1300,
+        "5": 1400
+      },
+      "description": "当前根DataValues.RootDuration为1至1.4秒，单位秒转毫秒；不表示突进过程持续。",
+      "sortOrder": 40
+    }
+  }
+}

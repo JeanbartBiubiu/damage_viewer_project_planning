@@ -1,0 +1,29 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 44,
+    "method": "POST",
+    "route": "/skills/senna_w/parameters",
+    "detailRoute": "/skills/senna_w/parameters/delay_ms",
+    "skillKey": "senna_w",
+    "kind": "parameters",
+    "stableKey": "delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "delay_ms",
+      "name": "无尽厮守禁锢延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1000,
+        "2": 1000,
+        "3": 1000,
+        "4": 1000,
+        "5": 1000
+      },
+      "description": "当前DelayTime索引1至5均为1秒；索引0的0不是一级。",
+      "sortOrder": 40
+    }
+  }
+}

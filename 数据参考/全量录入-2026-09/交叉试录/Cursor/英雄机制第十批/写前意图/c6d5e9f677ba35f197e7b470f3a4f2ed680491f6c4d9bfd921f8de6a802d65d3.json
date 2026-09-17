@@ -1,0 +1,48 @@
+{
+  "at": "2026-09-09T04:29:19.888Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/kogmaw_w/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "on_hit_max_hp_ratio",
+    "name": "生化弹幕目标最大生命比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "calculation_constant_1"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_health_percent_points"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_percent_points_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "原树明确0.01×(3/3.75/4.5/5.25/6 + 0.015×法强)，不能再多乘或少乘百分比换算；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

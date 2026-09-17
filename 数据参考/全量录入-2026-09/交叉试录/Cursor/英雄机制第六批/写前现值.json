@@ -1,0 +1,1999 @@
+{
+  "at": "2026-09-08T15:26:28.885Z",
+  "mode": "仅GET；保留写前原值",
+  "skills": {
+    "garen_p": {
+      "skill": {
+        "createdAt": "2026-09-06T15:35:00.736939Z",
+        "description": "被动技能。每5秒回复最大生命值的比例随英雄等级变化，受影响后暂停8秒。资料：16.17客户端字段及已冻结补证。当前仅录已核组件，自动启停、受伤来源和图片仍待处理。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "盖伦·坚韧",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "garen_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T15:35:00.736939Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-06T15:36:25.759918Z",
+            "description": "当前16.17客户端分段曲线；每5秒单位由官方9.20说明与补证确认。仅1～18级，自动启停规则尚待录入。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.015,
+              "2": 0.017,
+              "3": 0.019,
+              "4": 0.021,
+              "5": 0.023,
+              "6": 0.025,
+              "7": 0.033,
+              "8": 0.041,
+              "9": 0.049,
+              "10": 0.057,
+              "11": 0.065,
+              "12": 0.073,
+              "13": 0.081,
+              "14": 0.085,
+              "15": 0.089,
+              "16": 0.093,
+              "17": 0.097,
+              "18": 0.101
+            },
+            "name": "每5秒最大生命回复比例",
+            "parameterKey": "regen_ratio_per_5s",
+            "skillKey": "garen_p",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:36:25.759918Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:36:46.514706Z",
+            "description": "16.17客户端DamageTimer；仅召唤师峡谷，不取竞技场覆盖值。",
+            "fixedValue": 8000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "受影响后暂停回复时长（毫秒）",
+            "parameterKey": "damage_pause_ms",
+            "skillKey": "garen_p",
+            "sortOrder": 1,
+            "updatedAt": "2026-09-06T15:36:46.514706Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [
+          {
+            "createdAt": "2026-09-06T15:53:56.378958Z",
+            "description": "总生命值×等级回复比例；此值是每5秒回复量，不是每秒治疗，也不是瞬时直接治疗。来源：16.17固定资料。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "regen_ratio_per_5s"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "regen_per_5s",
+            "gameId": "lol",
+            "name": "被动提供的每5秒生命回复",
+            "skillKey": "garen_p",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:53:56.378958Z"
+          }
+        ],
+        "effects": [
+          {
+            "createdAt": "2026-09-06T16:57:13.125128Z",
+            "description": "仅被动生效期间挂载，动态按最大生命计算每5秒额外回复；受击暂停与恢复事件、回复执行节拍仍待配置。",
+            "effectKey": "perseverance_regen",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": null,
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "坚韧持续生命回复",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "hp_regen",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": null,
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "MOMENT_EVALUATION"
+                },
+                "name": "提高生命回复",
+                "resultKey": "regen",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 0,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "regen_per_5s",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "garen_p",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T16:57:13.125128Z"
+          }
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "garen_q": {
+      "skill": {
+        "createdAt": "2026-09-06T15:35:02.505001Z",
+        "description": "Q技能。强化下次普攻：额外30/60/90/120/150+50%总攻击力物理伤害；35%移速持续1.4/1.95/2.5/3.05/3.6秒，沉默1.5秒，强化窗口4.5秒，冷却8秒。资料：16.17客户端与官方补证。普攻重置、状态清除及消费规则待处理，不能视为完整技能。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "盖伦·致命打击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "garen_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T15:35:02.505001Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-06T15:38:00.875917Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。客户端 BaseDamage。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 30,
+              "2": 60,
+              "3": 90,
+              "4": 120,
+              "5": 150
+            },
+            "name": "强化普攻额外基础伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "garen_q",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:38:00.875917Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:38:02.040949Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。完整攻击系数1.5减去普通攻击自带1.0；不能再叠加1.5。",
+            "fixedValue": 0.5,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "额外伤害总攻击力系数",
+            "parameterKey": "bonus_ad_ratio",
+            "skillKey": "garen_q",
+            "sortOrder": 1,
+            "updatedAt": "2026-09-06T15:38:02.040949Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:38:03.1948Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。0.35表示35%。",
+            "fixedValue": 0.35,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "移速提升比例",
+            "parameterKey": "move_speed_ratio",
+            "skillKey": "garen_q",
+            "sortOrder": 2,
+            "updatedAt": "2026-09-06T15:38:03.1948Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:38:05.096422Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。客户端当前值；官方26.5交叉核对。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 1400,
+              "2": 1950,
+              "3": 2500,
+              "4": 3050,
+              "5": 3600
+            },
+            "name": "移速持续时间（毫秒）",
+            "parameterKey": "move_duration_ms",
+            "skillKey": "garen_q",
+            "sortOrder": 3,
+            "updatedAt": "2026-09-06T15:38:05.096422Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:38:06.552176Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。韧性是否缩短状态时长属于全局控制规则。",
+            "fixedValue": 1500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "沉默基础时长（毫秒）",
+            "parameterKey": "silence_duration_ms",
+            "skillKey": "garen_q",
+            "sortOrder": 4,
+            "updatedAt": "2026-09-06T15:38:06.552176Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:38:07.927755Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。客户端AttackWindow。",
+            "fixedValue": 4500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "强化普攻保留时间（毫秒）",
+            "parameterKey": "attack_window_ms",
+            "skillKey": "garen_q",
+            "sortOrder": 5,
+            "updatedAt": "2026-09-06T15:38:07.927755Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:38:09.319063Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。施放Q时开始。",
+            "fixedValue": 8000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "garen_q",
+            "sortOrder": 6,
+            "updatedAt": "2026-09-06T15:38:09.319063Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [
+          {
+            "createdAt": "2026-09-06T15:56:00.737784Z",
+            "description": "普通攻击由普通攻击流程结算；这里只增加不暴击的额外部分。来源：16.17固定资料。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "bonus_damage",
+            "gameId": "lol",
+            "name": "Q 额外伤害",
+            "skillKey": "garen_q",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:56:00.737784Z"
+          }
+        ],
+        "effects": [
+          {
+            "createdAt": "2026-09-06T17:08:04.895137Z",
+            "description": "增加移速比例属性的固定数值；移速实际结算顺序与软上限仍待游戏级规则核对。",
+            "effectKey": "move_speed",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "Q 加速",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "move_speed_percent",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "提升百分比移速",
+                "resultKey": "move_speed",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 0,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "move_speed_ratio"
+                  }
+                }
+              }
+            ],
+            "skillKey": "garen_q",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T17:08:04.895137Z"
+          },
+          {
+            "createdAt": "2026-09-06T16:32:02.725112Z",
+            "description": "只配置强化普攻额外部分；普攻本体由普通攻击流程结算，重置攻击和消耗强化次数的触发机制待补。",
+            "effectKey": "bonus_damage",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "Q 强化普攻额外伤害",
+            "results": [
+              {
+                "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及必要例外补齐，空列表不表示该伤害不吸血。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "额外物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 0,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "bonus_damage",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "garen_q",
+            "sortOrder": 2,
+            "updatedAt": "2026-09-06T16:32:02.725112Z"
+          }
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "garen_w": {
+      "skill": {
+        "createdAt": "2026-09-06T15:35:04.339152Z",
+        "description": "W技能。击杀每层0.2双抗、最多150层；主动减伤25/29/33/37/41%持续4秒；护盾65/85/105/125/145+18%额外生命，并获60%韧性持续0.75秒。资料：16.17客户端与官方补证。击杀边界、叠层保持与组合规则待处理，图片待补。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "盖伦·勇气",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "garen_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T15:35:04.339152Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-06T15:38:59.45597Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。客户端值。",
+            "fixedValue": 0.2,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "每次击杀提供双抗",
+            "parameterKey": "resist_per_kill",
+            "skillKey": "garen_w",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:38:59.45597Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:00.851019Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。当前上限30。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "最大额外双抗",
+            "parameterKey": "resist_max",
+            "skillKey": "garen_w",
+            "sortOrder": 1,
+            "updatedAt": "2026-09-06T15:39:00.851019Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:02.271604Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。30/0.2=150，每单位1层，击杀类别边界待核对。",
+            "fixedValue": 150,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动最大层数",
+            "parameterKey": "max_stacks",
+            "skillKey": "garen_w",
+            "sortOrder": 2,
+            "updatedAt": "2026-09-06T15:39:02.271604Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:03.811385Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。当前25/29/33/37/41%，不是各级固定30%。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.25,
+              "2": 0.29,
+              "3": 0.33,
+              "4": 0.37,
+              "5": 0.41
+            },
+            "name": "承受伤害减少比例",
+            "parameterKey": "reduction_ratio",
+            "skillKey": "garen_w",
+            "sortOrder": 3,
+            "updatedAt": "2026-09-06T15:39:03.811385Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:05.225633Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。固定4秒。",
+            "fixedValue": 4000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "减伤持续时间（毫秒）",
+            "parameterKey": "reduction_duration_ms",
+            "skillKey": "garen_w",
+            "sortOrder": 4,
+            "updatedAt": "2026-09-06T15:39:05.225633Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:06.375227Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。0.6=60%，不同来源韧性组合仍需核对。",
+            "fixedValue": 0.6,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "韧性提升比例",
+            "parameterKey": "tenacity_ratio",
+            "skillKey": "garen_w",
+            "sortOrder": 5,
+            "updatedAt": "2026-09-06T15:39:06.375227Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:07.854779Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。固定750毫秒。",
+            "fixedValue": 750,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "护盾及韧性时长（毫秒）",
+            "parameterKey": "upfront_duration_ms",
+            "skillKey": "garen_w",
+            "sortOrder": 6,
+            "updatedAt": "2026-09-06T15:39:07.854779Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:09.634383Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。当前65/85/105/125/145。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 65,
+              "2": 85,
+              "3": 105,
+              "4": 125,
+              "5": 145
+            },
+            "name": "基础护盾",
+            "parameterKey": "base_shield",
+            "skillKey": "garen_w",
+            "sortOrder": 7,
+            "updatedAt": "2026-09-06T15:39:09.634383Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:10.888694Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。18%额外生命，不是最大生命。",
+            "fixedValue": 0.18,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "护盾额外生命系数",
+            "parameterKey": "bonus_hp_ratio",
+            "skillKey": "garen_w",
+            "sortOrder": 8,
+            "updatedAt": "2026-09-06T15:39:10.888694Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:12.716823Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。客户端与官方静态资料一致。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 22000,
+              "2": 19500,
+              "3": 17000,
+              "4": 14500,
+              "5": 12000
+            },
+            "name": "基础冷却（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "garen_w",
+            "sortOrder": 9,
+            "updatedAt": "2026-09-06T15:39:12.716823Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [
+          {
+            "createdAt": "2026-09-06T15:58:32.591545Z",
+            "description": "基础护盾 + 0.18×额外生命；基础生命成长不重复计入。来源：16.17固定资料。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_shield"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_hp_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "shield",
+            "gameId": "lol",
+            "name": "W 护盾量",
+            "skillKey": "garen_w",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:58:32.591545Z"
+          }
+        ],
+        "effects": [
+          {
+            "createdAt": "2026-09-06T16:46:32.3403Z",
+            "description": "护盾耗尽按现有契约提前结束本效果；韧性放在独立效果，避免随护盾耗尽消失。",
+            "effectKey": "upfront_shield",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "upfront_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "勇气短时护盾",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "勇气护盾",
+                "resultKey": "shield",
+                "resultType": "NORMAL_SHIELD",
+                "sortOrder": 0,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "shield",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "garen_w",
+            "sortOrder": 2,
+            "updatedAt": "2026-09-06T16:46:32.3403Z"
+          },
+          {
+            "createdAt": "2026-09-06T16:50:53.772324Z",
+            "description": "独立保持750毫秒，不随勇气护盾耗尽提前结束。",
+            "effectKey": "upfront_tenacity",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "upfront_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "勇气短时韧性",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "tenacity_percent",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "勇气韧性提升",
+                "resultKey": "tenacity",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 0,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "tenacity_ratio"
+                  }
+                }
+              }
+            ],
+            "skillKey": "garen_w",
+            "sortOrder": 3,
+            "updatedAt": "2026-09-06T16:50:53.772324Z"
+          }
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "garen_e": {
+      "skill": {
+        "createdAt": "2026-09-06T15:35:06.059855Z",
+        "description": "E技能。每圈4/7/10/13/16+40/43/46/49/52%总攻击力物理伤害；基础7圈，持续3秒，最近敌人增伤25%；英雄6次命中后削甲25%持续6秒。资料：16.17客户端与官方补证。攻速来源、圈数取整、最近目标、命中计数与取消流程未完整表达，图片待补。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "盖伦·审判",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "garen_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T15:35:06.059855Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-06T15:39:45.469827Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。当前值，不含已删除的英雄等级附加伤害。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 4,
+              "2": 7,
+              "3": 10,
+              "4": 13,
+              "5": 16
+            },
+            "name": "每圈基础伤害",
+            "parameterKey": "base_damage_per_spin",
+            "skillKey": "garen_e",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:39:45.469827Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:47.007134Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。官方26.5与客户端一致。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.4,
+              "2": 0.43,
+              "3": 0.46,
+              "4": 0.49,
+              "5": 0.52
+            },
+            "name": "每圈总攻击力系数",
+            "parameterKey": "ad_ratio_per_spin",
+            "skillKey": "garen_e",
+            "sortOrder": 1,
+            "updatedAt": "2026-09-06T15:39:47.007134Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:48.380411Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。仅基础项，不能把整次技能固定为7圈。",
+            "fixedValue": 7,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础圈数",
+            "parameterKey": "base_spins",
+            "skillKey": "garen_e",
+            "sortOrder": 2,
+            "updatedAt": "2026-09-06T15:39:48.380411Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:49.561288Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。25%，仅装备及自然等级来源；来源区分仍待表达。",
+            "fixedValue": 0.25,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "每增加一圈所需有效额外攻速",
+            "parameterKey": "as_per_spin",
+            "skillKey": "garen_e",
+            "sortOrder": 3,
+            "updatedAt": "2026-09-06T15:39:49.561288Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:51.030643Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。固定3000。",
+            "fixedValue": 3000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "旋转总时长（毫秒）",
+            "parameterKey": "duration_ms",
+            "skillKey": "garen_e",
+            "sortOrder": 4,
+            "updatedAt": "2026-09-06T15:39:51.030643Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:52.42861Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。第6圈命中触发，逐目标累计。",
+            "fixedValue": 6,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "同一英雄触发削甲所需命中",
+            "parameterKey": "shred_hits",
+            "skillKey": "garen_e",
+            "sortOrder": 5,
+            "updatedAt": "2026-09-06T15:39:52.42861Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:53.543235Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。目标护甲减少25%。",
+            "fixedValue": 0.25,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "削甲比例",
+            "parameterKey": "shred_ratio",
+            "skillKey": "garen_e",
+            "sortOrder": 6,
+            "updatedAt": "2026-09-06T15:39:53.543235Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:54.942278Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。固定6000。",
+            "fixedValue": 6000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "削甲持续时间（毫秒）",
+            "parameterKey": "shred_duration_ms",
+            "skillKey": "garen_e",
+            "sortOrder": 7,
+            "updatedAt": "2026-09-06T15:39:54.942278Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:56.136004Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。最近目标乘1.25；不是仅单个目标时增伤。",
+            "fixedValue": 0.25,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "最近敌人额外伤害比例",
+            "parameterKey": "nearest_bonus",
+            "skillKey": "garen_e",
+            "sortOrder": 8,
+            "updatedAt": "2026-09-06T15:39:56.136004Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:57.937521Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。官方26.1，只取普通攻击额外暴击伤害的30%。",
+            "fixedValue": 0.3,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "额外暴击伤害折算系数",
+            "parameterKey": "crit_bonus_ratio",
+            "skillKey": "garen_e",
+            "sortOrder": 9,
+            "updatedAt": "2026-09-06T15:39:57.937521Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:39:59.419715Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。公式常数。",
+            "fixedValue": 1,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "单位倍率常数",
+            "parameterKey": "one",
+            "skillKey": "garen_e",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-06T15:39:59.419715Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:40:01.178977Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。9/8.25/7.5/6.75/6秒，不返还提前结束剩余旋转时间。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 9000,
+              "2": 8250,
+              "3": 7500,
+              "4": 6750,
+              "5": 6000
+            },
+            "name": "旋转结束后基础冷却（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "garen_e",
+            "sortOrder": 11,
+            "updatedAt": "2026-09-06T15:40:01.178977Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:40:02.565182Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。官方静态资料325；客户端castRange不能当实际伤害半径。",
+            "fixedValue": 325,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "范围半径",
+            "parameterKey": "radius",
+            "skillKey": "garen_e",
+            "sortOrder": 12,
+            "updatedAt": "2026-09-06T15:40:02.565182Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [
+          {
+            "createdAt": "2026-09-06T15:58:57.039654Z",
+            "description": "基础伤害 + 总攻击力×技能等级系数。来源：16.17固定资料。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage_per_spin"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ad_ratio_per_spin"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "damage_per_spin",
+            "gameId": "lol",
+            "name": "每圈普通目标伤害",
+            "skillKey": "garen_e",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:58:57.039654Z"
+          },
+          {
+            "createdAt": "2026-09-06T15:59:07.568606Z",
+            "description": "只供当前命中目标是最近敌人时使用；现有事件不能自动识别该条件。来源：16.17固定资料。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage_per_spin"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ad_ratio_per_spin"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "nearest_bonus"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "nearest_damage_per_spin",
+            "gameId": "lol",
+            "name": "每圈最近目标伤害",
+            "skillKey": "garen_e",
+            "sortOrder": 1,
+            "updatedAt": "2026-09-06T15:59:07.568606Z"
+          },
+          {
+            "createdAt": "2026-09-06T15:59:30.727116Z",
+            "description": "盖伦普通攻击基础暴击倍率2。E=1+0.3×(2+额外暴伤百分点−1)=1.3+0.3×额外暴伤；无尽额外0.3时为1.39。来源：16.17固定资料。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "crit_bonus_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one"
+                        },
+                        {
+                          "attributeKey": "critical_strike_damage_bonus_percent",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "ADD"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "critical_multiplier",
+            "gameId": "lol",
+            "name": "E 暴击伤害倍率",
+            "skillKey": "garen_e",
+            "sortOrder": 2,
+            "updatedAt": "2026-09-06T15:59:30.727116Z"
+          }
+        ],
+        "effects": [
+          {
+            "createdAt": "2026-09-06T16:32:45.974474Z",
+            "description": "仅普通目标的一圈伤害，旋转次数、范围命中及目标筛选待补；与最近目标效果二选一，不叠加结算。",
+            "effectKey": "spin_damage",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "E 一圈普通目标伤害",
+            "results": [
+              {
+                "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及必要例外补齐，空列表不表示该伤害不吸血。",
+                "detail": {
+                  "critical": {
+                    "mode": "SOURCE_CRIT_CHANCE",
+                    "multiplierValue": {
+                      "formulaKey": "critical_multiplier",
+                      "kind": "FORMULA"
+                    }
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "每圈物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 0,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "damage_per_spin",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "garen_e",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T16:32:45.974474Z"
+          },
+          {
+            "createdAt": "2026-09-06T16:32:51.199097Z",
+            "description": "与普通目标效果二选一，不可同一次命中同时结算两份；最近目标判断、旋转次数和范围命中待补。",
+            "effectKey": "nearest_spin_damage",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "E 一圈最近目标伤害",
+            "results": [
+              {
+                "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及必要例外补齐，空列表不表示该伤害不吸血。",
+                "detail": {
+                  "critical": {
+                    "mode": "SOURCE_CRIT_CHANCE",
+                    "multiplierValue": {
+                      "formulaKey": "critical_multiplier",
+                      "kind": "FORMULA"
+                    }
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "最近目标每圈物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 0,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "nearest_damage_per_spin",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "garen_e",
+            "sortOrder": 1,
+            "updatedAt": "2026-09-06T16:32:51.199097Z"
+          }
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "garen_r": {
+      "skill": {
+        "createdAt": "2026-09-06T15:35:07.212771Z",
+        "description": "R技能。对敌方英雄造成125/200/275+25/30/35%目标已损失生命值的真实伤害；冷却120/100/80秒。资料：16.17客户端及官方26.14补证。施法与实际命中、视野、失败和冷却边界待处理，图片待补。",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "盖伦·德玛西亚正义",
+        "skillCategoryKeys": [],
+        "skillKey": "garen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T15:35:07.212771Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-06T15:40:23.991105Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。官方26.14与当前客户端确认。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 125,
+              "2": 200,
+              "3": 275
+            },
+            "name": "基础真实伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "garen_r",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:40:23.991105Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:40:25.439656Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。25/30/35%，不是无条件处决。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.25,
+              "2": 0.3,
+              "3": 0.35
+            },
+            "name": "目标已损失生命系数",
+            "parameterKey": "missing_hp_ratio",
+            "skillKey": "garen_r",
+            "sortOrder": 1,
+            "updatedAt": "2026-09-06T15:40:25.439656Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-06T15:40:27.206893Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。120/100/80秒。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 100000,
+              "3": 80000
+            },
+            "name": "基础冷却（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "garen_r",
+            "sortOrder": 2,
+            "updatedAt": "2026-09-06T15:40:27.206893Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:40:28.614453Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。客户端约0.435秒，Wiki常规施法时间补证；失败与无敌交互另列。",
+            "fixedValue": 435,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "garen_r",
+            "sortOrder": 3,
+            "updatedAt": "2026-09-06T15:40:28.614453Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:40:30.018167Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。官方9.20及当前客户端RevealDuration。",
+            "fixedValue": 1000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "提供视野时长（毫秒）",
+            "parameterKey": "reveal_duration_ms",
+            "skillKey": "garen_r",
+            "sortOrder": 4,
+            "updatedAt": "2026-09-06T15:40:30.018167Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-06T15:40:31.41488Z",
+            "description": "16.17客户端及已冻结盖伦技能补证。官方静态资料400。",
+            "fixedValue": 400,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法距离",
+            "parameterKey": "cast_range",
+            "skillKey": "garen_r",
+            "sortOrder": 5,
+            "updatedAt": "2026-09-06T15:40:31.41488Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [
+          {
+            "createdAt": "2026-09-06T15:59:37.797715Z",
+            "description": "命中时目标已损失生命；不用施法时快照替代命中时生命。来源：16.17固定资料。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "TARGET",
+                      "attributeValueKind": "MISSING",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "missing_hp_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "damage",
+            "gameId": "lol",
+            "name": "德玛西亚正义真实伤害",
+            "skillKey": "garen_r",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T15:59:37.797715Z"
+          }
+        ],
+        "effects": [
+          {
+            "createdAt": "2026-09-06T16:05:27.00363Z",
+            "description": "普通伤害结果，仍服从护盾、免疫和生命下限，不使用直接处决。施法过程、命中时点、失效条件待补。",
+            "effectKey": "justice_damage",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "德玛西亚正义命中伤害",
+            "results": [
+              {
+                "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及必要例外补齐，空列表不表示该伤害不吸血。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "real",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "真实伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 0,
+                "spellShieldBlockScope": "RESULT",
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": null,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "damage",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "garen_r",
+            "sortOrder": 0,
+            "updatedAt": "2026-09-06T16:05:27.00363Z"
+          }
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jax_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:41.263808Z",
+        "description": "贾克斯连续的普通攻击，会持续地提高他的攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "贾克斯·无情连打",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "jax_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:41.263808Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jax_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:41.516694Z",
+        "description": "贾克斯跳向一个单位。如果目标是敌人，贾克斯会用他的武器狠狠地抽打敌人的脸，造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "贾克斯·跳斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jax_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:41.516694Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:29.886897Z",
+            "description": "DDragon16.17.1 Jax.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 8000,
+              "2": 7500,
+              "3": 7000,
+              "4": 6500,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "jax_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:29.886897Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jax_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:41.804144Z",
+        "description": "贾克斯为武器充能，使他的下次攻击能造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "贾克斯·蓄力一击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jax_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:41.804144Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:30.136818Z",
+            "description": "DDragon16.17.1 Jax.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 7000,
+              "2": 6000,
+              "3": 5000,
+              "4": 4000,
+              "5": 3000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "jax_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:30.136818Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:30.435347Z",
+            "description": "DDragon16.17.1 Jax.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "jax_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:30.435347Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jax_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:42.072136Z",
+        "description": "贾克斯的武艺让他能够在短时间里躲闪掉所有即将到来的普通攻击，随后对所有周围的敌人快速发起反击，并将他们击晕。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "贾克斯·反击风暴",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jax_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:42.072136Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:30.695191Z",
+            "description": "DDragon16.17.1 Jax.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 60,
+              "3": 70,
+              "4": 80,
+              "5": 90
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "jax_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:30.695191Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jax_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:42.410983Z",
+        "description": "每连续攻击2次，第3次攻击就会造成额外的魔法伤害。另外，贾克斯可以激活这个技能来在他周围造成伤害并增强他的决心，从而暂时性地提升他的护甲和魔法抗性。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "贾克斯·武器大师",
+        "skillCategoryKeys": [],
+        "skillKey": "jax_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:42.410983Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:30.978206Z",
+            "description": "DDragon16.17.1 Jax.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 110000,
+              "2": 100000,
+              "3": 90000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "jax_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:30.978206Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:31.253881Z",
+            "description": "DDragon16.17.1 Jax.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "jax_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:31.253881Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mordekaiser_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:28.786426Z",
+        "description": "莫德凯撒在对英雄或野怪打出3次攻击或技能之后获得一个强力的伤害光环和移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "莫德凯撒·黑暗起兮",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "mordekaiser_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:28.786426Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mordekaiser_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:29.103095Z",
+        "description": "莫德凯撒用他的权杖猛砸地面，来对被击中的每个敌人造成伤害。在只命中单个敌人时，伤害会提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莫德凯撒·破灭之锤",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "mordekaiser_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:29.103095Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:20.159597Z",
+            "description": "DDragon16.17.1 Mordekaiser.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 8000,
+              "2": 7000,
+              "3": 6000,
+              "4": 5000,
+              "5": 4000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "mordekaiser_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:20.159597Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mordekaiser_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:29.363942Z",
+        "description": "莫德凯撒将他所造成和承受的伤害储存起来，以创造一个护盾。他可以消耗这个护盾来治疗自身。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莫德凯撒·不坏之身",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "mordekaiser_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:29.363942Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mordekaiser_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:29.608617Z",
+        "description": "莫德凯撒拉拽一个区域内的所有敌人（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莫德凯撒·断魂一扼",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "mordekaiser_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:29.608617Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mordekaiser_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:19:29.904368Z",
+        "description": "莫德凯撒将自身和他的目标拖拽到一个异次元空间，并偷取目标的一部分属性。如果他击杀了目标，那么会将这些属性保持到目标复活。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "莫德凯撒·轮回绝境",
+        "skillCategoryKeys": [],
+        "skillKey": "mordekaiser_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:29.904368Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:20.54849Z",
+            "description": "DDragon16.17.1 Mordekaiser.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 140000,
+              "2": 120000,
+              "3": 100000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "mordekaiser_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:20.54849Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "renekton_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:01.79314Z",
+        "description": "雷克顿的攻击会产生【怒气】，在它的生命值较低时产生更多【怒气】。【怒气】可以强化他的基础技能，使它们具有额外效果。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "雷克顿·怒之领域",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "renekton_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:01.79314Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "renekton_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:02.057159Z",
+        "description": "雷克顿挥动他的武器，对周围所有目标造成中等水平物理伤害，并根据造成的伤害来治疗自己。如果他有50点以上怒气，那么此技能的伤害和治疗效果会得到提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "雷克顿·巨鳄狂袭",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "renekton_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:02.057159Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T17:38:59.094553Z",
+            "description": "DDragon16.17.1 Renekton.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 7000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "renekton_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T17:38:59.094553Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "renekton_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:02.316339Z",
+        "description": "雷克顿两次挥击目标，对其造成中等水平物理伤害并晕眩其0.75秒。如果雷克顿有50点以上怒气，他会三次挥击目标，摧毁目标身上的伤害护盾，对其造成高额物理伤害，并晕眩其1.5秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "雷克顿·冷酷捕猎",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "renekton_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:02.316339Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T17:38:59.499594Z",
+            "description": "DDragon16.17.1 Renekton.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 16000,
+              "2": 14000,
+              "3": 12000,
+              "4": 10000,
+              "5": 8000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "renekton_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T17:38:59.499594Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "renekton_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:02.645493Z",
+        "description": "雷克顿冲向前方，对沿途的敌人造成伤害。如果雷克顿有50点以上怒气，就会造成额外伤害，并减少沿途敌人的护甲值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "雷克顿·横冲直撞",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "renekton_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:02.645493Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "renekton_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:03.105001Z",
+        "description": "雷克顿转换为暴君形态，获得额外生命值，并对周围敌人造成伤害。此形态的雷克顿定时获得怒气。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "雷克顿·终极统治",
+        "skillCategoryKeys": [],
+        "skillKey": "renekton_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:03.105001Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T17:38:59.855362Z",
+            "description": "DDragon16.17.1 Renekton.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 100000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "renekton_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T17:38:59.855362Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  }
+}

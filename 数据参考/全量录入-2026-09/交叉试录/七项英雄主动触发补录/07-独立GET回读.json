@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "startedAt": "2026-09-13T04:14:35.866Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 1334,
+  "methods": {
+    "GET": 1334
+  },
+  "targets": [
+    {
+      "id": "nautilus",
+      "skillKey": "nautilus_w",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "1007cf6a7449610e4c512fe145acc3e6f5047d9e3544021aad2fe0340caee9bb",
+      "frozenBodySha256": "1007cf6a7449610e4c512fe145acc3e6f5047d9e3544021aad2fe0340caee9bb",
+      "nonRuleSnapshotSha256": "4344f5d6cd0290530d70dac97169dc482a4ac632218975f1dbbd1ffb0972b1d4"
+    },
+    {
+      "id": "missfortune",
+      "skillKey": "missfortune_w",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "ab5464b42c057fd2ffcb737411dcb5c2367401a20eeea1a55e1979b793e6f7a6",
+      "frozenBodySha256": "ab5464b42c057fd2ffcb737411dcb5c2367401a20eeea1a55e1979b793e6f7a6",
+      "nonRuleSnapshotSha256": "10bd948e2802302b419e80c119cc7eae10b838763cd5c0c7c67b6710c371ef8c"
+    },
+    {
+      "id": "aatrox",
+      "skillKey": "aatrox_r",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "9446f3aa0b12a88321dd7409f7beebc5bffb05128aa6051bd3b08d310bf72e2f",
+      "frozenBodySha256": "9446f3aa0b12a88321dd7409f7beebc5bffb05128aa6051bd3b08d310bf72e2f",
+      "nonRuleSnapshotSha256": "b2c880a36698a394f7068b3ee1cbd4cd6f30d54defe240634ce67e0716af7d9e"
+    },
+    {
+      "id": "kennen",
+      "skillKey": "kennen_r",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "ed56a8bc52a199288b34f4dbb03d3539c14967946ba836690b67968134611287",
+      "frozenBodySha256": "ed56a8bc52a199288b34f4dbb03d3539c14967946ba836690b67968134611287",
+      "nonRuleSnapshotSha256": "553ec2ee8c0a5d0ba0155534773ed79e9efb60ca76447b7501da7144e29425b3"
+    },
+    {
+      "id": "sivir",
+      "skillKey": "sivir_w",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "fa1abd42d9391cbf51d942d83493cf4e17e6ceee14061a97bc7beed01f35e18d",
+      "frozenBodySha256": "fa1abd42d9391cbf51d942d83493cf4e17e6ceee14061a97bc7beed01f35e18d",
+      "nonRuleSnapshotSha256": "5babe88d3f061bcab65771e378e7ce9a4744bf302cf5cd51fb33d617aa56ed54"
+    },
+    {
+      "id": "renekton",
+      "skillKey": "renekton_r",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "aff9bbe31a2de468031db007e08e3f48f7ae544cd80ed9e61d87d2698744ea79",
+      "frozenBodySha256": "aff9bbe31a2de468031db007e08e3f48f7ae544cd80ed9e61d87d2698744ea79",
+      "nonRuleSnapshotSha256": "cb9cff8333dc057a00e27bafc3db2e628c1ae11d54edc06c6b93ef1c4e1a3607"
+    }
+  ],
+  "global": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_USED": 17,
+      "SKILL_HIT": 55,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "KILL": 2
+    },
+    "ruleKeysSha256": "784b1e678c6ebab0fa45f29ca78f81dfd86d4657ef4ece557ce084a46d2e98bd",
+    "oldRuleDetailsExact": true,
+    "newRulesExact": true
+  },
+  "error": null,
+  "completedAt": "2026-09-13T04:14:45.084Z"
+}

@@ -1,0 +1,30 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_q/parameters",
+    "detailRoute": "/skills/belveth_q/parameters/per_side_cooldown_ms",
+    "skillKey": "belveth_q",
+    "kind": "parameters",
+    "stableKey": "per_side_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "per_side_cooldown_ms",
+      "name": "单方向基础冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 16000,
+        "2": 15000,
+        "3": 14000,
+        "4": 13000,
+        "5": 12000
+      },
+      "description": "每个方向独立冷却16/15/14/13/12秒，按整数毫秒保存。",
+      "sortOrder": 30
+    }
+  }
+}

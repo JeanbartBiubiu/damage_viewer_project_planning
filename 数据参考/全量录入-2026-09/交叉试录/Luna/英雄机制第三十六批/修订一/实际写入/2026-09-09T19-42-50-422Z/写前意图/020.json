@@ -1,0 +1,29 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "method": "POST",
+    "route": "/skills/evelynn_w/parameters",
+    "detailRoute": "/skills/evelynn_w/parameters/charm_duration_ms",
+    "skillKey": "evelynn_w",
+    "kind": "parameters",
+    "stableKey": "charm_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charm_duration_ms",
+      "name": "英雄魅惑持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1250,
+        "2": 1500,
+        "3": 1750,
+        "4": 2000,
+        "5": 2250
+      },
+      "description": "满2.5秒标记对英雄的CharmDuration取索引1至5，秒转毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

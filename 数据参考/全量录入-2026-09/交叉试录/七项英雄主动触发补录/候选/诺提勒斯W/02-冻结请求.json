@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T04:02:12.048Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "e770a9228c050ebe5a90735559d429e47be19bd0b3b254d2e08f944eea459a8f",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "nautilus",
+      "method": "POST",
+      "route": "/skills/nautilus_w/trigger-rules",
+      "detailRoute": "/skills/nautilus_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "1007cf6a7449610e4c512fe145acc3e6f5047d9e3544021aad2fe0340caee9bb",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "泰坦之怒主动使用",
+        "description": "接收 nautilus_w 主动使用；无条件执行已有 shield 自身护盾。护盾存在期间攻击附伤、基础法力消耗、冷却与战斗施放资格留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "nautilus_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_shield",
+            "name": "执行泰坦之怒自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "护盾存在期间普通攻击附伤及周围目标",
+    "法力消耗、冷却和战斗施放资格"
+  ]
+}

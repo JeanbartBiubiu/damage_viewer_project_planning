@@ -1,0 +1,46 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_e/formulas",
+    "detailRoute": "/skills/azir_e/formulas/magic_damage",
+    "skillKey": "azir_e",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "流沙移形突进魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+0.6×来源总法强；命中英雄停下条件另接。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 145,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_r/formulas",
+    "detailRoute": "/skills/azir_r/formulas/magic_damage",
+    "skillKey": "azir_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "禁军之墙一次冲锋魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+0.75×来源总法强；NumberOfSoldiers不参与伤害。",
+      "sortOrder": 10
+    }
+  }
+}

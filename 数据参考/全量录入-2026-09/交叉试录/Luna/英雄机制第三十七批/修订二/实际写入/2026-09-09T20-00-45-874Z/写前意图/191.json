@@ -1,0 +1,23 @@
+{
+  "i": 190,
+  "intent": {
+    "sequence": 191,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/missing_health_heal_base_ratio",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "missing_health_heal_base_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_health_heal_base_ratio",
+      "name": "猩红诅咒已损生命治疗提升基础比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.40000001,
+      "levelValues": null,
+      "description": "当前{b38f3487}基础项0.4，最终显示树乘100为40%；只保留上限口径。",
+      "sortOrder": 110
+    }
+  }
+}

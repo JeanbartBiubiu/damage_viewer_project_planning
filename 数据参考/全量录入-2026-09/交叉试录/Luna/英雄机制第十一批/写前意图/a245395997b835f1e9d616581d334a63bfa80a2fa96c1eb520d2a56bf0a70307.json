@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:54:53.018Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_r/formulas/self_healing_per_second",
+  "id": "self_healing_per_second",
+  "method": "POST",
+  "body": {
+    "formulaKey": "self_healing_per_second",
+    "name": "无双挑战每秒自身治疗",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "healing_base_per_second"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "healing_bonus_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "按技能1至3级75/100/125，加0.6额外攻击力；这是每秒治疗量，不能直接作为每跳量或瞬时总治疗。",
+    "sortOrder": 10
+  }
+}

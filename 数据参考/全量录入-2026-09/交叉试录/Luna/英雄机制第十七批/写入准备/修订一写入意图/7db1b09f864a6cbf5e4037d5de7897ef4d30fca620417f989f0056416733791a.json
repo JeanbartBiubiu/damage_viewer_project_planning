@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T12:15:16.843Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_e/formulas/charge_health_cost",
+  "id": "charge_health_cost",
+  "method": "POST",
+  "body": {
+    "formulaKey": "charge_health_cost",
+    "name": "蓄力最大生命值消耗",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "max_health_cost_ratio"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "source_max_health_for_charge"
+        }
+      ]
+    },
+    "description": "ChargeHealthTooltip = MaxHealthCost×来源最大生命值；缺输入不默认0。",
+    "sortOrder": 30
+  }
+}

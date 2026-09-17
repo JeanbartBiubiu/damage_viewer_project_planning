@@ -1,0 +1,21 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "skillKey": "qiyana_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_q/parameters",
+    "stableKey": "rock_damage_multiplier",
+    "body": {
+      "parameterKey": "rock_damage_multiplier",
+      "name": "岩石附魔当前伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TremorDamage树角色等级起点为0.6，6/11空断点无算法证据；运行层提供当前倍率，不设默认。",
+      "sortOrder": 90
+    }
+  }
+}

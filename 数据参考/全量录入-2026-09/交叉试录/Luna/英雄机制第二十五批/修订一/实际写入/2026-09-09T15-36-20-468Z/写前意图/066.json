@@ -1,0 +1,43 @@
+{
+  "sequence": 66,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/drmundo_r/parameters",
+    "detailRoute": "/skills/drmundo_r/parameters/bonus_per_nearby_champion_ratio",
+    "skillKey": "drmundo_r",
+    "kind": "parameters",
+    "stableKey": "bonus_per_nearby_champion_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_per_nearby_champion_ratio",
+      "name": "按等级生效的附近敌方英雄效果增幅比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0,
+        "2": 0,
+        "3": 0.05
+      },
+      "description": "原始DataValues.BonusPerNearbyChampion=0.05；当前正文只在R等级3说明附近每个敌方英雄额外提升两项效果，因此按等级归一为[0,0,0.05]，正文比例*100显示。",
+      "sortOrder": 60
+    }
+  },
+  "before": {
+    "sequence": 400,
+    "method": "GET",
+    "route": "/skills/drmundo_r/parameters/bonus_per_nearby_champion_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "bonus_per_nearby_champion_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:41.778Z"
+  }
+}

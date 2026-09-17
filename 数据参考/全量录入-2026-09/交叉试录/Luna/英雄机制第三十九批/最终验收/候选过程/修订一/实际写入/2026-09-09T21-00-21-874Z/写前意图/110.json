@@ -1,0 +1,30 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 110,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_w/parameters",
+    "detailRoute": "/skills/nilah_w/parameters/self_move_speed_ratio",
+    "skillKey": "nilah_w",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_ratio",
+      "name": "轻纱飞漾自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.15000000596046448,
+        "2": 0.17499999701976776,
+        "3": 0.20000000298023224,
+        "4": 0.22499999403953552,
+        "5": 0.25
+      },
+      "description": "MoveSpeedPercent取索引1至5的15%至25%，按比例保存。",
+      "sortOrder": 10
+    }
+  }
+}

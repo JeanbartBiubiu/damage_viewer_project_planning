@@ -1,0 +1,4556 @@
+{
+  "at": "2026-09-09T15:03:38.567Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "stringTableSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "heroes": [
+    {
+      "id": "Maokai",
+      "key": "champion_maokai",
+      "name": "茂凯",
+      "source": {
+        "championId": "Maokai",
+        "chineseName": "扭曲树精",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Maokai.json.gz",
+          "sha256": "029b87f2cee0945284d0e109b015f2e29fae46b7ddd81d49923da2d1ec8eb8a7",
+          "compressedSha256": "3143c85ebf03a62e2a54faab748af1f7c3a27572eb1254aaa855c8bd2dd7b1c4",
+          "byteSize": 82778,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/maokai/maokai.bin.json",
+          "fetchedAt": "2026-09-06T14:26:27.210Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Maokai.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Maokai.json",
+          "fetchedAt": "2026-09-06T14:12:49.964Z",
+          "byteSize": 11515,
+          "sha256": "5b526b253b2e8e5c878b819d6eda61fc011aec4672f90e7d2700eb718d2548cd"
+        },
+        "rootPath": "Characters/Maokai/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "吸元秘术",
+            "clientPath": "Characters/Maokai/Spells/MaokaiPassiveAbility/MaokaiPassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": null,
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "PassiveCooldownReduction",
+              "PassiveHealthThreshold",
+              "JungPassCooldownReduction"
+            ],
+            "calculationNames": [
+              "PassiveCooldown",
+              "PassiveHealingTotal"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "MaokaiQ",
+            "name": "荆棘重击",
+            "clientPath": "Characters/Maokai/Spells/MaokaiQAbility/MaokaiQ",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              7,
+              6.5,
+              6,
+              5.5,
+              5
+            ],
+            "cost": [
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              7,
+              7,
+              6.5,
+              6,
+              5.5,
+              5,
+              5
+            ],
+            "clientMana": [
+              40,
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "clientCastTime": 0.375,
+            "dataValueNames": [
+              "BaseDamage",
+              "SlowAmount",
+              "SlowDuration",
+              "LolipopRadius",
+              "KnockbackSpeed",
+              "KnockbackDistance",
+              "BasePercentHealth",
+              "NonChampMax",
+              "BonusMonsterDamage",
+              "APRatio"
+            ],
+            "calculationNames": [
+              "TotalDamage",
+              "TotalPercentHealth"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "MaokaiW",
+            "name": "扭曲突刺",
+            "clientPath": "Characters/Maokai/Spells/MaokaiWAbility/MaokaiW",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              14,
+              14,
+              13,
+              12,
+              11,
+              10,
+              10
+            ],
+            "clientMana": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "RootDuration",
+              "DashSpeed",
+              "DashAcceleration"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "MaokaiE",
+            "name": "树苗投掷",
+            "clientPath": "Characters/Maokai/Spells/MaokaiEAbility/MaokaiE",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              18,
+              17,
+              16,
+              15,
+              14
+            ],
+            "cost": [
+              60,
+              65,
+              70,
+              75,
+              80
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              18,
+              18,
+              17,
+              16,
+              15,
+              14,
+              14
+            ],
+            "clientMana": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              80
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "SaplingDuration",
+              "BaseDamage",
+              "GrowthDuration",
+              "SlowAmount",
+              "SlowDuration",
+              "EmpoweredDoTDuration",
+              "EmpoweredBaseDamage",
+              "SaplingDetectionRadius",
+              "BaseEmpoweredSlowAmount",
+              "MaxTraps",
+              "BaseAPRatio",
+              "EmpoweredAPRatio"
+            ],
+            "calculationNames": [
+              "EmpoweredSaplingDuration",
+              "TotalDamage",
+              "TotalEmpoweredDamage",
+              "EmpoweredSlowAmount",
+              "SaplingMoveSpeed"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "MaokaiR",
+            "name": "自然之握",
+            "clientPath": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              130,
+              110,
+              90
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              130,
+              130,
+              110,
+              90,
+              90,
+              90,
+              90
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "clientCastTime": null,
+            "dataValueNames": [
+              "MinRootDuration",
+              "MaxRootDuration",
+              "BaseDamage",
+              "MoveHaste",
+              "HasteDuration",
+              "RootDuration"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Maokai/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Maokai/Spells/MaokaiPassiveAbility/MaokaiPassive",
+        "spells": [
+          "Characters/Maokai/Spells/MaokaiQAbility/MaokaiQ",
+          "Characters/Maokai/Spells/MaokaiWAbility/MaokaiW",
+          "Characters/Maokai/Spells/MaokaiEAbility/MaokaiE",
+          "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "maokai_p",
+          "binding": "Characters/Maokai/Spells/MaokaiPassiveAbility/MaokaiPassive",
+          "object": {
+            "ObjectName": "MaokaiPassive",
+            "objectPath": "Characters/Maokai/Spells/MaokaiPassiveAbility/MaokaiPassive",
+            "mScriptName": "MaokaiPassive",
+            "mSpell": {
+              "DataValues": [
+                {
+                  "name": "PassiveCooldownReduction",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveHealthThreshold",
+                  "values": [
+                    0.949999988079071,
+                    0.949999988079071,
+                    0.949999988079071,
+                    0.949999988079071,
+                    0.949999988079071,
+                    0.949999988079071,
+                    0.949999988079071
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "JungPassCooldownReduction",
+                  "values": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "PassiveCooldownReduction",
+                      "values": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                },
+                "ARAM": {
+                  "SpellDataValues": [
+                    {
+                      "name": "PassiveCooldownReduction",
+                      "values": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                },
+                "{bffdf499}": {
+                  "SpellDataValues": [
+                    {
+                      "name": "PassiveCooldownReduction",
+                      "values": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "PassiveCooldown": {
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 30,
+                      "mEndValue": 20,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "PassiveHealingTotal": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mStat": 12,
+                      "mSubpart": {
+                        "mLevel1Value": 0.03999999910593033,
+                        "mInitialBonusPerLevel": 0.0020000000949949026,
+                        "mBreakpoints": [
+                          {
+                            "mLevel": 7,
+                            "mBonusPerLevelAtAndAfter": 0.006500000134110451,
+                            "__type": "Breakpoint"
+                          }
+                        ],
+                        "__type": "ByCharLevelBreakpointsCalculationPart"
+                      },
+                      "__type": "StatBySubPartCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/Maokai/HUD/Icons2D/Maokai_Passive.dds"
+              ],
+              "castRange": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "castRangeValues": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "MaokaiPassive",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyName": "Spell_MaokaiPassive_Name",
+                    "keyTooltip": "Spell_MaokaiPassive_Tooltip",
+                    "keySummary": "Spell_MaokaiPassive_Summary",
+                    "keyCooldown": "Spell_Maokai_Cooldown"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_MaokaiPassive",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_MaokaiPassive_Name",
+              "text": "吸元秘术"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MaokaiPassive_Tooltip",
+              "text": "茂凯的下一次攻击会回复自身<healing>@PassiveHealingTotal@生命值</healing>。<br><br>每施放一次技能或被一名敌方英雄的技能命中时，都会使这个冷却时间缩短@PassiveCooldownReduction@秒。被大型野怪或史诗级野怪的攻击或技能命中时，都会使这个冷却时间缩短@JungPassCooldownReduction@秒。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MaokaiPassive_Summary",
+              "text": "茂凯的普通攻击也会治疗自身并造成额外伤害，此效果拥有一个中等的冷却时间。每当茂凯施放一次技能或被一个敌方技能击中时，这个冷却时间都会缩短。"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_Maokai_Cooldown",
+              "text": "@PassiveCooldown@秒%i:cooldown%"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "maokai_q",
+          "binding": "Characters/Maokai/Spells/MaokaiQAbility/MaokaiQ",
+          "object": {
+            "ObjectName": "MaokaiQ",
+            "objectPath": "Characters/Maokai/Spells/MaokaiQAbility/MaokaiQ",
+            "mScriptName": "MaokaiQ",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mAffectsStatusFlags": 2,
+              "mSpellTags": [
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_KnockBack",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    30,
+                    75,
+                    120,
+                    165,
+                    210,
+                    255,
+                    300
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowAmount",
+                  "values": [
+                    0.9900000095367432,
+                    0.9900000095367432,
+                    0.9900000095367432,
+                    0.9900000095367432,
+                    0.9900000095367432,
+                    0.9900000095367432,
+                    0.9900000095367432
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "LolipopRadius",
+                  "values": [
+                    325,
+                    325,
+                    325,
+                    325,
+                    325,
+                    325,
+                    325
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockbackSpeed",
+                  "values": [
+                    950,
+                    950,
+                    950,
+                    950,
+                    950,
+                    950,
+                    950
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockbackDistance",
+                  "values": [
+                    400,
+                    400,
+                    400,
+                    400,
+                    400,
+                    400,
+                    400
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BasePercentHealth",
+                  "values": [
+                    0.014999999664723873,
+                    0.019999999552965164,
+                    0.02500000037252903,
+                    0.029999999329447746,
+                    0.03500000014901161,
+                    0.03999999910593033,
+                    0.04500000178813934
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "NonChampMax",
+                  "values": [
+                    9999,
+                    9999,
+                    9999,
+                    9999,
+                    9999,
+                    9999,
+                    9999
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BonusMonsterDamage",
+                  "values": [
+                    140,
+                    150,
+                    160,
+                    170,
+                    180,
+                    190,
+                    200
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "APRatio",
+                      "values": [
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "ARAM": {
+                  "value": [
+                    8,
+                    8,
+                    7.5,
+                    7,
+                    6.5,
+                    6,
+                    6
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                "{bffdf499}": {
+                  "value": [
+                    8,
+                    8,
+                    7.5,
+                    7,
+                    6.5,
+                    6,
+                    6
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TotalPercentHealth": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BasePercentHealth",
+                      "__type": "NamedDataValueCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "mPrecision": 1,
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.4000000059604645,
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Maokai/HUD/Icons2D/Maokai_Q.dds"
+              ],
+              "spellCastTime": 0.375,
+              "spellTotalTime": 1.3329999446868896,
+              "cooldownTime": [
+                7,
+                7,
+                6.5,
+                6,
+                5.5,
+                5,
+                5
+              ],
+              "Cooldown": {
+                "values": [
+                  7,
+                  7,
+                  6.5,
+                  6,
+                  5.5,
+                  5,
+                  5
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "useAnimatorFramerate": true,
+              "mIgnoreRangeCheck": true,
+              "castRange": [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              "castRangeValues": {
+                "values": [
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000
+                ],
+                "{0a3e0478}": 25000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ],
+              "castRadius": [
+                325,
+                325,
+                325,
+                325,
+                325,
+                325,
+                325
+              ],
+              "castConeDistance": 100,
+              "castFrame": 30,
+              "missileSpeed": 1600,
+              "mLineWidth": 70,
+              "mHitEffectOrientType": 0,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mana": [
+                40,
+                40,
+                40,
+                40,
+                40,
+                40
+              ],
+              "manaValues": {
+                "values": [
+                  40,
+                  40,
+                  40,
+                  40,
+                  40,
+                  40
+                ],
+                "{0a3e0478}": 40,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "MaokaiQ",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_MaokaiQ_Name",
+                    "keySummary": "Spell_MaokaiQ_Summary",
+                    "keyTooltip": "Spell_MaokaiQ_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_MaokaiQ_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BasePercentHealth",
+                          "multiplier": 100,
+                          "nameOverride": "game_effect_description_PercentHPPoolMod",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BonusMonsterDamage",
+                          "nameOverride": "Spell_ListType_MonsterDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "minimumDisplayedRange": 600,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        150,
+                        150,
+                        150,
+                        150,
+                        150,
+                        150
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        600,
+                        600,
+                        600,
+                        600,
+                        600,
+                        600
+                      ],
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  },
+                  {
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SlowAmount",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4194304,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "KnockbackDistance",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_MaokaiQ_Name",
+              "text": "荆棘重击"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MaokaiQ_Summary",
+              "text": "茂凯用一记冲击波击退附近的敌人，造成魔法伤害和减速效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MaokaiQ_Tooltip",
+              "text": "茂凯将他的拳头砸入大地中，造成<magicDamage>@TotalDamage@外加@BasePercentHealth*100@%最大生命值的魔法伤害</magicDamage>和短暂的<status>减速</status>。附近的敌人们还会被<status>击退</status>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_MaokaiQ_TooltipExtendedBelowLine",
+              "text": "<rules>这个技能对野怪造成额外的<magicDamage>@BonusMonsterDamage@魔法伤害</magicDamage>。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "maokai_w",
+          "binding": "Characters/Maokai/Spells/MaokaiWAbility/MaokaiW",
+          "object": {
+            "ObjectName": "MaokaiW",
+            "objectPath": "Characters/Maokai/Spells/MaokaiWAbility/MaokaiW",
+            "mScriptName": "MaokaiW",
+            "mSpell": {
+              "flags": 4194308,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_Untargetable"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    45,
+                    60,
+                    85,
+                    110,
+                    135,
+                    160,
+                    185
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.8999999761581421,
+                    1,
+                    1.100000023841858,
+                    1.2000000476837158,
+                    1.2999999523162842,
+                    1.399999976158142,
+                    1.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1300,
+                    1300,
+                    1300,
+                    1300,
+                    1300,
+                    1300,
+                    1300
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    35,
+                    60,
+                    85,
+                    110,
+                    135,
+                    160,
+                    185
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RootDuration",
+                  "values": [
+                    0.8999999761581421,
+                    1,
+                    1.100000023841858,
+                    1.2000000476837158,
+                    1.2999999523162842,
+                    1.399999976158142,
+                    1.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DashSpeed",
+                  "values": [
+                    1300,
+                    1300,
+                    1300,
+                    1300,
+                    1300,
+                    1300,
+                    1300
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DashAcceleration",
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.4000000059604645,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Run",
+              "mImgIconName": [
+                "ASSETS/Characters/Maokai/HUD/Icons2D/Maokai_W.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                14,
+                14,
+                13,
+                12,
+                11,
+                10,
+                10
+              ],
+              "Cooldown": {
+                "values": [
+                  14,
+                  14,
+                  13,
+                  12,
+                  11,
+                  10,
+                  10
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "cantCastWhileRooted": true,
+              "mShowChannelBar": false,
+              "castRange": [
+                525,
+                525,
+                525,
+                525,
+                525,
+                525,
+                525
+              ],
+              "castRangeValues": {
+                "values": [
+                  525,
+                  525,
+                  525,
+                  525,
+                  525,
+                  525,
+                  525
+                ],
+                "{0a3e0478}": 525,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                125,
+                125,
+                125,
+                125,
+                125,
+                125,
+                125
+              ],
+              "castConeDistance": 100,
+              "castFrame": 15,
+              "missileSpeed": 1500,
+              "mLineWidth": 120,
+              "bHaveHitBone": true,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mana": [
+                60,
+                60,
+                60,
+                60,
+                60,
+                60
+              ],
+              "manaValues": {
+                "values": [
+                  60,
+                  60,
+                  60,
+                  60,
+                  60,
+                  60
+                ],
+                "{0a3e0478}": 60,
+                "__type": "{630af303}"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "MaokaiW",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_MaokaiW_Name",
+                    "keySummary": "Spell_MaokaiW_Summary",
+                    "keyTooltip": "Spell_MaokaiW_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "RootDuration",
+                          "nameOverride": "Spell_ListType_RootDuration",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 256,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "RootDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_MaokaiW_Name",
+              "text": "扭曲突刺"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MaokaiW_Summary",
+              "text": "茂凯扭曲为一团移动根须，不可被选取并且向目标突进。在抵达后，他会禁锢住目标。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MaokaiW_Tooltip",
+              "text": "茂凯扭曲为一团移动根须，无法被选取并且向目标突进。在抵达后，他会<status>禁锢</status>该敌人@RootDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。 "
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "maokai_e",
+          "binding": "Characters/Maokai/Spells/MaokaiEAbility/MaokaiE",
+          "object": {
+            "ObjectName": "MaokaiE",
+            "objectPath": "Characters/Maokai/Spells/MaokaiEAbility/MaokaiE",
+            "mScriptName": "MaokaiE",
+            "mSpell": {
+              "flags": 4194304,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "Trait_Trap",
+                "Trait_DamageAbility",
+                "Trait_DoT",
+                "Trait_Pet",
+                "Trait_SignatureSpell",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "SaplingDuration",
+                  "values": [
+                    30,
+                    30,
+                    30,
+                    30,
+                    30,
+                    30,
+                    30
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    25,
+                    50,
+                    75,
+                    100,
+                    125,
+                    150,
+                    175
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "GrowthDuration",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowAmount",
+                  "values": [
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "EmpoweredDoTDuration",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "EmpoweredBaseDamage",
+                  "values": [
+                    50,
+                    100,
+                    150,
+                    200,
+                    250,
+                    300,
+                    350
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SaplingDetectionRadius",
+                  "values": [
+                    550,
+                    550,
+                    550,
+                    550,
+                    550,
+                    550,
+                    550
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseEmpoweredSlowAmount",
+                  "values": [
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.44999998807907104
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxTraps",
+                  "values": [
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000,
+                    25000
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseAPRatio",
+                  "values": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "EmpoweredAPRatio",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "URF": {
+                  "SpellDataValues": [
+                    {
+                      "name": "MaxTraps",
+                      "values": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                },
+                "ARAM": {
+                  "SpellDataValues": [
+                    {
+                      "name": "BaseAPRatio",
+                      "values": [
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "EmpoweredAPRatio",
+                      "values": [
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                },
+                "{bffdf499}": {
+                  "SpellDataValues": [
+                    {
+                      "name": "BaseAPRatio",
+                      "values": [
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "EmpoweredAPRatio",
+                      "values": [
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645,
+                        0.4000000059604645
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "EmpoweredSaplingDuration": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "SaplingDuration",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.014999999664723873,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TotalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "BaseApRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.05000000074505806,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TotalEmpoweredDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "EmpoweredBaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "EmpoweredAPRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.10000000149011612,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "EmpoweredSlowAmount": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseEmpoweredSlowAmount",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.00009999999747378752,
+                      "__type": "StatByCoefficientCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mStatFormula": 2,
+                      "mSubpart": {
+                        "mPart1": {
+                          "mNumber": 0.009999999776482582,
+                          "__type": "NumberCalculationPart"
+                        },
+                        "mPart2": {
+                          "mNumber": 0.009999999776482582,
+                          "__type": "NumberCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      },
+                      "__type": "StatBySubPartCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "__type": "GameCalculation"
+                },
+                "SaplingMoveSpeed": {
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 400,
+                      "mInitialBonusPerLevel": 5,
+                      "mBreakpoints": [
+                        {
+                          "mLevel": 14,
+                          "__type": "Breakpoint"
+                        }
+                      ],
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell3",
+              "mImgIconName": [
+                "ASSETS/Characters/Maokai/HUD/Icons2D/Maokai_E.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                18,
+                18,
+                17,
+                16,
+                15,
+                14,
+                14
+              ],
+              "Cooldown": {
+                "values": [
+                  18,
+                  18,
+                  17,
+                  16,
+                  15,
+                  14,
+                  14
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mCursorChangesInGrass": true,
+              "mCursorChangesInTerrain": true,
+              "mShowChannelBar": false,
+              "castRange": [
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100
+              ],
+              "castRangeValues": {
+                "values": [
+                  1100,
+                  1100,
+                  1100,
+                  1100,
+                  1100,
+                  1100,
+                  1100
+                ],
+                "{0a3e0478}": 1100,
+                "__type": "{0a0eddc9}"
+              },
+              "castConeDistance": 100,
+              "castFrame": 15,
+              "missileSpeed": 1500,
+              "mLineWidth": 120,
+              "bHaveHitBone": true,
+              "mHitBoneName": "pelvis",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mana": [
+                60,
+                65,
+                70,
+                75,
+                80,
+                80
+              ],
+              "manaValues": {
+                "values": [
+                  60,
+                  65,
+                  70,
+                  75,
+                  80,
+                  80
+                ],
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "MaokaiE",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_MaokaiE_Name",
+                    "keySummary": "Spell_MaokaiE_Summary",
+                    "keyTooltip": "Spell_MaokaiE_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_MaokaiE_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "EmpoweredBaseDamage",
+                          "nameOverride": "Spell_ListType_EmpoweredDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SlowAmount",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_MaokaiE_Name",
+              "text": "树苗投掷"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MaokaiE_Summary",
+              "text": "茂凯投出一颗树苗去目标地区戒备。在草丛中更加有效。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MaokaiE_Tooltip",
+              "text": "茂凯扔出一棵树苗，戒备@SaplingDuration@秒。树苗会追击附近的敌人，并在抵达后爆炸，对周围的敌人们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。如果树苗命中了一名敌方英雄或史诗级野怪，<keywordMajor>吸元秘术</keywordMajor>的冷却时间就会缩短额外的4秒。<br><br>投掷在草丛里的树苗会持续@EmpoweredSaplingDuration@秒，并引发一次范围更大的爆炸，在@EmpoweredDoTDuration@秒的持续时间里共造成<magicDamage>@TotalEmpoweredDamage@魔法伤害</magicDamage>并且<status>减速</status>幅度变为@EmpoweredSlowAmount@。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_MaokaiE_TooltipExtendedBelowLine",
+              "text": "<rules>树苗以@SaplingMoveSpeed@速度进行奔跑。草丛树苗不会对小兵造成提升过的伤害。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "maokai_r",
+          "binding": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR",
+          "object": {
+            "ObjectName": "MaokaiR",
+            "objectPath": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR",
+            "mScriptName": "MaokaiR",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "MinRootDuration",
+                  "values": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxRootDuration",
+                  "values": [
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25,
+                    2.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    75,
+                    150,
+                    225,
+                    300,
+                    375,
+                    450,
+                    525
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MoveHaste",
+                  "values": [
+                    0.30000001192092896,
+                    0.4000000059604645,
+                    0.5,
+                    0.6000000238418579,
+                    0.699999988079071,
+                    0.800000011920929,
+                    0.8999999761581421
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HasteDuration",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RootDuration",
+                  "values": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.75,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/Maokai/HUD/Icons2D/Maokai_R.dds"
+              ],
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                130,
+                130,
+                110,
+                90,
+                90,
+                90,
+                90
+              ],
+              "Cooldown": {
+                "values": [
+                  130,
+                  130,
+                  110,
+                  90,
+                  90,
+                  90,
+                  90
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mProjectTargetToCastRange": true,
+              "mSpellRevealsChampion": false,
+              "alwaysSnapFacing": true,
+              "useAnimatorFramerate": true,
+              "castRange": [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              "castRangeValues": {
+                "values": [
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000
+                ],
+                "{0a3e0478}": 25000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                3000,
+                3000,
+                3000,
+                3000,
+                3000,
+                3000,
+                3000
+              ],
+              "castRadius": [
+                120,
+                120,
+                120,
+                120,
+                120,
+                120,
+                120
+              ],
+              "castRadiusSecondary": [
+                175,
+                175,
+                175,
+                175,
+                175,
+                175,
+                175
+              ],
+              "castConeDistance": 100,
+              "castFrame": 35,
+              "missileSpeed": 1500,
+              "mana": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  100,
+                  100,
+                  100,
+                  100,
+                  100
+                ],
+                "{0a3e0478}": 100,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 2,
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "MaokaiR",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_MaokaiR_Name",
+                    "keySummary": "Spell_MaokaiR_Summary",
+                    "keyTooltip": "Spell_MaokaiR_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "MoveHaste",
+                          "multiplier": 100,
+                          "nameOverride": "Spell_ListType_MovementSpeed",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineStopsAtEndPosition": false,
+                    "minimumDisplayedRange": 2000,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        750,
+                        750,
+                        750,
+                        750,
+                        750,
+                        750
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureBaseOverrideName": "assets/spells/textures/skillshot_hecarim_base.tex",
+                    "textureTargetOverrideName": "assets/spells/textures/skillshot_hecarim_tip.tex",
+                    "__type": "TargeterDefinitionLine"
+                  },
+                  {
+                    "hideWithLineIndicator": true,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_MaokaiRRoot",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MinRootDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 2,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MoveHaste",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_MaokaiR_Name",
+              "text": "自然之握"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MaokaiR_Summary",
+              "text": "茂凯召唤一道荆棘和尖刺灌木组成的巨墙缓慢向前行进，对沿途的敌人造成伤害和禁锢效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MaokaiR_Tooltip",
+              "text": "茂凯召唤出一道由荆棘和带刺灌木组成的巨墙缓慢向前行进，<status>禁锢</status>敌人@MinRootDuration@到@MaxRootDuration@秒，时长随着行进距离提升，并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。命中一名英雄时会为茂凯提供在@HasteDuration@秒里持续衰减的<speed>@MoveHaste*100@%移动速度</speed>。 "
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Poppy",
+      "key": "champion_poppy",
+      "name": "波比",
+      "source": {
+        "championId": "Poppy",
+        "chineseName": "圣锤之毅",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Poppy.json.gz",
+          "sha256": "7fd414368cef34df4ab841ad2522afb7480eb6b251ccfdac3e1137aa115cf39a",
+          "compressedSha256": "d4c54378c5b655493360cd3de9874336777982c69eed8ff4b48599f68490c040",
+          "byteSize": 50489,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/poppy/poppy.bin.json",
+          "fetchedAt": "2026-09-06T14:26:31.993Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Poppy.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Poppy.json",
+          "fetchedAt": "2026-09-06T14:12:51.539Z",
+          "byteSize": 13592,
+          "sha256": "a5bcf3f83defabc4da303b3cea6fc30ccc17c07c7e611e6818a1bb9cd0187c52"
+        },
+        "rootPath": "Characters/Poppy/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "钢铁大使",
+            "clientPath": "Characters/Poppy/Spells/PoppyPassiveAbility/PoppyPassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": null,
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "BonusRange",
+              "ShieldDuration",
+              "ShieldPickUpTime"
+            ],
+            "calculationNames": [
+              "ActualCooldown",
+              "TotalDamage",
+              "ShieldValue"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "PoppyQ",
+            "name": "圣锤猛击",
+            "clientPath": "Characters/Poppy/Spells/PoppyQAbility/PoppyQ",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              8,
+              7,
+              6,
+              5,
+              4
+            ],
+            "cost": [
+              35,
+              40,
+              45,
+              50,
+              55
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              9,
+              8,
+              7,
+              6,
+              5,
+              4,
+              3
+            ],
+            "clientMana": [
+              35,
+              40,
+              45,
+              50,
+              55,
+              60
+            ],
+            "clientCastTime": 0.33249998092651367,
+            "dataValueNames": [
+              "HealthDamagePercent",
+              "BaseDamageValue",
+              "SlowDuration",
+              "BaseMoveSpeedMod",
+              "DelayBetweenTwoHits",
+              "MaxHealthDamageToNonHeroes"
+            ],
+            "calculationNames": [
+              "BaseDamage",
+              "MoveSpeedMod"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "PoppyW",
+            "name": "坚定风采",
+            "clientPath": "Characters/Poppy/Spells/PoppyWAbility/PoppyW",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              20,
+              18,
+              16,
+              14,
+              12
+            ],
+            "cost": [
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              22,
+              20,
+              18,
+              16,
+              14,
+              12,
+              12
+            ],
+            "clientMana": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "clientCastTime": null,
+            "dataValueNames": [
+              "GroundingDuration",
+              "SlowAmount",
+              "PassiveResistPercent",
+              "PassiveEmpoweredHealthPercent",
+              "Duration",
+              "Haste",
+              "KnockupDuration",
+              "DamageValue"
+            ],
+            "calculationNames": [
+              "BonusArmor",
+              "BonusMR",
+              "InterruptDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "PoppyE",
+            "name": "英勇冲锋",
+            "clientPath": "Characters/Poppy/Spells/PoppyEAbility/PoppyE",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cost": [
+              70,
+              70,
+              70,
+              70,
+              70
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              15,
+              14,
+              13,
+              12,
+              11,
+              10,
+              10
+            ],
+            "clientMana": [
+              70,
+              70,
+              70,
+              70,
+              70,
+              70
+            ],
+            "clientCastTime": null,
+            "dataValueNames": [
+              "BaseDamageValue",
+              "WallDamage",
+              "StunDuration",
+              "DashSpeed",
+              "MaxEnemyPushbackDistance"
+            ],
+            "calculationNames": [
+              "TackleDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "PoppyR",
+            "name": "持卫的裁决",
+            "clientPath": "Characters/Poppy/Spells/PoppyRAbility/PoppyR",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              140,
+              120,
+              100
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              10,
+              140,
+              120,
+              100,
+              10,
+              10,
+              10
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "clientCastTime": 0,
+            "dataValueNames": [
+              "BaseDamage",
+              "ChannelDistanceUpdateTick",
+              "ChannelMaxDuration",
+              "MaxKnockbackDistance",
+              "KnockupDurationCharged",
+              "KnockupDurationSnap",
+              "DurationUntilFullyCharged",
+              "SelfSlow",
+              "CancelCDRefund",
+              "SnapCastDamageRatio"
+            ],
+            "calculationNames": [
+              "Damage",
+              "HalfDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Poppy/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Poppy/Spells/PoppyPassiveAbility/PoppyPassive",
+        "spells": [
+          "Characters/Poppy/Spells/PoppyQAbility/PoppyQ",
+          "Characters/Poppy/Spells/PoppyWAbility/PoppyW",
+          "Characters/Poppy/Spells/PoppyEAbility/PoppyE",
+          "Characters/Poppy/Spells/PoppyRAbility/PoppyR"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "poppy_p",
+          "binding": "Characters/Poppy/Spells/PoppyPassiveAbility/PoppyPassive",
+          "object": {
+            "ObjectName": "PoppyPassive",
+            "objectPath": "Characters/Poppy/Spells/PoppyPassiveAbility/PoppyPassive",
+            "mScriptName": "PoppyPassive",
+            "mSpell": {
+              "DataValues": [
+                {
+                  "name": "BonusRange",
+                  "values": [
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ShieldDuration",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ShieldPickUpTime",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "ActualCooldown": {
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 16,
+                      "mBreakpoints": [
+                        {
+                          "mLevel": 7,
+                          "mAdditionalBonusAtThisLevel": -4,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 13,
+                          "mAdditionalBonusAtThisLevel": -4,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 19,
+                          "mAdditionalBonusAtThisLevel": -2,
+                          "__type": "Breakpoint"
+                        }
+                      ],
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TotalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 20,
+                      "mEndValue": 180,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "ShieldValue": {
+                  "mFormulaParts": [
+                    {
+                      "mStat": 12,
+                      "mSubpart": {
+                        "mStartValue": 0.10999999940395355,
+                        "mEndValue": 0.20000000298023224,
+                        "__type": "ByCharLevelInterpolationCalculationPart"
+                      },
+                      "__type": "StatBySubPartCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/Poppy/HUD/Icons2D/Poppy_Passive.dds"
+              ],
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "PoppyPassive",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyName": "Spell_PoppyPassive_Name",
+                    "keyTooltip": "Spell_PoppyPassive_Tooltip",
+                    "keySummary": "Spell_PoppyPassive_Summary",
+                    "keyCooldown": "Spell_PoppyP_CD"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_PoppyPassive",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_PoppyPassive_Name",
+              "text": "钢铁大使"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_PoppyPassive_Tooltip",
+              "text": "每过@ActualCooldown@秒，波比的下次攻击就会将她的圆盾投掷出去，获得@BonusRange@距离并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。圆盾会从目标处弹开，在附近着陆。波比能够将它拾起来获得<shield>@ShieldValue@护盾值</shield>，并且敌人们可以踩在它上面来将它摧毁。<br><br>如果圆盾击杀了目标，那么它会自动返回至波比处。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_PoppyPassive_Summary",
+              "text": "波比扔出她的圆盾，圆盾会在命中目标后弹起。波比可以捡起圆盾来获得一个短暂的护盾效果。"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_PoppyP_CD",
+              "text": "@ActualCooldown@秒%i:cooldown%"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "poppy_q",
+          "binding": "Characters/Poppy/Spells/PoppyQAbility/PoppyQ",
+          "object": {
+            "ObjectName": "PoppyQ",
+            "objectPath": "Characters/Poppy/Spells/PoppyQAbility/PoppyQ",
+            "mScriptName": "PoppyQ",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_SignatureSpell",
+                "Trait_Target_Directional",
+                "Trait_Melee_SmallWindup",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "HealthDamagePercent",
+                  "values": [
+                    6.5,
+                    7,
+                    7.5,
+                    8,
+                    8.5,
+                    9,
+                    9.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamageValue",
+                  "values": [
+                    30,
+                    30,
+                    55,
+                    80,
+                    105,
+                    130,
+                    130
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseMoveSpeedMod",
+                  "values": [
+                    0.17000000178813934,
+                    0.20000000298023224,
+                    0.23000000417232513,
+                    0.25999999046325684,
+                    0.28999999165534973,
+                    0.3199999928474426,
+                    0.3499999940395355
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DelayBetweenTwoHits",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxHealthDamageToNonHeroes",
+                  "values": [
+                    50,
+                    85,
+                    120,
+                    155,
+                    190,
+                    225,
+                    260
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "BaseDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamageValue",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 2,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.75,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MoveSpeedMod": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseMoveSpeedMod",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.00007999999797903001,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "",
+              "mImgIconName": [
+                "ASSETS/Characters/Poppy/HUD/Icons2D/Poppy_Q.dds",
+                ""
+              ],
+              "spellCastTime": 0.33249998092651367,
+              "spellTotalTime": 1.3199999332427979,
+              "cooldownTime": [
+                9,
+                8,
+                7,
+                6,
+                5,
+                4,
+                3
+              ],
+              "Cooldown": {
+                "values": [
+                  9,
+                  8,
+                  7,
+                  6,
+                  5,
+                  4,
+                  3
+                ],
+                "{0a3e0478}": 9,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "alwaysSnapFacing": true,
+              "mIgnoreRangeCheck": true,
+              "mMinimapIconDisplayFlag": 3,
+              "castRange": [
+                430,
+                430,
+                430,
+                430,
+                430,
+                430,
+                430
+              ],
+              "castRangeValues": {
+                "values": [
+                  430,
+                  430,
+                  430,
+                  430,
+                  430,
+                  430,
+                  430
+                ],
+                "{0a3e0478}": 430,
+                "__type": "{0a0eddc9}"
+              },
+              "castFrame": 10,
+              "mLineWidth": 100,
+              "mana": [
+                35,
+                40,
+                45,
+                50,
+                55,
+                60
+              ],
+              "manaValues": {
+                "values": [
+                  35,
+                  40,
+                  45,
+                  50,
+                  55,
+                  60
+                ],
+                "{0a3e0478}": 35,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "PoppyQ",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_PoppyQ_Name",
+                    "keySummary": "Spell_PoppyQ_Summary",
+                    "keyTooltip": "Spell_PoppyQ_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_PoppyQ_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamageValue",
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "HealthDamagePercent",
+                          "nameOverride": "Spell_ListType_PercentMaxHealth",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BaseMoveSpeedMod",
+                          "multiplier": 100,
+                          "nameOverride": "Spell_ListType_Slow",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "MaxHealthDamageToNonHeroes",
+                          "nameOverride": "Spell_PoppyQ_MonsterCap",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 0,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "BaseDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SlowDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 33554432,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "HealthDamagePercent",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_PoppyQ_Name",
+              "text": "圣锤猛击"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_PoppyQ_Summary",
+              "text": "波比挥舞她的铁锤，造成伤害并创造一个区域，这个区域会减速敌人并在一段时间后爆炸。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_PoppyQ_Tooltip",
+              "text": "波比猛砸地面，造成<physicalDamage>@BaseDamage@</physicalDamage>外加<physicalDamage>@HealthDamagePercent@%最大生命值的物理伤害</physicalDamage>并使该地面变得不稳定。 <br><br>不稳定区域会使敌人<status>减速</status>@MoveSpeedMod@%并在@DelayBetweenTwoHits@秒后喷发，再次造成<physicalDamage>@BaseDamage@</physicalDamage>外加<physicalDamage>@HealthDamagePercent@%最大生命值的物理伤害</physicalDamage>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_PoppyQ_TooltipExtendedBelowLine",
+              "text": "<rules>每一击对小兵和野怪的百分比生命值伤害的上限为@MaxHealthDamageToNonHeroes@。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "poppy_w",
+          "binding": "Characters/Poppy/Spells/PoppyWAbility/PoppyW",
+          "object": {
+            "ObjectName": "PoppyW",
+            "objectPath": "Characters/Poppy/Spells/PoppyWAbility/PoppyW",
+            "mScriptName": "PoppyW",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 13327,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "Trait_ImmobilizingCCSpell",
+                "Trait_AttackBuff_Duration",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    30,
+                    70,
+                    110,
+                    150,
+                    190,
+                    230,
+                    270
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "GroundingDuration",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowAmount",
+                  "values": [
+                    -0.25,
+                    -0.25,
+                    -0.25,
+                    -0.25,
+                    -0.25,
+                    -0.25,
+                    -0.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveResistPercent",
+                  "values": [
+                    0.1599999964237213,
+                    0.1599999964237213,
+                    0.1599999964237213,
+                    0.1599999964237213,
+                    0.1599999964237213,
+                    0.1599999964237213,
+                    0.1599999964237213
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveEmpoweredHealthPercent",
+                  "values": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Duration",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Haste",
+                  "values": [
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockupDuration",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DamageValue",
+                  "values": [
+                    30,
+                    70,
+                    110,
+                    150,
+                    190,
+                    230,
+                    270
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "BonusArmor": {
+                  "mFormulaParts": [
+                    {
+                      "mStat": 1,
+                      "mDataValue": "PassiveResistPercent",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "BonusMR": {
+                  "mFormulaParts": [
+                    {
+                      "mStat": 6,
+                      "mDataValue": "PassiveResistPercent",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "InterruptDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "DamageValue",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.699999988079071,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.699999988079071,
+              "mAnimationName": "",
+              "mImgIconName": [
+                "ASSETS/Characters/Poppy/HUD/Icons2D/Poppy_W.dds",
+                ""
+              ],
+              "cooldownTime": [
+                22,
+                20,
+                18,
+                16,
+                14,
+                12,
+                12
+              ],
+              "Cooldown": {
+                "values": [
+                  22,
+                  20,
+                  18,
+                  16,
+                  14,
+                  12,
+                  12
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castFrame": 10,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "manaValues": {
+                "values": [
+                  50,
+                  50,
+                  50,
+                  50,
+                  50,
+                  50
+                ],
+                "{0a3e0478}": 50,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "PoppyW",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_PoppyW_Name",
+                    "keySummary": "Spell_PoppyW_Summary",
+                    "keyTooltip": "Spell_PoppyW_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "DamageValue",
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "InterruptDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 524288,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "PassiveResistPercent",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 2,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "Haste",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16777216,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "KnockupDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SlowAmount",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_PoppyW_Name",
+              "text": "坚定风采"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_PoppyW_Summary",
+              "text": "波比被动获得护甲和魔法抗性。这个加成会在她生命值较低时得到提升。波比可以主动施放此技能来获得移动速度加成并中断附近敌人的突进。如果中断了一次突进，那么该敌人还会被减速和缚地。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_PoppyW_Tooltip",
+              "text": "<spellPassive>被动：</spellPassive>波比获得<scaleArmor>@BonusArmor@护甲</scaleArmor>和<scaleMR>@BonusMR@魔法抗性</scaleMR>。在波比低于@PassiveEmpoweredHealthPercent*100@%生命值时，这个加成会翻倍。<br><br><spellActive>主动：</spellActive>波比获得<speed>@Haste@%移动速度</speed>并投射出一个环绕自身的领域，持续@Duration@秒，该领域可中断敌人的冲刺。被领域中断的敌人们会受到持续@GroundingDuration@秒的<status>缚地</status>和@SlowAmount*-100@%<status>减速</status>，以及<magicDamage>@InterruptDamage@魔法伤害</magicDamage>。"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "poppy_e",
+          "binding": "Characters/Poppy/Spells/PoppyEAbility/PoppyE",
+          "object": {
+            "ObjectName": "PoppyE",
+            "objectPath": "Characters/Poppy/Spells/PoppyEAbility/PoppyE",
+            "mScriptName": "PoppyE",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_KnockBack",
+                "Trait_Low_Damage",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    0,
+                    40,
+                    60,
+                    80,
+                    100,
+                    120,
+                    140
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0,
+                    40,
+                    60,
+                    80,
+                    100,
+                    120,
+                    140
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1.5,
+                    1.600000023841858,
+                    1.7000000476837158,
+                    1.7999999523162842,
+                    1.899999976158142,
+                    2,
+                    2.0999999046325684
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    400,
+                    400,
+                    400,
+                    400,
+                    400,
+                    400,
+                    400
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamageValue",
+                  "values": [
+                    0,
+                    40,
+                    60,
+                    80,
+                    100,
+                    120,
+                    140
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "WallDamage",
+                  "values": [
+                    0,
+                    40,
+                    60,
+                    80,
+                    100,
+                    120,
+                    140
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "StunDuration",
+                  "values": [
+                    1.5,
+                    1.600000023841858,
+                    1.7000000476837158,
+                    1.7999999523162842,
+                    1.899999976158142,
+                    2,
+                    2.0999999046325684
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DashSpeed",
+                  "values": [
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxEnemyPushbackDistance",
+                  "values": [
+                    400,
+                    400,
+                    400,
+                    400,
+                    400,
+                    400,
+                    400
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    21,
+                    21,
+                    19.5,
+                    18,
+                    16.5,
+                    15,
+                    12.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "TackleDamage": {
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamageValue",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 2,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.6000000238418579,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.6000000238418579,
+              "mAnimationName": "",
+              "mImgIconName": [
+                "ASSETS/Characters/Poppy/HUD/Icons2D/Poppy_E.dds",
+                ""
+              ],
+              "cooldownTime": [
+                15,
+                14,
+                13,
+                12,
+                11,
+                10,
+                10
+              ],
+              "Cooldown": {
+                "values": [
+                  15,
+                  14,
+                  13,
+                  12,
+                  11,
+                  10,
+                  10
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "cantCastWhileRooted": true,
+              "castRangeUseBoundingBoxes": true,
+              "castRange": [
+                475,
+                475,
+                475,
+                475,
+                475,
+                475,
+                475
+              ],
+              "castRangeValues": {
+                "values": [
+                  475,
+                  475,
+                  475,
+                  475,
+                  475,
+                  475,
+                  475
+                ],
+                "{0a3e0478}": 475,
+                "__type": "{0a0eddc9}"
+              },
+              "castFrame": 10,
+              "mana": [
+                70,
+                70,
+                70,
+                70,
+                70,
+                70
+              ],
+              "manaValues": {
+                "values": [
+                  70,
+                  70,
+                  70,
+                  70,
+                  70,
+                  70
+                ],
+                "{0a3e0478}": 70,
+                "__type": "{630af303}"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "PoppyE",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_PoppyE_Name",
+                    "keySummary": "Spell_PoppyE_Summary",
+                    "keyTooltip": "Spell_PoppyE_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamageValue",
+                          "nameOverride": "Spell_ListType_InitialDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "WallDamage",
+                          "nameOverride": "Spell_ListType_PoppyEWallDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "StunDuration",
+                          "nameOverride": "Spell_ListType_StunDuration",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "startLocator": {
+                      "basePosition": 2,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "endLocator": {
+                      "basePosition": 2,
+                      "distanceOffset": 100,
+                      "orientationType": 2,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        450,
+                        450,
+                        450,
+                        450,
+                        450,
+                        450
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 0,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TackleDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 256,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "DashSpeed",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4194304,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MaxEnemyPushbackDistance",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_PoppyE_Name",
+              "text": "英勇冲锋"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_PoppyE_Summary",
+              "text": "波比冲向目标并把目标推后。如果目标被推到墙上，就会受到晕眩效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_PoppyE_Tooltip",
+              "text": "波比擒抱一名敌人，造成<physicalDamage>@TackleDamage@物理伤害</physicalDamage>并将该敌人带向前方。如果波比将目标擒抱到地形上，那么该敌人会被<status>晕眩</status>@StunDuration@秒并受到额外的<physicalDamage>@TackleDamage@物理伤害</physicalDamage>。"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "poppy_r",
+          "binding": "Characters/Poppy/Spells/PoppyRAbility/PoppyR",
+          "object": {
+            "ObjectName": "PoppyR",
+            "objectPath": "Characters/Poppy/Spells/PoppyRAbility/PoppyR",
+            "mScriptName": "PoppyR",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mExcludedUnitTags": {
+                "mObjectTagList": [
+                  "{003a1b93}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_KnockBack",
+                "Trait_ChannelSpell",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    200,
+                    200,
+                    300,
+                    400,
+                    500,
+                    600,
+                    700
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ChannelDistanceUpdateTick",
+                  "values": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ChannelMaxDuration",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxKnockbackDistance",
+                  "values": [
+                    3400,
+                    3400,
+                    3400,
+                    3400,
+                    3400,
+                    3400,
+                    3400
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockupDurationCharged",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockupDurationSnap",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DurationUntilFullyCharged",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SelfSlow",
+                  "values": [
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CancelCDRefund",
+                  "values": [
+                    30,
+                    30,
+                    30,
+                    30,
+                    30,
+                    30,
+                    30
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SnapCastDamageRatio",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "URF": {
+                  "SpellDataValues": [
+                    {
+                      "name": "CancelCDRefund",
+                      "values": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "Damage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 2,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.8999999761581421,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "HalfDamage": {
+                  "mMultiplier": {
+                    "mDataValue": "SnapCastDamageRatio",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "tooltipOnly": true,
+                  "mModifiedGameCalculation": "Damage",
+                  "__type": "GameCalculationModified"
+                }
+              },
+              "mCoefficient": 0.8999999761581421,
+              "mAnimationName": "",
+              "mImgIconName": [
+                "ASSETS/Characters/Poppy/HUD/Icons2D/Poppy_R.dds",
+                ""
+              ],
+              "spellCastTime": 0,
+              "spellTotalTime": 0,
+              "mChannelDuration": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "cooldownTime": [
+                10,
+                140,
+                120,
+                100,
+                10,
+                10,
+                10
+              ],
+              "Cooldown": {
+                "values": [
+                  10,
+                  140,
+                  120,
+                  100,
+                  10,
+                  10,
+                  10
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCastRangeGrowthMax": [
+                1200,
+                1200,
+                1200,
+                1200,
+                1200,
+                1200,
+                1200
+              ],
+              "mCastRangeGrowthStartTime": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "mCastRangeGrowthDuration": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "mCantCancelWhileWindingUp": true,
+              "mUseChargeChanneling": true,
+              "mCanMoveWhileChanneling": true,
+              "mDoNotNeedToFaceTarget": true,
+              "castRange": [
+                500,
+                500,
+                500,
+                500,
+                500,
+                500,
+                500
+              ],
+              "castRangeValues": {
+                "values": [
+                  500,
+                  500,
+                  500,
+                  500,
+                  500,
+                  500,
+                  500
+                ],
+                "{0a3e0478}": 500,
+                "__type": "{0a0eddc9}"
+              },
+              "mLineWidth": 90,
+              "mana": [
+                100,
+                100,
+                100,
+                0,
+                0,
+                0
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  100,
+                  100,
+                  0,
+                  0,
+                  0
+                ],
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Direction"
+              },
+              "{8958fee2}": {
+                "__type": "{8958fee2}"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "PoppyR",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_PoppyR_Name",
+                    "keySummary": "Spell_PoppyR_Summary",
+                    "keyTooltip": "Spell_PoppyR_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_PoppyR_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "hasMaxGrowRange": true,
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        450,
+                        450,
+                        450,
+                        450,
+                        450,
+                        450
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "rangeGrowthStartTime": {
+                      "mPerLevelValues": [
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "rangeGrowthDuration": {
+                      "mPerLevelValues": [
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "rangeGrowthMax": {
+                      "mPerLevelValues": [
+                        1200,
+                        1200,
+                        1200,
+                        1200,
+                        1200,
+                        1200
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureMaxGrowName": "assets/spells/textures/circularrangeindicator_dark.tex",
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "alwaysDraw": true,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        90,
+                        90,
+                        90,
+                        90,
+                        90,
+                        90
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        450,
+                        450,
+                        450,
+                        450,
+                        450,
+                        450
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "rangeGrowthStartTime": {
+                      "mPerLevelValues": [
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "rangeGrowthDuration": {
+                      "mPerLevelValues": [
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "rangeGrowthMax": {
+                      "mPerLevelValues": [
+                        1200,
+                        1200,
+                        1200,
+                        1200,
+                        1200,
+                        1200
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureBaseMaxGrowName": "assets/spells/textures/locallinemissilebase_dark.tex",
+                    "textureTargetMaxGrowName": "assets/spells/textures/locallinemissiletarget_dark.tex",
+                    "__type": "TargeterDefinitionLine"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_PoppyR",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 0,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "Damage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 4194304,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "KnockupDurationCharged",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16777216,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "KnockupDurationSnap",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_PoppyR_Name",
+              "text": "持卫的裁决"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_PoppyR_Summary",
+              "text": "波比引导一次能够把敌人击飞到远方的锤击。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_PoppyR_Tooltip",
+              "text": "<charge>开始施放：</charge>波比开始为她的战锤蓄力，至多@ChannelMaxDuration@秒，自身<status>减速</status>@SelfSlow@%。<br><br><release>释放：</release>波比猛砸地面，生成一道冲击波，来对命中的第一个敌方英雄及其身边的敌人们造成<physicalDamage>@Damage@物理伤害</physicalDamage>，将他们朝着他们的水晶枢纽处<status>击退</status>，并使他们在飞行时处在不可被选取状态。冲击波距离和<status>击退</status>距离受益于蓄力时长。<br><br>未蓄力的挥锤造成<physicalDamage>@HalfDamage@物理伤害</physicalDamage>和持续@KnockupDurationSnap@秒的<status>击飞</status>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_PoppyR_TooltipExtendedBelowLine",
+              "text": "<rules>{{Reminder_Untargetable}}</rules>"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

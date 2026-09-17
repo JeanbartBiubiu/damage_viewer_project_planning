@@ -1,0 +1,24 @@
+{
+  "i": 185,
+  "intent": {
+    "sequence": 186,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_w/parameters",
+    "detailRoute": "/skills/smolder_w/parameters/same_target_direct_and_explosion",
+    "skillKey": "smolder_w",
+    "kind": "parameters",
+    "stableKey": "same_target_direct_and_explosion",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "same_target_direct_and_explosion",
+      "name": "阿嚏同一目标直击与爆炸均可命中",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确命中英雄时爆炸；同一敌人可同时消费直击和英雄爆炸两式。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 137,
+  "intent": {
+    "sequence": 137,
+    "method": "POST",
+    "route": "/skills/tahmkench_q/parameters",
+    "detailRoute": "/skills/tahmkench_q/parameters/target_stack_count_before_hit",
+    "skillKey": "tahmkench_q",
+    "kind": "parameters",
+    "stableKey": "target_stack_count_before_hit",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_stack_count_before_hit",
+      "name": "命中前目标培养品味层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "命中前层数由运行输入提供，范围0至3；新增层数和三层消耗是不同事件。",
+      "sortOrder": 80
+    }
+  }
+}

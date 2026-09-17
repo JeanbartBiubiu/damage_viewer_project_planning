@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:24.230Z",
+  "method": "POST",
+  "skillKey": "fizz_p",
+  "kind": "parameters",
+  "stableKey": "damage_before_this_reduction",
+  "route": "/skills/fizz_p/parameters",
+  "readRoute": "/skills/fizz_p/parameters/damage_before_this_reduction",
+  "body": {
+    "parameterKey": "damage_before_this_reduction",
+    "name": "进入本次减免步骤的伤害量",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "该次伤害在应用本被动前的实际输入，无默认；抗性、护盾与本次减免的先后顺序仍待接，不能由本公式猜测。",
+    "sortOrder": 40
+  }
+}

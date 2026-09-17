@@ -1,0 +1,24 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_r/parameters",
+    "detailRoute": "/skills/kindred_r/parameters/zone_duration_ms",
+    "skillKey": "kindred_r",
+    "kind": "parameters",
+    "stableKey": "zone_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "zone_duration_ms",
+      "name": "羊灵生息区域持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "正文明确4秒。",
+      "sortOrder": 10
+    }
+  }
+}

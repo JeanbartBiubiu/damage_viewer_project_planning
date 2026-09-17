@@ -1,0 +1,52 @@
+{
+  "批次": "英雄机制第三十一批修订一",
+  "审查范围": "完整候选中的全部公式表达式、效果生命周期引用和效果值引用",
+  "候选路径": ".agents/artifacts/hero31-luna-candidate/修订一/完整候选.json",
+  "候选SHA256": "57b47b85077f9066c72ff12f84f703a767e84ae1d3271824326621e0a90d2dac",
+  "请求计划路径": ".agents/artifacts/hero31-luna-candidate/修订一/请求计划.json",
+  "请求计划SHA256": "903dc62fee877f3ceecf2b52db64be7815d3c9a4f3cc7b1c21ada7137eab47e4",
+  "实际失败证据": ".agents/artifacts/hero31-luna-candidate/修订一/实际写入/2026-09-09T17-41-43-780Z/执行结果.json",
+  "实际失败证据SHA256": "21c33d3336432fd8eee58a29ef9762b4a358da66778c8d7b2fe6e36d13f882b0",
+  "扫描计数": {
+    "技能": 20,
+    "候选参数定义": 120,
+    "候选公式定义": 35,
+    "候选效果定义": 23,
+    "公式中的参数引用": 92,
+    "效果中的参数引用": 22,
+    "效果中的公式引用": 7,
+    "其他缺失引用": 0
+  },
+  "阻塞错误": [
+    {
+      "技能": "lulu_w",
+      "效果": "self_attack_speed",
+      "候选路径": "write.effects.self_attack_speed.results[0].valueRule.value",
+      "候选位置": "完整候选.json:5190",
+      "当前值": {
+        "kind": "FORMULA",
+        "formulaKey": "attack_speed_bonus_ratio"
+      },
+      "事实": "lulu_w定义了参数attack_speed_bonus_ratio，但没有同名公式；同技能唯一公式是ally_move_speed_ratio。",
+      "请求计划位置": "请求计划.json:3467",
+      "实际请求": {
+        "写入顺序": 81,
+        "接口": "POST /skills/lulu_w/effects",
+        "状态": 400,
+        "错误码": "400.INVALID_SKILL_EFFECT_REFERENCE",
+        "字段错误": "results[0].valueRule.value",
+        "后端说明": "UNKNOWN_FORMULA：技能公式不存在或不属于当前技能"
+      },
+      "最小改法": {
+        "value": {
+          "kind": "PARAMETER",
+          "parameterKey": "attack_speed_bonus_ratio"
+        },
+        "说明": "只把值引用从公式改为同技能已定义参数；不新增公式、不改参数值、不重放已成功的80条请求。"
+      }
+    }
+  ],
+  "结论": "除上述1个lulu_w效果公式/参数类型错误外，未发现公式表达式参数引用、效果生命周期参数引用或效果公式引用缺失。实际保存应从失败的self_attack_speed分支继续，先按最小改法修订并重新生成后续计划。",
+  "业务接口调用": 0,
+  "说明": "本审查只读取候选、计划和既有失败报告；没有调用业务接口。"
+}

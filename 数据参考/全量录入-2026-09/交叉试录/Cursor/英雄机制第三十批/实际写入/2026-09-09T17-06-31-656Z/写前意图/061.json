@@ -1,0 +1,29 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "method": "POST",
+    "route": "/skills/yone_w/parameters",
+    "detailRoute": "/skills/yone_w/parameters/base_damage",
+    "skillKey": "yone_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础伤害基数",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 20,
+        "3": 30,
+        "4": 40,
+        "5": 50
+      },
+      "description": "客户端BaseDamage索引1至5为10/20/30/40/50；两种伤害共同使用一个基数。",
+      "sortOrder": 10
+    }
+  }
+}

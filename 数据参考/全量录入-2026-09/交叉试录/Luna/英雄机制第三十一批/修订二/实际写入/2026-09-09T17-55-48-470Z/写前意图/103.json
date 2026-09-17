@@ -1,0 +1,23 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 103,
+    "method": "POST",
+    "route": "/skills/nami_p/parameters",
+    "detailRoute": "/skills/nami_p/parameters/flat_move_speed",
+    "skillKey": "nami_p",
+    "kind": "parameters",
+    "stableKey": "flat_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "flat_move_speed",
+      "name": "踏浪之行固定移动速度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "客户端DataValues.FlatMS为100；当前正文只直接证明友方英雄命中后的收益。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/melee_ad_ratio_min",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "melee_ad_ratio_min",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "melee_ad_ratio_min",
+      "name": "近战额外伤害总攻击力比例下限",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.03500000014901161,
+      "levelValues": null,
+      "description": "BonusMeleeDamage的总攻击力比例角色等级插值下限0.035；中间值不猜。",
+      "sortOrder": 80
+    }
+  }
+}

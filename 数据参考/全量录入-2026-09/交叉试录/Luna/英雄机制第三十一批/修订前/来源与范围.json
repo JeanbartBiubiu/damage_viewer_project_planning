@@ -1,0 +1,594 @@
+{
+  "generatedAt": "2026-09-09T17:12:23.142Z",
+  "batch": "英雄机制第三十一批",
+  "revision": "hero31-source-v1-candidate",
+  "status": "候选已生成，严格数学脚本另行核对；未调用业务接口",
+  "sourceVersions": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceBindingSha256": "3903525c50256f6c7df36e692f9648d13a073bffe105e280fd80653c99302330",
+  "sourceRangeSha256": "27f83bd55ed75570921c2482b03a60e336a6df442531fb60bad149557d2c6d47",
+  "semanticEvidenceSha256": "9f05e1619004821c3e217aa8f9397cac898d247f353d81ac71dbabaf40f1b5e4",
+  "cursorReviewSha256": "e77aa2dea849345914fc633d5ffb3fd0531fb6ec7b6c6bf92ca477c952f7fe4d",
+  "categories": {
+    "recordable": "来源正文、当前计算树或明确数据可直接进入后续候选的范围；自身护盾、回血、自身增益、唯一敌人伤害与控制及同一目标多跳优先保留。",
+    "oneVsOneIrrelevant": "本轮唯一敌方英雄1V1明确无关的纯友方收益或非英雄专属分支。",
+    "unknownTimingOrCurve": "来源存在但时序、曲线、目标资格、属性映射或运行接线未证的内容；保留为待核问题，不当作排除。"
+  },
+  "perSkill": {
+    "janna_p": {
+      "included": [
+        "自身移速增益和自身对唯一敌人的被动伤害换算载体按根数据与计算树核对",
+        "MSBonusMagicDamage及两个计算树保留为候选来源范围"
+      ],
+      "oneVsOneIrrelevant": [
+        "纯友方移速光环收益"
+      ],
+      "unknownTimingOrCurve": [
+        "MSPercentSelf当前数据缺值",
+        "普攻触发、伤害时点和移速来源属性映射未由来源树单独证明"
+      ],
+      "candidatePending": [
+        {
+          "kind": "输入缺口",
+          "item": "MSPercentSelf",
+          "reason": "当前DataValues无值，不猜造迦娜自身移速。"
+        },
+        {
+          "kind": "时序",
+          "item": "普攻与和风守护伤害触发",
+          "reason": "当前正文已证载体，具体命中时点未接线。"
+        }
+      ],
+      "candidateExcluded": [
+        {
+          "kind": "一对一无关",
+          "item": "MSPercentAlly",
+          "reason": "纯友军朝迦娜移动收益不属于本轮唯一敌人范围。"
+        }
+      ]
+    },
+    "janna_q": {
+      "included": [
+        "唯一敌人伤害、最小蓄力与满蓄力根计算、击飞时长和射程参数",
+        "同一目标命中载体保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "兵线专用MinionMod分支"
+      ],
+      "unknownTimingOrCurve": [
+        "蓄力时长与飞行时序、二次命中资格、击飞事件接线和根树显示精度"
+      ],
+      "candidatePending": [
+        {
+          "kind": "时序",
+          "item": "蓄力、重施、命中与击飞事件",
+          "reason": "树和正文给出数值关系，事件资格及命中时点尚未接线。"
+        }
+      ],
+      "candidateExcluded": [
+        {
+          "kind": "一对一无关",
+          "item": "MinionMod",
+          "reason": "兵线专用分支不进入唯一敌方英雄候选。"
+        }
+      ]
+    },
+    "janna_w": {
+      "included": [
+        "对唯一敌人的魔法伤害、减速和自身移动速度增益",
+        "TotalDamage、TotalSlow和TotalMS的根乘数保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "纯友方目标收益"
+      ],
+      "unknownTimingOrCurve": [
+        "移动速度和减速应用时点、持续衰减、技能伤害属性口径和tooltipOnly计算的运行接线"
+      ],
+      "candidatePending": [
+        {
+          "kind": "时序",
+          "item": "W主动命中、减速、移动速度应用",
+          "reason": "当前文本与树明确数值，实际目标资格和应用时点未接线。"
+        },
+        {
+          "kind": "来源",
+          "item": "P与W的触发先后",
+          "reason": "W正文已证只追加一次P的BonusDamage；实际运行事件仍待接。"
+        }
+      ],
+      "candidateExcluded": [
+        {
+          "kind": "一对一无关",
+          "item": "纯友军目标收益",
+          "reason": "本轮只保留自身移动速度和唯一敌人主动伤害。"
+        }
+      ]
+    },
+    "janna_e": {
+      "included": [
+        "自身可获得的护盾、攻击力增益及对唯一敌人的相关伤害载体按当前消费树保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "只能作用纯友方且本轮不取自身的分支"
+      ],
+      "unknownTimingOrCurve": [
+        "护盾目标资格、衰减宽限、控制减冷却、增益持续和自身施放资格"
+      ],
+      "candidatePending": [
+        {
+          "kind": "目标资格",
+          "item": "自身施放与护盾目标",
+          "reason": "当前正文明确友方目标，但没有独立证明自选路径；效果保留为自身候选并不自动触发。"
+        },
+        {
+          "kind": "时序",
+          "item": "控制命中返还冷却与护盾衰减",
+          "reason": "ECDRefundforCC与DecayGracePeriod只保留来源参数，未创建无条件结果或周期过程。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "janna_r": {
+      "included": [
+        "自身可获得的持续治疗、唯一敌人击退控制和同一目标持续过程载体",
+        "HealPerSecond与TotalHeal根树保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "纯友方额外治疗收益"
+      ],
+      "unknownTimingOrCurve": [
+        "持续治疗周期、击退轨迹、目标资格、最大击退与引导时序"
+      ],
+      "candidatePending": [
+        {
+          "kind": "时序",
+          "item": "持续治疗周期、移动提前结束和击退轨迹",
+          "reason": "当前树只给总持续时间乘法，实际周期与结束时点未证。"
+        },
+        {
+          "kind": "目标资格",
+          "item": "自身是否在附近友军范围内",
+          "reason": "保留自身治疗数值，实际目标判定待补。"
+        }
+      ],
+      "candidateExcluded": [
+        {
+          "kind": "一对一无关",
+          "item": "纯友军额外治疗分配",
+          "reason": "本轮只保留自身可得治疗数值，不生成队友结果。"
+        }
+      ]
+    },
+    "lulu_p": {
+      "included": [
+        "皮克斯弹体数量、每次伤害法强倍率和同一普攻载体的合计伤害树"
+      ],
+      "oneVsOneIrrelevant": [
+        "纯友方增益分支如后续来源明确为独立友方收益"
+      ],
+      "unknownTimingOrCurve": [
+        "皮克斯是否构成独立自主召唤载体、弹体触发与同一目标命中时序；不能仅凭名称排除"
+      ],
+      "candidatePending": [
+        {
+          "kind": "触发",
+          "item": "跟随英雄普攻后发射",
+          "reason": "当前正文明确依附普攻，树没有皮克斯独立施法/攻击事件。"
+        },
+        {
+          "kind": "输入",
+          "item": "角色等级插值曲线",
+          "reason": "只保留无默认运行输入，不从两个端点猜中间等级。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "lulu_q": {
+      "included": [
+        "对唯一敌人的伤害、双弹体第二次命中修正、减速和持续时间",
+        "同一目标两次命中关系保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "小兵专用MinionMod分支"
+      ],
+      "unknownTimingOrCurve": [
+        "双弹体先后命中、第二次命中资格、减速衰减和伤害类型接线"
+      ],
+      "candidatePending": [
+        {
+          "kind": "时序",
+          "item": "两束命中先后与减速衰减",
+          "reason": "保留同一目标第二束关系和8次衰减参数，事件未接线。"
+        }
+      ],
+      "candidateExcluded": [
+        {
+          "kind": "一对一无关",
+          "item": "MinionMod",
+          "reason": "小兵专用分支不进入唯一敌方英雄候选。"
+        }
+      ]
+    },
+    "lulu_w": {
+      "included": [
+        "自身移动速度或攻速增益、唯一敌人的控制或减速载体及对应持续参数"
+      ],
+      "oneVsOneIrrelevant": [
+        "纯友方移动或攻速收益"
+      ],
+      "unknownTimingOrCurve": [
+        "友方与敌方分支资格、TotalMS根树显示精度、变形/减速时序和持续曲线"
+      ],
+      "candidatePending": [
+        {
+          "kind": "目标资格",
+          "item": "友方/敌方分支与自身施放",
+          "reason": "当前正文明确两分支；自身是否可选及事件时序未单独接线。"
+        },
+        {
+          "kind": "控制",
+          "item": "敌方变形、沉默、缴械、减速",
+          "reason": "这些是控制载体，参数保留但本轮不凭自由状态键创建控制结果。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "lulu_e": {
+      "included": [
+        "对唯一敌人的伤害、自身护盾和自身可获得的皮克斯增益",
+        "TotalDamage与TotalShield分别保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "只能作用纯友方且不落到自身的护盾分支"
+      ],
+      "unknownTimingOrCurve": [
+        "目标分支、皮克斯附着时序、护盾/伤害属性口径和持续时间接线"
+      ],
+      "candidatePending": [
+        {
+          "kind": "目标资格",
+          "item": "自身护盾路径",
+          "reason": "当前正文给出友方护盾与敌方伤害分支，但未单独证明自选资格；不自动触发。"
+        },
+        {
+          "kind": "时序",
+          "item": "皮克斯附着和伤害/护盾应用",
+          "reason": "持续时间参数保留，事件和实际应用时点未接线。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "lulu_r": {
+      "included": [
+        "自身施放时的生命增益、唯一敌人的范围控制和击退载体"
+      ],
+      "oneVsOneIrrelevant": [
+        "只作用其他友方英雄的生命增益"
+      ],
+      "unknownTimingOrCurve": [
+        "自施放资格、范围内多目标分配、击飞过程和增益持续时序"
+      ],
+      "candidatePending": [
+        {
+          "kind": "目标资格",
+          "item": "自身施放与友方生命增益",
+          "reason": "当前正文说明友方目标，实际自选资格待补；候选不自动施加。"
+        },
+        {
+          "kind": "时序",
+          "item": "范围击飞、减速与目标分配",
+          "reason": "保留持续和几何参数，未创建多目标控制或位移过程。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "nami_p": {
+      "included": [
+        "自身获得的移动速度增益和同一技能命中后的增益载体",
+        "TotalMSBonus计算树保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "纯友方移动速度收益"
+      ],
+      "unknownTimingOrCurve": [
+        "技能命中触发、UltMult条件、增益持续和移速属性映射"
+      ],
+      "candidatePending": [
+        {
+          "kind": "目标资格",
+          "item": "娜美自身是否计入友方英雄",
+          "reason": "当前正文只写命中友方英雄，未单独证明自触发；不创建无条件自身效果。"
+        },
+        {
+          "kind": "时序",
+          "item": "技能命中与大招倍增",
+          "reason": "保留UltMult及持续时间，触发事件未接线。"
+        }
+      ],
+      "candidateExcluded": [
+        {
+          "kind": "一对一无关",
+          "item": "纯友方移动速度收益",
+          "reason": "本轮不生成队友效果，仅保存可审数学量。"
+        }
+      ]
+    },
+    "nami_q": {
+      "included": [
+        "唯一敌人的伤害与击飞控制、StunDuration和TotalDamage计算树"
+      ],
+      "oneVsOneIrrelevant": [
+        "无本轮必要的纯友方收益"
+      ],
+      "unknownTimingOrCurve": [
+        "命中事件、目标资格、击飞过程和技能伤害属性口径"
+      ],
+      "candidatePending": [
+        {
+          "kind": "时序",
+          "item": "命中、击飞和目标资格",
+          "reason": "保留StunDuration参数，未创建控制结果。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "nami_w": {
+      "included": [
+        "唯一敌人的伤害、自身可获得的治疗和同一目标多跳/弹跳倍率载体",
+        "TotalDamage、TotalHeal与BounceScaling均保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "只作用其他友方英雄的治疗收益"
+      ],
+      "unknownTimingOrCurve": [
+        "弹跳目标选择、同一目标重复命中上限、治疗与伤害衰减时序和当前生命条件"
+      ],
+      "candidatePending": [
+        {
+          "kind": "目标资格",
+          "item": "起始目标、自身治疗目标和可见后续目标",
+          "reason": "当前正文只保证交替且每个目标一次；实际目标筛选与是否能自选自身待补。"
+        },
+        {
+          "kind": "时序",
+          "item": "两目标先后",
+          "reason": "本轮按自身→敌人或敌人→自身分别给出首段/第二段公式，不把3跳当必然。"
+        }
+      ],
+      "candidateExcluded": [
+        {
+          "kind": "一对一边界",
+          "item": "第三个目标",
+          "reason": "MaxTargets=3是全局上限；本轮唯一敌人边界最多两个不同目标。"
+        }
+      ]
+    },
+    "nami_e": {
+      "included": [
+        "自身增益、唯一敌人的附加伤害与减速、三次命中载体",
+        "TotalDamage与TotalSlow计算树保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "只能作用纯友方且不落到自身的附魔收益"
+      ],
+      "unknownTimingOrCurve": [
+        "自身施放资格、攻击次数扣除、HitCount间隔、减速和增益持续"
+      ],
+      "candidatePending": [
+        {
+          "kind": "目标资格",
+          "item": "自身施放资格",
+          "reason": "当前正文写友方英雄，未直接证明娜美自身必然可选；不自动生成自身效果。"
+        },
+        {
+          "kind": "时序",
+          "item": "三次强化命中与持续时间",
+          "reason": "保留HitCount和BuffDuration，事件和间隔未接线。"
+        }
+      ],
+      "candidateExcluded": [
+        {
+          "kind": "一对一无关",
+          "item": "AoEMod非英雄分支",
+          "reason": "AoeMod是非英雄单位群体伤害修正，本轮唯一敌方英雄不录入。"
+        }
+      ]
+    },
+    "nami_r": {
+      "included": [
+        "唯一敌人的伤害、击飞和减速控制",
+        "TotalDamage根树保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "无本轮必要的纯友方收益"
+      ],
+      "unknownTimingOrCurve": [
+        "距离与减速时长曲线、同一目标命中一次或多次、控制事件时序"
+      ],
+      "candidatePending": [
+        {
+          "kind": "时序",
+          "item": "同一目标命中、距离减速曲线与控制",
+          "reason": "保留首段伤害和控制数值，未创建击飞/减速结果。"
+        },
+        {
+          "kind": "触发",
+          "item": "大招对友方的P倍增",
+          "reason": "纯友方收益不进入本轮效果，但PassiveUpdateAreaLength保留作来源参数。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "morgana_p": {
+      "included": [
+        "自身从符合条件的伤害中获得的治疗比例"
+      ],
+      "oneVsOneIrrelevant": [
+        "纯友方收益不存在已证消费"
+      ],
+      "unknownTimingOrCurve": [
+        "治疗目标类别、触发事件和HealPercent的单位口径；没有计算树不自行造直接治疗结果"
+      ],
+      "candidatePending": [
+        {
+          "kind": "触发",
+          "item": "符合目标伤害后的治疗与目标类别",
+          "reason": "保留18百分数点，实际伤害事件、目标类别和治疗时点未接线。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "morgana_q": {
+      "included": [
+        "唯一敌人的禁锢控制和伤害计算树",
+        "TotalDamage根树保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "无本轮必要的纯友方收益"
+      ],
+      "unknownTimingOrCurve": [
+        "命中事件、技能伤害属性口径、RootDuration应用时点"
+      ],
+      "candidatePending": [
+        {
+          "kind": "时序",
+          "item": "命中与禁锢控制",
+          "reason": "保留RootDuration，未创建控制结果。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "morgana_w": {
+      "included": [
+        "唯一敌人的持续魔法伤害、同一目标多跳、最小/最大伤害根树",
+        "TotalMinDamage与TotalMaxDamage保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "野怪专用MonsterMod分支"
+      ],
+      "unknownTimingOrCurve": [
+        "TickRate周期、缺失生命值增幅、持续时间、冷却返还和单次伤害属性口径"
+      ],
+      "candidatePending": [
+        {
+          "kind": "输入",
+          "item": "目标缺失生命到增幅的实际曲线",
+          "reason": "当前树只有最大分支，缺失生命过程无完整求值式，不能补默认。"
+        },
+        {
+          "kind": "条件",
+          "item": "P治疗后W冷却返还",
+          "reason": "保留5%条件参数，P实际治疗事件和W冷却连接未接线。"
+        },
+        {
+          "kind": "时序",
+          "item": "每跳伤害",
+          "reason": "TickRate与每秒树分开保存，不把每秒值直接当单跳值。"
+        }
+      ],
+      "candidateExcluded": [
+        {
+          "kind": "一对一无关",
+          "item": "MonsterMod",
+          "reason": "野怪专用倍率不进入唯一敌方英雄范围。"
+        }
+      ]
+    },
+    "morgana_e": {
+      "included": [
+        "自身可获得的护盾与护盾持续参数",
+        "TotalShieldStrength根树保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "只能作用纯友方且不落到自身的护盾分支"
+      ],
+      "unknownTimingOrCurve": [
+        "目标资格、法术护盾阻挡事件、护盾持续和控制免疫接线"
+      ],
+      "candidatePending": [
+        {
+          "kind": "目标资格",
+          "item": "自身施放",
+          "reason": "当前正文为友方英雄目标，是否包括自身仍需目标证据。"
+        },
+        {
+          "kind": "控制",
+          "item": "限制/定身免疫",
+          "reason": "与魔法伤害护盾分开记录；本轮不凭未知状态键创建伪控制结果。"
+        }
+      ],
+      "candidateExcluded": []
+    },
+    "morgana_r": {
+      "included": [
+        "唯一敌人的首段与后续伤害、减速、眩晕和同一目标链条载体",
+        "TotalDamage根树保留"
+      ],
+      "oneVsOneIrrelevant": [
+        "无本轮必要的纯友方收益"
+      ],
+      "unknownTimingOrCurve": [
+        "锁链目标资格、第二段触发、距离断链、持续时间和控制时序"
+      ],
+      "candidatePending": [
+        {
+          "kind": "时序",
+          "item": "同一目标第二段伤害、断链与控制",
+          "reason": "保留链条/眩晕/减速参数，未创建重复伤害或控制事件。"
+        }
+      ],
+      "candidateExcluded": []
+    }
+  },
+  "counts": {
+    "skills": 20,
+    "parameters": 118,
+    "formulas": 35,
+    "effects": 24,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requestCount": 177,
+  "publicReuse": 29,
+  "protectedSummary": {
+    "inputGETs": 201,
+    "protectedSubjects": 20,
+    "protectedCompositionLists": 120,
+    "protectedRepresentativeImages": 20,
+    "protectedCharacters": [
+      "champion_janna",
+      "champion_lulu",
+      "champion_nami",
+      "champion_morgana"
+    ],
+    "protectedCharacterRelations": [
+      "champion_janna",
+      "champion_lulu",
+      "champion_nami",
+      "champion_morgana"
+    ],
+    "protectedCatalogs": [
+      "/attributes",
+      "/skill-categories",
+      "/modifier-zones",
+      "/damage-types"
+    ],
+    "publicParameterDetails": 29,
+    "classificationCounts": {
+      "empty": 4,
+      "publicOnly": 13,
+      "partialPublic": 3,
+      "existingDetailed": 0
+    }
+  },
+  "hashes": {
+    "candidateSha256": "19a2a142511173d042f8e76a71b65f5421ee2785aae93dba8b14d724263e5b8e",
+    "planSha256": "e1e188d8988dd96bc36ad27e46d683be08cd0ecbfa8f870dab841b2b82bcfecd",
+    "sourceValuesSha256": "7a5cc6206f7bc2e3802abdc09abe8cc18fe99c479bc3d9ad51d77e3bef4ee314"
+  },
+  "noApiCalls": true
+}

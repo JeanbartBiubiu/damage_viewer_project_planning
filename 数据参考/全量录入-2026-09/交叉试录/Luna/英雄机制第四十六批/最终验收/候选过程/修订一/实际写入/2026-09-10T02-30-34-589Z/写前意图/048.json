@@ -1,0 +1,24 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/formulas",
+    "detailRoute": "/skills/belveth_e/formulas/actual_strikes",
+    "skillKey": "belveth_e",
+    "kind": "formulas",
+    "stableKey": "actual_strikes",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "actual_strikes",
+      "name": "搠面皇锋当前实际攻击次数",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_strike_count"
+      },
+      "description": "运行层提供取整后的实际次数。",
+      "sortOrder": 140
+    }
+  }
+}

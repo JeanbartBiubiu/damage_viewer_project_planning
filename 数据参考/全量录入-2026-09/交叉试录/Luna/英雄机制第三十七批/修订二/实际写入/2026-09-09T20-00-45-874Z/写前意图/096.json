@@ -1,0 +1,23 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 96,
+    "method": "POST",
+    "route": "/skills/ambessa_q/parameters",
+    "detailRoute": "/skills/ambessa_q/parameters/swap_duration_ms",
+    "skillKey": "ambessa_q",
+    "kind": "parameters",
+    "stableKey": "swap_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "swap_duration_ms",
+      "name": "暗袭/裂斩形态准备持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前Swap_Duration=4秒，转换为4000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

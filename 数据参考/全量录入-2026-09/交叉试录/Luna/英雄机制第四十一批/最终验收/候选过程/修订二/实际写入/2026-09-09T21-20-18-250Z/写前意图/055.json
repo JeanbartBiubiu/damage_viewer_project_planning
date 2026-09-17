@@ -1,0 +1,45 @@
+{
+  "i": 54,
+  "intent": {
+    "sequence": 55,
+    "method": "POST",
+    "route": "/skills/milio_p/formulas",
+    "detailRoute": "/skills/milio_p/formulas/burn_damage",
+    "skillKey": "milio_p",
+    "kind": "formulas",
+    "stableKey": "burn_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "burn_damage",
+      "name": "灼烧魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "burn_base_damage_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "burn_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "匿名等级基础实际输入+0.2×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

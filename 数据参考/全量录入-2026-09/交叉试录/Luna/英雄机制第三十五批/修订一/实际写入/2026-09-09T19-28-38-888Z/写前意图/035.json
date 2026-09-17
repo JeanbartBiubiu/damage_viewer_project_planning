@@ -1,0 +1,27 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 34,
+    "method": "POST",
+    "route": "/skills/braum_r/parameters",
+    "detailRoute": "/skills/braum_r/parameters/slow_percent_points",
+    "skillKey": "braum_r",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "减速地带百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 50,
+        "3": 60
+      },
+      "description": "正文直接显示MoveSpeedMod%，取技能等级索引1至3的40/50/60百分数点。",
+      "sortOrder": 60
+    }
+  }
+}

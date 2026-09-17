@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:34.989Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "drmundo",
+    "name": "蒙多医生 R",
+    "skillKey": "drmundo_r",
+    "ownerKey": "champion_drmundo",
+    "acceptedEvent": {
+      "sourceSkillKey": "drmundo_r",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_speed_boost",
+        "name": "执行极限剂量移动速度",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "speed_boost"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "speed_boost",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "speed_boost_ratio",
+        "durationParameterKey": "duration_ms"
+      }
+    ],
+    "omitted": [
+      "当前生命消耗或回复",
+      "最大生命提升与持续治疗",
+      "高等级强化和战斗冷却"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/修订一/完整候选.json",
+      "sha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
+      "bytes": 338178
+    }
+  ]
+}

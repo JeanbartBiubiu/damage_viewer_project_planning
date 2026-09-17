@@ -1,0 +1,24 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 103,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/parameters",
+    "detailRoute": "/skills/nilah_q/parameters/actual_mstat9_value",
+    "skillKey": "nilah_q",
+    "kind": "parameters",
+    "stableKey": "actual_mstat9_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_mstat9_value",
+      "name": "游刃万变原始mStat9输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "DamageCalc消费mStat9；其暴击倍率含义未证，运行层提供原始值，不设默认。",
+      "sortOrder": 130
+    }
+  }
+}

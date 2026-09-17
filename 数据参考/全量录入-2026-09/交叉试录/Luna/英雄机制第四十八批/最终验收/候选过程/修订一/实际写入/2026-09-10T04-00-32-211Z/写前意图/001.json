@@ -1,0 +1,30 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_q/parameters",
+    "detailRoute": "/skills/ivern_q/parameters/base_damage",
+    "skillKey": "ivern_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "根深敌固基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "description": "当前根BaseDamage按保护最高等级从索引1开始映射；索引0为占位。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 167,
+  "intent": {
+    "sequence": 168,
+    "method": "POST",
+    "route": "/skills/aurora_e/parameters",
+    "detailRoute": "/skills/aurora_e/parameters/slow_duration_ms",
+    "skillKey": "aurora_e",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "怪奇喷涌减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前SlowDuration=1秒，转换为1000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

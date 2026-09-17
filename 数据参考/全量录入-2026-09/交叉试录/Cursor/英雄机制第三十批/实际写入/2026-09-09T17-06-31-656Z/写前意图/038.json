@@ -1,0 +1,23 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "method": "POST",
+    "route": "/skills/yasuo_r/parameters",
+    "detailRoute": "/skills/yasuo_r/parameters/knockup_duration_ms",
+    "skillKey": "yasuo_r",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "浮空维持时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "客户端RKnockupDuration=1秒，转换为1000毫秒；唯一目标控制条件仍待事件接线。",
+      "sortOrder": 60
+    }
+  }
+}

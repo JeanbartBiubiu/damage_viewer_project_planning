@@ -1,0 +1,2481 @@
+{
+  "at": "2026-09-09T18:39:42.673Z",
+  "status": "PASS",
+  "candidateMathReady": true,
+  "businessMathReady": false,
+  "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
+  "sourceBindingSha256": "441f748d92b040a84c0b43018864236216aabb49dd2cdc2435c3ed38560e2b10",
+  "formulaCount": 27,
+  "formulaCaseCount": 54,
+  "missingValueRejections": 32,
+  "integerChecks": 73,
+  "rangeChecks": 32,
+  "formulaCases": [
+    {
+      "formulaKey": "katarina_p/dagger_magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 191.184616,
+      "sourceExpected": 191.18461620807648,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_p/dagger_magic_damage",
+      "scenario": "高端",
+      "rank": 1,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 786.0153809999999,
+      "sourceExpected": 786.0153827369213,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_q/magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 128,
+      "sourceExpected": 128.00000071525574,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_q/magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 388,
+      "sourceExpected": 388.0000025033951,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_e/magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 116,
+      "sourceExpected": 116.00000098347664,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_e/magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 309,
+      "sourceExpected": 309.0000021457672,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_e/dagger_cooldown_reduction_ms",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 7488.000000000001,
+      "sourceExpected": 7487.999725341798,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_e/dagger_cooldown_reduction_ms",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 4224,
+      "sourceExpected": 4223.999856412412,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_r/magic_damage_per_tick",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 47.8,
+      "sourceExpected": 47.799999713897705,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_r/magic_damage_per_tick",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 129.8,
+      "sourceExpected": 129.79999899864197,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_r/total_magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 717,
+      "sourceExpected": 716.9999957084656,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_r/total_magic_damage",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 1947.0000000000002,
+      "sourceExpected": 1946.9999849796295,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_r/physical_damage_per_tick",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 19.5,
+      "sourceExpected": 19.499999564141035,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_r/physical_damage_per_tick",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 109.2,
+      "sourceExpected": 109.1999975591898,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_r/total_physical_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 292.5,
+      "sourceExpected": 292.4999934621155,
+      "passed": true
+    },
+    {
+      "formulaKey": "katarina_r/total_physical_damage",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 1638,
+      "sourceExpected": 1637.999963387847,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_q/initial_magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 113,
+      "sourceExpected": 113.00000071525574,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_q/initial_magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 333,
+      "sourceExpected": 333.0000025033951,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_q/mark_magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 113,
+      "sourceExpected": 113.00000071525574,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_q/mark_magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 333,
+      "sourceExpected": 333.0000025033951,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_w/magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 183,
+      "sourceExpected": 182.99999713897705,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_w/magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 613,
+      "sourceExpected": 612.9999899864197,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_e/initial_magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 98,
+      "sourceExpected": 98.00000071525574,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_e/initial_magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 298,
+      "sourceExpected": 298.0000025033951,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_e/delayed_magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 182,
+      "sourceExpected": 182.00000286102295,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_e/delayed_magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 597,
+      "sourceExpected": 597.0000100135803,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_q_initial_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 118,
+      "sourceExpected": 118.00000071525574,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_q_initial_damage",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 398,
+      "sourceExpected": 398.0000025033951,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_q_mark_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 236,
+      "sourceExpected": 236.00000143051147,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_q_mark_damage",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 796,
+      "sourceExpected": 796.0000050067902,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_w_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 258,
+      "sourceExpected": 257.99999713897705,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_w_damage",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 858,
+      "sourceExpected": 857.9999899864197,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_e_initial_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 118,
+      "sourceExpected": 118.00000071525574,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_e_initial_damage",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 398,
+      "sourceExpected": 398.0000025033951,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_e_delayed_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 242,
+      "sourceExpected": 242.00000286102295,
+      "passed": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_e_delayed_damage",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 817,
+      "sourceExpected": 817.0000100135803,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_p/gloom_bonus_magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 70,
+      "sourceExpected": 70,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_p/gloom_bonus_magic_damage",
+      "scenario": "高端",
+      "rank": 1,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 255,
+      "sourceExpected": 255,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_q/magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 154,
+      "sourceExpected": 153.99999856948853,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_q/magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 544,
+      "sourceExpected": 543.9999949932098,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_w/shield_value",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 140,
+      "sourceExpected": 140,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_w/shield_value",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 465,
+      "sourceExpected": 465,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_w/magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 116,
+      "sourceExpected": 116.00000143051147,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_w/magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 366,
+      "sourceExpected": 366.00000500679016,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_e/magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 98,
+      "sourceExpected": 98.00000071525574,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_e/magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 382,
+      "sourceExpected": 382.0000100135803,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_r/first_magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 99,
+      "sourceExpected": 99.00000035762787,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_r/first_magic_damage",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 259,
+      "sourceExpected": 259.00000125169754,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_r/recast_magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 210,
+      "sourceExpected": 210,
+      "passed": true
+    },
+    {
+      "formulaKey": "vex_r/recast_magic_damage",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 560,
+      "sourceExpected": 560,
+      "passed": true
+    },
+    {
+      "formulaKey": "zilean_q/magic_damage",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 183,
+      "sourceExpected": 182.99999713897705,
+      "passed": true
+    },
+    {
+      "formulaKey": "zilean_q/magic_damage",
+      "scenario": "高端",
+      "rank": 5,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 678,
+      "sourceExpected": 677.9999899864197,
+      "passed": true
+    },
+    {
+      "formulaKey": "zilean_r/revive_heal",
+      "scenario": "低端",
+      "rank": 1,
+      "characterLevel": 1,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 120,
+        "SOURCE.attack_damage.BONUS": 65,
+        "SOURCE.attack_damage.TOTAL": 165
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.8,
+        "actual_attack_speed_ratio": 0.28,
+        "actual_gloom_character_level_base_damage": 40
+      },
+      "actual": 840,
+      "sourceExpected": 840,
+      "passed": true
+    },
+    {
+      "formulaKey": "zilean_r/revive_heal",
+      "scenario": "高端",
+      "rank": 3,
+      "characterLevel": 18,
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 420,
+        "SOURCE.attack_damage.BONUS": 210,
+        "SOURCE.attack_damage.TOTAL": 360
+      },
+      "runtime": {
+        "actual_cooldown_multiplier": 0.55,
+        "actual_attack_speed_ratio": 0.72,
+        "actual_gloom_character_level_base_damage": 150
+      },
+      "actual": 1940,
+      "sourceExpected": 1940,
+      "passed": true
+    }
+  ],
+  "missing": [
+    {
+      "formulaKey": "katarina_p/dagger_magic_damage",
+      "dependency": "A|SOURCE.attack_damage.BONUS",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_p/dagger_magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_q/magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_e/magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_e/magic_damage",
+      "dependency": "A|SOURCE.attack_damage.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_e/dagger_cooldown_reduction_ms",
+      "dependency": "P|actual_cooldown_multiplier",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_r/magic_damage_per_tick",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_r/total_magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_r/physical_damage_per_tick",
+      "dependency": "A|SOURCE.attack_damage.BONUS",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_r/physical_damage_per_tick",
+      "dependency": "P|actual_attack_speed_ratio",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_r/total_physical_damage",
+      "dependency": "A|SOURCE.attack_damage.BONUS",
+      "rejected": true
+    },
+    {
+      "formulaKey": "katarina_r/total_physical_damage",
+      "dependency": "P|actual_attack_speed_ratio",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_q/initial_magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_q/mark_magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_w/magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_e/initial_magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_e/delayed_magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_q_initial_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_q_mark_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_w_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_e_initial_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "leblanc_r/replicated_e_delayed_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "vex_p/gloom_bonus_magic_damage",
+      "dependency": "P|actual_gloom_character_level_base_damage",
+      "rejected": true
+    },
+    {
+      "formulaKey": "vex_p/gloom_bonus_magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "vex_q/magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "vex_w/shield_value",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "vex_w/magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "vex_e/magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "vex_r/first_magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "vex_r/recast_magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "zilean_q/magic_damage",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "formulaKey": "zilean_r/revive_heal",
+      "dependency": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    }
+  ],
+  "integer": [
+    {
+      "skillKey": "katarina_p",
+      "parameterKey": "reset_window_ms",
+      "values": [
+        3000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_p",
+      "parameterKey": "reset_cooldown_reduction_ms",
+      "values": [
+        15000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_p",
+      "parameterKey": "dagger_radius",
+      "values": [
+        340
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_p",
+      "parameterKey": "dagger_duration_ms",
+      "values": [
+        4000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_q",
+      "parameterKey": "base_damage",
+      "values": [
+        80,
+        115,
+        150,
+        185,
+        220
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_q",
+      "parameterKey": "bounce_offset",
+      "values": [
+        350
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_q",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_w",
+      "parameterKey": "movement_speed_duration_ms",
+      "values": [
+        1250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_w",
+      "parameterKey": "movement_speed_percent_points",
+      "values": [
+        50,
+        60,
+        70,
+        80,
+        90
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_w",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_e",
+      "parameterKey": "base_damage",
+      "values": [
+        20,
+        30,
+        40,
+        50,
+        60
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_e",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_e",
+      "parameterKey": "milliseconds_per_second",
+      "values": [
+        1000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_r",
+      "parameterKey": "ticks_per_second",
+      "values": [
+        6
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_r",
+      "parameterKey": "grievous_duration_ms",
+      "values": [
+        3000,
+        3000,
+        3000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "katarina_r",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_p",
+      "parameterKey": "passive_cooldown_ms",
+      "values": [
+        60000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_p",
+      "parameterKey": "health_threshold_percent_points",
+      "values": [
+        40
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_p",
+      "parameterKey": "invisibility_duration_ms",
+      "values": [
+        1000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_q",
+      "parameterKey": "base_damage",
+      "values": [
+        65,
+        90,
+        115,
+        140,
+        165
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_q",
+      "parameterKey": "mark_base_damage",
+      "values": [
+        65,
+        90,
+        115,
+        140,
+        165
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_q",
+      "parameterKey": "mark_duration_ms",
+      "values": [
+        3500
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_q",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "base_damage",
+      "values": [
+        75,
+        115,
+        155,
+        195,
+        235
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "snapback_window_ms",
+      "values": [
+        4000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "snapback_delay_ms",
+      "values": [
+        200
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "snapback_queue_window_ms",
+      "values": [
+        200
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "spell_max_range",
+      "values": [
+        600
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "initial_base_damage",
+      "values": [
+        50,
+        70,
+        90,
+        110,
+        130
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "delayed_base_damage",
+      "values": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "tether_duration_ms",
+      "values": [
+        1500
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "root_duration_ms",
+      "values": [
+        1500
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "tether_distance",
+      "values": [
+        865
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_r",
+      "parameterKey": "rq1_base_damage",
+      "values": [
+        70,
+        150,
+        230
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_r",
+      "parameterKey": "rq2_base_damage",
+      "values": [
+        140,
+        300,
+        460
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_r",
+      "parameterKey": "rw_base_damage",
+      "values": [
+        150,
+        315,
+        480
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_r",
+      "parameterKey": "re1_base_damage",
+      "values": [
+        70,
+        150,
+        230
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_r",
+      "parameterKey": "re2_base_damage",
+      "values": [
+        140,
+        300,
+        460
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_r",
+      "parameterKey": "mark_duration_ms",
+      "values": [
+        3500
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_r",
+      "parameterKey": "cooldown_ms",
+      "values": [
+        45000,
+        35000,
+        25000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "leblanc_r",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        425
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_p",
+      "parameterKey": "gloom_duration_ms",
+      "values": [
+        6000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_q",
+      "parameterKey": "base_damage",
+      "values": [
+        70,
+        115,
+        160,
+        205,
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_q",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        150
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "base_shield",
+      "values": [
+        50,
+        75,
+        100,
+        125,
+        150
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "base_damage",
+      "values": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "shield_duration_ms",
+      "values": [
+        2500
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "aoe_radius",
+      "values": [
+        475
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "bonus_aoe_radius_vs_dashes",
+      "values": [
+        75
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "base_damage",
+      "values": [
+        50,
+        70,
+        90,
+        110,
+        130
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "slow_duration_ms",
+      "values": [
+        2000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "starting_radius",
+      "values": [
+        200
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "radius_growth_rate",
+      "values": [
+        13
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "max_radius",
+      "values": [
+        300
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "base_damage",
+      "values": [
+        75,
+        125,
+        175
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "recast_base_damage",
+      "values": [
+        150,
+        250,
+        350
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "recast_window_ms",
+      "values": [
+        4000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "takedown_window_ms",
+      "values": [
+        8000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "reset_window_ms",
+      "values": [
+        12000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "cast_time_ms",
+      "values": [
+        250
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zilean_q",
+      "parameterKey": "base_damage",
+      "values": [
+        75,
+        115,
+        165,
+        230,
+        300
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zilean_q",
+      "parameterKey": "stun_duration_ms",
+      "values": [
+        1100,
+        1200,
+        1300,
+        1400,
+        1500
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zilean_q",
+      "parameterKey": "fuse_duration_ms",
+      "values": [
+        3000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zilean_w",
+      "parameterKey": "cooldown_reduction_ms",
+      "values": [
+        10000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zilean_e",
+      "parameterKey": "duration_ms",
+      "values": [
+        2500
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zilean_e",
+      "parameterKey": "speed_percent_points",
+      "values": [
+        40,
+        55,
+        70,
+        85,
+        99
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zilean_r",
+      "parameterKey": "base_heal",
+      "values": [
+        600,
+        850,
+        1100
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zilean_r",
+      "parameterKey": "protection_duration_ms",
+      "values": [
+        5000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zilean_r",
+      "parameterKey": "revive_stasis_duration_ms",
+      "values": [
+        3000
+      ],
+      "passed": true
+    }
+  ],
+  "bounds": [
+    {
+      "check": "character_level",
+      "skillKey": "katarina_p",
+      "characterLevel": 0,
+      "rejected": true
+    },
+    {
+      "check": "character_level",
+      "skillKey": "katarina_p",
+      "characterLevel": 19,
+      "rejected": true
+    },
+    {
+      "check": "character_level",
+      "skillKey": "katarina_e",
+      "characterLevel": 0,
+      "rejected": true
+    },
+    {
+      "check": "character_level",
+      "skillKey": "katarina_e",
+      "characterLevel": 19,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "katarina_q",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "katarina_q",
+      "rank": 6,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "katarina_e",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "katarina_e",
+      "rank": 6,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "katarina_r",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "katarina_r",
+      "rank": 4,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "leblanc_q",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "leblanc_q",
+      "rank": 6,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "leblanc_w",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "leblanc_w",
+      "rank": 6,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "leblanc_e",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "leblanc_e",
+      "rank": 6,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "leblanc_r",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "leblanc_r",
+      "rank": 4,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "vex_q",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "vex_q",
+      "rank": 6,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "vex_w",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "vex_w",
+      "rank": 6,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "vex_e",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "vex_e",
+      "rank": 6,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "vex_r",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "vex_r",
+      "rank": 4,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "zilean_q",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "zilean_q",
+      "rank": 6,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "zilean_r",
+      "rank": 0,
+      "rejected": true
+    },
+    {
+      "check": "skill_rank",
+      "skillKey": "zilean_r",
+      "rank": 4,
+      "rejected": true
+    },
+    {
+      "check": "source_indices",
+      "details": "公式场景直接从冻结DataValues/计算树按技能等级索引读取；未使用候选参数值作为期望",
+      "passed": true
+    },
+    {
+      "check": "runtime_no_default",
+      "details": [
+        "actual_cooldown_multiplier",
+        "actual_attack_speed_ratio",
+        "actual_gloom_character_level_base_damage"
+      ],
+      "passed": true
+    }
+  ],
+  "sourceChecks": [
+    {
+      "kind": "ByCharLevelFormula",
+      "length": 18,
+      "sourceIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_p",
+      "calculationKey": "TotalDamage",
+      "dataName": "BonusADRatio",
+      "index": 0
+    },
+    {
+      "kind": "ByCharLevelBreakpoints",
+      "base": 0.699999988079071,
+      "breakpoints": [
+        {
+          "level": 6,
+          "bonus": 0.10000000149011612
+        },
+        {
+          "level": 11,
+          "bonus": 0.10000000149011612
+        },
+        {
+          "level": 16,
+          "bonus": 0.10000000149011612
+        }
+      ]
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_q",
+      "calculationKey": "TotalDamage",
+      "dataName": "BaseDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_q",
+      "calculationKey": "TotalDamage",
+      "dataName": "QAPRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_e",
+      "calculationKey": "TotalDamage",
+      "dataName": "BaseDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_e",
+      "calculationKey": "TotalDamage",
+      "dataName": "EAPRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_e",
+      "calculationKey": "TotalDamage",
+      "dataName": "EADRatio",
+      "index": 1
+    },
+    {
+      "kind": "ByCharLevelBreakpoints",
+      "base": 0.7799999713897705,
+      "breakpoints": [
+        {
+          "level": 6,
+          "bonus": 0.05999999865889549
+        },
+        {
+          "level": 11,
+          "bonus": 0.05999999865889549
+        },
+        {
+          "level": 16,
+          "bonus": 0.05999999865889549
+        },
+        {
+          "level": 21,
+          "bonus": 0.03999999910593033
+        }
+      ]
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_e",
+      "calculationKey": "DaggerCooldownReduction",
+      "dataName": "DataCooldown",
+      "index": 1
+    },
+    {
+      "kind": "UnitConversion",
+      "secondsToMilliseconds": 1000
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_r",
+      "calculationKey": "DamageCalc",
+      "dataName": "DamagePerTick",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_r",
+      "calculationKey": "DamageCalc",
+      "dataName": "RAPRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_r",
+      "calculationKey": "TotalDamageCalc",
+      "dataName": "TicksPerSecond",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "katarina_r",
+      "calculationKey": "TotalDamageCalc",
+      "dataName": "Duration",
+      "index": 1
+    },
+    {
+      "kind": "Number",
+      "skillKey": "katarina_r",
+      "calculationKey": "ADDamageCalc",
+      "expected": 0.16,
+      "actual": 0.1599999964237213
+    },
+    {
+      "kind": "Number",
+      "skillKey": "katarina_r",
+      "calculationKey": "ADDamageCalc",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "kind": "Coefficient",
+      "skillKey": "katarina_r",
+      "calculationKey": "ADDamageCalc",
+      "expected": 3.125,
+      "actual": 3.125
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_q",
+      "calculationKey": "Damage",
+      "dataName": "BaseDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_q",
+      "calculationKey": "Damage",
+      "dataName": "APRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_q",
+      "calculationKey": "MarkDamage",
+      "dataName": "BaseMarkDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_w",
+      "calculationKey": "TotalDamage",
+      "dataName": "BaseDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_w",
+      "calculationKey": "TotalDamage",
+      "dataName": "WAPRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_e",
+      "calculationKey": "InitialDamage",
+      "dataName": "BaseInitialDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_e",
+      "calculationKey": "InitialDamage",
+      "dataName": "InitialAPRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_e",
+      "calculationKey": "DelayedDamage",
+      "dataName": "BaseDelayedDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_e",
+      "calculationKey": "DelayedDamage",
+      "dataName": "DelayedAPRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_r",
+      "calculationKey": "RQ1Damage",
+      "dataName": "RQ1Base",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_r",
+      "calculationKey": "RQ1Damage",
+      "dataName": "RQ1RE1BaseAPRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_r",
+      "calculationKey": "RQ2Damage",
+      "dataName": "RQ2Base",
+      "index": 1
+    },
+    {
+      "kind": "Coefficient",
+      "skillKey": "leblanc_r",
+      "calculationKey": "RQ2Damage",
+      "expected": 0.8,
+      "actual": 0.800000011920929
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_r",
+      "calculationKey": "RWDamage",
+      "dataName": "RWBase",
+      "index": 1
+    },
+    {
+      "kind": "Coefficient",
+      "skillKey": "leblanc_r",
+      "calculationKey": "RWDamage",
+      "expected": 0.9,
+      "actual": 0.8999999761581421
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_r",
+      "calculationKey": "RE1Damage",
+      "dataName": "RE1Base",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "leblanc_r",
+      "calculationKey": "RE2Damage",
+      "dataName": "RE2Base",
+      "index": 1
+    },
+    {
+      "kind": "Coefficient",
+      "skillKey": "leblanc_r",
+      "calculationKey": "RE2Damage",
+      "expected": 0.85,
+      "actual": 0.8500000238418579
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_p",
+      "calculationKey": "GloomProcCalc",
+      "dataName": "APRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_q",
+      "calculationKey": "QDamageCalc",
+      "dataName": "BaseDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_q",
+      "calculationKey": "QDamageCalc",
+      "dataName": "APRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_w",
+      "calculationKey": "ShieldCalc",
+      "dataName": "ShieldAmount",
+      "index": 1
+    },
+    {
+      "kind": "Coefficient",
+      "skillKey": "vex_w",
+      "calculationKey": "ShieldCalc",
+      "expected": 0.75,
+      "actual": 0.75
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_w",
+      "calculationKey": "WDamageCalc",
+      "dataName": "BaseDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_w",
+      "calculationKey": "WDamageCalc",
+      "dataName": "DamageAPRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_e",
+      "calculationKey": "EDamageCalc",
+      "dataName": "BaseDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_e",
+      "calculationKey": "EDamageCalc",
+      "dataName": "APRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_r",
+      "calculationKey": "RDamageCalc",
+      "dataName": "BaseDamage",
+      "index": 1
+    },
+    {
+      "kind": "Coefficient",
+      "skillKey": "vex_r",
+      "calculationKey": "RDamageCalc",
+      "expected": 0.2,
+      "actual": 0.20000000298023224
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "vex_r",
+      "calculationKey": "RecastDamageCalc",
+      "dataName": "RecastDamage",
+      "index": 1
+    },
+    {
+      "kind": "Coefficient",
+      "skillKey": "vex_r",
+      "calculationKey": "RecastDamageCalc",
+      "expected": 0.5,
+      "actual": 0.5
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "zilean_q",
+      "calculationKey": "TotalDamage",
+      "dataName": "BombBaseDamage",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "zilean_q",
+      "calculationKey": "TotalDamage",
+      "dataName": "APRatio",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "zilean_r",
+      "calculationKey": "RTotalHeal",
+      "dataName": "RBaseHeal",
+      "index": 1
+    },
+    {
+      "kind": "DataValue",
+      "skillKey": "zilean_r",
+      "calculationKey": "RTotalHeal",
+      "dataName": "APRatio",
+      "index": 1
+    }
+  ],
+  "basis": "每个候选公式实际解析候选表达式；每个独立期望值直接读取冻结客户端DataValues和当前计算树，未从候选参数的固定值或等级值生成期望。两组明确角色等级、技能等级、属性和运行输入均通过；删除每个外部属性或运行输入均拒绝，非法等级、整数和毫秒约束均检查。未调用业务接口；业务实录仍须另行读取接口公式。",
+  "apiCalls": 0,
+  "apiWrites": 0
+}

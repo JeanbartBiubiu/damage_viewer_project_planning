@@ -1,0 +1,33 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/janna_p/formulas",
+    "detailRoute": "/skills/janna_p/formulas/bonus_magic_damage",
+    "skillKey": "janna_p",
+    "kind": "formulas",
+    "stableKey": "bonus_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bonus_magic_damage",
+      "name": "顺风而行自身额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_move_speed_damage_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_bonus_move_speed"
+          }
+        ]
+      },
+      "description": "BonusDamage = MSBonusMagicDamage × 当前额外移动速度点数；保留普攻与和风守护的自身伤害换算，不把点数误当成百分比属性，也不创建自动攻击事件。",
+      "sortOrder": 10
+    }
+  }
+}

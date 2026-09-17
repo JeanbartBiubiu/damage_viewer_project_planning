@@ -1,0 +1,40 @@
+{
+  "i": 61,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_w/formulas",
+    "skillKey": "poppy_w",
+    "kind": "formulas",
+    "stableKey": "passive_bonus_armor_low_health",
+    "body": {
+      "formulaKey": "passive_bonus_armor_low_health",
+      "name": "低生命被动额外护甲",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_resist_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_low_health_multiplier"
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_source_armor_before_passive"
+          }
+        ]
+      },
+      "description": "生命低于40%时双抗加成端点=0.16×2×应用前来源护甲；条件事件未接线。",
+      "sortOrder": 20
+    }
+  }
+}

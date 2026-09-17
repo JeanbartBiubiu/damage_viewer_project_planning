@@ -1,0 +1,40 @@
+{
+  "sequence": 3,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/alistar_p/parameters",
+    "detailRoute": "/skills/alistar_p/parameters/passive_max_stacks",
+    "skillKey": "alistar_p",
+    "kind": "parameters",
+    "stableKey": "passive_max_stacks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_max_stacks",
+      "name": "被动满层次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 7,
+      "levelValues": null,
+      "description": "当前绑定DataValues.PassiveMaxStacks=7；次数为整数。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 186,
+    "method": "GET",
+    "route": "/skills/alistar_p/parameters/passive_max_stacks",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "passive_max_stacks"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:55:45.383Z"
+  }
+}

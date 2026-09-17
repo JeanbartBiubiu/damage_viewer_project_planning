@@ -1,0 +1,39 @@
+{
+  "sequence": 30,
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/drmundo_w/parameters",
+    "detailRoute": "/skills/drmundo_w/parameters/gray_health_nonhero_restore_ratio",
+    "skillKey": "drmundo_w",
+    "kind": "parameters",
+    "stableKey": "gray_health_nonhero_restore_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "gray_health_nonhero_restore_ratio",
+      "name": "未命中敌方英雄灰色生命回复比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.GrayHealthSmallMod=0.5；条件分支保留来源，灰色生命属性尚无字典。",
+      "sortOrder": 80
+    }
+  },
+  "before": {
+    "sequence": 292,
+    "method": "GET",
+    "route": "/skills/drmundo_w/parameters/gray_health_nonhero_restore_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "gray_health_nonhero_restore_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:02.725Z"
+  }
+}

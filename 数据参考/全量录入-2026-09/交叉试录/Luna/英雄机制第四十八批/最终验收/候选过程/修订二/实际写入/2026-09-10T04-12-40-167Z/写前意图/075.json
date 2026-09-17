@@ -1,0 +1,52 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_r/effects",
+    "detailRoute": "/skills/yorick_r/effects/marked_target_damage",
+    "skillKey": "yorick_r",
+    "kind": "effects",
+    "stableKey": "marked_target_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "marked_target_damage",
+      "name": "海屿悼词标记目标魔法附伤",
+      "description": "保留约里克本人对室女标记目标的混合本体附伤；不建立室女或雾行者单位。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "海屿悼词标记目标魔法附伤",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "marked_target_magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

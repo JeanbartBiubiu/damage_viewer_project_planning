@@ -1,0 +1,23 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/yone_p/parameters",
+    "detailRoute": "/skills/yone_p/parameters/magic_damage_split_ratio",
+    "skillKey": "yone_p",
+    "kind": "parameters",
+    "stableKey": "magic_damage_split_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "magic_damage_split_ratio",
+      "name": "第二次攻击魔法伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "客户端MagicDamageSplit=0.5，正文明确每第二次攻击有50%攻击伤害为魔法伤害；比例1代表100%。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 118,
+    "method": "POST",
+    "route": "/skills/vex_e/parameters",
+    "detailRoute": "/skills/vex_e/parameters/slow_duration_ms",
+    "skillKey": "vex_e",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "客户端SlowDuration取索引1的2秒，转换为2000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

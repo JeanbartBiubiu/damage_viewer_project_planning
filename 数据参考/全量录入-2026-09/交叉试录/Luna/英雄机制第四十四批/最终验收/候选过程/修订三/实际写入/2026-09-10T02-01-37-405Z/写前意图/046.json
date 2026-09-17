@@ -1,0 +1,29 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "method": "POST",
+    "route": "/skills/monkeyking_q/parameters",
+    "detailRoute": "/skills/monkeyking_q/parameters/base_damage",
+    "skillKey": "monkeyking_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "额外物理伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 45,
+        "3": 70,
+        "4": 95,
+        "5": 120
+      },
+      "description": "来源20/45/70/95/120。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 198,
+  "intent": {
+    "sequence": 199,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/parameters",
+    "detailRoute": "/skills/twistedfate_w/parameters/red_slow_ratio",
+    "skillKey": "twistedfate_w",
+    "kind": "parameters",
+    "stableKey": "red_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "red_slow_ratio",
+      "name": "红牌减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.35,
+        "3": 0.4,
+        "4": 0.45,
+        "5": 0.5
+      },
+      "description": "当前官方中文Effect[2]原值30/35/40/45/50为百分数点，按比例保存。",
+      "sortOrder": 130
+    }
+  }
+}

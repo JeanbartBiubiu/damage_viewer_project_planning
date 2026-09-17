@@ -1,0 +1,23 @@
+{
+  "i": 150,
+  "intent": {
+    "sequence": 151,
+    "method": "POST",
+    "route": "/skills/renata_w/parameters",
+    "detailRoute": "/skills/renata_w/parameters/death_decay_duration_ms",
+    "skillKey": "renata_w",
+    "kind": "parameters",
+    "stableKey": "death_decay_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "death_decay_duration_ms",
+      "name": "复活后生命衰减持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "当前中文/英文正文明确3秒；不采用匿名2.5秒。",
+      "sortOrder": 90
+    }
+  }
+}

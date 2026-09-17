@@ -1,0 +1,20 @@
+{
+  "i": 60,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_p/parameters",
+    "skillKey": "shen_p",
+    "kind": "parameters",
+    "stableKey": "actual_shield_cooldown_reduction_ms",
+    "body": {
+      "parameterKey": "actual_shield_cooldown_reduction_ms",
+      "name": "实际等级每次技能命中缩短被动冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "根ShieldCooldownReduction为4秒、每级0.235秒且19级后0.125秒；完整角色等级求值和归整未证，须提供正确阶段的实际整数毫秒，无默认；本参数不自行推测或执行归整。",
+      "sortOrder": 70
+    }
+  }
+}

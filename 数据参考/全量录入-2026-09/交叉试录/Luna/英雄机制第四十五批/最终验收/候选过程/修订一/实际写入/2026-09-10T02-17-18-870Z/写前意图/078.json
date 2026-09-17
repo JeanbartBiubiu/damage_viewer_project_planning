@@ -1,0 +1,46 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 78,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_w/formulas",
+    "detailRoute": "/skills/heimerdinger_w/formulas/following_magic_damage",
+    "skillKey": "heimerdinger_w",
+    "kind": "formulas",
+    "stableKey": "following_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "following_magic_damage",
+      "name": "微型导弹同目标后续魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "following_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "following_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ExtraHitDamage=同一目标后续每颗基础值+0.12×法强。",
+      "sortOrder": 20
+    }
+  }
+}

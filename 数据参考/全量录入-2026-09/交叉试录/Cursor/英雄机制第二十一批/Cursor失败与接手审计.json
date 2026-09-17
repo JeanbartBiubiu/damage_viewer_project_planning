@@ -1,0 +1,47 @@
+{
+  "at": "2026-09-09T12:14:22.969Z",
+  "status": "进程连接错误退出，未取得finished",
+  "exitCode": 1,
+  "runId": "run-e11c92c8-b78a-48a0-bdaa-ac28103f9e71",
+  "agentId": "agent-95789e03-196e-440c-942d-8bcee1a555bf",
+  "requestId": "f11ba1fb-c581-4269-8735-ee26d7b54a4a",
+  "model": "grok-4.6",
+  "effort": "high",
+  "fast": false,
+  "settingSources": [
+    "project"
+  ],
+  "error": "ConnectError [unknown] [aborted] read ECONNRESET；getTeamReposOrEmptyIfNotInTeam/checkRepoBlocked读取检查时进程异常退出",
+  "eventCount": 916,
+  "eventSha256": "a9cfa8fb307a40a49e530a28c314c5d171d04fbdf87d8688b1ab7d4869176b05",
+  "statusEvents": [
+    {
+      "at": "2026-09-09T11:56:51.409Z",
+      "status": "RUNNING"
+    }
+  ],
+  "toolEventCount": 150,
+  "uniqueToolCalls": 75,
+  "editEventCount": 7,
+  "shellCommands": [
+    "Get-ChildItem -Force \"C:\\project\\damage_web_dev\\.agents\\artifacts\\hero21-cursor-entry-20260909\\参考资料\" | Format-Table Name, Length, Mode; if (Test-Path \"C:\\project\\damage_web_dev\\.agents\\artifacts\\hero21-cursor-entry-20260909\\参考资料\\客户端原文\") { Get-ChildItem -Force \"C:\\project\\damage_web_dev\\.agents\\artifacts\\hero21-cursor-entry-20260909\\参考资料\\客户端原文\" | Format-Table Name, Length }",
+    "node -e \"\nconst fs = require('fs');\nconst zlib = require('zlib');\nconst path = require('path');\nconst root = 'C:/project/damage_web_dev/.agents/artifacts/hero21-cursor-entry-20260909';\nfunction loadGz(p){ return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8')); }\nconst ekko = loadGz(path.join(root,'参考资料/客户端原文/Ekko.json.gz'));\nconst fizz = loadGz(path.join(root,'参考资料/客户端原文/Fizz.json.gz'));\nconsole.log('Ekko keys', Object.keys(ekko).length);\nconsole.log('Fizz keys', Object.keys(fizz).length);\nconst ekkoSpellish = Object.keys(ekko).filter(k => /Spell|Ability|Buff|Missile|Ekko[PQWER]|Passive/i.test(k));\nconst fizzSpellish = Object.keys(fizz).filter(k => /Spell|Ability|Buff|Missile|Fizz[PQWER]|Passive|Shark|Fish/i.test(k));\nconsole.log('--- Ekko objects ---');\nfor (const k of Object.keys(ekko).sort()) console.log(k);\nconsole.log('--- Fizz objects ---');\nfor (const k of Object.keys(fizz).sort()) console.log(k);\n\"\n",
+    "node -e \"\nconst fs = require('fs');\nconst zlib = require('zlib');\nconst path = require('path');\nconst root = 'C:/project/damage_web_dev/.agents/artifacts/hero21-cursor-entry-20260909';\nfunction loadGz(p){ return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8')); }\nconst ekko = loadGz(path.join(root,'参考资料/客户端原文/Ekko.json.gz'));\nconst fizz = loadGz(path.join(root,'参考资料/客户端原文/Fizz.json.gz'));\n\nfunction pickSpell(obj) {\n  const s = obj.mSpell || {};\n  return {\n    ObjectName: obj.ObjectName,\n    mScriptName: obj.mScriptName,\n    spellCastTime: s.spellCastTime ?? null,\n    mCastTime: s.mCastTime ?? null,\n    delayCastOffsetPercent: s.delayCastOffsetPercent ?? null,\n    delayTotalTimePercent: s.delayTotalTimePercent ?? null,\n    mChannelDuration: s.mChannelDuration ?? null,\n    mChargeUpdateInterval: s.mChargeUpdateInterval ?? null,\n    cooldownTime: s.cooldownTime ?? null,\n    mana: s.mana ?? null,\n    mAlternateName: s.mAlternateName ?? null,\n    DataValues: (s.DataValues||[]).map(dv => ({name: dv.name, values: dv.values, mValues: dv.mValues})),\n    calculations: s.mSpellCalculations || null,\n    mLocKeys: s.mClientData?.mTooltipData?.mLocKeys || null,\n    mImgIconName: s.mImgIconName ?? null,\n    mSpellTags: s.mSpellTags ?? null,\n    mBuff: obj.mBuff || null,\n  };\n}\n\nconst out = {ekko:{}, fizz:{}};\nfor (const [k,v] of Object.entries(ekko)) {\n  if (k.startsWith('Characters/Ekko/Spells') && v && typeof v === 'object') {\n    if (v.mSpell || v.mBuff) out.ekko[k] = pickSpell(v);\n  }\n}\nfor (const [k,v] of Object.entries(fizz)) {\n  if (k.startsWith('Characters/Fizz/Spells') && v && typeof v === 'object') {\n    if (v.mSpell || v.mBuff) out.fizz[k] = pickSpell(v);\n  }\n}\nconsole.log(JSON.stringify(out, null, 2));\n\"",
+    "node -e \"\nconst fs = require('fs');\nconst zlib = require('zlib');\nconst path = require('path');\nconst root = 'C:/project/damage_web_dev/.agents/artifacts/hero21-cursor-entry-20260909';\nfunction loadGz(p){ return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8')); }\nconst ekko = loadGz(path.join(root,'参考资料/客户端原文/Ekko.json.gz'));\nconst fizz = loadGz(path.join(root,'参考资料/客户端原文/Fizz.json.gz'));\nfunction walk(obj, path, acc) {\n  if (!obj || typeof obj !== 'object') return;\n  if (obj.mStat != null || obj.mStatFormula != null || obj.mStat2 != null || obj.mStatFormula2 != null || obj.mMultiplier || obj.ResultModifier || obj.mModifiedGameCalculation) {\n    acc.push({path, mStat: obj.mStat, mStatFormula: obj.mStatFormula, mStat2: obj.mStat2, mStatFormula2: obj.mStatFormula2, type: obj.__type, mCoefficient: obj.mCoefficient, mDataValue: obj.mDataValue, mModifiedGameCalculation: obj.mModifiedGameCalculation, mMultiplier: obj.mMultiplier, ResultModifier: obj.ResultModifier, tooltipOnly: obj.tooltipOnly, mDisplayAsPercent: obj.mDisplayAsPercent});\n  }\n  for (const [k,v] of Object.entries(obj)) {\n    if (v && typeof v === 'object') walk(v, path+'.'+k, acc);\n  }\n}\nconst acc=[];\nwalk(ekko, 'Ekko', acc);\nwalk(fizz, 'Fizz', acc);\nconsole.log(JSON.stringify(acc, null, 2));\n\"\n",
+    "New-Item -ItemType Directory -Force -Path \"C:\\project\\damage_web_dev\\.agents\\artifacts\\hero21-cursor-entry-20260909\\产物\" | Out-Null; Write-Output \"ok\""
+  ],
+  "immutableInputs": 17,
+  "inputHashesUnchanged": true,
+  "outputFiles": [
+    {
+      "name": "生成候选与核算.mjs",
+      "bytes": 62520,
+      "sha256": "d9a01381b89ed6cb83dbbe8a73c39fdc0f96cab00bdc1d85357ff8f3f432f4f9"
+    }
+  ],
+  "gitStatusAfterFailure": "?? \"\\344\\272\\247\\347\\211\\251/\\347\\224\\237\\346\\210\\220\\345\\200\\231\\351\\200\\211\\344\\270\\216\\346\\240\\270\\347\\256\\227.mjs\"\n",
+  "runnerSummaryAvailable": true,
+  "auditBoundary": "运行器未正常结束，原运行不能作为完成或独立验收结论；主负责人在进程结束后核对输入散列、已记录编辑路径和当前Git差异，后续本地接手另记。",
+  "businessWrites": 0,
+  "next": "保留原件，在独立根接手目录检查并生成候选，重新来源复核；不重启或重放已有Cursor运行。"
+}

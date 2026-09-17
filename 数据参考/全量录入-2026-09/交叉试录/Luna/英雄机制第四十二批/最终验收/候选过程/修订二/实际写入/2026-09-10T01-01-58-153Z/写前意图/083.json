@@ -1,0 +1,25 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "skillKey": "ksante_r",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_r/parameters",
+    "stableKey": "slam_base_damage",
+    "body": {
+      "parameterKey": "slam_base_damage",
+      "name": "穿墙后第二段基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 115,
+        "3": 150
+      },
+      "description": "索引1至3为80/115/150，同一敌人再次命中保留。",
+      "sortOrder": 20
+    }
+  }
+}

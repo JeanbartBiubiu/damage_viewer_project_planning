@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T05:43:22.900Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/ryze_p/formulas/maximum_mana_bonus_ratio",
+  "id": "maximum_mana_bonus_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "maximum_mana_bonus_ratio",
+    "name": "最大法力值增幅比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_1"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mana_gain_tooltip_coefficient"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "percent_points_to_ratio"
+        }
+      ]
+    },
+    "description": "AP100时显示10%，实际比例0.1；不能把显示10当比例10。属性基数和反馈合并未连接。",
+    "sortOrder": 20
+  }
+}

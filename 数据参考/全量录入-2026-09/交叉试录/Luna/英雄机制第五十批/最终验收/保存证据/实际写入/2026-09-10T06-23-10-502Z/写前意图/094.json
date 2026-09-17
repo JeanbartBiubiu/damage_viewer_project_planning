@@ -1,0 +1,24 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/parameters",
+    "detailRoute": "/skills/udyr_e/parameters/empowered_move_speed_end_ratio",
+    "skillKey": "udyr_e",
+    "kind": "parameters",
+    "stableKey": "empowered_move_speed_end_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_move_speed_end_ratio",
+      "name": "角色18级觉醒移动速度端点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "MoveSpeedBonus角色等级结束端点0.40；中间曲线未知。",
+      "sortOrder": 100
+    }
+  }
+}

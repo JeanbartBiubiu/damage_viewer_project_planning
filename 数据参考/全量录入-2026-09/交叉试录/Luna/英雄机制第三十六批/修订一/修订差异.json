@@ -1,0 +1,90 @@
+{
+  "generatedAt": "2026-09-09T19:31:36.143Z",
+  "batch": "英雄机制第三十六批",
+  "fromRevision": "hero36-source-v1",
+  "revision": "hero36-source-v1-revision-1",
+  "originalCandidateSha256": "f13a305499d5cebcf342ce444d3fc9bbd83c53a2a883f0d18d884851bdd0e565",
+  "originalPlanSha256": "ecde28102757a301368117cb11ede14416fdf10a542d25df8a5b15cc896e4030",
+  "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
+  "planSha256": "2241e69a53f9538a4135515251f063aa5df4a03120e33163f56648d5471ec91b",
+  "counts": {
+    "before": {
+      "skills": 20,
+      "parameters": 135,
+      "formulas": 31,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "after": {
+      "skills": 20,
+      "parameters": 129,
+      "formulas": 31,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    }
+  },
+  "changes": {
+    "removedParameters": [
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "evelynn_r",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "lillia_q",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "lillia_r",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "fiddlesticks_e",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "parameterKey": "cast_time_ms"
+      },
+      {
+        "skillKey": "singed_p",
+        "parameterKey": "cast_time_seconds"
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "cast_time_seconds"
+      },
+      {
+        "skillKey": "singed_e",
+        "parameterKey": "nonchampion_damage_cap"
+      }
+    ],
+    "addedParameters": [
+      {
+        "skillKey": "evelynn_q",
+        "parameterKey": "marked_bonus_max_hits",
+        "fixedValue": 3
+      },
+      {
+        "skillKey": "evelynn_w",
+        "parameterKey": "charm_charge_time_ms",
+        "fixedValue": 2500
+      },
+      {
+        "skillKey": "singed_q",
+        "parameterKey": "mana_per_second",
+        "fixedValue": 13
+      }
+    ],
+    "formulasUnchanged": true,
+    "sourceInputUnchanged": true,
+    "businessWrites": 0
+  }
+}

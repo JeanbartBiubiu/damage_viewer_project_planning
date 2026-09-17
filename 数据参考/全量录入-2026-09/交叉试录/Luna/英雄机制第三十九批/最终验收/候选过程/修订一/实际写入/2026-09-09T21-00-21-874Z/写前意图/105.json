@@ -1,0 +1,24 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/parameters",
+    "detailRoute": "/skills/nilah_q/parameters/critical_multiplier_base",
+    "skillKey": "nilah_q",
+    "kind": "parameters",
+    "stableKey": "critical_multiplier_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_multiplier_base",
+      "name": "暴击倍率基准",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "DamageCalc根mMultiplier第一项为Number=1，作为完整倍率树的基准。",
+      "sortOrder": 150
+    }
+  }
+}

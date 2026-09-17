@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "capturedAt": "2026-09-13T06:32:43.443Z",
+  "status": "CAPTURED",
+  "sourceVersion": "16.17/16.17.1",
+  "files": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第五十批/最终验收/候选过程/修订二/完整候选.json",
+      "bytes": 687062,
+      "sha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十八批/最终验收/候选过程/修订二/完整候选.json",
+      "bytes": 635879,
+      "sha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268"
+    }
+  ],
+  "objects": [
+    {
+      "id": "azir_r",
+      "skillKey": "azir_r",
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第五十批/最终验收/候选过程/修订二/完整候选.json",
+      "objectPath": "skills.azir_r",
+      "objectSha256": "133867f17bebd39fba7f4974a6169bc8d7311decbb75801da472616c16db6569",
+      "formulaSha256": "73752511f26e850168ac69a2d1cbf01e2e0db1e78ca79103d30361cc0cd9d602",
+      "effectSha256": "f7c4202089c972a3103466da9cab267263bed39bae42603f03d2a9246072ed1b",
+      "sourcePending": [
+        "击退距离、碰撞、墙体地形操作和命中事件待接线；不从6/7/8推导伤害倍数。"
+      ],
+      "sourceExcluded": [
+        "兵墙自主攻击单位、墙构成之外的士兵攻击、额外敌人分配和兵野分支排除；NumberOfSoldiers不乘伤害。"
+      ]
+    },
+    {
+      "id": "azir_e",
+      "skillKey": "azir_e",
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第五十批/最终验收/候选过程/修订二/完整候选.json",
+      "objectPath": "skills.azir_e",
+      "objectSha256": "9f80a508441038871518da0a7b2a3f4c14ff2a5827ff9893c6d4fe750945be37",
+      "formulaSha256": "ec19e4ad51e75bf03fbd8a2749e6391ff44bce8d461a7e672f31944fd5ec3c14",
+      "effectSha256": "9dda7b9d072dfa5488de5d04774c5a646a77aa5c01e9df3527f2e40ea046dabb",
+      "sourcePending": [
+        "已有士兵目标资格、突进位移、命中英雄停下、护盾应用时点和击退/碰撞事件待接线；没有mCastTime或spellCastTime时不填0。"
+      ],
+      "sourceExcluded": [
+        "士兵创建、士兵充能返还、外部士兵攻击与其他目标分配排除；不把wrapper的mDoesNotConsumeMana/Cooldown改写成新的公共值。"
+      ]
+    },
+    {
+      "id": "yorick_e",
+      "skillKey": "yorick_e",
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十八批/最终验收/候选过程/修订二/完整候选.json",
+      "objectPath": "skills.yorick_e",
+      "objectSha256": "c18f6f8c1d7f7f09cd115143e47d29db22f0aa611464a4a95dff09b2b9ba04f7",
+      "formulaSha256": "7851be8624b2ee29857985ea80cc865743837593ea9f0d56798d16d97270a1cb",
+      "effectSha256": "53513407b6fb04ac527dd43bbcd6779abbfd4940e1db9796bc6353da07438af7",
+      "sourcePending": [
+        "命中、唯一敌人、减速、护甲削减、标记及自身朝标记目标移动事件待运行层接线；不把未知属性枚举写成默认值。"
+      ],
+      "sourceExcluded": [
+        "灵墙、雾行者、兵野最低/上限伤害排除。"
+      ]
+    },
+    {
+      "id": "viego_w",
+      "skillKey": "viego_w",
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十八批/最终验收/候选过程/修订二/完整候选.json",
+      "objectPath": "skills.viego_w",
+      "objectSha256": "bdda7bac7f90df7c6f372c99d75877e862b404f12e095c0d2a95ee038c9ded81",
+      "formulaSha256": "101e4fdbd80a1baf0744e8601cbf3d3a82540d8e1d8a0f2ca0b9afe9a3d4ea5f",
+      "effectSha256": "a9b4f9bf116a5c9f011d2619f8d18c15ef9bb52a6bfba3470348f2aab0c6a8db",
+      "sourcePending": [
+        "实际蓄力时间、首次命中、晕眩随蓄力插值、打断、冲刺和spellCastTime=0阶段语义待运行层接线；不把1秒通道当最长晕眩。"
+      ],
+      "sourceExcluded": [
+        "无消耗、其他敌人、形态击飞和额外目标分支排除。"
+      ]
+    }
+  ],
+  "runtimeBoundary": "来源候选只证明管理组成；不证明Wasm组装、宿主事件生产或战斗运行。"
+}

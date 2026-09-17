@@ -1,0 +1,27 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 96,
+    "method": "POST",
+    "route": "/skills/kaisa_r/parameters",
+    "detailRoute": "/skills/kaisa_r/parameters/total_attack_damage_ratio",
+    "skillKey": "kaisa_r",
+    "kind": "parameters",
+    "stableKey": "total_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_attack_damage_ratio",
+      "name": "总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.8999999761581421,
+        "2": 1.350000023841858,
+        "3": 1.7999999523162842
+      },
+      "description": "当前RCalculatedShieldValue树RTotalADRatio取等级1至3，为0.9/1.35/1.8，取来源总攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

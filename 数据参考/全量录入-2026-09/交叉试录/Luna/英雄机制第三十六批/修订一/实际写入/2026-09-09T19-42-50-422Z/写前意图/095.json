@@ -1,0 +1,67 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 95,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_q/formulas",
+    "detailRoute": "/skills/fiddlesticks_q/formulas/normal_magic_damage",
+    "skillKey": "fiddlesticks_q",
+    "kind": "formulas",
+    "stableKey": "normal_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "normal_magic_damage",
+      "name": "恐惧普通魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MAX",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "minimum_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "current_health_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "current_health_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "普通完整值 = MAX(最小伤害, 目标当前生命×(当前生命比例 + 0.0003×来源总法强))；不把MaxHealthDamage当最大生命。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,1292 @@
+{
+  "startedAt": "2026-09-09T16:33:28.738Z",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "requestedCwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-20260909",
+  "outDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-run-20260909",
+  "promptSource": "评审任务.md",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "timeoutMs": 900000,
+  "maxOldSpaceSizeMb": 6144,
+  "v8HeapSizeLimitMiB": 6336,
+  "settingSources": [
+    "project"
+  ],
+  "allowedPaths": [
+    {
+      "input": ".",
+      "absolute": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-20260909",
+      "relative": ".",
+      "exists": true
+    }
+  ],
+  "allowedPathSpecs": [
+    "."
+  ],
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "startup": {
+    "maxAttempts": 1,
+    "baseDelayMs": 1000,
+    "attemptsUsed": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "phase": "send",
+        "candidateAgentId": "agent-292ac45c-a3f4-400a-81c2-ec6229fde337",
+        "error": null,
+        "retryDecision": "success",
+        "delayMs": null
+      }
+    ]
+  },
+  "failurePhase": null,
+  "requestId": "2bfce28d-8bc3-4b57-8fcb-023cdb7523b3",
+  "preflight": {
+    "cwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-20260909",
+    "runtime": {
+      "nodeVersion": "24.19.0",
+      "nodeMajor": 24,
+      "nodeMinor": 19,
+      "nodeSupport": "ok",
+      "belowPackageEngine": false,
+      "bunVersion": null,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "env": {
+      "cursorUseHttp1": null,
+      "apiKeyPresent": true,
+      "apiKeyLength": 69
+    },
+    "sdk": {
+      "resolved": true,
+      "path": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js",
+      "source": "shared-cache",
+      "actualVersion": "1.0.24",
+      "expectedVersion": "1.0.24",
+      "versionMatch": true,
+      "error": null
+    },
+    "cliProbe": {
+      "cursorPath": "C:\\Program Files\\cursor\\resources\\app\\bin\\cursor",
+      "cursorAgentPath": null,
+      "programmable": false,
+      "supportsOutputFormat": false,
+      "supportsModelSelection": false,
+      "strictModelFallbackAllowed": false,
+      "status": "blocked",
+      "note": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    },
+    "checks": [
+      {
+        "id": "runtime.node",
+        "status": "ok",
+        "message": "Node 24.19.0 meets @cursor/sdk engines (>=22.13)."
+      },
+      {
+        "id": "runtime.bun",
+        "status": "ok",
+        "message": "Node runtime"
+      },
+      {
+        "id": "env.cursor_use_http1",
+        "status": "ok",
+        "message": "unset"
+      },
+      {
+        "id": "auth.api_key",
+        "status": "ok",
+        "message": "present length=69"
+      },
+      {
+        "id": "sdk.resolve",
+        "status": "ok",
+        "message": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js (source=shared-cache; version=1.0.24; expected=1.0.24; match=true)"
+      },
+      {
+        "id": "cli.probe",
+        "status": "warn",
+        "message": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+      },
+      {
+        "id": "prompt.mode",
+        "status": "ok",
+        "message": "DESIGN_REVIEW_ONLY"
+      }
+    ],
+    "warnings": [
+      "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    ],
+    "blocking": []
+  },
+  "eventCountByType": {
+    "status": 2,
+    "thinking": 318,
+    "assistant": 1564,
+    "tool_call": 174,
+    "usage": 1
+  },
+  "assistantText": "开始只读复核来源包，先定位范围文件、当前正文/计算树和同版官方中英文证据。接下来对照各槽的初步范围分类，以及绑定正文、计算树和官方中英文数值。接着核对绑定正文、计算树和官方数组，重点看缺值、重复伤害和1V1跳数。**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero31-source-v1**\n\n来源包未给缺值字段造默认，也未把本批须留的 1V1 机制打进无关项。`来源与范围.json` 的措辞不构成阻塞；以下只列有字段/正文依据、候选必须写死的边界。\n\n### 无实际阻塞\n`MSPercentSelf`、`EmpowerPercent` 仅有名无 `values`，范围已标未知。其余复核点在绑定正文、计算树和同版官方中英文里都有对应原字段。\n\n### 候选必须明确保留\n\n**迦娜 P / W**  \n- `MSPercentSelf` 禁造默认。自身移速在 W 的 `TotalMS`（`MSPercent`+`MSAPRatio`），不在 P。  \n- P 的 `BonusDamage` 是 `mStat:7` / `mStatFormula:2` × `MSBonusMagicDamage`（0.3）。W 正文为 `@TotalDamage@ + @spell.TailwindSelf:BonusDamage@`，与官方 `{{ totaldamage }} + {{ spell.tailwindself:bonusdamage }}` 一致。W 的 `TotalDamage` 只有 `BaseDamage`+`APRatio`，不含 P。普攻走 P；W 是 W 树再加同一条 P。禁止把 P 并进 W 树（普攻会漏，或 W 会重复）。能表达 `mStat:7` 不代表普攻/W 命中已接线。\n\n**迦娜 Q / E / R**  \n- 三棵伤害树都在：`MinimumDamage`（`MinDamage`+`MinimumRatio`）、`ExtraDamagePerSecondCharged`（`BonusDamage`+`BonusRatio`）、`MaxDamage`（最小 + `MaxDuration`×每秒）。`MaxKnockup` 的 `mPrecision:2` 只是显示精度。`MinionMod` 可排除。  \n- E 保留 `TotalShield`、`TotalAD`、`ECDRefundforCC`（0.2）。`EmpowerPercent` 禁造默认。自身施放未证排除。  \n- R 保留 `HealPerSecond` 与 `TotalHeal`（`Duration`×每秒，`tooltipOnly`）。`Duration` 为 `[0,3,3,3,0,0,0]`，技能等级必须走 index 1，否则满蓄/持续治疗会变成 0。自身在「附近友军」内。\n\n**璐璐**  \n- P：宿主普攻时向**同一目标**发射 `NumberOfBolts=3`，`CombinedDamage`=`NumberOfBolts`×`TotalDamage`。来源没有独立攻速/AI 周期，不能仅凭名称做成自主召唤，也不能丢掉同目标弹体。  \n- Q：`BonusMissileDamage`=`DoubleHitBonus`(0.5)×同一套伤害，正文是「两束都命中**相同**一名敌人」。这是同敌第二次修正，不是额外敌人；可排除的只有 `MinionMod`。  \n- W：对敌 `CCDuration` 变形，附加正文里的沉默/缴械/`SlowAmount`。这是控制，与用户排除的完整角色技能替换分开。自身移速/攻速与对敌控制都留。  \n- E：`TotalDamage` 与 `TotalShield` 分树。R：`TotalBonusHealth`、击飞、`SlowPercent`。自身施放未证排除，不得预先拿掉自盾/自 R。\n\n**娜美**  \n- W 正文与官方中英文同一句：**每个目标只会被弹到一次**，`MaxTargets=3`。`TotalDamage` / `TotalHeal` 是各自首跳基准，`BounceScaling` 是每跳修正根树（`BounceRatio`+`BounceRatioScaling`）。仅自己+唯一敌人时最多两跳：点自己为疗→伤，点敌人为伤→疗；第二次才乘 `BounceScaling`。禁止把三人三跳总伤/治疗当 1V1。范围里的「同一目标多跳」不得理解成同一人可再命中。客户端根对象无 `cooldownTime`，冷却只用官方 `[10,10,10,10,10]`，不补 7 槽缺省。  \n- P：`TotalMSBonus`、`UltMult=2` 保留。自施放命中友方（含自己）与 R「双倍踏浪」在 R 正文，触发事件未接线但不删字段。  \n- E：`HitCount=3`、`TotalDamage`、`TotalSlow` 保留。`AoEMod` 非英雄可排除。自身施放未证排除。\n\n**莫甘娜**  \n- P：`HealPercent=18`，正文是技能对英雄/大型兵/中大野的**实际伤害**的百分比；1V1 留英雄。无治疗计算树，不造直接治疗量。  \n- W：`TotalMinDamage` / `TotalMaxDamage`（`(1+MissingHealthAmpPercent)×min`，amp=1）、`WDuration=5`、`CDRefundPercent=0.05`（**P 治疗返还自身 W 冷却**）都留。`MonsterMod` 可排除，不能把 P↔W 冷却返还一起丢掉。`TickRate=0.5` 与「每秒」口径未接线，不把每秒树直接当 tick。  \n- E：`Trait_Shield`+`Trait_CCImmune`，正文是持续魔法护盾并阻挡限制/定身直至打破，不是单次技能法术护盾。`mAffectsTypeFlags=1`，自身施放未证排除。  \n- R：同一 `TotalDamage` 用两次 + `ChainDuration=3`；施放获得 `HastePercent` 移速。`HastePercent[0]=0`，必须走技能等级 index 1。\n\n### 索引（交叉官方数组后）\n冷却：`clientCooldown` index 1–N 对齐官方 5/3 段（如璐璐 R `[120,100,80]`、莫甘娜 R `[120,110,100]`、迦娜 W `[8,7.5,7,6.5,6]`）。  \n法力：常为 index 0–N 对齐官方（迦娜 R `mana[3]=0`，误用 index 1 会把 3 级打成 0）。  \n官方 `effect[]` 大量为 0/旧值（如娜美 E），不以它覆盖客户端 `DataValues`。Cherry/ARAM 覆盖不是峡谷默认。",
+  "toolCalls": [
+    {
+      "callId": "call-c2ff80b9-4ff6-498d-bdfa-2e6ac00d9ac1-0\nfc_9c8240c4-85a7-92cc-abf3-ff93d67fa84f_0",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2ff80b9-4ff6-498d-bdfa-2e6ac00d9ac1-1\nfc_9c8240c4-85a7-92cc-abf3-ff93d67fa84f_1",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2ff80b9-4ff6-498d-bdfa-2e6ac00d9ac1-2\nfc_9c8240c4-85a7-92cc-abf3-ff93d67fa84f_2",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2ff80b9-4ff6-498d-bdfa-2e6ac00d9ac1-1\nfc_9c8240c4-85a7-92cc-abf3-ff93d67fa84f_1",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2ff80b9-4ff6-498d-bdfa-2e6ac00d9ac1-2\nfc_9c8240c4-85a7-92cc-abf3-ff93d67fa84f_2",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2ff80b9-4ff6-498d-bdfa-2e6ac00d9ac1-0\nfc_9c8240c4-85a7-92cc-abf3-ff93d67fa84f_0",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-676c44ec-629b-4e33-9cf6-17991f0d8d8e-3\nfc_1eb50fbc-82f4-94fe-a358-7660bdfc314c_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-676c44ec-629b-4e33-9cf6-17991f0d8d8e-4\nfc_1eb50fbc-82f4-94fe-a358-7660bdfc314c_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-676c44ec-629b-4e33-9cf6-17991f0d8d8e-3\nfc_1eb50fbc-82f4-94fe-a358-7660bdfc314c_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-676c44ec-629b-4e33-9cf6-17991f0d8d8e-4\nfc_1eb50fbc-82f4-94fe-a358-7660bdfc314c_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-676c44ec-629b-4e33-9cf6-17991f0d8d8e-5\nfc_1eb50fbc-82f4-94fe-a358-7660bdfc314c_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-676c44ec-629b-4e33-9cf6-17991f0d8d8e-6\nfc_1eb50fbc-82f4-94fe-a358-7660bdfc314c_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-676c44ec-629b-4e33-9cf6-17991f0d8d8e-5\nfc_1eb50fbc-82f4-94fe-a358-7660bdfc314c_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-676c44ec-629b-4e33-9cf6-17991f0d8d8e-6\nfc_1eb50fbc-82f4-94fe-a358-7660bdfc314c_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f463d81e-7d0e-4546-a2f6-9b6f6e014d99-7\nfc_a47abcff-caf3-9efc-8acc-68b9c56f3c9f_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f463d81e-7d0e-4546-a2f6-9b6f6e014d99-7\nfc_a47abcff-caf3-9efc-8acc-68b9c56f3c9f_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f463d81e-7d0e-4546-a2f6-9b6f6e014d99-8\nfc_a47abcff-caf3-9efc-8acc-68b9c56f3c9f_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f463d81e-7d0e-4546-a2f6-9b6f6e014d99-8\nfc_a47abcff-caf3-9efc-8acc-68b9c56f3c9f_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f463d81e-7d0e-4546-a2f6-9b6f6e014d99-9\nfc_a47abcff-caf3-9efc-8acc-68b9c56f3c9f_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f463d81e-7d0e-4546-a2f6-9b6f6e014d99-10\nfc_a47abcff-caf3-9efc-8acc-68b9c56f3c9f_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f463d81e-7d0e-4546-a2f6-9b6f6e014d99-9\nfc_a47abcff-caf3-9efc-8acc-68b9c56f3c9f_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f463d81e-7d0e-4546-a2f6-9b6f6e014d99-10\nfc_a47abcff-caf3-9efc-8acc-68b9c56f3c9f_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d644699-a414-4f02-a599-540eb9c1cf8f-11\nfc_72f4084c-16dd-985b-9aef-c51a7fbf8912_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d644699-a414-4f02-a599-540eb9c1cf8f-12\nfc_72f4084c-16dd-985b-9aef-c51a7fbf8912_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d644699-a414-4f02-a599-540eb9c1cf8f-11\nfc_72f4084c-16dd-985b-9aef-c51a7fbf8912_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d644699-a414-4f02-a599-540eb9c1cf8f-13\nfc_72f4084c-16dd-985b-9aef-c51a7fbf8912_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d644699-a414-4f02-a599-540eb9c1cf8f-14\nfc_72f4084c-16dd-985b-9aef-c51a7fbf8912_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d644699-a414-4f02-a599-540eb9c1cf8f-12\nfc_72f4084c-16dd-985b-9aef-c51a7fbf8912_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d644699-a414-4f02-a599-540eb9c1cf8f-13\nfc_72f4084c-16dd-985b-9aef-c51a7fbf8912_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d644699-a414-4f02-a599-540eb9c1cf8f-14\nfc_72f4084c-16dd-985b-9aef-c51a7fbf8912_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-15\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-15\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-16\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-16\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-17\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-17\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-18\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-19\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-18\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-19\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-20\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-21\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_6",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-20\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-21\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_6",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-22\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_7",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-23\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_8",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-24\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_9",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-23\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_8",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-22\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_7",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8652a452-3533-4c0e-9af4-b41103e779be-24\nfc_ca393e9d-7507-947f-9cf6-f687098504c5_9",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-25\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-25\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-26\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-26\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-27\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-27\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-28\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-28\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-29\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-29\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-30\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-30\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-31\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_6",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-31\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_6",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-32\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_7",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-32\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_7",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-33\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_8",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-34\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_9",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-34\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_9",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6669f3f2-9d10-45f5-b382-b20db15b148a-33\nfc_c0f84f4e-cca7-965f-afab-7915a0d44310_8",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d9a8d0fc-c6b0-4bd7-8785-733c46fbe1e6-35\nfc_8fde28bb-633c-9056-bb0e-40b1553a4d0d_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d9a8d0fc-c6b0-4bd7-8785-733c46fbe1e6-36\nfc_8fde28bb-633c-9056-bb0e-40b1553a4d0d_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d9a8d0fc-c6b0-4bd7-8785-733c46fbe1e6-37\nfc_8fde28bb-633c-9056-bb0e-40b1553a4d0d_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d9a8d0fc-c6b0-4bd7-8785-733c46fbe1e6-35\nfc_8fde28bb-633c-9056-bb0e-40b1553a4d0d_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d9a8d0fc-c6b0-4bd7-8785-733c46fbe1e6-36\nfc_8fde28bb-633c-9056-bb0e-40b1553a4d0d_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d9a8d0fc-c6b0-4bd7-8785-733c46fbe1e6-37\nfc_8fde28bb-633c-9056-bb0e-40b1553a4d0d_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-88ca53b5-bdac-48a4-837d-36d2e932332b-38\nfc_0390c912-9d9b-9010-ab06-f3e4b1b1b934_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-88ca53b5-bdac-48a4-837d-36d2e932332b-39\nfc_0390c912-9d9b-9010-ab06-f3e4b1b1b934_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-88ca53b5-bdac-48a4-837d-36d2e932332b-38\nfc_0390c912-9d9b-9010-ab06-f3e4b1b1b934_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-88ca53b5-bdac-48a4-837d-36d2e932332b-39\nfc_0390c912-9d9b-9010-ab06-f3e4b1b1b934_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f0bee148-ecb6-4f9e-8cad-9c9a6beca0f7-40\nfc_4d8783be-1a82-993a-ac28-495735564d1c_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f0bee148-ecb6-4f9e-8cad-9c9a6beca0f7-41\nfc_4d8783be-1a82-993a-ac28-495735564d1c_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f0bee148-ecb6-4f9e-8cad-9c9a6beca0f7-42\nfc_4d8783be-1a82-993a-ac28-495735564d1c_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f0bee148-ecb6-4f9e-8cad-9c9a6beca0f7-40\nfc_4d8783be-1a82-993a-ac28-495735564d1c_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f0bee148-ecb6-4f9e-8cad-9c9a6beca0f7-41\nfc_4d8783be-1a82-993a-ac28-495735564d1c_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f0bee148-ecb6-4f9e-8cad-9c9a6beca0f7-42\nfc_4d8783be-1a82-993a-ac28-495735564d1c_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5ecb353b-e968-41c6-aa6f-3b1394985eb4-43\nfc_458dd4fe-979c-99e0-95c8-6996bcb3fee9_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5ecb353b-e968-41c6-aa6f-3b1394985eb4-44\nfc_458dd4fe-979c-99e0-95c8-6996bcb3fee9_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5ecb353b-e968-41c6-aa6f-3b1394985eb4-45\nfc_458dd4fe-979c-99e0-95c8-6996bcb3fee9_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5ecb353b-e968-41c6-aa6f-3b1394985eb4-44\nfc_458dd4fe-979c-99e0-95c8-6996bcb3fee9_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5ecb353b-e968-41c6-aa6f-3b1394985eb4-43\nfc_458dd4fe-979c-99e0-95c8-6996bcb3fee9_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5ecb353b-e968-41c6-aa6f-3b1394985eb4-45\nfc_458dd4fe-979c-99e0-95c8-6996bcb3fee9_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ae69258b-7efa-4399-a46c-e055b2f9d4c8-46\nfc_eb9a4682-5a8d-9756-8616-c1d8a9c1640b_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ae69258b-7efa-4399-a46c-e055b2f9d4c8-47\nfc_eb9a4682-5a8d-9756-8616-c1d8a9c1640b_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ae69258b-7efa-4399-a46c-e055b2f9d4c8-48\nfc_eb9a4682-5a8d-9756-8616-c1d8a9c1640b_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ae69258b-7efa-4399-a46c-e055b2f9d4c8-49\nfc_eb9a4682-5a8d-9756-8616-c1d8a9c1640b_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ae69258b-7efa-4399-a46c-e055b2f9d4c8-46\nfc_eb9a4682-5a8d-9756-8616-c1d8a9c1640b_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ae69258b-7efa-4399-a46c-e055b2f9d4c8-47\nfc_eb9a4682-5a8d-9756-8616-c1d8a9c1640b_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ae69258b-7efa-4399-a46c-e055b2f9d4c8-49\nfc_eb9a4682-5a8d-9756-8616-c1d8a9c1640b_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ae69258b-7efa-4399-a46c-e055b2f9d4c8-48\nfc_eb9a4682-5a8d-9756-8616-c1d8a9c1640b_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-50\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-51\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-50\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-51\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-52\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-52\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-53\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-54\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_4",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-53\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a4f70455-ae78-4639-9429-105a705335a0-54\nfc_8deca371-a4b9-9dbb-9d79-0c40443b3354_4",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c71bd2ea-7d81-4e85-9fdc-ce1e7658d6e8-55\nfc_1b56ed46-5221-9675-bbd6-089728a77259_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c71bd2ea-7d81-4e85-9fdc-ce1e7658d6e8-56\nfc_1b56ed46-5221-9675-bbd6-089728a77259_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c71bd2ea-7d81-4e85-9fdc-ce1e7658d6e8-57\nfc_1b56ed46-5221-9675-bbd6-089728a77259_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c71bd2ea-7d81-4e85-9fdc-ce1e7658d6e8-56\nfc_1b56ed46-5221-9675-bbd6-089728a77259_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c71bd2ea-7d81-4e85-9fdc-ce1e7658d6e8-55\nfc_1b56ed46-5221-9675-bbd6-089728a77259_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c71bd2ea-7d81-4e85-9fdc-ce1e7658d6e8-58\nfc_1b56ed46-5221-9675-bbd6-089728a77259_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c71bd2ea-7d81-4e85-9fdc-ce1e7658d6e8-57\nfc_1b56ed46-5221-9675-bbd6-089728a77259_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c71bd2ea-7d81-4e85-9fdc-ce1e7658d6e8-58\nfc_1b56ed46-5221-9675-bbd6-089728a77259_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-feffe6f7-6656-43b5-90ba-80343f3386bb-59\nfc_6e17920e-d398-9640-bb78-92b086bde055_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-feffe6f7-6656-43b5-90ba-80343f3386bb-60\nfc_6e17920e-d398-9640-bb78-92b086bde055_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-feffe6f7-6656-43b5-90ba-80343f3386bb-59\nfc_6e17920e-d398-9640-bb78-92b086bde055_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-feffe6f7-6656-43b5-90ba-80343f3386bb-60\nfc_6e17920e-d398-9640-bb78-92b086bde055_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-feffe6f7-6656-43b5-90ba-80343f3386bb-61\nfc_6e17920e-d398-9640-bb78-92b086bde055_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-feffe6f7-6656-43b5-90ba-80343f3386bb-62\nfc_6e17920e-d398-9640-bb78-92b086bde055_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-feffe6f7-6656-43b5-90ba-80343f3386bb-61\nfc_6e17920e-d398-9640-bb78-92b086bde055_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-feffe6f7-6656-43b5-90ba-80343f3386bb-62\nfc_6e17920e-d398-9640-bb78-92b086bde055_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-3504a07c-55af-4787-a27b-1d2d89601131-63\nfc_384ba020-81c8-9eeb-85b9-babc5f99d2e3_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-3504a07c-55af-4787-a27b-1d2d89601131-64\nfc_384ba020-81c8-9eeb-85b9-babc5f99d2e3_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-3504a07c-55af-4787-a27b-1d2d89601131-65\nfc_384ba020-81c8-9eeb-85b9-babc5f99d2e3_2",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-3504a07c-55af-4787-a27b-1d2d89601131-66\nfc_384ba020-81c8-9eeb-85b9-babc5f99d2e3_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-3504a07c-55af-4787-a27b-1d2d89601131-64\nfc_384ba020-81c8-9eeb-85b9-babc5f99d2e3_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-3504a07c-55af-4787-a27b-1d2d89601131-63\nfc_384ba020-81c8-9eeb-85b9-babc5f99d2e3_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-3504a07c-55af-4787-a27b-1d2d89601131-66\nfc_384ba020-81c8-9eeb-85b9-babc5f99d2e3_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-3504a07c-55af-4787-a27b-1d2d89601131-65\nfc_384ba020-81c8-9eeb-85b9-babc5f99d2e3_2",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-67\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-67\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-68\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-68\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-69\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-69\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-70\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-71\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-70\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9df1a392-8b98-4cf5-a5db-bdb9528f09ae-71\nfc_8912c123-594e-9b6a-a174-76a0a9e13895_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c70dc84-1413-4e58-a24d-6a157093de43-72\nfc_d52f6769-ebf1-97ff-bb4d-c5b24cb26efe_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c70dc84-1413-4e58-a24d-6a157093de43-73\nfc_d52f6769-ebf1-97ff-bb4d-c5b24cb26efe_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c70dc84-1413-4e58-a24d-6a157093de43-72\nfc_d52f6769-ebf1-97ff-bb4d-c5b24cb26efe_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c70dc84-1413-4e58-a24d-6a157093de43-73\nfc_d52f6769-ebf1-97ff-bb4d-c5b24cb26efe_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c70dc84-1413-4e58-a24d-6a157093de43-74\nfc_d52f6769-ebf1-97ff-bb4d-c5b24cb26efe_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c70dc84-1413-4e58-a24d-6a157093de43-75\nfc_d52f6769-ebf1-97ff-bb4d-c5b24cb26efe_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c70dc84-1413-4e58-a24d-6a157093de43-74\nfc_d52f6769-ebf1-97ff-bb4d-c5b24cb26efe_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c70dc84-1413-4e58-a24d-6a157093de43-75\nfc_d52f6769-ebf1-97ff-bb4d-c5b24cb26efe_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-42c85779-d2a7-4515-a733-ad5ee0599634-76\nfc_81753421-9f7f-9a12-908f-61c47eca2dcb_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-42c85779-d2a7-4515-a733-ad5ee0599634-77\nfc_81753421-9f7f-9a12-908f-61c47eca2dcb_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-42c85779-d2a7-4515-a733-ad5ee0599634-78\nfc_81753421-9f7f-9a12-908f-61c47eca2dcb_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-42c85779-d2a7-4515-a733-ad5ee0599634-76\nfc_81753421-9f7f-9a12-908f-61c47eca2dcb_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-42c85779-d2a7-4515-a733-ad5ee0599634-79\nfc_81753421-9f7f-9a12-908f-61c47eca2dcb_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-42c85779-d2a7-4515-a733-ad5ee0599634-77\nfc_81753421-9f7f-9a12-908f-61c47eca2dcb_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-42c85779-d2a7-4515-a733-ad5ee0599634-78\nfc_81753421-9f7f-9a12-908f-61c47eca2dcb_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-42c85779-d2a7-4515-a733-ad5ee0599634-79\nfc_81753421-9f7f-9a12-908f-61c47eca2dcb_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-244e3b88-a7ba-4b09-b9c1-3eb0b9471d21-80\nfc_96ab33a8-5870-9f6b-8642-c3107177d6f4_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-244e3b88-a7ba-4b09-b9c1-3eb0b9471d21-81\nfc_96ab33a8-5870-9f6b-8642-c3107177d6f4_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-244e3b88-a7ba-4b09-b9c1-3eb0b9471d21-82\nfc_96ab33a8-5870-9f6b-8642-c3107177d6f4_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-244e3b88-a7ba-4b09-b9c1-3eb0b9471d21-83\nfc_96ab33a8-5870-9f6b-8642-c3107177d6f4_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-244e3b88-a7ba-4b09-b9c1-3eb0b9471d21-81\nfc_96ab33a8-5870-9f6b-8642-c3107177d6f4_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-244e3b88-a7ba-4b09-b9c1-3eb0b9471d21-83\nfc_96ab33a8-5870-9f6b-8642-c3107177d6f4_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-244e3b88-a7ba-4b09-b9c1-3eb0b9471d21-82\nfc_96ab33a8-5870-9f6b-8642-c3107177d6f4_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-244e3b88-a7ba-4b09-b9c1-3eb0b9471d21-80\nfc_96ab33a8-5870-9f6b-8642-c3107177d6f4_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a53c4a04-f6eb-4a46-ab63-b3afc7304ca8-84\nfc_24d6aa53-f37e-9832-b8df-c8b7771ca2fc_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a53c4a04-f6eb-4a46-ab63-b3afc7304ca8-85\nfc_24d6aa53-f37e-9832-b8df-c8b7771ca2fc_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a53c4a04-f6eb-4a46-ab63-b3afc7304ca8-86\nfc_24d6aa53-f37e-9832-b8df-c8b7771ca2fc_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a53c4a04-f6eb-4a46-ab63-b3afc7304ca8-84\nfc_24d6aa53-f37e-9832-b8df-c8b7771ca2fc_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a53c4a04-f6eb-4a46-ab63-b3afc7304ca8-85\nfc_24d6aa53-f37e-9832-b8df-c8b7771ca2fc_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a53c4a04-f6eb-4a46-ab63-b3afc7304ca8-86\nfc_24d6aa53-f37e-9832-b8df-c8b7771ca2fc_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    }
+  ],
+  "statuses": [
+    "RUNNING",
+    "FINISHED"
+  ],
+  "cliFallback": {
+    "allowed": false,
+    "modelDriftAccepted": false,
+    "status": "not_attempted"
+  },
+  "git": {
+    "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-run-20260909\\git-status-worktree-before.txt",
+    "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-run-20260909\\git-status-before.txt",
+    "allowedPathsDirtyBefore": false,
+    "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-run-20260909\\path-signatures-before.json",
+    "pathSignaturesBefore": {},
+    "statusEntriesBeforeCount": 0,
+    "beforeAuditAvailable": true,
+    "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-run-20260909\\git-status-worktree-after.txt",
+    "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-run-20260909\\git-status-after.txt",
+    "allowedPathsDirtyAfter": false,
+    "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-run-20260909\\path-signatures-after.json",
+    "pathSignaturesAfter": {},
+    "runDelta": [],
+    "changeClassification": {
+      "afterState": {
+        "inScope": [],
+        "outsideScope": []
+      },
+      "runDelta": {
+        "inScope": [],
+        "outsideScope": []
+      }
+    },
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopePaths": [],
+    "untrackedInScope": [],
+    "untrackedCapture": {
+      "mode": "metadata-only",
+      "files": [],
+      "skipped": []
+    },
+    "diffPatchScope": "allowed-paths",
+    "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-cursor-review-run-20260909\\diff.patch"
+  },
+  "runtimeUsed": "sdk",
+  "agentId": "agent-292ac45c-a3f4-400a-81c2-ec6229fde337",
+  "runId": "run-2c762f37-2963-42a6-b259-c201593c8953",
+  "result": {
+    "id": "run-2c762f37-2963-42a6-b259-c201593c8953",
+    "requestId": "2bfce28d-8bc3-4b57-8fcb-023cdb7523b3",
+    "status": "finished",
+    "result": "**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero31-source-v1**\n\n来源包未给缺值字段造默认，也未把本批须留的 1V1 机制打进无关项。`来源与范围.json` 的措辞不构成阻塞；以下只列有字段/正文依据、候选必须写死的边界。\n\n### 无实际阻塞\n`MSPercentSelf`、`EmpowerPercent` 仅有名无 `values`，范围已标未知。其余复核点在绑定正文、计算树和同版官方中英文里都有对应原字段。\n\n### 候选必须明确保留\n\n**迦娜 P / W**  \n- `MSPercentSelf` 禁造默认。自身移速在 W 的 `TotalMS`（`MSPercent`+`MSAPRatio`），不在 P。  \n- P 的 `BonusDamage` 是 `mStat:7` / `mStatFormula:2` × `MSBonusMagicDamage`（0.3）。W 正文为 `@TotalDamage@ + @spell.TailwindSelf:BonusDamage@`，与官方 `{{ totaldamage }} + {{ spell.tailwindself:bonusdamage }}` 一致。W 的 `TotalDamage` 只有 `BaseDamage`+`APRatio`，不含 P。普攻走 P；W 是 W 树再加同一条 P。禁止把 P 并进 W 树（普攻会漏，或 W 会重复）。能表达 `mStat:7` 不代表普攻/W 命中已接线。\n\n**迦娜 Q / E / R**  \n- 三棵伤害树都在：`MinimumDamage`（`MinDamage`+`MinimumRatio`）、`ExtraDamagePerSecondCharged`（`BonusDamage`+`BonusRatio`）、`MaxDamage`（最小 + `MaxDuration`×每秒）。`MaxKnockup` 的 `mPrecision:2` 只是显示精度。`MinionMod` 可排除。  \n- E 保留 `TotalShield`、`TotalAD`、`ECDRefundforCC`（0.2）。`EmpowerPercent` 禁造默认。自身施放未证排除。  \n- R 保留 `HealPerSecond` 与 `TotalHeal`（`Duration`×每秒，`tooltipOnly`）。`Duration` 为 `[0,3,3,3,0,0,0]`，技能等级必须走 index 1，否则满蓄/持续治疗会变成 0。自身在「附近友军」内。\n\n**璐璐**  \n- P：宿主普攻时向**同一目标**发射 `NumberOfBolts=3`，`CombinedDamage`=`NumberOfBolts`×`TotalDamage`。来源没有独立攻速/AI 周期，不能仅凭名称做成自主召唤，也不能丢掉同目标弹体。  \n- Q：`BonusMissileDamage`=`DoubleHitBonus`(0.5)×同一套伤害，正文是「两束都命中**相同**一名敌人」。这是同敌第二次修正，不是额外敌人；可排除的只有 `MinionMod`。  \n- W：对敌 `CCDuration` 变形，附加正文里的沉默/缴械/`SlowAmount`。这是控制，与用户排除的完整角色技能替换分开。自身移速/攻速与对敌控制都留。  \n- E：`TotalDamage` 与 `TotalShield` 分树。R：`TotalBonusHealth`、击飞、`SlowPercent`。自身施放未证排除，不得预先拿掉自盾/自 R。\n\n**娜美**  \n- W 正文与官方中英文同一句：**每个目标只会被弹到一次**，`MaxTargets=3`。`TotalDamage` / `TotalHeal` 是各自首跳基准，`BounceScaling` 是每跳修正根树（`BounceRatio`+`BounceRatioScaling`）。仅自己+唯一敌人时最多两跳：点自己为疗→伤，点敌人为伤→疗；第二次才乘 `BounceScaling`。禁止把三人三跳总伤/治疗当 1V1。范围里的「同一目标多跳」不得理解成同一人可再命中。客户端根对象无 `cooldownTime`，冷却只用官方 `[10,10,10,10,10]`，不补 7 槽缺省。  \n- P：`TotalMSBonus`、`UltMult=2` 保留。自施放命中友方（含自己）与 R「双倍踏浪」在 R 正文，触发事件未接线但不删字段。  \n- E：`HitCount=3`、`TotalDamage`、`TotalSlow` 保留。`AoEMod` 非英雄可排除。自身施放未证排除。\n\n**莫甘娜**  \n- P：`HealPercent=18`，正文是技能对英雄/大型兵/中大野的**实际伤害**的百分比；1V1 留英雄。无治疗计算树，不造直接治疗量。  \n- W：`TotalMinDamage` / `TotalMaxDamage`（`(1+MissingHealthAmpPercent)×min`，amp=1）、`WDuration=5`、`CDRefundPercent=0.05`（**P 治疗返还自身 W 冷却**）都留。`MonsterMod` 可排除，不能把 P↔W 冷却返还一起丢掉。`TickRate=0.5` 与「每秒」口径未接线，不把每秒树直接当 tick。  \n- E：`Trait_Shield`+`Trait_CCImmune`，正文是持续魔法护盾并阻挡限制/定身直至打破，不是单次技能法术护盾。`mAffectsTypeFlags=1`，自身施放未证排除。  \n- R：同一 `TotalDamage` 用两次 + `ChainDuration=3`；施放获得 `HastePercent` 移速。`HastePercent[0]=0`，必须走技能等级 index 1。\n\n### 索引（交叉官方数组后）\n冷却：`clientCooldown` index 1–N 对齐官方 5/3 段（如璐璐 R `[120,100,80]`、莫甘娜 R `[120,110,100]`、迦娜 W `[8,7.5,7,6.5,6]`）。  \n法力：常为 index 0–N 对齐官方（迦娜 R `mana[3]=0`，误用 index 1 会把 3 级打成 0）。  \n官方 `effect[]` 大量为 0/旧值（如娜美 E），不以它覆盖客户端 `DataValues`。Cherry/ARAM 覆盖不是峡谷默认。",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "durationMs": 342430,
+    "usage": {
+      "inputTokens": 1362556,
+      "outputTokens": 20701,
+      "cacheReadTokens": 1177728,
+      "cacheWriteTokens": 0,
+      "totalTokens": 2560985,
+      "reasoningTokens": 14718
+    }
+  },
+  "resultStatus": "finished",
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 342430,
+  "artifacts": [],
+  "disposal": {
+    "method": "asyncDispose"
+  },
+  "completedAt": "2026-09-09T16:39:17.741Z"
+}

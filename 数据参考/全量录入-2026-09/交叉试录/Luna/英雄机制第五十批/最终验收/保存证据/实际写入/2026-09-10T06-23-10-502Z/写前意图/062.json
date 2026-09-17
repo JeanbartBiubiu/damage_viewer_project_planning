@@ -1,0 +1,24 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/shield_bonus_ad_ratio",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "shield_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_bonus_ad_ratio",
+      "name": "普通护盾额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "TotalShield第四分支mStat=2系数0.5。",
+      "sortOrder": 100
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "i": 159,
+  "intent": {
+    "sequence": 160,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_p/parameters",
+    "detailRoute": "/skills/reksai_p/parameters/actual_fury_cap",
+    "skillKey": "reksai_p",
+    "kind": "parameters",
+    "stableKey": "actual_fury_cap",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_fury_cap",
+      "name": "当前满怒阈值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "满怒阈值未在本槽冻结源中独立证实，运行层提供，不设默认。",
+      "sortOrder": 60
+    }
+  }
+}

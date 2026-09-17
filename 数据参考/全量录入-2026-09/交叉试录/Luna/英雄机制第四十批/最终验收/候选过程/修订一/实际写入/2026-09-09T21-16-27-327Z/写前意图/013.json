@@ -1,0 +1,23 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/current_health_damage_level1_percent_points",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "current_health_damage_level1_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_health_damage_level1_percent_points",
+      "name": "两次命中当前生命伤害一级起点百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前BonusCurentHealthDamage的mLevel1Value=1，正文在数值后拼接%符号。",
+      "sortOrder": 130
+    }
+  }
+}

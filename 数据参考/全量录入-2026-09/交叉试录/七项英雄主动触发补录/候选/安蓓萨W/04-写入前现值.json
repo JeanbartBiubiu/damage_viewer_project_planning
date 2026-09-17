@@ -1,0 +1,1079 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-12T18:30:26.567Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 121
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "fbb1bef0e05019a020f429dca54e188fd9b33e626b425010c384dc76d649f900",
+  "frozenRequestSha256": "35b3914b789c738be893c81e9d8e11daaff4b96afa3f8d3bb3c5422fa95660f0",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/ambessa_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:21.299245Z",
+          "description": "安蓓萨获得一道护盾，在短时间内摆出防守姿势，随后猛砸地面，对附近敌人造成伤害。如果她在防守姿势期间格挡了任何来自非小兵单位的伤害，该技能将造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "安蓓萨·铁令",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "ambessa_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:21.299245Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_ambessa",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_ambessa",
+          "createdAt": "2026-09-06T17:03:23.407706Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "安蓓萨",
+          "updatedAt": "2026-09-06T17:03:23.407706Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_ambessa/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_ambessa",
+          "levelValues": {
+            "1": {
+              "move_speed": 335,
+              "hp": 630,
+              "hp_regen": 8.5,
+              "armor": 35,
+              "magic_resistance": 32,
+              "attack_damage": 63,
+              "attack_speed": 0.625,
+              "attack_range": 125
+            },
+            "2": {
+              "move_speed": 335,
+              "hp": 709.2,
+              "hp_regen": 9.04,
+              "armor": 38.528,
+              "magic_resistance": 33.476,
+              "attack_damage": 65.16,
+              "attack_speed": 0.63625,
+              "attack_range": 125
+            },
+            "3": {
+              "move_speed": 335,
+              "hp": 792.25,
+              "hp_regen": 9.60625,
+              "armor": 42.2275,
+              "magic_resistance": 35.02375,
+              "attack_damage": 67.425,
+              "attack_speed": 0.648047,
+              "attack_range": 125
+            },
+            "4": {
+              "move_speed": 335,
+              "hp": 879.15,
+              "hp_regen": 10.19875,
+              "armor": 46.0985,
+              "magic_resistance": 36.64325,
+              "attack_damage": 69.795,
+              "attack_speed": 0.660391,
+              "attack_range": 125
+            },
+            "5": {
+              "move_speed": 335,
+              "hp": 969.9,
+              "hp_regen": 10.8175,
+              "armor": 50.141,
+              "magic_resistance": 38.3345,
+              "attack_damage": 72.27,
+              "attack_speed": 0.673281,
+              "attack_range": 125
+            },
+            "6": {
+              "move_speed": 335,
+              "hp": 1064.5,
+              "hp_regen": 11.4625,
+              "armor": 54.355,
+              "magic_resistance": 40.0975,
+              "attack_damage": 74.85,
+              "attack_speed": 0.686719,
+              "attack_range": 125
+            },
+            "7": {
+              "move_speed": 335,
+              "hp": 1162.95,
+              "hp_regen": 12.13375,
+              "armor": 58.7405,
+              "magic_resistance": 41.93225,
+              "attack_damage": 77.535,
+              "attack_speed": 0.700703,
+              "attack_range": 125
+            },
+            "8": {
+              "move_speed": 335,
+              "hp": 1265.25,
+              "hp_regen": 12.83125,
+              "armor": 63.2975,
+              "magic_resistance": 43.83875,
+              "attack_damage": 80.325,
+              "attack_speed": 0.715234,
+              "attack_range": 125
+            },
+            "9": {
+              "move_speed": 335,
+              "hp": 1371.4,
+              "hp_regen": 13.555,
+              "armor": 68.026,
+              "magic_resistance": 45.817,
+              "attack_damage": 83.22,
+              "attack_speed": 0.730313,
+              "attack_range": 125
+            },
+            "10": {
+              "move_speed": 335,
+              "hp": 1481.4,
+              "hp_regen": 14.305,
+              "armor": 72.926,
+              "magic_resistance": 47.867,
+              "attack_damage": 86.22,
+              "attack_speed": 0.745938,
+              "attack_range": 125
+            },
+            "11": {
+              "move_speed": 335,
+              "hp": 1595.25,
+              "hp_regen": 15.08125,
+              "armor": 77.9975,
+              "magic_resistance": 49.98875,
+              "attack_damage": 89.325,
+              "attack_speed": 0.762109,
+              "attack_range": 125
+            },
+            "12": {
+              "move_speed": 335,
+              "hp": 1712.95,
+              "hp_regen": 15.88375,
+              "armor": 83.2405,
+              "magic_resistance": 52.18225,
+              "attack_damage": 92.535,
+              "attack_speed": 0.778828,
+              "attack_range": 125
+            },
+            "13": {
+              "move_speed": 335,
+              "hp": 1834.5,
+              "hp_regen": 16.7125,
+              "armor": 88.655,
+              "magic_resistance": 54.4475,
+              "attack_damage": 95.85,
+              "attack_speed": 0.796094,
+              "attack_range": 125
+            },
+            "14": {
+              "move_speed": 335,
+              "hp": 1959.9,
+              "hp_regen": 17.5675,
+              "armor": 94.241,
+              "magic_resistance": 56.7845,
+              "attack_damage": 99.27,
+              "attack_speed": 0.813906,
+              "attack_range": 125
+            },
+            "15": {
+              "move_speed": 335,
+              "hp": 2089.15,
+              "hp_regen": 18.44875,
+              "armor": 99.9985,
+              "magic_resistance": 59.19325,
+              "attack_damage": 102.795,
+              "attack_speed": 0.832266,
+              "attack_range": 125
+            },
+            "16": {
+              "move_speed": 335,
+              "hp": 2222.25,
+              "hp_regen": 19.35625,
+              "armor": 105.9275,
+              "magic_resistance": 61.67375,
+              "attack_damage": 106.425,
+              "attack_speed": 0.851172,
+              "attack_range": 125
+            },
+            "17": {
+              "move_speed": 335,
+              "hp": 2359.2,
+              "hp_regen": 20.29,
+              "armor": 112.028,
+              "magic_resistance": 64.226,
+              "attack_damage": 110.16,
+              "attack_speed": 0.870625,
+              "attack_range": 125
+            },
+            "18": {
+              "move_speed": 335,
+              "hp": 2500,
+              "hp_regen": 21.25,
+              "armor": 118.3,
+              "magic_resistance": 66.85,
+              "attack_damage": 114,
+              "attack_speed": 0.890625,
+              "attack_range": 125
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_ambessa/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_ambessa",
+            "name": "champion_ambessa"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_ambessa",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_ambessa",
+              "characterName": "安蓓萨",
+              "gameId": "lol",
+              "skillKey": "ambessa_p",
+              "skillName": "安蓓萨·龙犬诡步",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_ambessa",
+              "characterName": "安蓓萨",
+              "gameId": "lol",
+              "skillKey": "ambessa_q",
+              "skillName": "安蓓萨·暗袭 / 裂斩",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_ambessa",
+              "characterName": "安蓓萨",
+              "gameId": "lol",
+              "skillKey": "ambessa_w",
+              "skillName": "安蓓萨·铁令",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_ambessa",
+              "characterName": "安蓓萨",
+              "gameId": "lol",
+              "skillKey": "ambessa_e",
+              "skillName": "安蓓萨·血戮",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_ambessa",
+              "characterName": "安蓓萨",
+              "gameId": "lol",
+              "skillKey": "ambessa_r",
+              "skillName": "安蓓萨·公开处刑",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=ambessa_w",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_ambessa",
+              "characterName": "安蓓萨",
+              "gameId": "lol",
+              "skillKey": "ambessa_w",
+              "skillName": "安蓓萨·铁令",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/ambessa_w/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_ambessa_w",
+            "name": "ambessa_w"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/ambessa_w/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/ambessa_w/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T20:03:25.418906Z",
+              "description": "当前Dash_Delay=0.225秒，转换为225毫秒。",
+              "fixedValue": 225,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令冲刺延迟（毫秒）",
+              "parameterKey": "dash_delay_ms",
+              "skillKey": "ambessa_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T20:03:25.418906Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:26.758956Z",
+              "description": "当前Buff_Duration=0.5秒，转换为500毫秒。",
+              "fixedValue": 500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令防守姿势持续时间（毫秒）",
+              "parameterKey": "guard_window_ms",
+              "skillKey": "ambessa_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T20:03:26.758956Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:27.99639Z",
+              "description": "当前Shield_Duration=1.5秒，转换为1500毫秒。",
+              "fixedValue": 1500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾持续时间（毫秒）",
+              "parameterKey": "shield_duration_ms",
+              "skillKey": "ambessa_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T20:03:27.99639Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:29.197601Z",
+              "description": "当前Calc_Shield角色等级插值下限50。",
+              "fixedValue": 50,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾角色等级下限",
+              "parameterKey": "shield_base_min",
+              "skillKey": "ambessa_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T20:03:29.197601Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:30.463773Z",
+              "description": "当前Calc_Shield角色等级插值上限320。",
+              "fixedValue": 320,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾角色等级上限",
+              "parameterKey": "shield_base_max",
+              "skillKey": "ambessa_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T20:03:30.463773Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:31.666829Z",
+              "description": "当前Calc_Shield角色等级中间插值未证；运行层提供实际角色等级基础值，无默认。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾角色等级基础值",
+              "parameterKey": "shield_base_at_character_level",
+              "skillKey": "ambessa_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T20:03:31.666829Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:32.930318Z",
+              "description": "当前Calc_Shield第二项mStat=2、mStatFormula=2、系数1.5，读取来源额外攻击力。",
+              "fixedValue": 1.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾额外攻击力比例",
+              "parameterKey": "shield_bonus_ad_ratio",
+              "skillKey": "ambessa_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T20:03:32.930318Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:34.134803Z",
+              "description": "当前BaseDamage技能等级1至5为50/75/100/125/150。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 50,
+                "2": 75,
+                "3": 100,
+                "4": 125,
+                "5": 150
+              },
+              "name": "铁令低伤害基础物理伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "ambessa_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T20:03:34.134803Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:35.336609Z",
+              "description": "当前Calc_Damage_Low的mStat=2、mStatFormula=2，系数0.5为来源额外攻击力。",
+              "fixedValue": 0.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令低伤害额外攻击力比例",
+              "parameterKey": "damage_bonus_ad_ratio",
+              "skillKey": "ambessa_w",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T20:03:35.336609Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-07T18:35:54.156525Z",
+              "description": "DDragon16.17.1 Ambessa.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 18000,
+                "2": 17000,
+                "3": 16000,
+                "4": 15000,
+                "5": 14000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "ambessa_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:35:54.156525Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:36.549001Z",
+              "description": "当前Calc_Damage_High在低伤害基础上乘1.5；只保存来源倍率。",
+              "fixedValue": 1.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令格挡后伤害倍率",
+              "parameterKey": "high_damage_multiplier",
+              "skillKey": "ambessa_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-09T20:03:36.549001Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          ]
+        },
+        "keys": [
+          "base_damage",
+          "cooldown_ms",
+          "damage_bonus_ad_ratio",
+          "dash_delay_ms",
+          "guard_window_ms",
+          "high_damage_multiplier",
+          "shield_base_at_character_level",
+          "shield_base_max",
+          "shield_base_min",
+          "shield_bonus_ad_ratio",
+          "shield_duration_ms"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/base_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:34.134803Z",
+              "description": "当前BaseDamage技能等级1至5为50/75/100/125/150。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 50,
+                "2": 75,
+                "3": 100,
+                "4": 125,
+                "5": 150
+              },
+              "name": "铁令低伤害基础物理伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "ambessa_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T20:03:34.134803Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T18:35:54.156525Z",
+              "description": "DDragon16.17.1 Ambessa.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 18000,
+                "2": 17000,
+                "3": 16000,
+                "4": 15000,
+                "5": 14000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "ambessa_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:35:54.156525Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/damage_bonus_ad_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:35.336609Z",
+              "description": "当前Calc_Damage_Low的mStat=2、mStatFormula=2，系数0.5为来源额外攻击力。",
+              "fixedValue": 0.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令低伤害额外攻击力比例",
+              "parameterKey": "damage_bonus_ad_ratio",
+              "skillKey": "ambessa_w",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T20:03:35.336609Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/dash_delay_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:25.418906Z",
+              "description": "当前Dash_Delay=0.225秒，转换为225毫秒。",
+              "fixedValue": 225,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令冲刺延迟（毫秒）",
+              "parameterKey": "dash_delay_ms",
+              "skillKey": "ambessa_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T20:03:25.418906Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/guard_window_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:26.758956Z",
+              "description": "当前Buff_Duration=0.5秒，转换为500毫秒。",
+              "fixedValue": 500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令防守姿势持续时间（毫秒）",
+              "parameterKey": "guard_window_ms",
+              "skillKey": "ambessa_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T20:03:26.758956Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/high_damage_multiplier",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:36.549001Z",
+              "description": "当前Calc_Damage_High在低伤害基础上乘1.5；只保存来源倍率。",
+              "fixedValue": 1.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令格挡后伤害倍率",
+              "parameterKey": "high_damage_multiplier",
+              "skillKey": "ambessa_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-09T20:03:36.549001Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/shield_base_at_character_level",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:31.666829Z",
+              "description": "当前Calc_Shield角色等级中间插值未证；运行层提供实际角色等级基础值，无默认。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾角色等级基础值",
+              "parameterKey": "shield_base_at_character_level",
+              "skillKey": "ambessa_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T20:03:31.666829Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/shield_base_max",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:30.463773Z",
+              "description": "当前Calc_Shield角色等级插值上限320。",
+              "fixedValue": 320,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾角色等级上限",
+              "parameterKey": "shield_base_max",
+              "skillKey": "ambessa_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T20:03:30.463773Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/shield_base_min",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:29.197601Z",
+              "description": "当前Calc_Shield角色等级插值下限50。",
+              "fixedValue": 50,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾角色等级下限",
+              "parameterKey": "shield_base_min",
+              "skillKey": "ambessa_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T20:03:29.197601Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/shield_bonus_ad_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:32.930318Z",
+              "description": "当前Calc_Shield第二项mStat=2、mStatFormula=2、系数1.5，读取来源额外攻击力。",
+              "fixedValue": 1.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾额外攻击力比例",
+              "parameterKey": "shield_bonus_ad_ratio",
+              "skillKey": "ambessa_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T20:03:32.930318Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/parameters/shield_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:27.99639Z",
+              "description": "当前Shield_Duration=1.5秒，转换为1500毫秒。",
+              "fixedValue": 1500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "铁令护盾持续时间（毫秒）",
+              "parameterKey": "shield_duration_ms",
+              "skillKey": "ambessa_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T20:03:27.99639Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/ambessa_w/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T20:03:37.708986Z",
+              "description": "当前Calc_Shield=角色等级基础值+1.5×来源额外攻击力。",
+              "formulaKey": "shield_value",
+              "gameId": "lol",
+              "name": "铁令自身护盾值",
+              "skillKey": "ambessa_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T20:03:37.708986Z"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:38.977649Z",
+              "description": "当前Calc_Damage_Low=BaseDamage+0.5×来源额外攻击力。",
+              "formulaKey": "low_physical_damage",
+              "gameId": "lol",
+              "name": "铁令低档单一敌人物理伤害",
+              "skillKey": "ambessa_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T20:03:38.977649Z"
+            },
+            {
+              "createdAt": "2026-09-09T20:03:40.265558Z",
+              "description": "当前Calc_Damage_High=Calc_Damage_Low×HighDamageMultiplier；格挡条件由事件层提供。",
+              "formulaKey": "high_physical_damage",
+              "gameId": "lol",
+              "name": "铁令格挡后单一敌人物理伤害",
+              "skillKey": "ambessa_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T20:03:40.265558Z"
+            }
+          ]
+        },
+        "keys": [
+          "high_physical_damage",
+          "low_physical_damage",
+          "shield_value"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/formulas/high_physical_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:40.265558Z",
+              "description": "当前Calc_Damage_High=Calc_Damage_Low×HighDamageMultiplier；格挡条件由事件层提供。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "base_damage"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "damage_bonus_ad_ratio"
+                          },
+                          {
+                            "attributeKey": "attack_damage",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "BONUS",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "high_damage_multiplier"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "high_physical_damage",
+              "gameId": "lol",
+              "name": "铁令格挡后单一敌人物理伤害",
+              "skillKey": "ambessa_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T20:03:40.265558Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/formulas/low_physical_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:38.977649Z",
+              "description": "当前Calc_Damage_Low=BaseDamage+0.5×来源额外攻击力。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "damage_bonus_ad_ratio"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "low_physical_damage",
+              "gameId": "lol",
+              "name": "铁令低档单一敌人物理伤害",
+              "skillKey": "ambessa_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T20:03:38.977649Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/formulas/shield_value",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:37.708986Z",
+              "description": "当前Calc_Shield=角色等级基础值+1.5×来源额外攻击力。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_base_at_character_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "shield_bonus_ad_ratio"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "shield_value",
+              "gameId": "lol",
+              "name": "铁令自身护盾值",
+              "skillKey": "ambessa_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T20:03:37.708986Z"
+            }
+          }
+        ]
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/ambessa_w/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T20:03:41.477892Z",
+              "description": "当前正文明确自身获得1.5秒护盾；防守姿势、护盾触发和移除事件待接。",
+              "effectKey": "self_shield",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "铁令自身护盾",
+              "resultCount": 1,
+              "skillKey": "ambessa_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T20:03:41.477892Z"
+            }
+          ]
+        },
+        "keys": [
+          "self_shield"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/ambessa_w/effects/self_shield",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T20:03:41.477892Z",
+              "description": "当前正文明确自身获得1.5秒护盾；防守姿势、护盾触发和移除事件待接。",
+              "effectKey": "self_shield",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "shield_duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "铁令自身护盾",
+              "results": [
+                {
+                  "description": "只定义来源明确的自身普通护盾数值；触发和移除事件由后续事件层接线。",
+                  "detail": {
+                    "absorbedDamageTypeKey": null,
+                    "decayMode": "NONE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "铁令自身护盾",
+                  "resultKey": "shield",
+                  "resultType": "NORMAL_SHIELD",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "shield_value",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "ambessa_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T20:03:41.477892Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/ambessa_w/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/ambessa_w/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/ambessa_w/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

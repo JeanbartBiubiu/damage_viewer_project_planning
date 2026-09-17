@@ -1,0 +1,23 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/sona_e/parameters",
+    "detailRoute": "/skills/sona_e/parameters/self_move_speed_ap_ratio",
+    "skillKey": "sona_e",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_ap_ratio",
+      "name": "自身移动速度法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0002,
+      "levelValues": null,
+      "description": "当前自身加速树法强系数为0.0002。",
+      "sortOrder": 30
+    }
+  }
+}

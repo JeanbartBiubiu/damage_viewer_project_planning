@@ -1,0 +1,569 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T17:35:14.904+08:00",
+  "status": "REVIEWED_DEFERRED",
+  "verdict": "DEFERRED_ONLY",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "businessWrites": 0,
+  "databaseWrites": 0,
+  "nonGetRequests": 0,
+  "fileWrites": 2,
+  "gitWriteOperations": 0,
+  "fullSkillBaselineGETs": 0,
+  "fullRuleBaselineGETs": 0,
+  "fullAttributeBaselineGETs": 0,
+  "unreadFullBaseline": true,
+  "runtimeValidation": "未执行",
+  "browserValidation": "未执行",
+  "candidateCounts": {
+    "ready": 0,
+    "deferred": 4,
+    "excluded": 0
+  },
+  "scope": {
+    "onlySkills": [
+      "rune_8347_passive",
+      "rune_8234_passive",
+      "rune_8453_passive",
+      "rune_8242_passive"
+    ],
+    "notExpandedToOtherRunes": true,
+    "noTriggerWriteRequestsGenerated": true,
+    "allFourAreInScope": true
+  },
+  "fixedSources": [
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文机制盘点/逐项机器清单.json",
+      "sha256": "419c74a3a22f88f7be5d6499f788914d838712c2c95c61012f168cca9878668b",
+      "byteSize": 113066,
+      "role": "四项范围、分支、已确认事实、缺口与可保存边界；entries[21]、entries[57]、entries[47]、entries[48]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文机制盘点/冻结来源.json",
+      "sha256": "086ed2d4e8a62f851648faf4687e53650f760a25ea51328dccd245217578fda1",
+      "byteSize": 212301,
+      "role": "四项官方与客户端原文；items[21]、items[57]、items[47]、items[48]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文机制盘点/下一批最多12项.json",
+      "sha256": "a22d0f1cf63b51cc47fc128f532c596e608719c25710b41a0756cd637479b9f4",
+      "byteSize": 76658,
+      "role": "第二批已冻结候选与四项原始参数、效果及初始化边界"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第二批/可审查请求.json",
+      "sha256": "45942778a468d2b1c9557ecd3c052ff9c54c514087b7659ae801c71b1d780095",
+      "byteSize": 87849,
+      "role": "复苏与坚定的已执行组成候选；复苏请求[13..19]、坚定请求[76..82]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第二批/README.md",
+      "sha256": "2cf26b66e38c2a3dc2cdbae30f2449078c0aa16f5e26d2d0c51c341af6acbf6c",
+      "byteSize": 3428,
+      "role": "第二批实际保存范围与未接线边界"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第三批/冻结来源.json",
+      "sha256": "f8545f8b63ef3276c3dc95c2c17107ec24b49efb8d67dd51652dbd2ccfa32332",
+      "byteSize": 106204,
+      "role": "星界洞悉与迅捷的客户端数值、默认脚本和原文冻结；entries[2]、entries[11]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第三批/最终请求.json",
+      "sha256": "536dc79da589dd4e36a7c229a4c983aecf20c720a8be4947047719855ca13623",
+      "byteSize": 60277,
+      "role": "星界洞悉与迅捷的已执行组成候选；星界请求[23..26,81]、迅捷请求[71..76,88]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第三批/README.md",
+      "sha256": "5d4e05c5626cba42a587abf52193f8c09682ca6c705323f74ebca6ed38f41ba7",
+      "byteSize": 7649,
+      "role": "第三批实际保存范围与未接线边界"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文客户端数值补证/当前69项数值来源.json",
+      "sha256": "fd43fdb6ee9404520aceac78f11392890be1632ba45910eb3d704399bf905f46",
+      "byteSize": 376892,
+      "role": "四项默认客户端脚本的数值对象和计算树摘要；entries[21]、entries[57]、entries[47]、entries[48]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备符文/官方原始资料/runesReforged-16.17.1-zh_CN.json",
+      "sha256": "a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0",
+      "byteSize": 36166,
+      "role": "官方中文原文"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备符文/客户端提取资料/perks-16.17-zh_CN.json",
+      "sha256": "be0bb4eedde39f3a8e1dc245f9b4382379d87674c2fdc62b2650b6af4d9f565b",
+      "byteSize": 102473,
+      "role": "客户端中文原文"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文客户端数值补证/perks-16.17.cdtb.bin.json.gz",
+      "sha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac",
+      "rawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+      "byteSize": 171382,
+      "role": "客户端默认脚本原始归档；不把计算树直接当作业务规则"
+    }
+  ],
+  "sourceBindings": {
+    "rune_8347_passive": {
+      "machinePointer": "/entries/21",
+      "mechanismFreezePointer": "/items/21",
+      "batch": "符文效果第三批",
+      "officialPointer": "/1/slots/3/runes/0",
+      "clientPointer": "/97",
+      "clientNumericPath": "Perks/Styles/Inspiration/CosmicInsight",
+      "sourceObjectSha256": "df2cbdc22de1d8861b7498b1c7838f2115104ba8bfeba791b96e0831627765cd"
+    },
+    "rune_8234_passive": {
+      "machinePointer": "/entries/57",
+      "mechanismFreezePointer": "/items/57",
+      "batch": "符文效果第三批",
+      "officialPointer": "/4/slots/2/runes/1",
+      "clientPointer": "/8",
+      "clientNumericPath": "Perks/Styles/Sorcery/Celerity",
+      "sourceObjectSha256": "5b27aad3b80624cf02fe1605d02ab44de35e30043a09bb7299249d58a792347a"
+    },
+    "rune_8453_passive": {
+      "machinePointer": "/entries/47",
+      "mechanismFreezePointer": "/items/47",
+      "batch": "符文效果第二批",
+      "batchCandidateRequestRange": "requests[13..19]",
+      "officialPointer": "/3/slots/3/runes/1",
+      "clientPointer": "/9",
+      "clientNumericPath": "Perks/Styles/Resolve/Revitalize",
+      "sourceObjectSha256": "cc6db83f25dc36fec6461e248cfc6cc50eb919dea63bd33940691c6247da913d"
+    },
+    "rune_8242_passive": {
+      "machinePointer": "/entries/48",
+      "mechanismFreezePointer": "/items/48",
+      "batch": "符文效果第二批",
+      "batchCandidateRequestRange": "requests[76..82]",
+      "officialPointer": "/3/slots/3/runes/2",
+      "clientPointer": "/40",
+      "clientNumericPath": "Perks/Styles/Resolve/Unflinching",
+      "sourceObjectSha256": "c7a3186df4e3cf8f871cbab3a295b7f751dad0951f2b90b64e3e12c562b23712"
+    }
+  },
+  "webContractSources": [
+    {
+      "path": "C:/project/damage_web_dev/web/README.md",
+      "sha256": "dfc327ee5bd823b2d8f8f446b77575051dabfd03e4d0abb30142e8221066663b",
+      "lineRefs": "120,128-130",
+      "role": "SOURCE_INITIALIZED语义、24项事件、当前只维护配置不等于运行时执行"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/types/skillEffect.ts",
+      "sha256": "39118d82c1383d2546e206b55b9026e06190281cbb83269e1a8d3f8b5c430876",
+      "lineRefs": "143-150,189-194,242-249,298-302,340-343",
+      "role": "HEALING_MODIFIER、ATTRIBUTE_CHANGE、SKILL_HASTE_MODIFIER为分离结果类型；技能急速结果必须带作用技能范围"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/types/skillTriggerRule.ts",
+      "sha256": "67e6edb1e232fe1eb4ac40024e8028d400864cf16570fd4668461d4a2a7eef2c",
+      "lineRefs": "208-210,258-275",
+      "role": "SOURCE_INITIALIZED、STATUS_CHANGED、CONTROL_RECEIVED事件契约"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256": "a920062d387165c4a9e75de0b8509ba223ef54b05361119d5f3af9c9145c6407",
+      "lineRefs": "99-101,348-468,3044-3048",
+      "role": "来源初始化只触发一次且无事件值；当前有受控开始入口但没有独立受控结束事件"
+    }
+  ],
+  "currentApiEvidence": {
+    "baseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+    "authorizationValueRecorded": false,
+    "canonicalRun": {
+      "totalGETs": 77,
+      "statusCounts": {
+        "200": 77
+      },
+      "candidateGETs": 68,
+      "candidateBreakdown": {
+        "rune_8347_passive": {
+          "total": 15,
+          "subjectPathSkill": 3,
+          "componentLists": 6,
+          "componentDetails": 2,
+          "relations": 2,
+          "representativeImages": 2
+        },
+        "rune_8234_passive": {
+          "total": 17,
+          "subjectPathSkill": 3,
+          "componentLists": 6,
+          "componentDetails": 4,
+          "relations": 2,
+          "representativeImages": 2
+        },
+        "rune_8453_passive": {
+          "total": 18,
+          "subjectPathSkill": 3,
+          "componentLists": 6,
+          "componentDetails": 5,
+          "relations": 2,
+          "representativeImages": 2
+        },
+        "rune_8242_passive": {
+          "total": 18,
+          "subjectPathSkill": 3,
+          "componentLists": 6,
+          "componentDetails": 5,
+          "relations": 2,
+          "representativeImages": 2
+        }
+      },
+      "catalogGETs": 9,
+      "catalogRoutes": [
+        "/attributes/ability_haste",
+        "/attributes/move_speed",
+        "/attributes/move_speed_percent",
+        "/attributes/heal_shield_power_percent",
+        "/attributes/armor",
+        "/attributes/magic_resistance",
+        "/modifier-zones/attribute_flat_add",
+        "/skill-categories/passive",
+        "/statuses/vertigo"
+      ],
+      "collections": [
+        "parameters",
+        "formulas",
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ]
+    },
+    "repeatedExplorationGETs": 28,
+    "repeatedExplorationBreakdown": {
+      "fourSkillCollectionLists": 24,
+      "focusedDetails": 4,
+      "focusedDetailRoutes": [
+        "/skills/rune_8453_passive/effects/base_heal_shield_power",
+        "/skills/rune_8453_passive/trigger-rules/initialize_base_heal_shield_power",
+        "/skills/rune_8242_passive/effects/after_control_armor",
+        "/skills/rune_8242_passive/effects/after_control_magic_resistance"
+      ]
+    },
+    "totalObservedGETsIncludingRepeatedExploration": 105,
+    "notIncluded": [
+      "全量技能列表",
+      "全量触发规则列表",
+      "全量属性列表",
+      "POST、PUT、PATCH、DELETE",
+      "数据库直连",
+      "浏览器、战斗运行和Wasm"
+    ],
+    "allObservedResponsesAreHTTP200": true
+  },
+  "candidates": [
+    {
+      "id": "rune_8347_passive",
+      "runeKey": "rune_8347",
+      "name": "星界洞悉",
+      "scope": "范围内",
+      "decision": "DEFERRED",
+      "sourceFacts": {
+        "officialLong": "+18召唤师技能急速+10装备急速",
+        "clientLong": "+18召唤师技能急速+10装备急速",
+        "clientNumeric": {
+          "ItemHaste": 10,
+          "SummonerHaste": 18
+        }
+      },
+      "currentComposition": {
+        "subject": {
+          "status": 200,
+          "runeKey": "rune_8347",
+          "name": "星界洞悉",
+          "category": "MINOR"
+        },
+        "path": {
+          "status": 200,
+          "pathKey": "rune_path_8300",
+          "name": "启迪"
+        },
+        "skill": {
+          "status": 200,
+          "skillKey": "rune_8347_passive",
+          "name": "符文·星界洞悉",
+          "statusValue": "ENABLED",
+          "skillCategoryKeys": ["passive"],
+          "maxLevel": 1
+        },
+        "parameters": {
+          "listStatus": 200,
+          "count": 2,
+          "keys": ["summoner_haste", "item_haste"],
+          "details": [
+            {"parameterKey": "summoner_haste", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 18, "detailStatus": 200},
+            {"parameterKey": "item_haste", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 10, "detailStatus": 200}
+          ]
+        },
+        "formulas": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "effects": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "processes": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "internalStates": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "triggerRules": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "relations": {"forwardStatus": 200, "forwardTotal": 1, "reverseStatus": 200, "reverseTotal": 1},
+        "representativeImages": {"runeStatus": 200, "runeImageKey": "rune_8347", "runeEnabled": true, "skillStatus": 200, "skillImageKey": "rune_8347", "skillEnabled": true}
+      },
+      "runtimeInputAudit": {
+        "directParameters": [],
+        "formulaClosure": [],
+        "effectValueDependencies": [],
+        "ruleRuntimeBindings": [],
+        "conclusion": "已有两项参数不依赖RUNTIME_INPUT；但当前没有任何技能急速效果，拟执行的两个结果需要各自明确affectedSkillScope。"
+      },
+      "independentSaveable": [
+        "summoner_haste=18固定参数",
+        "item_haste=10固定参数"
+      ],
+      "eventConditionStateBlockers": [
+        "当前没有召唤师技能急速结果或装备技能急速结果",
+        "两个急速的合法技能集合和作用范围未绑定，不能合并成通用技能急速28",
+        "没有可执行效果时不能用SOURCE_INITIALIZED直接执行参数；初始化规则目标应是明确效果"
+      ],
+      "ambiguities": [
+        "现有技能分类只有被动等目录能力，不能据此推导召唤师技能和装备主动技能集合",
+        "使用CATEGORIES或显式SKILLS均需先冻结合法集合，不能把全部技能或通用ability_haste当作替代"
+      ],
+      "writeRequest": {"created": false, "requestCount": 0},
+      "frozenCandidateSkeleton": null
+    },
+    {
+      "id": "rune_8234_passive",
+      "runeKey": "rune_8234",
+      "name": "迅捷",
+      "scope": "范围内",
+      "decision": "DEFERRED",
+      "sourceFacts": {
+        "officialLong": "你身上的所有移动加成的效能提升7%并提供1%移动速度。",
+        "clientLong": "你身上的所有移动加成的效能提升7%并提供1%移动速度。",
+        "clientTooltipExtra": "当前已提供：@f1@移动速度；已移动过的额外距离：@f2@",
+        "clientNumericRaw": {"PercentHasteMod": 0.07000000029802322, "PercentMS": 0.009999999776482582},
+        "normalizedNumeric": {"movement_bonus_amplification_ratio": 0.07, "additional_move_speed_ratio": 0.01}
+      },
+      "currentComposition": {
+        "subject": {"status": 200, "runeKey": "rune_8234", "name": "迅捷", "category": "MINOR"},
+        "path": {"status": 200, "pathKey": "rune_path_8200", "name": "巫术"},
+        "skill": {"status": 200, "skillKey": "rune_8234_passive", "name": "符文·迅捷", "statusValue": "ENABLED", "skillCategoryKeys": ["passive"], "maxLevel": 1},
+        "parameters": {
+          "listStatus": 200,
+          "count": 3,
+          "keys": ["movement_bonus_amplification_ratio", "additional_move_speed_ratio", "confirmed_eligible_movement_bonus"],
+          "details": [
+            {"parameterKey": "movement_bonus_amplification_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.07, "detailStatus": 200},
+            {"parameterKey": "additional_move_speed_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.01, "detailStatus": 200},
+            {"parameterKey": "confirmed_eligible_movement_bonus", "valueType": "DECIMAL", "valueMode": "RUNTIME_INPUT", "fixedValue": null, "detailStatus": 200}
+          ]
+        },
+        "formulas": {
+          "listStatus": 200,
+          "count": 1,
+          "keys": ["amplified_movement_bonus_increment"],
+          "details": [{"formulaKey": "amplified_movement_bonus_increment", "operation": "MULTIPLY", "operands": ["confirmed_eligible_movement_bonus", "movement_bonus_amplification_ratio"], "detailStatus": 200}]
+        },
+        "effects": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "processes": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "internalStates": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "triggerRules": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "relations": {"forwardStatus": 200, "forwardTotal": 1, "reverseStatus": 200, "reverseTotal": 1},
+        "representativeImages": {"runeStatus": 200, "runeImageKey": "rune_8234", "runeEnabled": true, "skillStatus": 200, "skillImageKey": "rune_8234", "skillEnabled": true}
+      },
+      "runtimeInputAudit": {
+        "directParameters": ["parameters.confirmed_eligible_movement_bonus.valueMode=RUNTIME_INPUT"],
+        "formulaClosure": ["amplified_movement_bonus_increment -> confirmed_eligible_movement_bonus"],
+        "effectValueDependencies": [],
+        "ruleRuntimeBindings": [],
+        "conclusion": "拟执行的7%增强结果递归依赖未提供默认值的移动加成基数；固定1%与7%增强不能合成一个效果。"
+      },
+      "independentSaveable": [
+        "movement_bonus_amplification_ratio=0.07固定参数",
+        "additional_move_speed_ratio=0.01固定参数",
+        "仅在另有合法移动加成修正语义时，固定1%才可独立设计结果"
+      ],
+      "eventConditionStateBlockers": [
+        "当前没有效果或规则，7%公式没有执行结果",
+        "confirmed_eligible_movement_bonus必须排除不适用来源并由运行时提供，不能默认当前总移速",
+        "当前资料没有证明7%增强基数、组合顺序以及固定1%是否参与增强"
+      ],
+      "ambiguities": [
+        "move_speed与move_speed_percent的单位和跨来源合并不能替代移动加成基数",
+        "不能把当前总移速直接乘1.07，也不能将固定1%与其他移速加成效能混成单一普通属性效果"
+      ],
+      "writeRequest": {"created": false, "requestCount": 0},
+      "frozenCandidateSkeleton": null
+    },
+    {
+      "id": "rune_8453_passive",
+      "runeKey": "rune_8453",
+      "name": "复苏",
+      "scope": "范围内",
+      "decision": "DEFERRED",
+      "sourceFacts": {
+        "officialLong": "获得5%治疗和护盾强度。你对低于40%生命值的目标施放或获得的治疗效果和护盾效果会增强10%。",
+        "clientLong": "获得5%治疗和护盾强度。你对低于40%生命值的目标施放或获得的治疗效果和护盾效果会增强10%。",
+        "clientTooltipExtra": "额外治疗效果：@f1@；额外护盾强度：@f2@；治疗效果和护盾强度总和：@f4@%",
+        "clientNumeric": {"HealShieldPower": 0.05000000074505806, "HealthCutOff": 40, "ExtraAmp": 10},
+        "normalizedNumeric": {"base_heal_shield_power_ratio": 0.05, "low_health_threshold": 0.4, "low_health_amplification_ratio": 0.1}
+      },
+      "currentComposition": {
+        "subject": {"status": 200, "runeKey": "rune_8453", "name": "复苏", "category": "MINOR"},
+        "path": {"status": 200, "pathKey": "rune_path_8400", "name": "坚决"},
+        "skill": {"status": 200, "skillKey": "rune_8453_passive", "name": "符文·复苏", "statusValue": "ENABLED", "skillCategoryKeys": ["passive"], "maxLevel": 1},
+        "parameters": {
+          "listStatus": 200,
+          "count": 3,
+          "keys": ["low_health_threshold", "low_health_amplification_ratio", "base_heal_shield_power_ratio"],
+          "details": [
+            {"parameterKey": "low_health_threshold", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.4, "detailStatus": 200},
+            {"parameterKey": "low_health_amplification_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.1, "detailStatus": 200},
+            {"parameterKey": "base_heal_shield_power_ratio", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.05, "detailStatus": 200}
+          ]
+        },
+        "formulas": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "effects": {
+          "listStatus": 200,
+          "count": 1,
+          "keys": ["base_heal_shield_power"],
+          "details": [{
+            "effectKey": "base_heal_shield_power",
+            "detailStatus": 200,
+            "lifecycle": {"instanceScope": "SOURCE", "durationValue": null, "maxStacksValue": {"kind": "FIXED", "value": 1}, "applicationStacksValue": {"kind": "FIXED", "value": 1}, "reapplicationStackMode": "KEEP", "reapplicationDurationMode": null, "expiryMode": "EXPLICIT_ONLY"},
+            "results": [{"resultType": "ATTRIBUTE_CHANGE", "target": "SOURCE", "attributeKey": "heal_shield_power_percent", "operation": "INCREASE", "modifierZoneKey": "attribute_flat_add", "value": {"kind": "PARAMETER", "parameterKey": "base_heal_shield_power_ratio"}}]
+          }]
+        },
+        "processes": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "internalStates": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "triggerRules": {
+          "listStatus": 200,
+          "count": 1,
+          "keys": ["initialize_base_heal_shield_power"],
+          "details": [{
+            "ruleKey": "initialize_base_heal_shield_power",
+            "detailStatus": 200,
+            "eventSource": {"eventType": "SOURCE_INITIALIZED", "detail": {}},
+            "conditionGroups": [],
+            "actions": [{"actionType": "EXECUTE_EFFECT", "targetContext": "EVENT_SOURCE", "effectKey": "base_heal_shield_power", "runtimeInputBindings": []}],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }]
+        },
+        "relations": {"forwardStatus": 200, "forwardTotal": 1, "reverseStatus": 200, "reverseTotal": 1},
+        "representativeImages": {"runeStatus": 200, "runeImageKey": "rune_8453", "runeEnabled": true, "skillStatus": 200, "skillImageKey": "rune_8453", "skillEnabled": true}
+      },
+      "runtimeInputAudit": {
+        "directParameters": [],
+        "formulaClosure": [],
+        "effectValueDependencies": [],
+        "ruleRuntimeBindings": [],
+        "conclusion": "已保存的5%基础强度和SOURCE_INITIALIZED规则不依赖RUNTIME_INPUT且语义正确；低生命分支仍需事件时目标生命快照和两侧结果语义。"
+      },
+      "independentSaveable": [
+        "base_heal_shield_power=5%基础强度效果已存在",
+        "initialize_base_heal_shield_power已存在，空条件、空事件详情、EVENT_SOURCE自目标均正确",
+        "低生命阈值0.40与额外增强0.10参数已存在"
+      ],
+      "eventConditionStateBlockers": [
+        "低生命分支需要区分施放治疗/护盾与获得治疗/护盾两侧，不能改写成普通属性变化",
+        "需要明确低于40%判定对象及采样时点，当前没有该条件绑定或运行时快照",
+        "当前保存结构未提供可核准的治疗修正与护盾增强结果，不能把10%写进SOURCE的heal_shield_power_percent",
+        "现有初始化规则只能施加明确无条件的5%基础效果，不能初始化低生命分支"
+      ],
+      "ambiguities": [
+        "官方‘施放或获得’的目标与来源关系需分别冻结",
+        "治疗结果与护盾结果的方向、目标以及低血量采样不能由客户端提示占位符推断"
+      ],
+      "writeRequest": {"created": false, "requestCount": 0},
+      "frozenCandidateSkeleton": null
+    },
+    {
+      "id": "rune_8242_passive",
+      "runeKey": "rune_8242",
+      "name": "坚定",
+      "scope": "范围内",
+      "decision": "DEFERRED",
+      "sourceFacts": {
+        "officialLong": "在被控制时和之后的2秒里获得10护甲和魔法抗性。",
+        "clientLong": "在被控制时和之后的2秒里获得10护甲和魔法抗性。",
+        "clientTooltipExtra": "在被控制时和之后的2秒里获得@f1@护甲和魔法抗性；带着额外双抗的总战斗时间：@f6@秒。",
+        "clientNumeric": {"ResistMin": 10, "ResistMax": 10, "Duration": 2},
+        "normalizedNumeric": {"armor_bonus": 10, "magic_resistance_bonus": 10, "after_control_duration_ms": 2000}
+      },
+      "currentComposition": {
+        "subject": {"status": 200, "runeKey": "rune_8242", "name": "坚定", "category": "MINOR"},
+        "path": {"status": 200, "pathKey": "rune_path_8400", "name": "坚决"},
+        "skill": {"status": 200, "skillKey": "rune_8242_passive", "name": "符文·坚定", "statusValue": "ENABLED", "skillCategoryKeys": ["passive"], "maxLevel": 1},
+        "parameters": {
+          "listStatus": 200,
+          "count": 3,
+          "keys": ["armor_bonus", "after_control_duration_ms", "magic_resistance_bonus"],
+          "details": [
+            {"parameterKey": "armor_bonus", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 10, "detailStatus": 200},
+            {"parameterKey": "after_control_duration_ms", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 2000, "detailStatus": 200},
+            {"parameterKey": "magic_resistance_bonus", "valueType": "INTEGER", "valueMode": "FIXED", "fixedValue": 10, "detailStatus": 200}
+          ]
+        },
+        "formulas": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "effects": {
+          "listStatus": 200,
+          "count": 2,
+          "keys": ["after_control_armor", "after_control_magic_resistance"],
+          "details": [
+            {"effectKey": "after_control_armor", "detailStatus": 200, "lifecycle": {"instanceScope": "SOURCE", "durationValue": {"kind": "PARAMETER", "parameterKey": "after_control_duration_ms"}, "maxStacksValue": {"kind": "FIXED", "value": 1}, "applicationStacksValue": {"kind": "FIXED", "value": 1}, "reapplicationStackMode": "KEEP", "reapplicationDurationMode": "REFRESH_ALL", "expiryMode": "ALL_AT_ONCE"}, "results": [{"resultType": "ATTRIBUTE_CHANGE", "target": "SOURCE", "attributeKey": "armor", "operation": "INCREASE", "modifierZoneKey": "attribute_flat_add", "value": {"kind": "PARAMETER", "parameterKey": "armor_bonus"}}]},
+            {"effectKey": "after_control_magic_resistance", "detailStatus": 200, "lifecycle": {"instanceScope": "SOURCE", "durationValue": {"kind": "PARAMETER", "parameterKey": "after_control_duration_ms"}, "maxStacksValue": {"kind": "FIXED", "value": 1}, "applicationStacksValue": {"kind": "FIXED", "value": 1}, "reapplicationStackMode": "KEEP", "reapplicationDurationMode": "REFRESH_ALL", "expiryMode": "ALL_AT_ONCE"}, "results": [{"resultType": "ATTRIBUTE_CHANGE", "target": "SOURCE", "attributeKey": "magic_resistance", "operation": "INCREASE", "modifierZoneKey": "attribute_flat_add", "value": {"kind": "PARAMETER", "parameterKey": "magic_resistance_bonus"}}]}
+          ]
+        },
+        "processes": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "internalStates": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "triggerRules": {"listStatus": 200, "count": 0, "keys": [], "detailGETs": 0},
+        "relations": {"forwardStatus": 200, "forwardTotal": 1, "reverseStatus": 200, "reverseTotal": 1},
+        "representativeImages": {"runeStatus": 200, "runeImageKey": "rune_8242", "runeEnabled": true, "skillStatus": 200, "skillImageKey": "rune_8242", "skillEnabled": true}
+      },
+      "runtimeInputAudit": {
+        "directParameters": [],
+        "formulaClosure": [],
+        "effectValueDependencies": [],
+        "ruleRuntimeBindings": [],
+        "conclusion": "两个已保存双抗效果只引用固定参数；但效果必须由受控开始、受控结束和重叠续期的运行时事件/状态正确驱动。"
+      },
+      "independentSaveable": [
+        "armor_bonus=10固定参数",
+        "magic_resistance_bonus=10固定参数",
+        "after_control_duration_ms=2000固定参数",
+        "控制结束后护甲/魔抗两个独立效果已存在，均为SOURCE、参数时长、结束后2秒刷新"
+      ],
+      "eventConditionStateBlockers": [
+        "当前没有触发规则或内部状态，不能施加控制期间覆盖",
+        "CONTROL_RECEIVED只能表达来源对象受到控制的开始，不能把从开始计时的2秒冒充从结束计时",
+        "当前事件目录没有独立CONTROL_ENDED事件，完整控制类型、实际结束时点和重叠控制续期未绑定",
+        "不能只用现有眩晕状态代表全部控制"
+      ],
+      "ambiguities": [
+        "控制期间效果的开始和移除边界需与每种控制状态的实际结束对齐",
+        "重叠控制是续期、延长还是保持到最后一个控制结束尚未确认"
+      ],
+      "writeRequest": {"created": false, "requestCount": 0},
+      "frozenCandidateSkeleton": null
+    }
+  ],
+  "scriptRecommendations": [
+    "脚本固定只接受四个稳定skillKey，先读取主体、分组、技能、六类子资源及其详情，再读取正反关系和两张代表图；任何非GET方法立即失败。",
+    "递归遍历参数valueMode、数值value.kind、公式参数引用、效果生命周期/结果valueRule和规则runtimeInputBindings；同时做公式参数闭包，不能只看效果列表的直接字段。",
+    "星界洞悉应先冻结召唤师技能集合与装备技能集合，再分别生成18和10的SKILL_HASTE_MODIFIER结果；每个结果单独作用范围，SOURCE_INITIALIZED只执行明确效果。",
+    "迅捷应把固定1%结果与7%合法移动加成增量拆开；先补证移动加成基数和组合顺序，再允许引用RUNTIME_INPUT，禁止总移速乘1.07。",
+    "复苏应为施放侧和获得侧分别定义治疗/护盾修正、低生命目标和采样时点；5%基础属性与10%低生命分支分开，不能用普通属性变化承载后者。",
+    "坚定应先补受控开始、受控结束及重叠控制状态，再在真实结束时刻启动2000毫秒双抗效果；不要用CONTROL_RECEIVED直接启动2秒。",
+    "后续若获得写入授权，先冻结候选和哈希，执行纯GET预检，确认现值仍同值后再一次受保护写入并独立回读；本轮不生成请求、不写业务数据。"
+  ],
+  "validationBoundaries": [
+    "本轮证据是规划文件散列、Web静态契约和管理API定点GET；不是实时数据库全量基线。",
+    "HTTP 200、参数/公式/效果/规则回读一致只证明管理数据形状，不证明来源装配、触发执行、战斗运行或Wasm。",
+    "复苏的SOURCE_INITIALIZED规则语义已按静态契约和实际详情确认，但不表示前端或战斗引擎已经执行初始化。",
+    "四项均为范围内，未因缺少机制而改判EXCLUDED；DEFERRED表示仍有事件、条件、状态或作用范围阻塞。"
+  ]
+}

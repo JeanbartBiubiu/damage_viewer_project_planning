@@ -1,0 +1,23 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "method": "POST",
+    "route": "/skills/bard_w/parameters",
+    "detailRoute": "/skills/bard_w/parameters/chargeup_time_ms",
+    "skillKey": "bard_w",
+    "kind": "parameters",
+    "stableKey": "chargeup_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "chargeup_time_ms",
+      "name": "充能时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "5秒转毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

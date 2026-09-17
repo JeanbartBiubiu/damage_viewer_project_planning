@@ -1,0 +1,21 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "skillKey": "ksante_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_q/parameters",
+    "stableKey": "slow_duration_ms",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "正文消费0.5秒。",
+      "sortOrder": 70
+    }
+  }
+}

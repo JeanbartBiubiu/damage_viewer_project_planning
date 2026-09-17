@@ -1,0 +1,20 @@
+{
+  "i": 32,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_p/parameters",
+    "skillKey": "poppy_p",
+    "kind": "parameters",
+    "stableKey": "actual_shield_ratio_by_character_level",
+    "body": {
+      "parameterKey": "actual_shield_ratio_by_character_level",
+      "name": "实际角色等级护盾生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "根ShieldValue为mStat12乘角色等级插值0.11至0.20，完整求值未证；实际输入无默认。",
+      "sortOrder": 40
+    }
+  }
+}

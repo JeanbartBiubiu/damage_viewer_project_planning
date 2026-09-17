@@ -1,0 +1,39 @@
+{
+  "sequence": 67,
+  "intent": {
+    "sequence": 67,
+    "method": "POST",
+    "route": "/skills/drmundo_r/parameters",
+    "detailRoute": "/skills/drmundo_r/parameters/nearby_enemy_champion_count",
+    "skillKey": "drmundo_r",
+    "kind": "parameters",
+    "stableKey": "nearby_enemy_champion_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "nearby_enemy_champion_count",
+      "name": "合资格附近敌方英雄实际数量",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "三级正文的附近敌方英雄实际数量由运行时外供且无默认值；本轮1v1公式用MIN(实际数量,1)封顶，等级1/2通过增幅参数的0值自然不增加，不把输入伪设为0。",
+      "sortOrder": 70
+    }
+  },
+  "before": {
+    "sequence": 403,
+    "method": "GET",
+    "route": "/skills/drmundo_r/parameters/nearby_enemy_champion_count",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "nearby_enemy_champion_count"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:42.959Z"
+  }
+}

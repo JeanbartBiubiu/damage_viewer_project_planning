@@ -1,0 +1,24 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 162,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_q/parameters",
+    "detailRoute": "/skills/ashe_q/parameters/stack_duration_ms",
+    "skillKey": "ashe_q",
+    "kind": "parameters",
+    "stableKey": "stack_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_duration_ms",
+      "name": "全神贯注单层持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "StackDuration=4秒，精确换算为4000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-09T12:17:06.561Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/rumble_w/effects/empowered_shield",
+  "id": "empowered_shield",
+  "method": "POST",
+  "body": {
+    "effectKey": "empowered_shield",
+    "name": "危险温度破碎护盾自身护盾",
+    "description": "当前正文明确危险温度强化护盾；只表达可独立定义的自身护盾，危险温度分支和实际触发尚未接线。",
+    "sortOrder": 20,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "shield",
+        "name": "危险温度破碎护盾自身护盾",
+        "resultType": "NORMAL_SHIELD",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "empowered_shield_amount"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "absorbedDamageTypeKey": null,
+          "decayMode": "NONE"
+        }
+      }
+    ]
+  }
+}

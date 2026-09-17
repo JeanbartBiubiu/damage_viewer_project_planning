@@ -1,0 +1,51 @@
+{
+  "runId": "2026-09-09T10-41-59-694Z",
+  "mode": "独立第二轮全量GET；不发送业务写入",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "planSha256": "6c2e687d3aaa74401d07fe200fa1c4bfe022f183a51f2d20d3492ba41d90b022",
+  "apiWrites": 0,
+  "expected": {
+    "catalogs": 4,
+    "characters": 4,
+    "relations": 4,
+    "subjects": 20,
+    "images": 20,
+    "lists": 120,
+    "candidateDetails": 153,
+    "totalRequests": 325
+  },
+  "actual": {
+    "calls": 325,
+    "methods": {
+      "GET": 325
+    },
+    "statuses": {
+      "200": 325
+    },
+    "protection": {
+      "catalogs": 4,
+      "characters": 4,
+      "relations": 4,
+      "subjects": 20,
+      "images": 20
+    },
+    "lists": 120,
+    "details": 153,
+    "protectionConflicts": 0,
+    "listConflicts": 0,
+    "componentConflicts": 0,
+    "catalogReferences": 37
+  },
+  "failures": [],
+  "success": true,
+  "independentMath": {
+    "status": "READY_FOR_INDEPENDENT_REVIEW",
+    "checks": 297,
+    "failedChecks": 0,
+    "formulaChecks": 21,
+    "inputRejections": 0,
+    "output": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十六批\\独立回读\\2026-09-09T10-41-59-694Z\\实际读后数学核算.json"
+  },
+  "finishedAt": "2026-09-09T10:42:18.689Z"
+}

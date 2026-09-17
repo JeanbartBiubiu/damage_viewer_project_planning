@@ -1,0 +1,5257 @@
+{
+  "generatedAt": "2026-09-09T19:31:36.143Z",
+  "status": "修订一仅写入意图，未调用业务接口",
+  "batch": "英雄机制第三十六批",
+  "revision": "hero36-source-v1-revision-1",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
+  "sourceBindingSha256": "9fe03948856d29d6c74d6f01c14a9be81d626dbf0f84d6e8991658ac7e606a13",
+  "sourceRangeSha256": "c23327519482e02b2693b884b8d7282fef2484555b839fa685ac80e897d47c05",
+  "protectionSnapshotSha256": "65910ae80c3fe4efda85e022b8b9674b012d7c300925f06765ea8ec8fc2ef920",
+  "publicReuseSha256": "e05811924a1796886455b22b37ebc5502c20e2f5105d8e2a3f984fe875e11cee",
+  "requestCount": 160,
+  "counts": {
+    "skills": 20,
+    "parameters": 129,
+    "formulas": 31,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "evelynn_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "evelynn_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "evelynn_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "evelynn_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "evelynn_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "evelynn_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "evelynn_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "evelynn_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lillia_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lillia_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lillia_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lillia_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lillia_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lillia_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lillia_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "lillia_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "fiddlesticks_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "fiddlesticks_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "fiddlesticks_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "fiddlesticks_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "fiddlesticks_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "fiddlesticks_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "fiddlesticks_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "fiddlesticks_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "singed_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "singed_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "singed_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "singed_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "singed_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "singed_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    }
+  ],
+  "publicVerification": [
+    {
+      "skillKey": "evelynn_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "expectedOfficial": [
+        4000,
+        4000,
+        4000,
+        4000,
+        4000
+      ],
+      "detailSha256": "132a75531e516b101ad3eff697bbe28efee99ef5abc7fbcfe40de0808c1b8959"
+    },
+    {
+      "skillKey": "evelynn_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "expectedOfficial": [
+        40,
+        45,
+        50,
+        55,
+        60
+      ],
+      "detailSha256": "09e1c372a0cb4cc1c3826fd166e27cb87a85f5fdc0f5dc34d19d8e660094e67a"
+    },
+    {
+      "skillKey": "evelynn_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15000,
+        "2": 14000,
+        "3": 13000,
+        "4": 12000,
+        "5": 11000
+      },
+      "expectedOfficial": [
+        15000,
+        14000,
+        13000,
+        12000,
+        11000
+      ],
+      "detailSha256": "da8de64a23cb77b598b243e276fbe5af4ac7cc3b4411c2233df7c4a9e958ea3d"
+    },
+    {
+      "skillKey": "evelynn_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "expectedOfficial": [
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "detailSha256": "d49032dd120ad50b930893a780b57962e10008263f0f677825681404aecfa2b7"
+    },
+    {
+      "skillKey": "evelynn_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "expectedOfficial": [
+        8000,
+        8000,
+        8000,
+        8000,
+        8000
+      ],
+      "detailSha256": "a47b872fcbbc9add8a2211abc5d912a99a9b0be8b938da0884943a9b8f0adc32"
+    },
+    {
+      "skillKey": "evelynn_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "expectedOfficial": [
+        40,
+        45,
+        50,
+        55,
+        60
+      ],
+      "detailSha256": "e3b59d533c76084f8552784f8bb6f047ccad99b8e0e2c799818eac74d3be2c3a"
+    },
+    {
+      "skillKey": "evelynn_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120000,
+        "2": 100000,
+        "3": 80000
+      },
+      "expectedOfficial": [
+        120000,
+        100000,
+        80000
+      ],
+      "detailSha256": "911fe7695cd6cbfbba481cc1060547a24c56012a79973ccf67aae97352859cb0"
+    },
+    {
+      "skillKey": "evelynn_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficial": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "79aec3b53ac0311e13925c247ebbecc1f7fed2f8ddc68628fd7674b51ad082d2"
+    },
+    {
+      "skillKey": "lillia_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6000,
+        "2": 5500,
+        "3": 5000,
+        "4": 4500,
+        "5": 4000
+      },
+      "expectedOfficial": [
+        6000,
+        5500,
+        5000,
+        4500,
+        4000
+      ],
+      "detailSha256": "7de3b83ed0d9dcc008595bd71e241748a31a4745730a8ad4f8c808ae5b94fc73"
+    },
+    {
+      "skillKey": "lillia_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 65,
+      "levelValues": null,
+      "expectedOfficial": [
+        65,
+        65,
+        65,
+        65,
+        65
+      ],
+      "detailSha256": "f319b075bd17ad640adf469dd0c54a04363931e061a12d77decaffca1fd5c7b6"
+    },
+    {
+      "skillKey": "lillia_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 14000,
+        "2": 13000,
+        "3": 12000,
+        "4": 11000,
+        "5": 10000
+      },
+      "expectedOfficial": [
+        14000,
+        13000,
+        12000,
+        11000,
+        10000
+      ],
+      "detailSha256": "490b6465f029b1be069b6c4c60d852f32154ccc2699b376cee43ce36fd4518a7"
+    },
+    {
+      "skillKey": "lillia_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 50,
+      "levelValues": null,
+      "expectedOfficial": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "detailSha256": "61283491bfb3b28f7a169f6194e0882407288c0d200f37bd122dd9eef463144a"
+    },
+    {
+      "skillKey": "lillia_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 12000,
+      "levelValues": null,
+      "expectedOfficial": [
+        12000,
+        12000,
+        12000,
+        12000,
+        12000
+      ],
+      "detailSha256": "763a7ad1f1767eaec74e97d288b1e0e6f314d87676fa4a1e3e2ff8f4d0ec30a3"
+    },
+    {
+      "skillKey": "lillia_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 70,
+      "levelValues": null,
+      "expectedOfficial": [
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "detailSha256": "144b950cdb5e0a04d6fe1535a415db54b81051bc3b0bfa4c943e0f466f220a1d"
+    },
+    {
+      "skillKey": "lillia_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150000,
+        "2": 130000,
+        "3": 110000
+      },
+      "expectedOfficial": [
+        150000,
+        130000,
+        110000
+      ],
+      "detailSha256": "a92d662757606a0a2db9bf045aa9f16dd411dc95ec2702531096a11e9784f7b2"
+    },
+    {
+      "skillKey": "lillia_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 50,
+      "levelValues": null,
+      "expectedOfficial": [
+        50,
+        50,
+        50
+      ],
+      "detailSha256": "ea459784f3a48ed99d060b320e5299ce6c845dabe104e6d96921f5ac64f87bf8"
+    },
+    {
+      "skillKey": "fiddlesticks_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15000,
+        "2": 14500,
+        "3": 14000,
+        "4": 13500,
+        "5": 13000
+      },
+      "expectedOfficial": [
+        15000,
+        14500,
+        14000,
+        13500,
+        13000
+      ],
+      "detailSha256": "3682d2d5f29f534f454664921ba75cb010ff9e4ad11743e0e8c61d65eac6ab82"
+    },
+    {
+      "skillKey": "fiddlesticks_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 65,
+      "levelValues": null,
+      "expectedOfficial": [
+        65,
+        65,
+        65,
+        65,
+        65
+      ],
+      "detailSha256": "36794c97068c80950e55973dc4f87eb9458459833937f2c55188d2f197b228a8"
+    },
+    {
+      "skillKey": "fiddlesticks_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "expectedOfficial": [
+        10000,
+        9500,
+        9000,
+        8500,
+        8000
+      ],
+      "detailSha256": "be2afc7ad67caa85524f46d938aa5e576b61ba350b21c8d1d185493585495c60"
+    },
+    {
+      "skillKey": "fiddlesticks_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "expectedOfficial": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "detailSha256": "50e66597a9e04b859fe3f31896f81739d899d416e1a77951f065c3f6d6c4ead8"
+    },
+    {
+      "skillKey": "fiddlesticks_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 9000,
+        "3": 8000,
+        "4": 7000,
+        "5": 6000
+      },
+      "expectedOfficial": [
+        10000,
+        9000,
+        8000,
+        7000,
+        6000
+      ],
+      "detailSha256": "c4464e603c00cdbb359b37855337e583658434565b5d9278cd5289dfa6775f03"
+    },
+    {
+      "skillKey": "fiddlesticks_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "expectedOfficial": [
+        40,
+        45,
+        50,
+        55,
+        60
+      ],
+      "detailSha256": "9b9cb08c524b20999d3c775df04e1449423716ddb2103ea6ccba2f7039ce3c8c"
+    },
+    {
+      "skillKey": "fiddlesticks_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 140000,
+        "2": 110000,
+        "3": 80000
+      },
+      "expectedOfficial": [
+        140000,
+        110000,
+        80000
+      ],
+      "detailSha256": "1216213918eed0f0949e6645d0a410416b6f596afb6d99bfc2ef73bf66898489"
+    },
+    {
+      "skillKey": "fiddlesticks_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficial": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "b3f5e9fae5c0b26147ea0dc394fdff9e0cd9e157ff181b6be5b29e091c70f483"
+    },
+    {
+      "skillKey": "singed_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 17000,
+        "2": 16000,
+        "3": 15000,
+        "4": 14000,
+        "5": 13000
+      },
+      "expectedOfficial": [
+        17000,
+        16000,
+        15000,
+        14000,
+        13000
+      ],
+      "detailSha256": "508e53432a8400bd550698e5f4cc19a260ac31f04ba4577c34b1a8c4814b0f9f"
+    },
+    {
+      "skillKey": "singed_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "expectedOfficial": [
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "detailSha256": "a707e0eac32736cbe203f5a7b2854f850df76692009ae69202c8122eef0123be"
+    },
+    {
+      "skillKey": "singed_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "expectedOfficial": [
+        10000,
+        9500,
+        9000,
+        8500,
+        8000
+      ],
+      "detailSha256": "a0be109cc50067196fe178fb5846b8a92f848d9333d909a9c9e317a4e9f3344f"
+    },
+    {
+      "skillKey": "singed_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "expectedOfficial": [
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "detailSha256": "2256ca9ce73e535fd3c611009f87c922ba7975f9dc6d312002fe1672ee901960"
+    },
+    {
+      "skillKey": "singed_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100000,
+      "levelValues": null,
+      "expectedOfficial": [
+        100000,
+        100000,
+        100000
+      ],
+      "detailSha256": "bc5fc9d3edd1bf98bbcc5f202462848ba9527490a3e61edc24e35488c7d91669"
+    },
+    {
+      "skillKey": "singed_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficial": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "5a66f37e5853f04ec2618edac58653c342ec24c36e1b58f10a2e9f68208d53d8"
+    }
+  ],
+  "protectedRoutes": [
+    "/attributes",
+    "/skill-categories",
+    "/modifier-zones",
+    "/damage-types",
+    "/characters/champion_evelynn",
+    "/character-skill-relations?characterKey=champion_evelynn",
+    "/characters/champion_lillia",
+    "/character-skill-relations?characterKey=champion_lillia",
+    "/characters/champion_fiddlesticks",
+    "/character-skill-relations?characterKey=champion_fiddlesticks",
+    "/characters/champion_singed",
+    "/character-skill-relations?characterKey=champion_singed",
+    "/skills/evelynn_p",
+    "/skills/evelynn_p/representative-image",
+    "/skills/evelynn_p/parameters",
+    "/skills/evelynn_p/formulas",
+    "/skills/evelynn_p/effects",
+    "/skills/evelynn_p/processes",
+    "/skills/evelynn_p/internal-states",
+    "/skills/evelynn_p/trigger-rules",
+    "/skills/evelynn_q",
+    "/skills/evelynn_q/representative-image",
+    "/skills/evelynn_q/parameters",
+    "/skills/evelynn_q/formulas",
+    "/skills/evelynn_q/effects",
+    "/skills/evelynn_q/processes",
+    "/skills/evelynn_q/internal-states",
+    "/skills/evelynn_q/trigger-rules",
+    "/skills/evelynn_w",
+    "/skills/evelynn_w/representative-image",
+    "/skills/evelynn_w/parameters",
+    "/skills/evelynn_w/formulas",
+    "/skills/evelynn_w/effects",
+    "/skills/evelynn_w/processes",
+    "/skills/evelynn_w/internal-states",
+    "/skills/evelynn_w/trigger-rules",
+    "/skills/evelynn_e",
+    "/skills/evelynn_e/representative-image",
+    "/skills/evelynn_e/parameters",
+    "/skills/evelynn_e/formulas",
+    "/skills/evelynn_e/effects",
+    "/skills/evelynn_e/processes",
+    "/skills/evelynn_e/internal-states",
+    "/skills/evelynn_e/trigger-rules",
+    "/skills/evelynn_r",
+    "/skills/evelynn_r/representative-image",
+    "/skills/evelynn_r/parameters",
+    "/skills/evelynn_r/formulas",
+    "/skills/evelynn_r/effects",
+    "/skills/evelynn_r/processes",
+    "/skills/evelynn_r/internal-states",
+    "/skills/evelynn_r/trigger-rules",
+    "/skills/lillia_p",
+    "/skills/lillia_p/representative-image",
+    "/skills/lillia_p/parameters",
+    "/skills/lillia_p/formulas",
+    "/skills/lillia_p/effects",
+    "/skills/lillia_p/processes",
+    "/skills/lillia_p/internal-states",
+    "/skills/lillia_p/trigger-rules",
+    "/skills/lillia_q",
+    "/skills/lillia_q/representative-image",
+    "/skills/lillia_q/parameters",
+    "/skills/lillia_q/formulas",
+    "/skills/lillia_q/effects",
+    "/skills/lillia_q/processes",
+    "/skills/lillia_q/internal-states",
+    "/skills/lillia_q/trigger-rules",
+    "/skills/lillia_w",
+    "/skills/lillia_w/representative-image",
+    "/skills/lillia_w/parameters",
+    "/skills/lillia_w/formulas",
+    "/skills/lillia_w/effects",
+    "/skills/lillia_w/processes",
+    "/skills/lillia_w/internal-states",
+    "/skills/lillia_w/trigger-rules",
+    "/skills/lillia_e",
+    "/skills/lillia_e/representative-image",
+    "/skills/lillia_e/parameters",
+    "/skills/lillia_e/formulas",
+    "/skills/lillia_e/effects",
+    "/skills/lillia_e/processes",
+    "/skills/lillia_e/internal-states",
+    "/skills/lillia_e/trigger-rules",
+    "/skills/lillia_r",
+    "/skills/lillia_r/representative-image",
+    "/skills/lillia_r/parameters",
+    "/skills/lillia_r/formulas",
+    "/skills/lillia_r/effects",
+    "/skills/lillia_r/processes",
+    "/skills/lillia_r/internal-states",
+    "/skills/lillia_r/trigger-rules",
+    "/skills/fiddlesticks_p",
+    "/skills/fiddlesticks_p/representative-image",
+    "/skills/fiddlesticks_p/parameters",
+    "/skills/fiddlesticks_p/formulas",
+    "/skills/fiddlesticks_p/effects",
+    "/skills/fiddlesticks_p/processes",
+    "/skills/fiddlesticks_p/internal-states",
+    "/skills/fiddlesticks_p/trigger-rules",
+    "/skills/fiddlesticks_q",
+    "/skills/fiddlesticks_q/representative-image",
+    "/skills/fiddlesticks_q/parameters",
+    "/skills/fiddlesticks_q/formulas",
+    "/skills/fiddlesticks_q/effects",
+    "/skills/fiddlesticks_q/processes",
+    "/skills/fiddlesticks_q/internal-states",
+    "/skills/fiddlesticks_q/trigger-rules",
+    "/skills/fiddlesticks_w",
+    "/skills/fiddlesticks_w/representative-image",
+    "/skills/fiddlesticks_w/parameters",
+    "/skills/fiddlesticks_w/formulas",
+    "/skills/fiddlesticks_w/effects",
+    "/skills/fiddlesticks_w/processes",
+    "/skills/fiddlesticks_w/internal-states",
+    "/skills/fiddlesticks_w/trigger-rules",
+    "/skills/fiddlesticks_e",
+    "/skills/fiddlesticks_e/representative-image",
+    "/skills/fiddlesticks_e/parameters",
+    "/skills/fiddlesticks_e/formulas",
+    "/skills/fiddlesticks_e/effects",
+    "/skills/fiddlesticks_e/processes",
+    "/skills/fiddlesticks_e/internal-states",
+    "/skills/fiddlesticks_e/trigger-rules",
+    "/skills/fiddlesticks_r",
+    "/skills/fiddlesticks_r/representative-image",
+    "/skills/fiddlesticks_r/parameters",
+    "/skills/fiddlesticks_r/formulas",
+    "/skills/fiddlesticks_r/effects",
+    "/skills/fiddlesticks_r/processes",
+    "/skills/fiddlesticks_r/internal-states",
+    "/skills/fiddlesticks_r/trigger-rules",
+    "/skills/singed_p",
+    "/skills/singed_p/representative-image",
+    "/skills/singed_p/parameters",
+    "/skills/singed_p/formulas",
+    "/skills/singed_p/effects",
+    "/skills/singed_p/processes",
+    "/skills/singed_p/internal-states",
+    "/skills/singed_p/trigger-rules",
+    "/skills/singed_q",
+    "/skills/singed_q/representative-image",
+    "/skills/singed_q/parameters",
+    "/skills/singed_q/formulas",
+    "/skills/singed_q/effects",
+    "/skills/singed_q/processes",
+    "/skills/singed_q/internal-states",
+    "/skills/singed_q/trigger-rules",
+    "/skills/singed_w",
+    "/skills/singed_w/representative-image",
+    "/skills/singed_w/parameters",
+    "/skills/singed_w/formulas",
+    "/skills/singed_w/effects",
+    "/skills/singed_w/processes",
+    "/skills/singed_w/internal-states",
+    "/skills/singed_w/trigger-rules",
+    "/skills/singed_e",
+    "/skills/singed_e/representative-image",
+    "/skills/singed_e/parameters",
+    "/skills/singed_e/formulas",
+    "/skills/singed_e/effects",
+    "/skills/singed_e/processes",
+    "/skills/singed_e/internal-states",
+    "/skills/singed_e/trigger-rules",
+    "/skills/singed_r",
+    "/skills/singed_r/representative-image",
+    "/skills/singed_r/parameters",
+    "/skills/singed_r/formulas",
+    "/skills/singed_r/effects",
+    "/skills/singed_r/processes",
+    "/skills/singed_r/internal-states",
+    "/skills/singed_r/trigger-rules"
+  ],
+  "protectedSummary": {
+    "inputGETs": 202,
+    "protectedSubjects": 20,
+    "protectedCompositionLists": 120,
+    "protectedRepresentativeImages": 20,
+    "protectedCharacters": [
+      "champion_evelynn",
+      "champion_lillia",
+      "champion_fiddlesticks",
+      "champion_singed"
+    ],
+    "protectedCharacterRelations": [
+      "champion_evelynn",
+      "champion_lillia",
+      "champion_fiddlesticks",
+      "champion_singed"
+    ],
+    "protectedCatalogs": [
+      "/attributes",
+      "/skill-categories",
+      "/modifier-zones",
+      "/damage-types"
+    ],
+    "publicParameterDetails": 30,
+    "nonPublicExisting": []
+  },
+  "requests": [
+    {
+      "sequence": 1,
+      "method": "POST",
+      "route": "/skills/evelynn_p/parameters",
+      "detailRoute": "/skills/evelynn_p/parameters/demon_shade_delay_ms",
+      "skillKey": "evelynn_p",
+      "kind": "parameters",
+      "stableKey": "demon_shade_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "demon_shade_delay_ms",
+        "name": "进入恶魔魅影等待（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端DemonShadeTimer为4秒，转换为4000毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "POST",
+      "route": "/skills/evelynn_p/parameters",
+      "detailRoute": "/skills/evelynn_p/parameters/stealth_drop_duration_ms",
+      "skillKey": "evelynn_p",
+      "kind": "parameters",
+      "stableKey": "stealth_drop_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stealth_drop_duration_ms",
+        "name": "受英雄或防御塔伤害后伪装移除（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端StealthDropTimer为1.5秒，转换为1500毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "POST",
+      "route": "/skills/evelynn_p/parameters",
+      "detailRoute": "/skills/evelynn_p/parameters/stealth_start_level",
+      "skillKey": "evelynn_p",
+      "kind": "parameters",
+      "stableKey": "stealth_start_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stealth_start_level",
+        "name": "开始提供伪装的角色等级",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前正文明确从6级开始提供伪装；不把伪装视作自主召唤。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "POST",
+      "route": "/skills/evelynn_p/parameters",
+      "detailRoute": "/skills/evelynn_p/parameters/actual_healing_threshold_base",
+      "skillKey": "evelynn_p",
+      "kind": "parameters",
+      "stableKey": "actual_healing_threshold_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_healing_threshold_base",
+        "name": "当前角色等级实际治疗阈值基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "HealingThresholdTOOLTIP树给出角色等级1起250、每级加20，但本批没有完整等级求值算法；运行时必须提供当前等级实际基础值，不设默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 5,
+      "method": "POST",
+      "route": "/skills/evelynn_p/parameters",
+      "detailRoute": "/skills/evelynn_p/parameters/healing_threshold_ap_ratio",
+      "skillKey": "evelynn_p",
+      "kind": "parameters",
+      "stableKey": "healing_threshold_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "healing_threshold_ap_ratio",
+        "name": "治疗阈值法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2.5,
+        "levelValues": null,
+        "description": "HealingThresholdTOOLTIP树的StatByCoefficient系数2.5；公式读取来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 6,
+      "method": "POST",
+      "route": "/skills/evelynn_p/parameters",
+      "detailRoute": "/skills/evelynn_p/parameters/actual_heal_per_second",
+      "skillKey": "evelynn_p",
+      "kind": "parameters",
+      "stableKey": "actual_heal_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_heal_per_second",
+        "name": "当前角色等级实际每秒治疗值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "HealPerSecondTOOLTIP仅给角色等级插值端点15至150，未证完整求值；运行时必须提供实际值，不设默认。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 7,
+      "method": "POST",
+      "route": "/skills/evelynn_p/formulas",
+      "detailRoute": "/skills/evelynn_p/formulas/healing_threshold",
+      "skillKey": "evelynn_p",
+      "kind": "formulas",
+      "stableKey": "healing_threshold",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "healing_threshold",
+        "name": "恶魔魅影治疗阈值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_healing_threshold_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "healing_threshold_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "HealingThresholdTOOLTIP = 当前角色等级实际基础阈值 + 2.5×来源总法强；角色等级基础值不在此猜展开。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 8,
+      "method": "POST",
+      "route": "/skills/evelynn_q/parameters",
+      "detailRoute": "/skills/evelynn_q/parameters/hate_spike_base_damage",
+      "skillKey": "evelynn_q",
+      "kind": "parameters",
+      "stableKey": "hate_spike_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "hate_spike_base_damage",
+        "name": "尖刺魔法伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 30,
+          "3": 35,
+          "4": 40,
+          "5": 45
+        },
+        "description": "MissileDamage当前消费HateSpikeBaseDamage，技能等级取索引1至5；不误用MissileBaseDamage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 9,
+      "method": "POST",
+      "route": "/skills/evelynn_q/parameters",
+      "detailRoute": "/skills/evelynn_q/parameters/hate_spike_ap_ratio",
+      "skillKey": "evelynn_q",
+      "kind": "parameters",
+      "stableKey": "hate_spike_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "hate_spike_ap_ratio",
+        "name": "尖刺法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "MissileDamage树StatByNamedDataValue系数0.25；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 10,
+      "method": "POST",
+      "route": "/skills/evelynn_q/parameters",
+      "detailRoute": "/skills/evelynn_q/parameters/bonus_damage_base",
+      "skillKey": "evelynn_q",
+      "kind": "parameters",
+      "stableKey": "bonus_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_damage_base",
+        "name": "标记增伤基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 15,
+          "2": 25,
+          "3": 35,
+          "4": 45,
+          "5": 55
+        },
+        "description": "TotalBonusDamage消费BonusDamageBase，技能等级取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 11,
+      "method": "POST",
+      "route": "/skills/evelynn_q/parameters",
+      "detailRoute": "/skills/evelynn_q/parameters/bonus_damage_ap_ratio",
+      "skillKey": "evelynn_q",
+      "kind": "parameters",
+      "stableKey": "bonus_damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_damage_ap_ratio",
+        "name": "标记增伤法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "TotalBonusDamage树StatByNamedDataValue系数0.25；读取来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 12,
+      "method": "POST",
+      "route": "/skills/evelynn_q/parameters",
+      "detailRoute": "/skills/evelynn_q/parameters/max_recasts",
+      "skillKey": "evelynn_q",
+      "kind": "parameters",
+      "stableKey": "max_recasts",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_recasts",
+        "name": "最大重施次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前正文至多重施3次；不自动把三次伤害相加。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 13,
+      "method": "POST",
+      "route": "/skills/evelynn_q/parameters",
+      "detailRoute": "/skills/evelynn_q/parameters/cast_time_ms",
+      "skillKey": "evelynn_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 14,
+      "method": "POST",
+      "route": "/skills/evelynn_q/parameters",
+      "detailRoute": "/skills/evelynn_q/parameters/marked_bonus_max_hits",
+      "skillKey": "evelynn_q",
+      "kind": "parameters",
+      "stableKey": "marked_bonus_max_hits",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "marked_bonus_max_hits",
+        "name": "标记目标最多命中次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前正文明确标记目标的下3次攻击或技能可触发标记增伤；这是命中次数上限，不等于憎恨之刺的最多3次重施。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 15,
+      "method": "POST",
+      "route": "/skills/evelynn_q/formulas",
+      "detailRoute": "/skills/evelynn_q/formulas/missile_magic_damage",
+      "skillKey": "evelynn_q",
+      "kind": "formulas",
+      "stableKey": "missile_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "missile_magic_damage",
+        "name": "憎恨之刺尖刺魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "hate_spike_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "hate_spike_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MissileDamage = HateSpikeBaseDamage + 0.25×来源总法强；首发与每次重施各自消费一次，重施数量由事件决定。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 16,
+      "method": "POST",
+      "route": "/skills/evelynn_q/formulas",
+      "detailRoute": "/skills/evelynn_q/formulas/marked_bonus_magic_damage",
+      "skillKey": "evelynn_q",
+      "kind": "formulas",
+      "stableKey": "marked_bonus_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "marked_bonus_magic_damage",
+        "name": "标记目标额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalBonusDamage = BonusDamageBase + 0.25×来源总法强；对标记目标的下3次攻击或技能分别消费，不把Q重施次数混入。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 17,
+      "method": "POST",
+      "route": "/skills/evelynn_w/parameters",
+      "detailRoute": "/skills/evelynn_w/parameters/mark_duration_ms",
+      "skillKey": "evelynn_w",
+      "kind": "parameters",
+      "stableKey": "mark_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mark_duration_ms",
+        "name": "标记持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前正文明确标记英雄或野怪5秒，转换为5000毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 18,
+      "method": "POST",
+      "route": "/skills/evelynn_w/parameters",
+      "detailRoute": "/skills/evelynn_w/parameters/early_slow_ratio",
+      "skillKey": "evelynn_w",
+      "kind": "parameters",
+      "stableKey": "early_slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "early_slow_ratio",
+        "name": "提前抹除减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.45,
+        "levelValues": null,
+        "description": "当前SlowAmount约0.45；正文按×100显示45%，保存比例0.45。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 19,
+      "method": "POST",
+      "route": "/skills/evelynn_w/parameters",
+      "detailRoute": "/skills/evelynn_w/parameters/early_slow_duration_ms",
+      "skillKey": "evelynn_w",
+      "kind": "parameters",
+      "stableKey": "early_slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "early_slow_duration_ms",
+        "name": "提前抹除减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前SlowDuration=0.75秒，转换为750毫秒；不使用未消费NonCharmSlowDuration。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 20,
+      "method": "POST",
+      "route": "/skills/evelynn_w/parameters",
+      "detailRoute": "/skills/evelynn_w/parameters/charm_duration_ms",
+      "skillKey": "evelynn_w",
+      "kind": "parameters",
+      "stableKey": "charm_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charm_duration_ms",
+        "name": "英雄魅惑持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1250,
+          "2": 1500,
+          "3": 1750,
+          "4": 2000,
+          "5": 2250
+        },
+        "description": "满2.5秒标记对英雄的CharmDuration取索引1至5，秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 21,
+      "method": "POST",
+      "route": "/skills/evelynn_w/parameters",
+      "detailRoute": "/skills/evelynn_w/parameters/mr_shred_ratio",
+      "skillKey": "evelynn_w",
+      "kind": "parameters",
+      "stableKey": "mr_shred_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mr_shred_ratio",
+        "name": "英雄魔抗削减比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.35,
+          "2": 0.375,
+          "3": 0.4,
+          "4": 0.425,
+          "5": 0.45
+        },
+        "description": "满标记对英雄的MRShred取索引1至5；正文按×100显示35%至45%，保存比例。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 22,
+      "method": "POST",
+      "route": "/skills/evelynn_w/parameters",
+      "detailRoute": "/skills/evelynn_w/parameters/mr_shred_duration_ms",
+      "skillKey": "evelynn_w",
+      "kind": "parameters",
+      "stableKey": "mr_shred_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mr_shred_duration_ms",
+        "name": "魔抗削减持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前ShredDuration=4秒，转换为4000毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 23,
+      "method": "POST",
+      "route": "/skills/evelynn_w/parameters",
+      "detailRoute": "/skills/evelynn_w/parameters/charm_charge_time_ms",
+      "skillKey": "evelynn_w",
+      "kind": "parameters",
+      "stableKey": "charm_charge_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charm_charge_time_ms",
+        "name": "英雄魅惑蓄力时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前正文明确标记持续至少2.5秒后，英雄分支才施加魅惑和魔抗削减；转换为2500毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 24,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/base_damage",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "普通鞭笞基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 90,
+          "3": 120,
+          "4": 150,
+          "5": 180
+        },
+        "description": "客户端BaseDamage取索引1至5；普通E分支。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 25,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/empowered_damage",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "empowered_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_damage",
+        "name": "强化鞭笞基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "客户端EmpoweredDamage取索引1至5；强化E分支与普通E互斥。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 26,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/base_percent_health_points",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "base_percent_health_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_percent_health_points",
+        "name": "普通E目标最大生命百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "普通PercentHealthBaseTOOLTIP使用BasePercentHealth=3；百分数点由0.01根乘数转为比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 27,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/empowered_percent_health_points",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "empowered_percent_health_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_percent_health_points",
+        "name": "强化E目标最大生命百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "强化PercentHealthEmpoweredTOOLTIP使用EmpoweredPercentHealth=4；百分数点由0.01根乘数转为比例。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 28,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/percent_points_to_ratio",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "percent_points_to_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_points_to_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "PercentHealth两棵树根mMultiplier=0.01；完整伤害使用百分数点×0.01。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 29,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/base_percent_ap_ratio",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "base_percent_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_percent_ap_ratio",
+        "name": "普通E生命百分比法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.015,
+        "levelValues": null,
+        "description": "普通PercentHealthBaseTOOLTIP树StatByCoefficient=0.015。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 30,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/empowered_percent_ap_ratio",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "empowered_percent_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_percent_ap_ratio",
+        "name": "强化E生命百分比法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.025,
+        "levelValues": null,
+        "description": "强化PercentHealthEmpoweredTOOLTIP树StatByCoefficient=0.025。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 31,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/speed_bonus_ratio",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "speed_bonus_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "speed_bonus_ratio",
+        "name": "E后自身移动速度加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.4,
+          "4": 0.45,
+          "5": 0.5
+        },
+        "description": "当前SpeedAmount取索引1至5，正文按×100显示30%至50%。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 32,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/speed_duration_ms",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "speed_duration_ms",
+        "name": "E后移动速度持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前SpeedDuration=2秒，转换为2000毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 33,
+      "method": "POST",
+      "route": "/skills/evelynn_e/parameters",
+      "detailRoute": "/skills/evelynn_e/parameters/cast_time_ms",
+      "skillKey": "evelynn_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 34,
+      "method": "POST",
+      "route": "/skills/evelynn_e/formulas",
+      "detailRoute": "/skills/evelynn_e/formulas/ordinary_magic_damage",
+      "skillKey": "evelynn_e",
+      "kind": "formulas",
+      "stableKey": "ordinary_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "ordinary_magic_damage",
+        "name": "普通鞭笞魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_points_to_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_percent_health_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "base_percent_ap_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "ability_power",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "普通E = 基础伤害 + 0.01×(3 + 0.015×来源总法强)×目标最大生命；与强化E互斥。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 35,
+      "method": "POST",
+      "route": "/skills/evelynn_e/formulas",
+      "detailRoute": "/skills/evelynn_e/formulas/empowered_magic_damage",
+      "skillKey": "evelynn_e",
+      "kind": "formulas",
+      "stableKey": "empowered_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "empowered_magic_damage",
+        "name": "强化鞭笞魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_points_to_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "empowered_percent_health_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "empowered_percent_ap_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "ability_power",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "强化E = 基础伤害 + 0.01×(4 + 0.025×来源总法强)×目标最大生命；由恶魔魅影强化时使用，不能与普通E相加。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 36,
+      "method": "POST",
+      "route": "/skills/evelynn_r/parameters",
+      "detailRoute": "/skills/evelynn_r/parameters/base_damage",
+      "skillKey": "evelynn_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "最终抚慰基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 125,
+          "2": 250,
+          "3": 375
+        },
+        "description": "客户端BaseDamage取索引1至3；当前Damage树基础项。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 37,
+      "method": "POST",
+      "route": "/skills/evelynn_r/parameters",
+      "detailRoute": "/skills/evelynn_r/parameters/ap_ratio",
+      "skillKey": "evelynn_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "Damage树StatByCoefficient=0.75；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 38,
+      "method": "POST",
+      "route": "/skills/evelynn_r/parameters",
+      "detailRoute": "/skills/evelynn_r/parameters/low_health_threshold",
+      "skillKey": "evelynn_r",
+      "kind": "parameters",
+      "stableKey": "low_health_threshold",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "low_health_threshold",
+        "name": "低生命增伤阈值",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端CritTreshold约0.3；正文为目标低于30%生命时进入增伤分支。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 39,
+      "method": "POST",
+      "route": "/skills/evelynn_r/parameters",
+      "detailRoute": "/skills/evelynn_r/parameters/low_health_multiplier",
+      "skillKey": "evelynn_r",
+      "kind": "parameters",
+      "stableKey": "low_health_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "low_health_multiplier",
+        "name": "低生命完整伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2.4,
+        "levelValues": null,
+        "description": "CritDamage树根mMultiplier=2.4；这里是低生命增伤，不是暴击几率或普通暴击。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 40,
+      "method": "POST",
+      "route": "/skills/evelynn_r/parameters",
+      "detailRoute": "/skills/evelynn_r/parameters/passive_reset_ms",
+      "skillKey": "evelynn_r",
+      "kind": "parameters",
+      "stableKey": "passive_reset_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_reset_ms",
+        "name": "施放后被动刷新延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "客户端PassiveReset=1.25秒，转换为1250毫秒；事件未接线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 41,
+      "method": "POST",
+      "route": "/skills/evelynn_r/formulas",
+      "detailRoute": "/skills/evelynn_r/formulas/normal_magic_damage",
+      "skillKey": "evelynn_r",
+      "kind": "formulas",
+      "stableKey": "normal_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "normal_magic_damage",
+        "name": "最终抚慰普通魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage = 基础伤害 + 0.75×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 42,
+      "method": "POST",
+      "route": "/skills/evelynn_r/formulas",
+      "detailRoute": "/skills/evelynn_r/formulas/low_health_magic_damage",
+      "skillKey": "evelynn_r",
+      "kind": "formulas",
+      "stableKey": "low_health_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "low_health_magic_damage",
+        "name": "最终抚慰低生命魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "low_health_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "CritDamage = 2.4×完整Damage；仅目标低于30%生命时使用，名称不表示暴击。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 43,
+      "method": "POST",
+      "route": "/skills/lillia_p/parameters",
+      "detailRoute": "/skills/lillia_p/parameters/dot_duration_ms",
+      "skillKey": "lillia_p",
+      "kind": "parameters",
+      "stableKey": "dot_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dot_duration_ms",
+        "name": "梦尘持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前Duration=3秒，转换为3000毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 44,
+      "method": "POST",
+      "route": "/skills/lillia_p/parameters",
+      "detailRoute": "/skills/lillia_p/parameters/dot_damage_percent_points",
+      "skillKey": "lillia_p",
+      "kind": "parameters",
+      "stableKey": "dot_damage_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dot_damage_percent_points",
+        "name": "梦尘最大生命百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "DotPercentTotal使用DotDamagePercent=5；DotPercentTooltip根0.01再转为比例。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 45,
+      "method": "POST",
+      "route": "/skills/lillia_p/parameters",
+      "detailRoute": "/skills/lillia_p/parameters/percent_points_to_ratio",
+      "skillKey": "lillia_p",
+      "kind": "parameters",
+      "stableKey": "percent_points_to_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_points_to_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "DotPercentTooltip树根mMultiplier=0.01；作用于完整的5+0.0125×法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 46,
+      "method": "POST",
+      "route": "/skills/lillia_p/parameters",
+      "detailRoute": "/skills/lillia_p/parameters/dot_ap_ratio",
+      "skillKey": "lillia_p",
+      "kind": "parameters",
+      "stableKey": "dot_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dot_ap_ratio",
+        "name": "梦尘法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0125,
+        "levelValues": null,
+        "description": "DotPercentTotal树StatByCoefficient=0.0125；读取来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 47,
+      "method": "POST",
+      "route": "/skills/lillia_p/parameters",
+      "detailRoute": "/skills/lillia_p/parameters/dot_ticks",
+      "skillKey": "lillia_p",
+      "kind": "parameters",
+      "stableKey": "dot_ticks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dot_ticks",
+        "name": "梦尘伤害跳数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前DotTicks=6；总比例只应用一次，跳数用于治疗总量与来源时序说明。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 48,
+      "method": "POST",
+      "route": "/skills/lillia_p/parameters",
+      "detailRoute": "/skills/lillia_p/parameters/actual_champion_heal_base",
+      "skillKey": "lillia_p",
+      "kind": "parameters",
+      "stableKey": "actual_champion_heal_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_champion_heal_base",
+        "name": "当前角色等级每跳英雄治疗基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "ChampionHeal树给出角色等级插值1至15且启用角色成长倍率；完整求值算法未证，运行时必须提供实际每跳基础值，不设默认。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 49,
+      "method": "POST",
+      "route": "/skills/lillia_p/parameters",
+      "detailRoute": "/skills/lillia_p/parameters/champion_heal_ap_ratio",
+      "skillKey": "lillia_p",
+      "kind": "parameters",
+      "stableKey": "champion_heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "champion_heal_ap_ratio",
+        "name": "英雄治疗法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "ChampionHeal树StatByCoefficient=0.05；读取来源总法强。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 50,
+      "method": "POST",
+      "route": "/skills/lillia_p/formulas",
+      "detailRoute": "/skills/lillia_p/formulas/dot_total_magic_damage",
+      "skillKey": "lillia_p",
+      "kind": "formulas",
+      "stableKey": "dot_total_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "dot_total_magic_damage",
+        "name": "梦尘总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_points_to_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "dot_damage_percent_points"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "dot_ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "TARGET",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "DotPercentTooltip = 0.01×(5 + 0.0125×来源总法强)×目标最大生命；3秒内6跳但总比例不逐跳重复。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 51,
+      "method": "POST",
+      "route": "/skills/lillia_p/formulas",
+      "detailRoute": "/skills/lillia_p/formulas/champion_heal_per_tick",
+      "skillKey": "lillia_p",
+      "kind": "formulas",
+      "stableKey": "champion_heal_per_tick",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "champion_heal_per_tick",
+        "name": "对英雄每跳治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_champion_heal_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "champion_heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ChampionHeal = 当前角色等级实际基础值 + 0.05×来源总法强；算法由运行时提供实际基础值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 52,
+      "method": "POST",
+      "route": "/skills/lillia_p/formulas",
+      "detailRoute": "/skills/lillia_p/formulas/champion_heal_total",
+      "skillKey": "lillia_p",
+      "kind": "formulas",
+      "stableKey": "champion_heal_total",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "champion_heal_total",
+        "name": "对英雄六跳总治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "dot_ticks"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_champion_heal_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "champion_heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ChampionHealTT = DotTicks×每跳治疗；只表示六跳总量，不改变梦尘伤害比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 53,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/inner_damage_base",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "inner_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "inner_damage_base",
+        "name": "内圈魔法伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 45,
+          "3": 55,
+          "4": 65,
+          "5": 75
+        },
+        "description": "TotalDamage取FlatDamageBase索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 54,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/outer_true_damage_base",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "outer_true_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "outer_true_damage_base",
+        "name": "外圈额外真实伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 45,
+          "3": 55,
+          "4": 65,
+          "5": 75
+        },
+        "description": "BonusTrueDamage取FlatDamageTrue索引1至5，与内圈魔法伤害分开。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 55,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/ap_ratio",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.35,
+        "levelValues": null,
+        "description": "TotalDamage与BonusTrueDamage均消费0.35×来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 56,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/prance_bonus_ratio_per_stack",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "prance_bonus_ratio_per_stack",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "prance_bonus_ratio_per_stack",
+        "name": "每层移速加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.03,
+          "2": 0.04,
+          "3": 0.05,
+          "4": 0.06,
+          "5": 0.07
+        },
+        "description": "PranceBonusPerStack取索引1至5；正文显示3%至7%。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 57,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/prance_ap_ratio",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "prance_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "prance_ap_ratio",
+        "name": "每层移速法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0003,
+        "levelValues": null,
+        "description": "PranceSpeed树StatByCoefficient=0.0003；读取来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 58,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/prance_duration_ms",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "prance_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "prance_duration_ms",
+        "name": "移速层持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6500,
+        "levelValues": null,
+        "description": "当前PranceDuration=6.5秒，转换为6500毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 59,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/prance_max_stacks",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "prance_max_stacks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "prance_max_stacks",
+        "name": "移速最大层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "当前PranceMaxStacks=4；运行时层数必须为整数且不超过4。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 60,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/prance_falloff_ms",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "prance_falloff_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "prance_falloff_ms",
+        "name": "移速层衰减间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前PranceFalloffTime=1秒，转换为1000毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 61,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/inner_radius",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "inner_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "inner_radius",
+        "name": "内圈半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 225,
+        "levelValues": null,
+        "description": "当前MinimumRadius=225；仅保留几何边界。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 62,
+      "method": "POST",
+      "route": "/skills/lillia_q/parameters",
+      "detailRoute": "/skills/lillia_q/parameters/outer_radius",
+      "skillKey": "lillia_q",
+      "kind": "parameters",
+      "stableKey": "outer_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "outer_radius",
+        "name": "外圈半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 485,
+        "levelValues": null,
+        "description": "当前MaximumRadius=485；外圈额外真实伤害仍按单个目标一次记录。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 63,
+      "method": "POST",
+      "route": "/skills/lillia_q/formulas",
+      "detailRoute": "/skills/lillia_q/formulas/inner_magic_damage",
+      "skillKey": "lillia_q",
+      "kind": "formulas",
+      "stableKey": "inner_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "inner_magic_damage",
+        "name": "飞花挞内圈魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "inner_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = 内圈基础伤害 + 0.35×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 64,
+      "method": "POST",
+      "route": "/skills/lillia_q/formulas",
+      "detailRoute": "/skills/lillia_q/formulas/outer_true_damage",
+      "skillKey": "lillia_q",
+      "kind": "formulas",
+      "stableKey": "outer_true_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "outer_true_damage",
+        "name": "飞花挞外圈额外真实伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "outer_true_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BonusTrueDamage = 外圈额外真实伤害基础值 + 0.35×来源总法强；与内圈魔法伤害分开。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 65,
+      "method": "POST",
+      "route": "/skills/lillia_q/formulas",
+      "detailRoute": "/skills/lillia_q/formulas/move_speed_per_stack",
+      "skillKey": "lillia_q",
+      "kind": "formulas",
+      "stableKey": "move_speed_per_stack",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "move_speed_per_stack",
+        "name": "飞花挞每层移速加成",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "prance_bonus_ratio_per_stack"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "prance_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "PranceSpeed = 每层来源比例 + 0.0003×来源总法强；层数由上限4的事件输入控制。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 66,
+      "method": "POST",
+      "route": "/skills/lillia_w/parameters",
+      "detailRoute": "/skills/lillia_w/parameters/base_damage",
+      "skillKey": "lillia_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "惊惶木基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 100,
+          "3": 120,
+          "4": 140,
+          "5": 160
+        },
+        "description": "FlatDamageBase取索引1至5；索引0的60不是技能等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 67,
+      "method": "POST",
+      "route": "/skills/lillia_w/parameters",
+      "detailRoute": "/skills/lillia_w/parameters/ap_ratio",
+      "skillKey": "lillia_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.35,
+        "levelValues": null,
+        "description": "FlatDamage树StatByCoefficient=0.35；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 68,
+      "method": "POST",
+      "route": "/skills/lillia_w/parameters",
+      "detailRoute": "/skills/lillia_w/parameters/sweet_spot_multiplier",
+      "skillKey": "lillia_w",
+      "kind": "parameters",
+      "stableKey": "sweet_spot_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "sweet_spot_multiplier",
+        "name": "中心伤害倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "FlatDamageSweetSpot根mMultiplier=3；中心值替代普通命中值，不与普通值相加。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 69,
+      "method": "POST",
+      "route": "/skills/lillia_w/parameters",
+      "detailRoute": "/skills/lillia_w/parameters/minimum_cast_time_ms",
+      "skillKey": "lillia_w",
+      "kind": "parameters",
+      "stableKey": "minimum_cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_cast_time_ms",
+        "name": "最短准备时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600,
+        "levelValues": null,
+        "description": "当前MinimumCastTime=0.6秒，转换为600毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 70,
+      "method": "POST",
+      "route": "/skills/lillia_w/parameters",
+      "detailRoute": "/skills/lillia_w/parameters/maximum_cast_time_ms",
+      "skillKey": "lillia_w",
+      "kind": "parameters",
+      "stableKey": "maximum_cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_cast_time_ms",
+        "name": "最长准备时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前MaximumCastTime=0.75秒，转换为750毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 71,
+      "method": "POST",
+      "route": "/skills/lillia_w/parameters",
+      "detailRoute": "/skills/lillia_w/parameters/minimum_radius",
+      "skillKey": "lillia_w",
+      "kind": "parameters",
+      "stableKey": "minimum_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_radius",
+        "name": "技能区域半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前MinimumRadius=250；只记录几何边界。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 72,
+      "method": "POST",
+      "route": "/skills/lillia_w/parameters",
+      "detailRoute": "/skills/lillia_w/parameters/sweet_spot_radius",
+      "skillKey": "lillia_w",
+      "kind": "parameters",
+      "stableKey": "sweet_spot_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "sweet_spot_radius",
+        "name": "中心命中半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 65,
+        "levelValues": null,
+        "description": "当前SweetSpotRadius=65；中心伤害资格仍由命中位置决定。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 73,
+      "method": "POST",
+      "route": "/skills/lillia_w/formulas",
+      "detailRoute": "/skills/lillia_w/formulas/magic_damage",
+      "skillKey": "lillia_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "惊惶木普通魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "FlatDamage = 基础伤害 + 0.35×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 74,
+      "method": "POST",
+      "route": "/skills/lillia_w/formulas",
+      "detailRoute": "/skills/lillia_w/formulas/sweet_spot_magic_damage",
+      "skillKey": "lillia_w",
+      "kind": "formulas",
+      "stableKey": "sweet_spot_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "sweet_spot_magic_damage",
+        "name": "惊惶木中心魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "sweet_spot_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "FlatDamageSweetSpot = 3×普通完整值；中心命中替代普通结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 75,
+      "method": "POST",
+      "route": "/skills/lillia_e/parameters",
+      "detailRoute": "/skills/lillia_e/parameters/impact_damage_base",
+      "skillKey": "lillia_e",
+      "kind": "parameters",
+      "stableKey": "impact_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "impact_damage_base",
+        "name": "流涡种基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 85,
+          "3": 110,
+          "4": 135,
+          "5": 160
+        },
+        "description": "ImpactDamage取索引1至5；索引0的35不是技能等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 76,
+      "method": "POST",
+      "route": "/skills/lillia_e/parameters",
+      "detailRoute": "/skills/lillia_e/parameters/ap_ratio",
+      "skillKey": "lillia_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "ImpactDamageTotal树StatByCoefficient=0.5；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 77,
+      "method": "POST",
+      "route": "/skills/lillia_e/parameters",
+      "detailRoute": "/skills/lillia_e/parameters/slow_ratio",
+      "skillKey": "lillia_e",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "流涡种减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前SlowAmount=0.4，正文显示40%。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 78,
+      "method": "POST",
+      "route": "/skills/lillia_e/parameters",
+      "detailRoute": "/skills/lillia_e/parameters/slow_duration_ms",
+      "skillKey": "lillia_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前SlowDuration=3秒，转换为3000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 79,
+      "method": "POST",
+      "route": "/skills/lillia_e/parameters",
+      "detailRoute": "/skills/lillia_e/parameters/impact_range_check",
+      "skillKey": "lillia_e",
+      "kind": "parameters",
+      "stableKey": "impact_range_check",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "impact_range_check",
+        "name": "命中范围判定",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 115,
+        "levelValues": null,
+        "description": "当前ImpactRangeCheck=115；只保存当前命中边界。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 80,
+      "method": "POST",
+      "route": "/skills/lillia_e/parameters",
+      "detailRoute": "/skills/lillia_e/parameters/cast_time_ms",
+      "skillKey": "lillia_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "当前spellCastTime约0.35秒，转换为350毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 81,
+      "method": "POST",
+      "route": "/skills/lillia_e/formulas",
+      "detailRoute": "/skills/lillia_e/formulas/impact_magic_damage",
+      "skillKey": "lillia_e",
+      "kind": "formulas",
+      "stableKey": "impact_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "impact_magic_damage",
+        "name": "流涡种命中魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "impact_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ImpactDamageTotal = 基础伤害 + 0.5×来源总法强；种子是伤害载体。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 82,
+      "method": "POST",
+      "route": "/skills/lillia_r/parameters",
+      "detailRoute": "/skills/lillia_r/parameters/drowsy_duration_ms",
+      "skillKey": "lillia_r",
+      "kind": "parameters",
+      "stableKey": "drowsy_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "drowsy_duration_ms",
+        "name": "困倦持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前DrowsyDuration=1.5秒，转换为1500毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 83,
+      "method": "POST",
+      "route": "/skills/lillia_r/parameters",
+      "detailRoute": "/skills/lillia_r/parameters/sleep_duration_ms",
+      "skillKey": "lillia_r",
+      "kind": "parameters",
+      "stableKey": "sleep_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "sleep_duration_ms",
+        "name": "昏睡持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前SleepDuration=2秒，转换为2000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 84,
+      "method": "POST",
+      "route": "/skills/lillia_r/parameters",
+      "detailRoute": "/skills/lillia_r/parameters/break_damage_base",
+      "skillKey": "lillia_r",
+      "kind": "parameters",
+      "stableKey": "break_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "break_damage_base",
+        "name": "唤醒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 150,
+          "3": 200
+        },
+        "description": "TotalDamage当前使用BreakDamageBase索引1至3；ImpactDamage=25未进入当前唤醒树。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 85,
+      "method": "POST",
+      "route": "/skills/lillia_r/parameters",
+      "detailRoute": "/skills/lillia_r/parameters/ap_ratio",
+      "skillKey": "lillia_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "TotalDamage树StatByCoefficient=0.4；读取来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 86,
+      "method": "POST",
+      "route": "/skills/lillia_r/parameters",
+      "detailRoute": "/skills/lillia_r/parameters/initial_slow_ratio",
+      "skillKey": "lillia_r",
+      "kind": "parameters",
+      "stableKey": "initial_slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_slow_ratio",
+        "name": "困倦初始减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端InitialSlow为-0.1；只记录初始值，空SlowIncrement不推导完整曲线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 87,
+      "method": "POST",
+      "route": "/skills/lillia_r/formulas",
+      "detailRoute": "/skills/lillia_r/formulas/break_magic_damage",
+      "skillKey": "lillia_r",
+      "kind": "formulas",
+      "stableKey": "break_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "break_magic_damage",
+        "name": "梦魇之尘唤醒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "break_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "仅非周期性伤害打醒时消费：BreakDamageBase + 0.4×来源总法强；自然睡醒不自动补伤。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 88,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_p/parameters",
+      "detailRoute": "/skills/fiddlesticks_p/parameters/self_stationary_duration_ms",
+      "skillKey": "fiddlesticks_p",
+      "kind": "parameters",
+      "stableKey": "self_stationary_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_stationary_duration_ms",
+        "name": "本体冒充草间人所需静止（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前正文明确本体2秒内没有移动即可冒充草间人；这是Q被动资格，不是自主召唤物。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 89,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_q/parameters",
+      "detailRoute": "/skills/fiddlesticks_q/parameters/current_health_ratio",
+      "skillKey": "fiddlesticks_q",
+      "kind": "parameters",
+      "stableKey": "current_health_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "current_health_ratio",
+        "name": "目标当前生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.04,
+          "2": 0.045,
+          "3": 0.05,
+          "4": 0.055,
+          "5": 0.06
+        },
+        "description": "当前树虽名为MaxHealthDamage，正文明确读取目标当前生命；取索引1至5并保存为比例。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 90,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_q/parameters",
+      "detailRoute": "/skills/fiddlesticks_q/parameters/current_health_ap_ratio",
+      "skillKey": "fiddlesticks_q",
+      "kind": "parameters",
+      "stableKey": "current_health_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "current_health_ap_ratio",
+        "name": "当前生命法强系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0003,
+        "levelValues": null,
+        "description": "TotalPercentHealthDamage树StatByCoefficient=0.0003；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 91,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_q/parameters",
+      "detailRoute": "/skills/fiddlesticks_q/parameters/minimum_damage",
+      "skillKey": "fiddlesticks_q",
+      "kind": "parameters",
+      "stableKey": "minimum_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_damage",
+        "name": "恐惧最小魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "description": "当前MinimumDamage取索引1至5；近期恐惧分支最小值同样乘2。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 92,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_q/parameters",
+      "detailRoute": "/skills/fiddlesticks_q/parameters/fear_duration_ms",
+      "skillKey": "fiddlesticks_q",
+      "kind": "parameters",
+      "stableKey": "fear_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "fear_duration_ms",
+        "name": "恐惧持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1200,
+          "2": 1400,
+          "3": 1600,
+          "4": 1800,
+          "5": 2000
+        },
+        "description": "当前FearDuration取索引1至5，秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 93,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_q/parameters",
+      "detailRoute": "/skills/fiddlesticks_q/parameters/recent_fear_multiplier",
+      "skillKey": "fiddlesticks_q",
+      "kind": "parameters",
+      "stableKey": "recent_fear_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "recent_fear_multiplier",
+        "name": "近期恐惧伤害倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "TotalPercentHealthDamageFeared根mMultiplier=2；与普通分支互斥。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 94,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_q/parameters",
+      "detailRoute": "/skills/fiddlesticks_q/parameters/cast_time_ms",
+      "skillKey": "fiddlesticks_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "当前spellCastTime约0.35秒，转换为350毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 95,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_q/formulas",
+      "detailRoute": "/skills/fiddlesticks_q/formulas/normal_magic_damage",
+      "skillKey": "fiddlesticks_q",
+      "kind": "formulas",
+      "stableKey": "normal_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "normal_magic_damage",
+        "name": "恐惧普通魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "CURRENT"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "current_health_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "current_health_ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "普通完整值 = MAX(最小伤害, 目标当前生命×(当前生命比例 + 0.0003×来源总法强))；不把MaxHealthDamage当最大生命。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 96,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_q/formulas",
+      "detailRoute": "/skills/fiddlesticks_q/formulas/feared_magic_damage",
+      "skillKey": "fiddlesticks_q",
+      "kind": "formulas",
+      "stableKey": "feared_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "feared_magic_damage",
+        "name": "恐惧近期目标双倍魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "recent_fear_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MAX",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "CURRENT"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "current_health_ratio"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "current_health_ap_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "ability_power",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "近期已被费德提克恐惧的目标使用普通完整值×2，最小伤害也翻倍；近期窗口不在此猜。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 97,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/damage_per_second_base",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "damage_per_second_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_per_second_base",
+        "name": "每秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 90,
+          "3": 120,
+          "4": 150,
+          "5": 180
+        },
+        "description": "DrainDamageCalc消费DamagePerSecond索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 98,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/ap_ratio",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "每秒伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.45,
+        "levelValues": null,
+        "description": "DrainDamageCalc树StatByCoefficient=0.45；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 99,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/ticks_per_second",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "ticks_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ticks_per_second",
+        "name": "每秒跳数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "当前TicksPerSecond=4；只记录源时序参数，不创建未经证明的周期过程。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 100,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/drain_duration_ms",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "drain_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "drain_duration_ms",
+        "name": "引导持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前DrainDuration=2秒，转换为2000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 101,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/end_missing_health_percent_points",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "end_missing_health_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "end_missing_health_percent_points",
+        "name": "结束时已损生命百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12,
+          "2": 14.5,
+          "3": 17,
+          "4": 19.5,
+          "5": 22
+        },
+        "description": "当前正文结尾消费PercentForTooltip，取索引1至5；运行时已损生命输入必须是结尾阶段实际值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 102,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/champion_heal_percent_points",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "champion_heal_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "champion_heal_percent_points",
+        "name": "英雄折前伤害治疗百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 32.5,
+          "3": 40,
+          "4": 47.5,
+          "5": 55
+        },
+        "description": "英雄治疗消费VampPercentage，取索引1至5；正文明确基于折前伤害。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 103,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/percent_points_to_ratio",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "percent_points_to_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_points_to_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "PercentForTooltip和VampPercentage均以百分数点显示，公式统一乘0.01转为比例。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 104,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/cooldown_refund_ratio",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_refund_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_refund_ratio",
+        "name": "完整引导冷却返还比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "当前正文明确未被打断结束引导时剩余冷却缩短60%；事件未接线。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 105,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/actual_target_missing_health",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "actual_target_missing_health",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_target_missing_health",
+        "name": "结尾阶段目标实际已损生命",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "W结尾额外伤害读取当时已损生命；不能用施法前生命或默认值替代。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 106,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/actual_hero_pre_mitigation_damage",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "actual_hero_pre_mitigation_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_hero_pre_mitigation_damage",
+        "name": "当前合资格英雄折前伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "英雄治疗按当前合资格折前伤害计算；运行时必须提供实际折前值，不设默认。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 107,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/parameters",
+      "detailRoute": "/skills/fiddlesticks_w/parameters/cast_time_ms",
+      "skillKey": "fiddlesticks_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 108,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/formulas",
+      "detailRoute": "/skills/fiddlesticks_w/formulas/damage_per_second",
+      "skillKey": "fiddlesticks_w",
+      "kind": "formulas",
+      "stableKey": "damage_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage_per_second",
+        "name": "五骨丰登每秒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_second_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DrainDamageCalc = 每秒基础伤害 + 0.45×来源总法强；持续2秒和跳数由时序层解释。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 109,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/formulas",
+      "detailRoute": "/skills/fiddlesticks_w/formulas/end_missing_health_damage",
+      "skillKey": "fiddlesticks_w",
+      "kind": "formulas",
+      "stableKey": "end_missing_health_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "end_missing_health_damage",
+        "name": "五骨丰登结尾已损生命魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_points_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "end_missing_health_percent_points"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_target_missing_health"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "结尾额外伤害 = 0.01×PercentForTooltip百分数点×结尾阶段实际已损生命；不能用施法前生命或默认值替代。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 110,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_w/formulas",
+      "detailRoute": "/skills/fiddlesticks_w/formulas/champion_heal_amount",
+      "skillKey": "fiddlesticks_w",
+      "kind": "formulas",
+      "stableKey": "champion_heal_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "champion_heal_amount",
+        "name": "五骨丰登英雄折前治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_points_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "champion_heal_percent_points"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_hero_pre_mitigation_damage"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "英雄治疗 = 0.01×VampPercentage百分数点×当前合资格折前伤害；正文明确基于折前伤害。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 111,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_e/parameters",
+      "detailRoute": "/skills/fiddlesticks_e/parameters/base_damage",
+      "skillKey": "fiddlesticks_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "夜割基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "description": "客户端BaseDamage取索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 112,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_e/parameters",
+      "detailRoute": "/skills/fiddlesticks_e/parameters/ap_ratio",
+      "skillKey": "fiddlesticks_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "Damage树StatByCoefficient=0.5；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 113,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_e/parameters",
+      "detailRoute": "/skills/fiddlesticks_e/parameters/slow_ratio",
+      "skillKey": "fiddlesticks_e",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "夜割减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.4,
+          "4": 0.45,
+          "5": 0.5
+        },
+        "description": "客户端SlowAmount原值为-0.30至-0.50，正文按负号×100显示正减速；保存正比例并记录转换。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 114,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_e/parameters",
+      "detailRoute": "/skills/fiddlesticks_e/parameters/silence_duration_ms",
+      "skillKey": "fiddlesticks_e",
+      "kind": "parameters",
+      "stableKey": "silence_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "silence_duration_ms",
+        "name": "中心沉默持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "当前SilenceDuration=1.25秒，转换为1250毫秒；中心资格未自动创建效果。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 115,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_e/parameters",
+      "detailRoute": "/skills/fiddlesticks_e/parameters/cast_range",
+      "skillKey": "fiddlesticks_e",
+      "kind": "parameters",
+      "stableKey": "cast_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_range",
+        "name": "施法距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 850,
+        "levelValues": null,
+        "description": "当前CastRange=850；只保存几何参数。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 116,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_e/formulas",
+      "detailRoute": "/skills/fiddlesticks_e/formulas/magic_damage",
+      "skillKey": "fiddlesticks_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "夜割魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage = 基础伤害 + 0.5×来源总法强；减速和中心沉默为独立控制载体。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 117,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_r/parameters",
+      "detailRoute": "/skills/fiddlesticks_r/parameters/damage_per_second_base",
+      "skillKey": "fiddlesticks_r",
+      "kind": "parameters",
+      "stableKey": "damage_per_second_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_per_second_base",
+        "name": "群鸦每秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "当前DataValues.DamagePerSecond取索引1至3为150/250/350；不使用旧effect125/225/325。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 118,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_r/parameters",
+      "detailRoute": "/skills/fiddlesticks_r/parameters/ap_ratio",
+      "skillKey": "fiddlesticks_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前匿名{d0d3db7f}树StatByNamedDataValue系数0.5；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 119,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_r/parameters",
+      "detailRoute": "/skills/fiddlesticks_r/parameters/full_duration_seconds",
+      "skillKey": "fiddlesticks_r",
+      "kind": "parameters",
+      "stableKey": "full_duration_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "full_duration_seconds",
+        "name": "杀人鸦持续（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前Duration=5秒；TotalDamage匿名树以秒为根乘数，保留原单位用于总量公式。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 120,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_r/parameters",
+      "detailRoute": "/skills/fiddlesticks_r/parameters/full_duration_ms",
+      "skillKey": "fiddlesticks_r",
+      "kind": "parameters",
+      "stableKey": "full_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "full_duration_ms",
+        "name": "杀人鸦持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前Duration=5秒，转换为5000毫秒供时序记录。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 121,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_r/parameters",
+      "detailRoute": "/skills/fiddlesticks_r/parameters/channel_time_ms",
+      "skillKey": "fiddlesticks_r",
+      "kind": "parameters",
+      "stableKey": "channel_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "channel_time_ms",
+        "name": "引导时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前ChannelTime=1.5秒，转换为1500毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 122,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_r/parameters",
+      "detailRoute": "/skills/fiddlesticks_r/parameters/single_damage_multiplier",
+      "skillKey": "fiddlesticks_r",
+      "kind": "parameters",
+      "stableKey": "single_damage_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "single_damage_multiplier",
+        "name": "单次伤害根倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "DamageDone树根mMultiplier=0.25；只表示当前单次伤害系数，不推定完整时序。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 123,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_r/formulas",
+      "detailRoute": "/skills/fiddlesticks_r/formulas/damage_per_second",
+      "skillKey": "fiddlesticks_r",
+      "kind": "formulas",
+      "stableKey": "damage_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage_per_second",
+        "name": "群鸦每秒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_second_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "匿名{d0d3db7f} = 每秒基础伤害 + 0.5×来源总法强；当前R持续5秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 124,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_r/formulas",
+      "detailRoute": "/skills/fiddlesticks_r/formulas/damage_done_single_tick",
+      "skillKey": "fiddlesticks_r",
+      "kind": "formulas",
+      "stableKey": "damage_done_single_tick",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage_done_single_tick",
+        "name": "群鸦当前单次伤害系数值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "single_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_second_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DamageDone = 0.25×当前匿名每秒伤害树；0.25是源树单次系数，不把每秒次数或总时序强行推导。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 125,
+      "method": "POST",
+      "route": "/skills/fiddlesticks_r/formulas",
+      "detailRoute": "/skills/fiddlesticks_r/formulas/total_magic_damage",
+      "skillKey": "fiddlesticks_r",
+      "kind": "formulas",
+      "stableKey": "total_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_magic_damage",
+        "name": "群鸦五秒总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "full_duration_seconds"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_second_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = Duration(5秒)×匿名每秒伤害树；持续5秒，不采用旧官方effect值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 126,
+      "method": "POST",
+      "route": "/skills/singed_p/parameters",
+      "detailRoute": "/skills/singed_p/parameters/ms_bonus_ratio",
+      "skillKey": "singed_p",
+      "kind": "parameters",
+      "stableKey": "ms_bonus_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ms_bonus_ratio",
+        "name": "剧毒冲流移动速度加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前MSPercent=0.25，正文按×100显示25%；唯一敌方英雄经过也可触发。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 127,
+      "method": "POST",
+      "route": "/skills/singed_p/parameters",
+      "detailRoute": "/skills/singed_p/parameters/ms_duration_ms",
+      "skillKey": "singed_p",
+      "kind": "parameters",
+      "stableKey": "ms_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ms_duration_ms",
+        "name": "移动速度持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前MSDuration=2秒，转换为2000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 128,
+      "method": "POST",
+      "route": "/skills/singed_p/parameters",
+      "detailRoute": "/skills/singed_p/parameters/per_target_cooldown_ms",
+      "skillKey": "singed_p",
+      "kind": "parameters",
+      "stableKey": "per_target_cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "per_target_cooldown_ms",
+        "name": "每目标冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "当前PerTargetCD=8秒，转换为8000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 129,
+      "method": "POST",
+      "route": "/skills/singed_p/parameters",
+      "detailRoute": "/skills/singed_p/parameters/trigger_area",
+      "skillKey": "singed_p",
+      "kind": "parameters",
+      "stableKey": "trigger_area",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "trigger_area",
+        "name": "触发范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 225,
+        "levelValues": null,
+        "description": "当前TriggerArea=225；只记录范围边界。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 130,
+      "method": "POST",
+      "route": "/skills/singed_q/parameters",
+      "detailRoute": "/skills/singed_q/parameters/damage_per_second_base",
+      "skillKey": "singed_q",
+      "kind": "parameters",
+      "stableKey": "damage_per_second_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_per_second_base",
+        "name": "剧毒踪迹每秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 30,
+          "3": 40,
+          "4": 50,
+          "5": 60
+        },
+        "description": "DamagePerSecond取BaseDamagePerSecond索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 131,
+      "method": "POST",
+      "route": "/skills/singed_q/parameters",
+      "detailRoute": "/skills/singed_q/parameters/ap_ratio",
+      "skillKey": "singed_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "每秒伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.425,
+        "levelValues": null,
+        "description": "DamagePerSecond树StatByNamedDataValue=0.425；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 132,
+      "method": "POST",
+      "route": "/skills/singed_q/parameters",
+      "detailRoute": "/skills/singed_q/parameters/toggle_cooldown_ms",
+      "skillKey": "singed_q",
+      "kind": "parameters",
+      "stableKey": "toggle_cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "toggle_cooldown_ms",
+        "name": "开关间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前ToggleCooldown=1秒，转换为1000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 133,
+      "method": "POST",
+      "route": "/skills/singed_q/parameters",
+      "detailRoute": "/skills/singed_q/parameters/cloud_duration_ms",
+      "skillKey": "singed_q",
+      "kind": "parameters",
+      "stableKey": "cloud_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cloud_duration_ms",
+        "name": "毒云持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3250,
+        "levelValues": null,
+        "description": "当前CloudDuration=3.25秒，转换为3250毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 134,
+      "method": "POST",
+      "route": "/skills/singed_q/parameters",
+      "detailRoute": "/skills/singed_q/parameters/poison_duration_ms",
+      "skillKey": "singed_q",
+      "kind": "parameters",
+      "stableKey": "poison_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "poison_duration_ms",
+        "name": "毒状态持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前PoisonDuration=2秒，转换为2000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 135,
+      "method": "POST",
+      "route": "/skills/singed_q/parameters",
+      "detailRoute": "/skills/singed_q/parameters/ticks_per_second",
+      "skillKey": "singed_q",
+      "kind": "parameters",
+      "stableKey": "ticks_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ticks_per_second",
+        "name": "每秒跳数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "当前TicksPerSecond=4；仅保存来源时序参数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 136,
+      "method": "POST",
+      "route": "/skills/singed_q/parameters",
+      "detailRoute": "/skills/singed_q/parameters/max_linger_ticks",
+      "skillKey": "singed_q",
+      "kind": "parameters",
+      "stableKey": "max_linger_ticks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_linger_ticks",
+        "name": "最大残留跳数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8,
+        "levelValues": null,
+        "description": "当前MaxLingerTicks=8；不把它转成任意接触时长。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 137,
+      "method": "POST",
+      "route": "/skills/singed_q/parameters",
+      "detailRoute": "/skills/singed_q/parameters/approximate_total_multiplier",
+      "skillKey": "singed_q",
+      "kind": "parameters",
+      "stableKey": "approximate_total_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "approximate_total_multiplier",
+        "name": "大概总伤害展示倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 4.75,
+        "levelValues": null,
+        "description": "ApproximateTotalDamageTooltip根mMultiplier=4.75且标记tooltipOnly，仅作来源估计。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 138,
+      "method": "POST",
+      "route": "/skills/singed_q/parameters",
+      "detailRoute": "/skills/singed_q/parameters/mana_per_second",
+      "skillKey": "singed_q",
+      "kind": "parameters",
+      "stableKey": "mana_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_per_second",
+        "name": "剧毒踪迹每秒法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 13,
+        "levelValues": null,
+        "description": "当前根mana索引0为13，mLocKeys正文明确为每秒法力；仅保存每秒成本，不创建普通一次施放消耗效果。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 139,
+      "method": "POST",
+      "route": "/skills/singed_q/formulas",
+      "detailRoute": "/skills/singed_q/formulas/damage_per_second",
+      "skillKey": "singed_q",
+      "kind": "formulas",
+      "stableKey": "damage_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage_per_second",
+        "name": "剧毒踪迹每秒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_second_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DamagePerSecond = 每秒基础伤害 + 0.425×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 140,
+      "method": "POST",
+      "route": "/skills/singed_q/formulas",
+      "detailRoute": "/skills/singed_q/formulas/approximate_total_damage",
+      "skillKey": "singed_q",
+      "kind": "formulas",
+      "stableKey": "approximate_total_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "approximate_total_damage",
+        "name": "剧毒踪迹大概总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "approximate_total_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_second_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ApproximateTotalDamageTooltip = 4.75×每秒伤害树；仅展示估计，不能当作任意接触时长的必达结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 141,
+      "method": "POST",
+      "route": "/skills/singed_w/parameters",
+      "detailRoute": "/skills/singed_w/parameters/slow_percent_points",
+      "skillKey": "singed_w",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "强力粘胶减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "description": "当前SlowPercent取索引1至5且正文直接显示百分数，不乘0.01；保存50至70百分数点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 142,
+      "method": "POST",
+      "route": "/skills/singed_w/parameters",
+      "detailRoute": "/skills/singed_w/parameters/duration_ms",
+      "skillKey": "singed_w",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "粘胶区域持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前WDuration=3秒，转换为3000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 143,
+      "method": "POST",
+      "route": "/skills/singed_w/parameters",
+      "detailRoute": "/skills/singed_w/parameters/radius",
+      "skillKey": "singed_w",
+      "kind": "parameters",
+      "stableKey": "radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "radius",
+        "name": "粘胶区域半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 265,
+        "levelValues": null,
+        "description": "当前WRadius=265。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 144,
+      "method": "POST",
+      "route": "/skills/singed_w/parameters",
+      "detailRoute": "/skills/singed_w/parameters/execute_delay_ms",
+      "skillKey": "singed_w",
+      "kind": "parameters",
+      "stableKey": "execute_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "execute_delay_ms",
+        "name": "执行延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 375,
+        "levelValues": null,
+        "description": "当前DelayExecute=0.375秒，转换为375毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 145,
+      "method": "POST",
+      "route": "/skills/singed_w/parameters",
+      "detailRoute": "/skills/singed_w/parameters/cast_time_ms",
+      "skillKey": "singed_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 146,
+      "method": "POST",
+      "route": "/skills/singed_e/parameters",
+      "detailRoute": "/skills/singed_e/parameters/base_damage_value",
+      "skillKey": "singed_e",
+      "kind": "parameters",
+      "stableKey": "base_damage_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage_value",
+        "name": "过肩摔基础伤害值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "description": "当前BaseDamage树消费BaseDamageValue；取索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 147,
+      "method": "POST",
+      "route": "/skills/singed_e/parameters",
+      "detailRoute": "/skills/singed_e/parameters/ap_ratio",
+      "skillKey": "singed_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "基础伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "当前BaseDamage树StatByCoefficient=0.55；读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 148,
+      "method": "POST",
+      "route": "/skills/singed_e/parameters",
+      "detailRoute": "/skills/singed_e/parameters/max_health_percent_points",
+      "skillKey": "singed_e",
+      "kind": "parameters",
+      "stableKey": "max_health_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_health_percent_points",
+        "name": "目标最大生命百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 6,
+          "2": 6.5,
+          "3": 7,
+          "4": 7.5,
+          "5": 8
+        },
+        "description": "当前正文消费MaxHPDamage，取索引1至5；百分数点由0.01转为比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 149,
+      "method": "POST",
+      "route": "/skills/singed_e/parameters",
+      "detailRoute": "/skills/singed_e/parameters/percent_points_to_ratio",
+      "skillKey": "singed_e",
+      "kind": "parameters",
+      "stableKey": "percent_points_to_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_points_to_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "MaxHPDamage为6至8百分数点，完整最大生命组件使用0.01×百分数点。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 150,
+      "method": "POST",
+      "route": "/skills/singed_e/parameters",
+      "detailRoute": "/skills/singed_e/parameters/root_duration_ms",
+      "skillKey": "singed_e",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "粘胶命中禁锢持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1250,
+          "3": 1500,
+          "4": 1750,
+          "5": 2000
+        },
+        "description": "RootDuration取索引1至5，秒转毫秒；仅在W落点资格成立时使用。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 151,
+      "method": "POST",
+      "route": "/skills/singed_e/parameters",
+      "detailRoute": "/skills/singed_e/parameters/fling_distance",
+      "skillKey": "singed_e",
+      "kind": "parameters",
+      "stableKey": "fling_distance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "fling_distance",
+        "name": "投掷距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 420,
+        "levelValues": null,
+        "description": "当前FlingDistance=420。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 152,
+      "method": "POST",
+      "route": "/skills/singed_e/parameters",
+      "detailRoute": "/skills/singed_e/parameters/cast_time_ms",
+      "skillKey": "singed_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 153,
+      "method": "POST",
+      "route": "/skills/singed_e/formulas",
+      "detailRoute": "/skills/singed_e/formulas/base_magic_damage",
+      "skillKey": "singed_e",
+      "kind": "formulas",
+      "stableKey": "base_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "base_magic_damage",
+        "name": "过肩摔基础魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前BaseDamage树 = BaseDamageValue + 0.55×来源总法强；该树在客户端标为tooltipOnly。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 154,
+      "method": "POST",
+      "route": "/skills/singed_e/formulas",
+      "detailRoute": "/skills/singed_e/formulas/max_health_magic_component",
+      "skillKey": "singed_e",
+      "kind": "formulas",
+      "stableKey": "max_health_magic_component",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "max_health_magic_component",
+        "name": "过肩摔最大生命魔法伤害组件",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_points_to_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_health_percent_points"
+                }
+              ]
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "TARGET",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "正文额外组件 = 0.01×MaxHPDamage百分数点×目标最大生命；兵野封顶不在英雄公式中。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 155,
+      "method": "POST",
+      "route": "/skills/singed_e/formulas",
+      "detailRoute": "/skills/singed_e/formulas/total_magic_damage",
+      "skillKey": "singed_e",
+      "kind": "formulas",
+      "stableKey": "total_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_magic_damage",
+        "name": "过肩摔完整魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage_value"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_points_to_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "max_health_percent_points"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "完整E = 基础树 + 目标最大生命百分比组件；基础树的tooltipOnly标记不删除正文额外组件。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 156,
+      "method": "POST",
+      "route": "/skills/singed_r/parameters",
+      "detailRoute": "/skills/singed_r/parameters/stat_amount",
+      "skillKey": "singed_r",
+      "kind": "parameters",
+      "stableKey": "stat_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stat_amount",
+        "name": "强化属性点数",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 55,
+          "3": 85
+        },
+        "description": "当前StatAmount取索引1至3；正文同时用于法强、护甲、魔抗、移动速度、生命回复和法力回复，移动速度保存为点数而非比例。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 157,
+      "method": "POST",
+      "route": "/skills/singed_r/parameters",
+      "detailRoute": "/skills/singed_r/parameters/duration_ms",
+      "skillKey": "singed_r",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "疯狂药剂持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 25000,
+        "levelValues": null,
+        "description": "当前Duration=25秒，转换为25000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 158,
+      "method": "POST",
+      "route": "/skills/singed_r/parameters",
+      "detailRoute": "/skills/singed_r/parameters/grievous_ratio",
+      "skillKey": "singed_r",
+      "kind": "parameters",
+      "stableKey": "grievous_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "grievous_ratio",
+        "name": "Q期间重伤比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前GrievousAmount=0.4，正文按×100显示40%；只在R期间Q条件成立时使用。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 159,
+      "method": "POST",
+      "route": "/skills/singed_r/parameters",
+      "detailRoute": "/skills/singed_r/parameters/grievous_duration_ms",
+      "skillKey": "singed_r",
+      "kind": "parameters",
+      "stableKey": "grievous_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "grievous_duration_ms",
+        "name": "重伤持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前GrievousDuration=1秒，转换为1000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 160,
+      "method": "POST",
+      "route": "/skills/singed_r/parameters",
+      "detailRoute": "/skills/singed_r/parameters/cast_time_ms",
+      "skillKey": "singed_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 50
+      }
+    }
+  ],
+  "noApiCalls": true,
+  "apiWrites": 0
+}

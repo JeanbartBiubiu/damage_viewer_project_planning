@@ -1,0 +1,26 @@
+{
+  "i": 37,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/parameters",
+    "skillKey": "poppy_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "每次基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 55,
+        "3": 80,
+        "4": 105,
+        "5": 130
+      },
+      "description": "当前根DataValues.BaseDamageValue取技能等级1至5；两次正文均消费同一BaseDamage。",
+      "sortOrder": 20
+    }
+  }
+}

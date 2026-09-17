@@ -1,0 +1,24 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 103,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/explosion_radius",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "explosion_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "explosion_radius",
+      "name": "结束爆炸半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 350,
+      "levelValues": null,
+      "description": "当前根Radius=350；与护盾附近目标检查半径分开。",
+      "sortOrder": 20
+    }
+  }
+}

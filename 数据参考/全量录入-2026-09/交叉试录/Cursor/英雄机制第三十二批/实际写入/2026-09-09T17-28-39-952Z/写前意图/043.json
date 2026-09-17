@@ -1,0 +1,53 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/corki_r/formulas",
+    "detailRoute": "/skills/corki_r/formulas/attack_refund_seconds",
+    "skillKey": "corki_r",
+    "kind": "formulas",
+    "stableKey": "attack_refund_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "attack_refund_seconds",
+      "name": "命中普攻回充缩短（秒）",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "attack_refund_base_seconds"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_refund_unit"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "attack_refund_mstat8_coefficient"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "attack_refund_mstat8_value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前树实际为CDReductionOnHit×(1+2×mStat8)；mStat8真实值无默认，mPrecision=1仅显示精度。",
+      "sortOrder": 30
+    }
+  }
+}

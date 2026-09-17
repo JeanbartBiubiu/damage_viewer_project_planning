@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "completedAt": "2026-09-12T16:44:11.385Z",
+  "status": "PASS",
+  "batch": "八项英雄候选复核与四项触发补录",
+  "semanticDecision": {
+    "accepted": [
+      {
+        "id": "garen",
+        "skillKey": "garen_w",
+        "ruleKey": "on_used",
+        "scope": "只连接短时护盾与短时韧性两个已有动作，不代表主动减伤已覆盖。"
+      },
+      {
+        "id": "vex",
+        "skillKey": "vex_w",
+        "ruleKey": "on_used",
+        "scope": "只连接主动使用时的自身护盾，不包含范围伤害与暮气。"
+      },
+      {
+        "id": "kassadin",
+        "skillKey": "kassadin_q",
+        "ruleKey": "on_used",
+        "scope": "只连接主动使用时的自身魔法护盾，不包含目标伤害与打断。"
+      },
+      {
+        "id": "ivern",
+        "skillKey": "ivern_q",
+        "ruleKey": "actual_hit",
+        "scope": "只连接命中英雄时的一次直接伤害，不包含禁锢、重施突进与野怪分支。"
+      }
+    ],
+    "deferred": [
+      {
+        "id": "kaisa",
+        "skillKey": "kaisa_r",
+        "ruleKey": "on_used",
+        "reason": "现有资料只声明宿主应确认电浆合格目标和合法阶段，没有宿主事件生产或运行证据；当前前端只保存规则。",
+        "neededEvidence": "证明宿主仅在电浆资格成立且合法技能使用阶段产生对应事件。"
+      },
+      {
+        "id": "annie",
+        "skillKey": "annie_e",
+        "ruleKey": "on_used",
+        "reason": "技能可施放给安妮、友军或提伯斯；当前规则不能区分显式目标是否为来源对象，结果目标为来源对象无法补足该判断。",
+        "neededEvidence": "增加自施目标身份条件或提供已明确区分自施目标的宿主事件。"
+      },
+      {
+        "id": "ashe",
+        "skillKey": "ashe_w",
+        "ruleKey": "actual_hit",
+        "reason": "当前资料只声明宿主应按同次施放和同一目标去重，没有去重运行证据；不能用逐目标冷却替代不同施放身份。",
+        "neededEvidence": "证明宿主对一次施放命中同一目标只产生一次技能命中事件。"
+      },
+      {
+        "id": "nocturne",
+        "skillKey": "nocturne_r",
+        "ruleKey": "actual_hit",
+        "reason": "当前资料只把第二段实际抵达写成宿主前置契约，没有证明宿主不会在第一段或位移过程中产生同类命中事件。",
+        "neededEvidence": "证明宿主只在第二段实际抵达目标时产生该技能命中事件。"
+      }
+    ]
+  },
+  "baseline": {
+    "skillCount": 1062,
+    "ruleCount": 104,
+    "sourceInitializedCount": 24,
+    "prepareGetCount": 2554
+  },
+  "review": {
+    "firstAcceptedReview": {
+      "file": "05-Cursor终审-首版脚本.json",
+      "reviewedPlanRevision": 3,
+      "businessWrites": 0
+    },
+    "firstPreflightFailure": {
+      "file": "06-首次写入预检失败.json",
+      "getCount": 1194,
+      "businessWrites": 0,
+      "writeRecords": 0,
+      "error": "盖伦 W 缺少效果\n\nfalse !== true\n"
+    },
+    "finalAcceptedReview": {
+      "file": "07-Cursor独立评审.json",
+      "runId": "run-772541dc-5a17-4793-90dd-7c7654ea0a19",
+      "requestId": "e942dafa-7835-42af-8946-ec5a5d121e53",
+      "reviewedPlanRevision": 4,
+      "model": {
+        "id": "grok-4.6",
+        "params": [
+          {
+            "id": "effort",
+            "value": "high"
+          },
+          {
+            "id": "fast",
+            "value": "false"
+          }
+        ]
+      },
+      "writeAllowlistAudit": {
+        "auditAvailable": true,
+        "outsideScopeCount": 0,
+        "runDeltaOutsideScopeCount": 0,
+        "runDeltaCount": 0,
+        "diffBytes": 0
+      },
+      "toolEvents": {
+        "uniqueToolCallCount": 1,
+        "terminalStatuses": {
+          "call-64b01cdb-905d-4457-9884-adab5aa87fb6-0\nfc_16cb7f14-87ab-912a-a0ff-b502fe35f214_0": "completed"
+        },
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false
+      }
+    },
+    "postWriteDocumentationChanges": [
+      "README.md",
+      "01-合并方案.md"
+    ]
+  },
+  "write": {
+    "file": "08-写入与即时回读.json",
+    "status": "PASS",
+    "getCount": 3847,
+    "businessWriteCount": 4,
+    "createdRules": [
+      {
+        "id": "garen",
+        "ruleKey": "on_used",
+        "responseStatus": 201,
+        "immediateReadbackStatus": 200
+      },
+      {
+        "id": "vex",
+        "ruleKey": "on_used",
+        "responseStatus": 201,
+        "immediateReadbackStatus": 200
+      },
+      {
+        "id": "kassadin",
+        "ruleKey": "on_used",
+        "responseStatus": 201,
+        "immediateReadbackStatus": 200
+      },
+      {
+        "id": "ivern",
+        "ruleKey": "actual_hit",
+        "responseStatus": 201,
+        "immediateReadbackStatus": 200
+      }
+    ],
+    "finalRuleCount": 108,
+    "sourceInitializedCount": 24
+  },
+  "independentReadback": {
+    "file": "09-独立GET回读.json",
+    "status": "PASS",
+    "getCount": 1285,
+    "methods": {
+      "GET": 1285
+    },
+    "businessWrites": 0,
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24,
+    "oldRuleDetailsExact": true,
+    "newRulesExact": true
+  },
+  "browserAcceptance": {
+    "file": "10-页面验收.json",
+    "browser": "Playwright Chromium 真实页面",
+    "methods": {
+      "GET": 264
+    },
+    "businessWrites": 0,
+    "checks": 5,
+    "screenshots": 16,
+    "diagnostics": {
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "requestFailures": 0,
+      "errorResponses": 0
+    }
+  },
+  "fileHashes": {
+    "批次配置.mjs": "ecfe3b6cd8cad6e953a4b6e2f19ff3ff5730bf65379c3d00d59dbf0bd23be447",
+    "00-独立语义评审.json": "d04bb9dc7371177efa2e1526cf7e1164a662e5f4e65247572cfecc4c1c34010a",
+    "README.md": "868d8fab70171c0aeba07b36d89a49f619487315329d27073c81f927a8d949ba",
+    "01-合并方案.md": "e76c520a9c43c9ab4d1c3747403bb0da8baf5779db30f7b9b366b856dd662a9e",
+    "02-合并冻结请求.json": "431c7f2d549120e491b362e47a59d459a2b20fcaebd2e91ad557a952332ca807",
+    "03-来源散列快照.json": "e7495be67e882f2fb0e8c5722ec2bf12899879ade837b81d4417e107df8e7f3e",
+    "04-共享写前现值.json": "d8f12502b144964fc6eff9aba09b19967d930a6cdabafd4e0acc3a025e36f5f7",
+    "05-Cursor终审-首版脚本.json": "50a9ca565d3d3bdd2b276608367fdaee4440d20b9ca55dfdd696e8460a29e386",
+    "06-首次写入预检失败.json": "be9d0b7a458f2b465df671854166f08f8fbdba59c099893857785615f4d73769",
+    "07-Cursor独立评审.json": "372660bcc04a9ea25e8a90d121df758a2865c14dde9b6342da13f209d60a3ed1",
+    "08-写入与即时回读.json": "6ed5f160ddb93121ade3ea31caf12c1a3c002aedee503becd5f0fbcda1c42239",
+    "09-独立GET回读.json": "bb2354b389af17187003060e43ab9d63c4e392cf06ba8712146648686bf10b06",
+    "10-页面验收.json": "4a100595a82ff243dafb0567e5e75d2824796193df8beca17c794450e477b117",
+    "准备合并只读.mjs": "73386d8aac3ed129785cb5efb641dbba77891ea802419b2bf05b1079a21e816c",
+    "受保护写入.mjs": "7501cdd79c7ea96343c96be0c5858bef2f3e0099bafc5e2c911e08886e6ab0e8",
+    "独立GET回读.mjs": "b47c66a2f8b9d74041e0dee9c6b7839b4d442027bf67c987ae828f19ee281862",
+    "只读页面验收.mjs": "aff408727c57c9b2da64baec3c8d6be44dde68022baea28738ec098fe2f9535b",
+    "Cursor终审只读检查.mjs": "85bb8f462bca9a1ffe2a31e1da3d86d62b465cb55fc8ce7a7c69691ddc07191f"
+  },
+  "screenshotHashes": {
+    "garen_w-on_used规则.png": "6cc00458a4917dae8924afb0034e6188f1be8740ecb7629b08fbb9f27397bee4",
+    "garen_w-shield公式.png": "ac9ccdc483c12722653fe581d61912246bff100a5bb434c4498a2cc2330c5b37",
+    "garen_w-shield结果.png": "7da0b083c9832ebdfd1dc2e89459c312e6237e2de8e5346ec4ab65a89b56f85e",
+    "garen_w-列表图片.png": "d2fe46bb9c670b98bf13b7bfdcacdfb91d9f8e52949df69f36a3af7f9afbba6d",
+    "ivern_q-actual_hit规则.png": "2ab1aa7208892185481afb58704527e306a79013851bd2222e453ab9b85f4478",
+    "ivern_q-damage结果.png": "8503c320e427f766d67830b10ed87f2a88c7618e3e7e974dcf997a79d6d8503b",
+    "ivern_q-magic_damage公式.png": "5be34e459c06a8dd5a5a4ea5d74aa6658821877a938a5bb9f8dbeb36e809b259",
+    "ivern_q-列表图片.png": "00f614df8db87a50cca922bab87145dbc2e393816ee4cdb36f5a50de684c113e",
+    "kassadin_q-magic_shield_amount公式.png": "3e4a42b92ff525ebcc4f139fd3fca67acc23ff0d2cabd040fc4cc1df6803bf7e",
+    "kassadin_q-on_used规则.png": "f0f59f38f7937c465866db2c75379b98518fddf8762ed1b4ea9cbd28b6de178c",
+    "kassadin_q-shield结果.png": "c88da3fd6ba117e30dc83d5f4bb1f175c093dd1f00b9ba1a274c501c35a76880",
+    "kassadin_q-列表图片.png": "b9c1a56b6227dfbb88aff6eb454611769164594c57b605909bd01c8bfd5c619b",
+    "vex_w-on_used规则.png": "173989a49d2ee885886826d661a0288105be6d869064d33cc421b6a03d727010",
+    "vex_w-shield_value公式.png": "6d25103e6862bd09891113d054d11be83aa2f5ade664da0eb3689b3d37ba6933",
+    "vex_w-shield结果.png": "deb1c5035232fe018ba864b26f12747a2a5a8417b3c9351e0b5f2a1860792a4e",
+    "vex_w-列表图片.png": "9bf06f61ecd2e1dcbab83d15f1338f62f05e448129fc522e809c3e134c57de70"
+  },
+  "validationBoundary": [
+    "已证明管理接口写入、独立数据库回读和真实管理页面展示。",
+    "未证明战斗宿主事件、TinyGo 或 Wasm 运行。",
+    "四个暂缓项不计为已补录。"
+  ]
+}

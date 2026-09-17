@@ -1,0 +1,24 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_q/parameters",
+    "detailRoute": "/skills/gangplank_q/parameters/minus_one",
+    "skillKey": "gangplank_q",
+    "kind": "parameters",
+    "stableKey": "minus_one",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "minus_one",
+      "name": "固定减一",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": -1,
+      "levelValues": null,
+      "description": "ShotCrit树中的固定-1，用于实际统计量相对基准的差值。",
+      "sortOrder": 70
+    }
+  }
+}

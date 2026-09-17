@@ -1,0 +1,29 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 104,
+    "method": "POST",
+    "route": "/skills/vex_w/parameters",
+    "detailRoute": "/skills/vex_w/parameters/base_shield",
+    "skillKey": "vex_w",
+    "kind": "parameters",
+    "stableKey": "base_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_shield",
+      "name": "基础护盾值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "description": "客户端ShieldAmount取索引1至5；索引0的25不是等级1。",
+      "sortOrder": 10
+    }
+  }
+}

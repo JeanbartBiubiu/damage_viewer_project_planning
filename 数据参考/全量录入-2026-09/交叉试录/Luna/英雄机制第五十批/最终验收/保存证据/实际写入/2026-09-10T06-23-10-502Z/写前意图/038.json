@@ -1,0 +1,24 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/empowered_percent_hp_level_actual",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "empowered_percent_hp_level_actual",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_percent_hp_level_actual",
+      "name": "实际角色等级觉醒百分比生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "由运行层提供角色等级额外0.02至0.04比例；源曲线未知且无默认。",
+      "sortOrder": 270
+    }
+  }
+}

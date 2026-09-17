@@ -1,0 +1,23 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/monkeyking_q/parameters",
+    "detailRoute": "/skills/monkeyking_q/parameters/cooldown_decrease_ms",
+    "skillKey": "monkeyking_q",
+    "kind": "parameters",
+    "stableKey": "cooldown_decrease_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_decrease_ms",
+      "name": "命中后冷却减少（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "来源0.5秒转毫秒。",
+      "sortOrder": 70
+    }
+  }
+}

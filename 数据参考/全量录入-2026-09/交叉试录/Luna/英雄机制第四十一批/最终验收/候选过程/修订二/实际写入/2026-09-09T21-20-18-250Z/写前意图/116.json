@@ -1,0 +1,23 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "method": "POST",
+    "route": "/skills/rakan_w/parameters",
+    "detailRoute": "/skills/rakan_w/parameters/cast_time_ms",
+    "skillKey": "rakan_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "当前spellCastTime=0；不表示命中时序。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:21.099Z",
+  "method": "POST",
+  "skillKey": "fizz_p",
+  "kind": "parameters",
+  "stableKey": "damage_reduction_flat",
+  "route": "/skills/fizz_p/parameters",
+  "readRoute": "/skills/fizz_p/parameters/damage_reduction_flat",
+  "body": {
+    "parameterKey": "damage_reduction_flat",
+    "name": "固定伤害减免",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 4,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.DamageReduction 取索引1至1。单位：伤害点数，不是减伤后实伤。",
+    "sortOrder": 10
+  }
+}

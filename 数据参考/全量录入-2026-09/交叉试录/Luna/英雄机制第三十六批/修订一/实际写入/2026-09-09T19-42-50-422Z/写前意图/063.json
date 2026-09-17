@@ -1,0 +1,45 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/lillia_q/formulas",
+    "detailRoute": "/skills/lillia_q/formulas/inner_magic_damage",
+    "skillKey": "lillia_q",
+    "kind": "formulas",
+    "stableKey": "inner_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "inner_magic_damage",
+      "name": "飞花挞内圈魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "inner_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage = 内圈基础伤害 + 0.35×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

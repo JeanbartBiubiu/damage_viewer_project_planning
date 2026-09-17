@@ -1,0 +1,30 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/parameters",
+    "detailRoute": "/skills/ivern_w/parameters/base_damage",
+    "skillKey": "ivern_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "草丛附加魔法伤害基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 27.5,
+        "3": 35,
+        "4": 42.5,
+        "5": 50
+      },
+      "description": "TotalDamage的BaseDamage按保护最高等级取索引1至最高等级；友军BaseDamage不录。",
+      "sortOrder": 10
+    }
+  }
+}

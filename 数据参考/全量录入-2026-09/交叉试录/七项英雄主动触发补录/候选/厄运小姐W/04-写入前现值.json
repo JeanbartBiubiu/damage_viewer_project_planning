@@ -1,0 +1,945 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:12.798Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 120
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "822fa38591ceae982ac47489e132d32f35255083e7ba5b385d7dca350dbc160b",
+  "frozenRequestSha256": "986d2b952984b4fa64bd68601011350d3588d9b08f5cbf5c397cc4b1419e3272",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/missfortune_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:26.674299Z",
+          "description": "厄运小姐在不被攻击时会被动获得移动速度加成。可以主动施放这个技能来获得短时间的攻击速度加成。在【大步流星】尚未冷却完毕时，【厄运的眷顾】可减少【大步流星】的剩余持续时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "厄运小姐·大步流星",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "missfortune_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:26.674299Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_missfortune",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_missfortune",
+          "createdAt": "2026-09-06T15:55:56.374577Z",
+          "description": "来源：官方 Data Dragon 16.17.1；攻击力成长补充自同补丁客户端 16.17.8104348。本轮只录角色主体与 1～18 级基础自然成长属性，不含被动、技能、物品、符文、叠层或形态。技能和图片待录，不能视为完整录入。",
+          "gameId": "lol",
+          "name": "厄运小姐",
+          "updatedAt": "2026-09-06T15:55:56.374577Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_missfortune/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_missfortune",
+          "levelValues": {
+            "1": {
+              "move_speed": 325,
+              "hp": 625,
+              "hp_regen": 3.75,
+              "mana": 300,
+              "mana_regen": 8,
+              "armor": 25,
+              "magic_resistance": 33,
+              "attack_damage": 55,
+              "attack_speed": 0.656,
+              "attack_range": 550
+            },
+            "2": {
+              "move_speed": 325,
+              "hp": 697,
+              "hp_regen": 4.218,
+              "mana": 328.8,
+              "mana_regen": 8.576,
+              "armor": 27.88,
+              "magic_resistance": 33.792,
+              "attack_damage": 56.728,
+              "attack_speed": 0.67017,
+              "attack_range": 550
+            },
+            "3": {
+              "move_speed": 325,
+              "hp": 772.5,
+              "hp_regen": 4.70875,
+              "mana": 359,
+              "mana_regen": 9.18,
+              "armor": 30.9,
+              "magic_resistance": 34.6225,
+              "attack_damage": 58.54,
+              "attack_speed": 0.685028,
+              "attack_range": 550
+            },
+            "4": {
+              "move_speed": 325,
+              "hp": 851.5,
+              "hp_regen": 5.22225,
+              "mana": 390.6,
+              "mana_regen": 9.812,
+              "armor": 34.06,
+              "magic_resistance": 35.4915,
+              "attack_damage": 60.436,
+              "attack_speed": 0.700575,
+              "attack_range": 550
+            },
+            "5": {
+              "move_speed": 325,
+              "hp": 934,
+              "hp_regen": 5.7585,
+              "mana": 423.6,
+              "mana_regen": 10.472,
+              "armor": 37.36,
+              "magic_resistance": 36.399,
+              "attack_damage": 62.416,
+              "attack_speed": 0.716811,
+              "attack_range": 550
+            },
+            "6": {
+              "move_speed": 325,
+              "hp": 1020,
+              "hp_regen": 6.3175,
+              "mana": 458,
+              "mana_regen": 11.16,
+              "armor": 40.8,
+              "magic_resistance": 37.345,
+              "attack_damage": 64.48,
+              "attack_speed": 0.733736,
+              "attack_range": 550
+            },
+            "7": {
+              "move_speed": 325,
+              "hp": 1109.5,
+              "hp_regen": 6.89925,
+              "mana": 493.8,
+              "mana_regen": 11.876,
+              "armor": 44.38,
+              "magic_resistance": 38.3295,
+              "attack_damage": 66.628,
+              "attack_speed": 0.75135,
+              "attack_range": 550
+            },
+            "8": {
+              "move_speed": 325,
+              "hp": 1202.5,
+              "hp_regen": 7.50375,
+              "mana": 531,
+              "mana_regen": 12.62,
+              "armor": 48.1,
+              "magic_resistance": 39.3525,
+              "attack_damage": 68.86,
+              "attack_speed": 0.769652,
+              "attack_range": 550
+            },
+            "9": {
+              "move_speed": 325,
+              "hp": 1299,
+              "hp_regen": 8.131,
+              "mana": 569.6,
+              "mana_regen": 13.392,
+              "armor": 51.96,
+              "magic_resistance": 40.414,
+              "attack_damage": 71.176,
+              "attack_speed": 0.788643,
+              "attack_range": 550
+            },
+            "10": {
+              "move_speed": 325,
+              "hp": 1399,
+              "hp_regen": 8.781,
+              "mana": 609.6,
+              "mana_regen": 14.192,
+              "armor": 55.96,
+              "magic_resistance": 41.514,
+              "attack_damage": 73.576,
+              "attack_speed": 0.808323,
+              "attack_range": 550
+            },
+            "11": {
+              "move_speed": 325,
+              "hp": 1502.5,
+              "hp_regen": 9.45375,
+              "mana": 651,
+              "mana_regen": 15.02,
+              "armor": 60.1,
+              "magic_resistance": 42.6525,
+              "attack_damage": 76.06,
+              "attack_speed": 0.828692,
+              "attack_range": 550
+            },
+            "12": {
+              "move_speed": 325,
+              "hp": 1609.5,
+              "hp_regen": 10.14925,
+              "mana": 693.8,
+              "mana_regen": 15.876,
+              "armor": 64.38,
+              "magic_resistance": 43.8295,
+              "attack_damage": 78.628,
+              "attack_speed": 0.84975,
+              "attack_range": 550
+            },
+            "13": {
+              "move_speed": 325,
+              "hp": 1720,
+              "hp_regen": 10.8675,
+              "mana": 738,
+              "mana_regen": 16.76,
+              "armor": 68.8,
+              "magic_resistance": 45.045,
+              "attack_damage": 81.28,
+              "attack_speed": 0.871496,
+              "attack_range": 550
+            },
+            "14": {
+              "move_speed": 325,
+              "hp": 1834,
+              "hp_regen": 11.6085,
+              "mana": 783.6,
+              "mana_regen": 17.672,
+              "armor": 73.36,
+              "magic_resistance": 46.299,
+              "attack_damage": 84.016,
+              "attack_speed": 0.893931,
+              "attack_range": 550
+            },
+            "15": {
+              "move_speed": 325,
+              "hp": 1951.5,
+              "hp_regen": 12.37225,
+              "mana": 830.6,
+              "mana_regen": 18.612,
+              "armor": 78.06,
+              "magic_resistance": 47.5915,
+              "attack_damage": 86.836,
+              "attack_speed": 0.917055,
+              "attack_range": 550
+            },
+            "16": {
+              "move_speed": 325,
+              "hp": 2072.5,
+              "hp_regen": 13.15875,
+              "mana": 879,
+              "mana_regen": 19.58,
+              "armor": 82.9,
+              "magic_resistance": 48.9225,
+              "attack_damage": 89.74,
+              "attack_speed": 0.940868,
+              "attack_range": 550
+            },
+            "17": {
+              "move_speed": 325,
+              "hp": 2197,
+              "hp_regen": 13.968,
+              "mana": 928.8,
+              "mana_regen": 20.576,
+              "armor": 87.88,
+              "magic_resistance": 50.292,
+              "attack_damage": 92.728,
+              "attack_speed": 0.96537,
+              "attack_range": 550
+            },
+            "18": {
+              "move_speed": 325,
+              "hp": 2325,
+              "hp_regen": 14.8,
+              "mana": 980,
+              "mana_regen": 21.6,
+              "armor": 93,
+              "magic_resistance": 51.7,
+              "attack_damage": 95.8,
+              "attack_speed": 0.99056,
+              "attack_range": 550
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_missfortune/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "image_72129467-db8b-4b3b-b539-4d5cc13f8340",
+            "name": "厄运小姐代表图片_72129467-db8b-4b3b-b539-4d5cc13f8340"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_missfortune",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_missfortune",
+              "characterName": "厄运小姐",
+              "gameId": "lol",
+              "skillKey": "missfortune_p",
+              "skillName": "厄运小姐·厄运的眷顾",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_missfortune",
+              "characterName": "厄运小姐",
+              "gameId": "lol",
+              "skillKey": "missfortune_q",
+              "skillName": "厄运小姐·一箭双雕",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_missfortune",
+              "characterName": "厄运小姐",
+              "gameId": "lol",
+              "skillKey": "missfortune_w",
+              "skillName": "厄运小姐·大步流星",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_missfortune",
+              "characterName": "厄运小姐",
+              "gameId": "lol",
+              "skillKey": "missfortune_e",
+              "skillName": "厄运小姐·枪林弹雨",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_missfortune",
+              "characterName": "厄运小姐",
+              "gameId": "lol",
+              "skillKey": "missfortune_r",
+              "skillName": "厄运小姐·弹幕时间",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=missfortune_w",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_missfortune",
+              "characterName": "厄运小姐",
+              "gameId": "lol",
+              "skillKey": "missfortune_w",
+              "skillName": "厄运小姐·大步流星",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/missfortune_w/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_missfortune_w",
+            "name": "missfortune_w"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/missfortune_w/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/missfortune_w/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-07T16:37:20.97341Z",
+              "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+              "fixedValue": 12000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T16:37:20.97341Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:37:21.299036Z",
+              "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+              "fixedValue": 45,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "missfortune_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T16:37:21.299036Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:37:21.666707Z",
+              "description": "客户端当前根绑定 DataValues.ActiveAS 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.4,
+                "2": 0.55,
+                "3": 0.7,
+                "4": 0.85,
+                "5": 1
+              },
+              "name": "主动额外攻击速度比例",
+              "parameterKey": "bonus_attack_speed_ratio",
+              "skillKey": "missfortune_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-07T16:37:21.666707Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-07T16:37:22.072782Z",
+              "description": "客户端当前根绑定 DataValues.ActiveDuration 取索引1至5。",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "主动攻速持续（毫秒）",
+              "parameterKey": "active_duration_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-07T16:37:22.072782Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:37:22.429642Z",
+              "description": "客户端当前根绑定 DataValues.PassiveBaseMS 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 30,
+                "2": 35,
+                "3": 40,
+                "4": 45,
+                "5": 50
+              },
+              "name": "脱战第一阶段移动速度",
+              "parameterKey": "passive_base_move_speed",
+              "skillKey": "missfortune_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-07T16:37:22.429642Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:37:22.784164Z",
+              "description": "客户端当前根绑定 DataValues.PassiveMaxMS 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 60,
+                "2": 70,
+                "3": 80,
+                "4": 90,
+                "5": 100
+              },
+              "name": "满额移动速度",
+              "parameterKey": "passive_max_move_speed",
+              "skillKey": "missfortune_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-07T16:37:22.784164Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:37:23.136209Z",
+              "description": "客户端当前根绑定 DataValues.PassiveBaseMSOOC 取索引1至5。",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "第一阶段未受伤等待（毫秒）",
+              "parameterKey": "first_ms_delay_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-07T16:37:23.136209Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:37:23.8124Z",
+              "description": "客户端当前根绑定 DataValues.PassiveMaxMSExtraOOC 取索引1至5。",
+              "fixedValue": 3000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外等待满额移速（毫秒）",
+              "parameterKey": "full_ms_extra_delay_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-07T16:37:23.8124Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:37:24.177377Z",
+              "description": "客户端当前根绑定 DataValues.LoveTapBaseRefund 取索引1至5。",
+              "fixedValue": 2000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "厄运眷顾基础冷却返还（毫秒）",
+              "parameterKey": "love_tap_base_refund_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-07T16:37:24.177377Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "active_duration_ms",
+          "bonus_attack_speed_ratio",
+          "cooldown_ms",
+          "first_ms_delay_ms",
+          "full_ms_extra_delay_ms",
+          "love_tap_base_refund_ms",
+          "mana_cost",
+          "passive_base_move_speed",
+          "passive_max_move_speed"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/parameters/active_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:22.072782Z",
+              "description": "客户端当前根绑定 DataValues.ActiveDuration 取索引1至5。",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "主动攻速持续（毫秒）",
+              "parameterKey": "active_duration_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-07T16:37:22.072782Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/parameters/bonus_attack_speed_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:21.666707Z",
+              "description": "客户端当前根绑定 DataValues.ActiveAS 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.4,
+                "2": 0.55,
+                "3": 0.7,
+                "4": 0.85,
+                "5": 1
+              },
+              "name": "主动额外攻击速度比例",
+              "parameterKey": "bonus_attack_speed_ratio",
+              "skillKey": "missfortune_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-07T16:37:21.666707Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:20.97341Z",
+              "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+              "fixedValue": 12000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T16:37:20.97341Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/parameters/first_ms_delay_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:23.136209Z",
+              "description": "客户端当前根绑定 DataValues.PassiveBaseMSOOC 取索引1至5。",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "第一阶段未受伤等待（毫秒）",
+              "parameterKey": "first_ms_delay_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-07T16:37:23.136209Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/parameters/full_ms_extra_delay_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:23.8124Z",
+              "description": "客户端当前根绑定 DataValues.PassiveMaxMSExtraOOC 取索引1至5。",
+              "fixedValue": 3000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外等待满额移速（毫秒）",
+              "parameterKey": "full_ms_extra_delay_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-07T16:37:23.8124Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/parameters/love_tap_base_refund_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:24.177377Z",
+              "description": "客户端当前根绑定 DataValues.LoveTapBaseRefund 取索引1至5。",
+              "fixedValue": 2000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "厄运眷顾基础冷却返还（毫秒）",
+              "parameterKey": "love_tap_base_refund_ms",
+              "skillKey": "missfortune_w",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-07T16:37:24.177377Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/parameters/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:21.299036Z",
+              "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+              "fixedValue": 45,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "missfortune_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T16:37:21.299036Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/parameters/passive_base_move_speed",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:22.429642Z",
+              "description": "客户端当前根绑定 DataValues.PassiveBaseMS 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 30,
+                "2": 35,
+                "3": 40,
+                "4": 45,
+                "5": 50
+              },
+              "name": "脱战第一阶段移动速度",
+              "parameterKey": "passive_base_move_speed",
+              "skillKey": "missfortune_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-07T16:37:22.429642Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/parameters/passive_max_move_speed",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:22.784164Z",
+              "description": "客户端当前根绑定 DataValues.PassiveMaxMS 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 60,
+                "2": 70,
+                "3": 80,
+                "4": 90,
+                "5": 100
+              },
+              "name": "满额移动速度",
+              "parameterKey": "passive_max_move_speed",
+              "skillKey": "missfortune_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-07T16:37:22.784164Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/missfortune_w/formulas",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/missfortune_w/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-07T16:37:24.58647Z",
+              "description": "仅施放法力消耗；具体过程单独绑定。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "施放法力消耗",
+              "resultCount": 1,
+              "skillKey": "missfortune_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T16:37:24.58647Z"
+            },
+            {
+              "createdAt": "2026-09-07T16:37:24.926773Z",
+              "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+              "effectKey": "active_attack_speed",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "主动攻击速度加成",
+              "resultCount": 1,
+              "skillKey": "missfortune_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T16:37:24.926773Z"
+            }
+          ]
+        },
+        "keys": [
+          "active_attack_speed",
+          "mana_cost"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/effects/active_attack_speed",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:24.926773Z",
+              "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+              "effectKey": "active_attack_speed",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "active_duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "主动攻击速度加成",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "bonus_attack_speed_percent",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "主动攻击速度加成",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "bonus_attack_speed_ratio"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "missfortune_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T16:37:24.926773Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/missfortune_w/effects/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:37:24.58647Z",
+              "description": "仅施放法力消耗；具体过程单独绑定。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "施放法力消耗",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "mana",
+                    "operation": "CONSUME"
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "消耗法力",
+                  "resultKey": "consume_mana",
+                  "resultType": "RESOURCE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mana_cost"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "missfortune_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T16:37:24.58647Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/missfortune_w/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/missfortune_w/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/missfortune_w/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

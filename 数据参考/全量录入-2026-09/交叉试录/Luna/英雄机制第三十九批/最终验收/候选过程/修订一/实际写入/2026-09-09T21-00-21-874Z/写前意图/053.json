@@ -1,0 +1,24 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/melee_missing_health_max_multiplier",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "melee_missing_health_max_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "melee_missing_health_max_multiplier",
+      "name": "近战额外伤害最高倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "EmpoweredMeleeDamageTooltip的mMultiplier=2；最高端点替换基础完整式。",
+      "sortOrder": 120
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/parameters",
+    "detailRoute": "/skills/belveth_e/parameters/damage_reduction_ratio",
+    "skillKey": "belveth_e",
+    "kind": "parameters",
+    "stableKey": "damage_reduction_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_reduction_ratio",
+      "name": "伤害减免比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.200000003,
+        "2": 0.300000012,
+        "3": 0.400000006,
+        "4": 0.5,
+        "5": 0.600000024
+      },
+      "description": "技能等级减伤20%/30%/40%/50%/60%，按比例值保存；来源DRPercent索引1至5。",
+      "sortOrder": 60
+    }
+  }
+}

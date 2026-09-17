@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:56:06.951Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_w/formulas/total_resists",
+  "id": "total_resists",
+  "method": "POST",
+  "body": {
+    "formulaKey": "total_resists",
+    "name": "圣霭结界内额外护甲和魔法抗性",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_resists"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "resists_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalResists=BaseResists+0.07×法强；同时用于护甲和魔法抗性。",
+    "sortOrder": 10
+  }
+}

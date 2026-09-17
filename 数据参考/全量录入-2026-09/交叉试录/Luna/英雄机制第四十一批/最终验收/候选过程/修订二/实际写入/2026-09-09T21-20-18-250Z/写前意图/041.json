@@ -1,0 +1,29 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "method": "POST",
+    "route": "/skills/bard_e/parameters",
+    "detailRoute": "/skills/bard_e/parameters/mana_cost",
+    "skillKey": "bard_e",
+    "kind": "parameters",
+    "stableKey": "mana_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mana_cost",
+      "name": "基础法力消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 30,
+        "3": 30,
+        "4": 30,
+        "5": 30
+      },
+      "description": "当前根技能等级法力；本项不在公共复用清单。",
+      "sortOrder": 20
+    }
+  }
+}

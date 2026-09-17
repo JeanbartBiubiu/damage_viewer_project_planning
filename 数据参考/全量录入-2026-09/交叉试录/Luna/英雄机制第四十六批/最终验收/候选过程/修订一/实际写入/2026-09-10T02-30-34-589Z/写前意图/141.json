@@ -1,0 +1,24 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/formulas",
+    "detailRoute": "/skills/hwei_e/formulas/ee_slow_percent_points",
+    "skillKey": "hwei_e",
+    "kind": "formulas",
+    "stableKey": "ee_slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "ee_slow_percent_points",
+      "name": "双钩血喉减速百分数点",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "ee_slow_percent_points"
+      },
+      "description": "只记录减速幅度，递减过程由运行事件处理。",
+      "sortOrder": 210
+    }
+  }
+}

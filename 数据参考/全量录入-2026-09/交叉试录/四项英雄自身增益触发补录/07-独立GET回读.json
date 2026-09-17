@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T10:33:12.808Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 1286,
+  "statusCounts": {
+    "200": 1286
+  },
+  "skillCount": 1062,
+  "ruleCount": 135,
+  "sourceInitializedCount": 25,
+  "oldRulesCount": 131,
+  "oldRulesSha256": "3e5cb24852a08b737ef4e56097453a41b538fceecc4794db6302503c214bdea2",
+  "allRulesSha256": "9231c88e053b7165bc0f8bb710d9c4b11b31d68f4e4e0c6d13b78c4ac799e5a4",
+  "targetChecks": [
+    {
+      "id": "rakan_r_initial_move_speed",
+      "skillKey": "rakan_r",
+      "ruleKey": "on_used",
+      "effectKey": "self_initial_move_speed",
+      "nonRuleSha256": "f4142e0452c4d665efeb3fcaef93da8c52aa351fbe53f106d6d3298d104d2fbc",
+      "ruleSha256": "e263b1324819479d83ef35c3eeb1738c458ad546ab332db0b66d6d97513f6b04"
+    },
+    {
+      "id": "volibear_r_attack_range",
+      "skillKey": "volibear_r",
+      "ruleKey": "on_used",
+      "effectKey": "attack_range",
+      "nonRuleSha256": "5af6f694568d08b2bb4cfb4d4a15ebe603d5a9864a7932f982a96568281af2b0",
+      "ruleSha256": "ea8051e6b22599578dab308d58d8e41a1a1a1a67d49bcd2c2fef8add4cdab279"
+    },
+    {
+      "id": "akshan_q_champion_hit_move_speed",
+      "skillKey": "akshan_q",
+      "ruleKey": "actual_champion_hit",
+      "effectKey": "champion_hit_move_speed",
+      "nonRuleSha256": "26b1a3a1eacd75b31190dcdbade34e57cfa5b6d97789d5ce73a6f37889eaf4ee",
+      "ruleSha256": "a70c1de0bd00cf2e887be2d89183d9f92798be6d2c61ee6533e70888b006f0a9"
+    },
+    {
+      "id": "jarvaniv_e_self_attack_speed",
+      "skillKey": "jarvaniv_e",
+      "ruleKey": "initialize_self_attack_speed",
+      "effectKey": "self_attack_speed",
+      "nonRuleSha256": "f52936a5c16023603a3d2d9d21e4f78fcbc280bfd48d99bafb08401a86042d6d",
+      "ruleSha256": "0d07e37e9cde059dbbd6638ecbd8d3e312b730a6ae1d4b34ba806bf033ceafa3"
+    }
+  ],
+  "requestPathsSha256": "d294c5668bec15f02385bebaffae0f0f4a17b8222790c8db7d66a5c2b0d4f4fe",
+  "boundary": "独立检查器只发GET；既有131条规则与四项非规则组成不变，四条新增规则精确匹配冻结请求。Wasm、宿主和真实战斗未执行。"
+}

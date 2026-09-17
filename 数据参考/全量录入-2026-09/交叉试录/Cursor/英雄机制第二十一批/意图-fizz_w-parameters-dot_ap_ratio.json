@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:36.864Z",
+  "method": "POST",
+  "skillKey": "fizz_w",
+  "kind": "parameters",
+  "stableKey": "dot_ap_ratio",
+  "route": "/skills/fizz_w/parameters",
+  "readRoute": "/skills/fizz_w/parameters/dot_ap_ratio",
+  "body": {
+    "parameterKey": "dot_ap_ratio",
+    "name": "流血总量法强倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.25,
+    "levelValues": null,
+    "description": "DoTDamage 的 StatByNamedDataValue 绑定 DoTRatio 索引1至5。省略选择器，窄口径来源总法强。",
+    "sortOrder": 40
+  }
+}

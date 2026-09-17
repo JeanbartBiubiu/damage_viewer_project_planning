@@ -1,0 +1,29 @@
+{
+  "i": 183,
+  "intent": {
+    "sequence": 184,
+    "method": "POST",
+    "route": "/skills/zeri_e/parameters",
+    "detailRoute": "/skills/zeri_e/parameters/bonus_damage_base",
+    "skillKey": "zeri_e",
+    "kind": "parameters",
+    "stableKey": "bonus_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_damage_base",
+      "name": "首个目标额外魔法伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 22,
+        "2": 24,
+        "3": 26,
+        "4": 28,
+        "5": 30
+      },
+      "description": "当前BonusDamageTotal树基础值取等级1至5，为22/24/26/28/30。",
+      "sortOrder": 50
+    }
+  }
+}

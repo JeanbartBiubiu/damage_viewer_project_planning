@@ -1,0 +1,52 @@
+{
+  "i": 27,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_w/formulas",
+    "skillKey": "gragas_w",
+    "kind": "formulas",
+    "stableKey": "damage_reduction_ratio",
+    "body": {
+      "formulaKey": "damage_reduction_ratio",
+      "name": "醉酒狂暴减伤比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_point_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "reduction_base_percent_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "reduction_ap_percent_points"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamageReduction=.01×(基础减伤百分数点+.04AP)，不按固定点数处理。",
+      "sortOrder": 10
+    }
+  }
+}

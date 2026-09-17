@@ -1,0 +1,45 @@
+{
+  "i": 168,
+  "intent": {
+    "sequence": 168,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/formulas",
+    "detailRoute": "/skills/tahmkench_r/formulas/target_max_hp_damage_ratio",
+    "skillKey": "tahmkench_r",
+    "kind": "formulas",
+    "stableKey": "target_max_hp_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "target_max_hp_damage_ratio",
+      "name": "大快朵颐目标最大生命伤害比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "target_max_hp_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "target_max_hp_ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前PercentHPDamage=0.15+0.0007×来源总法强，结果乘目标最大生命。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_w/parameters",
+    "detailRoute": "/skills/elise_w/parameters/explosion_delay_ms",
+    "skillKey": "elise_w",
+    "kind": "parameters",
+    "stableKey": "explosion_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "explosion_delay_ms",
+      "name": "爆炸延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "接近敌人或3秒后爆炸；TimeToExplode=3秒转换为3000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

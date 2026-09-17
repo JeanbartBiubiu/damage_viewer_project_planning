@@ -1,0 +1,23 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 132,
+    "method": "POST",
+    "route": "/skills/tahmkench_q/parameters",
+    "detailRoute": "/skills/tahmkench_q/parameters/slow_ratio",
+    "skillKey": "tahmkench_q",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "巨舌鞭笞减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前SlowAmount=0.5，正文按SlowAmount×100显示为50%。",
+      "sortOrder": 30
+    }
+  }
+}

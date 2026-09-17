@@ -1,0 +1,93 @@
+{
+  "at": "2026-09-09T05:49:27.677Z",
+  "status": "174组成实际新增及独立全量、实值数学通过；待主负责人页面验收",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "candidateObjectSha256": "2fcd15d38c32e21cada89c34a07641ca91702d31bae84d319376e22d7dd2801f",
+  "actualWrites": 174,
+  "createdByKind": {
+    "parameters": 117,
+    "formulas": 37,
+    "effects": 20
+  },
+  "reusedPublicParameters": 28,
+  "finalComponents": {
+    "parameters": 145,
+    "formulas": 37,
+    "effects": 20,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "total": 202
+  },
+  "writeResult": {
+    "runId": "2026-09-09T05-41-37-115Z",
+    "httpCalls": {
+      "total": 1088,
+      "methods": {
+        "GET": 914,
+        "POST": 174
+      },
+      "statuses": {
+        "200": 740,
+        "201": 174,
+        "404": 174
+      }
+    },
+    "post201": 174,
+    "confirmed": 174,
+    "failedSkills": []
+  },
+  "independentReadback": {
+    "runId": "2026-09-09T05-46-57-288Z",
+    "httpCalls": {
+      "total": 370,
+      "methods": {
+        "GET": 370
+      },
+      "statuses": {
+        "200": 370
+      }
+    },
+    "details": 202,
+    "lists": 120,
+    "fullFields": 2530,
+    "conflicts": [],
+    "missing": []
+  },
+  "actualMath": {
+    "folder": "2026-09-09T05-48-09-301Z",
+    "actualGets": 182,
+    "checks": 1186,
+    "sourceCases": 100,
+    "manualCases": 57,
+    "failures": [],
+    "inputSha256": "255f59439adb487ca4ea0e6fac43dd0e1def478b1501f85b825b8ef1a818fa57",
+    "resultSha256": "fcc3932abe8f81bbfda240f34a2d0c564b9603c14aa6f35a33a24ca55af2a93e"
+  },
+  "protected": {
+    "subjects": 20,
+    "originalParameters": 28,
+    "representativeImages": 20,
+    "characterRelationLists": 4,
+    "catalogs": 4,
+    "drift": 0
+  },
+  "sourcePreparationManifestSha256": "e385d4a655d6b0fa380637dabcd30c98a12fbea8c87d9ed63bcd5513bd524c59",
+  "cursorReview": {
+    "file": "Cursor独立复核.json",
+    "sha256": "f035cf26f6ba8b358d5d17e3d1a63cef77aef5fc8e0bc806b70ec2b0324ba172",
+    "verdict": "READY",
+    "suggestions": "保留Kassadin R整数0至4输入域，不猜资源口径；不把复用mana_cost40再扣一次；Ryze R复用成本不新建传送过程。阿卡丽partype在冻结官方完整原文中另经独立核算断言能量。"
+  },
+  "runtimeValidation": "未执行战斗或Wasm验证，来源与资格待配保留，未宣称英雄完整机制完成",
+  "files": {
+    "执行记录/2026-09-09T05-41-37-115Z/执行结果.json": "247291256e7355c841ee4ab0683d79090fead4a3578c27cee5e49762d625388f",
+    "执行记录/2026-09-09T05-41-37-115Z/实际写入结果.json": "88820bbb18fd0c4bab8a2a56fcc1979b023347955229461a1d89dea6b6f57080",
+    "执行记录/2026-09-09T05-41-37-115Z/最终全量组件现值.json": "5a8f85fc0418648673cf5b35037cafa3ff55124b975e8fe117ba09bfc872ebf2",
+    "执行记录/2026-09-09T05-46-57-288Z/执行结果.json": "82a7c540a201ca59bbc8fb66d2d5e36fdff674d514f8086ac8cd4676ae839868",
+    "执行记录/2026-09-09T05-46-57-288Z/写前组件现值.json": "4d3f5e99a3ff4869cef7aebedb072b1d93a292ca4e0ac5b210fec33078233f8c",
+    "执行记录/2026-09-09T05-46-57-288Z/写前保护.json": "7dc5410355cbb7a563029ff714bc73ec81689173cce8d268756c1347c8c92c8b",
+    "实值核算记录/2026-09-09T05-48-09-301Z/实际读取.json": "016e5d6aacfeba17e647b8b5f3b3a7ca58a5ee7e1a34c73f04568eea851816f5",
+    "实值核算记录/2026-09-09T05-48-09-301Z/独立数学结果.json": "fcc3932abe8f81bbfda240f34a2d0c564b9603c14aa6f35a33a24ca55af2a93e"
+  }
+}

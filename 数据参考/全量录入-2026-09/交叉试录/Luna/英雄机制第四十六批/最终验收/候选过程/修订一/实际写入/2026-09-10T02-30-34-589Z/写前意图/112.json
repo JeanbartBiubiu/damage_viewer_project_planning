@@ -1,0 +1,46 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/formulas",
+    "detailRoute": "/skills/hwei_w/formulas/ww_full_shield",
+    "skillKey": "hwei_w",
+    "kind": "formulas",
+    "stableKey": "ww_full_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "ww_full_shield",
+      "name": "渲浓自身满额护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ww_shield_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ww_shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "自身满盾=100至260+0.6×法强。",
+      "sortOrder": 190
+    }
+  }
+}

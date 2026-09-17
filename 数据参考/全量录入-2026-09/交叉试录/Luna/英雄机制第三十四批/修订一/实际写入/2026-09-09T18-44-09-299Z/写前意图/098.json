@@ -1,0 +1,23 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/vex_q/parameters",
+    "detailRoute": "/skills/vex_q/parameters/ap_ratio",
+    "skillKey": "vex_q",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.7,
+      "levelValues": null,
+      "description": "QDamageCalc消费APRatio=0.7×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

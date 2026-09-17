@@ -1,0 +1,24 @@
+{
+  "i": 150,
+  "intent": {
+    "sequence": 151,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_p/parameters",
+    "detailRoute": "/skills/ashe_p/parameters/empowered_slow_start_ratio",
+    "skillKey": "ashe_p",
+    "kind": "parameters",
+    "stableKey": "empowered_slow_start_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_slow_start_ratio",
+      "name": "强化减速角色1级端点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "EmpoweredSlowAmount角色等级起始端点40%；中间曲线未知。",
+      "sortOrder": 40
+    }
+  }
+}

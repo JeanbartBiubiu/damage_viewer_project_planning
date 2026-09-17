@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-13T11:09:33.459Z",
+  "methodPolicy": {
+    "allowedBusinessMethods": [
+      "POST"
+    ],
+    "allowedRequestCount": 4
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 135,
+    "sourceInitializedCount": 25,
+    "finalRuleCount": 139,
+    "finalSourceInitializedCount": 26
+  },
+  "sourceSnapshotSha256": "213331313aaed84068cb7ac8ef06bb5070d193667d1e97f2dd80ea612aa787ef",
+  "requests": [
+    {
+      "id": "twistedfate_e_permanent_attack_speed",
+      "skillKey": "twistedfate_e",
+      "ownerKey": "champion_twistedfate",
+      "ruleKey": "initialize_permanent_attack_speed",
+      "effectKeys": [
+        "permanent_attack_speed"
+      ],
+      "method": "POST",
+      "route": "/skills/twistedfate_e/trigger-rules",
+      "detailRoute": "/skills/twistedfate_e/trigger-rules/initialize_permanent_attack_speed",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十批/最终验收/候选过程/修订一/完整候选.json",
+      "sourceCandidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
+      "bodySha256": "6fde0ecebb055dad1a321f00b1aa0cf048b5e20da9ac9389476d0c77ffa7a45a",
+      "body": {
+        "ruleKey": "initialize_permanent_attack_speed",
+        "name": "初始化卡牌骗术永久攻击速度",
+        "description": "来源对象初始化完成时执行已有 permanent_attack_speed，建立技能等级对应的单层永久自身攻击速度；第四次攻击计数、额外伤害、建筑物分支和实际攻击事件继续暂缓。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_permanent_attack_speed",
+            "name": "执行卡牌骗术永久攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "permanent_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "skarner_r_champion_hit_move_speed",
+      "skillKey": "skarner_r",
+      "ownerKey": "champion_skarner",
+      "ruleKey": "actual_champion_hit",
+      "effectKeys": [
+        "self_move_speed"
+      ],
+      "method": "POST",
+      "route": "/skills/skarner_r/trigger-rules",
+      "detailRoute": "/skills/skarner_r/trigger-rules/actual_champion_hit",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json",
+      "sourceCandidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+      "bodySha256": "e4c68a7d3c9b7385402d74fa1b00506ce181660fd05ccf7de3d9c238da8a4317",
+      "body": {
+        "ruleKey": "actual_champion_hit",
+        "name": "命中英雄触发毒刺贯体移速",
+        "description": "仅消费宿主确认的 skarner_r 实际英雄命中并执行已有 self_move_speed；伤害、压制、拖行、多目标、撼地联动、法力消耗和冷却继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "skarner_r"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_self_move_speed",
+            "name": "执行毒刺贯体命中英雄自身移速",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "seraphine_w_self_shield",
+      "skillKey": "seraphine_w",
+      "ownerKey": "champion_seraphine",
+      "ruleKey": "on_used",
+      "effectKeys": [
+        "self_shield"
+      ],
+      "method": "POST",
+      "route": "/skills/seraphine_w/trigger-rules",
+      "detailRoute": "/skills/seraphine_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十三批/修订二/完整候选.json",
+      "sourceCandidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+      "bodySha256": "4a2a1c7f2207665f0ed251eb0b5cac977cfef20747025661a9c2a03a20207788",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "聚和心声主动自身护盾",
+        "description": "接收 seraphine_w 主动使用并执行已有 self_shield；友方护盾与移速、自身衰减移速、已有护盾资格、延时治疗、回响重复和法力消耗继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "seraphine_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_self_shield",
+            "name": "执行聚和心声自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "naafiri_w_self_buffs",
+      "skillKey": "naafiri_w",
+      "ownerKey": "champion_naafiri",
+      "ruleKey": "on_used",
+      "effectKeys": [
+        "self_attack_damage",
+        "self_move_speed"
+      ],
+      "method": "POST",
+      "route": "/skills/naafiri_w/trigger-rules",
+      "detailRoute": "/skills/naafiri_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十三批/最终验收/候选过程/修订二/完整候选.json",
+      "sourceCandidateSha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
+      "bodySha256": "dc7d939e7256f7d160614dee42970b03ee5dd8a850c0ff9d6ec974a353c05b18",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "暴吼主动自身攻击力与移速",
+        "description": "接收当前根绑定的 naafiri_w 主动使用，依次执行已有 self_attack_damage 与 self_move_speed；不可选取、额外犬群、召回、法力消耗和冷却继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "naafiri_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_self_attack_damage",
+            "name": "执行暴吼自身攻击力增益",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_attack_damage"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "execute_self_move_speed",
+            "name": "执行暴吼自身移动速度增益",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "runtimeBoundary": "四条规则可由管理接口保存；Wasm组装、宿主事件生产和真实战斗尚未验证。",
+  "batchSha256": "e968441b2fa3d01c68d6b0d89e44b9b6e08a1c514ffb4666de44b57478ab3d24"
+}

@@ -1,0 +1,23 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 88,
+    "method": "POST",
+    "route": "/skills/leesin_r/parameters",
+    "detailRoute": "/skills/leesin_r/parameters/cast_time_ms",
+    "skillKey": "leesin_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "猛龙摆尾根施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "只记录根spellCastTime；施法时间内禁锢为正文附加语义。",
+      "sortOrder": 40
+    }
+  }
+}

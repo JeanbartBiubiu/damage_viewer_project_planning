@@ -1,0 +1,24 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/percent_point_ratio",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "percent_point_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_point_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "TotalPercentHealthOnHit根mNumber=0.01；Q攻击特效读取当前生命。",
+      "sortOrder": 100
+    }
+  }
+}

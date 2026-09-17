@@ -1,0 +1,23 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "method": "POST",
+    "route": "/skills/jarvaniv_w/parameters",
+    "detailRoute": "/skills/jarvaniv_w/parameters/cast_time_ms",
+    "skillKey": "jarvaniv_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "黄金圣盾根施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 125,
+      "levelValues": null,
+      "description": "只记录根spellCastTime。",
+      "sortOrder": 60
+    }
+  }
+}

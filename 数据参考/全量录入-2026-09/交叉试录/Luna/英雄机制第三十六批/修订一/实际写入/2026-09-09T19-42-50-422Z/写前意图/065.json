@@ -1,0 +1,45 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/lillia_q/formulas",
+    "detailRoute": "/skills/lillia_q/formulas/move_speed_per_stack",
+    "skillKey": "lillia_q",
+    "kind": "formulas",
+    "stableKey": "move_speed_per_stack",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "move_speed_per_stack",
+      "name": "飞花挞每层移速加成",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "prance_bonus_ratio_per_stack"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "prance_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "PranceSpeed = 每层来源比例 + 0.0003×来源总法强；层数由上限4的事件输入控制。",
+      "sortOrder": 30
+    }
+  }
+}

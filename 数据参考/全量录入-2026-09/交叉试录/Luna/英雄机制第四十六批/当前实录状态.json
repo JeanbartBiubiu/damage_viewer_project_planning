@@ -1,0 +1,143 @@
+{
+  "at": "2026-09-10T03:22:55.916Z",
+  "batch": "英雄机制第四十六批",
+  "status": "本轮来源明确组成已保存，独立回读、实际源值数学与四个代表页面通过；方向冷却、未知曲线和事件接线单列",
+  "heroes": [
+    "Belveth",
+    "Hwei",
+    "Locke",
+    "Zaahen"
+  ],
+  "skills": [
+    "belveth_p",
+    "belveth_q",
+    "belveth_w",
+    "belveth_e",
+    "belveth_r",
+    "hwei_p",
+    "hwei_q",
+    "hwei_w",
+    "hwei_e",
+    "hwei_r",
+    "locke_p",
+    "locke_q",
+    "locke_w",
+    "locke_e",
+    "locke_r",
+    "zaahen_p",
+    "zaahen_q",
+    "zaahen_w",
+    "zaahen_e",
+    "zaahen_r"
+  ],
+  "newCounts": {
+    "parameters": 230,
+    "formulas": 65,
+    "effects": 9
+  },
+  "counts": {
+    "parameters": 256,
+    "formulas": 65,
+    "effects": 9
+  },
+  "created": 304,
+  "businessWrites": 304,
+  "reusedParameters": 26,
+  "currentTotalComponents": 330,
+  "candidateFile": "最终验收/候选过程/修订一/完整候选.json",
+  "candidateFileSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
+  "writePlan": "最终验收/候选过程/修订一/写前请求计划.json",
+  "writePlanSha256": "2fa7baea9230558c74030516d7e9873bdf6c15f1dc6dd6a2682c7369a8ec93b2",
+  "save": {
+    "GETs": 1664,
+    "POSTs": 304,
+    "confirmed": 304,
+    "file": "最终验收/候选过程/修订一/实际写入/2026-09-10T02-30-34-589Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 528,
+    "protectedPaths": 198,
+    "details": 330,
+    "reused": 26,
+    "new": 304,
+    "file": "最终验收/独立回读证据/GET复核报告.json",
+    "snapshot": "最终验收/独立回读证据/GET复核快照.json",
+    "snapshotSha256": "9c00b932a7aeab97ee8b229e190e658468a10f7da26532ae1387b512d29d21cb"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 65,
+    "cases": 130,
+    "effectCount": 9,
+    "missingInputCases": 25,
+    "typedReferences": 151,
+    "finiteChecks": 743,
+    "binaryNodes": 115,
+    "completeParameterArrays": 48,
+    "completeArrayValues": 239,
+    "skillLevelArrays": 47,
+    "characterLevelArrays": 1,
+    "fixedFiniteParameters": 157,
+    "newIntegerParameters": 129,
+    "integerValues": 269,
+    "integerParameters": 155,
+    "millisecondsParameters": 78,
+    "file": "最终验收/实际数学证据/独立数学报告.json",
+    "sha256": "d8a10c32e20bbcffa81a4195edb76ace48da3950915e62d29d3e102201c48a89",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "最终验收/候选过程/修订一/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 3134,
+    "uniqueTools": 63,
+    "inputs": 26,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "主负责人初版20槽来源逐项核对完成，并独立比较最终修订全部结构变化",
+    "卑尔维斯E完整20/30/40/50/60%减伤；P断点单位百分数点；W方向刷新不误写整Q重置",
+    "洛克Q两层与三层先累加2或3个单层，再乘1.2或1.4；W读当前生命，持续时间按公式引用",
+    "彗WE单次回蓝与三次参考总量分开，EE600毫秒延迟补全，菜单时间移除",
+    "亚恒E只记录原始总时间；P攻击倍率不直接加固定攻击力，凝滞复活保留本体范围",
+    "所有新参数原生有限值、完整数组、毫秒INTEGER和全部参数/公式类型引用通过",
+    "真实Cursor63只读工具26冻结输入Git零变化"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "每次值与多次合计容易混用",
+      "detail": "彗WE效果使用单次参数，三次总公式仅作汇总参考。"
+    },
+    {
+      "issue": "公式与参数引用必须按真实类型选择",
+      "detail": "洛克W持续时间是两参数求和公式；当前UI正确显示公式来源。"
+    },
+    {
+      "issue": "生命取值方式必须可见",
+      "detail": "洛克W自伤为每秒当时当前生命，不能使用总量或在起始时固定整段。"
+    },
+    {
+      "issue": "原始动作总时间不能推断位移耗时",
+      "detail": "亚恒E分别保留距离、速度和原始总时间，原始0施法字段不证明瞬达。"
+    },
+    {
+      "issue": "持续移速衰减需要事件接线",
+      "detail": "当前保存初始值、下限和时段证据，未验证完整随时间衰减。"
+    }
+  ],
+  "pending": [
+    "洛克W时变移速、每秒当前生命与维持消耗待事件层接线，静态效果不代表衰减执行通过",
+    "卑尔维斯方向子槽冷却刷新及未知每层角色等级曲线待接，不生成整Q重置",
+    "亚恒被动攻击加成倍率的基准字段未证，保留公式与来源边界",
+    "彗各技法输入选择、次数、命中及护盾更新条件待事件层接线"
+  ],
+  "runtimeValidation": "未执行"
+}

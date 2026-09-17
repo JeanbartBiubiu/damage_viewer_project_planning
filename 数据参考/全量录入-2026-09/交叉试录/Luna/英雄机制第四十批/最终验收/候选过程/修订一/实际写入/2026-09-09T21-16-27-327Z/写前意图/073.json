@@ -1,0 +1,65 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "method": "POST",
+    "route": "/skills/senna_r/formulas",
+    "detailRoute": "/skills/senna_r/formulas/self_shield",
+    "skillKey": "senna_r",
+    "kind": "formulas",
+    "stableKey": "self_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_shield",
+      "name": "暗影燎原自身护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_soul_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "soul_count"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalShield=Shield+0.5×来源法强+1.5×战前魂层；第三友方护盾不写入。",
+      "sortOrder": 20
+    }
+  }
+}

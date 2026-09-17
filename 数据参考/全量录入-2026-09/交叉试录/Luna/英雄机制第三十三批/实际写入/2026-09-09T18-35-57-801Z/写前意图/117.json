@@ -1,0 +1,45 @@
+{
+  "i": 116,
+  "intent": {
+    "sequence": 117,
+    "method": "POST",
+    "route": "/skills/karma_r/formulas",
+    "detailRoute": "/skills/karma_r/formulas/rq_impact_magic_damage",
+    "skillKey": "karma_r",
+    "kind": "formulas",
+    "stableKey": "rq_impact_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "rq_impact_magic_damage",
+      "name": "梵咒Q冲击额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "rq_bonus_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "rq_bonus_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "只表示RQ额外冲击段，不重算基础Q。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/parameters",
+    "detailRoute": "/skills/udyr_e/parameters/move_speed_bonus_ad_ratio",
+    "skillKey": "udyr_e",
+    "kind": "parameters",
+    "stableKey": "move_speed_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_bonus_ad_ratio",
+      "name": "普通移动速度额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0005,
+      "levelValues": null,
+      "description": "MoveSpeed第二分支mStat=2、mStatFormula=2系数0.0005。",
+      "sortOrder": 70
+    }
+  }
+}

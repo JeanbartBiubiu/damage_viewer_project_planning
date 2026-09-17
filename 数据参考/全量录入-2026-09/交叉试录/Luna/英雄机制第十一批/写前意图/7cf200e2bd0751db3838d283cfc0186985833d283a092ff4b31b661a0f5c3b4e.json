@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-09T04:54:57.451Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_p/parameters/shield_level_ratio",
+  "id": "shield_level_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "shield_level_ratio",
+    "name": "护盾比例等级值",
+    "valueType": "DECIMAL",
+    "valueMode": "CHARACTER_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.1,
+      "2": 0.1,
+      "3": 0.1,
+      "4": 0.1,
+      "5": 0.1,
+      "6": 0.1,
+      "7": 0.15,
+      "8": 0.15,
+      "9": 0.15,
+      "10": 0.15,
+      "11": 0.15,
+      "12": 0.15,
+      "13": 0.2,
+      "14": 0.2,
+      "15": 0.2,
+      "16": 0.2,
+      "17": 0.2,
+      "18": 0.2
+    },
+    "description": "当前计算树角色等级断点/逐级增量，取1至18级；每个断点只按原字段给出的生效方式计算。",
+    "sortOrder": 30
+  }
+}

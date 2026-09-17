@@ -1,0 +1,35 @@
+{
+  "i": 246,
+  "intent": {
+    "sequence": 247,
+    "method": "POST",
+    "route": "/skills/briar_r/formulas",
+    "detailRoute": "/skills/briar_r/formulas/total_resists",
+    "skillKey": "briar_r",
+    "kind": "formulas",
+    "stableKey": "total_resists",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_resists",
+      "name": "毙除强化血莽自身双抗加成",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "resist_total_ad_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前TotalResists=0.2×来源总攻击力，护甲与魔抗共用该值。",
+      "sortOrder": 20
+    }
+  }
+}

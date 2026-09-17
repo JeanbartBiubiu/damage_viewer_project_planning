@@ -1,0 +1,27 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "skillKey": "qiyana_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_w/parameters",
+    "stableKey": "terrain_move_speed_percent_points",
+    "body": {
+      "parameterKey": "terrain_move_speed_percent_points",
+      "name": "对应地形非战斗移动速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2.9999999329447746,
+        "2": 5.000000074505806,
+        "3": 7.000000029802322,
+        "4": 9.000000357627869,
+        "5": 10.999999940395355
+      },
+      "description": "正文使用PassiveMS*100%，为3/5/7/9/11百分数点。",
+      "sortOrder": 50
+    }
+  }
+}

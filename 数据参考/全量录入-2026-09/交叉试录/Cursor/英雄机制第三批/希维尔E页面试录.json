@@ -1,0 +1,284 @@
+{
+  "skillKey": "sivir_e",
+  "parentOwns": {
+    "effects": [
+      {
+        "effectKey": "spell_shield",
+        "name": "希维尔法术护盾",
+        "description": "来源自身单层法术护盾，持续1500毫秒，成功阻挡消耗。阻挡粒度沿来袭技能结果的spellShieldBlockScope，不把盾当伤害吸收数值。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "格挡下一次敌方技能",
+            "resultType": "SPELL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": null,
+            "detail": {}
+          }
+        ]
+      }
+    ],
+    "processes": [
+      {
+        "processKey": "cast",
+        "name": "施放法术护盾",
+        "activationType": "ACTIVE",
+        "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "activate",
+            "name": "启用自身效果",
+            "description": null,
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "spell_shield",
+            "effectKey": "spell_shield",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "activate"
+            },
+            "sortOrder": 20
+          }
+        ],
+        "stateOperations": []
+      }
+    ],
+    "triggerRules": [
+      {
+        "ruleKey": "successful_spell_block",
+        "name": "法术护盾成功格挡后治疗",
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SPELL_SHIELD_BLOCKED",
+          "detail": {
+            "shieldEffectKey": "spell_shield"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "name": "执行block_heal",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "block_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    ]
+  },
+  "prerequisites": {
+    "parameters": [
+      {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 24000,
+          "2": 22500,
+          "3": 21000,
+          "4": 19500,
+          "5": 18000
+        },
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "sortOrder": 10
+      },
+      {
+        "parameterKey": "mana_cost",
+        "name": "法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "官方明确0；主对象没有法力消耗字段。",
+        "sortOrder": 20
+      },
+      {
+        "parameterKey": "shield_duration_ms",
+        "name": "法术护盾持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SpellShieldDuration 取索引1至5。",
+        "sortOrder": 30
+      },
+      {
+        "parameterKey": "heal_total_ad_ratio",
+        "name": "治疗总攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.6,
+          "2": 0.65,
+          "3": 0.7,
+          "4": 0.75,
+          "5": 0.8
+        },
+        "description": "客户端当前根绑定 DataValues.HealRatio 取索引1至5。",
+        "sortOrder": 40
+      },
+      {
+        "parameterKey": "heal_ap_ratio",
+        "name": "治疗法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.HealAPRatio 取索引1至5。",
+        "sortOrder": 50
+      }
+    ],
+    "formulas": [
+      {
+        "formulaKey": "block_heal",
+        "name": "成功格挡回复生命",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalHeal完整计算：总AD×0.6/0.65/0.7/0.75/0.8+AP×0.5。",
+        "sortOrder": 10
+      }
+    ],
+    "effects": [
+      {
+        "effectKey": "block_heal",
+        "name": "成功格挡治疗",
+        "description": "仅成功格挡敌方技能后执行；不是施放或护盾自然结束时治疗。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "回复生命",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "block_heal"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          },
+          {
+            "resultKey": "remove_spell_shield",
+            "name": "移除已成功格挡的法术护盾",
+            "resultType": "LIFECYCLE_OPERATION",
+            "target": "SOURCE",
+            "description": "只在法术护盾成功格挡后移除来源自身的本技能护盾。",
+            "sortOrder": 20,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": null,
+            "detail": {
+              "targetEffectKey": "spell_shield",
+              "operation": "REMOVE"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "note": "当前block_heal同时包含治疗与显式护盾消费，必须先建立spell_shield才可保存block_heal。恢复顺序为参数/公式→主负责人护盾→block_heal→过程与成功规则。历史页面证据另存，不以当前候选改写旧验收。"
+}

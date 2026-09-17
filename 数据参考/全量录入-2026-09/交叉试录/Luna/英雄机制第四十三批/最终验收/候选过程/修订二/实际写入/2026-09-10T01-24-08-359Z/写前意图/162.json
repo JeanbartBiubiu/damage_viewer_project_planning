@@ -1,0 +1,46 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 162,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/formulas",
+    "detailRoute": "/skills/naafiri_r/formulas/body_physical_damage",
+    "skillKey": "naafiri_r",
+    "kind": "formulas",
+    "stableKey": "body_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "body_physical_damage",
+      "name": "猎狗血性本体物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=基础值+来源额外攻击力；犬群伤害排除。",
+      "sortOrder": 10
+    }
+  }
+}

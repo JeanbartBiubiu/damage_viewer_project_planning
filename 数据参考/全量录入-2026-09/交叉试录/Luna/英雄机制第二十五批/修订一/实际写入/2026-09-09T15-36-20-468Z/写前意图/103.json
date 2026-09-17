@@ -1,0 +1,39 @@
+{
+  "sequence": 103,
+  "intent": {
+    "sequence": 103,
+    "method": "POST",
+    "route": "/skills/tryndamere_e/parameters",
+    "detailRoute": "/skills/tryndamere_e/parameters/champion_crit_cooldown_refund_ms",
+    "skillKey": "tryndamere_e",
+    "kind": "parameters",
+    "stableKey": "champion_crit_cooldown_refund_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "champion_crit_cooldown_refund_ms",
+      "name": "对英雄暴击减少冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.ChampCDRefund=1.5秒；仅保留对英雄暴击分支，单位换算为1500毫秒。",
+      "sortOrder": 40
+    }
+  },
+  "before": {
+    "sequence": 511,
+    "method": "GET",
+    "route": "/skills/tryndamere_e/parameters/champion_crit_cooldown_refund_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "champion_crit_cooldown_refund_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:22.279Z"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:37:40.101Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_e/formulas",
+  "detailRoute": "/skills/nunu_e/formulas/root_damage",
+  "skillKey": "nunu_e",
+  "kind": "formulas",
+  "stableKey": "root_damage",
+  "body": {
+    "formulaKey": "root_damage",
+    "name": "雪球飞射禁锢额外魔法伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "root_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "root_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalRootDamage = RootDamage + 0.8×来源法术强度；完成时间和禁锢资格尚未接线。",
+    "sortOrder": 20
+  }
+}

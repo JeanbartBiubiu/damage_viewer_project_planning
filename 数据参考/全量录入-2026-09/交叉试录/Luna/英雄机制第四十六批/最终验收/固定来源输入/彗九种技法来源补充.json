@@ -1,0 +1,3011 @@
+{
+  "at": "2026-09-10T00:53:37.822Z",
+  "clientCompressedSha256": "66d7a3e8e2c334309e36fe58e5163ded4aeeb24b3ca872cc18a00b219d8c866b",
+  "source": "同一冻结完整Hwei客户端文件，按已查到的9个具体技法路径展开，非新增技能主体",
+  "skills": [
+    {
+      "path": "Characters/Hwei/Spells/HweiEAbility/HweiEQ",
+      "object": {
+        "ObjectName": "HweiEQ",
+        "objectPath": "Characters/Hwei/Spells/HweiEAbility/HweiEQ",
+        "mScriptName": "HweiEQ",
+        "mSpell": {
+          "mAffectsTypeFlags": 6154,
+          "DataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                70,
+                110,
+                150,
+                190,
+                230,
+                270
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "FleeDuration",
+              "values": [
+                0.875,
+                1,
+                1.125,
+                1.25,
+                1.375,
+                1.5,
+                1.625
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxSlow",
+              "values": [
+                99,
+                99,
+                99,
+                99,
+                99,
+                99,
+                99
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinSlow",
+              "values": [
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "{f9c2333e}": {
+            "cherry": {
+              "value": [
+                12,
+                12,
+                11.5,
+                11,
+                10.5,
+                10,
+                10
+              ],
+              "__type": "SpellEffectAmount"
+            }
+          },
+          "mSpellCalculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6499999761581421,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAnimationName": "Spell3Q",
+          "mImgIconName": [
+            "ASSETS/Characters/Hwei/HUD/Icons2D/HweiEQ.dds"
+          ],
+          "mCastTime": 0.25,
+          "spellCastTime": 0.25,
+          "spellTotalTime": 0,
+          "cooldownTime": [
+            13,
+            13,
+            12.5,
+            12,
+            11.5,
+            11,
+            11
+          ],
+          "Cooldown": {
+            "values": [
+              12,
+              12,
+              11.5,
+              11,
+              10.5,
+              10,
+              10
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCasterPositionEndOfCastUpdate": 1,
+          "mCantCancelWhileWindingUp": true,
+          "alwaysSnapFacing": true,
+          "useAnimatorFramerate": true,
+          "castRange": [
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100
+          ],
+          "castRangeValues": {
+            "values": [
+              1100,
+              1100,
+              1100,
+              1100,
+              1100,
+              1100,
+              1100
+            ],
+            "{0a3e0478}": 1100,
+            "__type": "{0a0eddc9}"
+          },
+          "mMissileSpec": {
+            "mMissileWidth": 70,
+            "movementComponent": {
+              "mUseHeightOffsetAtEnd": true,
+              "mTracksTarget": false,
+              "mStartBoneName": "root",
+              "mProjectTargetToCastRange": true,
+              "mSpeed": 1300,
+              "__type": "FixedSpeedMovement"
+            },
+            "heightSolver": {
+              "__type": "BlendedLinearHeightSolver"
+            },
+            "verticalFacing": {
+              "__type": "VerticalFacingFaceTarget"
+            },
+            "behaviors": [
+              {
+                "__type": "CastOnHit"
+              },
+              {
+                "__type": "DestroyOnHit"
+              },
+              {
+                "__type": "DestroyOnMovementComplete"
+              }
+            ],
+            "__type": "MissileSpecification"
+          },
+          "mCastType": 3,
+          "mMissileEffectKey": "Hwei_E_Q_Mis",
+          "mana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            70
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              70
+            ],
+            "__type": "{630af303}"
+          },
+          "mTargetingTypeData": {
+            "__type": "LocationClamped"
+          },
+          "mSpellCooldownOrSealedQueueThreshold": 0.25,
+          "mCastingBreaksStealth": true,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "HweiEQ",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_HweiEQ_Name",
+                "keyTooltip": "Spell_HweiEQ_Tooltip",
+                "keySummary": "Spell_HweiEQ_Summary"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "FleeDuration",
+                      "nameOverride": "Spell_ListType_Duration",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "nameOverride": "Spell_ListType_Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "nameOverride": "Spell_ListType_Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "endLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "lineStopsAtEndPosition": false,
+                "lineWidth": {
+                  "mPerLevelValues": [
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70
+                  ],
+                  "mValueType": 2,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    1050,
+                    1050,
+                    1050,
+                    1050,
+                    1050,
+                    1050
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionLine"
+              },
+              {
+                "hideWithLineIndicator": true,
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    1050,
+                    1050,
+                    1050,
+                    1050,
+                    1050,
+                    1050
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionRange"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "__type": "SpellObject"
+      },
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_HweiEQ_Name",
+          "text": "阴沉变意"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_HweiEQ_Tooltip",
+          "text": "彗在人心中投下恐怖的阴影，使命中的第一个敌人<status>逃跑</status>@spell.HweiEQ:FleeDuration@秒并造成<magicDamage>@spell.HweiE:Tooltip_EQDamage@魔法伤害</magicDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_HweiEQ_Summary",
+          "text": "彗在人心中投下恐怖的阴影，对命中的第一个敌人造成伤害并使其逃跑。"
+        }
+      }
+    },
+    {
+      "path": "Characters/Hwei/Spells/HweiEAbility/HweiEW",
+      "object": {
+        "ObjectName": "HweiEW",
+        "objectPath": "Characters/Hwei/Spells/HweiEAbility/HweiEW",
+        "mScriptName": "HweiEW",
+        "mSpell": {
+          "mAffectsTypeFlags": 6154,
+          "mSpellTags": [
+            "Trait_ImmobilizingCCSpell"
+          ],
+          "DataValues": [
+            {
+              "name": "StareRadius",
+              "values": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SetupDelay",
+              "values": [
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinSetupDelay",
+              "values": [
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421,
+                0.6499999761581421
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RootDuration",
+              "values": [
+                1,
+                1.2000000476837158,
+                1.399999976158142,
+                1.600000023841858,
+                1.7999999523162842,
+                2,
+                2.200000047683716
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                70,
+                110,
+                150,
+                190,
+                230,
+                270
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "FireDelay",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StareDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinStareDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "VisibilityRadius",
+              "values": [
+                450,
+                450,
+                450,
+                450,
+                450,
+                450,
+                450
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "{f9c2333e}": {
+            "cherry": {
+              "value": [
+                12,
+                12,
+                11.5,
+                11,
+                10.5,
+                10,
+                10
+              ],
+              "__type": "SpellEffectAmount"
+            }
+          },
+          "mSpellCalculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6499999761581421,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAnimationName": "Spell3W",
+          "mImgIconName": [
+            "ASSETS/Characters/Hwei/HUD/Icons2D/HweiEW.dds"
+          ],
+          "mCastTime": 0.25,
+          "spellCastTime": 0.25,
+          "spellTotalTime": 0,
+          "cooldownTime": [
+            13,
+            13,
+            12.5,
+            12,
+            11.5,
+            11,
+            11
+          ],
+          "Cooldown": {
+            "values": [
+              12,
+              12,
+              11.5,
+              11,
+              10.5,
+              10,
+              10
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileWindingUp": true,
+          "castRangeUseBoundingBoxes": true,
+          "useAnimatorFramerate": true,
+          "castRange": [
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900
+          ],
+          "castRangeValues": {
+            "values": [
+              900,
+              900,
+              900,
+              900,
+              900,
+              900,
+              900
+            ],
+            "{0a3e0478}": 900,
+            "__type": "{0a0eddc9}"
+          },
+          "castRadius": [
+            350,
+            350,
+            350,
+            350,
+            350,
+            350,
+            350
+          ],
+          "mMissileSpec": {
+            "movementComponent": {
+              "mStartBoneName": "root",
+              "mSpeed": 1700,
+              "__type": "FixedSpeedMovement"
+            },
+            "visibilityComponent": {
+              "mPerceptionBubbleRadius": 450,
+              "TrailTimeToConsiderForVisibility": 0.20000000298023224,
+              "__type": "Defaultvisibility"
+            },
+            "verticalFacing": {
+              "__type": "VeritcalFacingMatchVelocity"
+            },
+            "behaviors": [
+              {
+                "__type": "CastOnMovementComplete"
+              },
+              {
+                "RenderParticlesAfterDestroy": false,
+                "__type": "DestroyOnMovementComplete"
+              }
+            ],
+            "__type": "MissileSpecification"
+          },
+          "mCastType": 3,
+          "mMissileEffectKey": "Hwei_E_W_Eye",
+          "mFloatVarsDecimals": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            70
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              70
+            ],
+            "__type": "{630af303}"
+          },
+          "selectionPriority": 1,
+          "mTargetingTypeData": {
+            "__type": "Location"
+          },
+          "mCastingBreaksStealth": true,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "HweiEW",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_HweiEW_Name",
+                "keyTooltip": "Spell_HweiEW_Tooltip",
+                "keySummary": "Spell_HweiEW_Summary"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "RootDuration",
+                      "nameOverride": "Spell_ListType_RootDuration",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "nameOverride": "Spell_ListType_Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "nameOverride": "Spell_ListType_Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    850,
+                    850,
+                    850,
+                    850,
+                    850,
+                    850
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionRange"
+              },
+              {
+                "centerLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "constraintPosLocator": {
+                  "basePosition": 6,
+                  "__type": "DrawablePositionLocator"
+                },
+                "constraintRange": {
+                  "mPerLevelValues": [
+                    900,
+                    900,
+                    900,
+                    900,
+                    900,
+                    900
+                  ],
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionAoe"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "__type": "SpellObject"
+      },
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_HweiEW_Name",
+          "text": "滞涩幽瞳"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_HweiEW_Tooltip",
+          "text": "彗在目标位置画出一枚提供视野的深邃眼眸，它会锁定相距最近的那个敌方英雄并对其发射一颗追踪飞弹，这颗飞弹会对命中的第一个敌人造成@spell.HweiE:Tooltip_EWRootDuration@秒<status>禁锢</status>和<magicDamage>@spell.HweiE:Tooltip_EWDamage@魔法伤害</magicDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_HweiEW_Summary",
+          "text": "彗在目标位置画出一枚提供视野的眼眸，并凝视第一个进入其距离中的敌人。眼眸随后射出目光，禁锢被目光命中的第一个敌人。"
+        }
+      }
+    },
+    {
+      "path": "Characters/Hwei/Spells/HweiEAbility/HweiEE",
+      "object": {
+        "ObjectName": "HweiEE",
+        "objectPath": "Characters/Hwei/Spells/HweiEAbility/HweiEE",
+        "mScriptName": "HweiEE",
+        "mSpell": {
+          "mAffectsTypeFlags": 6154,
+          "DataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                70,
+                110,
+                150,
+                190,
+                230,
+                270
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Delay",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Width",
+              "values": [
+                320,
+                320,
+                320,
+                320,
+                320,
+                320,
+                320
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Depth",
+              "values": [
+                340,
+                340,
+                340,
+                340,
+                340,
+                340,
+                340
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                32.5,
+                40,
+                47.5,
+                55,
+                62.5,
+                70,
+                77.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "{f9c2333e}": {
+            "cherry": {
+              "value": [
+                12,
+                12,
+                11.5,
+                11,
+                10.5,
+                10,
+                10
+              ],
+              "__type": "SpellEffectAmount"
+            }
+          },
+          "mSpellCalculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6499999761581421,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAnimationName": "Spell3E",
+          "mImgIconName": [
+            "ASSETS/Characters/Hwei/HUD/Icons2D/HweiEE.dds"
+          ],
+          "mCastTime": 0.3499999940395355,
+          "spellCastTime": 0.3499999940395355,
+          "spellTotalTime": -1,
+          "cooldownTime": [
+            13,
+            13,
+            12.5,
+            12,
+            11.5,
+            11,
+            11
+          ],
+          "Cooldown": {
+            "values": [
+              12,
+              12,
+              11.5,
+              11,
+              10.5,
+              10,
+              10
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileWindingUp": true,
+          "mProjectTargetToCastRange": true,
+          "castRangeUseBoundingBoxes": true,
+          "alwaysSnapFacing": true,
+          "useAnimatorFramerate": true,
+          "castRange": [
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "castRangeValues": {
+            "values": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
+            ],
+            "{0a3e0478}": 800,
+            "__type": "{0a0eddc9}"
+          },
+          "castRadius": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "mana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            70
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              70
+            ],
+            "__type": "{630af303}"
+          },
+          "mTargetingTypeData": {
+            "__type": "Area"
+          },
+          "mSpellCooldownOrSealedQueueThreshold": 0.25,
+          "mCastingBreaksStealth": true,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "HweiEE",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_HweiEE_Name",
+                "keyTooltip": "Spell_HweiEE_Tooltip",
+                "keySummary": "Spell_HweiEE_Summary"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "SlowAmount",
+                      "nameOverride": "Spell_ListType_HweiE_SlowAmount",
+                      "Style": 1,
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "nameOverride": "Spell_ListType_Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "nameOverride": "Spell_ListType_ManaCost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    740,
+                    740,
+                    740,
+                    740,
+                    740,
+                    740
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionRange"
+              },
+              {
+                "centerLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "wallRotation": 20,
+                "thickness": {
+                  "mPerLevelValues": [
+                    340,
+                    340,
+                    340,
+                    340,
+                    340,
+                    340
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "length": {
+                  "mPerLevelValues": [
+                    680,
+                    680,
+                    680,
+                    680,
+                    680,
+                    680
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "textureWallOverrideName": "assets/spells/textures/rectangleline.tex",
+                "__type": "TargeterDefinitionWall"
+              },
+              {
+                "centerLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "wallRotation": -20,
+                "thickness": {
+                  "mPerLevelValues": [
+                    340,
+                    340,
+                    340,
+                    340,
+                    340,
+                    340
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "length": {
+                  "mPerLevelValues": [
+                    680,
+                    680,
+                    680,
+                    680,
+                    680,
+                    680
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "textureWallOverrideName": "assets/spells/textures/rectangleline.tex",
+                "__type": "TargeterDefinitionWall"
+              },
+              {
+                "centerLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "textureOrientation": 3,
+                "overrideRadius": {
+                  "mPerLevelValues": [
+                    125,
+                    125,
+                    125,
+                    125,
+                    125,
+                    125
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionAoe"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "mBuff": {
+          "mTooltipData": {
+            "mObjectName": "HweiEE",
+            "mFormat": "{b34f999a}",
+            "mLocKeys": {
+              "keyName": "Spell_HweiEE_Name",
+              "keyTooltip": "Buff_HweiEE_Tooltip"
+            },
+            "__type": "TooltipInstanceBuff"
+          },
+          "__type": "BuffData"
+        },
+        "__type": "SpellObject"
+      },
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_HweiEE_Name",
+          "text": "双钩血喉"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_HweiEE_Tooltip",
+          "text": "彗画出一张大口，对命中的敌人们造成<magicDamage>@spell.HweiE:Tooltip_EEDamage@魔法伤害</magicDamage>，并将其<status>拖拽</status>向中心，造成在1.25秒内持续衰减的@spell.HweiE:Tooltip_EESlowAmount@%<status>减速</status>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_HweiEE_Summary",
+          "text": "彗画出一张紧咬敌人的大口，将敌人拖拽到中心并造成减速效果。"
+        }
+      }
+    },
+    {
+      "path": "Characters/Hwei/Spells/HweiWAbility/HweiWE",
+      "object": {
+        "ObjectName": "HweiWE",
+        "objectPath": "Characters/Hwei/Spells/HweiWAbility/HweiWE",
+        "mScriptName": "HweiWE",
+        "mSpell": {
+          "flags": 4,
+          "mAffectsTypeFlags": 8194,
+          "DataValues": [
+            {
+              "name": "BaseOnHitDamage",
+              "values": [
+                10,
+                20,
+                30,
+                40,
+                50,
+                60,
+                70
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Duration",
+              "values": [
+                9,
+                9,
+                9,
+                9,
+                9,
+                9,
+                9
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OnHitManaRestore",
+              "values": [
+                40,
+                45,
+                50,
+                55,
+                60,
+                65,
+                70
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ManaCostHelper",
+              "values": [
+                -85,
+                -90,
+                -95,
+                -100,
+                -105,
+                -110,
+                -115
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "{f9c2333e}": {
+            "cherry": {
+              "value": [
+                12,
+                12,
+                11.5,
+                11,
+                10.5,
+                10,
+                10
+              ],
+              "__type": "SpellEffectAmount"
+            }
+          },
+          "mSpellCalculations": {
+            "OnHitDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseOnHitDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.15000000596046448,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalOnHitDamage": {
+              "mMultiplier": {
+                "mNumber": 3,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "OnHitDamage",
+              "__type": "GameCalculationModified"
+            },
+            "{a14e3318}": {
+              "mFormulaParts": [
+                {
+                  "mSubparts": [
+                    {
+                      "mDataValue": "OnHitManaRestore",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mNumber": 3,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAnimationName": "Spell2E",
+          "mImgIconName": [
+            "ASSETS/Characters/Hwei/HUD/Icons2D/HweiWE.dds"
+          ],
+          "mCastTime": 0.25,
+          "spellCastTime": 0.25,
+          "spellTotalTime": -1,
+          "cooldownTime": [
+            18,
+            18,
+            17.5,
+            17,
+            16.5,
+            16,
+            16
+          ],
+          "Cooldown": {
+            "values": [
+              18,
+              18,
+              17.5,
+              17,
+              16.5,
+              16,
+              16
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileWindingUp": true,
+          "mUseMinimapTargeting": true,
+          "mDisableCastBar": true,
+          "alwaysSnapFacing": true,
+          "useAnimatorFramerate": true,
+          "mDoNotNeedToFaceTarget": true,
+          "castRange": [
+            500,
+            500,
+            500,
+            500,
+            500,
+            500,
+            500
+          ],
+          "castRangeValues": {
+            "values": [
+              500,
+              500,
+              500,
+              500,
+              500,
+              500,
+              500
+            ],
+            "{0a3e0478}": 500,
+            "__type": "{0a0eddc9}"
+          },
+          "mana": [
+            90,
+            95,
+            100,
+            105,
+            110,
+            110
+          ],
+          "manaValues": {
+            "values": [
+              90,
+              95,
+              100,
+              105,
+              110,
+              110
+            ],
+            "__type": "{630af303}"
+          },
+          "mTargetingTypeData": {
+            "__type": "Self"
+          },
+          "mSpellCooldownOrSealedQueueThreshold": 0.25,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "HweiWE",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_HweiWE_Name",
+                "keyTooltip": "Spell_HweiWE_Tooltip",
+                "keyTooltipExtendedBelowLine": "Spell_HweiWE_TooltipExtendedBelowLine",
+                "keySummary": "Spell_HweiWE_Summary"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseOnHitDamage",
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "OnHitManaRestore",
+                      "multiplier": 3,
+                      "nameOverride": "Spell_ListType_TotalManaRestore",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "nameOverride": "Spell_ListType_Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "nameOverride": "Spell_ListType_ManaCost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "mBuff": {
+          "__type": "BuffData"
+        },
+        "__type": "SpellObject"
+      },
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_HweiWE_Name",
+          "text": "宿墨"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_HweiWE_Tooltip",
+          "text": "彗在身边点出三团光芒，来使他的下三次技能或攻击造成额外的<magicDamage>@spell.HweiW:Tooltip_WEOnHitDamage@魔法伤害</magicDamage>并附带回复<scaleMana>@spell.HweiW:Tooltip_WEOnHitManaRestore@法力</scaleMana>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_HweiWE_TooltipExtendedBelowLine",
+          "text": "<rules>仅有普攻可施加或引爆来自这个技能的<spellName>{{Spell_HweiPassive_Name}}</spellName>。<br>群体技能对野怪和小兵的额外伤害减少50%。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_HweiWE_Summary",
+          "text": "彗在身边点出三团光芒，强化下三次攻击或技能，造成额外魔法伤害并提供法力回复。"
+        }
+      }
+    },
+    {
+      "path": "Characters/Hwei/Spells/HweiWAbility/HweiWQ",
+      "object": {
+        "ObjectName": "HweiWQ",
+        "objectPath": "Characters/Hwei/Spells/HweiWAbility/HweiWQ",
+        "mScriptName": "HweiWQ",
+        "mSpell": {
+          "mAffectsTypeFlags": 1025,
+          "mSpellTags": [
+            "PositiveEffect_Boon"
+          ],
+          "DataValues": [
+            {
+              "name": "BaseMoveSpeed",
+              "values": [
+                27.5,
+                30,
+                32.5,
+                35,
+                37.5,
+                40,
+                42.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Duration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AreaWidth",
+              "values": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AreaDuration",
+              "values": [
+                3.5,
+                4,
+                4.5,
+                5,
+                5.5,
+                6,
+                6.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "{f9c2333e}": {
+            "cherry": {
+              "value": [
+                12,
+                12,
+                11.5,
+                11,
+                10.5,
+                10,
+                10
+              ],
+              "__type": "SpellEffectAmount"
+            }
+          },
+          "mSpellCalculations": {
+            "MoveSpeed": {
+              "mMultiplier": {
+                "mNumber": 0.009999999776482582,
+                "__type": "NumberCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseMoveSpeed",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.029999999329447746,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          },
+          "mAnimationName": "Spell2Q",
+          "mImgIconName": [
+            "ASSETS/Characters/Hwei/HUD/Icons2D/HweiWQ.dds"
+          ],
+          "mCastTime": 0.25,
+          "spellCastTime": 0.25,
+          "spellTotalTime": 0,
+          "cooldownTime": [
+            18,
+            18,
+            17.5,
+            17,
+            16.5,
+            16,
+            16
+          ],
+          "Cooldown": {
+            "values": [
+              18,
+              18,
+              17.5,
+              17,
+              16.5,
+              16,
+              16
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileWindingUp": true,
+          "mCanMoveWhileChanneling": true,
+          "alwaysSnapFacing": true,
+          "useAnimatorFramerate": true,
+          "mIgnoreRangeCheck": true,
+          "castRange": [
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200
+          ],
+          "castRangeValues": {
+            "values": [
+              1200,
+              1200,
+              1200,
+              1200,
+              1200,
+              1200,
+              1200
+            ],
+            "{0a3e0478}": 1200,
+            "__type": "{0a0eddc9}"
+          },
+          "luaOnMissileUpdateDistanceInterval": 100,
+          "mMissileSpec": {
+            "mMissileWidth": 145,
+            "movementComponent": {
+              "mUseHeightOffsetAtEnd": true,
+              "mTracksTarget": false,
+              "mStartBoneName": "root",
+              "mProjectTargetToCastRange": true,
+              "mSpeed": 1700,
+              "__type": "FixedSpeedMovement"
+            },
+            "heightSolver": {
+              "mHeightOffset": 50,
+              "__type": "FollowTerrainHeightSolver"
+            },
+            "verticalFacing": {
+              "__type": "VerticalFacingFaceTarget"
+            },
+            "behaviors": [
+              {
+                "__type": "CastOnHit"
+              },
+              {
+                "__type": "DestroyOnMovementComplete"
+              }
+            ],
+            "__type": "MissileSpecification"
+          },
+          "mCastType": 3,
+          "mana": [
+            90,
+            95,
+            100,
+            105,
+            110,
+            110
+          ],
+          "manaValues": {
+            "values": [
+              90,
+              95,
+              100,
+              105,
+              110,
+              110
+            ],
+            "__type": "{630af303}"
+          },
+          "mTargetingTypeData": {
+            "__type": "LocationClamped"
+          },
+          "mSpellCooldownOrSealedQueueThreshold": 0.25,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "HweiWQ",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_HweiWQ_Name",
+                "keyTooltip": "Spell_HweiWQ_Tooltip",
+                "keySummary": "Spell_HweiWQ_Summary"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseMoveSpeed",
+                      "nameOverride": "Spell_ListType_MovementSpeed",
+                      "Style": 1,
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AreaDuration",
+                      "nameOverride": "Spell_ListType_Duration",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "nameOverride": "Spell_ListType_Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "nameOverride": "Spell_ListType_ManaCost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "endLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "lineStopsAtEndPosition": false,
+                "lineWidth": {
+                  "mPerLevelValues": [
+                    145,
+                    145,
+                    145,
+                    145,
+                    145,
+                    145
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    1375,
+                    1375,
+                    1375,
+                    1375,
+                    1375,
+                    1375
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionLine"
+              },
+              {
+                "hideWithLineIndicator": true,
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    1375,
+                    1375,
+                    1375,
+                    1375,
+                    1375,
+                    1375
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionRange"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "mBuff": {
+          "CanTimeoutWhileCasting": false,
+          "mShowAccumulatedDuration": false,
+          "__type": "BuffData"
+        },
+        "__type": "SpellObject"
+      },
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_HweiWQ_Name",
+          "text": "飞染"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_HweiWQ_Tooltip",
+          "text": "彗画出一条持续@spell.HweiW:Tooltip_WQAreaDuration@秒的激流，为自己和友方英雄们提供<speed>@spell.HweiW:Tooltip_WQMoveSpeed@移动速度</speed>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_HweiWQ_Summary",
+          "text": "彗画出一条激流，为自己和队友提升移动速度。"
+        }
+      }
+    },
+    {
+      "path": "Characters/Hwei/Spells/HweiWAbility/HweiWW",
+      "object": {
+        "ObjectName": "HweiWW",
+        "objectPath": "Characters/Hwei/Spells/HweiWAbility/HweiWW",
+        "mScriptName": "HweiWW",
+        "mSpell": {
+          "mAffectsTypeFlags": 8193,
+          "mSpellTags": [
+            "PositiveEffect_Boon"
+          ],
+          "DataValues": [
+            {
+              "name": "AreaDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShieldAmountBase",
+              "values": [
+                60,
+                100,
+                140,
+                180,
+                220,
+                260,
+                300
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShieldAPRatio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShieldDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SecsToFullStack",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ZoneRadius",
+              "values": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AllyMod",
+              "values": [
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ToolTipAllyMod",
+              "values": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "{f9c2333e}": {
+            "cherry": {
+              "value": [
+                12,
+                12,
+                11.5,
+                11,
+                10.5,
+                10,
+                10
+              ],
+              "__type": "SpellEffectAmount"
+            }
+          },
+          "mSpellCalculations": {
+            "ShieldAmount": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ShieldAmountBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "ShieldAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{20a3d822}": {
+              "mMultiplier": {
+                "mNumber": 0.5,
+                "__type": "NumberCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ShieldAmountBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "ShieldAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAnimationName": "Spell2W",
+          "mImgIconName": [
+            "ASSETS/Characters/Hwei/HUD/Icons2D/HweiWW.dds"
+          ],
+          "mCastTime": 0.30000001192092896,
+          "spellCastTime": 0.25,
+          "spellTotalTime": 0,
+          "cooldownTime": [
+            18,
+            18,
+            17.5,
+            17,
+            16.5,
+            16,
+            16
+          ],
+          "Cooldown": {
+            "values": [
+              18,
+              18,
+              17.5,
+              17,
+              16.5,
+              16,
+              16
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileWindingUp": true,
+          "castRangeUseBoundingBoxes": true,
+          "alwaysSnapFacing": true,
+          "useAnimatorFramerate": true,
+          "castRange": [
+            650,
+            650,
+            650,
+            650,
+            650,
+            650,
+            650
+          ],
+          "castRangeValues": {
+            "values": [
+              650,
+              650,
+              650,
+              650,
+              650,
+              650,
+              650
+            ],
+            "{0a3e0478}": 650,
+            "__type": "{0a0eddc9}"
+          },
+          "castRadius": [
+            350,
+            350,
+            350,
+            350,
+            350,
+            350,
+            350
+          ],
+          "mMissileSpec": {
+            "movementComponent": {
+              "mTargetHeightAugment": 100,
+              "mStartBoneName": "R_buffbone_Glb_Foot_Loc",
+              "mSpeed": 0.5,
+              "__type": "FixedSpeedMovement"
+            },
+            "heightSolver": {
+              "mGravity": 8000,
+              "__type": "GravityHeightSolver"
+            },
+            "verticalFacing": {
+              "__type": "VeritcalFacingMatchVelocity"
+            },
+            "behaviors": [
+              {
+                "__type": "CastOnMovementComplete"
+              },
+              {
+                "__type": "DestroyOnMovementComplete"
+              }
+            ],
+            "__type": "MissileSpecification"
+          },
+          "mana": [
+            90,
+            95,
+            100,
+            105,
+            110,
+            110
+          ],
+          "manaValues": {
+            "values": [
+              90,
+              95,
+              100,
+              105,
+              110,
+              110
+            ],
+            "__type": "{630af303}"
+          },
+          "selectionPriority": 1,
+          "mTargetingTypeData": {
+            "__type": "Location"
+          },
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "HweiWW",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_HweiWW_Name",
+                "keyTooltip": "Spell_HweiWW_Tooltip",
+                "keySummary": "Spell_HweiWW_Summary"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "ShieldAmountBase",
+                      "nameOverride": "Spell_ListType_Shield",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "nameOverride": "Spell_ListType_Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "nameOverride": "Spell_ListType_Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "centerLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "constraintRange": {
+                  "mPerLevelValues": [
+                    650,
+                    650,
+                    650,
+                    650,
+                    650,
+                    650
+                  ],
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionAoe"
+              },
+              {
+                "useCasterBoundingBox": false,
+                "__type": "TargeterDefinitionRange"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "mBuff": {
+          "CanTimeoutWhileCasting": false,
+          "mShowAccumulatedDuration": false,
+          "__type": "BuffData"
+        },
+        "__type": "SpellObject"
+      },
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_HweiWW_Name",
+          "text": "渲浓"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_HweiWW_Tooltip",
+          "text": "彗在目标位置画下一汪持续@spell.HweiWW:AreaDuration@秒的池水，为位于范围内的队友立刻提供<shield>@spell.HweiW:Tooltip_WWStartShieldAmount@护盾值</shield>，且这个护盾值会在@spell.HweiWW:SecsToFullStack@秒里持续提升至<shield>@spell.HweiW:Tooltip_WWShieldAmount@护盾值</shield>并且对友军时减少@spell.HweiWW:ToolTipAllyMod*100@%护盾值。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_HweiWW_Summary",
+          "text": "彗画下一汪池水，为队友提供护盾。"
+        }
+      }
+    },
+    {
+      "path": "Characters/Hwei/Spells/HweiQAbility/HweiQE",
+      "object": {
+        "ObjectName": "HweiQE",
+        "objectPath": "Characters/Hwei/Spells/HweiQAbility/HweiQE",
+        "mScriptName": "HweiQE",
+        "mSpell": {
+          "mAffectsTypeFlags": 6154,
+          "DataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                5,
+                20,
+                35,
+                50,
+                65,
+                80,
+                95
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDPS",
+              "values": [
+                5,
+                20,
+                35,
+                50,
+                65,
+                80,
+                95
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Duration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Radius",
+              "values": [
+                225,
+                225,
+                225,
+                225,
+                225,
+                225,
+                225
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowPercent",
+              "values": [
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DamageDuration",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionDamageRatio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "JungleDamageRatio",
+              "values": [
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858,
+                1.350000023841858
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "mSpellCalculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.30000001192092896,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "DamagePerSecond": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDPS",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.23999999463558197,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{a8f705ac}": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 15,
+                  "mEndValue": 30,
+                  "mScalePastDefaultMaxLevel": false,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAnimationName": "Spell1E",
+          "mImgIconName": [
+            "ASSETS/Characters/Hwei/HUD/Icons2D/HweiQE.dds"
+          ],
+          "mCastTime": 0.3499999940395355,
+          "spellCastTime": 0.3499999940395355,
+          "spellTotalTime": 0,
+          "cooldownTime": [
+            10,
+            10,
+            9,
+            8,
+            7,
+            6,
+            6
+          ],
+          "Cooldown": {
+            "values": [
+              10,
+              10,
+              9,
+              8,
+              7,
+              6,
+              6
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileWindingUp": true,
+          "alwaysSnapFacing": true,
+          "useAnimatorFramerate": true,
+          "castRange": [
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200
+          ],
+          "castRangeValues": {
+            "values": [
+              1200,
+              1200,
+              1200,
+              1200,
+              1200,
+              1200,
+              1200
+            ],
+            "{0a3e0478}": 1200,
+            "__type": "{0a0eddc9}"
+          },
+          "luaOnMissileUpdateDistanceInterval": 150,
+          "mMissileSpec": {
+            "mMissileWidth": 90,
+            "movementComponent": {
+              "mUseHeightOffsetAtEnd": true,
+              "mTracksTarget": false,
+              "mStartBoneName": "C_buffbone_Glb_Center_Loc",
+              "mTargetBoneName": "C_buffbone_Glb_Center_Loc",
+              "mProjectTargetToCastRange": true,
+              "mSpeed": 800,
+              "__type": "FixedSpeedMovement"
+            },
+            "verticalFacing": {
+              "__type": "VeritcalFacingMatchVelocity"
+            },
+            "behaviors": [
+              {
+                "__type": "CastOnHit"
+              },
+              {
+                "__type": "DestroyOnMovementComplete"
+              }
+            ],
+            "__type": "MissileSpecification"
+          },
+          "mCastType": 3,
+          "mana": [
+            80,
+            90,
+            100,
+            110,
+            120,
+            120
+          ],
+          "manaValues": {
+            "values": [
+              80,
+              90,
+              100,
+              110,
+              120,
+              120
+            ],
+            "__type": "{630af303}"
+          },
+          "mTargetingTypeData": {
+            "__type": "LocationClamped"
+          },
+          "mSpellCooldownOrSealedQueueThreshold": 0.25,
+          "mCastingBreaksStealth": true,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "HweiQE",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_HweiQE_Name",
+                "keyTooltip": "Spell_HweiQE_Tooltip",
+                "keyTooltipExtendedBelowLine": "Spell_HweiQE_TooltipExtendedBL",
+                "keySummary": "Spell_HweiQE_Summary"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "nameOverride": "Spell_ListType_ExplosionDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "BaseDPS",
+                      "nameOverride": "Spell_ListType_DamagePerSecond",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "nameOverride": "Spell_ListType_Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "nameOverride": "Spell_ListType_Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "endLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "lineStopsAtEndPosition": false,
+                "lineWidth": {
+                  "mPerLevelValues": [
+                    200,
+                    200,
+                    200,
+                    200,
+                    200,
+                    200
+                  ],
+                  "mValueType": 2,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    1250,
+                    1250,
+                    1250,
+                    1250,
+                    1250,
+                    1250
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionLine"
+              },
+              {
+                "hideWithLineIndicator": true,
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    1250,
+                    1250,
+                    1250,
+                    1250,
+                    1250,
+                    1250
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionRange"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "__type": "SpellObject"
+      },
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_HweiQE_Name",
+          "text": "连皴山"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_HweiQE_Tooltip",
+          "text": "彗画出一道不断爆裂的岩浆喷发地带，所过之处岩浆翻滚。每次爆裂都会对命中的敌人们造成<magicDamage>@spell.HweiQ:Tooltip_QEDamage@魔法伤害</magicDamage>。位于岩浆区域内的敌人<magicDamage>每秒承受@spell.HweiQ:Tooltip_QEDamagePerSecond@魔法伤害</magicDamage>，并被<status>减速</status>@spell.HweiQE:SlowPercent@%。每个岩浆池持续@spell.HweiQE:Duration@秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_HweiQE_TooltipExtendedBL",
+          "text": "<rules>小兵受到@spell.HweiQE:MinionDamageRatio*100@%伤害；野怪受到@spell.HweiQE:JungleDamageRatio*100@%伤害。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_HweiQE_Summary",
+          "text": "彗画出一道熔岩喷发地带，所过之处岩浆翻滚。"
+        }
+      }
+    },
+    {
+      "path": "Characters/Hwei/Spells/HweiQAbility/HweiQQ",
+      "object": {
+        "ObjectName": "HweiQQ",
+        "objectPath": "Characters/Hwei/Spells/HweiQAbility/HweiQQ",
+        "mScriptName": "HweiQQ",
+        "mSpell": {
+          "mAffectsTypeFlags": 6154,
+          "DataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                20,
+                50,
+                80,
+                110,
+                140,
+                170,
+                200
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Radius",
+              "values": [
+                175,
+                175,
+                175,
+                175,
+                175,
+                175,
+                175
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BonusDamage",
+              "values": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxBonusDamage",
+              "values": [
+                250,
+                250,
+                250,
+                250,
+                250,
+                250,
+                250
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "mSpellCalculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.800000011920929,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAnimationName": "Spell1Q",
+          "mImgIconName": [
+            "ASSETS/Characters/Hwei/HUD/Icons2D/HweiQQ.dds"
+          ],
+          "mCastTime": 0.25,
+          "spellCastTime": 0.25,
+          "spellTotalTime": -1,
+          "cooldownTime": [
+            10,
+            10,
+            9,
+            8,
+            7,
+            6,
+            6
+          ],
+          "Cooldown": {
+            "values": [
+              10,
+              10,
+              9,
+              8,
+              7,
+              6,
+              6
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCasterPositionEndOfCastUpdate": 1,
+          "mCantCancelWhileWindingUp": true,
+          "castRangeUseBoundingBoxes": true,
+          "alwaysSnapFacing": true,
+          "useAnimatorFramerate": true,
+          "castRange": [
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "castRangeValues": {
+            "values": [
+              800,
+              800,
+              800,
+              800,
+              800,
+              800,
+              800
+            ],
+            "{0a3e0478}": 800,
+            "__type": "{0a0eddc9}"
+          },
+          "castRadius": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "castRadiusSecondary": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "mMissileSpec": {
+            "mMissileWidth": 70,
+            "movementComponent": {
+              "mUseHeightOffsetAtEnd": true,
+              "mTracksTarget": false,
+              "mOffsetInitialTargetHeight": 100,
+              "mStartBoneName": "root",
+              "mSpeed": 2000,
+              "__type": "FixedSpeedMovement"
+            },
+            "heightSolver": {
+              "__type": "BlendedLinearHeightSolver"
+            },
+            "verticalFacing": {
+              "__type": "VeritcalFacingMatchVelocity"
+            },
+            "behaviors": [
+              {
+                "__type": "CastOnHit"
+              },
+              {
+                "__type": "DestroyOnMovementComplete"
+              },
+              {
+                "__type": "DestroyOnHit"
+              }
+            ],
+            "__type": "MissileSpecification"
+          },
+          "mCastType": 3,
+          "mMissileEffectKey": "Hwei_Q_Q_mis",
+          "mana": [
+            80,
+            90,
+            100,
+            110,
+            120,
+            120
+          ],
+          "manaValues": {
+            "values": [
+              80,
+              90,
+              100,
+              110,
+              120,
+              120
+            ],
+            "__type": "{630af303}"
+          },
+          "mTargetingTypeData": {
+            "__type": "Direction"
+          },
+          "mSpellCooldownOrSealedQueueThreshold": 0.25,
+          "mCastingBreaksStealth": true,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "HweiQQ",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_HweiQQ_Name",
+                "keyTooltip": "Spell_HweiQQ_Tooltip",
+                "keyTooltipExtendedBelowLine": "Spell_HweiQQ_ExtendedBelowLine",
+                "keySummary": "Spell_HweiQQ_Summary"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "BonusDamage",
+                      "nameOverride": "Spell_ListType_MaxHealthDamage",
+                      "Style": 1,
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "nameOverride": "Spell_ListType_Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "nameOverride": "Spell_ListType_Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "endLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "lineStopsAtEndPosition": false,
+                "lineWidth": {
+                  "mPerLevelValues": [
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70
+                  ],
+                  "mValueType": 2,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    885,
+                    885,
+                    885,
+                    885,
+                    885,
+                    885
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionLine"
+              },
+              {
+                "centerLocator": {
+                  "basePosition": 3,
+                  "distanceOffset": 90,
+                  "orientationType": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "textureOrientation": 1,
+                "overrideRadius": {
+                  "mPerLevelValues": [
+                    210,
+                    210,
+                    210,
+                    210,
+                    210,
+                    210
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionAoe"
+              },
+              {
+                "hideWithLineIndicator": true,
+                "__type": "TargeterDefinitionRange"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "mBuff": {
+          "mTooltipData": {
+            "mObjectName": "HweiQQ",
+            "mFormat": "{b34f999a}",
+            "mLocKeys": {
+              "keyName": "Spell_HweiQQ_Name"
+            },
+            "__type": "TooltipInstanceBuff"
+          },
+          "__type": "BuffData"
+        },
+        "__type": "SpellObject"
+      },
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_HweiQQ_Name",
+          "text": "没骨火"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_HweiQQ_Tooltip",
+          "text": "彗画出一发炽热的火球，飞向目标方向。火球在命中第一个敌人时爆炸，对区域内的所有敌人造成<magicDamage>@spell.HweiQ:Tooltip_QQDamage@外加@spell.HweiQ:Tooltip_QQBonusDamage@%最大生命值的魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_HweiQQ_ExtendedBelowLine",
+          "text": "<rules>最多对野怪造成<magicDamage>@spell.HweiQQ:MaxBonusDamage@魔法伤害</magicDamage>的额外伤害。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_HweiQQ_Summary",
+          "text": "慧画出一发炽热的火球，在命中一个敌人单位或达到最大距离时发生爆炸。"
+        }
+      }
+    },
+    {
+      "path": "Characters/Hwei/Spells/HweiQAbility/HweiQW",
+      "object": {
+        "ObjectName": "HweiQW",
+        "objectPath": "Characters/Hwei/Spells/HweiQAbility/HweiQW",
+        "mScriptName": "HweiQW",
+        "mSpell": {
+          "mAffectsTypeFlags": 6154,
+          "DataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                35,
+                60,
+                85,
+                110,
+                135,
+                160,
+                185
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Delay",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionDamageMod",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Radius",
+              "values": [
+                225,
+                225,
+                225,
+                225,
+                225,
+                225,
+                225
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BonusDamageMult",
+              "values": [
+                1.625,
+                2,
+                2.375,
+                2.75,
+                3.125,
+                3.5,
+                3.875
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "mSpellCalculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.30000001192092896,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BonusDamage": {
+              "mMultiplier": {
+                "mDataValue": "BonusDamageMult",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "Damage",
+              "__type": "GameCalculationModified"
+            }
+          },
+          "mAnimationName": "Spell1W",
+          "mImgIconName": [
+            "ASSETS/Characters/Hwei/HUD/Icons2D/HweiQW.dds"
+          ],
+          "mCastTime": 0.5,
+          "spellTotalTime": -1,
+          "cooldownTime": [
+            10,
+            10,
+            9,
+            8,
+            7,
+            6,
+            6
+          ],
+          "Cooldown": {
+            "values": [
+              10,
+              10,
+              9,
+              8,
+              7,
+              6,
+              6
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileWindingUp": true,
+          "mUseMinimapTargeting": true,
+          "alwaysSnapFacing": true,
+          "useAnimatorFramerate": true,
+          "castRange": [
+            1900,
+            1900,
+            1900,
+            1900,
+            1900,
+            1900,
+            1900
+          ],
+          "castRangeValues": {
+            "values": [
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900,
+              1900
+            ],
+            "{0a3e0478}": 1900,
+            "__type": "{0a0eddc9}"
+          },
+          "castRadiusSecondary": [
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225
+          ],
+          "mana": [
+            80,
+            90,
+            100,
+            110,
+            120,
+            120
+          ],
+          "manaValues": {
+            "values": [
+              80,
+              90,
+              100,
+              110,
+              120,
+              120
+            ],
+            "__type": "{630af303}"
+          },
+          "mTargetingTypeData": {
+            "__type": "Area"
+          },
+          "mSpellCooldownOrSealedQueueThreshold": 0.3499999940395355,
+          "mCastingBreaksStealth": true,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "HweiQW",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_HweiQW_Name",
+                "keyTooltip": "Spell_HweiQW_Tooltip",
+                "keyTooltipExtendedBelowLine": "Spell_HweiQW_TooltipExtendedBelowLine",
+                "keySummary": "Spell_HweiQW_Summary"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "BonusDamageMult",
+                      "multiplier": 100,
+                      "nameOverride": "Spell_ListType_MaximumBonusDamage",
+                      "Style": 1,
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "nameOverride": "Spell_ListType_Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "nameOverride": "Spell_ListType_Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "__type": "TargeterDefinitionRange"
+              },
+              {
+                "centerLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "overrideRadius": {
+                  "mPerLevelValues": [
+                    225,
+                    225,
+                    225,
+                    225,
+                    225,
+                    225
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionAoe"
+              },
+              {
+                "__type": "TargeterDefinitionMinimap"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "__type": "SpellObject"
+      },
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_HweiQW_Name",
+          "text": "攒聚雷"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_HweiQW_Tooltip",
+          "text": "在一段延迟后，彗在目标位置降下一道强大的远距离落雷，造成<magicDamage>@spell.HweiQ:Tooltip_QWDamage@魔法伤害</magicDamage>。孤立无援或<status>定身</status>的敌人将基于已损失生命值受到额外伤害，至多至<magicDamage>@spell.HweiQ:Tooltip_QWBonusDamage@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_HweiQW_TooltipExtendedBelowLine",
+          "text": "<rules>对小兵和非史诗级野怪造成@spell.HweiQW:MinionDamageMod*100@%伤害。</rules><br><rules>最多对野怪造成<magicDamage>300额外魔法伤害</magicDamage>。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_HweiQW_Summary",
+          "text": "彗画出一道带有延迟的远距离落雷，对被定身或孤立无援的低生命值敌人造成额外伤害。"
+        }
+      }
+    }
+  ],
+  "apiWrites": 0
+}

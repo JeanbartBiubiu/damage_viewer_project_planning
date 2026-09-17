@@ -1,0 +1,27 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 161,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/parameters",
+    "detailRoute": "/skills/tahmkench_r/parameters/base_damage",
+    "skillKey": "tahmkench_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "大快朵颐敌方基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 250,
+        "3": 400
+      },
+      "description": "客户端BaseDamage取技能等级索引1至3的100/250/400；友方BaseShield分支排除。",
+      "sortOrder": 30
+    }
+  }
+}

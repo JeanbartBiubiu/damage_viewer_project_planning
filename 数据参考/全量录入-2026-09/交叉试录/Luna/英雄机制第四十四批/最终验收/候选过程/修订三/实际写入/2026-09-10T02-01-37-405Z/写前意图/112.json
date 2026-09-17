@@ -1,0 +1,23 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "method": "POST",
+    "route": "/skills/neeko_e/formulas",
+    "detailRoute": "/skills/neeko_e/formulas/first_target_root_duration",
+    "skillKey": "neeko_e",
+    "kind": "formulas",
+    "stableKey": "first_target_root_duration",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "first_target_root_duration",
+      "name": "缠结倒刺首个目标禁锢",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "min_root_duration_ms"
+      },
+      "description": "首个目标第一次命中使用最小禁锢；强化后续目标需要额外敌人，排除。",
+      "sortOrder": 20
+    }
+  }
+}

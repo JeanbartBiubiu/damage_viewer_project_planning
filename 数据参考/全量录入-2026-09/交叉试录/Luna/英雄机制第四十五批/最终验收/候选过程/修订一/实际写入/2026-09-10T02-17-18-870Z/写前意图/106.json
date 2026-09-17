@@ -1,0 +1,46 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zyra_q/formulas",
+    "detailRoute": "/skills/zyra_q/formulas/magic_damage",
+    "skillKey": "zyra_q",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "致命棘刺本体魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前正文消费tooltipOnly的InitialDamage=基础值+0.65×法强。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/parameters",
+    "detailRoute": "/skills/hwei_q/parameters/qw_condition_max_multiplier",
+    "skillKey": "hwei_q",
+    "kind": "parameters",
+    "stableKey": "qw_condition_max_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "qw_condition_max_multiplier",
+      "name": "攒聚雷条件最高整段倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2,
+        "2": 2.375,
+        "3": 2.75,
+        "4": 3.125,
+        "5": 3.5
+      },
+      "description": "孤立或定身低血条件最高整段倍率按源级别取2/2.375/2.75/3.125/3.5。",
+      "sortOrder": 70
+    }
+  }
+}

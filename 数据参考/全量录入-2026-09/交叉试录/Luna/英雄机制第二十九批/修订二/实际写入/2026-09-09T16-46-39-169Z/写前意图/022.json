@@ -1,0 +1,26 @@
+{
+  "i": 21,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_w/parameters",
+    "skillKey": "ornn_w",
+    "kind": "parameters",
+    "stableKey": "max_percent_health_total_percent_points",
+    "body": {
+      "parameterKey": "max_percent_health_total_percent_points",
+      "name": "五次最大生命百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 12,
+        "2": 13,
+        "3": 14,
+        "4": 15,
+        "5": 16
+      },
+      "description": "当前正文直接消费MaxPercentHPPerTickTooltip，根DataValues取技能等级1至5的12/13/14/15/16；仅作正文显示值，不替代单次MAX公式。",
+      "sortOrder": 40
+    }
+  }
+}

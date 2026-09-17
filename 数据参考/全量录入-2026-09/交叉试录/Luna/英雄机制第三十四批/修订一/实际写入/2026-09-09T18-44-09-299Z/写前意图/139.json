@@ -1,0 +1,23 @@
+{
+  "i": 138,
+  "intent": {
+    "sequence": 143,
+    "method": "POST",
+    "route": "/skills/zilean_e/parameters",
+    "detailRoute": "/skills/zilean_e/parameters/duration_ms",
+    "skillKey": "zilean_e",
+    "kind": "parameters",
+    "stableKey": "duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "duration_ms",
+      "name": "移速效果持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "客户端Duration取索引1的2.5秒，转换为2500毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

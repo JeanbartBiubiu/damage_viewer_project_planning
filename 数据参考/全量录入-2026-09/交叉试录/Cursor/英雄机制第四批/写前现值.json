@@ -1,0 +1,853 @@
+{
+  "at": "2026-09-07T18:33:49.383Z",
+  "mode": "仅GET；保留写前原值",
+  "skills": {
+    "ahri_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:16:13.432969Z",
+        "description": "在击杀9个小兵或野怪后，阿狸会治疗自身。<br>在参与击杀一名敌方英雄后，阿狸会以一个更高的治疗效果来治疗自身。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "阿狸·摄魂夺魄",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "ahri_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:13.432969Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ahri_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:16:13.753197Z",
+        "description": "阿狸放出并收回她的宝珠，在放出时会沿途对敌人造成魔法伤害，在收回时则会沿途对敌人造成真实伤害。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿狸·欺诈宝珠",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ahri_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:13.753197Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:04.090346Z",
+            "description": "DDragon16.17.1 Ahri.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 7000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "ahri_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:04.090346Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:04.437316Z",
+            "description": "DDragon16.17.1 Ahri.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 55,
+              "2": 65,
+              "3": 75,
+              "4": 85,
+              "5": 95
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ahri_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:04.437316Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ahri_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:16:14.141127Z",
+        "description": "阿狸获得短暂的爆发性移动速度加成，并放出三团狐火，锁定附近的敌人进行攻击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿狸·妖异狐火",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ahri_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:14.141127Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:04.764213Z",
+            "description": "DDragon16.17.1 Ahri.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 9000,
+              "2": 8000,
+              "3": 7000,
+              "4": 6000,
+              "5": 5000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "ahri_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:04.764213Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:05.177145Z",
+            "description": "DDragon16.17.1 Ahri.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ahri_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:05.177145Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ahri_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:16:14.427185Z",
+        "description": "阿狸献出红唇热吻，对命中的第一个敌人造成伤害并将目标魅惑，并且立刻终止目标的移动技能并使目标无恶意地走向她。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿狸·魅惑妖术",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ahri_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:14.427185Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:05.508573Z",
+            "description": "DDragon16.17.1 Ahri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 12000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "ahri_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:05.508573Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:05.845251Z",
+            "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 60,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ahri_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:05.845251Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ahri_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:16:14.775462Z",
+        "description": "阿狸向前猛冲，并放出元气弹，对周围的数个敌人造成伤害。灵魄突袭在进入冷却阶段以前最多可被施放三次，并在参与击杀敌方英雄后获得额外的再次施放次数。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿狸·灵魄突袭",
+        "skillCategoryKeys": [],
+        "skillKey": "ahri_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:14.775462Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:06.193076Z",
+            "description": "DDragon16.17.1 Ahri.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ahri_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:06.193076Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "darius_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:07.052236Z",
+        "description": "德莱厄斯的攻击和伤害技能会导致敌人流血，在5秒里持续造成物理伤害，最多叠加5次。在他的目标达到最大层数后，德莱厄斯会进入激怒状态并获得巨额攻击力。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "德莱厄斯·出血",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "darius_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:07.052236Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "darius_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:07.318798Z",
+        "description": "德莱厄斯蓄力然后将他的斧头挥舞成一个大圈。被斧刃击中的敌人会比被斧柄击中的敌人受到更多伤害。德莱厄斯会基于被斧刃击中的敌方英雄或大型野怪的数量来获得治疗效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "德莱厄斯·大杀四方",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "darius_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:07.318798Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:16.580389Z",
+            "description": "DDragon16.17.1 Darius.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 9000,
+              "2": 8000,
+              "3": 7000,
+              "4": 6000,
+              "5": 5000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "darius_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:16.580389Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:16.860222Z",
+            "description": "DDragon16.17.1 Darius.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 25,
+              "2": 30,
+              "3": 35,
+              "4": 40,
+              "5": 45
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "darius_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:16.860222Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "darius_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:07.576019Z",
+        "description": "德莱厄斯的下一次攻击会打向敌人的大动脉。在目标流血不止的同时，目标的移动速度也会被减缓。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "德莱厄斯·致残打击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "darius_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:07.576019Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:17.14693Z",
+            "description": "DDragon16.17.1 Darius.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 5000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "darius_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:17.14693Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:17.411973Z",
+            "description": "DDragon16.17.1 Darius.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "darius_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:17.411973Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "darius_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:07.891075Z",
+        "description": "德莱厄斯磨利他的巨斧，被动地让他的物理伤害无视目标一部分护甲。在主动施放时，德莱厄斯会用斧头上的钩子横扫他的敌人，并将他们拉到德莱厄斯身边。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "德莱厄斯·无情铁手",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "darius_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:07.891075Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:17.750424Z",
+            "description": "DDragon16.17.1 Darius.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 26000,
+              "2": 23500,
+              "3": 21000,
+              "4": 18500,
+              "5": 16000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "darius_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:17.750424Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:18.036244Z",
+            "description": "DDragon16.17.1 Darius.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70,
+              "2": 60,
+              "3": 50,
+              "4": 40,
+              "5": 30
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "darius_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:18.036244Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "darius_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:08.187045Z",
+        "description": "德莱厄斯跃向目标英雄并进行致命打击，造成真实伤害。目标身上的每层出血效果都会提升这个技能的伤害。如果诺克萨斯断头台完成了一次击杀，那么它的冷却时间会暂时被重置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "德莱厄斯·诺克萨斯断头台",
+        "skillCategoryKeys": [],
+        "skillKey": "darius_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:08.187045Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "diana_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:08.45009Z",
+        "description": "每第三次攻击就会溅射周围的敌人，造成额外的魔法伤害。在施放一个技能后，黛安娜获得持续5秒的攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "黛安娜·月银之刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "diana_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:08.45009Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "diana_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:08.734441Z",
+        "description": "释放一道月能光束，对弧形范围内的敌人造成伤害。<br><br>会对命中的敌人施加月光效果，如果中了月光效果的敌人不在潜行状态下，就会暴露在己方视野中3秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "黛安娜·新月打击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "diana_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:08.734441Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:18.357543Z",
+            "description": "DDragon16.17.1 Diana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 8000,
+              "2": 7500,
+              "3": 7000,
+              "4": 6500,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "diana_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:18.357543Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:18.624568Z",
+            "description": "DDragon16.17.1 Diana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 50,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "diana_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:18.624568Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "diana_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:08.998051Z",
+        "description": "黛安娜召出三颗护体法球，在命中敌人后爆炸，对一个区域内的敌人造成范围伤害。她也会获得一层吸收伤害的护盾。护盾的生命值会在她的第三颗法球爆炸后得到提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "黛安娜·苍白之瀑",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "diana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:08.998051Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:18.961924Z",
+            "description": "DDragon16.17.1 Diana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 15000,
+              "2": 13500,
+              "3": 12000,
+              "4": 10500,
+              "5": 9000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "diana_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:18.961924Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:19.209125Z",
+            "description": "DDragon16.17.1 Diana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "diana_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:19.209125Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "diana_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:09.313429Z",
+        "description": "成为复仇之月的活化身，冲向一名敌人并造成魔法伤害。<br>【月神冲刺】在冲达一名被施加了【月光】效果的敌人时，会没有冷却时间。所有其它的敌人都将移除掉身上的【月光】效果，无论他们是否是【月神冲刺】的目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "黛安娜·月神冲刺",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "diana_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:09.313429Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:19.459508Z",
+            "description": "DDragon16.17.1 Diana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 22000,
+              "2": 20000,
+              "3": 18000,
+              "4": 16000,
+              "5": 14000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "diana_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:19.459508Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:19.744223Z",
+            "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "diana_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:19.744223Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "diana_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:18:09.563944Z",
+        "description": "黛安娜将附近所有敌人显形并拉拽到身边，然后使他们减速。<br><br>如果黛安娜将1个或以上的敌方英雄拉拽到身边，那么月光会在短暂延迟后倾注在她身上，在她附近的一个区域内造成魔法伤害，每拉拽一个额外目标就会使这个伤害提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "黛安娜·月之降临",
+        "skillCategoryKeys": [],
+        "skillKey": "diana_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:09.563944Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T16:00:19.999705Z",
+            "description": "DDragon16.17.1 Diana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 100000,
+              "2": 90000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "diana_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T16:00:19.999705Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:00:20.299078Z",
+            "description": "DDragon16.17.1 Diana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "diana_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T16:00:20.299078Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "veigar_p": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:54.510304Z",
+        "description": "维迦是最强大的恶魔，甚至能对符文之地之心发起攻击——并且他只会越来越强大！用技能攻击一名敌人、击杀单位或拆毁防御塔都会为维迦永久提升法术强度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "维迦·超凡邪力",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "veigar_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:54.510304Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "veigar_q": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:54.808589Z",
+        "description": "维迦释放一束黑暗能量，对最先被命中的两个敌人造成魔法伤害。被这个能量束所击杀的单位，会永久地为维迦提供一些法术强度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "维迦·黑暗祭祀",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "veigar_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:54.808589Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "veigar_w": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:55.106128Z",
+        "description": "维迦召唤一大团黑暗物质轰击目标区域，落地造成魔法伤害。【超凡邪力】的层数会缩短这个技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "维迦·黑暗物质",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "veigar_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:55.106128Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "veigar_e": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:55.351379Z",
+        "description": "维迦扭曲空间的边缘，创造一个牢笼来使途径的敌人晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "维迦·扭曲空间",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "veigar_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:55.351379Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "veigar_r": {
+      "skill": {
+        "createdAt": "2026-09-06T18:20:55.654651Z",
+        "description": "引爆目标敌方英雄，造成大量魔法伤害，并基于目标已损失生命值提升伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "维迦·能量爆裂",
+        "skillCategoryKeys": [],
+        "skillKey": "veigar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:55.654651Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  }
+}

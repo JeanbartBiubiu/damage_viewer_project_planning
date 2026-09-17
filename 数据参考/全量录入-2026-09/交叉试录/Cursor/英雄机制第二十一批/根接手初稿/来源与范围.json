@@ -1,0 +1,237 @@
+{
+  "generatedAt": "2026-09-09T12:15:16.196Z",
+  "snapshotSha256": "0eef2cb4a9d5630ea878b2bea7efb7b45cb70c94237d290bc39634d0bbcb6595",
+  "bindingSha256": "81c224f8929cae3d5fca3adef65c86f3922944bd0c4390229879d8279a037554",
+  "versions": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "content": [
+      "Characters/Ekko/CharacterRecords/Root",
+      "Characters/Fizz/CharacterRecords/Root"
+    ]
+  },
+  "bindings": {
+    "ekko": {
+      "passive": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+      "spells": [
+        "Characters/Ekko/Spells/EkkoQAbility/EkkoQ",
+        "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+        "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+        "Characters/Ekko/Spells/EkkoRAbility/EkkoR"
+      ]
+    },
+    "fizz": {
+      "passive": "Characters/Fizz/Spells/FizzPassiveAbility/FizzPassive",
+      "spells": [
+        "Characters/Fizz/Spells/FizzQAbility/FizzQ",
+        "Characters/Fizz/Spells/FizzWAbility/FizzW",
+        "Characters/Fizz/Spells/FizzEAbility/FizzE",
+        "Characters/Fizz/Spells/FizzRAbility/FizzR"
+      ]
+    }
+  },
+  "locKeysUsed": {
+    "ekko_p": {
+      "keyName": "game_character_passiveName_Ekko",
+      "keyTooltip": "Spell_EkkoPassive_Tooltip",
+      "keySummary": "Spell_EkkoPassive_Summary",
+      "keyTooltipExtended": "Spell_EkkoPassive_TooltipExtended"
+    },
+    "ekko_q": {
+      "keyName": "Spell_EkkoQ_Name",
+      "keySummary": "Spell_EkkoQ_Summary",
+      "keyTooltip": "Spell_EkkoQ_Tooltip"
+    },
+    "ekko_w": {
+      "keyName": "Spell_EkkoW_Name",
+      "keySummary": "Spell_EkkoW_Summary",
+      "keyTooltip": "Spell_EkkoW_Tooltip",
+      "keyTooltipExtendedBelowLine": "Spell_EkkoW_TooltipExtendedBelowLine"
+    },
+    "ekko_e": {
+      "keyName": "Spell_EkkoE_Name",
+      "keySummary": "Spell_EkkoE_Summary",
+      "keyTooltip": "Spell_EkkoE_Tooltip",
+      "keyTooltipExtendedBelowLine": "Spell_EkkoE_TooltipExtendedBelowLine"
+    },
+    "ekko_r": {
+      "keyName": "Spell_EkkoR_Name",
+      "keySummary": "Spell_EkkoR_Summary",
+      "keyTooltip": "Spell_EkkoR_Tooltip",
+      "keyTooltipExtendedBelowLine": "Spell_EkkoR_TooltipExtendedBelowLine"
+    },
+    "fizz_p": {
+      "keyTooltip": "Spell_FizzPassive_Tooltip",
+      "keyName": "Spell_FizzPassive_Name",
+      "keySummary": "Spell_FizzPassive_Summary",
+      "keyTooltipExtended": "Spell_FizzPassive_TooltipExtended"
+    },
+    "fizz_q": {
+      "keyName": "Spell_FizzQ_Name",
+      "keyTooltip": "Spell_FizzQ_Tooltip",
+      "keySummary": "Spell_FizzQ_Summary",
+      "keyTooltipExtendedBelowLine": "Spell_FizzQ_TooltipExtendedBelowLine"
+    },
+    "fizz_w": {
+      "keyName": "Spell_FizzW_Name",
+      "keyTooltip": "Spell_FizzW_Tooltip",
+      "keySummary": "Spell_FizzW_Summary",
+      "keyTooltipExtendedBelowLine": "Spell_FizzW_TooltipExtendedBelowLine"
+    },
+    "fizz_e": {
+      "keyName": "Spell_FizzE_Name",
+      "keyTooltip": "Spell_FizzE_Tooltip",
+      "keySummary": "Spell_FizzE_Summary"
+    },
+    "fizz_r": {
+      "keyName": "Spell_FizzR_Name",
+      "keyTooltip": "Spell_FizzR_Tooltip",
+      "keySummary": "Spell_FizzR_Summary"
+    }
+  },
+  "locTextsUsed": {
+    "ekko_p": {
+      "keyName": "Z型驱动共振",
+      "keyTooltip": "对相同目标的每第三次攻击或伤害型技能都会造成额外<magicDamage>@ThreeHitDamage@魔法伤害</magicDamage>。如果目标是一个英雄，那么艾克还会获得持续@SpeedDuration@秒的<speed>@BonusMS@移动速度</speed>。这个特效每@LockoutTime@秒只能对相同目标生效一次。",
+      "keySummary": "每当艾克对相同目标施放第三次普攻或伤害性技能时，都会造成额外魔法伤害，并且如果目标是英雄，那么艾克还会获得爆发性的移动速度加成。<br><br>",
+      "keyTooltipExtended": "{{Spell_EkkoPassive_Tooltip}}<br><br><rules>这个效果对野怪造成@MonsterMod*100@%伤害。</rules>"
+    },
+    "ekko_q": {
+      "keyName": "时间卷曲器",
+      "keySummary": "艾克扔出一个时光手雷，这个手雷会在命中一个敌方英雄后扩展为一个时间扭曲的力场，对场内的所有敌方单位造成伤害和减速效果。然后它会在短暂的延迟后返回到艾克手上，返回途中会对沿途的敌人造成伤害。",
+      "keyTooltip": "艾克投出一个设备，造成<magicDamage>@InitialDamage@魔法伤害</magicDamage>。在命中一名英雄或到达它的距离终点后，它会扩展为一个领域来使其中的敌人<status>减速</status>@SlowPercent*-100@%。在它扩展后，艾克会将其召回，造成<magicDamage>@RecallDamage@魔法伤害</magicDamage>。"
+    },
+    "ekko_w": {
+      "keyName": "时光交错",
+      "keySummary": "艾克的普攻对低生命值的敌人造成额外魔法伤害。他可以施放【时光交错】来分离这条时间线，制造一个不稳定的异常时间点，这个时间点会在数秒后对范围内的敌人造成减速效果。如果艾克进入了这个异常时间点，那么他会获得护盾并让范围内的敌人因悬浮在时间中而陷入晕眩状态。",
+      "keyTooltip": "<spellPassive>被动：</spellPassive>艾克对生命值低于@BelowHealthThreshold*100@%的敌方英雄进行的攻击会造成<magicDamage>@MissingHealthPercent@已损失生命值的魔法伤害</magicDamage>。<br><br><spellActive>主动：</spellActive>在一阵延迟后，艾克放出一颗持续@SlowZoneDuration@秒的时空球体来使其中的敌人<status>减速</status>@SlowPercent@%。如果艾克进入了球体，那么他会将其引爆，造成@StunDuration@秒<status>晕眩</status>并获得<shield>@TotalShield@护盾值</shield>。",
+      "keyTooltipExtendedBelowLine": "<rules>额外攻击伤害最少造成<magicDamage>@OnHitMinMinionDamage@</magicDamage>伤害，并且对小兵和野怪最多造成<magicDamage>@OnHitMaxMinionDamage@伤害</magicDamage>。</rules>"
+    },
+    "ekko_e": {
+      "keyName": "相位俯冲",
+      "keySummary": "艾克在为Z型驱动充能的同时灵巧地滚动。他的下次攻击将造成魔法伤害并扭曲时间，并让他传送到他的攻击目标旁。",
+      "keyTooltip": "艾克突进并强化他的下次攻击，以获得额外距离、将他传送到他的目标处、并造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。",
+      "keyTooltipExtendedBelowLine": "<rules>艾克可以在突进期间使用他的任意其它技能。</rules>"
+    },
+    "ekko_r": {
+      "keyName": "时空断裂",
+      "keySummary": "艾克打破他的时间线，变得不可被选取并回溯到一个更加有利的时间点上。他会回到几秒前的位置，并治疗这几秒内所受的伤势。在完成传送后，传送终点区域附近的敌人都会受到巨量伤害。",
+      "keyTooltip": "艾克回到过去的时间点上，进入凝滞状态同时传送回他4秒前所在的位置，并在到达后对附近的所有敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。此外，艾克会治疗自身<healing>@TotalBaseHeal@</healing>生命值，且最近4秒里每损失1%生命值就会使这个治疗效果提升@PercentHealAmpPerPercentMissingHealth@%。",
+      "keyTooltipExtendedBelowLine": "<rules>艾克在途经来自[@spell.EkkoW:HotKey@]{{ Spell_EkkoW_Name }}的时空球体时会将它引爆。</rules><br><rules>凝滞状态中的单位无法移动或行动，并且免疫伤害和不可被选取。</rules>"
+    },
+    "fizz_p": {
+      "keyTooltip": "菲兹处于【幽灵】状态并且减少@DamageReductionCalc@所受伤害(来自所有来源)。",
+      "keyName": "伶俐斗士",
+      "keySummary": "菲兹在移动时可以穿过单位并且从所有来源处受到的伤害都会减少一个固定的数额。",
+      "keyTooltipExtended": "{{Spell_FizzPassive_Tooltip}}<br><br><rules>幽灵状态的单位无视其它单位的碰撞体积。<br>对抗野怪时的伤害减免修正至@MonsterDamageReductionCalc@。<br>减免伤害的占比不能超过@DamageReductionMax*100@%。</rules>"
+    },
+    "fizz_q": {
+      "keyName": "淘气打击",
+      "keyTooltip": "菲兹冲刺并穿过一名敌人，同时造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>加上<magicDamage>@QDamage@魔法伤害</magicDamage>。",
+      "keySummary": "菲兹穿过他的目标，造成魔法伤害，并施加攻击特效。",
+      "keyTooltipExtendedBelowLine": "<rules>这个技能会施加攻击特效。</rules>"
+    },
+    "fizz_w": {
+      "keyName": "海石三叉戟",
+      "keyTooltip": "<spellPassive>被动</spellPassive>：菲兹的攻击会使他的敌人们流血，在@BleedDuration@秒里持续造成共<magicDamage>@DoTDamage@魔法伤害</magicDamage>。<br><br><spellActive>主动</spellActive>：菲兹的下次攻击造成额外的<magicDamage>@ActiveDamage@魔法伤害</magicDamage>。如果这次攻击将目标击杀，那么菲兹会返还<scaleMana>@OnKillManaRefund@法力</scaleMana>并使这个技能的冷却时间缩短至@OnKillNewCooldown@秒。如果这次攻击未能造成击杀，那么菲兹的攻击会造成额外的<magicDamage>@OnHitBuffDamage@魔法伤害</magicDamage>，持续@OnHitBuffDuration@秒。",
+      "keySummary": "菲兹的攻击会让他的敌人们流血，同时造成持续数秒的魔法伤害。菲兹可以强化他的下次普攻来造成额外伤害，并在短时间内强化他的后续普攻。",
+      "keyTooltipExtendedBelowLine": "<rules>攻击对野怪造成@BonusMonsterDamage@额外伤害。<br>攻击对建筑物造成@TurretMod*100@%伤害。</rules>"
+    },
+    "fizz_e": {
+      "keyName": "古灵/精怪",
+      "keyTooltip": "菲兹跳到他的三叉戟上，变为【不可被选取】状态0.75秒，随后对附近敌人造成<magicDamage>@EDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>菲兹可以在【不可被选取】状态中<recast>再次施放</recast>这个技能，以再次位移，并提前结束该状态，在一个较小的区域内造成伤害，并且不会造成<status>减速</status>。",
+      "keySummary": "菲兹跳到空中，同时优雅地落在他的长矛上，变得不可被选取。在这个姿态下，菲兹可以选择立原地着陆，也可以选择在着陆之前再跳一段距离。"
+    },
+    "fizz_r": {
+      "keyName": "巨鲨强袭",
+      "keyTooltip": "菲兹掷出一只小鱼来吸附到命中的第一个敌方英雄身上。这个英雄会被施加<keywordStealth>真实视野</keywordStealth>和<status>减速</status>，减速幅度为40%到80%，基于小鱼在吸附前的位移距离。<br><br>在@DetonationTime@秒后，一头巨鲨会从目标脚下出现，<status>击飞</status>带着小鱼的目标1秒，<status>击退</status>其它单位，并基于小鱼在吸附前的位移距离造成<magicDamage>@SmallSharkDamage@到@BigSharkDamage@魔法伤害</magicDamage>。",
+      "keySummary": "菲兹朝一个方向放出一条小鱼，小鱼会附身在第一个与它接触的敌方英雄身上，同时减速目标。在短暂的延迟之后，一条巨鲨就会破土而出，击飞目标并将目标附近的敌人震开。被命中的所有敌人都会受到魔法伤害和减速效果。"
+    }
+  },
+  "scope": {
+    "combat": "1v1 唯一敌人",
+    "keep": [
+      "唯一敌人可承受的范围伤害",
+      "同目标多次命中",
+      "自身收益",
+      "战前叠层次数"
+    ],
+    "skip": [
+      "金币经验",
+      "纯视野",
+      "纯碰撞",
+      "第三友军",
+      "兵野专用伤害治疗",
+      "独立可操控或自主作战召唤物",
+      "完整替换形态"
+    ],
+    "imagesAndSharks": "艾克布置影像与菲兹鲨鱼视为本技能效果，不自动当独立召唤；不明确处留缺口。",
+    "fizzR": "小/中/大鲨鱼各自按当前树核对，不默认最大。",
+    "ekkoR": "历史位置与实际过去受伤量无默认外供，不伪造回溯事件。",
+    "writes": "禁止更新主体、旧参数、角色关系或图片。"
+  },
+  "attributePolicy": {
+    "owners": [
+      "SOURCE",
+      "TARGET"
+    ],
+    "valueKinds": [
+      "TOTAL",
+      "BASE",
+      "BONUS"
+    ],
+    "used": {
+      "omittedStatByCoefficientOrNamed": "来源总法强",
+      "explicitMStat2OmittedFormula": "来源总攻击力",
+      "rejected": [
+        "CURRENT",
+        "mStat=15 未证"
+      ]
+    }
+  },
+  "clientFiles": {
+    "ekko": {
+      "path": "参考资料/客户端原文/Ekko.json.gz",
+      "compressedSha256": "e50f8ab582c64f907e11794984e71739696c30488a36226c88e3d3e19b3b50bc"
+    },
+    "fizz": {
+      "path": "参考资料/客户端原文/Fizz.json.gz",
+      "compressedSha256": "64b63f2a474a6831e5e2790f84153ebe46f2ae7967ee2907514eb97c3873b84b"
+    }
+  },
+  "officialCheck": {
+    "ekkoQOutgoingMismatch": {
+      "officialEffect1": [
+        70,
+        85,
+        100,
+        115,
+        130
+      ],
+      "clientOutgoingIndex1to5": {
+        "1": 80,
+        "2": 95,
+        "3": 110,
+        "4": 125,
+        "5": 140
+      },
+      "policy": "正文与计算树用当前客户端 DataValues，不用官方旧 effect 数组覆盖。"
+    },
+    "fizzECooldown": {
+      "official": [
+        16,
+        14,
+        12,
+        10,
+        8
+      ],
+      "clientIndex1to5": [
+        16,
+        14,
+        12,
+        10,
+        8
+      ]
+    }
+  }
+}

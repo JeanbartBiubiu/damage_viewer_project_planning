@@ -1,0 +1,70 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "method": "POST",
+    "route": "/skills/yasuo_p/effects",
+    "detailRoute": "/skills/yasuo_p/effects/self_shield",
+    "skillKey": "yasuo_p",
+    "kind": "effects",
+    "stableKey": "self_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_shield",
+      "name": "亚索自身护盾",
+      "description": "只定义已证的自身护盾数值与2000毫秒生命周期；移动积攒、满剑意以及受到英雄或野怪伤害时的触发条件待接，不创建自动触发。",
+      "sortOrder": 10,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "name": "亚索自身护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "shield_value"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          }
+        }
+      ]
+    }
+  }
+}

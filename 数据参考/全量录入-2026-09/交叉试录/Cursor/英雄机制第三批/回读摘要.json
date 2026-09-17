@@ -1,0 +1,1639 @@
+{
+  "startedAt": "2026-09-07T18:09:08.893Z",
+  "boundary": "完整业务GET、字段比较、冻结原文独立算术；不代表战斗或Wasm运行通过。",
+  "arithmetic": [
+    {
+      "skill": "lucian_p",
+      "formula": "second_shot_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skill": "lucian_p",
+      "formula": "second_shot_damage",
+      "rank": 1,
+      "level": 6,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 100,
+      "actual": 100,
+      "match": true
+    },
+    {
+      "skill": "lucian_p",
+      "formula": "second_shot_damage",
+      "rank": 1,
+      "level": 7,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 110,
+      "actual": 110.00000000000001,
+      "match": true
+    },
+    {
+      "skill": "lucian_p",
+      "formula": "second_shot_damage",
+      "rank": 1,
+      "level": 12,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 110,
+      "actual": 110.00000000000001,
+      "match": true
+    },
+    {
+      "skill": "lucian_p",
+      "formula": "second_shot_damage",
+      "rank": 1,
+      "level": 13,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 120,
+      "actual": 120,
+      "match": true
+    },
+    {
+      "skill": "lucian_p",
+      "formula": "second_shot_damage",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 120,
+      "actual": 120,
+      "match": true
+    },
+    {
+      "skill": "lucian_p",
+      "formula": "second_shot_crit_multiplier",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 1.75,
+      "actual": 1.75,
+      "match": true
+    },
+    {
+      "skill": "lucian_p",
+      "formula": "second_shot_crit_multiplier",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0.4
+      },
+      "inputs": {},
+      "expected": 2.15,
+      "actual": 2.15,
+      "match": true
+    },
+    {
+      "skill": "lucian_p",
+      "formula": "vigilance_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 55,
+      "actual": 55,
+      "match": true
+    },
+    {
+      "skill": "lucian_q",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {},
+      "expected": 160,
+      "actual": 160,
+      "match": true
+    },
+    {
+      "skill": "lucian_q",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {},
+      "expected": 300,
+      "actual": 300,
+      "match": true
+    },
+    {
+      "skill": "lucian_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 165,
+      "actual": 165,
+      "match": true
+    },
+    {
+      "skill": "lucian_w",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 305,
+      "actual": 305,
+      "match": true
+    },
+    {
+      "skill": "lucian_r",
+      "formula": "bullet_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 80,
+      "actual": 80,
+      "match": true
+    },
+    {
+      "skill": "lucian_r",
+      "formula": "bullet_damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 110,
+      "actual": 110,
+      "match": true
+    },
+    {
+      "skill": "lucian_r",
+      "formula": "continuous_shot_count",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 22,
+      "actual": 22,
+      "match": true
+    },
+    {
+      "skill": "lucian_r",
+      "formula": "continuous_shot_count",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.critical_strike_chance.TOTAL": 0.25,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 27.5,
+      "actual": 27.5,
+      "match": true
+    },
+    {
+      "skill": "lucian_r",
+      "formula": "continuous_shot_count",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.critical_strike_chance.TOTAL": 0.5,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0.4
+      },
+      "inputs": {},
+      "expected": 37.4,
+      "actual": 37.4,
+      "match": true
+    },
+    {
+      "skill": "lucian_r",
+      "formula": "tooltip_total_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.critical_strike_chance.TOTAL": 0.25,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 2200,
+      "actual": 2200,
+      "match": true
+    },
+    {
+      "skill": "sivir_q",
+      "formula": "precrit_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {},
+      "expected": 176,
+      "actual": 176,
+      "match": true
+    },
+    {
+      "skill": "sivir_q",
+      "formula": "precrit_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {},
+      "expected": 276,
+      "actual": 276,
+      "match": true
+    },
+    {
+      "skill": "sivir_q",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 176,
+      "actual": 176,
+      "match": true
+    },
+    {
+      "skill": "sivir_q",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0.5,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 211.2,
+      "actual": 211.2,
+      "match": true
+    },
+    {
+      "skill": "sivir_q",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0.5,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0.4
+      },
+      "inputs": {},
+      "expected": 353.28,
+      "actual": 353.28000000000003,
+      "match": true
+    },
+    {
+      "skill": "sivir_e",
+      "formula": "block_heal",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 170,
+      "actual": 170,
+      "match": true
+    },
+    {
+      "skill": "sivir_e",
+      "formula": "block_heal",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 210,
+      "actual": 210,
+      "match": true
+    },
+    {
+      "skill": "tristana_w",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {},
+      "expected": 200,
+      "actual": 200,
+      "match": true
+    },
+    {
+      "skill": "tristana_w",
+      "formula": "damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {},
+      "expected": 340,
+      "actual": 340,
+      "match": true
+    },
+    {
+      "skill": "tristana_e",
+      "formula": "unstacked_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {},
+      "expected": 174,
+      "actual": 174,
+      "match": true
+    },
+    {
+      "skill": "tristana_e",
+      "formula": "unstacked_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0.5,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0.4
+      },
+      "inputs": {},
+      "expected": 350.72,
+      "actual": 350.72,
+      "match": true
+    },
+    {
+      "skill": "tristana_e",
+      "formula": "bomb_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {
+        "bomb_stacks": 0
+      },
+      "expected": 174,
+      "actual": 174,
+      "match": true
+    },
+    {
+      "skill": "tristana_e",
+      "formula": "bomb_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {
+        "bomb_stacks": 1
+      },
+      "expected": 217.5,
+      "actual": 217.5,
+      "match": true
+    },
+    {
+      "skill": "tristana_e",
+      "formula": "bomb_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {
+        "bomb_stacks": 2
+      },
+      "expected": 261,
+      "actual": 261,
+      "match": true
+    },
+    {
+      "skill": "tristana_e",
+      "formula": "bomb_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {
+        "bomb_stacks": 3
+      },
+      "expected": 304.5,
+      "actual": 304.5,
+      "match": true
+    },
+    {
+      "skill": "tristana_e",
+      "formula": "bomb_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0
+      },
+      "inputs": {
+        "bomb_stacks": 4
+      },
+      "expected": 348,
+      "actual": 348,
+      "match": true
+    },
+    {
+      "skill": "tristana_e",
+      "formula": "bomb_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0.5,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0.4
+      },
+      "inputs": {
+        "bomb_stacks": 4
+      },
+      "expected": 701.44,
+      "actual": 701.44,
+      "match": true
+    },
+    {
+      "skill": "tristana_e",
+      "formula": "max_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80,
+        "SOURCE.critical_strike_chance.TOTAL": 0.5,
+        "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0.4
+      },
+      "inputs": {},
+      "expected": 701.44,
+      "actual": 701.44,
+      "match": true
+    },
+    {
+      "skill": "tristana_r",
+      "formula": "damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {},
+      "expected": 381,
+      "actual": 381,
+      "match": true
+    },
+    {
+      "skill": "tristana_r",
+      "formula": "damage",
+      "rank": 3,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {},
+      "expected": 481,
+      "actual": 481,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 4,
+      "actual": 4,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 4,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 4,
+      "actual": 4,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 5,
+      "actual": 5,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 8,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 5,
+      "actual": 5,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 9,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 6,
+      "actual": 6,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 12,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 6,
+      "actual": 6,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 13,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 7,
+      "actual": 7,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 16,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 7,
+      "actual": 7,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 17,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 8,
+      "actual": 8,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_stack_second",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 8,
+      "actual": 8,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "damage_per_second",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {
+        "poison_stacks": 3
+      },
+      "expected": 24,
+      "actual": 24,
+      "match": true
+    },
+    {
+      "skill": "twitch_p",
+      "formula": "max_full_duration_damage",
+      "rank": 1,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 288,
+      "actual": 288,
+      "match": true
+    },
+    {
+      "skill": "twitch_w",
+      "formula": "slow_ratio",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 0.36,
+      "actual": 0.36,
+      "match": true
+    },
+    {
+      "skill": "twitch_w",
+      "formula": "slow_ratio",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 0.56,
+      "actual": 0.56,
+      "match": true
+    },
+    {
+      "skill": "twitch_e",
+      "formula": "physical_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {
+        "poison_stacks": 1
+      },
+      "expected": 63,
+      "actual": 63,
+      "match": true
+    },
+    {
+      "skill": "twitch_e",
+      "formula": "physical_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {
+        "poison_stacks": 3
+      },
+      "expected": 149,
+      "actual": 149,
+      "match": true
+    },
+    {
+      "skill": "twitch_e",
+      "formula": "physical_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {
+        "poison_stacks": 6
+      },
+      "expected": 278,
+      "actual": 278,
+      "match": true
+    },
+    {
+      "skill": "twitch_e",
+      "formula": "magic_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {
+        "poison_stacks": 1
+      },
+      "expected": 35,
+      "actual": 35,
+      "match": true
+    },
+    {
+      "skill": "twitch_e",
+      "formula": "magic_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {
+        "poison_stacks": 3
+      },
+      "expected": 105,
+      "actual": 105,
+      "match": true
+    },
+    {
+      "skill": "twitch_e",
+      "formula": "magic_damage",
+      "rank": 1,
+      "level": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {
+        "poison_stacks": 6
+      },
+      "expected": 210,
+      "actual": 210,
+      "match": true
+    },
+    {
+      "skill": "twitch_e",
+      "formula": "max_physical_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.attack_damage.BONUS": 80
+      },
+      "inputs": {},
+      "expected": 438,
+      "actual": 438,
+      "match": true
+    },
+    {
+      "skill": "twitch_e",
+      "formula": "max_magic_damage",
+      "rank": 5,
+      "level": 18,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100
+      },
+      "inputs": {},
+      "expected": 210,
+      "actual": 210,
+      "match": true
+    },
+    {
+      "skill": "sivir_p",
+      "parameter": "initial_move_speed",
+      "rank": 1,
+      "level": 1,
+      "expected": 55,
+      "actual": 55,
+      "match": true
+    },
+    {
+      "skill": "sivir_p",
+      "parameter": "initial_move_speed",
+      "rank": 1,
+      "level": 5,
+      "expected": 55,
+      "actual": 55,
+      "match": true
+    },
+    {
+      "skill": "sivir_p",
+      "parameter": "initial_move_speed",
+      "rank": 1,
+      "level": 6,
+      "expected": 60,
+      "actual": 60,
+      "match": true
+    },
+    {
+      "skill": "sivir_p",
+      "parameter": "initial_move_speed",
+      "rank": 1,
+      "level": 10,
+      "expected": 60,
+      "actual": 60,
+      "match": true
+    },
+    {
+      "skill": "sivir_p",
+      "parameter": "initial_move_speed",
+      "rank": 1,
+      "level": 11,
+      "expected": 65,
+      "actual": 65,
+      "match": true
+    },
+    {
+      "skill": "sivir_p",
+      "parameter": "initial_move_speed",
+      "rank": 1,
+      "level": 15,
+      "expected": 65,
+      "actual": 65,
+      "match": true
+    },
+    {
+      "skill": "sivir_p",
+      "parameter": "initial_move_speed",
+      "rank": 1,
+      "level": 16,
+      "expected": 70,
+      "actual": 70,
+      "match": true
+    },
+    {
+      "skill": "sivir_p",
+      "parameter": "initial_move_speed",
+      "rank": 1,
+      "level": 17,
+      "expected": 70,
+      "actual": 70,
+      "match": true
+    },
+    {
+      "skill": "sivir_p",
+      "parameter": "initial_move_speed",
+      "rank": 1,
+      "level": 18,
+      "expected": 75,
+      "actual": 75,
+      "match": true
+    },
+    {
+      "skill": "lucian_e",
+      "parameter": "mana_cost",
+      "rank": 1,
+      "level": 18,
+      "expected": 32,
+      "actual": 32,
+      "match": true
+    },
+    {
+      "skill": "lucian_e",
+      "parameter": "mana_cost",
+      "rank": 2,
+      "level": 18,
+      "expected": 24,
+      "actual": 24,
+      "match": true
+    },
+    {
+      "skill": "lucian_e",
+      "parameter": "mana_cost",
+      "rank": 3,
+      "level": 18,
+      "expected": 16,
+      "actual": 16,
+      "match": true
+    },
+    {
+      "skill": "lucian_e",
+      "parameter": "mana_cost",
+      "rank": 4,
+      "level": 18,
+      "expected": 8,
+      "actual": 8,
+      "match": true
+    },
+    {
+      "skill": "lucian_e",
+      "parameter": "mana_cost",
+      "rank": 5,
+      "level": 18,
+      "expected": 0,
+      "actual": 0,
+      "match": true
+    },
+    {
+      "skill": "tristana_q",
+      "parameter": "mana_cost",
+      "rank": 1,
+      "level": 18,
+      "expected": 15,
+      "actual": 15,
+      "match": true
+    },
+    {
+      "skill": "tristana_q",
+      "parameter": "mana_cost",
+      "rank": 2,
+      "level": 18,
+      "expected": 20,
+      "actual": 20,
+      "match": true
+    },
+    {
+      "skill": "tristana_q",
+      "parameter": "mana_cost",
+      "rank": 3,
+      "level": 18,
+      "expected": 25,
+      "actual": 25,
+      "match": true
+    },
+    {
+      "skill": "tristana_q",
+      "parameter": "mana_cost",
+      "rank": 4,
+      "level": 18,
+      "expected": 30,
+      "actual": 30,
+      "match": true
+    },
+    {
+      "skill": "tristana_q",
+      "parameter": "mana_cost",
+      "rank": 5,
+      "level": 18,
+      "expected": 35,
+      "actual": 35,
+      "match": true
+    },
+    {
+      "skill": "tristana_r",
+      "parameter": "stun_duration_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 400,
+      "actual": 400,
+      "match": true
+    },
+    {
+      "skill": "tristana_r",
+      "parameter": "stun_duration_ms",
+      "rank": 2,
+      "level": 11,
+      "expected": 550,
+      "actual": 550,
+      "match": true
+    },
+    {
+      "skill": "tristana_r",
+      "parameter": "stun_duration_ms",
+      "rank": 3,
+      "level": 18,
+      "expected": 700,
+      "actual": 700,
+      "match": true
+    },
+    {
+      "skill": "tristana_q",
+      "parameter": "bonus_attack_speed_ratio",
+      "rank": 5,
+      "level": 18,
+      "expected": 1.2,
+      "actual": 1.2,
+      "match": true
+    },
+    {
+      "skill": "sivir_e",
+      "parameter": "shield_duration_ms",
+      "rank": 1,
+      "level": 1,
+      "expected": 1500,
+      "actual": 1500,
+      "match": true
+    },
+    {
+      "skill": "twitch_r",
+      "parameter": "bonus_attack_damage",
+      "rank": 3,
+      "level": 18,
+      "expected": 60,
+      "actual": 60,
+      "match": true
+    },
+    {
+      "skill": "twitch_r",
+      "parameter": "bonus_attack_range",
+      "rank": 3,
+      "level": 18,
+      "expected": 300,
+      "actual": 300,
+      "match": true
+    }
+  ],
+  "invariants": [
+    {
+      "name": "未为缺省起点编造TristanaP等级曲线",
+      "match": true
+    },
+    {
+      "name": "SivirP未写恒定移速冒充衰减",
+      "match": true
+    },
+    {
+      "name": "SivirQ暴击为数值折算不重掷",
+      "match": true
+    },
+    {
+      "name": "LucianR未用小数子弹数启动引导步骤",
+      "match": true
+    },
+    {
+      "name": "TwitchE两部分伤害整体法术盾阻挡",
+      "match": true
+    },
+    {
+      "name": "TwitchE和TristanaE未创建无层数来源的命中规则",
+      "match": true
+    },
+    {
+      "name": "TwitchQ施放没有立即获得离开伪装攻速",
+      "match": true
+    },
+    {
+      "name": "SOURCE范围持续效果条件承受对象留空",
+      "match": true
+    },
+    {
+      "name": "SivirE治疗由成功格挡事件触发",
+      "match": true
+    },
+    {
+      "name": "未用提前移除冒充引爆",
+      "match": true
+    }
+  ],
+  "failures": [],
+  "skills": {
+    "lucian_p": {
+      "name": "圣光银弹",
+      "counts": {
+        "parameters": 8,
+        "formulas": 3,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "双发攻击过程及E返还",
+          "reason": "接口有强化普攻窗口，可用于消费；仍需核对第二发独立暴击判定、两发实际命中和攻击特效链，不能把第二发直接叠到首次命中。已存独立暴击伤害组成，暂不启动。"
+        },
+        {
+          "kind": "配置",
+          "component": "警惕的自身控制来源",
+          "reason": "当前文本定身不限友军；若自身物品使对手定身仍可能影响1V1。15+0.2总AD、2次/最多4次/6秒组成已保留；待核近距条件与事件，再接合法状态与消费。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "警惕的友军治疗与护盾分支",
+          "reason": "纯队友来源按当前范围排除。附近敌方定身分支包含空间检测，需确认物品等自身来源可触发后回填，不据本体无控制认定永久排除。"
+        },
+        {
+          "component": "小兵伤害分支",
+          "reason": "当前对手为英雄。"
+        }
+      ]
+    },
+    "lucian_q": {
+      "name": "透体圣光",
+      "counts": {
+        "parameters": 4,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "动态施法与P联动",
+          "reason": "当前文本明确随角色等级缩短施法；mCastTime0.35、spellCastTime0.25不能固定选一。P施法后双发待统一接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "光束多对象路径",
+          "reason": "保留当前目标每次实际命中。"
+        }
+      ]
+    },
+    "lucian_w": {
+      "name": "热诚烈弹",
+      "counts": {
+        "parameters": 8,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "标记与P联动",
+          "reason": "合法标记施加后本人伤害可触发1秒加速；标记存在判定、施加与命中先后、跨技能P待接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "友军触发警惕与显形",
+          "reason": "保留本人触发移速；纯队友和视野不录。"
+        }
+      ]
+    },
+    "lucian_e": {
+      "name": "冷酷追击",
+      "counts": {
+        "parameters": 4,
+        "formulas": 0,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "P命中退款",
+          "reason": "需要圣光银弹两发合法命中，不挂任意普攻。E5级消耗真实0已保留。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "冲刺空间路径与非英雄1秒退款",
+          "reason": "1V1只留英雄2秒返还，路径后置。"
+        }
+      ]
+    },
+    "lucian_r": {
+      "name": "圣枪洗礼",
+      "counts": {
+        "parameters": 10,
+        "formulas": 3,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "引导/取消/整数发数与P",
+          "reason": "单发命中接入；小数发数如何取整、首发时点、再次施放中断及P待接。暴击属性改变数量，不额外对单发重掷暴击。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "小兵增伤、显形和空间路径",
+          "reason": "当前英雄目标单发保留。"
+        }
+      ]
+    },
+    "sivir_p": {
+      "name": "敏锐疾行",
+      "counts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "持续衰减移速及真实伤害触发",
+          "reason": "当前冻结spell_sivirpassive_tooltip明确用攻击或技能对英雄造成伤害，1.5秒持续衰减；当前持续属性不能直接配置按已过时间衰减，不能存恒定55..75或只监听攻击。E成功护盾也需触发同一机制。"
+        }
+      ],
+      "excluded": []
+    },
+    "sivir_q": {
+      "name": "回旋之刃",
+      "counts": {
+        "parameters": 10,
+        "formulas": 2,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "攻速施法时间与P",
+          "reason": "说明明确额外攻速缩短施法，计算组合需核；每次真实往返命中独立结算，P衰减移速待接。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "非英雄穿透衰减与路径搜索",
+          "reason": "单英雄无其他单位阻挡，不套后续目标衰减；回程当前目标命中仍保留。"
+        }
+      ]
+    },
+    "sivir_w": {
+      "name": "弹射",
+      "counts": {
+        "parameters": 4,
+        "formulas": 0,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "弹射复用原攻击暴击判定",
+          "reason": "若后续加入多对象，全部弹射沿用触发普攻暴击；不可重新掷骰。此项随多对象范围后置。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "额外对象弹射、优先级及小兵处决",
+          "reason": "当前1V1无第二敌人；保留主动攻速。原始BounceAttacks=3未被当前4秒说明引用，不误用3次限制。"
+        }
+      ]
+    },
+    "sivir_e": {
+      "name": "法术护盾",
+      "counts": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "格挡后敏锐疾行",
+          "reason": "治疗与护盾组合交由主负责人真实页面试录；P持续衰减移速补齐后接同一事件。"
+        }
+      ],
+      "excluded": []
+    },
+    "sivir_r": {
+      "name": "狩猎",
+      "counts": {
+        "parameters": 7,
+        "formulas": 0,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "参与击杀刷新狩猎",
+          "reason": "需要最近3秒本人对目标伤害与参与击杀因果条件；不能任意死亡都刷新。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "友军移速及未引用的旧攻速",
+          "reason": "当前主说明只用MaxMS/UltDuration/AttackCooldownRefund；HuntAttackSpeed等旧字段不录。"
+        }
+      ]
+    },
+    "tristana_p": {
+      "name": "瞄准",
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "资料",
+          "component": "角色等级攻击与技能距离",
+          "reason": "完整BonusPassiveRange插值仅mEndValue150，mStartValue缺省；未证明序列化默认值前不补0或生成猜测曲线。攻击距离确定后可用SOURCE_INITIALIZED接属性；E/R施法距离还需字段表达。"
+        }
+      ],
+      "excluded": []
+    },
+    "tristana_q": {
+      "name": "急速射击",
+      "counts": {
+        "parameters": 4,
+        "formulas": 0,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [],
+      "excluded": []
+    },
+    "tristana_w": {
+      "name": "火箭跳跃",
+      "counts": {
+        "parameters": 8,
+        "formulas": 1,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "减速与E满层/参与击杀重置",
+          "reason": "眩晕等现状态不能代替40%减速。满层E因R击退后才爆炸例外也需统一爆炸事件，不以EARLY_REMOVE代替。本人击杀需要KILL配英雄类别，参与击杀仍待因果来源。"
+        },
+        {
+          "kind": "系统",
+          "component": "击杀英雄类别条件",
+          "reason": "真实API拒绝KILL加TARGET_CATEGORY_CHECK：目标类别只支持SKILL_HIT/BASIC_ATTACK_HIT。需允许KILL按死者类别判断后再保存，不能取消英雄门槛。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "跳跃路径与附近目标搜索",
+          "reason": "保留当前敌方英雄实际落地命中。"
+        }
+      ]
+    },
+    "tristana_e": {
+      "name": "爆炸火花",
+      "counts": {
+        "parameters": 11,
+        "formulas": 3,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "附着、叠层、引爆与取层",
+          "reason": "普攻/技能加层，4秒自然结束或4层立即爆炸；R施加最后层时延后至击退后爆炸。需来源目标绑定及取层、互斥爆炸和W返还时序；不把附着命中当爆炸，不创建假引爆状态。"
+        },
+        {
+          "kind": "资料",
+          "component": "动态施法时间",
+          "reason": "mUseAutoattackCastTimeData明确沿用普攻施法时长，不编0毫秒。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "被动击杀溅射、防御塔与半径",
+          "reason": "被动伤害只给死者周围其他对象，本轮单对手没有额外敌人；主动当前目标伤害保留。"
+        }
+      ]
+    },
+    "tristana_r": {
+      "name": "毁灭射击",
+      "counts": {
+        "parameters": 8,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "击退、眩晕与E最后一层",
+          "reason": "0.4/0.55/0.7秒眩晕与击退共同存在；不能只用眩晕代替击退。末层E需等击退结束后爆炸，跨技能合法事件待补。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "周围多对象与爆炸半径",
+          "reason": "保留当前目标伤害和控制数值。"
+        }
+      ]
+    },
+    "twitch_p": {
+      "name": "死亡毒液",
+      "counts": {
+        "parameters": 6,
+        "formulas": 3,
+        "effects": 1,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "毒液应用、周期、刷新与跨技能取层",
+          "reason": "普通攻击攻击特效及W应用毒液；6秒最多6层。首个周期/刷新是否重置周期相位需来源核对，目标来源作用域及E实际层数读取待统一，不在普攻命中时直接扣一次每秒伤害。"
+        }
+      ],
+      "excluded": []
+    },
+    "twitch_q": {
+      "name": "埋伏",
+      "counts": {
+        "parameters": 8,
+        "formulas": 0,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "伪装及解除后攻速和毒目标死亡",
+          "reason": "伪装影响可选取，需要真语义；1秒等待的受伤延迟条件、进入/解除/自然到期、毒目标死亡重置需事件绑定。不能施放时立即获得攻速，也不能任意敌人死亡重置。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "附近未发现敌人的30%移速空间条件",
+          "reason": "当前空间与视野搜索后置；基础10%移速数值保留。"
+        }
+      ]
+    },
+    "twitch_w": {
+      "name": "剧毒之桶",
+      "counts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "命中与停留叠毒和减速",
+          "reason": "桶命中1层，停留每秒额外1层；不能单次命中自动视为完整3秒停留。需真实周期条件和P同源毒层统一。减速倍率与韧性组合由公共结构核对。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "毒雾区域搜索",
+          "reason": "保留当前对手叠层/减速所需数值，不录其他对象空间搜索。"
+        }
+      ]
+    },
+    "twitch_e": {
+      "name": "毒性爆发",
+      "counts": {
+        "parameters": 9,
+        "formulas": 4,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "毒存在条件与实际层数绑定",
+          "reason": "P/W目标来源毒层合法读取后，按实际1至6层执行两部分；不能对未中毒对象扣基础伤害，不因“引爆”文案清除毒液。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "附近其他敌人搜索",
+          "reason": "当前目标独立组成保留。"
+        }
+      ]
+    },
+    "twitch_r": {
+      "name": "火力全开",
+      "counts": {
+        "parameters": 5,
+        "formulas": 0,
+        "effects": 3,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "伪装与攻击投射规则",
+          "reason": "本技能施放不打破伪装，攻击仍解除；与Q伪装真实状态及穿透攻击事件交接时保留这一区别。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "穿透路径、多目标伤害衰减与越程",
+          "reason": "保留本人攻击力、攻击距离；不重复创建普通攻击基础伤害。"
+        }
+      ]
+    }
+  },
+  "totals": {
+    "parameters": 127,
+    "formulas": 24,
+    "effects": 39,
+    "processes": 12,
+    "internalStates": 0,
+    "triggerRules": 8
+  },
+  "finishedAt": "2026-09-07T18:09:27.039Z",
+  "componentsChecked": 210,
+  "subjectCount": 20,
+  "arithmeticCount": 87,
+  "invariantCount": 10
+}

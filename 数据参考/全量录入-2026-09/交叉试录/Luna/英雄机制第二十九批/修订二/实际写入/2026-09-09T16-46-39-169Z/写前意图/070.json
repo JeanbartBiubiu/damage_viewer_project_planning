@@ -1,0 +1,26 @@
+{
+  "i": 69,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/parameters",
+    "skillKey": "shen_q",
+    "kind": "parameters",
+    "stableKey": "base_percent_damage_points",
+    "body": {
+      "parameterKey": "base_percent_damage_points",
+      "name": "普通强化攻击生命百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2,
+        "2": 2.5,
+        "3": 3,
+        "4": 3.5,
+        "5": 4
+      },
+      "description": "当前根DataValues.BasePercentDamage取技能等级1至5；原值百分数点，根倍率另乘0.01。",
+      "sortOrder": 60
+    }
+  }
+}

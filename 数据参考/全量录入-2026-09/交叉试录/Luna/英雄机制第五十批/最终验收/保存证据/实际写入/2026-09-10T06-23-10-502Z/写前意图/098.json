@@ -1,0 +1,46 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/formulas",
+    "detailRoute": "/skills/udyr_e/formulas/base_move_speed_ratio",
+    "skillKey": "udyr_e",
+    "kind": "formulas",
+    "stableKey": "base_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "base_move_speed_ratio",
+      "name": "踏火蛮冲普通移动速度",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_move_speed_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "move_speed_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MoveSpeed=BaseMoveSpeed+0.0005×来源额外攻击力；正文的持续衰减曲线不在本公式中猜测。",
+      "sortOrder": 10
+    }
+  }
+}

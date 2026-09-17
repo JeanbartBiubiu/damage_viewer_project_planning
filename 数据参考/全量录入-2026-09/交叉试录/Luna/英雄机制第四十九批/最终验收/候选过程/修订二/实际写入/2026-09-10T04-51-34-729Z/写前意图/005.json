@@ -1,0 +1,25 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/parameters",
+    "detailRoute": "/skills/gnar_p/parameters/attack_speed_end_ratio",
+    "skillKey": "gnar_p",
+    "kind": "parameters",
+    "stableKey": "attack_speed_end_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_end_ratio",
+      "name": "小型攻速比例终点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.99000001,
+      "levelValues": null,
+      "description": "TotalAS角色等级终点，比例属性；不当作完整18级数组。",
+      "sortOrder": 50
+    }
+  }
+}

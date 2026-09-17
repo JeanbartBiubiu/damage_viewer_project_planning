@@ -1,0 +1,46 @@
+{
+  "i": 267,
+  "intent": {
+    "sequence": 268,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_q/formulas",
+    "detailRoute": "/skills/zaahen_q/formulas/recast_attack_physical_damage",
+    "skillKey": "zaahen_q",
+    "kind": "formulas",
+    "stableKey": "recast_attack_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "recast_attack_physical_damage",
+      "name": "暗裔长刀再次施放额外物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "recast_attack_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "再次施放=25至125+同一额外攻击力倍率。",
+      "sortOrder": 100
+    }
+  }
+}

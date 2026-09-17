@@ -1,0 +1,23 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/bonus_range_points",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "bonus_range_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_range_points",
+      "name": "每档黑雾攻击距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20,
+      "levelValues": null,
+      "description": "当前DataValues.BonusRange=20；只保存明确数值。",
+      "sortOrder": 30
+    }
+  }
+}

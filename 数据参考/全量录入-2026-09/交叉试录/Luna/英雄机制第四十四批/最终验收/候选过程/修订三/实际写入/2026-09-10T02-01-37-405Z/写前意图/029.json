@@ -1,0 +1,23 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "method": "POST",
+    "route": "/skills/illaoi_r/parameters",
+    "detailRoute": "/skills/illaoi_r/parameters/buff_duration_ms",
+    "skillKey": "illaoi_r",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "强化持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "description": "来源8秒转毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

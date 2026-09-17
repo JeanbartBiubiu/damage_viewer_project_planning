@@ -1,0 +1,21 @@
+{
+  "i": 169,
+  "intent": {
+    "sequence": 170,
+    "skillKey": "yunara_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/yunara_w/parameters",
+    "stableKey": "bonus_ad_ratio",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.8500000238418579,
+      "levelValues": null,
+      "description": "Calc_Damage_Initial的mStat=2/formula2，读取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "at": "2026-09-10T03:30:48.302Z",
+  "batch": "英雄机制第四十七批",
+  "status": "本轮来源明确组成已保存，独立回读、实际源值数学与四个代表页面通过；未知治疗曲线、形态边界和事件接线单列",
+  "heroes": [
+    "Elise",
+    "Jayce",
+    "Nidalee",
+    "Shyvana"
+  ],
+  "skills": [
+    "elise_p",
+    "elise_q",
+    "elise_w",
+    "elise_e",
+    "elise_r",
+    "jayce_p",
+    "jayce_q",
+    "jayce_w",
+    "jayce_e",
+    "jayce_r",
+    "nidalee_p",
+    "nidalee_q",
+    "nidalee_w",
+    "nidalee_e",
+    "nidalee_r",
+    "shyvana_p",
+    "shyvana_q",
+    "shyvana_w",
+    "shyvana_e",
+    "shyvana_r"
+  ],
+  "newCounts": {
+    "parameters": 83,
+    "formulas": 24,
+    "effects": 21
+  },
+  "counts": {
+    "parameters": 104,
+    "formulas": 24,
+    "effects": 21
+  },
+  "created": 128,
+  "businessWrites": 128,
+  "reusedParameters": 21,
+  "currentTotalComponents": 149,
+  "candidateFile": "最终验收/候选过程/修订二/完整候选.json",
+  "candidateFileSha256": "9970f08a9e2569f15604a4339c9b6a5b8c2200814db05835a68f79a6ffbf957c",
+  "writePlan": "最终验收/候选过程/修订二/写前请求计划.json",
+  "writePlanSha256": "0ac9c3f05854baf318d663fe42224ac8e3d72db205fd096e483f36da6a4c9950",
+  "save": {
+    "GETs": 940,
+    "POSTs": 128,
+    "confirmed": 128,
+    "file": "最终验收/候选过程/修订二/实际写入/2026-09-10T03-05-21-171Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 342,
+    "protectedPaths": 193,
+    "details": 149,
+    "reused": 21,
+    "new": 128,
+    "file": "最终验收/独立回读证据/实际回读/2026-09-10T03-09-48-106Z/独立全量GET.json",
+    "sha256": "4e7f643b63384055fdf22741df0d077b93413598416b32569c870ddd435fbbe7"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "actualHydrated": 128,
+    "formulas": 24,
+    "cases": 48,
+    "effectCount": 21,
+    "missingInputCases": 3,
+    "typedReferences": 88,
+    "attributeReferences": 44,
+    "finiteChecks": 194,
+    "binaryNodes": 61,
+    "completeParameterArrays": 27,
+    "completeArrayValues": 140,
+    "fixedFiniteParameters": 54,
+    "newIntegerParameters": 50,
+    "integerValues": 131,
+    "integerParameters": 71,
+    "millisecondsParameters": 36,
+    "file": "最终验收/实际数学证据/独立数学报告.json",
+    "sha256": "dce3d59b1f7c1242ff5d1045c46f1b4da4ec1fbfc6aa031fd66eae9ebaa8f466",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "最终验收/候选过程/修订二/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 2648,
+    "uniqueTools": 48,
+    "inputs": 24,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "主负责人全20槽固定来源核对完成，最终修订二重新检查新增资格效果和所有真实属性键",
+    "伊莉丝W一次爆炸载体有独立结构资格报告，不引入独立生命单位；杰斯使用锤形态六级QWE与根绑定",
+    "奈德丽E额外攻速属性键存在，7秒自身攻速保留；未知中间治疗曲线不退化成最小治疗效果",
+    "奈德丽P同来源互斥替代，不同来源可叠加但总计30%封顶，独立6个状态场景符合当前扩展正文",
+    "龙女P每层0.3固定护甲/魔抗点数，3层0.9；所有参数、公式、效果名称说明一致",
+    "龙女W25%与43.75%为完整状态替代；附近0/1敌人对完整护盾加30%保持无默认实际资格",
+    "24公式48场景、3缺输入、21效果、83参数全数组和整数核对通过，88类型引用44属性引用存在",
+    "真实Cursor48只读工具24输入Git零变化"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "最小治疗公式不能冒充实际治疗",
+      "detail": "奈德丽E保留最小/最大与中间输入边界，实际治疗效果待源值曲线和事件接线。"
+    },
+    {
+      "issue": "属性键存在不代表单位正确",
+      "detail": "希瓦娜P需要固定护甲/魔抗点数；奈德丽E需要实际目录的额外攻速比例键。"
+    },
+    {
+      "issue": "同来源互斥和跨来源叠加必须分清",
+      "detail": "奈德丽P根修订及六个数学状态明确各来源内部替代、不同来源相加、30%总封顶，页面不宣称运行已支持。"
+    },
+    {
+      "issue": "技能不能统一按五级模板录入",
+      "detail": "杰斯QWE真实最高六级，参数表已完整显示。"
+    },
+    {
+      "issue": "一次伤害载体需和持续召唤分开",
+      "detail": "伊莉丝W本体爆炸保留，持久蜘蛛与额外形态排除，未证可选中击杀另记。"
+    }
+  ],
+  "pending": [
+    "奈德丽E最小/最大治疗已证，但中间曲线及实际选择未证，治疗效果待接；自身7秒攻速可保存",
+    "奈德丽P每来源选择、合计封顶与刷新/移除事件待接；不擅添离草立即移除",
+    "伊莉丝W接近或3秒爆炸事件与是否可单独选中击杀的运行边界未验",
+    "龙女技能命中、Q回冷却、W邻近与朝向状态、护盾移除事件待接",
+    "完整额外形态、独立陷阱、第三友方、纯野怪及视野明确为本轮排除"
+  ],
+  "runtimeValidation": "未执行"
+}

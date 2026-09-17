@@ -1,0 +1,23 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/monkeyking_e/parameters",
+    "detailRoute": "/skills/monkeyking_e/parameters/attack_speed_duration_ms",
+    "skillKey": "monkeyking_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_duration_ms",
+      "name": "攻击速度持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "5秒转毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

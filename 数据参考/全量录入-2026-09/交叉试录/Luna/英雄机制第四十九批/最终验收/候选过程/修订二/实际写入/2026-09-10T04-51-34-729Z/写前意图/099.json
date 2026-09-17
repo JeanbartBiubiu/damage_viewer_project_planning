@@ -1,0 +1,25 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 99,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/parameters",
+    "detailRoute": "/skills/kled_r/parameters/maximum_charge_multiplier",
+    "skillKey": "kled_r",
+    "kind": "parameters",
+    "stableKey": "maximum_charge_multiplier",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "maximum_charge_multiplier",
+      "name": "最大冲撞距离倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.029999999,
+      "levelValues": null,
+      "description": "MaximumChargeDamage.mMultiplier=0.03，已是最终比例系数。",
+      "sortOrder": 60
+    }
+  }
+}

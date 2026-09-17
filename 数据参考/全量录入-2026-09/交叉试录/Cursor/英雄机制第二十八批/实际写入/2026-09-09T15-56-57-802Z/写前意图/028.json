@@ -1,0 +1,42 @@
+{
+  "i": 27,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_r/formulas",
+    "skillKey": "maokai_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "自然之握魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+0.75×来源总法强；荆棘墙作为技能伤害载体保留。",
+      "sortOrder": 10
+    }
+  }
+}

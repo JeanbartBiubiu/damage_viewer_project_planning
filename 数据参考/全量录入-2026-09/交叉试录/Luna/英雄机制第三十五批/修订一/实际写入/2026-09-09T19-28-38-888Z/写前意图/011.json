@@ -1,0 +1,23 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "method": "POST",
+    "route": "/skills/braum_p/parameters",
+    "detailRoute": "/skills/braum_p/parameters/stun_duration_breakpoint_1_level",
+    "skillKey": "braum_p",
+    "kind": "parameters",
+    "stableKey": "stun_duration_breakpoint_1_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_breakpoint_1_level",
+      "name": "触发晕眩第一次断点等级",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 7,
+      "levelValues": null,
+      "description": "当前StunDuration第一断点为角色7级。",
+      "sortOrder": 110
+    }
+  }
+}

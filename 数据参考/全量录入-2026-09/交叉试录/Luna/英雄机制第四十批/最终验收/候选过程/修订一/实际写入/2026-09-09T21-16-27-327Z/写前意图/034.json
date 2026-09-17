@@ -1,0 +1,23 @@
+{
+  "i": 33,
+  "intent": {
+    "sequence": 34,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/cooldown_reduction_on_hit_seconds",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "cooldown_reduction_on_hit_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_reduction_on_hit_seconds",
+      "name": "黑暗洞灭命中减冷却时间（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确攻击命中缩短1秒；不改已有公共冷却参数。",
+      "sortOrder": 100
+    }
+  }
+}

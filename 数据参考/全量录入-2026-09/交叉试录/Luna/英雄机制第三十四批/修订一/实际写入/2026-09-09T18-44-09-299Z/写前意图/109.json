@@ -1,0 +1,45 @@
+{
+  "i": 108,
+  "intent": {
+    "sequence": 112,
+    "method": "POST",
+    "route": "/skills/vex_w/formulas",
+    "detailRoute": "/skills/vex_w/formulas/shield_value",
+    "skillKey": "vex_w",
+    "kind": "formulas",
+    "stableKey": "shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_value",
+      "name": "生人勿近自身护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ShieldCalc = ShieldAmount + 0.75×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

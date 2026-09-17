@@ -1,0 +1,24 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/parameters",
+    "detailRoute": "/skills/nilah_q/parameters/actual_attack_speed_percent_points",
+    "skillKey": "nilah_q",
+    "kind": "parameters",
+    "stableKey": "actual_attack_speed_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_attack_speed_percent_points",
+      "name": "游刃万变角色等级实际攻击速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BonusAttackSpeedCalc的角色等级中间值由运行层提供，不使用端点插值猜测。",
+      "sortOrder": 110
+    }
+  }
+}

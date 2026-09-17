@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T10:37:17.446Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/karthus_e/parameters/damage_per_second_base",
+  "id": "damage_per_second_base",
+  "method": "POST",
+  "body": {
+    "parameterKey": "damage_per_second_base",
+    "name": "污染每秒基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 30,
+      "2": 50,
+      "3": 70,
+      "4": 90,
+      "5": 110
+    },
+    "description": "客户端当前根绑定 DataValues.DamagePerSecond 取索引1至5。",
+    "sortOrder": 20
+  }
+}

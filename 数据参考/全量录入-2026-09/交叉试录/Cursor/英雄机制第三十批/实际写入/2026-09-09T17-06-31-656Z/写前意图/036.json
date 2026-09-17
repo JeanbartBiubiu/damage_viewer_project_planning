@@ -1,0 +1,23 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "method": "POST",
+    "route": "/skills/yasuo_r/parameters",
+    "detailRoute": "/skills/yasuo_r/parameters/bonus_armor_penetration_ratio",
+    "skillKey": "yasuo_r",
+    "kind": "parameters",
+    "stableKey": "bonus_armor_penetration_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_armor_penetration_ratio",
+      "name": "额外护甲穿透比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.6,
+      "levelValues": null,
+      "description": "客户端RPercentArmorPen=60，正文限定暴击无视60%额外护甲；转换为0.6，不能泛化为所有伤害的总护甲穿透。",
+      "sortOrder": 40
+    }
+  }
+}

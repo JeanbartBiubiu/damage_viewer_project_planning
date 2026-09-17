@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:30:19.244Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "recommendedStatus": "READY_FOR_INDEPENDENT_REVIEW",
+  "recommendation": "READY_FOR_INDEPENDENT_REVIEW",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "fixedVersion": "16.17.1",
+  "scope": {
+    "skillKey": "tristana_q",
+    "skillName": "急速射击",
+    "ruleKey": "active",
+    "eventType": "SKILL_USED",
+    "sourceSkillKey": "tristana_q",
+    "useKind": "ACTIVE",
+    "actionEffectKeys": [
+      "rapid_fire"
+    ],
+    "actionType": "START_PROCESS",
+    "processKey": "cast",
+    "actionTargetContext": "CURRENT_TARGET",
+    "actionResultTargets": {
+      "rapid_fire": "SOURCE"
+    },
+    "skippedEffects": [
+      "不重复执行 mana_cost 或 cooldown；这两项属于施放过程。",
+      "不新增攻击命中、爆炸火花层数、火箭跳跃重置或其他敌方目标事件。",
+      "不把急速射击的归档参数再次写入；本批只接已有 rapid_fire 效果。",
+      "不直接 EXECUTE_EFFECT rapid_fire；本条规则只启动已有 cast 过程，避免重复执行自益效果。"
+    ],
+    "deferredScope": []
+  },
+  "checks": {
+    "characterSubject": true,
+    "characterAttributes": true,
+    "characterRepresentativeImage": true,
+    "characterSkillRelation": true,
+    "skillSubject": true,
+    "skillRepresentativeImage": true,
+    "candidateAbsent": true,
+    "targetRuleBaselineEmpty": true,
+    "sourceActionEffectsPresent": true,
+    "sourceActionEffectSemantics": true,
+    "castProcessSemantics": true,
+    "requiredParametersPresent": true,
+    "allTargetListsReadable": true,
+    "allTargetDetailsReadable": true,
+    "staticRoutesReadable": true,
+    "triggerDependenciesReady": true,
+    "all": true,
+    "globalOld108Unchanged": true,
+    "globalTwoPassStable": true,
+    "sourceSemanticComplete": true,
+    "archiveChecksComplete": true,
+    "noBusinessWrite": true
+  },
+  "source": {
+    "snapshotFile": "03-来源快照.json",
+    "snapshotSha256": "f3b61a9c5f82c621e874cfbd54ddcfd787c54323ded6cde4165e1ee23d33c29d",
+    "candidateFileSha256": "446adb7a68cbdbd402a247acbc4659d929aed6da33bffe86bbe02a2e21006146",
+    "clientSha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494",
+    "clientDecompressedSha256": "c3122c601945305e0749b828b326315f0df50cea28f877142d64aab44d689831",
+    "officialSha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a"
+  },
+  "getSummary": {
+    "getCount": 2366,
+    "businessWrites": 0,
+    "statusCounts": {
+      "200": 2365,
+      "404": 1
+    },
+    "targetGetCount": 22,
+    "globalSkillListGetCount": 2,
+    "globalTriggerRuleListGetCount": 2125,
+    "globalTriggerRuleDetailGetCount": 216,
+    "candidateDetailGetCount": 1,
+    "catalogGetCount": 4
+  },
+  "observedCurrent": {
+    "first": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "eventTypeCounts": {
+        "DAMAGE_TAKEN": 3,
+        "BASIC_ATTACK_HIT": 10,
+        "SOURCE_INITIALIZED": 24,
+        "SKILL_HIT": 55,
+        "SPELL_SHIELD_BLOCKED": 5,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "KILL": 2,
+        "SKILL_USED": 5
+      },
+      "sourceInitializedCount": 24,
+      "detailStatus200Count": 108
+    },
+    "second": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "eventTypeCounts": {
+        "DAMAGE_TAKEN": 3,
+        "BASIC_ATTACK_HIT": 10,
+        "SOURCE_INITIALIZED": 24,
+        "SKILL_HIT": 55,
+        "SPELL_SHIELD_BLOCKED": 5,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "KILL": 2,
+        "SKILL_USED": 5
+      },
+      "sourceInitializedCount": 24,
+      "detailStatus200Count": 108
+    },
+    "oldRuleKeysSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+    "oldRuleDetailsSha256": "575932dea9b0ba7b7bf8e8fcd91afae793025ede26ffd3677dd9670d9f34dc41",
+    "targetRuleKeys": [],
+    "targetComponentKeys": {
+      "parameters": [
+        "cooldown_ms",
+        "mana_cost",
+        "bonus_attack_speed_ratio",
+        "buff_duration_ms"
+      ],
+      "formulas": [],
+      "effects": [
+        "mana_cost",
+        "rapid_fire"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "targetEffectChecks": {
+      "rapid_fire": {
+        "effectPresent": true,
+        "exactlyOneResult": true,
+        "resultType": true,
+        "resultTarget": true,
+        "attributeKey": true,
+        "operation": true,
+        "modifierZoneKey": true,
+        "valueParameter": true,
+        "durationParameter": true
+      }
+    },
+    "castProcessCheck": {
+      "processPresent": true,
+      "activeProcess": true,
+      "cooldownPresent": true,
+      "cooldownParameter": true,
+      "cooldownStartsAtProcessStart": true,
+      "exactEffectBindings": true,
+      "manaEffectBound": true,
+      "actionEffectsBound": true
+    }
+  },
+  "candidate": {
+    "ruleKey": "active",
+    "detailRoute": "/skills/tristana_q/trigger-rules/active",
+    "preflightStatus": 404,
+    "frozenRequestFile": "02-冻结请求.json",
+    "frozenRequestSha256": "9d224a11c3d3c70c6a2bc21eb60da25214b74ad745cba885761ac45a9e934242",
+    "proposedRequest": {
+      "ruleKey": "active",
+      "name": "急速射击主动使用",
+      "description": "接收 tristana_q 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却和 rapid_fire，自身攻击速度增益由过程执行一次。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "tristana_q",
+          "useKind": "ACTIVE"
+        }
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动急速射击施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "conditionalRequestBody": {
+      "ruleKey": "active",
+      "name": "急速射击主动使用",
+      "description": "接收 tristana_q 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却和 rapid_fire，自身攻击速度增益由过程执行一次。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "tristana_q",
+          "useKind": "ACTIVE"
+        }
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动急速射击施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "conditionalRequestBodySha256": "213efe75968f043bafd5d8b26d36f9bb819f9309636adda9197a4798b68ffd34"
+  },
+  "conflicts": [],
+  "deferred": [],
+  "deferredScope": [],
+  "excluded": [
+    "不重复执行 mana_cost 或 cooldown；这两项属于施放过程。",
+    "不新增攻击命中、爆炸火花层数、火箭跳跃重置或其他敌方目标事件。",
+    "不把急速射击的归档参数再次写入；本批只接已有 rapid_fire 效果。",
+    "不直接 EXECUTE_EFFECT rapid_fire；本条规则只启动已有 cast 过程，避免重复执行自益效果。"
+  ]
+}

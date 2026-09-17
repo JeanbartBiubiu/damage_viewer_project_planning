@@ -1,0 +1,64 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/formulas",
+    "detailRoute": "/skills/nilah_r/formulas/self_healing_amount",
+    "skillKey": "nilah_r",
+    "kind": "formulas",
+    "stableKey": "self_healing_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_healing_amount",
+      "name": "神恩激荡自身治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "self_healing_base_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "self_healing_mstat8_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_mstat8_value"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_q_crit_lifesteal_ratio"
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_current_enemy_healing_basis_damage"
+          }
+        ]
+      },
+      "description": "自身治疗量=完整治疗比例×当前目标合资格折前伤害；实际目标伤害由运行层提供。",
+      "sortOrder": 50
+    }
+  }
+}

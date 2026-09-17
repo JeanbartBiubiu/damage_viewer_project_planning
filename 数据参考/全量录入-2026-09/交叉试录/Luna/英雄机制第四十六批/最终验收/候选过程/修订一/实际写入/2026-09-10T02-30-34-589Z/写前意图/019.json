@@ -1,0 +1,24 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_q/parameters",
+    "detailRoute": "/skills/belveth_q/parameters/actual_attack_speed_percent_points",
+    "skillKey": "belveth_q",
+    "kind": "parameters",
+    "stableKey": "actual_attack_speed_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_attack_speed_percent_points",
+      "name": "当前实际攻击速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "方向冷却缩短实际读取的攻速口径未在根绑定中独立证实，按百分数点提供，不设默认。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "at": "2026-09-09T12:33:53.749Z",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "method": "POST",
+  "route": "/skills/riven_r/effects",
+  "detailRoute": "/skills/riven_r/effects/attack_damage_bonus",
+  "skillKey": "riven_r",
+  "kind": "effects",
+  "id": "attack_damage_bonus",
+  "body": {
+    "effectKey": "attack_damage_bonus",
+    "name": "放逐之锋自身攻击力提升",
+    "description": "当前正文明确强化期间获得额外攻击力；实际施放触发尚未接线。",
+    "sortOrder": 10,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "blade_empower_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "attribute",
+        "name": "额外攻击力",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "bonus_ad_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "attack_damage",
+          "operation": "INCREASE",
+          "modifierZoneKey": "attribute_percent_bonus"
+        }
+      }
+    ]
+  }
+}

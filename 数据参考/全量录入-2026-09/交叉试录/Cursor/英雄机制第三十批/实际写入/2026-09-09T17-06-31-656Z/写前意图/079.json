@@ -1,0 +1,23 @@
+{
+  "i": 78,
+  "intent": {
+    "sequence": 79,
+    "method": "POST",
+    "route": "/skills/yone_e/parameters",
+    "detailRoute": "/skills/yone_e/parameters/recast_lockout_ms",
+    "skillKey": "yone_e",
+    "kind": "parameters",
+    "stableKey": "recast_lockout_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_lockout_ms",
+      "name": "重施锁定时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "客户端RecastLockout=0.5秒，转换为500毫秒；硬控延迟返回待接。",
+      "sortOrder": 60
+    }
+  }
+}

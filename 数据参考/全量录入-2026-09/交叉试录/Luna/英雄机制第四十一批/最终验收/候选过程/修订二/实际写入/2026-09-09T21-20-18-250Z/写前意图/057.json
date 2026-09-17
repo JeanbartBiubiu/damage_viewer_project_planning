@@ -1,0 +1,29 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "method": "POST",
+    "route": "/skills/milio_q/parameters",
+    "detailRoute": "/skills/milio_q/parameters/damage_base",
+    "skillKey": "milio_q",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "落地基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 140,
+        "3": 200,
+        "4": 260,
+        "5": 320
+      },
+      "description": "Damage第一项，等级索引1至5。",
+      "sortOrder": 20
+    }
+  }
+}

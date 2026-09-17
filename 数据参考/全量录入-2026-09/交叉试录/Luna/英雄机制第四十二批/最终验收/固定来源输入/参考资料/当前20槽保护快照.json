@@ -1,0 +1,4177 @@
+{
+  "at": "2026-09-09T20:09:47.327Z",
+  "GETs": 203,
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/characters/champion_qiyana",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_qiyana",
+        "createdAt": "2026-09-06T17:16:57.787042Z",
+        "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+        "gameId": "lol",
+        "name": "奇亚娜",
+        "updatedAt": "2026-09-06T17:16:57.787042Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_qiyana",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_qiyana",
+            "characterName": "奇亚娜",
+            "gameId": "lol",
+            "skillKey": "qiyana_p",
+            "skillName": "奇亚娜·凌人贵气",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_qiyana",
+            "characterName": "奇亚娜",
+            "gameId": "lol",
+            "skillKey": "qiyana_q",
+            "skillName": "奇亚娜·元素之怒 / 以绪塔尔之锋",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_qiyana",
+            "characterName": "奇亚娜",
+            "gameId": "lol",
+            "skillKey": "qiyana_w",
+            "skillName": "奇亚娜·方圆塑令",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_qiyana",
+            "characterName": "奇亚娜",
+            "gameId": "lol",
+            "skillKey": "qiyana_e",
+            "skillName": "奇亚娜·天纵之勇",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_qiyana",
+            "characterName": "奇亚娜",
+            "gameId": "lol",
+            "skillKey": "qiyana_r",
+            "skillName": "奇亚娜·惊才绝景",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_ksante",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_ksante",
+        "createdAt": "2026-09-06T17:15:57.432677Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "奎桑提",
+        "updatedAt": "2026-09-06T17:15:57.432677Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_ksante",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_ksante",
+            "characterName": "奎桑提",
+            "gameId": "lol",
+            "skillKey": "ksante_p",
+            "skillName": "奎桑提·血性本能",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_ksante",
+            "characterName": "奎桑提",
+            "gameId": "lol",
+            "skillKey": "ksante_q",
+            "skillName": "奎桑提·无双陀斧",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_ksante",
+            "characterName": "奎桑提",
+            "gameId": "lol",
+            "skillKey": "ksante_w",
+            "skillName": "奎桑提·辟路先锋",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_ksante",
+            "characterName": "奎桑提",
+            "gameId": "lol",
+            "skillKey": "ksante_e",
+            "skillName": "奎桑提·大步驰援",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_ksante",
+            "characterName": "奎桑提",
+            "gameId": "lol",
+            "skillKey": "ksante_r",
+            "skillName": "奎桑提·傲岸雄姿",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_mel",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_mel",
+        "createdAt": "2026-09-06T17:15:23.425998Z",
+        "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+        "gameId": "lol",
+        "name": "梅尔",
+        "updatedAt": "2026-09-06T17:15:23.425998Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_mel",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_mel",
+            "characterName": "梅尔",
+            "gameId": "lol",
+            "skillKey": "mel_p",
+            "skillName": "梅尔·灼灼之光",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_mel",
+            "characterName": "梅尔",
+            "gameId": "lol",
+            "skillKey": "mel_q",
+            "skillName": "梅尔·耀光齐射",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_mel",
+            "characterName": "梅尔",
+            "gameId": "lol",
+            "skillKey": "mel_w",
+            "skillName": "梅尔·灵魂折镜",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_mel",
+            "characterName": "梅尔",
+            "gameId": "lol",
+            "skillKey": "mel_e",
+            "skillName": "梅尔·阳炎涡旋",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_mel",
+            "characterName": "梅尔",
+            "gameId": "lol",
+            "skillKey": "mel_r",
+            "skillName": "梅尔·鎏金蚀日",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_yunara",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_yunara",
+        "createdAt": "2026-09-06T18:10:22.474869Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "芸阿娜",
+        "updatedAt": "2026-09-06T18:10:22.474869Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_yunara",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_yunara",
+            "characterName": "芸阿娜",
+            "gameId": "lol",
+            "skillKey": "yunara_p",
+            "skillName": "芸阿娜·初生之誓",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_yunara",
+            "characterName": "芸阿娜",
+            "gameId": "lol",
+            "skillKey": "yunara_q",
+            "skillName": "芸阿娜·灵蕴拳",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_yunara",
+            "characterName": "芸阿娜",
+            "gameId": "lol",
+            "skillKey": "yunara_w",
+            "skillName": "芸阿娜·善恶轮 | 寂灭掌",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_yunara",
+            "characterName": "芸阿娜",
+            "gameId": "lol",
+            "skillKey": "yunara_e",
+            "skillName": "芸阿娜·明踪步 | 夜影翻",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_yunara",
+            "characterName": "芸阿娜",
+            "gameId": "lol",
+            "skillKey": "yunara_r",
+            "skillName": "芸阿娜·定圣诀",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/qiyana_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:51.918423Z",
+        "description": "奇亚娜对每名敌人发起的第一次普攻或技能会造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "奇亚娜·凌人贵气",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "qiyana_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:51.918423Z"
+      }
+    },
+    {
+      "route": "/skills/qiyana_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_qiyana_p",
+          "name": "qiyana_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/qiyana_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:52.197009Z",
+        "description": "奇亚娜挥舞她的武器，造成伤害和基于她元素的额外效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奇亚娜·元素之怒 / 以绪塔尔之锋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "qiyana_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:52.197009Z"
+      }
+    },
+    {
+      "route": "/skills/qiyana_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_qiyana_q",
+          "name": "qiyana_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/qiyana_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:55.438669Z",
+          "description": "DDragon16.17.1 Qiyana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 7000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "qiyana_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:55.438669Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:55.960075Z",
+          "description": "DDragon16.17.1 Qiyana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 35,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "qiyana_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:55.960075Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/qiyana_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:55.438669Z",
+        "description": "DDragon16.17.1 Qiyana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "qiyana_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:55.438669Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/qiyana_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:55.960075Z",
+        "description": "DDragon16.17.1 Qiyana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "qiyana_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:55.960075Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/qiyana_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:52.45142Z",
+        "description": "奇亚娜突进到一个位置并用一种元素为她的武器附魔。当武器有附魔时，她的攻击和技能会造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奇亚娜·方圆塑令",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "qiyana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:52.45142Z"
+      }
+    },
+    {
+      "route": "/skills/qiyana_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_qiyana_w",
+          "name": "qiyana_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/qiyana_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:56.399854Z",
+          "description": "DDragon16.17.1 Qiyana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 7000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "qiyana_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:56.399854Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:56.913639Z",
+          "description": "DDragon16.17.1 Qiyana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 25,
+            "2": 30,
+            "3": 35,
+            "4": 40,
+            "5": 45
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "qiyana_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:56.913639Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/qiyana_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:56.399854Z",
+        "description": "DDragon16.17.1 Qiyana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "qiyana_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:56.399854Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/qiyana_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:56.913639Z",
+        "description": "DDragon16.17.1 Qiyana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 25,
+          "2": 30,
+          "3": 35,
+          "4": 40,
+          "5": 45
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "qiyana_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:56.913639Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/qiyana_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:52.69444Z",
+        "description": "奇亚娜突进至一名敌人处，并对其造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奇亚娜·天纵之勇",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "qiyana_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:52.69444Z"
+      }
+    },
+    {
+      "route": "/skills/qiyana_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_qiyana_e",
+          "name": "qiyana_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/qiyana_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:57.421847Z",
+          "description": "DDragon16.17.1 Qiyana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 11000,
+            "2": 10000,
+            "3": 9000,
+            "4": 8000,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "qiyana_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:57.421847Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:57.920665Z",
+          "description": "DDragon16.17.1 Qiyana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "qiyana_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:57.920665Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/qiyana_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:57.421847Z",
+        "description": "DDragon16.17.1 Qiyana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "qiyana_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:57.421847Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/qiyana_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:57.920665Z",
+        "description": "DDragon16.17.1 Qiyana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "qiyana_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:57.920665Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/qiyana_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:53.019392Z",
+        "description": "奇亚娜发出一道冲击波来引爆沿途命中的任何元素，对元素附近的敌人造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奇亚娜·惊才绝景",
+        "skillCategoryKeys": [],
+        "skillKey": "qiyana_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:53.019392Z"
+      }
+    },
+    {
+      "route": "/skills/qiyana_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_qiyana_r",
+          "name": "qiyana_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/qiyana_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:58.361706Z",
+          "description": "DDragon16.17.1 Qiyana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 120000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "qiyana_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:58.361706Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:58.882059Z",
+          "description": "DDragon16.17.1 Qiyana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "qiyana_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:58.882059Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/qiyana_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:58.361706Z",
+        "description": "DDragon16.17.1 Qiyana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 120000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "qiyana_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:58.361706Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/qiyana_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:58.882059Z",
+        "description": "DDragon16.17.1 Qiyana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "qiyana_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:58.882059Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/qiyana_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/qiyana_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:05.361335Z",
+        "description": "奎桑提的技能会标记目标来使他的下一次攻击对其造成更多伤害。<br><br>在全盛姿态下，奎桑提的所有攻击和技能造成更多伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "奎桑提·血性本能",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "ksante_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:05.361335Z"
+      }
+    },
+    {
+      "route": "/skills/ksante_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ksante_p",
+          "name": "ksante_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/ksante_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:05.703118Z",
+        "description": "奎桑提进行打击，对一条较短直线内的所有敌人造成伤害和减速效果。<br><br>命中敌人时会提供一层【无双陀斧】。在2层时，奎桑提会发射一道可将敌人拉近的冲击波。<br><br>在全盛姿态下，冷却时间会缩短。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奎桑提·无双陀斧",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ksante_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:05.703118Z"
+      }
+    },
+    {
+      "route": "/skills/ksante_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ksante_q",
+          "name": "ksante_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/ksante_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:33.768695Z",
+          "description": "DDragon16.17.1 KSante.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 3500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ksante_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:33.768695Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:34.300881Z",
+          "description": "DDragon16.17.1 KSante.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ksante_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:34.300881Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ksante_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:33.768695Z",
+        "description": "DDragon16.17.1 KSante.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 3500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ksante_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:33.768695Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ksante_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:34.300881Z",
+        "description": "DDragon16.17.1 KSante.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ksante_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:34.300881Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ksante_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:05.980716Z",
+        "description": "奎桑提进行蓄力，期间获得伤害减免，然后进行冲刺，对敌人造成击退和晕眩。<br><br>在全盛姿态下，造成提升过的伤害并且不再造成击退或晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奎桑提·辟路先锋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ksante_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:05.980716Z"
+      }
+    },
+    {
+      "route": "/skills/ksante_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ksante_w",
+          "name": "ksante_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/ksante_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:34.853222Z",
+          "description": "DDragon16.17.1 KSante.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ksante_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:34.853222Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:35.457575Z",
+          "description": "DDragon16.17.1 KSante.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ksante_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:35.457575Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ksante_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:34.853222Z",
+        "description": "DDragon16.17.1 KSante.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ksante_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:34.853222Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ksante_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:35.457575Z",
+        "description": "DDragon16.17.1 KSante.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ksante_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:35.457575Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ksante_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:06.261389Z",
+        "description": "奎桑提进行冲刺并获得一个护盾。如果以一个友军为目标，则奎桑提的冲刺距离会提升并冲刺至该友军处，两人都会获得一个护盾。<br><br>在全盛姿态下，冷却时间会缩短，并且速度会提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奎桑提·大步驰援",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ksante_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:06.261389Z"
+      }
+    },
+    {
+      "route": "/skills/ksante_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ksante_e",
+          "name": "ksante_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/ksante_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:35.896017Z",
+          "description": "DDragon16.17.1 KSante.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9500,
+            "3": 9000,
+            "4": 8500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ksante_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:35.896017Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:36.41489Z",
+          "description": "DDragon16.17.1 KSante.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 45,
+            "2": 50,
+            "3": 55,
+            "4": 60,
+            "5": 65
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ksante_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:36.41489Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ksante_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:35.896017Z",
+        "description": "DDragon16.17.1 KSante.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ksante_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:35.896017Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ksante_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:36.41489Z",
+        "description": "DDragon16.17.1 KSante.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ksante_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:36.41489Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ksante_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:06.530808Z",
+        "description": "奎桑提将一个敌人击退，并带其翻越沿途的任何墙体。然后，奎桑提进入【全盛姿态】并冲刺至其身后，获得提升过的伤害、治疗效果、以及转化过的各个技能，但代价是各防御属性降低。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奎桑提·傲岸雄姿",
+        "skillCategoryKeys": [],
+        "skillKey": "ksante_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:06.530808Z"
+      }
+    },
+    {
+      "route": "/skills/ksante_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ksante_r",
+          "name": "ksante_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/ksante_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:36.957455Z",
+          "description": "DDragon16.17.1 KSante.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ksante_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:36.957455Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:37.525097Z",
+          "description": "DDragon16.17.1 KSante.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ksante_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:37.525097Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ksante_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:36.957455Z",
+        "description": "DDragon16.17.1 KSante.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ksante_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:36.957455Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ksante_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:37.525097Z",
+        "description": "DDragon16.17.1 KSante.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ksante_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:37.525097Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ksante_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ksante_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:23.445778Z",
+        "description": "每当梅尔使用技能，她的下一次攻击将额外附带3枚弹体（最多9枚）。<br><br>当梅尔通过一次技能或攻击造成伤害时，她会施加【夺命残影】——一种可以无限叠加的效果。如果目标身上叠加了足够的夺命残影伤害量，则会在下一次被梅尔命中时被直接处决，同时消耗效果层数。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "梅尔·灼灼之光",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "mel_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:23.445778Z"
+      }
+    },
+    {
+      "route": "/skills/mel_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_mel_p",
+          "name": "mel_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/mel_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:23.685683Z",
+        "description": "梅尔发射一连串耀光飞弹，飞弹会在目标位置周围爆炸，对范围内的敌人造成多段伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "梅尔·耀光齐射",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "mel_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:23.685683Z"
+      }
+    },
+    {
+      "route": "/skills/mel_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_mel_q",
+          "name": "mel_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/mel_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:48.29408Z",
+          "description": "DDragon16.17.1 Mel.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "mel_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:48.29408Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:48.70974Z",
+          "description": "DDragon16.17.1 Mel.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 75,
+            "3": 80,
+            "4": 85,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "mel_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:48.70974Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/mel_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:48.29408Z",
+        "description": "DDragon16.17.1 Mel.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "mel_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:48.29408Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/mel_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:48.70974Z",
+        "description": "DDragon16.17.1 Mel.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "mel_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:48.70974Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/mel_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:23.934769Z",
+        "description": "梅尔生成一道屏障围绕自身，这道屏障会将敌方弹体反弹给攻击者，使她免受伤害，并为她提供移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "梅尔·灵魂折镜",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "mel_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:23.934769Z"
+      }
+    },
+    {
+      "route": "/skills/mel_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_mel_w",
+          "name": "mel_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/mel_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:49.182722Z",
+          "description": "DDragon16.17.1 Mel.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 38000,
+            "2": 35000,
+            "3": 33000,
+            "4": 29000,
+            "5": 26000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "mel_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:49.182722Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:49.633702Z",
+          "description": "DDragon16.17.1 Mel.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 60,
+            "3": 40,
+            "4": 20,
+            "5": 0
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "mel_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:49.633702Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/mel_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:49.182722Z",
+        "description": "DDragon16.17.1 Mel.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 38000,
+          "2": 35000,
+          "3": 33000,
+          "4": 29000,
+          "5": 26000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "mel_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:49.182722Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/mel_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:49.633702Z",
+        "description": "DDragon16.17.1 Mel.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 60,
+          "3": 40,
+          "4": 20,
+          "5": 0
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "mel_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:49.633702Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/mel_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:24.207239Z",
+        "description": "梅尔发射一颗阳炎法球，禁锢中心区域的敌人并减速周围区域的敌人并造成持续伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "梅尔·阳炎涡旋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "mel_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:24.207239Z"
+      }
+    },
+    {
+      "route": "/skills/mel_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_mel_e",
+          "name": "mel_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/mel_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:50.055161Z",
+          "description": "DDragon16.17.1 Mel.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 11000,
+            "2": 10500,
+            "3": 10000,
+            "4": 9500,
+            "5": 9000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "mel_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:50.055161Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:50.499605Z",
+          "description": "DDragon16.17.1 Mel.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "mel_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:50.499605Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/mel_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:50.055161Z",
+        "description": "DDragon16.17.1 Mel.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10500,
+          "3": 10000,
+          "4": 9500,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "mel_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:50.055161Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/mel_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:50.499605Z",
+        "description": "DDragon16.17.1 Mel.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "mel_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:50.499605Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/mel_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:24.477657Z",
+        "description": "梅尔无视距离，对所有带有【夺命残影】层数的敌人进行打击，造成基于【夺命残影】层数的额外伤害。<br><br>【鎏金蚀日】的技能等级会提升【夺命残影】的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "梅尔·鎏金蚀日",
+        "skillCategoryKeys": [],
+        "skillKey": "mel_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:24.477657Z"
+      }
+    },
+    {
+      "route": "/skills/mel_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_mel_r",
+          "name": "mel_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/mel_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:50.951412Z",
+          "description": "DDragon16.17.1 Mel.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "mel_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:50.951412Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:51.384003Z",
+          "description": "DDragon16.17.1 Mel.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "mel_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:51.384003Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/mel_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:50.951412Z",
+        "description": "DDragon16.17.1 Mel.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "mel_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:50.951412Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/mel_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:51.384003Z",
+        "description": "DDragon16.17.1 Mel.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "mel_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:51.384003Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/mel_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/mel_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:14.910052Z",
+        "description": "芸阿娜的暴击造成额外魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "芸阿娜·初生之誓",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yunara_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:14.910052Z"
+      }
+    },
+    {
+      "route": "/skills/yunara_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yunara_p",
+          "name": "yunara_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/yunara_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:15.181155Z",
+        "description": "芸阿娜获得攻击速度、额外附带伤害并且她的攻击会散播至附近的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "芸阿娜·灵蕴拳",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yunara_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:15.181155Z"
+      }
+    },
+    {
+      "route": "/skills/yunara_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yunara_q",
+          "name": "yunara_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/yunara_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:17.650964Z",
+          "description": "DDragon16.17.1 Yunara.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。基础冷却零为确值，仍有8灵蕴及形态门控；30法力不代替门控。",
+          "fixedValue": 0,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yunara_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:17.650964Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:18.159489Z",
+          "description": "DDragon16.17.1 Yunara.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。基础冷却零为确值，仍有8灵蕴及形态门控；30法力不代替门控。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "yunara_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:18.159489Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yunara_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:17.650964Z",
+        "description": "DDragon16.17.1 Yunara.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。基础冷却零为确值，仍有8灵蕴及形态门控；30法力不代替门控。",
+        "fixedValue": 0,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yunara_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:17.650964Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yunara_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:18.159489Z",
+        "description": "DDragon16.17.1 Yunara.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。基础冷却零为确值，仍有8灵蕴及形态门控；30法力不代替门控。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "yunara_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:18.159489Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yunara_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:15.459627Z",
+        "description": "芸阿娜发射一颗不停旋转的念珠，对敌人们造成伤害和减速。在她处于超凡形态期间，她转而发射一记射线，对敌人们造成伤害和减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "芸阿娜·善恶轮 | 寂灭掌",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yunara_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:15.459627Z"
+      }
+    },
+    {
+      "route": "/skills/yunara_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yunara_w",
+          "name": "yunara_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/yunara_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:18.645242Z",
+          "description": "DDragon16.17.1 Yunara.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "yunara_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:18.645242Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yunara_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:18.645242Z",
+        "description": "DDragon16.17.1 Yunara.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "yunara_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:18.645242Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yunara_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:15.719305Z",
+        "description": "芸阿娜获得移动速度并进入幽灵状态。在她处于超凡形态期间，她转而朝着一个方向冲刺。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "芸阿娜·明踪步 | 夜影翻",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yunara_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:15.719305Z"
+      }
+    },
+    {
+      "route": "/skills/yunara_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yunara_e",
+          "name": "yunara_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/yunara_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:19.192655Z",
+          "description": "DDragon16.17.1 Yunara.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 9000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yunara_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:19.192655Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:19.651481Z",
+          "description": "DDragon16.17.1 Yunara.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "yunara_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:19.651481Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yunara_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:19.192655Z",
+        "description": "DDragon16.17.1 Yunara.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 9000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yunara_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:19.192655Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yunara_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:19.651481Z",
+        "description": "DDragon16.17.1 Yunara.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "yunara_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:19.651481Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yunara_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:16.032654Z",
+        "description": "芸阿娜进入超凡形态，在此形态下，她的基础技能获得升级。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "芸阿娜·定圣诀",
+        "skillCategoryKeys": [],
+        "skillKey": "yunara_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:16.032654Z"
+      }
+    },
+    {
+      "route": "/skills/yunara_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yunara_r",
+          "name": "yunara_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/yunara_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:20.098741Z",
+          "description": "DDragon16.17.1 Yunara.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100000,
+            "2": 90000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yunara_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:20.098741Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:20.600914Z",
+          "description": "DDragon16.17.1 Yunara.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "yunara_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:20.600914Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yunara_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:20.098741Z",
+        "description": "DDragon16.17.1 Yunara.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 90000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yunara_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:20.098741Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yunara_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:20.600914Z",
+        "description": "DDragon16.17.1 Yunara.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "yunara_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:20.600914Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yunara_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yunara_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "summary": {
+    "qiyana_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:51.918423Z",
+        "description": "奇亚娜对每名敌人发起的第一次普攻或技能会造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "奇亚娜·凌人贵气",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "qiyana_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:51.918423Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "qiyana_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:52.197009Z",
+        "description": "奇亚娜挥舞她的武器，造成伤害和基于她元素的额外效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奇亚娜·元素之怒 / 以绪塔尔之锋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "qiyana_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:52.197009Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:55.438669Z",
+            "description": "DDragon16.17.1 Qiyana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 7000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "qiyana_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:55.438669Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:55.960075Z",
+            "description": "DDragon16.17.1 Qiyana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 35,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "qiyana_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:55.960075Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "qiyana_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:52.45142Z",
+        "description": "奇亚娜突进到一个位置并用一种元素为她的武器附魔。当武器有附魔时，她的攻击和技能会造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奇亚娜·方圆塑令",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "qiyana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:52.45142Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:56.399854Z",
+            "description": "DDragon16.17.1 Qiyana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 7000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "qiyana_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:56.399854Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:56.913639Z",
+            "description": "DDragon16.17.1 Qiyana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 25,
+              "2": 30,
+              "3": 35,
+              "4": 40,
+              "5": 45
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "qiyana_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:56.913639Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "qiyana_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:52.69444Z",
+        "description": "奇亚娜突进至一名敌人处，并对其造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奇亚娜·天纵之勇",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "qiyana_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:52.69444Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:57.421847Z",
+            "description": "DDragon16.17.1 Qiyana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 11000,
+              "2": 10000,
+              "3": 9000,
+              "4": 8000,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "qiyana_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:57.421847Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:57.920665Z",
+            "description": "DDragon16.17.1 Qiyana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "qiyana_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:57.920665Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "qiyana_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:53.019392Z",
+        "description": "奇亚娜发出一道冲击波来引爆沿途命中的任何元素，对元素附近的敌人造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奇亚娜·惊才绝景",
+        "skillCategoryKeys": [],
+        "skillKey": "qiyana_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:53.019392Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:58.361706Z",
+            "description": "DDragon16.17.1 Qiyana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 120000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "qiyana_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:58.361706Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:58.882059Z",
+            "description": "DDragon16.17.1 Qiyana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "qiyana_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:58.882059Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ksante_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:05.361335Z",
+        "description": "奎桑提的技能会标记目标来使他的下一次攻击对其造成更多伤害。<br><br>在全盛姿态下，奎桑提的所有攻击和技能造成更多伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "奎桑提·血性本能",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "ksante_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:05.361335Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ksante_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:05.703118Z",
+        "description": "奎桑提进行打击，对一条较短直线内的所有敌人造成伤害和减速效果。<br><br>命中敌人时会提供一层【无双陀斧】。在2层时，奎桑提会发射一道可将敌人拉近的冲击波。<br><br>在全盛姿态下，冷却时间会缩短。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奎桑提·无双陀斧",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ksante_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:05.703118Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:33.768695Z",
+            "description": "DDragon16.17.1 KSante.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 3500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "ksante_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:33.768695Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:34.300881Z",
+            "description": "DDragon16.17.1 KSante.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 20,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ksante_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:34.300881Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ksante_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:05.980716Z",
+        "description": "奎桑提进行蓄力，期间获得伤害减免，然后进行冲刺，对敌人造成击退和晕眩。<br><br>在全盛姿态下，造成提升过的伤害并且不再造成击退或晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奎桑提·辟路先锋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ksante_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:05.980716Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:34.853222Z",
+            "description": "DDragon16.17.1 KSante.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 14000,
+              "2": 13000,
+              "3": 12000,
+              "4": 11000,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "ksante_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:34.853222Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:35.457575Z",
+            "description": "DDragon16.17.1 KSante.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ksante_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:35.457575Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ksante_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:06.261389Z",
+        "description": "奎桑提进行冲刺并获得一个护盾。如果以一个友军为目标，则奎桑提的冲刺距离会提升并冲刺至该友军处，两人都会获得一个护盾。<br><br>在全盛姿态下，冷却时间会缩短，并且速度会提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奎桑提·大步驰援",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ksante_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:06.261389Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:35.896017Z",
+            "description": "DDragon16.17.1 KSante.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 10000,
+              "2": 9500,
+              "3": 9000,
+              "4": 8500,
+              "5": 8000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "ksante_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:35.896017Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:36.41489Z",
+            "description": "DDragon16.17.1 KSante.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 45,
+              "2": 50,
+              "3": 55,
+              "4": 60,
+              "5": 65
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ksante_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:36.41489Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ksante_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:06.530808Z",
+        "description": "奎桑提将一个敌人击退，并带其翻越沿途的任何墙体。然后，奎桑提进入【全盛姿态】并冲刺至其身后，获得提升过的伤害、治疗效果、以及转化过的各个技能，但代价是各防御属性降低。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "奎桑提·傲岸雄姿",
+        "skillCategoryKeys": [],
+        "skillKey": "ksante_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:06.530808Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:36.957455Z",
+            "description": "DDragon16.17.1 KSante.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 100000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "ksante_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:36.957455Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:37.525097Z",
+            "description": "DDragon16.17.1 KSante.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ksante_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:37.525097Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mel_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:23.445778Z",
+        "description": "每当梅尔使用技能，她的下一次攻击将额外附带3枚弹体（最多9枚）。<br><br>当梅尔通过一次技能或攻击造成伤害时，她会施加【夺命残影】——一种可以无限叠加的效果。如果目标身上叠加了足够的夺命残影伤害量，则会在下一次被梅尔命中时被直接处决，同时消耗效果层数。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "梅尔·灼灼之光",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "mel_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:23.445778Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mel_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:23.685683Z",
+        "description": "梅尔发射一连串耀光飞弹，飞弹会在目标位置周围爆炸，对范围内的敌人造成多段伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "梅尔·耀光齐射",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "mel_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:23.685683Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:48.29408Z",
+            "description": "DDragon16.17.1 Mel.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 10000,
+              "2": 9000,
+              "3": 8000,
+              "4": 7000,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "mel_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:48.29408Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:48.70974Z",
+            "description": "DDragon16.17.1 Mel.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70,
+              "2": 75,
+              "3": 80,
+              "4": 85,
+              "5": 90
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "mel_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:48.70974Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mel_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:23.934769Z",
+        "description": "梅尔生成一道屏障围绕自身，这道屏障会将敌方弹体反弹给攻击者，使她免受伤害，并为她提供移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "梅尔·灵魂折镜",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "mel_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:23.934769Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:49.182722Z",
+            "description": "DDragon16.17.1 Mel.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 38000,
+              "2": 35000,
+              "3": 33000,
+              "4": 29000,
+              "5": 26000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "mel_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:49.182722Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:49.633702Z",
+            "description": "DDragon16.17.1 Mel.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 80,
+              "2": 60,
+              "3": 40,
+              "4": 20,
+              "5": 0
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "mel_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:49.633702Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mel_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:24.207239Z",
+        "description": "梅尔发射一颗阳炎法球，禁锢中心区域的敌人并减速周围区域的敌人并造成持续伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "梅尔·阳炎涡旋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "mel_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:24.207239Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:50.055161Z",
+            "description": "DDragon16.17.1 Mel.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 11000,
+              "2": 10500,
+              "3": 10000,
+              "4": 9500,
+              "5": 9000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "mel_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:50.055161Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:50.499605Z",
+            "description": "DDragon16.17.1 Mel.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 60,
+              "3": 70,
+              "4": 80,
+              "5": 90
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "mel_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:50.499605Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "mel_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:24.477657Z",
+        "description": "梅尔无视距离，对所有带有【夺命残影】层数的敌人进行打击，造成基于【夺命残影】层数的额外伤害。<br><br>【鎏金蚀日】的技能等级会提升【夺命残影】的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "梅尔·鎏金蚀日",
+        "skillCategoryKeys": [],
+        "skillKey": "mel_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:24.477657Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:50.951412Z",
+            "description": "DDragon16.17.1 Mel.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 100000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "mel_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:50.951412Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:51.384003Z",
+            "description": "DDragon16.17.1 Mel.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "mel_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:51.384003Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yunara_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:14.910052Z",
+        "description": "芸阿娜的暴击造成额外魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "芸阿娜·初生之誓",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yunara_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:14.910052Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yunara_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:15.181155Z",
+        "description": "芸阿娜获得攻击速度、额外附带伤害并且她的攻击会散播至附近的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "芸阿娜·灵蕴拳",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yunara_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:15.181155Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:17.650964Z",
+            "description": "DDragon16.17.1 Yunara.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。基础冷却零为确值，仍有8灵蕴及形态门控；30法力不代替门控。",
+            "fixedValue": 0,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yunara_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:17.650964Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:41:18.159489Z",
+            "description": "DDragon16.17.1 Yunara.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。基础冷却零为确值，仍有8灵蕴及形态门控；30法力不代替门控。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "yunara_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:18.159489Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yunara_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:15.459627Z",
+        "description": "芸阿娜发射一颗不停旋转的念珠，对敌人们造成伤害和减速。在她处于超凡形态期间，她转而发射一记射线，对敌人们造成伤害和减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "芸阿娜·善恶轮 | 寂灭掌",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yunara_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:15.459627Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:18.645242Z",
+            "description": "DDragon16.17.1 Yunara.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 60,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "yunara_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:18.645242Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yunara_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:15.719305Z",
+        "description": "芸阿娜获得移动速度并进入幽灵状态。在她处于超凡形态期间，她转而朝着一个方向冲刺。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "芸阿娜·明踪步 | 夜影翻",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yunara_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:15.719305Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:19.192655Z",
+            "description": "DDragon16.17.1 Yunara.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 9000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yunara_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:19.192655Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:41:19.651481Z",
+            "description": "DDragon16.17.1 Yunara.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "yunara_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:19.651481Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yunara_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:16.032654Z",
+        "description": "芸阿娜进入超凡形态，在此形态下，她的基础技能获得升级。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "芸阿娜·定圣诀",
+        "skillCategoryKeys": [],
+        "skillKey": "yunara_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:16.032654Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:20.098741Z",
+            "description": "DDragon16.17.1 Yunara.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 100000,
+              "2": 90000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yunara_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:20.098741Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:41:20.600914Z",
+            "description": "DDragon16.17.1 Yunara.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "yunara_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:20.600914Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  },
+  "apiWrites": 0
+}

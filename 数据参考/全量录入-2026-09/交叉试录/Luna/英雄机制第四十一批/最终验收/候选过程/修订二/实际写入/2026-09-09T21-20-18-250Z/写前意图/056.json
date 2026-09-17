@@ -1,0 +1,29 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/milio_q/parameters",
+    "detailRoute": "/skills/milio_q/parameters/cooldown_ms",
+    "skillKey": "milio_q",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "基础冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 10000,
+        "3": 10000,
+        "4": 10000,
+        "5": 10000
+      },
+      "description": "官方16.17.1冷却10秒；客户端未提供cooldownTime，转毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

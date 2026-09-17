@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-09-09T11:23:38.176Z",
+  "batch": "第十八批拉克丝与佐伊",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "snapshotSha256": "e7aaac29e37ad539300a538c8385e392d0d62dc97178654a4832a54a62e12b7e",
+  "files": {
+    "完整候选.json": {
+      "bytes": 79857,
+      "sha256": "d8d2747f804cabc8cffe2d28027d9f4bf9322b6e3e45f13d4634b19a35bb9c1b"
+    },
+    "来源与范围.json": {
+      "bytes": 21504,
+      "sha256": "4912882b4bc6a6854ac2711acd0634ba93bfbc86e7ad4a7ab0600b08912a3305"
+    },
+    "独立数学核算结果.json": {
+      "bytes": 17420,
+      "sha256": "963d9aca59894b701684103fcd0d9418a8ea71d8294e0e7e64fb2dc9d138c329"
+    },
+    "体验报告.md": {
+      "bytes": 4424,
+      "sha256": "91e3ea342160eb10164ef748ee39ff9561f38718d400f23d39e409ef7a1d8f72"
+    },
+    "独立数学核算.mjs": {
+      "bytes": 13516,
+      "sha256": "7dd95a381e44ba9f0fb0fd9e1e3ee765e6804b3e054483d31b5f9fdfb7bb04ca"
+    },
+    "生成候选与核算.mjs": {
+      "bytes": 54592,
+      "sha256": "c8d82768f962d4144cc45beafa427d2db6b9b4fdaf0b75f4b5cdf72bbb453457"
+    }
+  },
+  "luxWrite": false,
+  "reusedPublicParameters": 6,
+  "postIntents": 34,
+  "formulaCount": 6,
+  "mathPassed": true,
+  "apiWrites": 0,
+  "note": "哈希在独立核算后重算。数学核算解析 write 表达式树并用根绑定源值独立求期望，不是手写与答案相同的数字。候选不是已录入。"
+}

@@ -1,0 +1,171 @@
+{
+  "at": "2026-09-10T04:28:37.065Z",
+  "batch": "英雄机制第四十八批",
+  "status": "本轮来源明确组成已保存；字典键错误修正后断点续录，独立回读、实际源值数学与五个代表页面通过；未知曲线和事件接线单列",
+  "heroes": [
+    "Ivern",
+    "Yorick",
+    "Kayn",
+    "Viego"
+  ],
+  "skills": [
+    "ivern_p",
+    "ivern_q",
+    "ivern_w",
+    "ivern_e",
+    "ivern_r",
+    "yorick_p",
+    "yorick_q",
+    "yorick_w",
+    "yorick_e",
+    "yorick_r",
+    "kayn_p",
+    "kayn_q",
+    "kayn_w",
+    "kayn_e",
+    "kayn_r",
+    "viego_p",
+    "viego_q",
+    "viego_w",
+    "viego_e",
+    "viego_r"
+  ],
+  "newCounts": {
+    "parameters": 135,
+    "formulas": 24,
+    "effects": 33
+  },
+  "counts": {
+    "parameters": 156,
+    "formulas": 24,
+    "effects": 33
+  },
+  "created": 192,
+  "businessWrites": 192,
+  "reusedParameters": 21,
+  "currentTotalComponents": 213,
+  "candidateFile": "最终验收/候选过程/修订二/完整候选.json",
+  "candidateFileSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
+  "writePlan": "最终验收/候选过程/修订二/写前请求计划.json",
+  "writePlanSha256": "2b5037a0917360918ef781dfb04f1e3532d384e73f86b94798eb551268cd60b8",
+  "save": {
+    "GETs": 2009,
+    "POSTAttempts": 193,
+    "POSTs": 192,
+    "rejectedPOSTs": 1,
+    "confirmedUnique": 192,
+    "duplicatePOSTs": 0,
+    "temporaryGET500": 1,
+    "additionalRecoveryProbeGETs": 1,
+    "runs": [
+      {
+        "file": "最终验收/候选过程/修订一/实际写入/2026-09-10T04-00-32-211Z/执行结果.json",
+        "GETs": 412,
+        "POSTAttempts": 3,
+        "successfulPOSTs": 3
+      },
+      {
+        "file": "最终验收/候选过程/修订一/实际写入/2026-09-10T04-07-20-574Z/执行结果.json",
+        "GETs": 505,
+        "POSTAttempts": 50,
+        "successfulPOSTs": 49
+      },
+      {
+        "file": "最终验收/候选过程/修订二/实际写入/2026-09-10T04-12-40-167Z/执行结果.json",
+        "GETs": 1092,
+        "POSTAttempts": 140,
+        "successfulPOSTs": 140
+      }
+    ]
+  },
+  "independentReadback": {
+    "GETs": 406,
+    "protectedPaths": 193,
+    "details": 213,
+    "reused": 21,
+    "new": 192,
+    "file": "最终验收/独立回读证据/实际回读/2026-09-10T04-17-49-653Z/独立全量GET.json",
+    "sha256": "60ad55a804c4ff88349da20eaf7ec1f49d0d2a017a5c804cf0d1f8343eedd0e6"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "actualHydrated": 192,
+    "formulas": 24,
+    "cases": 54,
+    "effectCount": 33,
+    "missingInputCases": 11,
+    "typedReferences": 113,
+    "attributeReferences": 40,
+    "dictionaryReferences": 60,
+    "finiteChecks": 232,
+    "binaryNodes": 76,
+    "completeParameterArrays": 28,
+    "completeArrayValues": 134,
+    "fixedFiniteParameters": 98,
+    "newIntegerParameters": 86,
+    "integerValues": 151,
+    "integerParameters": 107,
+    "millisecondsParameters": 50,
+    "file": "最终验收/实际数学证据/独立数学报告.json",
+    "sha256": "98768dc6e850ec2e44021413249b0cccf675730d0d7e82ffc16a3b15777aba22",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 5,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "最终验收/候选过程/修订二/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 4485,
+    "uniqueTools": 74,
+    "inputs": 26,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "主负责人原始20槽固定来源完整核对及修订一逐项差异复核完成",
+    "艾翁W只保留自身草丛资格，删除纯显形；艾翁E自身护盾与未命中英雄续盾资格分开",
+    "约里克不创建独立单位；Q未知角色等级断点保留无默认实际输入，R仅本体对标记目标附伤",
+    "凯隐Q单段效果供两次真实命中使用，不另挂双段汇总；影流W距离已移除",
+    "佛耶戈Q两条攻击特效按当前生命和MAX最低值取大，普通/暴击互斥，每次命中读取当前生命",
+    "佛耶戈E两条自身增益引用实际雾内资格时长，8秒仅为区域寿命",
+    "24公式54场景与11缺输入检查通过，135参数全部等级数组、原生有限值、整数毫秒、类型引用和属性键已核对",
+    "Cursor74只读工具26冻结输入，真实工具审计通过",
+    "只替换尚未保存的9个效果damageTypeKey physical为真实字典physics；不更改任何源值、公式或已保存项目",
+    "全部193项原有保护以及52项已存新增在恢复前后逐项核对；其余140项必须仍不存在",
+    "原失败请求已确认HTTP400且未新增，不能重放整个批次",
+    "数学阶段新增全部伤害类型、护盾吸收类型、属性、增幅区、状态字典引用校验"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "字典引用必须在写入前全部核对",
+      "detail": "候选physical不是实际物理伤害键physics，真实API正确拒绝；已修正9个尚未保存效果，并补齐60个字典引用检查。"
+    },
+    {
+      "issue": "瞬时读取失败不能重放新增请求",
+      "detail": "第三项POST201后GET500；先按实际详情确认已落地，再保留前缀续写，无重复成功创建。"
+    },
+    {
+      "issue": "完整两段公式与单段效果不可同时挂成伤害",
+      "detail": "凯隐Q保留单段效果供两次命中，双段公式只作来源汇总。"
+    },
+    {
+      "issue": "最低伤害直接使用现有取大运算",
+      "detail": "佛耶戈Q无需新增公式功能；普通和暴击各验低值、边界、高值。"
+    },
+    {
+      "issue": "区域寿命不能替代自身资格寿命",
+      "detail": "佛耶戈E用无默认实际雾内资格输入；艾翁W把地形与离草窗口分开。"
+    }
+  ],
+  "pending": [
+    "命中、资格、刷新移除、攻击特效互斥及吸血规则运行接线未验证",
+    "约里克Q未知中间成长曲线未补，佛耶戈暴击属性枚举保持具名实际输入",
+    "纯兵野、第三友方、地图视野、独立单位和额外整套形态为明确排除"
+  ],
+  "runtimeValidation": "未执行"
+}

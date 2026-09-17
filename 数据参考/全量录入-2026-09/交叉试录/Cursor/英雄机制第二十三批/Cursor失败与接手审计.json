@@ -1,0 +1,38 @@
+{
+  "at": "2026-09-09T13:02:26.741Z",
+  "status": "进程连接错误退出，未取得finished，候选未产生",
+  "exitCode": 1,
+  "runId": "run-c26d5d56-1d2c-4677-9bdb-254e5797b7cf",
+  "agentId": "agent-0a38e2e0-4ac4-45ec-898e-c49ed129ff8b",
+  "requestId": "05e1e6b2-6d47-4984-b9e8-a86b454e79c9",
+  "model": "grok-4.6",
+  "effort": "high",
+  "fast": false,
+  "settingSources": [
+    "project"
+  ],
+  "error": "ConnectError [unknown] [aborted] read ECONNRESET；getTeamReposOrEmptyIfNotInTeam/checkRepoBlocked读取检查时异常退出",
+  "eventCount": 1247,
+  "eventSha256": "9789f2c3a0db54d774069ecc9b661dbf834015fc4482aa871a6042b0ae3a750e",
+  "statusEvents": [
+    {
+      "at": "2026-09-09T12:43:11.909Z",
+      "status": "RUNNING"
+    }
+  ],
+  "toolEventCount": 120,
+  "uniqueToolCalls": 60,
+  "editEvents": 2,
+  "shellCommands": [
+    "node -e \"const fs=require('fs'); const zlib=require('zlib'); const crypto=require('crypto'); const path=require('path'); const root='C:/project/damage_web_dev/.agents/artifacts/hero23-cursor-entry-20260909'; function load(p){ const buf=fs.readFileSync(p); const sha=crypto.createHash('sha256').update(buf).digest('hex'); const json=JSON.parse(zlib.gunzipSync(buf).toString('utf8')); return {sha, keys:Object.keys(json), byteSize:buf.length}; } const a=load(root+'/参考资料/客户端原文/Amumu.json.gz'); const z=load(root+'/参考资料/客户端原文/Zac.json.gz'); console.log(JSON.stringify({amumu:{sha:a.sha,bytes:a.byteSize,keyCount:a.keys.length,keys:a.keys}, zac:{sha:z.sha,bytes:z.byteSize,keyCount:z.keys.length,keys:z.keys}}, null, 2));\"",
+    "node -e \"\nconst fs=require('fs'); const zlib=require('zlib');\nconst root='C:/project/damage_web_dev/.agents/artifacts/hero23-cursor-entry-20260909';\nfunction load(p){return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8'));}\nconst amumu=load(root+'/参考资料/客户端原文/Amumu.json.gz');\nconst zac=load(root+'/参考资料/客户端原文/Zac.json.gz');\nfunction slim(obj){\n  if(!obj) return null;\n  const s=obj.mSpell||{};\n  return {\n    ObjectName: obj.ObjectName,\n    objectPath: obj.objectPath,\n    __type: obj.__type,\n    DataValues: s.DataValues,\n    mSpellCalculations: s.mSpellCalculations,\n    mCastTime: s.mCastTime,\n    spellCastTime: s.spellCastTime,\n    spellTotalTime: s.spellTotalTime,\n    cooldownTime: s.cooldownTime,\n    mCoefficient: s.mCoefficient,\n    ResultModifier: s.ResultModifier,\n    mLocKeys: s.mClientData?.mTooltipData?.mLocKeys,\n    mBuff: obj.mBuff,\n  };\n}\nconst amumuKeys=[\n  'Characters/Amumu/Spells/AmumuPAbility/AmumuPDebuff',\n  'Characters/Amumu/Spells/BandageTossAbility/SadMummyBandageToss',\n  'Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummyCastEffects',\n  'Characters/Amumu/Spells/AuraofDespairAbility/AuraOfDespairCleanup',\n];\nconst zacKeys=[\n  'Characters/Zac/Spells/ZacQAbility/ZacQAttack',\n  'Characters/Zac/Spells/ZacQAbility/ZacQMissile',\n  'Characters/Zac/Spells/ZacEAbility/ZacEMove',\n  'Characters/Zac/Spells/ZacEHitStun',\n  'Characters/Zac/Spells/ZacETimingMissile',\n  'Characters/Zac/Spells/ZacPassiveSpawnChunk',\n  'Characters/Zac/Spells/ZacRebirthBlob',\n  'Characters/Zac/Spells/ZacRebirth',\n  'Characters/Zac/Spells/ZacRebirthActive',\n  'Characters/Zac/Spells/ZacRebirthStart',\n  'Characters/Zac/Spells/ZacRebirthReady',\n  'Characters/Zac/Spells/ZacRebirthCooldown',\n  'Characters/Zac/Spells/ZacWCDRMath',\n  'Characters/Zac/Spells/ZacRPickup',\n  'Characters/Zac/Spells/ZacRKnockup',\n  'Characters/Zac/Spells/ZacGooMove',\n  'Characters/Zac/Spells/ZacSizeScale',\n];\nconst out={amumu:{},zac:{}};\nfor (const k of amumuKeys) out.amumu[k]=slim(amumu[k]);\nfor (const k of zacKeys) out.zac[k]=slim(zac[k]);\nfs.writeFileSync(root+'/产物/_child_extract.json', JSON.stringify(out,null,2));\nconsole.log('wrote', Buffer.byteLength(JSON.stringify(out)));\n\"",
+    "node -e \"\nconst fs=require('fs'); const zlib=require('zlib');\nconst root='C:/project/damage_web_dev/.agents/artifacts/hero23-cursor-entry-20260909';\nconst binding=JSON.parse(fs.readFileSync(root+'/来源绑定与当前文本.json','utf8'));\nfunction load(p){return JSON.parse(zlib.gunzipSync(fs.readFileSync(p)).toString('utf8'));}\nconst clients={Amumu:load(root+'/参考资料/客户端原文/Amumu.json.gz'), Zac:load(root+'/参考资料/客户端原文/Zac.json.gz')};\nconst diffs=[];\nfor (const hero of binding.heroes) {\n  const client=clients[hero.id];\n  for (const skill of hero.skills) {\n    const c=client[skill.binding];\n    const b=skill.object;\n    if (!c) { diffs.push(hero.id+' '+skill.slot+' MISSING in gz'); continue; }\n    const cs=JSON.stringify(c.mSpell?.mSpellCalculations||null);\n    const bs=JSON.stringify(b.mSpell?.mSpellCalculations||null);\n    const cd=JSON.stringify(c.mSpell?.DataValues||null);\n    const bd=JSON.stringify(b.mSpell?.DataValues||null);\n    if (cs!==bs) diffs.push(hero.id+' '+skill.slot+' calculations differ');\n    if (cd!==bd) diffs.push(hero.id+' '+skill.slot+' DataValues differ');\n    const fields=['mCastTime','spellCastTime','spellTotalTime','mCoefficient'];\n    for (const f of fields) {\n      if (JSON.stringify(c.mSpell?.[f])!==JSON.stringify(b.mSpell?.[f])) diffs.push(hero.id+' '+skill.slot+' '+f+' bind='+JSON.stringify(b.mSpell?.[f])+' gz='+JSON.stringify(c.mSpell?.[f]));\n    }\n  }\n}\nconsole.log(diffs.length?diffs.join('\\n'):'roots match calculations/DataValues/cast fields');\n// extra: Amumu W mCastTime, Q mCastTime\nconst w=clients.Amumu['Characters/Amumu/Spells/AuraofDespairAbility/AuraofDespair'].mSpell;\nconsole.log('AmumuW mCastTime', w.mCastTime, 'spellCastTime', w.spellCastTime);\nconst q=clients.Amumu['Characters/Amumu/Spells/BandageTossAbility/BandageToss'].mSpell;\nconsole.log('AmumuQ mCastTime', q.mCastTime, 'spellCastTime', q.spellCastTime);\nconst e=clients.Zac['Characters/Zac/Spells/ZacEAbility/ZacE'].mSpell;\nconsole.log('ZacE mCastTime', e.mCastTime, 'spellCastTime', e.spellCastTime);\nconst rec=clients.Zac['Characters/Zac/CharacterRecords/Root'];\nconsole.log('Zac root keys', Object.keys(rec||{}));\n\""
+  ],
+  "immutableInputs": 17,
+  "inputHashesUnchanged": true,
+  "outputFiles": [],
+  "gitStatusAfterFailure": "",
+  "runnerSummaryBoundary": "summary.json仅初始化数据，未包含本次运行最终状态；不视为完成审计。",
+  "businessWrites": 0,
+  "next": "由主负责人直接根据冻结输入准备候选，不重启或重放该Cursor运行。"
+}

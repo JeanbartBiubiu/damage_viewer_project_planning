@@ -1,0 +1,2203 @@
+{
+  "generatedAt": "2026-09-09T16:47:58.442Z",
+  "status": "独立源值摘要，未调用业务接口",
+  "batch": "英雄机制第三十批",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "inputIntegrity": [
+    {
+      "path": "README.md",
+      "actualSha256": "0a6b266e9a851ed60ae571ea16cb5d22f38f8a6dec964804bca5e61596fd956b",
+      "actualByteSize": 403,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "主负责人来源补充.md",
+      "actualSha256": "8f65331f7076cdc76d67e6ad76e0242c64b35dc179ca537baf9ad372048ad3f0",
+      "actualByteSize": 1010,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "主负责人源值核对说明.md",
+      "actualSha256": "ccb99573befdcccc39fbb25c5ec8b9e2150423633dad0a1ec2c3c2518351d64d",
+      "actualByteSize": 7499,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "actualSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "actualByteSize": 8350124,
+      "declaredSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "declaredByteSize": 8350124,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/公共参数复用清单.json",
+      "actualSha256": "6fdfdb1b34a1d293ae014b8e69fd17ccada26a18d82f408a21bd720fd8c9b26d",
+      "actualByteSize": 559,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "参考资料/官方中文/Yasuo.json",
+      "actualSha256": "265b97e19c71300efde2769e726753900cedb159d66a0a288f4f86fce2771f33",
+      "actualByteSize": 17505,
+      "declaredSha256": "265b97e19c71300efde2769e726753900cedb159d66a0a288f4f86fce2771f33",
+      "declaredByteSize": 17505,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方中文/Yone.json",
+      "actualSha256": "4ef1ade7fde9a22385a91c804c5a446b77d712e59cf3904b2e4f0e4edf9847db",
+      "actualByteSize": 14427,
+      "declaredSha256": "4ef1ade7fde9a22385a91c804c5a446b77d712e59cf3904b2e4f0e4edf9847db",
+      "declaredByteSize": 14427,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方英文/Yasuo.json",
+      "actualSha256": "3bdaf812168615b3c459af6c8d53810c13c437381347446c8d60eec168b95319",
+      "actualByteSize": 16788,
+      "declaredSha256": "3bdaf812168615b3c459af6c8d53810c13c437381347446c8d60eec168b95319",
+      "declaredByteSize": 16788,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方英文/Yone.json",
+      "actualSha256": "4451efc14bf2194886dc53f16fcfa5f5e4a9378baeceb8ddbc77d06c9ee3169b",
+      "actualByteSize": 13857,
+      "declaredSha256": "4451efc14bf2194886dc53f16fcfa5f5e4a9378baeceb8ddbc77d06c9ee3169b",
+      "declaredByteSize": 13857,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/客户端原文/Yasuo.json.gz",
+      "actualSha256": "4260b00b3d47f3ea84de9c19b9d97d00b7ff1da91c8c63734f75389f2a96e1e4",
+      "actualByteSize": 12682,
+      "declaredSha256": "4260b00b3d47f3ea84de9c19b9d97d00b7ff1da91c8c63734f75389f2a96e1e4",
+      "declaredByteSize": 12682,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/客户端原文/Yone.json.gz",
+      "actualSha256": "b5a9518097411d104326bd762c1c0cffac6e02c4c6174fff778621705dab9731",
+      "actualByteSize": 9268,
+      "declaredSha256": "b5a9518097411d104326bd762c1c0cffac6e02c4c6174fff778621705dab9731",
+      "declaredByteSize": 9268,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/属性默认与边界.json",
+      "actualSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "actualByteSize": 4045,
+      "declaredSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "declaredByteSize": 4045,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/当前10槽保护快照.json",
+      "actualSha256": "65decb352a57f467bb8d90beccf1e09d86d463688e00d501dccf2c51d54a753c",
+      "actualByteSize": 68589,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "参考资料/接口载荷样例.json",
+      "actualSha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "actualByteSize": 18896,
+      "declaredSha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "declaredByteSize": 18896,
+      "declaredMatch": true
+    },
+    {
+      "path": "来源绑定与当前文本.json",
+      "actualSha256": "398b742c6bac73eb55fe4c17a034b0640163a065e18d75a4225ae80c8b121768",
+      "actualByteSize": 147015,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "来源速览.jsonl",
+      "actualSha256": "d0d9870a6b36b6c5fe3ebd46a8fa91d6e3dcfe53d7fa57ee36b6e455091c6822",
+      "actualByteSize": 27952,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "输入版本.json",
+      "actualSha256": "20992764ea3f1bd58a9685295db486955b41c7f47fe7f43246366598653a10b5",
+      "actualByteSize": 2581,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    }
+  ],
+  "selectedValues": {
+    "yasuo_p": {
+      "source": "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive",
+      "dataValues": {
+        "YasuoCritToAD": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "CritChanceMultiplier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "CritDamageMod": [
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071
+        ]
+      },
+      "calculations": {
+        "ShieldValue": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 125,
+              "mEndValue": 600,
+              "mScaleByStatProgressionMultiplier": true,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{74ce5438}": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 55,
+              "mBreakpoints": [
+                {
+                  "mLevel": 7,
+                  "mAdditionalBonusAtThisLevel": -5,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "mAdditionalBonusAtThisLevel": -5,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 19,
+                  "mAdditionalBonusAtThisLevel": -5,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 25,
+                  "mAdditionalBonusAtThisLevel": -5,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CurrentCritDamage": {
+          "mExpandedTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mStat": 9,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "officialEvidence": {
+        "path": "data.Yasuo.passive.description",
+        "text": "Yasuo's Critical Strike Chance is increased. Additionally, Yasuo builds toward a shield whenever he is moving. The shield triggers when he takes damage from a champion or monster.",
+        "relevantEnemyTip": "Yasuo's shield from Resolve lasts only 2 seconds. Dealing damage to him will trigger it. Wait it out, then engage.",
+        "relevantEnemyTipPath": "data.Yasuo.enemytips[3]"
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "crit_chance_multiplier",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "crit_damage_modifier_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.95,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "crit_to_bonus_ad_per_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 50,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "crit_chance_before_self_modifier_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "crit_chance_cap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "zero_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_value",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": [
+        {
+          "formulaKey": "crit_chance_after_self_modifier_ratio",
+          "name": "自身提升后暴击几率",
+          "description": "先读取其它暴击修正后的实际暴击几率，再增加同值100%；不重复乘已经含自身提升的最终值。"
+        },
+        {
+          "formulaKey": "crit_overcap_bonus_attack_damage",
+          "name": "超额暴击转额外攻击力",
+          "description": "MAX(自身提升后暴击几率-1,0)×50；仅计算超过100%的比例部分。"
+        }
+      ]
+    },
+    "yasuo_q": {
+      "source": "Characters/Yasuo/Spells/YasuoQ1WrapperAbility/YasuoQ1Wrapper",
+      "dataValues": {
+        "BaseDamage": [
+          -5,
+          20,
+          45,
+          70,
+          95,
+          120,
+          145
+        ],
+        "StabRange": [
+          450,
+          450,
+          450,
+          450,
+          450,
+          450,
+          450
+        ],
+        "TornadoRange": [
+          1100,
+          1100,
+          1100,
+          1100,
+          1100,
+          1100,
+          1100
+        ],
+        "Cooldown": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "StabWidth": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "SpinWidth": [
+          260,
+          260,
+          260,
+          260,
+          260,
+          260,
+          260
+        ],
+        "GatheringStormDuration": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "KnockUpDurationTOOLTIPONLY": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ADRatio": [
+          1.0499999523162842,
+          1.0499999523162842,
+          1.0499999523162842,
+          1.0499999523162842,
+          1.0499999523162842,
+          1.0499999523162842,
+          1.0499999523162842
+        ]
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalDamageCrit": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mSubpart": {
+                "mStat": 9,
+                "mDataValue": "ADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              "__type": "StatBySubPartCalculationPart"
+            }
+          ],
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        }
+      },
+      "officialEvidence": {
+        "path": "data.Yasuo.spells[0]",
+        "name": "Steel Tempest",
+        "description": "Thrusts forward, damaging all enemies in a line.<br><br>On hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Steel Tempest fires a whirlwind that knocks <font color='#6655CC'>Airborne</font>.<br><br>Steel Tempest is treated as a basic attack and scales with all the same things.",
+        "tooltip": "Yasuo thrusts, dealing <physicalDamage>{{ totaldamage }} physical damage</physicalDamage>. If he hits, he gains a stack for {{ gatheringstormduration }} seconds. While he has 2 stacks, his next use of this Ability fires a whirlwind from range, dealing the same damage and <status>Knocking Up</status> for {{ knockupdurationtooltiponly }} second.<br /><br />If used while dashing, this Ability strikes in a circle rather than a stab.{{ spellmodifierdescriptionappend }}"
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 20,
+            "2": 45,
+            "3": 70,
+            "4": 95,
+            "5": 120
+          }
+        },
+        {
+          "parameterKey": "total_attack_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.05,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "actual_critical_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stack_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stack_threshold",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockup_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 125,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": [
+        {
+          "formulaKey": "physical_damage",
+          "name": "斩钢闪单一敌方物理伤害",
+          "description": "当前TotalDamage树=基础伤害+1.05×来源总攻击力；唯一敌人范围保留，结果事件待接。"
+        },
+        {
+          "formulaKey": "critical_physical_damage",
+          "name": "斩钢闪暴击物理伤害",
+          "description": "当前TotalDamageCrit树=基础伤害+总攻击力×(1.05×实际暴击伤害倍率)；暴击倍率只作用于攻击力项，不乘基础值。"
+        }
+      ]
+    },
+    "yasuo_w": {
+      "source": "Characters/Yasuo/Spells/YasuoWAbility/YasuoW",
+      "dataValues": {
+        "WallLife": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "Width": [
+          250,
+          320,
+          390,
+          460,
+          530,
+          600,
+          670
+        ],
+        "TravelRange": [
+          450,
+          450,
+          450,
+          450,
+          450,
+          450,
+          450
+        ],
+        "BubbleRadius": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "Thickness": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ]
+      },
+      "calculations": {},
+      "officialEvidence": {
+        "path": "data.Yasuo.spells[1]",
+        "name": "Wind Wall",
+        "description": "Creates a moving wall that blocks all enemy projectiles for 4 seconds.",
+        "tooltip": "Yasuo creates a drifting wall of wind that blocks all enemy projectiles for 4 seconds.{{ spellmodifierdescriptionappend }}"
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "wall_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": []
+    },
+    "yasuo_e": {
+      "source": "Characters/Yasuo/Spells/YasuoEAbility/YasuoE",
+      "dataValues": {
+        "MaxStacks": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "StackDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "BaseDamage": [
+          55,
+          70,
+          85,
+          100,
+          115,
+          130,
+          145
+        ],
+        "APRatio": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "ADRatio": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "PerTargetCooldown": [
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          6
+        ],
+        "BaseDashSpeed": [
+          750,
+          750,
+          750,
+          750,
+          750,
+          750,
+          750
+        ]
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BonusDamagePerStack": {
+          "mMultiplier": {
+            "mNumber": 0.25,
+            "__type": "NumberCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalDamage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "officialEvidence": {
+        "path": "data.Yasuo.spells[2]",
+        "name": "Sweeping Blade",
+        "description": "Dashes through target enemy, dealing magic damage. Each cast increases subsequent dash's damage, up to a max amount.<br><br>Cannot be re-cast on the same enemy for a few seconds.<br><br><font color='#99FF99'>If Steel Tempest is cast while dashing, it will strike as a circle.</font>",
+        "tooltip": "Yasuo dashes through a target, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>. Each use of this Ability grants <magicDamage>{{ bonusdamageperstack }}</magicDamage> bonus damage to subsequent uses for {{ stackduration }} seconds, stacking up to {{ maxstacks }} times.<br /><br />This Ability has a {{ pertargetcooldown }} second per-target Cooldown.{{ spellmodifierdescriptionappend }}"
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 70,
+            "2": 85,
+            "3": 100,
+            "4": 115,
+            "5": 130
+          }
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_stacks",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stack_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "per_target_cooldown_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          }
+        },
+        {
+          "parameterKey": "current_stack_count",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_damage_per_stack_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": [
+        {
+          "formulaKey": "magic_damage",
+          "name": "踏前斩基础单一敌方魔法伤害",
+          "description": "当前TotalDamage树=基础值+0.2×来源额外攻击力+0.6×来源总法术强度。"
+        },
+        {
+          "formulaKey": "stacked_magic_damage",
+          "name": "踏前斩叠层后单一敌方魔法伤害",
+          "description": "BonusDamagePerStack作用于完整TotalDamage；最终为完整基数×(1+MIN(已有层数,4)×0.25)，不把本次新层提前计入。"
+        }
+      ]
+    },
+    "yasuo_r": {
+      "source": "Characters/Yasuo/Spells/YasuoRAbility/YasuoR",
+      "dataValues": {
+        "RBaseDamage": [
+          50,
+          200,
+          350,
+          500,
+          650,
+          800,
+          950
+        ],
+        "RPercentArmorPen": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "RBuffDuration": [
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ],
+        "RKnockupDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "RRadius": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "RCastSearchRadius": [
+          1100,
+          1100,
+          1100,
+          1100,
+          1100,
+          1100,
+          1100
+        ]
+      },
+      "calculations": {
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "RBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1.5,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialEvidence": {
+        "path": "data.Yasuo.spells[3]",
+        "name": "Last Breath",
+        "description": "Blinks to an <factionIonia1>Airborne</factionIonia1> enemy champion, dealing physical damage and holding all <factionIonia1>Airborne</factionIonia1> enemies in the area in the air. Grants maximum Flow but resets all stacks of Gathering Storm.<br><br>For a moderate time afterwards, Yasuo's critical strikes gain significant Bonus Armor Penetration.",
+        "tooltip": "Yasuo teleports to an <status>Airborne</status> enemy champion, dealing <physicalDamage>{{ damage }} physical damage</physicalDamage> and holding all nearby <status>Airborne</status> enemies up for an additional {{ rknockupduration }} second. Yasuo also gains maximum <keywordMajor>Flow</keywordMajor>, but loses all <spellName>Steel Tempest</spellName> stacks.<br /><br />Afterwards, Yasuo's critical strikes ignore <scaleArmor>{{ rpercentarmorpen }}% bonus Armor</scaleArmor> for {{ rbuffduration }} seconds.{{ spellmodifierdescriptionappend }}"
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 200,
+            "2": 350,
+            "3": 500
+          }
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_armor_penetration_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "armor_penetration_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 15000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockup_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": [
+        {
+          "formulaKey": "physical_damage",
+          "name": "狂风绝息斩单一敌方物理伤害",
+          "description": "当前Damage树=基础值+1.5×来源额外攻击力；只保留满足浮空资格的唯一敌人伤害。"
+        }
+      ]
+    },
+    "yone_p": {
+      "source": "Characters/Yone/Spells/YonePassiveAbility/YonePassive",
+      "dataValues": {
+        "MagicDamageSplit": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "YoneCritToAD": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "CritChanceMultiplier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "CritDamageMod": [
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071,
+          0.949999988079071
+        ]
+      },
+      "calculations": {
+        "CurrentCritDamage": {
+          "mExpandedTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mStat": 9,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "officialEvidence": {
+        "path": "data.Yone.passive.description",
+        "text": "Yone deals magic damage with every second Attack. In addition, his critical strike chance is increased.",
+        "relevantEnemyTip": null,
+        "relevantEnemyTipPath": null
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "magic_damage_split_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "physical_damage_split_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "crit_chance_multiplier",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "crit_damage_modifier_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.95,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "crit_to_bonus_ad_per_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 50,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "crit_chance_before_self_modifier_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "crit_chance_cap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "zero_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": [
+        {
+          "formulaKey": "second_attack_physical_damage",
+          "name": "第二次攻击物理伤害分量",
+          "description": "每第二次攻击只把同一个实际攻击基数拆分为物理分量，不再叠加一笔完整物理攻击；攻击特效是否纳入待接。"
+        },
+        {
+          "formulaKey": "second_attack_magic_damage",
+          "name": "第二次攻击魔法伤害分量",
+          "description": "每第二次攻击把同一个实际攻击基数拆分为魔法分量；与物理分量合计完整攻击伤害。"
+        },
+        {
+          "formulaKey": "crit_chance_after_self_modifier_ratio",
+          "name": "自身提升后暴击几率",
+          "description": "先读取其它暴击修正后的实际暴击几率，再增加同值100%；不重复乘已经含自身提升的最终值。"
+        },
+        {
+          "formulaKey": "crit_overcap_bonus_attack_damage",
+          "name": "超额暴击转额外攻击力",
+          "description": "MAX(自身提升后暴击几率-1,0)×50；仅计算超过100%的比例部分。"
+        }
+      ]
+    },
+    "yone_q": {
+      "source": "Characters/Yone/Spells/YoneQAbility/YoneQ",
+      "dataValues": {
+        "BaseDamage": [
+          0,
+          25,
+          50,
+          75,
+          100,
+          125,
+          150
+        ],
+        "ADRatio": [
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858
+        ],
+        "Width": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "BuffDuration": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "Q3MaxDistance": [
+          450,
+          450,
+          450,
+          450,
+          450,
+          450,
+          450
+        ],
+        "Q3MinDistance": [
+          450,
+          450,
+          450,
+          450,
+          450,
+          450,
+          450
+        ],
+        "Q3DashSpeed": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "Q3AoESize": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "QAttackSpeedCDPercent": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "QAttackSpeedCDMax": [
+          0.666670024394989,
+          0.666670024394989,
+          0.666670024394989,
+          0.666670024394989,
+          0.666670024394989,
+          0.666670024394989,
+          0.666670024394989
+        ],
+        "QAttackSpeedCastReductionPercent": [
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666
+        ],
+        "QAttackSpeedCastReductionMax": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "QBaseCastTime": [
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355
+        ],
+        "Q3KnockupHeight": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "Q3KnockupDuration": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ]
+      },
+      "calculations": {
+        "QDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalDamageCrit": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mSubpart": {
+                "mStat": 9,
+                "mDataValue": "ADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              "__type": "StatBySubPartCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialEvidence": {
+        "path": "data.Yone.spells[0]",
+        "name": "Mortal Steel",
+        "description": "Thrusts forward, damaging all enemies in a line.<br><br>On hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Mortal Steel dashes Yone forward with a gust of wind knocking enemies <status>Airborne</status>.",
+        "tooltip": "Yone thrusts forward, dealing <physicalDamage>{{ qdamage }} physical damage</physicalDamage>.<br /><br />On hit, grants a stack for {{ buffduration }} seconds. At 2 stacks, this ability causes Yone to dash forward with a wave of wind that <status>Knocks Up</status> for {{ q3knockupduration }} seconds and deals <physicalDamage>{{ qdamage }} physical damage</physicalDamage>. {{ spellmodifierdescriptionappend }}"
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 25,
+            "2": 50,
+            "3": 75,
+            "4": 100,
+            "5": 125
+          }
+        },
+        {
+          "parameterKey": "total_attack_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "actual_critical_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stack_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stack_threshold",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockup_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 750,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 350,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": [
+        {
+          "formulaKey": "physical_damage",
+          "name": "错玉切单一敌方物理伤害",
+          "description": "当前QDamage树=基础伤害+1.1×来源总攻击力；第三次旋风同一伤害不重复计算。"
+        },
+        {
+          "formulaKey": "critical_physical_damage",
+          "name": "错玉切暴击物理伤害",
+          "description": "当前TotalDamageCrit树=基础伤害+总攻击力×(1.1×实际暴击伤害倍率)，固定基础值不乘暴击倍率。"
+        }
+      ]
+    },
+    "yone_w": {
+      "source": "Characters/Yone/Spells/YoneWAbility/YoneW",
+      "dataValues": {
+        "BaseDamage": [
+          0,
+          10,
+          20,
+          30,
+          40,
+          50,
+          60
+        ],
+        "MinionMod": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "HealthStealMultiplier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ConeWidth": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "WAttackSpeedCDPercent": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "WAttackSpeedCDMax": [
+          0.5714200139045715,
+          0.5714200139045715,
+          0.5714200139045715,
+          0.5714200139045715,
+          0.5714200139045715,
+          0.5714200139045715,
+          0.5714200139045715
+        ],
+        "WAttackSpeedCastReductionPercent": [
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666,
+          0.4166699945926666
+        ],
+        "WAttackSpeedCastReductionMax": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "WBaseCastTime": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "WCritMultiplier": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "MaxHealthDamage": [
+          0.07000000029802322,
+          0.07999999821186066,
+          0.09000000357627869,
+          0.10000000149011612,
+          0.10999999940395355,
+          0.11999999731779099,
+          0.12999999523162842
+        ],
+        "BaseHealing": null,
+        "BaseShield": [
+          0,
+          10,
+          20,
+          30,
+          40,
+          50,
+          60
+        ],
+        "FirstChampShieldMultiplier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "SecondChampShieldMultiplier": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "ShieldDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "ShieldbADRatio": [
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421
+        ]
+      },
+      "calculations": {
+        "WDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{8dfeb810}": {
+          "mMultiplier": {
+            "mStartValue": 0.20000000298023224,
+            "mEndValue": 1,
+            "__type": "ByCharLevelInterpolationCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mStat": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "WShield": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 40,
+              "mEndValue": 90,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ShieldBADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MinimumDamageMinions": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mExpandedTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 30,
+              "mBreakpoints": [
+                {
+                  "mBonusPerLevelAtAndAfter": 10,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 9,
+                  "mBonusPerLevelAtAndAfter": 20,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 14,
+                  "mBonusPerLevelAtAndAfter": 40,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MonsterDamageCap": {
+          "mFormulaParts": [
+            {
+              "values": [
+                140,
+                150,
+                160,
+                170,
+                180,
+                190,
+                200,
+                210,
+                220,
+                230,
+                240,
+                250,
+                260,
+                270,
+                280,
+                290,
+                300,
+                310,
+                320,
+                330,
+                340,
+                350,
+                360,
+                370,
+                380,
+                390,
+                400,
+                410,
+                420,
+                430,
+                440
+              ],
+              "__type": "ByCharLevelFormulaCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialEvidence": {
+        "path": "data.Yone.spells[1]",
+        "name": "Spirit Cleave",
+        "description": "Cleaves forward, damaging all enemies in a cone. Grants a shield to Yone, the value is increased by the number of champions hit by the swipe.<br><br>Spirit Cleave's cooldown and cast time scale with attack speed.",
+        "tooltip": "Yone cleaves forward, dealing <physicalDamage>{{ basedamage*0.5 }} + {{ maxhealthdamage*50 }}% max Health physical damage</physicalDamage> and <magicDamage>{{ basedamage*0.5 }} + {{ maxhealthdamage*50 }}% max Health magic damage</magicDamage>.<br /><br />If Yone hits, he gains <shield>{{ wshield }} Shield</shield> for {{ shieldduration }} seconds. The amount of <shield>Shield</shield> increases for each champion struck. {{ spellmodifierdescriptionappend }}"
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10,
+            "2": 20,
+            "3": 30,
+            "4": 40,
+            "5": 50
+          }
+        },
+        {
+          "parameterKey": "target_max_health_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.08,
+            "2": 0.09,
+            "3": 0.1,
+            "4": 0.11,
+            "5": 0.12
+          }
+        },
+        {
+          "parameterKey": "damage_split_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_level_base_value",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_bonus_attack_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.65,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "first_champion_shield_increase_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": [
+        {
+          "formulaKey": "physical_damage",
+          "name": "凛神斩单一敌方物理伤害",
+          "description": "物理分量=0.5×(基础值+目标最大生命值比例×目标最大生命)；不是完整基数。"
+        },
+        {
+          "formulaKey": "magic_damage",
+          "name": "凛神斩单一敌方魔法伤害",
+          "description": "魔法分量与物理分量各占同一个完整基数的一半；两者合计一个完整基数。"
+        },
+        {
+          "formulaKey": "shield_value",
+          "name": "凛神斩完整护盾值",
+          "description": "WShield树=实际等级护盾基础值+0.65×来源额外攻击力；命中单位才进入自身护盾效果。"
+        },
+        {
+          "formulaKey": "first_champion_shield_value",
+          "name": "命中首个敌方英雄的完整护盾值",
+          "description": "首个敌方英雄使完整护盾额外提升100%，即完整护盾×2；不把提升只施加在基础值上。"
+        }
+      ]
+    },
+    "yone_e": {
+      "source": "Characters/Yone/Spells/YoneEAbility/YoneE",
+      "dataValues": {
+        "ReturnTimer": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "MovementSpeed": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "DeathmarkBase": [
+          5,
+          20,
+          35,
+          50,
+          65,
+          80,
+          95
+        ],
+        "DeathmarkPercent": [
+          0.22499999403953552,
+          0.25,
+          0.2750000059604645,
+          0.30000001192092896,
+          0.32499998807907104,
+          0.3499999940395355,
+          0.375
+        ],
+        "RecastLockout": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "EDashRange": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "EDashSpeed": [
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200
+        ],
+        "OnHitIncrease": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "StartingMS": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "MissingHealthPercent": [
+          0.22499999403953552,
+          0.25,
+          0.2750000059604645,
+          0.30000001192092896,
+          0.32499998807907104,
+          0.3499999940395355,
+          0.375
+        ]
+      },
+      "calculations": {
+        "{df232269}": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "DeathmarkBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mCoefficient": 0.25,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "officialEvidence": {
+        "path": "data.Yone.spells[2]",
+        "name": "Soul Unbound",
+        "description": "Yone's spirit leaves his body behind, gaining Move Speed. When this ability ends, Yone's spirit is forced back to his body and he repeats a portion of the damage he dealt as a spirit.",
+        "tooltip": "Yone enters a spirit form for {{ returntimer }} seconds, leaving his body behind for the duration and gaining <speed>{{ startingms*100 }}%</speed> to <speed>{{ movementspeed*100 }}% ramping Move Speed</speed>. <br /><br />When the spirit form ends, Yone snaps back to his body and repeats {{ deathmarkpercent*100 }}% of all Attack and Ability damage he dealt to champions during this time. You may <recast>Recast</recast> this ability during spirit form.<br /><br /><recast>Recast: </recast>End spirit form early.{{ spellmodifierdescriptionappend }}"
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "return_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "movement_speed_start_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "movement_speed_end_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "return_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.25,
+            "2": 0.275,
+            "3": 0.3,
+            "4": 0.325,
+            "5": 0.35
+          }
+        },
+        {
+          "parameterKey": "return_damage_stored",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "recast_lockout_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": [
+        {
+          "formulaKey": "return_additional_damage",
+          "name": "破障之锋返回追加伤害量",
+          "description": "返回追加伤害=官方限定范围内实际储存的攻击与技能伤害×技能等级比例；伤害类型正文未指定，不标注物理或真实。"
+        }
+      ]
+    },
+    "yone_r": {
+      "source": "Characters/Yone/Spells/YoneRAbility/YoneR",
+      "dataValues": {
+        "BaseDamage": [
+          0,
+          200,
+          400,
+          600,
+          800,
+          1000,
+          1200
+        ],
+        "ADRatio": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "BlinkDistanceBehindTarget": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "Width": [
+          225,
+          225,
+          225,
+          225,
+          225,
+          225,
+          225
+        ],
+        "RKnockupHeight": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "RKnockupDuration": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "RKnockTowardsSpeed": [
+          3000,
+          3000,
+          3000,
+          3000,
+          3000,
+          3000,
+          3000
+        ],
+        "RKnockTowardsDampener": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ]
+      },
+      "calculations": {
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TooltipDamage": {
+          "mMultiplier": {
+            "mNumber": 0.5,
+            "__type": "NumberCalculationPart"
+          },
+          "mModifiedGameCalculation": "Damage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "officialEvidence": {
+        "path": "data.Yone.spells[3]",
+        "name": "Fate Sealed",
+        "description": "Yone blinks behind the last champion in a line with a slash so powerful it pulls all enemies hit towards him.",
+        "tooltip": "Yone strikes all enemies along a path for <physicalDamage>{{ tooltipdamage }} physical damage</physicalDamage> and <magicDamage>{{ tooltipdamage }} magic damage</magicDamage>, teleporting behind the last champion hit and <status>Knocking Up</status> victims towards Yone.{{ spellmodifierdescriptionappend }}"
+      },
+      "candidateParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 200,
+            "2": 400,
+            "3": 600
+          }
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.8,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "damage_split_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockup_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 750,
+          "levelValues": null
+        }
+      ],
+      "candidateFormulas": [
+        {
+          "formulaKey": "physical_damage",
+          "name": "封尘绝念斩单一敌方物理伤害",
+          "description": "物理伤害=完整Damage的一半，即100/200/300+0.4×来源额外攻击力；唯一敌人保留。"
+        },
+        {
+          "formulaKey": "magic_damage",
+          "name": "封尘绝念斩单一敌方魔法伤害",
+          "description": "魔法伤害与物理伤害各为完整Damage的一半，不把两种都写成完整值。"
+        }
+      ]
+    }
+  },
+  "scopeAndPending": {
+    "yasuo_p": {
+      "excluded": [
+        {
+          "item": "匿名{74ce5438}等级断点计算",
+          "reason": "当前正文没有消费该匿名55起及7/13/19/25级断点对象，未知求值不写。"
+        },
+        {
+          "item": "被动spellCastTime=0.25秒",
+          "reason": "被动来源字段不证明存在主动施法过程，本轮只保留机制参数和护盾效果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "移动积攒剑意、满槽和受英雄或野怪伤害触发护盾",
+          "reason": "正文已明确，但触发条件、层数时间和接线时点未进入本轮组成。"
+        },
+        {
+          "item": "CritDamageMod与CurrentCritDamage的应用阶段",
+          "reason": "减伤参数已作为来源参数保留；实际暴击倍率选择器阶段无窄证。"
+        }
+      ]
+    },
+    "yasuo_q": {
+      "excluded": [
+        {
+          "item": "StabRange/TornadoRange/StabWidth/SpinWidth等几何字段",
+          "reason": "只影响范围或展示，本轮单一敌人伤害不需要建立几何公式。"
+        },
+        {
+          "item": "客户端Cooldown与已有公共cooldown_ms",
+          "reason": "公共冷却已在快照中复用，不新增或更新。"
+        },
+        {
+          "item": "攻击速度缩短冷却和施法时间的完整求值",
+          "reason": "正文只给出关系，未给出可审的完整执行式，保留基础字段并待接。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "2层后下一次旋风、首个命中目标攻击特效及E中Q圆形分支",
+          "reason": "资格和顺序待事件层接线；同一伤害不重复计为多目标。"
+        }
+      ]
+    },
+    "yasuo_w": {
+      "excluded": [
+        {
+          "item": "WallLife/Width/TravelRange/BubbleRadius/Thickness等几何字段",
+          "reason": "本轮只保留已证持续时间，几何碰撞未形成可复用计算。"
+        },
+        {
+          "item": "spellCastTime=0与mCastTime约13毫秒",
+          "reason": "两个来源字段冲突，不能任选固定施法时长。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "飞行道具类型、碰撞和资格",
+          "reason": "正文明确塔弹和光束不能阻挡，具体对象枚举与接线仍待补。"
+        }
+      ]
+    },
+    "yasuo_e": {
+      "excluded": [
+        {
+          "item": "BaseDashSpeed与位移几何",
+          "reason": "只描述位移速度或空间过程，本轮没有成熟的位移结果组成。"
+        },
+        {
+          "item": "公共cooldown_ms",
+          "reason": "已有公共参数复用；客户端mDoesNotConsumeCooldown不证明公共冷却真实起算。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "Q联动、每目标锁定、层数先后和命中事件",
+          "reason": "数值与资格已保存，事件时序待接。"
+        }
+      ]
+    },
+    "yasuo_r": {
+      "excluded": [
+        {
+          "item": "RRadius/RCastSearchRadius与额外敌人分配",
+          "reason": "几何和额外目标不进入本轮单一敌人公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "浮空资格、满剑意、清空Q层数和暴击额外护甲阶段",
+          "reason": "正文条件明确，触发和状态接线待后续运行层。"
+        }
+      ]
+    },
+    "yone_p": {
+      "excluded": [
+        {
+          "item": "被动spellCastTime=0.25秒",
+          "reason": "被动字段不证明独立主动施法过程。"
+        },
+        {
+          "item": "暴击和攻击特效的全部拆分资格",
+          "reason": "当前正文只明确攻击伤害分拆，未自动把所有攻击特效分半。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "攻击交替状态与第二次攻击触发",
+          "reason": "同一角色的交替状态保留为待接事件，不创建两个角色或召唤物。"
+        },
+        {
+          "item": "CritDamageMod与CurrentCritDamage应用阶段",
+          "reason": "来源参数已保留，实际选择器阶段待窄证。"
+        }
+      ]
+    },
+    "yone_q": {
+      "excluded": [
+        {
+          "item": "Width/Q3DashSpeed/Q3AoESize等几何和位移字段",
+          "reason": "本轮只保留单一敌人伤害与击飞时长，空间过程不建无消费者公式。"
+        },
+        {
+          "item": "QAttackSpeedCDPercent/QAttackSpeedCastReduction及其端点",
+          "reason": "只证明系数和上限，缺执行关系不造完整攻速公式。"
+        },
+        {
+          "item": "已有公共cooldown_ms与mCooldownNotAffectedByCDR",
+          "reason": "公共参数复用；不能用普通急速公式覆盖该技能冷却。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "两层、第三次旋风、位移和首个命中攻击特效",
+          "reason": "事件顺序待接；同次不重复计伤害。"
+        }
+      ]
+    },
+    "yone_w": {
+      "excluded": [
+        {
+          "item": "WDamage及匿名{8dfeb810}计算树",
+          "reason": "当前正文未消费其中的总攻击力/匿名系数，不能混入当前两种伤害。"
+        },
+        {
+          "item": "MinionMod、MinimumDamageMinions与MonsterDamageCap",
+          "reason": "小兵最低伤害和野怪上限是兵野专用支路，本轮单一敌方英雄范围排除。"
+        },
+        {
+          "item": "BaseShield与SecondChampShieldMultiplier",
+          "reason": "BaseShield不是当前WShield实际等级基础值；后续英雄额外50%属于额外目标分配。"
+        },
+        {
+          "item": "BaseHealing、HealthStealMultiplier与WCritMultiplier",
+          "reason": "当前技能正文没有对应可写的单一敌人效果或当前伤害树消费者。"
+        },
+        {
+          "item": "攻击速度缩短冷却/施法的完整求值",
+          "reason": "当前只保存基础施法字段和已复用公共冷却，不猜执行曲线。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "命中单位后获得护盾的事件",
+          "reason": "自身护盾效果已定义，施放/命中时序待接；未命中不默认产生护盾。"
+        },
+        {
+          "item": "锥形范围与额外敌人护盾分配",
+          "reason": "本轮保留唯一敌人，额外英雄每人50%不录。"
+        }
+      ]
+    },
+    "yone_e": {
+      "excluded": [
+        {
+          "item": "DeathmarkBase与匿名{df232269}树",
+          "reason": "当前正文消费的是对英雄实际造成伤害的存量，不是匿名基础加总AD树。"
+        },
+        {
+          "item": "MissingHealthPercent",
+          "reason": "虽然数组相同，但当前正文没有把缺失生命作为返回伤害基数。"
+        },
+        {
+          "item": "灵体位移几何、完整移速过程和自动返回效果",
+          "reason": "本轮只记录窗口、起末比例、重施锁定和追加伤害公式，不造自动状态过程。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "硬控期间无法返回、自动到期和重施时序",
+          "reason": "官方文本已明确条件，事件和状态接线待后续运行层。"
+        }
+      ]
+    },
+    "yone_r": {
+      "excluded": [
+        {
+          "item": "BlinkDistanceBehindTarget/Width/最大距离闪烁几何",
+          "reason": "空间与未命中位移分支不改变当前单一敌人伤害公式。"
+        },
+        {
+          "item": "spellCastTime=125毫秒与mCastTime=750毫秒",
+          "reason": "两个来源字段冲突，不任选固定施法时间。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "击飞/拉向和唯一敌人命中事件",
+          "reason": "唯一敌人资格保留，控制与命中时序待接；RKnockupDuration只作来源参数。"
+        }
+      ]
+    }
+  },
+  "noWrites": true
+}

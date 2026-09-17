@@ -1,0 +1,29 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/yone_q/parameters",
+    "detailRoute": "/skills/yone_q/parameters/base_damage",
+    "skillKey": "yone_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 50,
+        "3": 75,
+        "4": 100,
+        "5": 125
+      },
+      "description": "客户端BaseDamage等级1至5为25/50/75/100/125。",
+      "sortOrder": 10
+    }
+  }
+}

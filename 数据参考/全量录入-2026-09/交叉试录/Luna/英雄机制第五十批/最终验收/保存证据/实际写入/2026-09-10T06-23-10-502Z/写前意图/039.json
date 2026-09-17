@@ -1,0 +1,24 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/bonus_ad_ratio",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "普攻附伤额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "OnHitDamage第二分支mStat=2系数0.2。",
+      "sortOrder": 275
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 99,
+    "method": "POST",
+    "route": "/skills/ambessa_q/parameters",
+    "detailRoute": "/skills/ambessa_q/parameters/damage_1_max_health_base_ratio",
+    "skillKey": "ambessa_q",
+    "kind": "parameters",
+    "stableKey": "damage_1_max_health_base_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_1_max_health_base_ratio",
+      "name": "暗袭目标最大生命基础比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.04,
+        "2": 0.045,
+        "3": 0.05,
+        "4": 0.055,
+        "5": 0.06
+      },
+      "description": "当前Calc_Damage_1_Percent_Max正文乘目标最大生命并按百分比显示；按原始技能等级数组保存比例。",
+      "sortOrder": 40
+    }
+  }
+}

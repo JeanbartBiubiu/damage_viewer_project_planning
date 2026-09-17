@@ -1,0 +1,872 @@
+{
+  "generatedAt": "2026-09-09T04:36:57.151Z",
+  "scope": "只复核菲奥娜R候选从主审前版本到修正版本的差异；不代表业务接口、战斗运行或页面验收。",
+  "oldCandidateSha256": "36bf395af31e0365b3f69d9eaf31600e58ae6ab7d9aa8b0713a55456693c5aa2",
+  "currentCandidateSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "parentReportedObjectSha256": "32550e330bafe6d0783f38bcbbf62656aed3ac70d2b5bd9a2d53cd9d92e583a1",
+  "counts": {
+    "before": {
+      "parameters": 172,
+      "formulas": 43
+    },
+    "after": {
+      "parameters": 175,
+      "formulas": 44,
+      "effects": 16,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    }
+  },
+  "changedParameters": [
+    {
+      "parameterKey": "healing_source_duration_ms",
+      "name": "说明中的治疗持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.HealDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+      "sortOrder": 60
+    },
+    {
+      "parameterKey": "healing_base_per_second",
+      "name": "大招每秒基础治疗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 75,
+        "2": 100,
+        "3": 125
+      },
+      "description": "客户端当前根绑定 DataValues.HealPerSecond 取索引1至3。",
+      "sortOrder": 70
+    },
+    {
+      "parameterKey": "healing_bonus_ad_ratio",
+      "name": "大招每秒治疗额外攻击力系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.6,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.Ratio 取索引1至3。",
+      "sortOrder": 80
+    }
+  ],
+  "changedFormulas": [
+    {
+      "formulaKey": "self_healing_per_second",
+      "name": "无双挑战每秒自身治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "healing_base_per_second"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "healing_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "按技能1至3级75/100/125，加0.6额外攻击力；这是每秒治疗量，不能直接作为每跳量或瞬时总治疗。",
+      "sortOrder": 10
+    }
+  ],
+  "sourceEvidenceSha256": "43cb79e1cd3bae0b3e6051751a1f4005752d06a8d28269f128003e60ce10a187",
+  "examples": [
+    {
+      "label": "自身每秒治疗（1级）",
+      "formulaKey": "self_healing_per_second",
+      "rank": 1,
+      "level": 1,
+      "expected": 147,
+      "value": 147,
+      "ok": true
+    },
+    {
+      "label": "自身每秒治疗（3级）",
+      "formulaKey": "self_healing_per_second",
+      "rank": 3,
+      "level": 9,
+      "expected": 197,
+      "value": 197,
+      "ok": true
+    },
+    {
+      "label": "R四处破绽共享伤害",
+      "formulaKey": "r_vital_true_damage",
+      "rank": 3,
+      "level": 9,
+      "expected": 561.6,
+      "value": 561.6,
+      "ok": true
+    }
+  ],
+  "issues": [],
+  "checks": [
+    {
+      "name": "修正后候选散列",
+      "ok": true,
+      "severity": "阻塞",
+      "detail": {
+        "expected": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+        "actual": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83"
+      }
+    },
+    {
+      "name": "主审前候选散列",
+      "ok": true,
+      "severity": "阻塞",
+      "detail": {
+        "expected": "36bf395af31e0365b3f69d9eaf31600e58ae6ab7d9aa8b0713a55456693c5aa2",
+        "actual": "36bf395af31e0365b3f69d9eaf31600e58ae6ab7d9aa8b0713a55456693c5aa2"
+      }
+    },
+    {
+      "name": "候选仍声明未写业务接口",
+      "ok": true,
+      "severity": "阻塞",
+      "detail": 0
+    },
+    {
+      "name": "四名英雄20技能槽未变",
+      "ok": true,
+      "severity": "一般",
+      "detail": [
+        "irelia_p",
+        "irelia_q",
+        "irelia_w",
+        "irelia_e",
+        "irelia_r",
+        "fiora_p",
+        "fiora_q",
+        "fiora_w",
+        "fiora_e",
+        "fiora_r",
+        "camille_p",
+        "camille_q",
+        "camille_w",
+        "camille_e",
+        "camille_r",
+        "gwen_p",
+        "gwen_q",
+        "gwen_w",
+        "gwen_e",
+        "gwen_r"
+      ]
+    },
+    {
+      "name": "修正后组成总数为175/44/16/0/0/0",
+      "ok": true,
+      "severity": "阻塞",
+      "detail": {
+        "expected": {
+          "parameters": 175,
+          "formulas": 44,
+          "effects": 16,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "actual": {
+          "parameters": 175,
+          "formulas": 44,
+          "effects": 16,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      }
+    },
+    {
+      "name": "其他技能未发生变更 irelia_p",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 irelia_q",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 irelia_w",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 irelia_e",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 irelia_r",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 fiora_p",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 fiora_q",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 fiora_w",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 fiora_e",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 camille_p",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 camille_q",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 camille_w",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 camille_e",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 camille_r",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 gwen_p",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 gwen_q",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 gwen_w",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 gwen_e",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "其他技能未发生变更 gwen_r",
+      "ok": true,
+      "severity": "一般",
+      "detail": "只允许菲奥娜R变化"
+    },
+    {
+      "name": "菲奥娜R来源绑定未漂移",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "before": {
+          "hero": "Fiora",
+          "rootPath": "Characters/Fiora/CharacterRecords/Root",
+          "spellPath": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+          "clientSha256": "1a5623425ab022eed88ce3da18995e627a33e90cf810f0bac50a0f563e16fa51",
+          "officialSha256": "212601130bfe3723ffeb58f8818e5c5466395c41f9c32e76c30761f67f509688",
+          "currentBoundText": {
+            "binding": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+            "keys": {
+              "keyName": {
+                "sourceKey": "Spell_FioraR_Name",
+                "key": "spell_fiorar_name",
+                "text": "无双挑战"
+              },
+              "keySummary": {
+                "sourceKey": "Spell_FioraR_Summary",
+                "key": "spell_fiorar_summary",
+                "text": "菲奥娜显示出一个敌方英雄身上的所有四处破绽，并在目标附近时获得移动速度加成。如果菲奥娜命中了所有四处破绽，或者目标在死前至少被命中了一处破绽，那么菲奥娜和范围内的友军就会在接下来的几秒里持续获得治疗效果。"
+              },
+              "keyTooltip": {
+                "sourceKey": "Spell_FioraR_Tooltip",
+                "key": "spell_fiorar_tooltip",
+                "text": "<spellPassive>被动：</spellPassive><spellName>{{Spell_FioraPassive_Name}}</spellName><speed>移动速度</speed>加成提升至@PercentMS*100@%。<br><br><spellActive>主动</spellActive>：菲奥娜标出一名英雄身上的全部四处<keywordMajor>破绽</keywordMajor>，最多可造成<trueDamage>@spell.FioraPassive:RDamageTotal@最大生命值的真实伤害</trueDamage>并在目标附近时获得<spellName>{{Spell_FioraPassive_Name}}</spellName>的<speed>移动速度加成</speed>。<br><br>如果菲奥娜在@MarkDuration@秒内命中了全部四处<keywordMajor>破绽</keywordMajor>，或者在目标死前至少命中一处，那么菲奥娜就会为周围的友方英雄每秒回复<healing>@HealPerSecondCalc@生命值</healing>，持续@HealDuration@秒。"
+              }
+            }
+          }
+        },
+        "after": {
+          "hero": "Fiora",
+          "rootPath": "Characters/Fiora/CharacterRecords/Root",
+          "spellPath": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+          "clientSha256": "1a5623425ab022eed88ce3da18995e627a33e90cf810f0bac50a0f563e16fa51",
+          "officialSha256": "212601130bfe3723ffeb58f8818e5c5466395c41f9c32e76c30761f67f509688",
+          "currentBoundText": {
+            "binding": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+            "keys": {
+              "keyName": {
+                "sourceKey": "Spell_FioraR_Name",
+                "key": "spell_fiorar_name",
+                "text": "无双挑战"
+              },
+              "keySummary": {
+                "sourceKey": "Spell_FioraR_Summary",
+                "key": "spell_fiorar_summary",
+                "text": "菲奥娜显示出一个敌方英雄身上的所有四处破绽，并在目标附近时获得移动速度加成。如果菲奥娜命中了所有四处破绽，或者目标在死前至少被命中了一处破绽，那么菲奥娜和范围内的友军就会在接下来的几秒里持续获得治疗效果。"
+              },
+              "keyTooltip": {
+                "sourceKey": "Spell_FioraR_Tooltip",
+                "key": "spell_fiorar_tooltip",
+                "text": "<spellPassive>被动：</spellPassive><spellName>{{Spell_FioraPassive_Name}}</spellName><speed>移动速度</speed>加成提升至@PercentMS*100@%。<br><br><spellActive>主动</spellActive>：菲奥娜标出一名英雄身上的全部四处<keywordMajor>破绽</keywordMajor>，最多可造成<trueDamage>@spell.FioraPassive:RDamageTotal@最大生命值的真实伤害</trueDamage>并在目标附近时获得<spellName>{{Spell_FioraPassive_Name}}</spellName>的<speed>移动速度加成</speed>。<br><br>如果菲奥娜在@MarkDuration@秒内命中了全部四处<keywordMajor>破绽</keywordMajor>，或者在目标死前至少命中一处，那么菲奥娜就会为周围的友方英雄每秒回复<healing>@HealPerSecondCalc@生命值</healing>，持续@HealDuration@秒。"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "菲奥娜R非治疗公式保持原值",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "formulaKey": "r_vital_true_damage",
+        "name": "无双挑战四处破绽最大生命真实伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "r_vital_count"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_vital_damage_ratio"
+                }
+              ]
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "TARGET",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "RDamageTotal=4×被动破绽伤害比例×目标最大生命；跨技能被动值作为运行输入。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "name": "菲奥娜R法力效果保持原值",
+      "ok": true,
+      "severity": "一般",
+      "detail": [
+        {
+          "effectKey": "mana_cost",
+          "name": "施放法力消耗",
+          "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "name": "消耗法力",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "菲奥娜R无新增过程状态触发",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    },
+    {
+      "name": "只新增3个治疗参数",
+      "ok": true,
+      "severity": "一般",
+      "detail": [
+        {
+          "parameterKey": "healing_source_duration_ms",
+          "name": "说明中的治疗持续时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null,
+          "description": "客户端当前根绑定 DataValues.HealDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "healing_base_per_second",
+          "name": "大招每秒基础治疗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 75,
+            "2": 100,
+            "3": 125
+          },
+          "description": "客户端当前根绑定 DataValues.HealPerSecond 取索引1至3。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "healing_bonus_ad_ratio",
+          "name": "大招每秒治疗额外攻击力系数",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null,
+          "description": "客户端当前根绑定 DataValues.Ratio 取索引1至3。",
+          "sortOrder": 80
+        }
+      ]
+    },
+    {
+      "name": "只新增1个自身每秒治疗公式",
+      "ok": true,
+      "severity": "一般",
+      "detail": [
+        {
+          "formulaKey": "self_healing_per_second",
+          "name": "无双挑战每秒自身治疗",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "healing_base_per_second"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "按技能1至3级75/100/125，加0.6额外攻击力；这是每秒治疗量，不能直接作为每跳量或瞬时总治疗。",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "name": "治疗持续时间5000毫秒",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "parameterKey": "healing_source_duration_ms",
+        "name": "说明中的治疗持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.HealDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "name": "治疗基础值为技能1至3级75/100/125",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "parameterKey": "healing_base_per_second",
+        "name": "大招每秒基础治疗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 75,
+          "2": 100,
+          "3": 125
+        },
+        "description": "客户端当前根绑定 DataValues.HealPerSecond 取索引1至3。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "name": "治疗额外攻击力系数为0.6",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "parameterKey": "healing_bonus_ad_ratio",
+        "name": "大招每秒治疗额外攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Ratio 取索引1至3。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "name": "自身治疗公式引用基础值、0.6额外攻击力和来源额外攻击力",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "formulaKey": "self_healing_per_second",
+        "name": "无双挑战每秒自身治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "healing_base_per_second"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "healing_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "按技能1至3级75/100/125，加0.6额外攻击力；这是每秒治疗量，不能直接作为每跳量或瞬时总治疗。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "name": "自身治疗公式保持每秒口径",
+      "ok": true,
+      "severity": "一般",
+      "detail": "按技能1至3级75/100/125，加0.6额外攻击力；这是每秒治疗量，不能直接作为每跳量或瞬时总治疗。"
+    },
+    {
+      "name": "自身治疗补证不含业务写入",
+      "ok": true,
+      "severity": "阻塞",
+      "detail": 0
+    },
+    {
+      "name": "自身治疗补证与候选来源散列一致",
+      "ok": true,
+      "severity": "一般",
+      "detail": [
+        {
+          "id": "Irelia",
+          "clientSha256": "3690c80214c9b7a467df867e7cb38b875171cecb91256d339371dc80e5583d76",
+          "clientCompressedSha256": "f135c64b1d57b225edc38977c52525aa974f57e1cae0ed63e2e1d48e73fc7b28",
+          "officialSha256": "609b71e3e675c1a18b10c76310fc3f46253f5a003c5538d8e0fbdb1a5ad053a2"
+        },
+        {
+          "id": "Fiora",
+          "clientSha256": "1a5623425ab022eed88ce3da18995e627a33e90cf810f0bac50a0f563e16fa51",
+          "clientCompressedSha256": "ac0bc9a74bbf8ba76e3b3198269f34d9b8b7c89255bd2b85f0e2147ab914336a",
+          "officialSha256": "212601130bfe3723ffeb58f8818e5c5466395c41f9c32e76c30761f67f509688"
+        },
+        {
+          "id": "Camille",
+          "clientSha256": "3f6bfb9db980faa31c3733101cdaebf0b066cae2bb9b5c4f3b3b6bdb5219dea9",
+          "clientCompressedSha256": "1fa9dbd1b9338d283f0d5e655eb437181c9b3bff35a687dc69bc0e66cf48250b",
+          "officialSha256": "b9650ff2bbf0add8107854832bfa5c7df16f6ad4c88b6c5fd5720e120ecacdda"
+        },
+        {
+          "id": "Gwen",
+          "clientSha256": "f19c4a5ea57ac5d5ec3d2ee3f9e6d0af26e9bfdb00581efccc545298cedc6cc5",
+          "clientCompressedSha256": "c2714fc4a1993e211be8cc3728c631a0e2cda41af052371d59c8658440fe58a5",
+          "officialSha256": "7f61d0d5adaced63622da690fd699e9f9d28906b2cdf50845c878551fb89b4ee"
+        }
+      ]
+    },
+    {
+      "name": "治疗持续时间证明保留",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "parameterKey": "healing_source_duration_ms",
+        "source": "DataValues.HealDuration",
+        "raw": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "offset": 1,
+        "values": [
+          5000,
+          5000,
+          5000
+        ],
+        "scale": 1000
+      }
+    },
+    {
+      "name": "每秒基础治疗证明保留",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "parameterKey": "healing_base_per_second",
+        "source": "DataValues.HealPerSecond",
+        "raw": [
+          50,
+          75,
+          100,
+          125,
+          150,
+          175,
+          200
+        ],
+        "offset": 1,
+        "values": [
+          75,
+          100,
+          125
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "name": "额外攻击力比例证明保留",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "parameterKey": "healing_bonus_ad_ratio",
+        "source": "DataValues.Ratio",
+        "raw": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "offset": 1,
+        "values": [
+          0.6,
+          0.6,
+          0.6
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "name": "缺失MinHealDuration没有补值",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "source": "DataValues.MinHealDuration",
+        "raw": {
+          "name": "MinHealDuration",
+          "__type": "SpellDataValue"
+        },
+        "sourcePending": true,
+        "semantic": "自身持续治疗相关来源字段，当前未证明消费链；不填缺值、不改成范围外。"
+      }
+    },
+    {
+      "name": "HealDurationExtension保持来源待核",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "source": "DataValues.HealDurationExtension",
+        "raw": {
+          "name": "HealDurationExtension",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        "sourcePending": true,
+        "semantic": "自身持续治疗相关来源字段，当前未证明消费链；不填缺值、不改成范围外。"
+      }
+    },
+    {
+      "name": "只排除第三者治疗分发",
+      "ok": true,
+      "severity": "一般",
+      "detail": [
+        {
+          "component": "移速范围与未绑定攻速字段",
+          "reason": "MSRingRadius和PassiveAS只保留来源证据，不扩展空间或未绑定属性。"
+        },
+        {
+          "component": "第三名友方英雄治疗分发",
+          "reason": "只排除对其他友军的治疗分发；菲奥娜自己的持续治疗保留，参见同版本英文描述及当前客户端每秒公式。"
+        }
+      ]
+    },
+    {
+      "name": "自身治疗条件和首跳间隔继续待核",
+      "ok": true,
+      "severity": "一般",
+      "detail": [
+        {
+          "kind": "系统",
+          "component": "自身持续治疗触发与时序",
+          "reason": "命中四处破绽，或至少命中一处后目标阵亡，且自身实际位于治疗圈内才有治疗；当前说明5秒、MinHealDuration缺值及HealDurationExtension=1的动态链须另核，首跳与间隔未证，不生成默认瞬时或周期治疗。"
+        },
+        {
+          "kind": "来源",
+          "component": "伤害结果资格：r_vital_hits",
+          "reason": "公式r_vital_true_damage只保留数学关系；当前冻结资料没有该分支的法术护盾、暴击、吸血及技能结果资格实证，不创建默认DAMAGE结果或SKILL_HIT触发。"
+        },
+        {
+          "kind": "系统",
+          "component": "目标附近移速条件",
+          "reason": "官方明确目标附近获得被动移速；范围判定、衰减和主动标记消费未接线。"
+        }
+      ]
+    },
+    {
+      "name": "算例 自身每秒治疗（1级）",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "label": "自身每秒治疗（1级）",
+        "formulaKey": "self_healing_per_second",
+        "rank": 1,
+        "level": 1,
+        "expected": 147,
+        "value": 147,
+        "ok": true
+      }
+    },
+    {
+      "name": "算例 自身每秒治疗（3级）",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "label": "自身每秒治疗（3级）",
+        "formulaKey": "self_healing_per_second",
+        "rank": 3,
+        "level": 9,
+        "expected": 197,
+        "value": 197,
+        "ok": true
+      }
+    },
+    {
+      "name": "算例 R四处破绽共享伤害",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "label": "R四处破绽共享伤害",
+        "formulaKey": "r_vital_true_damage",
+        "rank": 3,
+        "level": 9,
+        "expected": 561.6,
+        "value": 561.6,
+        "ok": true
+      }
+    },
+    {
+      "name": "算例明确5秒只是乘法参考不生成周期效果",
+      "ok": true,
+      "severity": "一般",
+      "detail": {
+        "perSecond": 147,
+        "sourceDurationSeconds": 5,
+        "arithmeticReferenceTotal": 735,
+        "effects": 1,
+        "processes": 0
+      }
+    }
+  ],
+  "pass": true
+}

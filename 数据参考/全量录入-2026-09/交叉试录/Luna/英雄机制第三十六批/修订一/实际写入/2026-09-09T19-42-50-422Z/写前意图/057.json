@@ -1,0 +1,23 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "method": "POST",
+    "route": "/skills/lillia_q/parameters",
+    "detailRoute": "/skills/lillia_q/parameters/prance_ap_ratio",
+    "skillKey": "lillia_q",
+    "kind": "parameters",
+    "stableKey": "prance_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "prance_ap_ratio",
+      "name": "每层移速法强系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0003,
+      "levelValues": null,
+      "description": "PranceSpeed树StatByCoefficient=0.0003；读取来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

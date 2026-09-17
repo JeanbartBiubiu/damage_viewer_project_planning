@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T11:07:53.3312326Z",
+  "batchKey": "persistent-equipment-initialization-2026-09-12",
+  "status": "PASS",
+  "scope": [
+    "item_2422_passive",
+    "item_3742_passive",
+    "item_3042_passive",
+    "item_3040_passive"
+  ],
+  "businessWrites": {
+    "initialAttempt": 1,
+    "recovery": 15,
+    "total": 16,
+    "replayed": 0
+  },
+  "finalRuleCounts": {
+    "all": 94,
+    "sourceInitialized": 24
+  },
+  "cursorReviews": [
+    {
+      "planRevision": 1,
+      "runId": "run-f6edcd2b-75ee-48ed-a174-5e82d593de9d",
+      "requestId": "0b81ac5c-9bbd-4f35-8c6a-a266eb86ad18",
+      "status": "finished",
+      "verdict": "READY",
+      "apiWrites": 0
+    },
+    {
+      "planRevision": 2,
+      "runId": "run-10b17465-2ef9-488f-b124-b3a260cf0211",
+      "requestId": "adf7099e-8b86-4d61-a0e0-750c192188fc",
+      "status": "finished",
+      "verdict": "READY",
+      "apiWrites": 0
+    }
+  ],
+  "finalReadback": {
+    "report": "07-Luna独立回读.json",
+    "status": "PASS",
+    "methodPolicy": "GET_ONLY",
+    "gets": 1266,
+    "http200": 1264,
+    "expectedHttp404": 2,
+    "businessWrites": 0,
+    "mismatches": 0
+  },
+  "browserAcceptance": {
+    "report": "08-页面验收.json",
+    "status": "PASS",
+    "methodPolicy": "BROWSER_READ_ONLY",
+    "gets": 254,
+    "businessWrites": 0,
+    "screenshots": 13,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "requestFailures": 0,
+    "errorResponses": 0
+  },
+  "preservedFailures": [
+    {
+      "report": "06-写入与即时回读.json",
+      "businessWritesBeforeFailure": 1,
+      "meaning": "第2个请求携带不可更新稳定键，已由恢复方案修正"
+    },
+    {
+      "report": "06E-恢复写入与即时回读.json",
+      "businessWritesBeforeFailure": 15,
+      "meaning": "全部恢复写入成功后，父列表派生摘要保护断言误判"
+    }
+  ],
+  "runtimeValidation": "未执行战斗运行；最终证据覆盖管理接口数据与管理页面只读展示。",
+  "files": [
+    {
+      "path": "01-来源与方案.md",
+      "sha256": "53b25afe8954396468ec40c0e5388d6ea6b13c7fef7e0631eb123fe428222781",
+      "bytes": 2974
+    },
+    {
+      "path": "02-冻结请求.json",
+      "sha256": "b6debba2c1d8704346c9b5c01b1d448e9e65ebf25ef0a5eddddc380ee3d5d639",
+      "bytes": 19002
+    },
+    {
+      "path": "03-来源快照.json",
+      "sha256": "0e64c89c27fc9fdd5346b8230d06e88b298689500a69a31f66fdc4a9a01297ba",
+      "bytes": 18775
+    },
+    {
+      "path": "04-写入前现值.json",
+      "sha256": "a9ae9bb62862c5f9955145ceef3da218b2053461741361623abb3f591aced4c3",
+      "bytes": 205848
+    },
+    {
+      "path": "05-Cursor独立评审.json",
+      "sha256": "15d48ee5f62fcc5107092d1f3f33d804afdc7f0be5dc27be35fb12819a618307",
+      "bytes": 1267
+    },
+    {
+      "path": "06-写入与即时回读.json",
+      "sha256": "0cb773810d8a623755e16005b4f06347be018465e77e37dcda3a49abad3502c7",
+      "bytes": 221792
+    },
+    {
+      "path": "06A-失败诊断与恢复方案.md",
+      "sha256": "cf2f1644f0009dc82d1f77d7ece5947d9b663c953821be1374b68436ece9c749",
+      "bytes": 2275
+    },
+    {
+      "path": "06B-恢复冻结请求.json",
+      "sha256": "cf8e6e3c4fa1e62c4caffeeedc8fc46c286f33d4cc63840a089e59f8a79d386e",
+      "bytes": 19361
+    },
+    {
+      "path": "06C-恢复写入前现值.json",
+      "sha256": "9905c794e2c1631bad2e74a532fbf00bb40825b5ccc58f5c1fa5161b31fb8afe",
+      "bytes": 206433
+    },
+    {
+      "path": "06D-Cursor恢复评审.json",
+      "sha256": "b81d29424afca24c35c3aa7c0036448d55952d782ade0547a4b19a68c940ab48",
+      "bytes": 1302
+    },
+    {
+      "path": "06E-恢复写入与即时回读.json",
+      "sha256": "0a1730b894d569ee6b6577baec672dec886c09e66859bdc2eb8c035c7850cc11",
+      "bytes": 289267
+    },
+    {
+      "path": "07-Luna独立回读.json",
+      "sha256": "2ca30644fe804257292fd91ba1085ac4237c95dccc74944e997ab4297bfc8d83",
+      "bytes": 446022
+    },
+    {
+      "path": "07-Luna独立回读.mjs",
+      "sha256": "e4c34a6b01a9f4ef065c98cdf4477629e53fe5f2f8b30a767d9caee50100b957",
+      "bytes": 47304
+    },
+    {
+      "path": "08-页面验收.json",
+      "sha256": "45328f0bef91779e6dafcc24d1ba5702a672e5fa55d16f163601ca15261e713d",
+      "bytes": 4219
+    },
+    {
+      "path": "恢复受保护写入.mjs",
+      "sha256": "23831d353ae308fdb9157bd5a6cb8e9807fc58aee9c49313b161414a423dfb2c",
+      "bytes": 18257
+    },
+    {
+      "path": "恢复准备只读.mjs",
+      "sha256": "b1665d564969d8e45a7531cf89dae9eb9227e6e5006232592b8734741a3e7d1f",
+      "bytes": 8186
+    },
+    {
+      "path": "受保护写入.mjs",
+      "sha256": "b8bf37643912e5a38e1027675efd0f00ee7823cbbbb54beb893e237e57e667d2",
+      "bytes": 17431
+    },
+    {
+      "path": "页面截图/item_2422_passive-初始化规则.png",
+      "sha256": "3ffabfa32e54e6b9bb69ae41ad4ff60d0e44f0e409c2aff50708f9254829ffeb",
+      "bytes": 129344
+    },
+    {
+      "path": "页面截图/item_2422_passive-结果详情.png",
+      "sha256": "9e2924822dd971f016182dfacc0027627ae119c155272be255ca61583b8cb7cb",
+      "bytes": 111488
+    },
+    {
+      "path": "页面截图/item_2422_passive-列表图片.png",
+      "sha256": "40ad37aaac02ea56bd6f7c704c44e3f8dbbc77f442b3513810b9f77312edf3ae",
+      "bytes": 102284
+    },
+    {
+      "path": "页面截图/item_3040_passive-初始化规则.png",
+      "sha256": "1825ea7cb28ca4641061ef71eba4a59f61830a8dad3ce8d44942029b954833b6",
+      "bytes": 130262
+    },
+    {
+      "path": "页面截图/item_3040_passive-额外法力公式.png",
+      "sha256": "d52b1b47bccb9d700939f2b5216e4b5fe4701023e58d5e46ab50ef0caac32299",
+      "bytes": 159549
+    },
+    {
+      "path": "页面截图/item_3040_passive-结果详情.png",
+      "sha256": "5adc6ce6f4c313cbf4d25b30623f82876f2038fe6bba3b81b840fbd9c02a314f",
+      "bytes": 111592
+    },
+    {
+      "path": "页面截图/item_3040_passive-列表图片.png",
+      "sha256": "c7e5c05053675da41c39f2f71c0de1a02e7f3bc40db5993a100dde0e3be07601",
+      "bytes": 104089
+    },
+    {
+      "path": "页面截图/item_3042_passive-初始化规则.png",
+      "sha256": "91f127a2b5e9c1b956bf8c1631a64e5b0352f13a2fb9af369d89ab4fe3ad900a",
+      "bytes": 161158
+    },
+    {
+      "path": "页面截图/item_3042_passive-结果详情.png",
+      "sha256": "77802e6a25d768e9a3abc8cf133b2313592ef373d2a15832256a975a8e63e82d",
+      "bytes": 118129
+    },
+    {
+      "path": "页面截图/item_3042_passive-列表图片.png",
+      "sha256": "937f1a46230ceba5c3dabba9e4f4b3fb2c9905773d0f1d24deeb931c0ff3054f",
+      "bytes": 104300
+    },
+    {
+      "path": "页面截图/item_3742_passive-初始化规则.png",
+      "sha256": "bb9e14a6a346d59c643699f321f36a3d833d9780276ac0b8f1b390b75481ec91",
+      "bytes": 123444
+    },
+    {
+      "path": "页面截图/item_3742_passive-结果详情.png",
+      "sha256": "135b2cf4f48d18b710ddf095f4b724f3b7be80d3610203bad01cd18dbef2c6b9",
+      "bytes": 117777
+    },
+    {
+      "path": "页面截图/item_3742_passive-列表图片.png",
+      "sha256": "81f367bd7e47a888af41b35ab8768885fb7c8da5d7214771d6f0295b46dfdee3",
+      "bytes": 103776
+    },
+    {
+      "path": "页面验收.mjs",
+      "sha256": "1d5b4790877ded0423c20d18b0029505b3f330ca007d82b9d3397011b1f47b53",
+      "bytes": 13549
+    },
+    {
+      "path": "准备只读.mjs",
+      "sha256": "32092751e7bfb3d65564a4ec577bf3c65cdec69f4e8115fb2be9ebae373c8e59",
+      "bytes": 21210
+    },
+    {
+      "path": "README.md",
+      "sha256": "333003fa2255b3203bf2c148ae8171d7a97086b7a58a775cdca472182cfd4225",
+      "bytes": 3384
+    }
+  ]
+}

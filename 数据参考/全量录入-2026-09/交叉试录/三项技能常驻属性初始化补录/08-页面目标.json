@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-13T11:43:38.444Z",
+  "status": "PASS",
+  "source": "冻结请求与独立GET回读自动交集",
+  "targetCount": 3,
+  "targets": [
+    {
+      "id": "kogmaw_q_passive_attack_speed",
+      "skillKey": "kogmaw_q",
+      "ownerKey": "champion_kogmaw",
+      "effectKeys": [
+        "passive_attack_speed"
+      ],
+      "ruleKey": "initialize_passive_attack_speed",
+      "ruleName": "初始化腐蚀唾液被动攻速",
+      "eventType": "SOURCE_INITIALIZED",
+      "actions": [
+        {
+          "actionKey": "execute_passive_attack_speed",
+          "actionName": "执行腐蚀唾液被动攻速",
+          "effectKey": "passive_attack_speed",
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "olaf_r_passive_resists",
+      "skillKey": "olaf_r",
+      "ownerKey": "champion_olaf",
+      "effectKeys": [
+        "passive_armor",
+        "passive_magic_resistance"
+      ],
+      "ruleKey": "initialize_passive_resists",
+      "ruleName": "初始化诸神黄昏被动双抗",
+      "eventType": "SOURCE_INITIALIZED",
+      "actions": [
+        {
+          "actionKey": "execute_passive_armor",
+          "actionName": "执行诸神黄昏被动护甲",
+          "effectKey": "passive_armor",
+          "targetContext": "EVENT_SOURCE"
+        },
+        {
+          "actionKey": "execute_passive_magic_resistance",
+          "actionName": "执行诸神黄昏被动魔抗",
+          "effectKey": "passive_magic_resistance",
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "expectedActionCount": 2,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "zaahen_r_armor_penetration",
+      "skillKey": "zaahen_r",
+      "ownerKey": "champion_zaahen",
+      "effectKeys": [
+        "armor_penetration"
+      ],
+      "ruleKey": "initialize_armor_penetration",
+      "ruleName": "初始化大赦常驻护甲穿透",
+      "eventType": "SOURCE_INITIALIZED",
+      "actions": [
+        {
+          "actionKey": "execute_armor_penetration",
+          "actionName": "执行大赦常驻护甲穿透",
+          "effectKey": "armor_penetration",
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    }
+  ],
+  "boundary": "只包含已写入且独立回读通过的三项；主动、命中、升级和运行分支不进入页面目标。",
+  "targetSha256": "3aece3f189e360e69958568c4839401a2979ef20114a7410ea0e82df114ea7e4"
+}

@@ -1,0 +1,43 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/effects",
+    "detailRoute": "/skills/udyr_w/effects/awakened_on_hit_heal",
+    "skillKey": "udyr_w",
+    "kind": "effects",
+    "stableKey": "awakened_on_hit_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "awakened_on_hit_heal",
+      "name": "坚铁甲胄觉醒命中治疗",
+      "description": "觉醒下两次攻击的单次命中治疗；实际攻击次数待接线。",
+      "sortOrder": 80,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "heal",
+          "name": "坚铁甲胄觉醒命中治疗",
+          "resultType": "DIRECT_HEAL",
+          "target": "SOURCE",
+          "description": "只记录自身直接治疗；事件次数和时点由运行层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "awakened_on_hit_heal"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {}
+        }
+      ]
+    }
+  }
+}

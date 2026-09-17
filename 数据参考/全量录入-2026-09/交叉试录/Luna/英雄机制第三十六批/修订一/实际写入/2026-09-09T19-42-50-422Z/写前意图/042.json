@@ -1,0 +1,55 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/evelynn_r/formulas",
+    "detailRoute": "/skills/evelynn_r/formulas/low_health_magic_damage",
+    "skillKey": "evelynn_r",
+    "kind": "formulas",
+    "stableKey": "low_health_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "low_health_magic_damage",
+      "name": "最终抚慰低生命魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "low_health_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "CritDamage = 2.4×完整Damage；仅目标低于30%生命时使用，名称不表示暴击。",
+      "sortOrder": 20
+    }
+  }
+}

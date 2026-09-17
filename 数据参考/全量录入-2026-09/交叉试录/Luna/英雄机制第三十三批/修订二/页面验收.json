@@ -1,0 +1,56 @@
+{
+  "at": "2026-09-09T18:54:11.337Z",
+  "status": "PASS",
+  "passed": true,
+  "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+  "method": "主负责人使用内置浏览器真实查询、打开参数与公式及效果详情，读取页面可访问性树核对；未修改页面数据。数值全量核算另见独立实际GET数学。",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 4,
+  "GETs": 0,
+  "mathCases": 0,
+  "additionalScriptGETs": 0,
+  "browserNetworkCount": "浏览器请求未单独计数，不将其称为零网络请求",
+  "pages": [
+    {
+      "skillKey": "sona_w",
+      "passed": true,
+      "observed": [
+        "技能列表左侧有娑娜代表图片",
+        "cooldown_ms=10000整数；base_heal=30/45/60/75/90，heal_ap_ratio=0.3",
+        "base_shield=25/45/65/85/105，shield_ap_ratio=0.25，shield_duration_ms=1500",
+        "减伤公式中文预览为基础比例加法强比例乘施法者法强最终值；参数0.25和0.0004，说明结果为比例"
+      ]
+    },
+    {
+      "skillKey": "soraka_r",
+      "passed": true,
+      "observed": [
+        "技能列表左侧有索拉卡代表图片，最高等级3",
+        "base_heal=150/250/350，法强比例0.5，阈值0.4，低生命倍率1.5",
+        "self_low_health_heal详情中文预览为完整基础治疗加法强后乘倍率，说明低于40%且不叠普通阶段"
+      ]
+    },
+    {
+      "skillKey": "karma_r",
+      "passed": true,
+      "observed": [
+        "技能列表左侧有卡尔玛代表图片，最高等级4",
+        "8秒强化窗口、RQ与RE四级值、RW治疗17百分数点和每法强0.01百分数点",
+        "rw_open_missing_health与rw_close_missing_health分列计算时传入",
+        "rw_close_heal详情使用结束阶段已损生命；说明明确不重复使用起始快照"
+      ]
+    },
+    {
+      "skillKey": "seraphine_w",
+      "passed": true,
+      "observed": [
+        "技能列表左侧有萨勒芬妮代表图片",
+        "self_shield效果显示一个普通护盾结果、作用施法者、持续生效、施加时留存、共享数值、全部伤害不衰减",
+        "生命周期引用shield_duration_ms，最大层数1、按来源对象、保留层数并刷新全部时间",
+        "参数页shield_duration_ms=2500、heal_delay_ms=2500、盾60/80/100/120/140加0.2法强",
+        "missing_health_heal_ratio=0.08/0.10/0.12/0.14/0.16，自身已损生命使用计算时传入"
+      ]
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

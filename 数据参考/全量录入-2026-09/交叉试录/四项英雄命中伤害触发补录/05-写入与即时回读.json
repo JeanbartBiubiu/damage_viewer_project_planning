@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "startedAt": "2026-09-13T06:33:26.632Z",
+  "status": "PASS",
+  "methodPolicy": "FOUR_FROZEN_POSTS_ONLY",
+  "authorizationValueRecorded": false,
+  "approvedBatchSha256": "80061c717b08433a02fbce43781f0796281eab3736ad43ce3b7265c96b7f32a7",
+  "sourceSnapshotSha256": "700944dc8a51ab367fe136432f9c5125f189773064cffcce1369ce2c198b354c",
+  "frozenRequestSha256": "13753a81eaf34527802a24c6cc7a34e6f7d31e60a7c65f77bae4a4b42d5721df",
+  "baselineSha256": "f1cfe847603c0bc7be40a00d83a94ceefe306aa7762f1ee6269f421c166d707f",
+  "methods": {
+    "GET": 121,
+    "POST": 4
+  },
+  "getCount": 121,
+  "businessWriteCount": 4,
+  "preflight": [
+    {
+      "id": "azir_r",
+      "candidateDetailStatus": 404,
+      "bodySha256": "f6446d3bfb27792d2b82c97f6efd10188e8b70b63cd059dbae9c9ec9efbd4a34",
+      "nonRuleSnapshotSha256": "90f6da89f28f8a6a97dafa65df1502cce7a900c4a37d94ccd02a3ed0c40db49f"
+    },
+    {
+      "id": "azir_e",
+      "candidateDetailStatus": 404,
+      "bodySha256": "3bd36d2c842a78e7a6cb4036c1c6bb9fca90d45bf3ecafb4728dbdfb6d57010f",
+      "nonRuleSnapshotSha256": "d9d4a43e4c6e29621c0994a3189fd73883ba2c0bbc5b5d68d67e05afef5bf1de"
+    },
+    {
+      "id": "yorick_e",
+      "candidateDetailStatus": 404,
+      "bodySha256": "443bfd7b90b092eb79692716bbf74a294eda36451f76e9015a648ecb1121c95b",
+      "nonRuleSnapshotSha256": "629ac5d3b6945d67af05a4647b986547b45e7282e874b9a948790100d3ddc7a2"
+    },
+    {
+      "id": "viego_w",
+      "candidateDetailStatus": 404,
+      "bodySha256": "939b1f69fedae18021eda8cf85afed37d6edf2cdc4eb56b8ed8c8aaf19a36085",
+      "nonRuleSnapshotSha256": "2a4a99546327eb84c38f65b7f4fc938b8aee9b7350c97696f7a890735742a8a7"
+    }
+  ],
+  "writes": [
+    {
+      "id": "azir_r",
+      "route": "/skills/azir_r/trigger-rules",
+      "bodySha256": "f6446d3bfb27792d2b82c97f6efd10188e8b70b63cd059dbae9c9ec9efbd4a34",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "status": 200,
+        "bodySha256": "f6446d3bfb27792d2b82c97f6efd10188e8b70b63cd059dbae9c9ec9efbd4a34",
+        "normalizedStoredSkillHitUseKindNull": true
+      }
+    },
+    {
+      "id": "azir_e",
+      "route": "/skills/azir_e/trigger-rules",
+      "bodySha256": "3bd36d2c842a78e7a6cb4036c1c6bb9fca90d45bf3ecafb4728dbdfb6d57010f",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "status": 200,
+        "bodySha256": "3bd36d2c842a78e7a6cb4036c1c6bb9fca90d45bf3ecafb4728dbdfb6d57010f",
+        "normalizedStoredSkillHitUseKindNull": true
+      }
+    },
+    {
+      "id": "yorick_e",
+      "route": "/skills/yorick_e/trigger-rules",
+      "bodySha256": "443bfd7b90b092eb79692716bbf74a294eda36451f76e9015a648ecb1121c95b",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "status": 200,
+        "bodySha256": "443bfd7b90b092eb79692716bbf74a294eda36451f76e9015a648ecb1121c95b",
+        "normalizedStoredSkillHitUseKindNull": true
+      }
+    },
+    {
+      "id": "viego_w",
+      "route": "/skills/viego_w/trigger-rules",
+      "bodySha256": "939b1f69fedae18021eda8cf85afed37d6edf2cdc4eb56b8ed8c8aaf19a36085",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "status": 200,
+        "bodySha256": "939b1f69fedae18021eda8cf85afed37d6edf2cdc4eb56b8ed8c8aaf19a36085",
+        "normalizedStoredSkillHitUseKindNull": true
+      }
+    }
+  ],
+  "finalTargetReadback": [
+    {
+      "id": "azir_r",
+      "status": 200,
+      "bodySha256": "f6446d3bfb27792d2b82c97f6efd10188e8b70b63cd059dbae9c9ec9efbd4a34"
+    },
+    {
+      "id": "azir_e",
+      "status": 200,
+      "bodySha256": "3bd36d2c842a78e7a6cb4036c1c6bb9fca90d45bf3ecafb4728dbdfb6d57010f"
+    },
+    {
+      "id": "yorick_e",
+      "status": 200,
+      "bodySha256": "443bfd7b90b092eb79692716bbf74a294eda36451f76e9015a648ecb1121c95b"
+    },
+    {
+      "id": "viego_w",
+      "status": 200,
+      "bodySha256": "939b1f69fedae18021eda8cf85afed37d6edf2cdc4eb56b8ed8c8aaf19a36085"
+    }
+  ],
+  "error": null,
+  "completedAt": "2026-09-13T06:33:39.165Z",
+  "expectedFinalRuleCount": 130,
+  "runtimeValidation": "未执行；本报告只证明管理接口写入和定点回读。"
+}

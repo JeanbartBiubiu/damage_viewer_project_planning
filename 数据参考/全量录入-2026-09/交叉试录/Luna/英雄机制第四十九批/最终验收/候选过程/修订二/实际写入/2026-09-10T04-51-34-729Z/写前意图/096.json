@@ -1,0 +1,29 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 96,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/parameters",
+    "detailRoute": "/skills/kled_r/parameters/damage_percent_points",
+    "skillKey": "kled_r",
+    "kind": "parameters",
+    "stableKey": "damage_percent_points",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_percent_points",
+      "name": "最大生命伤害百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 4,
+        "2": 6,
+        "3": 8
+      },
+      "description": "PercentHPBase索引1至3为4/6/8；源最小/最大mMultiplier分别是0.01/0.03，不再增加候选单位参数。",
+      "sortOrder": 20
+    }
+  }
+}

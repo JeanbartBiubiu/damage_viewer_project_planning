@@ -1,0 +1,23 @@
+{
+  "i": 201,
+  "intent": {
+    "sequence": 202,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/parameters",
+    "detailRoute": "/skills/twistedfate_w/parameters/cast_time_ms",
+    "skillKey": "twistedfate_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "选牌施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 425,
+      "levelValues": null,
+      "description": "当前spellCastTime=0.425秒，转换为425毫秒。",
+      "sortOrder": 160
+    }
+  }
+}

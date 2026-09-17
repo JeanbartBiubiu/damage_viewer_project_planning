@@ -1,0 +1,25 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_w/parameters",
+    "detailRoute": "/skills/kled_w/parameters/bonus_ad_percent_points",
+    "skillKey": "kled_w",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_percent_points",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_percent_points",
+      "name": "额外攻击力百分数点系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.02,
+      "levelValues": null,
+      "description": "源树额外攻击力项0.02仍是百分数点系数。",
+      "sortOrder": 60
+    }
+  }
+}

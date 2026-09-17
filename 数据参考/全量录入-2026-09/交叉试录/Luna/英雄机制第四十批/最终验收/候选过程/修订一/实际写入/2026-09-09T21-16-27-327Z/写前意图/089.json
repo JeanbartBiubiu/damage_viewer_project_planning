@@ -1,0 +1,29 @@
+{
+  "i": 88,
+  "intent": {
+    "sequence": 89,
+    "method": "POST",
+    "route": "/skills/thresh_w/parameters",
+    "detailRoute": "/skills/thresh_w/parameters/base_shield",
+    "skillKey": "thresh_w",
+    "kind": "parameters",
+    "stableKey": "base_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_shield",
+      "name": "魂引之灯基础护盾值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "description": "当前DataValues.BaseShieldValue技能等级1至5为50/70/90/110/130；索引0的30不是一级。",
+      "sortOrder": 10
+    }
+  }
+}

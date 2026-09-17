@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T12:19:33.628Z",
+  "status": "PASS",
+  "frozenBatchSha256": "726c7cccbf116154e50d6ba2a747851d374abc1e8a746f524ca94c6d5c25e0d8",
+  "preflightSha256": "cb6c1c2d81f568dbf98f19c61583895cba0da46bb1d5e8c526b13ad73e090ec9",
+  "reviewSha256": "9f187cc7d8ffa489f3f90268e92198f802e1ed11256ef3c089f4ffc6b17199cc",
+  "approvalDecisionSha256": "ab4c0e65f0a64e26aaabcf6d781998ab8903c37691d6680406dc9c17d1f665c3",
+  "recoveryMode": false,
+  "businessWrites": 4,
+  "alreadyLanded": 0,
+  "allowedBusinessMethods": [
+    "POST"
+  ],
+  "before": [
+    {
+      "id": "ahri_q_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "c2cbc2aa9d7cf17974048002c70c555cb441cc9db956ce672d27fbf2f576843e"
+    },
+    {
+      "id": "brand_w_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "4a910ba6c9c60f0f92a0333dfe3c7d46e168f94bcca2d35950628ac6cf7142fe"
+    },
+    {
+      "id": "darius_e_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "deb130c200e079818401f6c7f8baec3f58b9d5df6f65459ef27da2155fb568cd"
+    },
+    {
+      "id": "xinzhao_w_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "6990b6f8e7f2a70d7a0907e868ab33e2e8ad532b0943c67e65baf99b954cc03f"
+    }
+  ],
+  "operations": [
+    {
+      "at": "2026-09-13T12:19:27.832Z",
+      "id": "ahri_q_start_cast",
+      "skillKey": "ahri_q",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "862a93d9a62db8442f328512792ba31d7bfa44d38b7225da4d2dca928b3e36f9"
+    },
+    {
+      "at": "2026-09-13T12:19:29.667Z",
+      "id": "brand_w_start_cast",
+      "skillKey": "brand_w",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "68b7203309eca2e27342d06e12c4cbe7ea01e8005a98bbae5343248084402c97"
+    },
+    {
+      "at": "2026-09-13T12:19:31.705Z",
+      "id": "darius_e_start_cast",
+      "skillKey": "darius_e",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "81959e87ae83838de6239ba94f0d9c607d904d03be360ce69bbe469d1c6ad756"
+    },
+    {
+      "at": "2026-09-13T12:19:33.627Z",
+      "id": "xinzhao_w_start_cast",
+      "skillKey": "xinzhao_w",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "d0a1d97743d09cccf407c2f5f4de0f185c835814144e6c92a31f9d754167adab"
+    }
+  ],
+  "requestAudit": {
+    "requestCount": 101,
+    "methods": {
+      "GET": 97,
+      "POST": 4
+    },
+    "statuses": {
+      "200": 93,
+      "201": 4,
+      "404": 4
+    },
+    "nonGetPaths": [
+      {
+        "method": "POST",
+        "path": "/skills/ahri_q/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/brand_w/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/darius_e/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/xinzhao_w/trigger-rules"
+      }
+    ]
+  },
+  "boundary": "仅创建独立批准散列覆盖的四条启动cast过程规则并即时回读；其余技能组成和运行边界不变。"
+}

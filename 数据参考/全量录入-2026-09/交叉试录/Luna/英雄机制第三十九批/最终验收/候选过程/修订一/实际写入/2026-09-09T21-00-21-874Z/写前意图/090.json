@@ -1,0 +1,56 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_r/formulas",
+    "detailRoute": "/skills/samira_r/formulas/critical_physical_damage_per_shot",
+    "skillKey": "samira_r",
+    "kind": "formulas",
+    "stableKey": "critical_physical_damage_per_shot",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "critical_physical_damage_per_shot",
+      "name": "炼狱扳机暴击单发物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_crit_multiplier"
+          }
+        ]
+      },
+      "description": "CriticalDamageCalc=DamageCalc×实际mStat9；不把未消费的其他倍率或小兵修正混入。",
+      "sortOrder": 20
+    }
+  }
+}

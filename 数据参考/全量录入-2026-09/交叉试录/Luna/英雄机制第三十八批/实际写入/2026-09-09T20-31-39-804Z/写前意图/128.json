@@ -1,0 +1,23 @@
+{
+  "i": 127,
+  "intent": {
+    "sequence": 128,
+    "method": "POST",
+    "route": "/skills/skarner_e/parameters",
+    "detailRoute": "/skills/skarner_e/parameters/pin_stat12_ratio",
+    "skillKey": "skarner_e",
+    "kind": "parameters",
+    "stableKey": "pin_stat12_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "pin_stat12_ratio",
+      "name": "以绪塔尔冲击撞墙生命总值比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.06,
+      "levelValues": null,
+      "description": "PinDamage的mStat=12；结合同版窄证映射为来源生命总值，使用SOURCE.hp.TOTAL。",
+      "sortOrder": 80
+    }
+  }
+}

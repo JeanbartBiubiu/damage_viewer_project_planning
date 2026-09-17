@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-09T04:54:17.719Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_p/parameters/passive_heal_amount",
+  "id": "passive_heal_amount",
+  "method": "POST",
+  "body": {
+    "parameterKey": "passive_heal_amount",
+    "name": "破绽命中治疗量",
+    "valueType": "DECIMAL",
+    "valueMode": "CHARACTER_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 35,
+      "2": 38.823529,
+      "3": 42.647059,
+      "4": 46.470588,
+      "5": 50.294118,
+      "6": 54.117647,
+      "7": 57.941176,
+      "8": 61.764706,
+      "9": 65.588235,
+      "10": 69.411765,
+      "11": 73.235294,
+      "12": 77.058824,
+      "13": 80.882353,
+      "14": 84.705882,
+      "15": 88.529412,
+      "16": 92.352941,
+      "17": 96.176471,
+      "18": 100
+    },
+    "description": "当前计算树角色等级端点线性插值，取1至18级；未扩展未给出的等级或特殊模式。",
+    "sortOrder": 40
+  }
+}

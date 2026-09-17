@@ -1,0 +1,28 @@
+{
+  "i": 195,
+  "intent": {
+    "sequence": 196,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_r/parameters",
+    "detailRoute": "/skills/zed_r/parameters/damage_amp",
+    "skillKey": "zed_r",
+    "kind": "parameters",
+    "stableKey": "damage_amp",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_amp",
+      "name": "死亡印记额外伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.4000000059604645,
+        "3": 0.550000011920929
+      },
+      "description": "RDamageAmp使用索引1至3：25%/40%/55%。",
+      "sortOrder": 10
+    }
+  }
+}

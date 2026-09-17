@@ -1,0 +1,30 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/parameters",
+    "detailRoute": "/skills/hwei_q/parameters/qw_damage_base",
+    "skillKey": "hwei_q",
+    "kind": "parameters",
+    "stableKey": "qw_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "qw_damage_base",
+      "name": "攒聚雷基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 85,
+        "3": 110,
+        "4": 135,
+        "5": 160
+      },
+      "description": "攒聚雷基础60/85/110/135/160。",
+      "sortOrder": 50
+    }
+  }
+}

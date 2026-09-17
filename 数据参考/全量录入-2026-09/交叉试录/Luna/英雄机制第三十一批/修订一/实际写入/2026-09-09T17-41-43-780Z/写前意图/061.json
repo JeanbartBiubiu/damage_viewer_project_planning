@@ -1,0 +1,45 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "method": "POST",
+    "route": "/skills/lulu_p/formulas",
+    "detailRoute": "/skills/lulu_p/formulas/single_bolt_magic_damage",
+    "skillKey": "lulu_p",
+    "kind": "formulas",
+    "stableKey": "single_bolt_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "single_bolt_magic_damage",
+      "name": "皮克斯单颗飞弹魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_character_level_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio_per_bolt"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage = 当前角色等级基础伤害输入 + APRatioPerHit×来源总法强；不把5至39误作角色等级。",
+      "sortOrder": 10
+    }
+  }
+}

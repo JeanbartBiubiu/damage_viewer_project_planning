@@ -1,0 +1,23 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "method": "POST",
+    "route": "/skills/evelynn_e/parameters",
+    "detailRoute": "/skills/evelynn_e/parameters/cast_time_ms",
+    "skillKey": "evelynn_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+      "sortOrder": 100
+    }
+  }
+}

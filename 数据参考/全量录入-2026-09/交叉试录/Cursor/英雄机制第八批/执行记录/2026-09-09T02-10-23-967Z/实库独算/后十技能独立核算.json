@@ -1,0 +1,1831 @@
+{
+  "generatedAt": "2026-09-09T02:11:03.533Z",
+  "boundary": "仅冻结来源、候选结构与独立算术；没有业务保存、数据库回读、浏览器或战斗运行证据。后十候选来自前置Codex执行，当前独算由接手代理完成。",
+  "candidateSha256": "b9562bcf459e286763584fd72ed571c0a8c7343a99866e6d5b17d0e6a89fe47f",
+  "reusedPublicParameters": 11,
+  "sourceChecks": [
+    {
+      "hero": "Draven",
+      "kind": "client",
+      "expected": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+      "actual": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+      "match": true
+    },
+    {
+      "hero": "Draven",
+      "kind": "official",
+      "expected": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+      "actual": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+      "match": true
+    },
+    {
+      "hero": "Kalista",
+      "kind": "client",
+      "expected": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+      "actual": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+      "match": true
+    },
+    {
+      "hero": "Kalista",
+      "kind": "official",
+      "expected": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+      "actual": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+      "match": true
+    },
+    {
+      "kind": "当前字符串表",
+      "expected": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "actual": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+      "match": true
+    }
+  ],
+  "arithmetic": [
+    {
+      "skillKey": "draven_q",
+      "name": "等级1额外物理伤害BAD100",
+      "expected": 115,
+      "actual": 115,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_q",
+      "name": "等级5额外物理伤害BAD100",
+      "expected": 175,
+      "actual": 175,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_e",
+      "name": "等级1开道利斧BAD100",
+      "expected": 125,
+      "actual": 125,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_e",
+      "name": "等级5开道利斧BAD100",
+      "expected": 265,
+      "actual": 265,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_r",
+      "name": "等级1冷血追命首目标BAD100",
+      "expected": 310,
+      "actual": 310,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_r",
+      "name": "等级3冷血追命首目标BAD100",
+      "expected": 550,
+      "actual": 550,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_r",
+      "name": "崇拜层数0处决阈值",
+      "expected": 0,
+      "actual": 0,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_r",
+      "name": "崇拜层数120处决阈值",
+      "expected": 120,
+      "actual": 120,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_r",
+      "name": "崇拜层数501处决阈值",
+      "expected": 501,
+      "actual": 501,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "kalista_q",
+      "name": "等级1穿刺总AD200",
+      "expected": 220,
+      "actual": 220,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "kalista_q",
+      "name": "等级5穿刺总AD200",
+      "expected": 480,
+      "actual": 480,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "kalista_e",
+      "name": "等级1第一根AD200其他属性100",
+      "expected": 210,
+      "actual": 210,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "kalista_e",
+      "name": "等级1后续一根AD200其他属性100",
+      "expected": 97,
+      "actual": 97,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "kalista_e",
+      "name": "等级1三根总伤害AD200其他属性100",
+      "expected": 404,
+      "actual": 404,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "kalista_e",
+      "name": "等级5四根总伤害AD200其他属性100",
+      "expected": 805,
+      "actual": 805,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "kalista_e",
+      "name": "等级1减速比例其他属性100",
+      "expected": 0.15,
+      "actual": 0.15000000000000002,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "kalista_e",
+      "name": "等级5减速比例其他属性100",
+      "expected": 0.47,
+      "actual": 0.47,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_w",
+      "name": "等级1攻速加成",
+      "expected": 0.2,
+      "actual": 0.2,
+      "match": true,
+      "detail": null
+    },
+    {
+      "skillKey": "draven_w",
+      "name": "等级5初始移速加成",
+      "expected": 0.7,
+      "actual": 0.7,
+      "match": true,
+      "detail": null
+    }
+  ],
+  "invariants": [
+    {
+      "name": "draven_p根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_p当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_q根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_q当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_w根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_w当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_e根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_e当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_r根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_r当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_p根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_p当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_q根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_q当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_w根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_w当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_e根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_e当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_r根绑定与来源哈希",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_r当前mLocKeys中文精确复用",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "来源文件哈希全部一致",
+      "match": true,
+      "detail": [
+        {
+          "hero": "Draven",
+          "kind": "client",
+          "expected": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+          "actual": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+          "match": true
+        },
+        {
+          "hero": "Draven",
+          "kind": "official",
+          "expected": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+          "actual": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+          "match": true
+        },
+        {
+          "hero": "Kalista",
+          "kind": "client",
+          "expected": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+          "actual": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+          "match": true
+        },
+        {
+          "hero": "Kalista",
+          "kind": "official",
+          "expected": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+          "actual": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+          "match": true
+        },
+        {
+          "kind": "当前字符串表",
+          "expected": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+          "actual": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+          "match": true
+        }
+      ]
+    },
+    {
+      "name": "只含德莱文与卡莉丝塔后十十槽",
+      "match": true,
+      "detail": [
+        "draven_p",
+        "draven_q",
+        "draven_w",
+        "draven_e",
+        "draven_r",
+        "kalista_p",
+        "kalista_q",
+        "kalista_w",
+        "kalista_e",
+        "kalista_r"
+      ]
+    },
+    {
+      "name": "候选明确未写业务API",
+      "match": true,
+      "detail": {
+        "executor": "后十初稿由Codex执行代理生成；当前20槽纠错由Codex执行代理接手，原Cursor前十生成未完成。",
+        "gameId": "lol",
+        "note": "来源冻结与当前录入分开；只计实际GET一致的组成。没有运行Wasm或战斗。本批仅补缺，不更新既有不同内容。",
+        "sources": [
+          {
+            "id": "Caitlyn",
+            "client": {
+              "path": "客户端原文/Caitlyn.json.gz",
+              "sha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+              "compressedSha256": "5a3658a4da6aeba98af280d640af142ff299f518904e1e502a4b57f40ded6079",
+              "byteSize": 50357,
+              "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/caitlyn/caitlyn.bin.json",
+              "fetchedAt": "2026-09-06T14:26:14.291Z",
+              "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+            },
+            "official": {
+              "path": "../英雄/原始资料/zh_CN/champion/Caitlyn.json",
+              "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Caitlyn.json",
+              "fetchedAt": "2026-09-06T14:12:45.377Z",
+              "byteSize": 13948,
+              "sha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248"
+            }
+          },
+          {
+            "id": "Jhin",
+            "client": {
+              "path": "客户端原文/Jhin.json.gz",
+              "sha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+              "compressedSha256": "21146e54ed3337fd2e235fd6bda961823a4834f6e068e832dc433d59b47139f7",
+              "byteSize": 59957,
+              "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+              "fetchedAt": "2026-09-06T14:26:21.201Z",
+              "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+            },
+            "official": {
+              "path": "../英雄/原始资料/zh_CN/champion/Jhin.json",
+              "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jhin.json",
+              "fetchedAt": "2026-09-06T14:12:48.393Z",
+              "byteSize": 14749,
+              "sha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15"
+            }
+          },
+          {
+            "id": "Draven",
+            "client": {
+              "path": "客户端原文/Draven.json.gz",
+              "sha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+              "compressedSha256": "91d24a2317c2a4aa55e680f13f5bd884215836fcdfbe5839961d6c36f0e3e4b0",
+              "byteSize": 70402,
+              "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/draven/draven.bin.json",
+              "fetchedAt": "2026-09-06T14:26:15.888Z",
+              "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+            },
+            "official": {
+              "path": "../英雄/原始资料/zh_CN/champion/Draven.json",
+              "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Draven.json",
+              "fetchedAt": "2026-09-06T14:12:46.143Z",
+              "byteSize": 16481,
+              "sha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488"
+            }
+          },
+          {
+            "id": "Kalista",
+            "client": {
+              "path": "客户端原文/Kalista.json.gz",
+              "sha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+              "compressedSha256": "b1240cfb91f3e7964b8d17b46c5d67f811fe62946736ee912c7edc4b0712ace5",
+              "byteSize": 119640,
+              "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kalista/kalista.bin.json",
+              "fetchedAt": "2026-09-06T14:26:22.337Z",
+              "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+            },
+            "official": {
+              "path": "../英雄/原始资料/zh_CN/champion/Kalista.json",
+              "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kalista.json",
+              "fetchedAt": "2026-09-06T14:12:48.054Z",
+              "byteSize": 12451,
+              "sha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84"
+            }
+          }
+        ],
+        "scope": "凯特琳、烬、德莱文、卡莉丝塔20槽确定组成；公共参数精确复用，候选不写API。",
+        "stage": "后十技能候选；未写业务API",
+        "generatedAt": "2026-09-09T01:41:53.560Z",
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "draven_q公共参数逐字段保留 cooldown_ms",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Draven.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Draven.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "draven_q公共参数逐字段保留 mana_cost",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Draven.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 45,
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Draven.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 45,
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "draven_w公共参数逐字段保留 cooldown_ms",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Draven.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Draven.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "draven_w公共参数逐字段保留 mana_cost",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Draven.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 35,
+            "3": 30,
+            "4": 25,
+            "5": 20
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Draven.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 35,
+            "3": 30,
+            "4": 25,
+            "5": 20
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "draven_e公共参数逐字段保留 cooldown_ms",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Draven.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Draven.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "draven_e公共参数逐字段保留 mana_cost",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Draven.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 70,
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Draven.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 70,
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "draven_r公共参数逐字段保留 cooldown_ms",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Draven.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 100000,
+            "2": 90000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Draven.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 100000,
+            "2": 90000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "draven_r公共参数逐字段保留 mana_cost",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Draven.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Draven.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "kalista_q公共参数逐字段保留 cooldown_ms",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Kalista.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 9000,
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Kalista.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 9000,
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "sortOrder": 100,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "kalista_q公共参数逐字段保留 mana_cost",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Kalista.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Kalista.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "kalista_e公共参数逐字段保留 mana_cost",
+      "match": true,
+      "detail": {
+        "old": {
+          "description": "DDragon16.17.1 Kalista.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 30,
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "current": {
+          "description": "DDragon16.17.1 Kalista.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 30,
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "sortOrder": 110,
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "精确保留11项既有公共参数",
+      "match": true,
+      "detail": {
+        "reused": 11,
+        "reuseFailures": []
+      }
+    },
+    {
+      "name": "draven_p参数原值 catch_adoration_gain",
+      "match": true,
+      "detail": {
+        "sourceName": "StackGain",
+        "expected": [
+          1
+        ],
+        "actual": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "draven_p参数原值 death_adoration_loss_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "PercentOfStacksLost",
+        "expected": [
+          0.5
+        ],
+        "actual": [
+          0.5
+        ]
+      }
+    },
+    {
+      "name": "draven_q参数原值 base_bonus_damage",
+      "match": true,
+      "detail": {
+        "sourceName": "BaseDamage",
+        "expected": [
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "actual": [
+          40,
+          45,
+          50,
+          55,
+          60
+        ]
+      }
+    },
+    {
+      "name": "draven_q参数原值 bonus_ad_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "ADScaling",
+        "expected": [
+          0.75,
+          0.85,
+          0.95,
+          1.05,
+          1.15
+        ],
+        "actual": [
+          0.75,
+          0.85,
+          0.95,
+          1.05,
+          1.15
+        ]
+      }
+    },
+    {
+      "name": "draven_q参数原值 idle_axe_expiry_ms",
+      "match": true,
+      "detail": {
+        "sourceName": "DurationTOOLTIP",
+        "expected": [
+          6000,
+          6000,
+          6000,
+          6000,
+          6000
+        ],
+        "actual": [
+          6000,
+          6000,
+          6000,
+          6000,
+          6000
+        ]
+      }
+    },
+    {
+      "name": "draven_w参数原值 attack_speed_gain_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "Temp_AS",
+        "expected": [
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.4
+        ],
+        "actual": [
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.4
+        ]
+      }
+    },
+    {
+      "name": "draven_w参数原值 attack_speed_duration_ms",
+      "match": true,
+      "detail": {
+        "sourceName": "Temp_ASDuration",
+        "expected": [
+          3000,
+          3000,
+          3000,
+          3000,
+          3000
+        ],
+        "actual": [
+          3000,
+          3000,
+          3000,
+          3000,
+          3000
+        ]
+      }
+    },
+    {
+      "name": "draven_w参数原值 initial_move_speed_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "Temp_MSMod",
+        "expected": [
+          0.5,
+          0.55,
+          0.6,
+          0.65,
+          0.7
+        ],
+        "actual": [
+          0.5,
+          0.55,
+          0.6,
+          0.65,
+          0.7
+        ]
+      }
+    },
+    {
+      "name": "draven_w参数原值 move_speed_duration_ms",
+      "match": true,
+      "detail": {
+        "sourceName": "Temp_MSDuration",
+        "expected": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "actual": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ]
+      }
+    },
+    {
+      "name": "draven_e参数原值 base_damage",
+      "match": true,
+      "detail": {
+        "sourceName": "BaseDamage",
+        "expected": [
+          75,
+          110,
+          145,
+          180,
+          215
+        ],
+        "actual": [
+          75,
+          110,
+          145,
+          180,
+          215
+        ]
+      }
+    },
+    {
+      "name": "draven_e参数原值 slow_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "SlowAmount",
+        "expected": [
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.4
+        ],
+        "actual": [
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.4
+        ]
+      }
+    },
+    {
+      "name": "draven_e参数原值 slow_duration_ms",
+      "match": true,
+      "detail": {
+        "sourceName": "SlowDuration",
+        "expected": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ],
+        "actual": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "draven_e参数原值 knockback_duration_ms",
+      "match": true,
+      "detail": {
+        "sourceName": "KnockbackDuration",
+        "expected": [
+          500,
+          500,
+          500,
+          500,
+          500
+        ],
+        "actual": [
+          500,
+          500,
+          500,
+          500,
+          500
+        ]
+      }
+    },
+    {
+      "name": "draven_r参数原值 base_damage",
+      "match": true,
+      "detail": {
+        "sourceName": "RBaseDamage",
+        "expected": [
+          200,
+          300,
+          400
+        ],
+        "actual": [
+          200,
+          300,
+          400
+        ]
+      }
+    },
+    {
+      "name": "draven_r参数原值 bonus_ad_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "RCoefficient",
+        "expected": [
+          1.1,
+          1.3,
+          1.5
+        ],
+        "actual": [
+          1.1,
+          1.3,
+          1.5
+        ]
+      }
+    },
+    {
+      "name": "draven_r参数原值 adoration_execute_coefficient",
+      "match": true,
+      "detail": {
+        "sourceName": "RPassiveStacksCoefficient",
+        "expected": [
+          1,
+          1,
+          1
+        ],
+        "actual": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "name": "kalista_q参数原值 base_damage",
+      "match": true,
+      "detail": {
+        "sourceName": "BaseDamage",
+        "expected": [
+          10,
+          75,
+          140,
+          205,
+          270
+        ],
+        "actual": [
+          10,
+          75,
+          140,
+          205,
+          270
+        ]
+      }
+    },
+    {
+      "name": "kalista_q参数原值 total_ad_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "TotalADRatio",
+        "expected": [
+          1.05,
+          1.05,
+          1.05,
+          1.05,
+          1.05
+        ],
+        "actual": [
+          1.05,
+          1.05,
+          1.05,
+          1.05,
+          1.05
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 cooldown_ms",
+      "match": true,
+      "detail": {
+        "sourceName": "FakedCooldown",
+        "expected": [
+          10000,
+          9500,
+          9000,
+          8500,
+          8000
+        ],
+        "actual": [
+          10000,
+          9500,
+          9000,
+          8500,
+          8000
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 first_spear_base_damage",
+      "match": true,
+      "detail": {
+        "sourceName": "BaseDamage",
+        "expected": [
+          5,
+          15,
+          25,
+          35,
+          45
+        ],
+        "actual": [
+          5,
+          15,
+          25,
+          35,
+          45
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 first_spear_ad_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "BaseADRatio",
+        "expected": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "actual": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 first_spear_other_stat_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "APRatio",
+        "expected": [
+          0.65,
+          0.65,
+          0.65,
+          0.65,
+          0.65
+        ],
+        "actual": [
+          0.65,
+          0.65,
+          0.65,
+          0.65,
+          0.65
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 additional_spear_base_damage",
+      "match": true,
+      "detail": {
+        "sourceName": "AdditionalBaseDamage",
+        "expected": [
+          7,
+          14,
+          21,
+          28,
+          35
+        ],
+        "actual": [
+          7,
+          14,
+          21,
+          28,
+          35
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 additional_spear_ad_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "AdditionalADRatio",
+        "expected": [
+          0.2,
+          0.275,
+          0.35,
+          0.425,
+          0.5
+        ],
+        "actual": [
+          0.2,
+          0.275,
+          0.35,
+          0.425,
+          0.5
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 additional_spear_other_stat_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "AdditionalAPRatio",
+        "expected": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "actual": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 base_slow_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "SlowAmount",
+        "expected": [
+          0.1,
+          0.18,
+          0.26,
+          0.34,
+          0.42
+        ],
+        "actual": [
+          0.1,
+          0.18,
+          0.26,
+          0.34,
+          0.42
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 other_stat_slow_ratio",
+      "match": true,
+      "detail": {
+        "sourceName": "SlowAPRatio",
+        "expected": [
+          0.0005,
+          0.0005,
+          0.0005,
+          0.0005,
+          0.0005
+        ],
+        "actual": [
+          0.0005,
+          0.0005,
+          0.0005,
+          0.0005,
+          0.0005
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 slow_duration_ms",
+      "match": true,
+      "detail": {
+        "sourceName": "SlowDuration",
+        "expected": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ],
+        "actual": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "kalista_e参数原值 mana_refund",
+      "match": true,
+      "detail": {
+        "sourceName": "ManaRefund",
+        "expected": [
+          10,
+          15,
+          20,
+          25,
+          30
+        ],
+        "actual": [
+          10,
+          15,
+          20,
+          25,
+          30
+        ]
+      }
+    },
+    {
+      "name": "draven_q明确派生参数 max_held_axes",
+      "match": true,
+      "detail": {
+        "expected": 2,
+        "actual": 2
+      }
+    },
+    {
+      "name": "draven_e明确派生参数 bonus_ad_ratio",
+      "match": true,
+      "detail": {
+        "expected": 0.5,
+        "actual": 0.5
+      }
+    },
+    {
+      "name": "kalista_e明确派生参数 spear_duration_ms",
+      "match": true,
+      "detail": {
+        "expected": 4000,
+        "actual": 4000
+      }
+    },
+    {
+      "name": "draven_p参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_p稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_p没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_p没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_p没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_q参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_q稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_q没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_q没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_q/mana_cost属性目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_q没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_w参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_w稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_w没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_w没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_w/mana_cost属性目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_w/attack_speed_gain属性目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_w没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_e参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_e稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_e没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_e没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_e/mana_cost属性目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_e没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_r参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_r稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_r没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_r没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "draven_r/mana_cost属性目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_r没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_p参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_p稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_p没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_p没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_p没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_q参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_q稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_q没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_q没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_q/mana_cost属性目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_q没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_w参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_w稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_w没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_w没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_w没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_e参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_e稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_e没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_e没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_e/mana_cost属性目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_e/kill_mana_refund属性目录存在",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_e没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_r参数公式效果内部引用完整",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_r稳定键不重复",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_r没有持续瞬时读取运行时输入",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_r没有假事件",
+      "match": true,
+      "detail": []
+    },
+    {
+      "name": "kalista_r没有内部状态误填",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "德莱文P未写金币奖励且保留崇拜参数",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "卡莉丝塔E没有把包装根Cooldown0当冷却",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "卡莉丝塔W与R纯队友范围外为空",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "卡莉丝塔P未采用旧90%普攻或特殊模式攻速",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "未解码属性使用运行时输入且不是0占位",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_p未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_p待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_q未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_q待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_w未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_w待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_e未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_e待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_r未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "draven_r待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_p未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_p待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_q未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_q待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_w未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_w待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_e未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_e待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_r未核伤害及触发全部撤出",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "kalista_r待补分类合法",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "Draven R不录其他单位衰减组成",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "Draven P死亡扣层未猜整数舍入",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "Draven P战前非英雄叠层依赖保留",
+      "match": true,
+      "detail": null
+    }
+  ],
+  "failures": []
+}

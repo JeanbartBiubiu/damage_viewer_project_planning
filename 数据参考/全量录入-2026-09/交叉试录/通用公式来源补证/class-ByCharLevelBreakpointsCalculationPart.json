@@ -1,0 +1,59 @@
+{
+  "name": "ByCharLevelBreakpointsCalculationPart",
+  "hash": "0x5cf69ece",
+  "interface": false,
+  "value": false,
+  "bases": [
+    "IGameCalculationPartByCharLevel"
+  ],
+  "since": null,
+  "removedIn": null,
+  "properties": [
+    {
+      "name": "mBreakpoints",
+      "hash": "0x7b5d1934",
+      "ft": "List",
+      "kt": null,
+      "vt": "Embed",
+      "kh": "0x8e93d8ee",
+      "khName": "Breakpoint",
+      "khKind": "class",
+      "defaultValue": "[]",
+      "from": "ByCharLevelBreakpointsCalculationPart"
+    },
+    {
+      "name": "mInitialBonusPerLevel",
+      "hash": "0x02deb550",
+      "ft": "F32",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "defaultValue": "0",
+      "from": "ByCharLevelBreakpointsCalculationPart"
+    },
+    {
+      "name": "mLevel1Value",
+      "hash": "0xad62f672",
+      "ft": "F32",
+      "kt": null,
+      "vt": null,
+      "kh": null,
+      "khName": null,
+      "khKind": null,
+      "defaultValue": "0",
+      "from": "ByCharLevelBreakpointsCalculationPart"
+    }
+  ],
+  "ancestorLevels": [
+    [
+      "IGameCalculationPartByCharLevel"
+    ],
+    [
+      "IGameCalculationPart"
+    ]
+  ],
+  "descendantTree": [],
+  "flattened": true
+}

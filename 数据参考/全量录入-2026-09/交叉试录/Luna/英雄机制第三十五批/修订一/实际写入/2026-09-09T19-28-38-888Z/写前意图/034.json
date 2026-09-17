@@ -1,0 +1,27 @@
+{
+  "i": 33,
+  "intent": {
+    "sequence": 33,
+    "method": "POST",
+    "route": "/skills/braum_r/parameters",
+    "detailRoute": "/skills/braum_r/parameters/slow_zone_duration_ms",
+    "skillKey": "braum_r",
+    "kind": "parameters",
+    "stableKey": "slow_zone_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_zone_duration_ms",
+      "name": "减速地带持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 4000,
+        "2": 4000,
+        "3": 4000
+      },
+      "description": "客户端SlowZoneDuration=4秒；按技能等级保存原始数组并转换为4000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

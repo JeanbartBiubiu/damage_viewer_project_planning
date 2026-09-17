@@ -1,0 +1,23 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/ambessa_p/parameters",
+    "detailRoute": "/skills/ambessa_p/parameters/attack_buff_duration_ms",
+    "skillKey": "ambessa_p",
+    "kind": "parameters",
+    "stableKey": "attack_buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_buff_duration_ms",
+      "name": "龙犬诡步强化攻击层持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前Attack_Buff_Duration=4秒，转换为4000毫秒。",
+      "sortOrder": 100
+    }
+  }
+}

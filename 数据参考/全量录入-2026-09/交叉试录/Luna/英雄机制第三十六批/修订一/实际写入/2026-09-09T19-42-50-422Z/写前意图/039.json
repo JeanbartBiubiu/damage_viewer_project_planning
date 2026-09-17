@@ -1,0 +1,23 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/evelynn_r/parameters",
+    "detailRoute": "/skills/evelynn_r/parameters/low_health_multiplier",
+    "skillKey": "evelynn_r",
+    "kind": "parameters",
+    "stableKey": "low_health_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "low_health_multiplier",
+      "name": "低生命完整伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2.4,
+      "levelValues": null,
+      "description": "CritDamage树根mMultiplier=2.4；这里是低生命增伤，不是暴击几率或普通暴击。",
+      "sortOrder": 40
+    }
+  }
+}

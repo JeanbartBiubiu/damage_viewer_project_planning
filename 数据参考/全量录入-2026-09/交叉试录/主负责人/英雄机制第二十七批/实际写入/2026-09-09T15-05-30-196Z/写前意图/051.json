@@ -1,0 +1,20 @@
+{
+  "i": 50,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_q/parameters",
+    "skillKey": "hecarim_q",
+    "kind": "parameters",
+    "stableKey": "actual_stacks",
+    "body": {
+      "parameterKey": "actual_stacks",
+      "name": "本次计算已有暴走层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "实际已有层数与本次命中新层分开提供；非负整数。实际输入无默认。",
+      "sortOrder": 50
+    }
+  }
+}

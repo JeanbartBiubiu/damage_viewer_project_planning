@@ -1,0 +1,20 @@
+{
+  "i": 36,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/parameters",
+    "skillKey": "poppy_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 333,
+      "levelValues": null,
+      "description": "当前根spellCastTime为0.3324999809秒，按已记录的0.3325秒就近归一为333毫秒；不把显示精度当通用舍入规则。",
+      "sortOrder": 10
+    }
+  }
+}

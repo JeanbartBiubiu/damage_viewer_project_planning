@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:37:25.846Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_e/parameters",
+  "detailRoute": "/skills/nunu_e/parameters/slow_ratio",
+  "skillKey": "nunu_e",
+  "kind": "parameters",
+  "stableKey": "slow_ratio",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "雪球飞射减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.3,
+      "2": 0.35,
+      "3": 0.4,
+      "4": 0.45,
+      "5": 0.5
+    },
+    "description": "当前中文正文使用SlowAmount×-100%显示；按负值取正比例。",
+    "sortOrder": 50
+  }
+}

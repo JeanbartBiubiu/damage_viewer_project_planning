@@ -1,0 +1,31 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/parameters",
+    "detailRoute": "/skills/udyr_e/parameters/base_move_speed_ratio",
+    "skillKey": "udyr_e",
+    "kind": "parameters",
+    "stableKey": "base_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_move_speed_ratio",
+      "name": "普通姿态移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.310000002,
+        "3": 0.370000005,
+        "4": 0.430000007,
+        "5": 0.49000001,
+        "6": 0.550000012
+      },
+      "description": "BaseMoveSpeed按技能等级1至6取0.25至0.55，1表示100%。",
+      "sortOrder": 20
+    }
+  }
+}

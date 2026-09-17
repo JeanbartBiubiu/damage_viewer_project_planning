@@ -1,0 +1,96 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 137,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/formulas",
+    "detailRoute": "/skills/viego_q/formulas/active_physical_damage",
+    "skillKey": "viego_q",
+    "kind": "formulas",
+    "stableKey": "active_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "active_physical_damage",
+      "name": "破败王剑主动物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "active_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_base_multiplier"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "active_crit_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "active_mstat8"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "active_mstat9"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "crit_subtract_one"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "主动段=(基础+0.7×总攻击力)×[1+0.6×实际mStat8×(实际mStat9−1)]，暴击因子覆盖整段。",
+      "sortOrder": 10
+    }
+  }
+}

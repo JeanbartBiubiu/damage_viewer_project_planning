@@ -1,0 +1,23 @@
+{
+  "i": 201,
+  "intent": {
+    "sequence": 202,
+    "method": "POST",
+    "route": "/skills/zeri_r/parameters",
+    "detailRoute": "/skills/zeri_r/parameters/move_speed_per_stack_ratio",
+    "skillKey": "zeri_r",
+    "kind": "parameters",
+    "stableKey": "move_speed_per_stack_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_per_stack_ratio",
+      "name": "每层超负荷移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.014999999664723873,
+      "levelValues": null,
+      "description": "当前正文每层提供1.5%移动速度，转为0.015比例。",
+      "sortOrder": 90
+    }
+  }
+}

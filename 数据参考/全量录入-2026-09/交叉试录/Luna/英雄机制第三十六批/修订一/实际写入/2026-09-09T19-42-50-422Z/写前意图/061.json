@@ -1,0 +1,23 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "method": "POST",
+    "route": "/skills/lillia_q/parameters",
+    "detailRoute": "/skills/lillia_q/parameters/inner_radius",
+    "skillKey": "lillia_q",
+    "kind": "parameters",
+    "stableKey": "inner_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "inner_radius",
+      "name": "内圈半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 225,
+      "levelValues": null,
+      "description": "当前MinimumRadius=225；仅保留几何边界。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "i": 64,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/parameters",
+    "skillKey": "shen_q",
+    "kind": "parameters",
+    "stableKey": "energy_cost",
+    "body": {
+      "parameterKey": "energy_cost",
+      "name": "能量消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 140,
+        "2": 130,
+        "3": 120,
+        "4": 110,
+        "5": 100
+      },
+      "description": "当前根mana数组表示慎Q能量消耗，按索引0至4取140/130/120/110/100；不能称为法力。",
+      "sortOrder": 10
+    }
+  }
+}

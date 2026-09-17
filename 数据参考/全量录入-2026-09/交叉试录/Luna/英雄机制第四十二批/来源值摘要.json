@@ -1,0 +1,3994 @@
+{
+  "generatedAt": "2026-09-09T21:27:03.027Z",
+  "batch": "英雄机制第四十二批",
+  "revision": "hero42-source-v1",
+  "status": "独立来源值摘要；未调用业务接口",
+  "sourceBindingSha256": "64c0cd621211412d4023125ec55f0ed6ba04460c0cdd74601d387cbf393bdb43",
+  "sourceAuditSha256": "c3cf3231d0d5b4923a3dafe873428586a4bf2c915cfa52ae965a18b361640ed0",
+  "sourceValues": {
+    "qiyana_p": {
+      "hero": "Qiyana",
+      "slot": "P",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Passive_QiyanaPv1_Name",
+          "text": "凌人贵气"
+        },
+        "keyTooltip": {
+          "sourceKey": "Passive_QiyanaPv1_Tooltip",
+          "text": "奇亚娜的攻击和技能会造成额外的<physicalDamage>@FinalDamage@物理伤害</physicalDamage>。这个效果对每个目标有25秒冷却时间。<br><br>使用<spellName>{{Spell_QiyanaEnchant_Name}}</spellName>来获得一个不同的武器<keywordMajor>附魔</keywordMajor>的同时，会重置这个效果对所有目标的冷却时间。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_QiyanaPassive_Summary",
+          "text": "奇亚娜对每名敌人发起的第一次普攻或技能会造成额外伤害。"
+        }
+      },
+      "rawDataValues": {
+        "BurnDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "SlowDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "StunDuration": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "HasteDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "StoneExecuteBase": [
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549
+        ],
+        "HealDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "HealRadius": [
+          360,
+          360,
+          360,
+          360,
+          360,
+          360,
+          360
+        ],
+        "DoubleHitBuffDuration": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "BonusADRatio": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "APRatio": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ]
+      },
+      "rawCalculations": {
+        "FinalDamage": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 15,
+              "mInitialBonusPerLevel": 4,
+              "mBreakpoints": [
+                {
+                  "mLevel": 6,
+                  "mBonusPerLevelAtAndAfter": 4,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 11,
+                  "mBonusPerLevelAtAndAfter": 4,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "BonusADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ICD": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 14,
+              "mEndValue": 14,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{222614ec}": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 1,
+              "mBreakpoints": [
+                {
+                  "mLevel": 6,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 11,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 16,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "actual_character_level_base_damage",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "per_target_cooldown_ms"
+      ],
+      "selectedFormulaKeys": [
+        "passive_physical_damage"
+      ],
+      "sourceTextConsumers": "凌人贵气\n奇亚娜的攻击和技能会造成额外的<physicalDamage>@FinalDamage@物理伤害</physicalDamage>。这个效果对每个目标有25秒冷却时间。<br><br>使用<spellName>{{Spell_QiyanaEnchant_Name}}</spellName>来获得一个不同的武器<keywordMajor>附魔</keywordMajor>的同时，会重置这个效果对所有目标的冷却时间。\n奇亚娜对每名敌人发起的第一次普攻或技能会造成额外伤害。"
+    },
+    "qiyana_q": {
+      "hero": "Qiyana",
+      "slot": "Q",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_QiyanaQv2_Name",
+          "text": "元素之怒 / 以绪塔尔之锋"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_QiyanaQv2_Tooltip",
+          "text": "如果奇亚娜并未拥有一个<keywordMajor>附魔</keywordMajor>，那么她会进行斩击，对小范围内的敌人们造成<physicalDamage>@VanillaDamage@物理伤害</physicalDamage>。如果她已有一个<keywordMajor>附魔</keywordMajor>，那么这个技能会获得额外距离并基于<keywordMajor>附魔</keywordMajor>类型获得一个额外效果：<li><keywordMajor>寒冰附魔</keywordMajor>：暂时<status>禁锢</status>，然后是持续@SlowDuration@秒的@SlowPotency*-100@%<status>减速</status>。<li><keywordMajor>岩石附魔</keywordMajor>：对低于@CritThreshold*100@%生命值的敌人们造成额外的<physicalDamage>@TremorDamage@物理伤害</physicalDamage>。<li><keywordMajor>荒野附魔</keywordMajor>：留下一条小径，来使奇亚娜<keywordStealth>隐形</keywordStealth>并提供<speed>@Haste*100@%移动速度</speed>。<br>"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Default_Cost",
+          "text": "@Cost@ @AbilityResourceName@"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_QiyanaQ_Summary",
+          "text": "奇亚娜挥舞她的武器，造成伤害和基于她元素的额外效果。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_QiyanaQ_TooltipExtendedBelowLine",
+          "text": "<rules>第一个之后的敌人转而受到<physicalDamage>@FalloffDamage@物理伤害</physicalDamage>。<br>这个技能对野怪造成@JungleDamageAmp*100@%伤害。<br>{{Reminder_Invisibility}}</rules>"
+        }
+      },
+      "rawDataValues": {
+        "VanillaBase": [
+          50,
+          80,
+          110,
+          140,
+          170,
+          200,
+          230
+        ],
+        "BaseDamage": [
+          50,
+          80,
+          110,
+          140,
+          170,
+          200,
+          230
+        ],
+        "StealthDuration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "TremorBonus": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "Haste": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "RockExplosionDelay": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "RootDuration": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "SlowDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "SlowPotency": [
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224
+        ],
+        "CritThreshold": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "FalloffMod": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "JungleDamageAmp": [
+          1.600000023841858,
+          1.600000023841858,
+          1.600000023841858,
+          1.600000023841858,
+          1.600000023841858,
+          1.600000023841858,
+          1.600000023841858
+        ]
+      },
+      "rawCalculations": {
+        "EnchantedDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.8999999761581421,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "VanillaDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "VanillaBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.8999999761581421,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TremorDamage": {
+          "mMultiplier": {
+            "mLevel1Value": 0.6000000238418579,
+            "mBreakpoints": [
+              {
+                "mLevel": 6,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 11,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "mModifiedGameCalculation": "EnchantedDamage",
+          "__type": "GameCalculationModified"
+        },
+        "{7dc40c72}": {
+          "mFormulaParts": [
+            {
+              "mNumber": 0.05999999865889549,
+              "__type": "NumberCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.0006000000284984708,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "FalloffDamage": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mDataValue": "FalloffMod",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "EnchantedFalloff": {
+          "mMultiplier": {
+            "mDataValue": "FalloffMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mModifiedGameCalculation": "EnchantedDamage",
+          "__type": "GameCalculationModified"
+        },
+        "VanillaFalloff": {
+          "mMultiplier": {
+            "mDataValue": "FalloffMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mModifiedGameCalculation": "VanillaDamage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "ice_root_duration_ms",
+        "ice_slow_percent_points",
+        "ice_slow_duration_ms",
+        "wildwood_stealth_duration_ms",
+        "wildwood_move_speed_percent_points",
+        "rock_execute_threshold_percent_points",
+        "rock_damage_multiplier",
+        "rock_explosion_delay_ms"
+      ],
+      "selectedFormulaKeys": [
+        "vanilla_physical_damage",
+        "enchanted_physical_damage",
+        "rock_bonus_physical_damage"
+      ],
+      "sourceTextConsumers": "元素之怒 / 以绪塔尔之锋\n如果奇亚娜并未拥有一个<keywordMajor>附魔</keywordMajor>，那么她会进行斩击，对小范围内的敌人们造成<physicalDamage>@VanillaDamage@物理伤害</physicalDamage>。如果她已有一个<keywordMajor>附魔</keywordMajor>，那么这个技能会获得额外距离并基于<keywordMajor>附魔</keywordMajor>类型获得一个额外效果：<li><keywordMajor>寒冰附魔</keywordMajor>：暂时<status>禁锢</status>，然后是持续@SlowDuration@秒的@SlowPotency*-100@%<status>减速</status>。<li><keywordMajor>岩石附魔</keywordMajor>：对低于@CritThreshold*100@%生命值的敌人们造成额外的<physicalDamage>@TremorDamage@物理伤害</physicalDamage>。<li><keywordMajor>荒野附魔</keywordMajor>：留下一条小径，来使奇亚娜<keywordStealth>隐形</keywordStealth>并提供<speed>@Haste*100@%移动速度</speed>。<br>\n@Cost@ @AbilityResourceName@\n奇亚娜挥舞她的武器，造成伤害和基于她元素的额外效果。\n<rules>第一个之后的敌人转而受到<physicalDamage>@FalloffDamage@物理伤害</physicalDamage>。<br>这个技能对野怪造成@JungleDamageAmp*100@%伤害。<br>{{Reminder_Invisibility}}</rules>"
+    },
+    "qiyana_w": {
+      "hero": "Qiyana",
+      "slot": "W",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_QiyanaEnchant_Name",
+          "text": "方圆塑令"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_QiyanaEnchant_Tooltip",
+          "text": "<spellPassive>被动：</spellPassive>当奇亚娜的武器已被<keywordMajor>附魔</keywordMajor>时，她会获得<attackSpeed>@AttackSpeed*100@%攻击速度</attackSpeed>并且她的攻击造成额外的<magicDamage>@OnHitDamage@魔法伤害</magicDamage>。她还会在相应地形类型附近获得非战斗状态下的<speed>@PassiveMS*100@%移动速度</speed>。<br><br><spellActive>主动：</spellActive>奇亚娜突进向一个附近的草丛、地形或河流，然后用该地形类型来<keywordMajor>附魔</keywordMajor>她的武器。这会刷新<spellName>{{Spell_QiyanaQv2_Name}}</spellName>的冷却时间。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_QiyanaW_Summary",
+          "text": "奇亚娜突进到一个位置并用一种元素为她的武器附魔。当武器有附魔时，她的攻击和技能会造成额外伤害。"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          0,
+          8,
+          16,
+          24,
+          32,
+          40,
+          48
+        ],
+        "StealthDuration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "SlowDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "Range": [
+          425,
+          425,
+          425,
+          425,
+          425,
+          425,
+          425
+        ],
+        "AttackSpeed": [
+          0.10000000149011612,
+          0.15000000596046448,
+          0.20000000298023224,
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355,
+          0.4000000059604645
+        ],
+        "TremorBonus": [
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355
+        ],
+        "PassiveMS": [
+          0.009999999776482582,
+          0.029999999329447746,
+          0.05000000074505806,
+          0.07000000029802322,
+          0.09000000357627869,
+          0.10999999940395355,
+          0.12999999523162842
+        ],
+        "TravelDistance": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "TravelDistanceShort": null,
+        "DashSpeed": [
+          440,
+          440,
+          440,
+          440,
+          440,
+          440,
+          440
+        ],
+        "OnHitAPRatio": [
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104
+        ],
+        "OnHitADRatio": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ]
+      },
+      "rawCalculations": {
+        "CleaveDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TremorDamage": {
+          "mMultiplier": {
+            "mDataValue": "TremorBonus",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "CleaveDamage",
+          "__type": "GameCalculationModified"
+        },
+        "OnHitDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "OnHitAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "OnHitADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "enchant_attack_speed_percent_points",
+        "onhit_base_damage",
+        "onhit_ap_ratio",
+        "onhit_bonus_ad_ratio",
+        "terrain_move_speed_percent_points",
+        "terrain_distance",
+        "dash_distance",
+        "dash_speed"
+      ],
+      "selectedFormulaKeys": [
+        "onhit_magic_damage"
+      ],
+      "sourceTextConsumers": "方圆塑令\n<spellPassive>被动：</spellPassive>当奇亚娜的武器已被<keywordMajor>附魔</keywordMajor>时，她会获得<attackSpeed>@AttackSpeed*100@%攻击速度</attackSpeed>并且她的攻击造成额外的<magicDamage>@OnHitDamage@魔法伤害</magicDamage>。她还会在相应地形类型附近获得非战斗状态下的<speed>@PassiveMS*100@%移动速度</speed>。<br><br><spellActive>主动：</spellActive>奇亚娜突进向一个附近的草丛、地形或河流，然后用该地形类型来<keywordMajor>附魔</keywordMajor>她的武器。这会刷新<spellName>{{Spell_QiyanaQv2_Name}}</spellName>的冷却时间。\n奇亚娜突进到一个位置并用一种元素为她的武器附魔。当武器有附魔时，她的攻击和技能会造成额外伤害。"
+    },
+    "qiyana_e": {
+      "hero": "Qiyana",
+      "slot": "E",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_QiyanaEv3_Name",
+          "text": "天纵之勇"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_QiyanaEv3_Tooltip",
+          "text": "奇亚娜冲刺并经过一名敌人，并对其造成<physicalDamage>@Damage@物理伤害</physicalDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_QiyanaE_Summary",
+          "text": "奇亚娜突进至一名敌人处，并对其造成伤害。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_QiyanaE_AutoAimSubstring",
+          "text": "<rules>如果在这个技能的目标是一名英雄的时候施放<spellName>{{Spell_QiyanaQv2_Name}}</spellName>，那么奇亚娜将自动将其瞄向她的目标。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          10,
+          50,
+          90,
+          130,
+          170,
+          210,
+          250
+        ],
+        "DashSpeed": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "DashSpeedMax": [
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200
+        ],
+        "ADRatio": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "rawCalculations": {
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "dash_speed_min",
+        "dash_speed_max"
+      ],
+      "selectedFormulaKeys": [
+        "physical_damage"
+      ],
+      "sourceTextConsumers": "天纵之勇\n奇亚娜冲刺并经过一名敌人，并对其造成<physicalDamage>@Damage@物理伤害</physicalDamage>。\n奇亚娜突进至一名敌人处，并对其造成伤害。\n<rules>如果在这个技能的目标是一名英雄的时候施放<spellName>{{Spell_QiyanaQv2_Name}}</spellName>，那么奇亚娜将自动将其瞄向她的目标。</rules>"
+    },
+    "qiyana_r": {
+      "hero": "Qiyana",
+      "slot": "R",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_QiyanaRv1_Name",
+          "text": "惊才绝景"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_QiyanaRv2_Tooltip",
+          "text": "奇亚娜放出一道冲击波来<status>击退</status>敌人们并在它命中墙体时爆炸。爆炸会沿着地形的完整边缘行进，<status>晕眩</status>0.5到@StunDuration@秒并造成<physicalDamage>@Damage@</physicalDamage>外加<physicalDamage>@MissingHealthDamageRock@最大生命值的物理伤害</physicalDamage>。 <status>晕眩</status>时长会随着爆炸的移动距离而缩短。<br><br>冲击波途经的任何河流与草丛也会在短暂延迟后爆炸，造成等值的伤害和<status>晕眩</status>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_QiyanaR_Summary",
+          "text": "奇亚娜发出一道冲击波来引爆沿途命中的任何元素，对元素附近的敌人造成伤害和晕眩效果。"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          0,
+          100,
+          200,
+          300,
+          400,
+          500,
+          600
+        ],
+        "Slow": [
+          0.30000001192092896,
+          0.4000000059604645,
+          0.5,
+          0.6000000238418579,
+          0.699999988079071,
+          0.800000011920929,
+          0.8999999761581421
+        ],
+        "BonusDamageBase": [
+          0,
+          50,
+          100,
+          150,
+          200,
+          250,
+          300
+        ],
+        "SlowDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "RecastWindow": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "StunDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "MonsterCapBase": [
+          250,
+          500,
+          750,
+          1000,
+          1250,
+          1500,
+          1750
+        ],
+        "PercentHPDamageBaseRock": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "RootDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "StunDurationMin": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "rawCalculations": {
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1.25,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MissingHealthDamageRock": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mDataValue": "PercentHPDamageBaseRock",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "MonsterCap": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MonsterCapBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1.25,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "target_max_health_ratio",
+        "stun_duration_min_ms",
+        "stun_duration_max_ms"
+      ],
+      "selectedFormulaKeys": [
+        "environment_explosion_physical_damage"
+      ],
+      "sourceTextConsumers": "惊才绝景\n奇亚娜放出一道冲击波来<status>击退</status>敌人们并在它命中墙体时爆炸。爆炸会沿着地形的完整边缘行进，<status>晕眩</status>0.5到@StunDuration@秒并造成<physicalDamage>@Damage@</physicalDamage>外加<physicalDamage>@MissingHealthDamageRock@最大生命值的物理伤害</physicalDamage>。 <status>晕眩</status>时长会随着爆炸的移动距离而缩短。<br><br>冲击波途经的任何河流与草丛也会在短暂延迟后爆炸，造成等值的伤害和<status>晕眩</status>。\n奇亚娜发出一道冲击波来引爆沿途命中的任何元素，对元素附近的敌人造成伤害和晕眩效果。"
+    },
+    "ksante_p": {
+      "hero": "KSante",
+      "slot": "P",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_KSanteP_Name",
+          "text": "血性本能"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KSanteP_Tooltip",
+          "text": "奎桑提的伤害型技能会标记命中的敌人。攻击被标记的敌人可以造成<physicalDamage>@FlatDamage@外加@PercentHealthDamage@最大生命值的物理伤害</physicalDamage>并消耗掉该标记。<br><br><keywordMajor>全盛姿态</keywordMajor>：奎桑提的攻击、技能和被动造成额外的@MaxHealthDamagePercent@最大生命值的物理伤害。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KSanteP_Summary",
+          "text": "奎桑提的技能会标记目标来使他的下一次攻击对其造成更多伤害。<br><br>在全盛姿态下，奎桑提的所有攻击和技能造成更多伤害。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_KSanteP_Extend",
+          "text": "{{Spell_KSanteP_Tooltip}}<br><br><rules>对小兵的伤害下限为15-100(基于等级)。<br>对野怪的伤害上限为20-105(基于等级)。</rules><br>"
+        }
+      },
+      "rawDataValues": {
+        "MarkDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "BonusRange": null,
+        "RecoveryPercent": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "ArmorMRMultiplier": [
+          0.0020000000949949026,
+          0.0020000000949949026,
+          0.0020000000949949026,
+          0.0020000000949949026,
+          0.0020000000949949026,
+          0.0020000000949949026,
+          0.0020000000949949026
+        ],
+        "PassiveStartingDamage": [
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187
+        ],
+        "MaxHealthDamagePercentBase": [
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582
+        ],
+        "MaxHealthDamageResistRatio": [
+          0.00009999999747378752,
+          0.00009999999747378752,
+          0.00009999999747378752,
+          0.00009999999747378752,
+          0.00009999999747378752,
+          0.00009999999747378752,
+          0.00009999999747378752
+        ],
+        "FlatDamage": [
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12
+        ],
+        "MarkDamagePercentMin": [
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582
+        ],
+        "MarkDamagePercentMax": [
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164
+        ]
+      },
+      "rawCalculations": {
+        "{281dd874}": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 0.10000000149011612,
+              "mBreakpoints": [
+                {
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": 0.029999999329447746,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": 0.029999999329447746,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 16,
+                  "mAdditionalBonusAtThisLevel": 0.029999999329447746,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": -1,
+          "__type": "GameCalculation"
+        },
+        "PercentHealthDamage": {
+          "mFormulaParts": [
+            {
+              "{0589a59c}": "MarkDamagePercentMin",
+              "{0b65bc23}": "MarkDamagePercentMax",
+              "__type": "{ee18a47b}"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": -1,
+          "__type": "GameCalculation"
+        },
+        "MaxHealthDamagePercent": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MaxHealthDamagePercentBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 1,
+              "mStatFormula": 2,
+              "mDataValue": "MaxHealthDamageResistRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 6,
+              "mStatFormula": 2,
+              "mDataValue": "MaxHealthDamageResistRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 2,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "mark_duration_ms",
+        "flat_damage",
+        "mark_target_max_health_ratio_min",
+        "mark_target_max_health_ratio_max",
+        "mark_target_max_health_ratio"
+      ],
+      "selectedFormulaKeys": [
+        "marked_attack_physical_damage"
+      ],
+      "sourceTextConsumers": "血性本能\n奎桑提的伤害型技能会标记命中的敌人。攻击被标记的敌人可以造成<physicalDamage>@FlatDamage@外加@PercentHealthDamage@最大生命值的物理伤害</physicalDamage>并消耗掉该标记。<br><br><keywordMajor>全盛姿态</keywordMajor>：奎桑提的攻击、技能和被动造成额外的@MaxHealthDamagePercent@最大生命值的物理伤害。\n奎桑提的技能会标记目标来使他的下一次攻击对其造成更多伤害。<br><br>在全盛姿态下，奎桑提的所有攻击和技能造成更多伤害。\n{{Spell_KSanteP_Tooltip}}<br><br><rules>对小兵的伤害下限为15-100(基于等级)。<br>对野怪的伤害上限为20-105(基于等级)。</rules><br>"
+    },
+    "ksante_q": {
+      "hero": "KSante",
+      "slot": "Q",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_KSanteQ_Name",
+          "text": "无双陀斧"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KSanteQ_Tooltip",
+          "text": "奎桑提猛击他的武器，对敌人们造成<physicalDamage>@BaseDamage@物理伤害</physicalDamage>和持续@SlowDuration@秒的@SlowPercent*100@%<status>减速</status>。如果他命中了敌人，那么他会获得一层持续@RecastWindow@秒的【无双陀斧】。在2层时，他会转而发射一道冲击波来对敌人们造成持续@StunDuration@秒的<status>晕眩</status>和<status>拉拽</status>。<br><br><keywordMajor>全盛姿态</keywordMajor>：冷却时间缩短@RCooldownReduction.0*100@%。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_KSanteQ_Cooldown",
+          "text": "@f1.-1@秒%i:cooldown%"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KSanteQ_Summary",
+          "text": "奎桑提进行打击，对一条较短直线内的所有敌人造成伤害和减速效果。<br><br>命中敌人时会提供一层【无双陀斧】。在2层时，奎桑提会发射一道可将敌人拉近的冲击波。<br><br>在全盛姿态下，冷却时间会缩短。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_KSanteQ_TooltipExtendedBelowLine",
+          "text": "<rules>冷却时间和施放时间已根据额外<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>缩短：@f2@ / @DefenseCapforCooldown@。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "FlatDamage": [
+          40,
+          70,
+          100,
+          130,
+          160,
+          190,
+          220
+        ],
+        "RectangleWidth": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "RectangleLength": [
+          465,
+          465,
+          465,
+          465,
+          465,
+          465,
+          465
+        ],
+        "SlowPercent": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "SlowDuration": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "Range": [
+          700,
+          700,
+          700,
+          700,
+          700,
+          700,
+          700
+        ],
+        "RecastWindow": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "RecastLockoutAO": [
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25
+        ],
+        "Q3_VARS": null,
+        "KnockupDuration": [
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421
+        ],
+        "PullSpeed": [
+          500,
+          500,
+          500,
+          500,
+          500,
+          500,
+          500
+        ],
+        "PullDistance": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "KnockGrav": [
+          30,
+          30,
+          30,
+          30,
+          30,
+          30,
+          30
+        ],
+        "StunDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "CAST_TIME_AND_COOLDOWN": null,
+        "MaxCastTime": [
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104
+        ],
+        "MinCastTime": [
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355
+        ],
+        "MinCastTimeQ3": [
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355
+        ],
+        "BaseCD": [
+          3.5,
+          3.5,
+          3.5,
+          3.5,
+          3.5,
+          3.5,
+          3.5
+        ],
+        "MinCD": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "RCooldownReduction": [
+          0.3333300054073334,
+          0.3333300054073334,
+          0.3333300054073334,
+          0.3333300054073334,
+          0.3333300054073334,
+          0.3333300054073334,
+          0.3333300054073334
+        ],
+        "DefenseCapforCooldown": [
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120
+        ],
+        "PullSpeedMin": [
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110
+        ],
+        "PullSpeedMax": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "PullDistanceMin": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "PullDistanceMax": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "LifetimeMax": [
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104
+        ],
+        "MissileOffset": null
+      },
+      "rawCalculations": {
+        "BaseDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "FlatDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 1,
+              "mStatFormula": 2,
+              "mCoefficient": 0.4000000059604645,
+              "__type": "StatByCoefficientCalculationPart"
+            },
+            {
+              "mStat": 6,
+              "mStatFormula": 2,
+              "mCoefficient": 0.4000000059604645,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{9c9367bc}": {
+          "mFormulaParts": [
+            {
+              "mBuffName": "{6244221a}",
+              "mIconKey": "%i:scaleArmor%",
+              "mCoefficient": 1,
+              "__type": "BuffCounterByCoefficientCalculationPart"
+            },
+            {
+              "mBuffName": "{e3b83f84}",
+              "mIconKey": "%i:scaleMR%",
+              "mCoefficient": 1,
+              "__type": "BuffCounterByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "bonus_armor_value",
+        "bonus_magic_resistance_value",
+        "bonus_armor_ratio",
+        "bonus_magic_resistance_ratio",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "recast_window_ms",
+        "stun_duration_ms",
+        "q3_knockup_duration_ms",
+        "defense_cap",
+        "cast_time_min_ms",
+        "cast_time_max_ms"
+      ],
+      "selectedFormulaKeys": [
+        "physical_damage"
+      ],
+      "sourceTextConsumers": "无双陀斧\n奎桑提猛击他的武器，对敌人们造成<physicalDamage>@BaseDamage@物理伤害</physicalDamage>和持续@SlowDuration@秒的@SlowPercent*100@%<status>减速</status>。如果他命中了敌人，那么他会获得一层持续@RecastWindow@秒的【无双陀斧】。在2层时，他会转而发射一道冲击波来对敌人们造成持续@StunDuration@秒的<status>晕眩</status>和<status>拉拽</status>。<br><br><keywordMajor>全盛姿态</keywordMajor>：冷却时间缩短@RCooldownReduction.0*100@%。\n@f1.-1@秒%i:cooldown%\n奎桑提进行打击，对一条较短直线内的所有敌人造成伤害和减速效果。<br><br>命中敌人时会提供一层【无双陀斧】。在2层时，奎桑提会发射一道可将敌人拉近的冲击波。<br><br>在全盛姿态下，冷却时间会缩短。\n<rules>冷却时间和施放时间已根据额外<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>缩短：@f2@ / @DefenseCapforCooldown@。</rules>"
+    },
+    "ksante_w": {
+      "hero": "KSante",
+      "slot": "W",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_KSanteW_Name",
+          "text": "辟路先锋"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KSanteW_Summary",
+          "text": "奎桑提进行蓄力，期间获得伤害减免，然后进行冲刺，对敌人造成击退和晕眩。<br><br>在全盛姿态下，造成提升过的伤害并且不再造成击退或晕眩。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KSanteW_Tooltip",
+          "text": "奎桑提架起武器@MinDurationTOOLTIP@-@MaxDuration.1@秒，变为不可阻挡，并使即将到来的伤害降低@DamageReduction*100@%。然后，他会向前猛撞，造成<physicalDamage>@BaseDamage@ + @TotalMaxHealthDamage@最大生命值的物理伤害</physicalDamage>。会对命中的敌人们造成<status>击退</status>和@MinKnockbackDuration@-@MaxKnockbackDuration@秒<status>晕眩</status>(基于蓄力时间)。<br><br><keywordMajor>全盛姿态：</keywordMajor>冷却时间会刷新。造成额外的@RDamageIncreaseMin*100@-@RDamageIncreaseMax*100@%伤害(伤害类型为<trueDamage>真实伤害</trueDamage>，幅度基于蓄力时间)，伤害减免提升至@RDamageReduction*100@%并且冲刺速度提升，但不再造成<status>击退</status>或<status>晕眩</status>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_KSanteW_TooltipExtendedBelowLine",
+          "text": "<rules>在@TimeToFullCharge*100@%蓄力时间时达到最大效果。<br>对野怪的最大伤害为@MaxMonsterDamage@。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          15,
+          45,
+          75,
+          105,
+          135,
+          165,
+          195
+        ],
+        "MaxHealthDamage": [
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066
+        ],
+        "MaxHealthDamageResistRatio": [
+          0.00019999999494757503,
+          0.00019999999494757503,
+          0.00019999999494757503,
+          0.00019999999494757503,
+          0.00019999999494757503,
+          0.00019999999494757503,
+          0.00019999999494757503
+        ],
+        "MaxDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "TimeToFullCharge": [
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421
+        ],
+        "DashSpeedBase": [
+          1400,
+          1400,
+          1400,
+          1400,
+          1400,
+          1400,
+          1400
+        ],
+        "DashSpeedAO": [
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800
+        ],
+        "VictimDashMod": [
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842
+        ],
+        "MinKnockbackDuration": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "MaxKnockbackDuration": [
+          1.75,
+          1.75,
+          1.75,
+          1.75,
+          1.75,
+          1.75,
+          1.75
+        ],
+        "KnockbackSpeed": [
+          800,
+          800,
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "KnockbackDist": [
+          125,
+          125,
+          125,
+          125,
+          125,
+          125,
+          125
+        ],
+        "KnockbackDistOnTopOfMod": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "MinDashBase": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "MaxDashBase": [
+          450,
+          450,
+          450,
+          450,
+          450,
+          450,
+          450
+        ],
+        "MinDurationTOOLTIP": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "AOMinDurationTOOLTIP": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "HexflashBugfixLockout": [
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355
+        ],
+        "MinChargeTime": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "RDamageIncreaseMin": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "RDamageIncreaseMax": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "MinimumMinionDamage": [
+          30,
+          80,
+          130,
+          180,
+          230,
+          280,
+          330
+        ],
+        "DamageReduction": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "RDamageReduction": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "MaxMonsterDamage": [
+          100,
+          180,
+          260,
+          340,
+          420,
+          500,
+          580
+        ]
+      },
+      "rawCalculations": {
+        "TotalMaxHealthDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MaxHealthDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 1,
+              "mStatFormula": 2,
+              "mDataValue": "MaxHealthDamageResistRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 6,
+              "mStatFormula": 2,
+              "mDataValue": "MaxHealthDamageResistRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": -1,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "target_max_health_base_ratio",
+        "bonus_armor_ratio",
+        "bonus_magic_resistance_ratio",
+        "bonus_armor_value",
+        "bonus_magic_resistance_value",
+        "charge_min_duration_ms",
+        "charge_max_duration_ms",
+        "full_effect_charge_percent_points",
+        "self_damage_reduction_percent_points",
+        "knockback_stun_min_ms",
+        "knockback_stun_max_ms",
+        "dash_speed_base",
+        "dash_distance_min",
+        "dash_distance_max"
+      ],
+      "selectedFormulaKeys": [
+        "target_max_health_damage_ratio",
+        "charge_physical_damage"
+      ],
+      "sourceTextConsumers": "辟路先锋\n奎桑提进行蓄力，期间获得伤害减免，然后进行冲刺，对敌人造成击退和晕眩。<br><br>在全盛姿态下，造成提升过的伤害并且不再造成击退或晕眩。\n奎桑提架起武器@MinDurationTOOLTIP@-@MaxDuration.1@秒，变为不可阻挡，并使即将到来的伤害降低@DamageReduction*100@%。然后，他会向前猛撞，造成<physicalDamage>@BaseDamage@ + @TotalMaxHealthDamage@最大生命值的物理伤害</physicalDamage>。会对命中的敌人们造成<status>击退</status>和@MinKnockbackDuration@-@MaxKnockbackDuration@秒<status>晕眩</status>(基于蓄力时间)。<br><br><keywordMajor>全盛姿态：</keywordMajor>冷却时间会刷新。造成额外的@RDamageIncreaseMin*100@-@RDamageIncreaseMax*100@%伤害(伤害类型为<trueDamage>真实伤害</trueDamage>，幅度基于蓄力时间)，伤害减免提升至@RDamageReduction*100@%并且冲刺速度提升，但不再造成<status>击退</status>或<status>晕眩</status>。\n<rules>在@TimeToFullCharge*100@%蓄力时间时达到最大效果。<br>对野怪的最大伤害为@MaxMonsterDamage@。</rules>"
+    },
+    "ksante_e": {
+      "hero": "KSante",
+      "slot": "E",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_KSanteE_Name",
+          "text": "大步驰援"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KSanteE_Summary",
+          "text": "奎桑提进行冲刺并获得一个护盾。如果以一个友军为目标，则奎桑提的冲刺距离会提升并冲刺至该友军处，两人都会获得一个护盾。<br><br>在全盛姿态下，冷却时间会缩短，并且速度会提升。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KSanteE_Tooltip",
+          "text": "奎桑提进行冲刺，获得持续@ShieldDuration@秒的<shield>@TotalShield@护盾值</shield>。如果冲刺至一名友方英雄处，那么冲刺距离会显著提升并且该友方英雄也会<shield>获得护盾值</shield>。<br><br><keywordMajor>全盛姿态</keywordMajor>：冷却时间缩短@CooldownModAO*100@%并且冲刺速度提升。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_KSanteE_Cooldown",
+          "text": "@f1.-1@秒%i:cooldown%"
+        }
+      },
+      "rawDataValues": {
+        "DashDistance": [
+          550,
+          550,
+          550,
+          550,
+          550,
+          550,
+          550
+        ],
+        "TargetingForgiveness": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150
+        ],
+        "ShieldDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "BASE_FORM": null,
+        "FreeTargetRangeBase": [
+          250,
+          250,
+          250,
+          250,
+          250,
+          250,
+          250
+        ],
+        "FreeTargetSpeedBase": [
+          550,
+          550,
+          550,
+          550,
+          550,
+          550,
+          550
+        ],
+        "AllySpeedBase": [
+          1100,
+          1100,
+          1100,
+          1100,
+          1100,
+          1100,
+          1100
+        ],
+        "ULT_FORM": null,
+        "FreeTargetRangeAO": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "FreeTargetSpeedAO": [
+          1250,
+          1250,
+          1250,
+          1250,
+          1250,
+          1250,
+          1250
+        ],
+        "AllySpeedAO": [
+          1400,
+          1400,
+          1400,
+          1400,
+          1400,
+          1400,
+          1400
+        ],
+        "ShieldBaseAmountFast": [
+          27.5,
+          70,
+          112.5,
+          155,
+          197.5,
+          240,
+          282.5
+        ],
+        "DashArrivial": [
+          500,
+          500,
+          500,
+          500,
+          500,
+          500,
+          500
+        ],
+        "ShieldHealthRatio": [
+          0.13500000536441803,
+          0.13500000536441803,
+          0.13500000536441803,
+          0.13500000536441803,
+          0.13500000536441803,
+          0.13500000536441803,
+          0.13500000536441803
+        ],
+        "CooldownModAO": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "rawCalculations": {
+        "TotalShield": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "ShieldBaseAmountFast",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mDataValue": "ShieldHealthRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "shield_base",
+        "bonus_hp_ratio",
+        "shield_duration_ms",
+        "free_dash_range",
+        "free_dash_speed"
+      ],
+      "selectedFormulaKeys": [
+        "self_shield_amount"
+      ],
+      "sourceTextConsumers": "大步驰援\n奎桑提进行冲刺并获得一个护盾。如果以一个友军为目标，则奎桑提的冲刺距离会提升并冲刺至该友军处，两人都会获得一个护盾。<br><br>在全盛姿态下，冷却时间会缩短，并且速度会提升。\n奎桑提进行冲刺，获得持续@ShieldDuration@秒的<shield>@TotalShield@护盾值</shield>。如果冲刺至一名友方英雄处，那么冲刺距离会显著提升并且该友方英雄也会<shield>获得护盾值</shield>。<br><br><keywordMajor>全盛姿态</keywordMajor>：冷却时间缩短@CooldownModAO*100@%并且冲刺速度提升。\n@f1.-1@秒%i:cooldown%"
+    },
+    "ksante_r": {
+      "hero": "KSante",
+      "slot": "R",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_KSanteR_Name",
+          "text": "傲岸雄姿"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KSanteR_Summary",
+          "text": "奎桑提将一个敌人击退，并带其翻越沿途的任何墙体。然后，奎桑提进入【全盛姿态】并冲刺至其身后，获得提升过的伤害、治疗效果、以及转化过的各个技能，但代价是各防御属性降低。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KSanteR_Tooltip",
+          "text": "奎桑提分开他的陀斧以<status>击退</status>一名敌方英雄，造成<physicalDamage>@BaseDamage@物理伤害</physicalDamage>，然后冲刺至其后方并获得持续@AllOutDuration@秒的<keywordMajor>全盛姿态</keywordMajor>。如果该敌人将要命中一段墙体，则会被<status>击退</status>至墙体后，并且奎桑提会对其再次造成<physicalDamage>@TotalDamageSlamDown@物理伤害</physicalDamage>。<br><br>在<keywordMajor>全盛姿态</keywordMajor>下，奎桑提的技能会获得升级并且他获得<attackSpeed>@AttackSpeed*100@%攻击速度</attackSpeed>、@ArmorPenPercent*100@%额外护甲穿透、以及<omnivamp>@Omnivamp*100@%全能吸血</omnivamp>，但失去<healing>@HealthLost*100@%最大生命值</healing>、<scaleArmor>@DefensesLost*100@%额外护甲</scaleArmor>、以及<scaleMR>@DefensesLost*100@%额外魔法抗性</scaleMR>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_KSanteR_TooltipExtendedBelowLine",
+          "text": "<rules>奎桑提在施放这个技能时，会处于不可阻挡状态并会<status>禁锢</status>他的目标。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "AllOutDuration": [
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ],
+        "BaseDamage": [
+          45,
+          80,
+          115,
+          150,
+          185,
+          220,
+          255
+        ],
+        "SlamDownStrikeDamage": [
+          45,
+          80,
+          115,
+          150,
+          185,
+          220,
+          255
+        ],
+        "WallStunDuration": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "NoWallStunDuration": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "MaxSuppressTime": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "MOVEMENT_VARS": null,
+        "TackleRange": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "TackleSpeed": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ],
+        "CarrySpeed": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "MaxWallCarry": [
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000
+        ],
+        "MaxWallCarrySR": [
+          5000,
+          5000,
+          5000,
+          5000,
+          5000,
+          5000,
+          5000
+        ],
+        "WallCheckDist": [
+          -25,
+          -25,
+          -25,
+          -25,
+          -25,
+          -25,
+          -25
+        ],
+        "KSanteLandingOffset": [
+          250,
+          250,
+          250,
+          250,
+          250,
+          250,
+          250
+        ],
+        "WallBuffer": [
+          350,
+          350,
+          350,
+          350,
+          350,
+          350,
+          350
+        ],
+        "STAT_CHANGE_VARS": null,
+        "HealthLost": [
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355
+        ],
+        "DefensesLost": [
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579
+        ],
+        "Omnivamp": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "AttackSpeed": [
+          0.20000000298023224,
+          0.4000000059604645,
+          0.6000000238418579,
+          0.800000011920929,
+          1,
+          1.2000000476837158,
+          1.399999976158142
+        ],
+        "ArmorPenPercent": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "KsanteArrivesFirstBySec": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "AfterImageArrivesFirstBySec": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "ManaRegenPercent": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "KnockGrav": [
+          14,
+          14,
+          14,
+          14,
+          14,
+          14,
+          14
+        ],
+        "TimeToLast": [
+          0.18000000715255737,
+          0.18000000715255737,
+          0.18000000715255737,
+          0.18000000715255737,
+          0.18000000715255737,
+          0.18000000715255737,
+          0.18000000715255737
+        ],
+        "TackleRangeOverstatedNoWall": [
+          3000,
+          3000,
+          3000,
+          3000,
+          3000,
+          3000,
+          3000
+        ],
+        "CarrySpeedUnderstatedNoWall": [
+          1600,
+          1600,
+          1600,
+          1600,
+          1600,
+          1600,
+          1600
+        ],
+        "CarrySpeedNoWall": [
+          800,
+          800,
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "KsanteAnimLockWall": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "KsanteAnimLockNoWall": null,
+        "DistanceTriggerFasterCarrySpeed": [
+          1400,
+          1400,
+          1400,
+          1400,
+          1400,
+          1400,
+          1400
+        ],
+        "FasterCarrySpeed": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "AuraOffset": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "LingeringPerceptionPostStun": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "DelayToStartSlamDown": null,
+        "WallLookAhead": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "VfxInWallPerDistance": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "DebugWallExplosions": null,
+        "AnimationDashTime": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "DistanceRatioMin": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "DistanceRatioMax": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ],
+        "CarrySpeedRatioMin": [
+          900,
+          900,
+          900,
+          900,
+          900,
+          900,
+          900
+        ],
+        "CarrySpeedRatioMax": [
+          1700,
+          1700,
+          1700,
+          1700,
+          1700,
+          1700,
+          1700
+        ],
+        "CameraHoldRatioMin": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "CameraHoldRatioMax": [
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071
+        ],
+        "InitialAnimHoldMin": null,
+        "InitialAnimHoldMax": [
+          0.27000001072883606,
+          0.27000001072883606,
+          0.27000001072883606,
+          0.27000001072883606,
+          0.27000001072883606,
+          0.27000001072883606,
+          0.27000001072883606
+        ],
+        "CastTime": [
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355
+        ],
+        "WallBufferFailCase": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "VictimCameraZoomMin": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "VictimCameraZoomMax": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ]
+      },
+      "rawCalculations": {
+        "TotalDamageSlamDown": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "SlamDownStrikeDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mCoefficient": 0.05000000074505806,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "initial_damage",
+        "slam_base_damage",
+        "slam_bonus_hp_ratio",
+        "cast_time_ms"
+      ],
+      "selectedFormulaKeys": [
+        "slam_down_physical_damage"
+      ],
+      "sourceTextConsumers": "傲岸雄姿\n奎桑提将一个敌人击退，并带其翻越沿途的任何墙体。然后，奎桑提进入【全盛姿态】并冲刺至其身后，获得提升过的伤害、治疗效果、以及转化过的各个技能，但代价是各防御属性降低。\n奎桑提分开他的陀斧以<status>击退</status>一名敌方英雄，造成<physicalDamage>@BaseDamage@物理伤害</physicalDamage>，然后冲刺至其后方并获得持续@AllOutDuration@秒的<keywordMajor>全盛姿态</keywordMajor>。如果该敌人将要命中一段墙体，则会被<status>击退</status>至墙体后，并且奎桑提会对其再次造成<physicalDamage>@TotalDamageSlamDown@物理伤害</physicalDamage>。<br><br>在<keywordMajor>全盛姿态</keywordMajor>下，奎桑提的技能会获得升级并且他获得<attackSpeed>@AttackSpeed*100@%攻击速度</attackSpeed>、@ArmorPenPercent*100@%额外护甲穿透、以及<omnivamp>@Omnivamp*100@%全能吸血</omnivamp>，但失去<healing>@HealthLost*100@%最大生命值</healing>、<scaleArmor>@DefensesLost*100@%额外护甲</scaleArmor>、以及<scaleMR>@DefensesLost*100@%额外魔法抗性</scaleMR>。\n<rules>奎桑提在施放这个技能时，会处于不可阻挡状态并会<status>禁锢</status>他的目标。</rules>"
+    },
+    "mel_p": {
+      "hero": "Mel",
+      "slot": "P",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_MelPassive_Name",
+          "text": "灼灼之光"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MelPassive_Tooltip",
+          "text": "梅尔的普攻和技能会在每次造成伤害时施加并刷新持续@OverwhelmDuration@秒的<keywordMajor>夺命残影</keywordMajor>层数，以储存<magicDamage>@spell.MelR:PassiveFlatDamage@外加@spell.MelR:PassiveStackDamage@x层数的魔法伤害</magicDamage>。在施加时，如果伤害储量已超过了该敌人的护盾值与生命值的总和，那么该敌人会被处决。<br><br>在施放一个技能时，梅尔的下一次攻击会发射@PassiveBonusMissiles@个额外弹体，每个弹体造成<magicDamage>@PassiveBonusMissileDamage@魔法伤害</magicDamage>。此效果可叠加至多至@MaxPassiveBonusMissiles@个额外弹体。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MelPassive_Summary",
+          "text": "每当梅尔使用技能，她的下一次攻击将额外附带3枚弹体（最多9枚）。<br><br>当梅尔通过一次技能或攻击造成伤害时，她会施加【夺命残影】——一种可以无限叠加的效果。如果目标身上叠加了足够的夺命残影伤害量，则会在下一次被梅尔命中时被直接处决，同时消耗效果层数。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_MelPassive_TooltipExtended",
+          "text": "{{Spell_MelPassive_Tooltip}}<br><br><rules><keywordMajor>夺命残影</keywordMajor>在对小兵使用时，第一层造成的伤害削减@spell.MelR:MinionModTooltip@。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "OverwhelmDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "BonusAttackDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "PassiveBonusMissiles": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "MaxPassiveBonusMissiles": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "rawCalculations": {
+        "PassiveBonusMissileDamage": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 8,
+              "mEndValue": 30,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mCoefficient": 0.03999999910593033,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "overwhelm_duration_ms",
+        "bonus_attack_duration_ms",
+        "passive_bonus_missiles",
+        "max_passive_bonus_missiles",
+        "unlearned_r_passive_flat_damage",
+        "unlearned_r_passive_stack_damage",
+        "overwhelm_stack_count",
+        "actual_character_level_passive_missile_base_damage",
+        "passive_missile_ap_ratio"
+      ],
+      "selectedFormulaKeys": [
+        "overwhelm_threshold_damage",
+        "passive_bonus_missile_damage"
+      ],
+      "sourceTextConsumers": "灼灼之光\n梅尔的普攻和技能会在每次造成伤害时施加并刷新持续@OverwhelmDuration@秒的<keywordMajor>夺命残影</keywordMajor>层数，以储存<magicDamage>@spell.MelR:PassiveFlatDamage@外加@spell.MelR:PassiveStackDamage@x层数的魔法伤害</magicDamage>。在施加时，如果伤害储量已超过了该敌人的护盾值与生命值的总和，那么该敌人会被处决。<br><br>在施放一个技能时，梅尔的下一次攻击会发射@PassiveBonusMissiles@个额外弹体，每个弹体造成<magicDamage>@PassiveBonusMissileDamage@魔法伤害</magicDamage>。此效果可叠加至多至@MaxPassiveBonusMissiles@个额外弹体。\n每当梅尔使用技能，她的下一次攻击将额外附带3枚弹体（最多9枚）。<br><br>当梅尔通过一次技能或攻击造成伤害时，她会施加【夺命残影】——一种可以无限叠加的效果。如果目标身上叠加了足够的夺命残影伤害量，则会在下一次被梅尔命中时被直接处决，同时消耗效果层数。\n{{Spell_MelPassive_Tooltip}}<br><br><rules><keywordMajor>夺命残影</keywordMajor>在对小兵使用时，第一层造成的伤害削减@spell.MelR:MinionModTooltip@。</rules>"
+    },
+    "mel_q": {
+      "hero": "Mel",
+      "slot": "Q",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_MelQ_Name",
+          "text": "耀光齐射"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MelQ_Summary",
+          "text": "梅尔发射一连串耀光飞弹，飞弹会在目标位置周围爆炸，对范围内的敌人造成多段伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MelQ_Tooltip",
+          "text": "梅尔释放一道由@ExplosionCount@个耀光飞弹组成的弹幕，飞弹会在目标位置周围爆炸。<br><br>命中的第一次爆炸造成<magicDamage>@InitialExplosionDamage@魔法伤害</magicDamage>并且每次后续爆炸造成<magicDamage>@TotalExplosionDamage@魔法伤害</magicDamage>，至多增加至<magicDamage>@AllDamageHit@魔法伤害</magicDamage>总和。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_MelQ_TooltipBelowLine",
+          "text": ""
+        }
+      },
+      "rawDataValues": {
+        "ExplosionDamage": [
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15
+        ],
+        "ExplosionCount": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "Spread": [
+          25,
+          25,
+          25,
+          25,
+          25,
+          25,
+          25
+        ],
+        "ExplosionRadius": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "FirstExplosionDelay": null,
+        "ChannelDuration": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "MinionMod": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "InitialDamage": [
+          35,
+          60,
+          85,
+          110,
+          135,
+          160,
+          185
+        ]
+      },
+      "rawCalculations": {
+        "TotalExplosionDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "ExplosionDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.05000000074505806,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "AllDamageHit": {
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mSpellCalculationKey": "InitialExplosionDamage",
+              "__type": "{f3cbe7b2}"
+            },
+            {
+              "mPart1": {
+                "mSpellCalculationKey": "TotalExplosionDamage",
+                "__type": "{f3cbe7b2}"
+              },
+              "mPart2": {
+                "mSubparts": [
+                  {
+                    "mDataValue": "ExplosionCount",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mNumber": -1,
+                    "__type": "NumberCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MonsterModTooltip": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mPart1": {
+                    "mNumber": -1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mPart2": {
+                    "mDataValue": "MinionMod",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "InitialExplosionDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "InitialDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.550000011920929,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "explosion_count",
+        "initial_base_damage",
+        "following_base_damage",
+        "initial_ap_ratio",
+        "following_ap_ratio",
+        "channel_duration_ms",
+        "unit_count"
+      ],
+      "selectedFormulaKeys": [
+        "initial_explosion_magic_damage",
+        "following_explosion_magic_damage",
+        "all_explosion_magic_damage"
+      ],
+      "sourceTextConsumers": "耀光齐射\n梅尔发射一连串耀光飞弹，飞弹会在目标位置周围爆炸，对范围内的敌人造成多段伤害。\n梅尔释放一道由@ExplosionCount@个耀光飞弹组成的弹幕，飞弹会在目标位置周围爆炸。<br><br>命中的第一次爆炸造成<magicDamage>@InitialExplosionDamage@魔法伤害</magicDamage>并且每次后续爆炸造成<magicDamage>@TotalExplosionDamage@魔法伤害</magicDamage>，至多增加至<magicDamage>@AllDamageHit@魔法伤害</magicDamage>总和。\n"
+    },
+    "mel_w": {
+      "hero": "Mel",
+      "slot": "W",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_MelW_Name",
+          "text": "灵魂折镜"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MelW_Tooltip",
+          "text": "梅尔生成一道屏障围绕自身，这道屏障会将敌方英雄弹体反弹给攻击者，使她免受伤害，并获得持续@Duration@秒的<shield>@ShieldAmount@护盾值</shield>和在@MoveSpeedDuration@秒里<speed>持续衰减的@MoveSpeed*100@%移动速度</speed>。<br><br>被反弹的弹体会造成<magicDamage>@DamagePercent@原伤害值的魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_MelW_TooltipBelowLine",
+          "text": "<rules>被反弹的弹体伤害计算会使用原施放者在进行伤害调整和法术穿透之前的属性。<br><physicalDamage>物理伤害</physicalDamage>在转换成魔法伤害时会降低@PhysDamageMod*100@%。<br>不会施加来自原施放者的装备效果。<br>那些以一个范围内的每个敌人为目标的弹体会被摧毁而非被反弹。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MelW_Summary",
+          "text": "梅尔生成一道屏障围绕自身，这道屏障会将敌方弹体反弹给攻击者，使她免受伤害，并为她提供移动速度。"
+        }
+      },
+      "rawDataValues": {
+        "Duration": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "ShieldRadius": [
+          175,
+          175,
+          175,
+          175,
+          175,
+          175,
+          175
+        ],
+        "BaseDamagePercent": [
+          0.3499999940395355,
+          0.4000000059604645,
+          0.44999998807907104,
+          0.5,
+          0.550000011920929,
+          0.6000000238418579,
+          0.6499999761581421
+        ],
+        "MoveSpeed": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "PhysDamageMod": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "BaseShieldAmount": [
+          50,
+          80,
+          110,
+          140,
+          170,
+          200,
+          230
+        ],
+        "MoveSpeedDuration": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ]
+      },
+      "rawCalculations": {
+        "DamagePercent": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamagePercent",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.0005000000237487257,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "ShieldAmount": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseShieldAmount",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.699999988079071,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "shield_duration_ms",
+        "shield_base",
+        "shield_ap_ratio",
+        "move_speed_percent_points",
+        "move_speed_duration_ms",
+        "reflected_damage_ratio",
+        "physical_to_magic_reduction_percent_points",
+        "actual_reflected_source_damage"
+      ],
+      "selectedFormulaKeys": [
+        "self_shield_amount",
+        "reflected_magic_damage"
+      ],
+      "sourceTextConsumers": "灵魂折镜\n梅尔生成一道屏障围绕自身，这道屏障会将敌方英雄弹体反弹给攻击者，使她免受伤害，并获得持续@Duration@秒的<shield>@ShieldAmount@护盾值</shield>和在@MoveSpeedDuration@秒里<speed>持续衰减的@MoveSpeed*100@%移动速度</speed>。<br><br>被反弹的弹体会造成<magicDamage>@DamagePercent@原伤害值的魔法伤害</magicDamage>。\n<rules>被反弹的弹体伤害计算会使用原施放者在进行伤害调整和法术穿透之前的属性。<br><physicalDamage>物理伤害</physicalDamage>在转换成魔法伤害时会降低@PhysDamageMod*100@%。<br>不会施加来自原施放者的装备效果。<br>那些以一个范围内的每个敌人为目标的弹体会被摧毁而非被反弹。</rules>\n梅尔生成一道屏障围绕自身，这道屏障会将敌方弹体反弹给攻击者，使她免受伤害，并为她提供移动速度。"
+    },
+    "mel_e": {
+      "hero": "Mel",
+      "slot": "E",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_MelE_Name",
+          "text": "阳炎涡旋"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MelE_Tooltip",
+          "text": "梅尔发射一颗阳炎法球，<status>禁锢</status>中心区域的敌人@RootDuration@秒并造成<magicDamage>@Damage@魔法伤害</magicDamage>。<br><br>法球会在其周围逐渐形成一个妨害区域，这个区域会对敌人们造成@AreaSlowAmount*100@%<status>减速</status>以及<magicDamage>每秒@AreaDamagePerSecond@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_MelE_TooltipBelowLine",
+          "text": "<rules>在敌人离开由法球创造的区域之后，这个减速和持续伤害效果还会短暂存留。<br>在对小兵使用时，造成@MinionModTooltip@削减过的伤害。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MelE_Summary",
+          "text": "梅尔发射一颗阳炎法球，禁锢中心区域的敌人并减速周围区域的敌人并造成持续伤害。"
+        }
+      },
+      "rawDataValues": {
+        "RootDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "BaseDamage": [
+          15,
+          60,
+          105,
+          150,
+          195,
+          240,
+          285
+        ],
+        "BaseAreaDamage": [
+          4,
+          16,
+          28,
+          40,
+          52,
+          64,
+          76
+        ],
+        "AreaAPRatio": [
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066
+        ],
+        "AreaSlowAmount": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "AreaSlowDuration": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "MinionMod": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "MaxAreaRadius": [
+          230,
+          230,
+          230,
+          230,
+          230,
+          230,
+          230
+        ],
+        "TimeToMaxRadius": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "AreaTicksPerSecond": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "DoTDuration": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "rawCalculations": {
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.699999988079071,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "AreaDamagePerSecond": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseAreaDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "AreaAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MinionModTooltip": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mPart1": {
+                    "mNumber": -1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mPart2": {
+                    "mDataValue": "MinionMod",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "center_base_damage",
+        "center_ap_ratio",
+        "root_duration_ms",
+        "area_damage_base_per_second",
+        "area_ap_ratio",
+        "area_slow_percent_points",
+        "area_slow_duration_ms",
+        "area_dot_duration_ms",
+        "area_ticks_per_second",
+        "max_area_radius",
+        "area_expand_duration_ms"
+      ],
+      "selectedFormulaKeys": [
+        "center_magic_damage",
+        "area_damage_per_second"
+      ],
+      "sourceTextConsumers": "阳炎涡旋\n梅尔发射一颗阳炎法球，<status>禁锢</status>中心区域的敌人@RootDuration@秒并造成<magicDamage>@Damage@魔法伤害</magicDamage>。<br><br>法球会在其周围逐渐形成一个妨害区域，这个区域会对敌人们造成@AreaSlowAmount*100@%<status>减速</status>以及<magicDamage>每秒@AreaDamagePerSecond@魔法伤害</magicDamage>。\n<rules>在敌人离开由法球创造的区域之后，这个减速和持续伤害效果还会短暂存留。<br>在对小兵使用时，造成@MinionModTooltip@削减过的伤害。</rules>\n梅尔发射一颗阳炎法球，禁锢中心区域的敌人并减速周围区域的敌人并造成持续伤害。"
+    },
+    "mel_r": {
+      "hero": "Mel",
+      "slot": "R",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_MelR_Name",
+          "text": "鎏金蚀日"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MelR_Tooltip",
+          "text": "<spellPassive>被动</spellPassive>：<keywordMajor>夺命残影</keywordMajor>伤害提升至<magicDamage>@PassiveFlatDamage@魔法伤害外加每层@PassiveStackDamage@魔法伤害</magicDamage>。<br><br><spellActive>主动</spellActive>：梅尔对所有身上带有<keywordMajor>夺命残影</keywordMajor>的敌人释放她的能量，造成<magicDamage>@UltFlatDamage@魔法伤害外加每层<keywordMajor>夺命残影</keywordMajor>@UltStackDamage@魔法伤害</magicDamage>。<br><br><rules>仅可在有一名敌方英雄被施加了<keywordMajor>夺命残影</keywordMajor>时施放。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MelR_Summary",
+          "text": "梅尔无视距离，对所有带有【夺命残影】层数的敌人进行打击，造成基于【夺命残影】层数的额外伤害。<br><br>【鎏金蚀日】的技能等级会提升【夺命残影】的伤害。"
+        }
+      },
+      "rawDataValues": {
+        "BasePassiveStackDamage": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "BasePassiveFlatDamage": [
+          50,
+          60,
+          70,
+          80,
+          90,
+          100,
+          110
+        ],
+        "MinionMod": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "BaseUltStackDamage": [
+          1,
+          4,
+          7,
+          10,
+          13,
+          16,
+          19
+        ],
+        "BaseUltFlatDamage": [
+          50,
+          125,
+          200,
+          275,
+          350,
+          425,
+          500
+        ],
+        "DisintegrateDelay": [
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421
+        ]
+      },
+      "rawCalculations": {
+        "PassiveStackDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BasePassiveStackDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.007499999832361937,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "PassiveFlatDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BasePassiveFlatDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.10000000149011612,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "UltStackDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseUltStackDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.03999999910593033,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "UltFlatDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseUltFlatDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.30000001192092896,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MinionModTooltip": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mPart1": {
+                    "mNumber": -1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mPart2": {
+                    "mDataValue": "MinionMod",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "passive_flat_base",
+        "passive_stack_base",
+        "passive_flat_ap_ratio",
+        "passive_stack_ap_ratio",
+        "ult_flat_base",
+        "ult_stack_base",
+        "ult_flat_ap_ratio",
+        "ult_stack_ap_ratio",
+        "disintegrate_delay_ms"
+      ],
+      "selectedFormulaKeys": [
+        "passive_flat_damage",
+        "passive_stack_damage",
+        "ult_flat_damage",
+        "ult_stack_damage"
+      ],
+      "sourceTextConsumers": "鎏金蚀日\n<spellPassive>被动</spellPassive>：<keywordMajor>夺命残影</keywordMajor>伤害提升至<magicDamage>@PassiveFlatDamage@魔法伤害外加每层@PassiveStackDamage@魔法伤害</magicDamage>。<br><br><spellActive>主动</spellActive>：梅尔对所有身上带有<keywordMajor>夺命残影</keywordMajor>的敌人释放她的能量，造成<magicDamage>@UltFlatDamage@魔法伤害外加每层<keywordMajor>夺命残影</keywordMajor>@UltStackDamage@魔法伤害</magicDamage>。<br><br><rules>仅可在有一名敌方英雄被施加了<keywordMajor>夺命残影</keywordMajor>时施放。</rules>\n梅尔无视距离，对所有带有【夺命残影】层数的敌人进行打击，造成基于【夺命残影】层数的额外伤害。<br><br>【鎏金蚀日】的技能等级会提升【夺命残影】的伤害。"
+    },
+    "yunara_p": {
+      "hero": "Yunara",
+      "slot": "P",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_YunaraP_Name",
+          "text": "初生之誓"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_YunaraP_Summary",
+          "text": "芸阿娜的暴击造成额外魔法伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_YunaraP_Tooltip",
+          "text": "芸阿娜的暴击造成额外<magicDamage>@Calc_Damage_Amp@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_YunaraP_TooltipExtendedBelowLine",
+          "text": "{{Spell_YunaraP_Tooltip}}<br><br><rules></rules>"
+        }
+      },
+      "rawDataValues": {},
+      "rawCalculations": {
+        "Calc_Damage_Amp": {
+          "mFormulaParts": [
+            {
+              "mNumber": 0.10000000149011612,
+              "__type": "NumberCalculationPart"
+            },
+            {
+              "mCoefficient": 0.0010000000474974513,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "critical_extra_damage_base_ratio",
+        "critical_extra_damage_ap_ratio",
+        "actual_critical_damage_base"
+      ],
+      "selectedFormulaKeys": [
+        "critical_extra_damage_ratio",
+        "critical_extra_magic_damage"
+      ],
+      "sourceTextConsumers": "初生之誓\n芸阿娜的暴击造成额外魔法伤害。\n芸阿娜的暴击造成额外<magicDamage>@Calc_Damage_Amp@魔法伤害</magicDamage>。\n{{Spell_YunaraP_Tooltip}}<br><br><rules></rules>"
+    },
+    "yunara_q": {
+      "hero": "Yunara",
+      "slot": "Q",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_YunaraQ_Name",
+          "text": "灵蕴拳"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_YunaraQ_Summary",
+          "text": "芸阿娜获得攻击速度、额外附带伤害并且她的攻击会散播至附近的敌人。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_YunaraQ_Tooltip",
+          "text": "<spellPassive>被动</spellPassive>：芸阿娜造成<magicDamage>@Calc_Passive_Damage@魔法伤害</magicDamage><OnHit>%i:OnHit%攻击特效</OnHit>并且攻击提供<evolve>@Resource_Nonchampion@灵蕴</evolve> (对抗英雄时为<evolve>@Resource_Champion@灵蕴</evolve>)。<br><br><spellPassive>主动</spellPassive>：芸阿娜消耗<evolve>@Resource_Max@灵蕴</evolve>，在@Buff_Duration@秒期间里获得<attackSpeed>@Calc_Attack_Speed@攻击速度</attackSpeed>并且造成额外<magicDamage>@Calc_Damage@魔法伤害</magicDamage><OnHit>%i:OnHit%攻击特效</OnHit>。在此期间，她的攻击会散播至附近的敌人，对其造成<physicalDamage>@Calc_Damage_Spread@物理伤害</physicalDamage>。<br><br><keywordMajor>超凡形态</keywordMajor>：这个技能会即刻激活并持续@Spell.YunaraR:Buff_Duration@秒。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_YunaraQ_TooltipExtended",
+          "text": "<spellPassive>被动</spellPassive>：芸阿娜的攻击造成额外的<magicDamage>@Calc_Passive_Damage@魔法伤害</magicDamage><OnHit>%i:OnHit%攻击特效</OnHit>。打出一次攻击时提供<evolve>@Resource_Nonchampion@灵蕴</evolve>。(攻击英雄时为<evolve>@Resource_Champion@灵蕴</evolve>)，持续@Resource_Duration@秒。(最大值：<evolve>@Resource_Max@灵蕴</evolve>)。在停止普攻@Resource_Duration@秒后会导致芸阿娜每@Resource_Loss_Interval@秒损失<evolve>@Resource_Loss@灵蕴</evolve>。<br><br><spellPassive>主动</spellPassive>：芸阿娜消耗<evolve>@Resource_Max@灵蕴</evolve>，在@Buff_Duration@秒期间里获得<attackSpeed>@Calc_Attack_Speed@攻击速度</attackSpeed>并且造成额外<magicDamage>@Calc_Damage@魔法伤害</magicDamage><OnHit>%i:OnHit%攻击特效</OnHit>。在此期间，她的攻击会散播至附近的敌人，对其造成<physicalDamage>@Calc_Damage_Spread@物理伤害</physicalDamage>。<br><br><keywordMajor>超凡形态</keywordMajor>：这个技能会即刻激活并持续@Spell.YunaraR:Buff_Duration@秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_YunaraQ_TooltipExtendedBelowLine",
+          "text": "<rules>散播攻击可以暴击并且施加@Spread_Onhit_Efficacy*100@%效能的<OnHit>%i:OnHit%攻击特效</OnHit>。来自散播攻击的伤害对低于<scaleHealth>@Calc_Minion_Execute_Threshold@生命值</scaleHealth>的小兵造成@Calc_Minion_Execute_Amp@伤害。</rules>"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_YunaraQ_Cost",
+          "text": "@BaseCost@法力"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_YunaraQ_Cooldown",
+          "text": "无冷却时间"
+        }
+      },
+      "rawDataValues": {
+        "Resource_Max": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "Resource_Champion": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "Resource_Nonchampion": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "Resource_Loss": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "Resource_Loss_Interval": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "Resource_Duration": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "Buff_Duration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "Spread_Radius": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "Spread_AD_Ratio": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "Spread_Lifesteal_Efficacy": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "Spread_Onhit_Efficacy": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "Attack_Speed": [
+          0.10000000149011612,
+          0.20000000298023224,
+          0.30000001192092896,
+          0.4000000059604645,
+          0.5,
+          0.6000000238418579,
+          0.699999988079071
+        ],
+        "Damage": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30
+        ],
+        "Damage_Passive": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30
+        ]
+      },
+      "rawCalculations": {
+        "Calc_Passive_Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage_Passive",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.20000000298023224,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Calc_Attack_Speed": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Attack_Speed",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "Calc_Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.20000000298023224,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Calc_Damage_Spread": {
+          "mFormulaParts": [
+            {
+              "mStat": 2,
+              "mDataValue": "Spread_AD_Ratio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Calc_Minion_Execute_Threshold": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mNumber": 0.30000001192092896,
+              "__type": "NumberCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "Calc_Minion_Execute_Amp": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mNumber": 2.5,
+              "__type": "NumberCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "resource_max",
+        "resource_champion_gain",
+        "resource_duration_ms",
+        "resource_loss_interval_ms",
+        "resource_loss_amount",
+        "active_resource_cost",
+        "active_buff_duration_ms",
+        "passive_base_damage",
+        "active_base_damage",
+        "passive_ap_ratio",
+        "active_ap_ratio",
+        "attack_speed_percent_points"
+      ],
+      "selectedFormulaKeys": [
+        "passive_magic_damage",
+        "active_magic_damage"
+      ],
+      "sourceTextConsumers": "灵蕴拳\n芸阿娜获得攻击速度、额外附带伤害并且她的攻击会散播至附近的敌人。\n<spellPassive>被动</spellPassive>：芸阿娜造成<magicDamage>@Calc_Passive_Damage@魔法伤害</magicDamage><OnHit>%i:OnHit%攻击特效</OnHit>并且攻击提供<evolve>@Resource_Nonchampion@灵蕴</evolve> (对抗英雄时为<evolve>@Resource_Champion@灵蕴</evolve>)。<br><br><spellPassive>主动</spellPassive>：芸阿娜消耗<evolve>@Resource_Max@灵蕴</evolve>，在@Buff_Duration@秒期间里获得<attackSpeed>@Calc_Attack_Speed@攻击速度</attackSpeed>并且造成额外<magicDamage>@Calc_Damage@魔法伤害</magicDamage><OnHit>%i:OnHit%攻击特效</OnHit>。在此期间，她的攻击会散播至附近的敌人，对其造成<physicalDamage>@Calc_Damage_Spread@物理伤害</physicalDamage>。<br><br><keywordMajor>超凡形态</keywordMajor>：这个技能会即刻激活并持续@Spell.YunaraR:Buff_Duration@秒。\n<spellPassive>被动</spellPassive>：芸阿娜的攻击造成额外的<magicDamage>@Calc_Passive_Damage@魔法伤害</magicDamage><OnHit>%i:OnHit%攻击特效</OnHit>。打出一次攻击时提供<evolve>@Resource_Nonchampion@灵蕴</evolve>。(攻击英雄时为<evolve>@Resource_Champion@灵蕴</evolve>)，持续@Resource_Duration@秒。(最大值：<evolve>@Resource_Max@灵蕴</evolve>)。在停止普攻@Resource_Duration@秒后会导致芸阿娜每@Resource_Loss_Interval@秒损失<evolve>@Resource_Loss@灵蕴</evolve>。<br><br><spellPassive>主动</spellPassive>：芸阿娜消耗<evolve>@Resource_Max@灵蕴</evolve>，在@Buff_Duration@秒期间里获得<attackSpeed>@Calc_Attack_Speed@攻击速度</attackSpeed>并且造成额外<magicDamage>@Calc_Damage@魔法伤害</magicDamage><OnHit>%i:OnHit%攻击特效</OnHit>。在此期间，她的攻击会散播至附近的敌人，对其造成<physicalDamage>@Calc_Damage_Spread@物理伤害</physicalDamage>。<br><br><keywordMajor>超凡形态</keywordMajor>：这个技能会即刻激活并持续@Spell.YunaraR:Buff_Duration@秒。\n<rules>散播攻击可以暴击并且施加@Spread_Onhit_Efficacy*100@%效能的<OnHit>%i:OnHit%攻击特效</OnHit>。来自散播攻击的伤害对低于<scaleHealth>@Calc_Minion_Execute_Threshold@生命值</scaleHealth>的小兵造成@Calc_Minion_Execute_Amp@伤害。</rules>\n@BaseCost@法力\n无冷却时间"
+    },
+    "yunara_w": {
+      "hero": "Yunara",
+      "slot": "W",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_YunaraW_Name",
+          "text": "善恶轮 | 寂灭掌"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_YunaraW_Summary",
+          "text": "芸阿娜发射一颗不停旋转的念珠，对敌人们造成伤害和减速。在她处于超凡形态期间，她转而发射一记射线，对敌人们造成伤害和减速。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_YunaraW_Tooltip",
+          "text": "芸阿娜弹出一颗念珠，造成<magicDamage>@Calc_Damage_Initial@魔法伤害</magicDamage>和<status>在@Slow_Duration@秒里持续衰减的@Calc_Slow@减速</status>。它每秒额外造成<magicDamage>@Calc_Damage_Per_Second@魔法伤害</magicDamage>。<br><br><keywordMajor>超凡形态 - {{Spell_YunaraW2_Name}}</keywordMajor>:芸阿娜发射一道射线，造成<magicDamage>@Spell.YunaraR:Calc_RW_Damage@魔法伤害</magicDamage>和<status>在@Spell.YunaraR:RW_Slow_Duration@秒里持续衰减的@Spell.YunaraR:Calc_RW_Slow_Amount@减速</status>。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_YunaraW_TooltipExtended",
+          "text": "芸阿娜弹出一颗念珠，念珠会在附近有敌人时减缓速度。它在到达终点时会残留并扩展。它的第一段命中造成<magicDamage>@Calc_Damage_Initial@魔法伤害</magicDamage>和<status>在@Slow_Duration@秒里持续衰减的@Calc_Slow@减速</status>。它每秒额外造成<magicDamage>@Calc_Damage_Per_Second@魔法伤害</magicDamage>。<br><br><keywordMajor>超凡形态 - {{Spell_YunaraW2_Name}}</keywordMajor>:芸阿娜发射一道射线，造成<magicDamage>@Spell.YunaraR:Calc_RW_Damage@魔法伤害</magicDamage>和<status>在@Spell.YunaraR:RW_Slow_Duration@秒里持续衰减的@Spell.YunaraR:Calc_RW_Slow_Amount@减速</status>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_YunaraW_TooltipExtendedBelowLine",
+          "text": "<rules>施放时间受益于永久<attackSpeed>攻击速度</attackSpeed> (@f3.0@% / @Cast_Time_Attack_Speed_Cap_Empowered@%)。{{Spell_YunaraW1_Name}}对小兵造成@Calc_Minion_Damage_Mod@伤害并且它的周期伤害会处决低生命值的小兵。{{Spell_YunaraW2_Name}}会获得一个终极技能的各种助益。</rules>"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_YunaraW_Cooldown",
+          "text": "@f1.2@秒%i:cooldown%"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_YunaraW_Cost",
+          "text": "@f2.0@法力"
+        }
+      },
+      "rawDataValues": {
+        "Cast_Time_Base": [
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104
+        ],
+        "Cast_Time_Min": [
+          0.22499999403953552,
+          0.22499999403953552,
+          0.22499999403953552,
+          0.22499999403953552,
+          0.22499999403953552,
+          0.22499999403953552,
+          0.22499999403953552
+        ],
+        "Cast_Time_Attack_Speed_Cap": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "Cast_Time_Base_Empowered": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "Cast_Time_Min_Empowered": [
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104,
+          0.44999998807907104
+        ],
+        "Cast_Time_Attack_Speed_Cap_Empowered": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "Linger_Duration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "Damage": [
+          15,
+          55,
+          95,
+          135,
+          175,
+          215,
+          255
+        ],
+        "ADRatio": [
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579,
+          0.8500000238418579
+        ],
+        "APRatio": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "DPS_Modifier": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "Slow_Duration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "Slow_Amount": [
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432
+        ],
+        "Minion_Execute_Tick_Count": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "rawCalculations": {
+        "Calc_Damage_Initial": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Calc_Damage_Per_Second": {
+          "mMultiplier": {
+            "mDataValue": "DPS_Modifier",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "Calc_Damage_Initial",
+          "__type": "GameCalculationModified"
+        },
+        "{669adf33}": {
+          "mMultiplier": {
+            "mSpellCalculationKey": "Calc_Minion_Damage_Mod",
+            "__type": "{f3cbe7b2}"
+          },
+          "mModifiedGameCalculation": "Calc_Damage_Initial",
+          "__type": "GameCalculationModified"
+        },
+        "Calc_Slow": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Slow_Amount",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "Calc_Minion_Damage_Mod": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 0.5,
+              "mBreakpoints": [
+                {
+                  "mLevel": 9,
+                  "mAdditionalBonusAtThisLevel": 0.25,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "mAdditionalBonusAtThisLevel": 0.25,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "initial_base_damage",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "dps_modifier",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "linger_duration_ms",
+        "cast_time_base_ms",
+        "cast_time_min_ms",
+        "cast_time_attack_speed_cap_percent_points"
+      ],
+      "selectedFormulaKeys": [
+        "initial_magic_damage",
+        "damage_per_second"
+      ],
+      "sourceTextConsumers": "善恶轮 | 寂灭掌\n芸阿娜发射一颗不停旋转的念珠，对敌人们造成伤害和减速。在她处于超凡形态期间，她转而发射一记射线，对敌人们造成伤害和减速。\n芸阿娜弹出一颗念珠，造成<magicDamage>@Calc_Damage_Initial@魔法伤害</magicDamage>和<status>在@Slow_Duration@秒里持续衰减的@Calc_Slow@减速</status>。它每秒额外造成<magicDamage>@Calc_Damage_Per_Second@魔法伤害</magicDamage>。<br><br><keywordMajor>超凡形态 - {{Spell_YunaraW2_Name}}</keywordMajor>:芸阿娜发射一道射线，造成<magicDamage>@Spell.YunaraR:Calc_RW_Damage@魔法伤害</magicDamage>和<status>在@Spell.YunaraR:RW_Slow_Duration@秒里持续衰减的@Spell.YunaraR:Calc_RW_Slow_Amount@减速</status>。\n芸阿娜弹出一颗念珠，念珠会在附近有敌人时减缓速度。它在到达终点时会残留并扩展。它的第一段命中造成<magicDamage>@Calc_Damage_Initial@魔法伤害</magicDamage>和<status>在@Slow_Duration@秒里持续衰减的@Calc_Slow@减速</status>。它每秒额外造成<magicDamage>@Calc_Damage_Per_Second@魔法伤害</magicDamage>。<br><br><keywordMajor>超凡形态 - {{Spell_YunaraW2_Name}}</keywordMajor>:芸阿娜发射一道射线，造成<magicDamage>@Spell.YunaraR:Calc_RW_Damage@魔法伤害</magicDamage>和<status>在@Spell.YunaraR:RW_Slow_Duration@秒里持续衰减的@Spell.YunaraR:Calc_RW_Slow_Amount@减速</status>。\n<rules>施放时间受益于永久<attackSpeed>攻击速度</attackSpeed> (@f3.0@% / @Cast_Time_Attack_Speed_Cap_Empowered@%)。{{Spell_YunaraW1_Name}}对小兵造成@Calc_Minion_Damage_Mod@伤害并且它的周期伤害会处决低生命值的小兵。{{Spell_YunaraW2_Name}}会获得一个终极技能的各种助益。</rules>\n@f1.2@秒%i:cooldown%\n@f2.0@法力"
+    },
+    "yunara_e": {
+      "hero": "Yunara",
+      "slot": "E",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_YunaraE_Name",
+          "text": "明踪步 | 夜影翻"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_YunaraE_Summary",
+          "text": "芸阿娜获得移动速度并进入幽灵状态。在她处于超凡形态期间，她转而朝着一个方向冲刺。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_YunaraE_Tooltip",
+          "text": "芸阿娜获得<speed>@Calc_Move_Speed@移动速度</speed>，并且在朝着一个敌方英雄移动时提升至<speed>@Calc_Move_Speed_Enhanced@移动速度</speed>，持续@Buff_Duration@秒。<br><br><keywordMajor>超凡形态 - {{Spell_YunaraE2_Name}}</keywordMajor>：芸阿娜朝一个方向进行冲刺。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_YunaraE_TooltipExtendedBelowLine",
+          "text": "<rules>{{Spell_YunaraE1_Name}}会使芸阿娜进入<keyword>幽灵</keyword>状态。{{Spell_YunaraE2_Name}}会获得一个终极技能的各种助益。</rules>"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_YunaraE_Cooldown",
+          "text": "@f1.2@秒%i:cooldown%"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_YunaraE_Cost",
+          "text": "@f2.0@法力"
+        }
+      },
+      "rawDataValues": {
+        "Buff_Duration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "Move_Speed": [
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355,
+          0.4000000059604645,
+          0.44999998807907104,
+          0.5,
+          0.550000011920929
+        ],
+        "Move_Speed_Modifier": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ]
+      },
+      "rawCalculations": {
+        "Calc_Move_Speed": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Move_Speed",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "Calc_Move_Speed_Enhanced": {
+          "mMultiplier": {
+            "mDataValue": "Move_Speed_Modifier",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mModifiedGameCalculation": "Calc_Move_Speed",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedParameterKeys": [
+        "move_speed_percent_points",
+        "enemy_directed_move_speed_multiplier",
+        "buff_duration_ms"
+      ],
+      "selectedFormulaKeys": [
+        "enemy_directed_move_speed"
+      ],
+      "sourceTextConsumers": "明踪步 | 夜影翻\n芸阿娜获得移动速度并进入幽灵状态。在她处于超凡形态期间，她转而朝着一个方向冲刺。\n芸阿娜获得<speed>@Calc_Move_Speed@移动速度</speed>，并且在朝着一个敌方英雄移动时提升至<speed>@Calc_Move_Speed_Enhanced@移动速度</speed>，持续@Buff_Duration@秒。<br><br><keywordMajor>超凡形态 - {{Spell_YunaraE2_Name}}</keywordMajor>：芸阿娜朝一个方向进行冲刺。\n<rules>{{Spell_YunaraE1_Name}}会使芸阿娜进入<keyword>幽灵</keyword>状态。{{Spell_YunaraE2_Name}}会获得一个终极技能的各种助益。</rules>\n@f1.2@秒%i:cooldown%\n@f2.0@法力"
+    },
+    "yunara_r": {
+      "hero": "Yunara",
+      "slot": "R",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_YunaraR_Name",
+          "text": "定圣诀"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_YunaraR_Summary",
+          "text": "芸阿娜进入超凡形态，在此形态下，她的基础技能获得升级。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_YunaraR_Tooltip",
+          "text": "芸阿娜进入持续@Buff_Duration@秒的<keywordMajor>超凡形态</keywordMajor>，在此形态下，她的基础技能获得升级。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_YunaraR_TooltipExtended",
+          "text": "芸阿娜进入持续@Buff_Duration@秒的<keywordMajor>超凡形态</keywordMajor>，<spellName>{{Spell_YunaraQ_Name}}</spellName>会即刻激活并持续到此形态结束、<spellName>{{Spell_YunaraW1_Name}}</spellName>升级为<keywordMajor>{{Spell_YunaraW2_Name}}</keywordMajor>并且使当前冷却时间缩短@Calc_RW_Cooldown_Reduction@、<spellName>{{Spell_YunaraE1_Name}}</spellName>升级为<keywordMajor>{{Spell_YunaraE2_Name}}</keywordMajor>并且它的冷却时间获得刷新。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_YunaraR_TooltipExtendedBelowLine",
+          "text": ""
+        }
+      },
+      "rawDataValues": {
+        "Buff_Duration": [
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ],
+        "RW_Damage_Base": [
+          160,
+          160,
+          320,
+          480,
+          640,
+          800,
+          960
+        ],
+        "RW_ADRatio": [
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158
+        ],
+        "RW_APRatio": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "RW_Slow_Duration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "RW_Slow_Amount": [
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432,
+          0.9900000095367432
+        ],
+        "RE_Dash_Speed": [
+          1200,
+          1350,
+          1500,
+          1650,
+          1800,
+          1950,
+          2100
+        ],
+        "RW_CDR": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ]
+      },
+      "rawCalculations": {
+        "Calc_RW_Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "RW_Damage_Base",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "RW_ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "RW_APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Calc_RW_Slow_Amount": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mDataValue": "RW_Slow_Amount",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "{42964db5}": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "RE_Dash_Speed",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Calc_RW_Cooldown_Reduction": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mDataValue": "RW_CDR",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [],
+      "selectedFormulaKeys": [],
+      "sourceTextConsumers": "定圣诀\n芸阿娜进入超凡形态，在此形态下，她的基础技能获得升级。\n芸阿娜进入持续@Buff_Duration@秒的<keywordMajor>超凡形态</keywordMajor>，在此形态下，她的基础技能获得升级。\n芸阿娜进入持续@Buff_Duration@秒的<keywordMajor>超凡形态</keywordMajor>，<spellName>{{Spell_YunaraQ_Name}}</spellName>会即刻激活并持续到此形态结束、<spellName>{{Spell_YunaraW1_Name}}</spellName>升级为<keywordMajor>{{Spell_YunaraW2_Name}}</keywordMajor>并且使当前冷却时间缩短@Calc_RW_Cooldown_Reduction@、<spellName>{{Spell_YunaraE1_Name}}</spellName>升级为<keywordMajor>{{Spell_YunaraE2_Name}}</keywordMajor>并且它的冷却时间获得刷新。\n"
+    }
+  },
+  "excludedSourceNames": {
+    "qiyana_p": [
+      "ICD",
+      "BurnDuration",
+      "HealDuration",
+      "HealRadius",
+      "{222614ec}"
+    ],
+    "qiyana_q": [
+      "FalloffDamage",
+      "JungleDamageAmp",
+      "TremorBonus"
+    ],
+    "qiyana_w": [
+      "CleaveDamage",
+      "TremorDamage",
+      "TravelDistanceShort"
+    ],
+    "qiyana_r": [
+      "MonsterCap",
+      "Slow",
+      "RecastWindow"
+    ],
+    "ksante_p": [
+      "MaxHealthDamagePercent",
+      "{281dd874}",
+      "MinimumMinionDamage",
+      "MaxMonsterDamage"
+    ],
+    "ksante_q": [
+      "{9c9367bc}",
+      "RCooldownReduction"
+    ],
+    "ksante_w": [
+      "RDamageIncreaseMin",
+      "RDamageIncreaseMax",
+      "RDamageReduction",
+      "MinimumMinionDamage",
+      "MaxMonsterDamage"
+    ],
+    "ksante_e": [
+      "AllySpeedBase",
+      "FreeTargetRangeAO",
+      "FreeTargetSpeedAO",
+      "AllySpeedAO"
+    ],
+    "ksante_r": [
+      "AllOutDuration",
+      "HealthLost",
+      "DefensesLost",
+      "Omnivamp",
+      "AttackSpeed",
+      "ArmorPenPercent"
+    ],
+    "mel_p": [
+      "小兵残影削减"
+    ],
+    "mel_q": [
+      "MonsterModTooltip",
+      "FirstExplosionDelay"
+    ],
+    "mel_w": [
+      "ShieldRadius"
+    ],
+    "mel_e": [
+      "MinionModTooltip"
+    ],
+    "mel_r": [
+      "MinionModTooltip"
+    ],
+    "yunara_q": [
+      "Resource_Nonchampion",
+      "Spread_Radius",
+      "Spread_AD_Ratio",
+      "Spread_Lifesteal_Efficacy",
+      "Spread_Onhit_Efficacy",
+      "Calc_Damage_Spread",
+      "Calc_Minion_Execute_Threshold",
+      "Calc_Minion_Execute_Amp"
+    ],
+    "yunara_w": [
+      "{669adf33}",
+      "Calc_Minion_Damage_Mod"
+    ],
+    "yunara_e": [
+      "超凡冲刺"
+    ],
+    "yunara_r": [
+      "全部超凡强化计算树"
+    ]
+  },
+  "noApiCalls": true,
+  "apiWrites": 0
+}

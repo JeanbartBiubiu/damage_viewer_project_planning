@@ -1,0 +1,20 @@
+{
+  "i": 50,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_r/parameters",
+    "skillKey": "ornn_r",
+    "kind": "parameters",
+    "stableKey": "pass_count_same_enemy",
+    "body": {
+      "parameterKey": "pass_count_same_enemy",
+      "name": "唯一敌人可受伤程数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "本轮范围保留来回两程对同一唯一敌人的两次伤害和易碎；不扩展第三目标分配。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_w/formulas",
+    "detailRoute": "/skills/elise_w/formulas/magic_damage",
+    "skillKey": "elise_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "自爆蜘蛛爆炸魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=基础值+0.75×来源总法强；资格审查按一次施放、一次爆炸的本体技能伤害载体处理。",
+      "sortOrder": 10
+    }
+  }
+}

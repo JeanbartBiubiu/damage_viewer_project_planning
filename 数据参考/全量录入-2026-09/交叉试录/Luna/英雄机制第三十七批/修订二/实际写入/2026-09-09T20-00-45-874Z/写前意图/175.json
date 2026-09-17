@@ -1,0 +1,27 @@
+{
+  "i": 174,
+  "intent": {
+    "sequence": 175,
+    "method": "POST",
+    "route": "/skills/aurora_r/parameters",
+    "detailRoute": "/skills/aurora_r/parameters/area_duration_ms",
+    "skillKey": "aurora_r",
+    "kind": "parameters",
+    "stableKey": "area_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "area_duration_ms",
+      "name": "双界合一交界领域持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2500,
+        "2": 3250,
+        "3": 4000
+      },
+      "description": "当前AreaDuration技能等级1至3为2.5/3.25/4秒，转换为2500/3250/4000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "method": "POST",
+    "route": "/skills/yone_r/parameters",
+    "detailRoute": "/skills/yone_r/parameters/knockup_duration_ms",
+    "skillKey": "yone_r",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "击飞持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 750,
+      "levelValues": null,
+      "description": "客户端RKnockupDuration=0.75秒，转换为750毫秒；当前正文未显示具体持续数值，作为来源参数待接，不自动创建控制结果。",
+      "sortOrder": 40
+    }
+  }
+}

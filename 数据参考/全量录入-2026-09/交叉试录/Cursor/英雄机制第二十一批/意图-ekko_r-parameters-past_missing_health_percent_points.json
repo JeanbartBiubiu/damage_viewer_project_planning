@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:12.569Z",
+  "method": "POST",
+  "skillKey": "ekko_r",
+  "kind": "parameters",
+  "stableKey": "past_missing_health_percent_points",
+  "route": "/skills/ekko_r/parameters",
+  "readRoute": "/skills/ekko_r/parameters/past_missing_health_percent_points",
+  "body": {
+    "parameterKey": "past_missing_health_percent_points",
+    "name": "最近时间窗已损失生命百分数点（实际值外供）",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "历史位置和实际过去受伤量不能伪造。无默认。不把该输入填进可运行治疗结果。",
+    "sortOrder": 90
+  }
+}

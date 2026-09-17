@@ -1,0 +1,25 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/parameters",
+    "detailRoute": "/skills/kled_r/parameters/shield_growth_text_duration_ms",
+    "skillKey": "kled_r",
+    "kind": "parameters",
+    "stableKey": "shield_growth_text_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_growth_text_duration_ms",
+      "name": "官方正文护盾增长时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "官方中文正文写开始冲锋后2秒内至多获得护盾。",
+      "sortOrder": 80
+    }
+  }
+}

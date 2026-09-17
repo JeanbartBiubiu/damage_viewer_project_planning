@@ -1,0 +1,970 @@
+{
+  "attributes": {
+    "ok": true,
+    "status": 200,
+    "items": {
+      "items": [
+        {
+          "attributeKey": "move_speed",
+          "createdAt": "2026-08-22T15:27:35.616234Z",
+          "description": "角色面板移动速度",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "移动速度",
+          "sortOrder": 100,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-23T07:43:37.216118Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "move_speed_percent",
+          "createdAt": "2026-09-06T14:37:34.305529Z",
+          "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "移动速度加成比例",
+          "sortOrder": 101,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:37:34.305529Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "armor_pen_flat",
+          "createdAt": "2026-08-22T15:27:35.850065Z",
+          "description": null,
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "固定护甲穿透",
+          "sortOrder": 200,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-22T15:27:35.850065Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "armor_pen_percent",
+          "createdAt": "2026-08-22T15:27:35.951829Z",
+          "description": null,
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "百分比护甲穿透",
+          "sortOrder": 210,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-22T15:27:35.951829Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "magic_pen_flat",
+          "createdAt": "2026-09-06T14:36:56.874035Z",
+          "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "固定法术穿透",
+          "sortOrder": 220,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:36:56.874035Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "magic_pen_percent",
+          "createdAt": "2026-09-06T14:38:47.365241Z",
+          "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "百分比法术穿透",
+          "sortOrder": 230,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:38:47.365241Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "hp",
+          "createdAt": "2026-08-22T15:27:36.051116Z",
+          "description": null,
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "生命值",
+          "sortOrder": 300,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-22T15:27:36.051116Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "hp_regen",
+          "createdAt": "2026-08-30T16:27:54.925024Z",
+          "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "每5秒生命回复",
+          "sortOrder": 305,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:27:54.925024Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "base_hp_regen_percent",
+          "createdAt": "2026-09-06T14:33:14.12308Z",
+          "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "基础生命回复加成比例",
+          "sortOrder": 306,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:33:14.12308Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "mana",
+          "createdAt": "2026-08-22T15:27:36.139767Z",
+          "description": null,
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "法力值",
+          "sortOrder": 310,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-22T15:27:36.139767Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "mana_regen",
+          "createdAt": "2026-08-30T16:27:55.032387Z",
+          "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "每5秒法力回复",
+          "sortOrder": 315,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:27:55.032387Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "base_mana_regen_percent",
+          "createdAt": "2026-09-06T14:33:07.568638Z",
+          "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "基础法力回复加成比例",
+          "sortOrder": 316,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:33:07.568638Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "energy",
+          "createdAt": "2026-08-22T15:27:36.229561Z",
+          "description": null,
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "能量值",
+          "sortOrder": 320,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-22T15:27:36.229561Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "armor",
+          "createdAt": "2026-08-30T16:27:55.143372Z",
+          "description": "角色面板护甲",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "护甲",
+          "sortOrder": 400,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:27:55.143372Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "magic_resistance",
+          "createdAt": "2026-08-30T16:27:55.24073Z",
+          "description": "角色面板魔法抗性",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "魔法抗性",
+          "sortOrder": 410,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:27:55.24073Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "tenacity_percent",
+          "createdAt": "2026-09-06T14:37:40.8914Z",
+          "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "韧性比例",
+          "sortOrder": 420,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:37:40.8914Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "attack_damage",
+          "createdAt": "2026-08-30T16:26:29.341938Z",
+          "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "攻击力",
+          "sortOrder": 500,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:26:29.341938Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "ability_power",
+          "createdAt": "2026-08-30T16:26:39.898635Z",
+          "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "法术强度",
+          "sortOrder": 510,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:26:39.898635Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "attack_speed",
+          "createdAt": "2026-08-30T16:27:55.334742Z",
+          "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "攻击速度",
+          "sortOrder": 520,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:27:55.334742Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "bonus_attack_speed_percent",
+          "createdAt": "2026-08-30T16:27:55.439812Z",
+          "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "额外攻击速度比例",
+          "sortOrder": 521,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:27:55.439812Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "critical_strike_chance",
+          "createdAt": "2026-08-30T16:27:55.58546Z",
+          "description": "以 1 表示 100% 暴击几率",
+          "gameId": "lol",
+          "maxValue": 1,
+          "minValue": 0,
+          "name": "暴击几率",
+          "sortOrder": 530,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:27:55.58546Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "critical_strike_damage_bonus_percent",
+          "createdAt": "2026-09-06T14:37:27.711233Z",
+          "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "额外暴击伤害比例",
+          "sortOrder": 531,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:37:27.711233Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "attack_range",
+          "createdAt": "2026-08-30T16:27:55.678337Z",
+          "description": "角色普通攻击距离",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "攻击距离",
+          "sortOrder": 540,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:27:55.678337Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "ability_haste",
+          "createdAt": "2026-09-06T14:29:52.533949Z",
+          "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "技能急速",
+          "sortOrder": 550,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:29:52.533949Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "life_steal_percent",
+          "createdAt": "2026-09-06T14:36:43.823597Z",
+          "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "生命偷取比例",
+          "sortOrder": 560,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:36:43.823597Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "omnivamp_percent",
+          "createdAt": "2026-09-06T14:36:50.377635Z",
+          "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "全能吸血比例",
+          "sortOrder": 570,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:36:50.377635Z",
+          "valueType": "DECIMAL"
+        },
+        {
+          "attributeKey": "heal_shield_power_percent",
+          "createdAt": "2026-09-06T14:38:40.772253Z",
+          "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": null,
+          "name": "治疗和护盾强度比例",
+          "sortOrder": 580,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T14:38:40.772253Z",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "total": 27
+    }
+  },
+  "statuses": {
+    "ok": true,
+    "status": 200,
+    "items": {
+      "items": [
+        {
+          "createdAt": "2026-08-28T14:55:06.53067Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "眩晕",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "statusKey": "vertigo",
+          "updatedAt": "2026-08-28T14:55:06.53067Z"
+        }
+      ],
+      "total": 1
+    }
+  },
+  "modifierZones": {
+    "ok": true,
+    "status": 200,
+    "items": {
+      "items": [
+        {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-08-31T05:44:18.601181Z",
+          "description": null,
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "attribute_percent_bonus",
+          "name": "属性百分比加成",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-31T05:44:18.601181Z"
+        },
+        {
+          "applicationStage": "ATTRIBUTE_FLAT",
+          "calculationMode": "FLAT_ADD",
+          "createdAt": "2026-09-06T16:50:52.756989Z",
+          "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "attribute_flat_add",
+          "name": "属性固定加算",
+          "sortOrder": 10,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T16:50:52.756989Z"
+        }
+      ],
+      "total": 2
+    }
+  },
+  "skills": {
+    "malphite_p": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:18.002987Z",
+          "description": "墨菲特被岩石护盾保护，最多吸收10%最大生命值的伤害，若数秒内墨菲特未受到攻击，护盾将重置。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "墨菲特·花岗岩护盾",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "malphite_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:18.002987Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "malphite_q": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:18.301954Z",
+          "description": "墨菲特发出一块大地碎片穿过他敌人处的地面，在碰撞时造成伤害并且偷取移动速度3秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "墨菲特·地震碎片",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "malphite_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:18.301954Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "malphite_w": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:18.538266Z",
+          "description": "墨菲特的攻击蕴含着如此惊人的力道以至于它引发了一次音爆。在接下来的数秒里，他的攻击会在他面前引发余波。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "墨菲特·雷霆拍击",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "malphite_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:18.538266Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "malphite_e": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:18.788954Z",
+          "description": "墨菲特锤击地面，放射出冲击波对目标造成基于他护甲值的魔法伤害，同时暂时降低目标攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "墨菲特·大地震颤",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "malphite_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:18.788954Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "malphite_r": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:19.075519Z",
+          "description": "墨菲特自身高速冲向一个区域，对区域内的敌人们造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "墨菲特·势不可挡",
+          "skillCategoryKeys": [],
+          "skillKey": "malphite_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:19.075519Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "missfortune_p": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:26.138273Z",
+          "description": "在对一个新目标进行普攻时，厄运小姐会造成额外物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "厄运小姐·厄运的眷顾",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "missfortune_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:26.138273Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "missfortune_q": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:26.397859Z",
+          "description": "厄运小姐向敌人发射子弹，伤害他们以及他们后面的目标。两次攻击都可以施加【厄运的眷顾】。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "厄运小姐·一箭双雕",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "missfortune_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:26.397859Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "missfortune_w": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:26.674299Z",
+          "description": "厄运小姐在不被攻击时会被动获得移动速度加成。可以主动施放这个技能来获得短时间的攻击速度加成。在【大步流星】尚未冷却完毕时，【厄运的眷顾】可减少【大步流星】的剩余持续时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "厄运小姐·大步流星",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "missfortune_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:26.674299Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "missfortune_e": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:26.925049Z",
+          "description": "厄运小姐发射一阵弹雨来获得目标区域的视野，对敌人造成几波伤害，并减缓他们的移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "厄运小姐·枪林弹雨",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "missfortune_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:26.925049Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "missfortune_r": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:27.243722Z",
+          "description": "厄运小姐向她面前的锥形范围内引导一阵子弹风暴，对敌人造成大量伤害。这个技能的每波子弹都可以暴击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "厄运小姐·弹幕时间",
+          "skillCategoryKeys": [],
+          "skillKey": "missfortune_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:27.243722Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "annie_p": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:25.790608Z",
+          "description": "在施放4个技能后，安妮的下一次伤害类技能就会对目标造成短暂的晕眩效果。<br><br>安妮在游戏开始时和重生时，会带着满层的【嗜火】。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "安妮·嗜火",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "annie_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:25.790608Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "annie_q": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:26.185014Z",
+          "description": "安妮向目标投出注入了法力值的火球，对目标造成魔法伤害。如果目标死于碎裂之火，则碎裂之火消耗的法力值会返还给安妮，且碎裂之火的冷却时间减半。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "安妮·碎裂之火",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "annie_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:26.185014Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "annie_w": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:26.474863Z",
+          "description": "安妮向锥形区域施放一道烈焰，对区域内的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "安妮·焚烧",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "annie_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:26.474863Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "annie_e": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:26.829762Z",
+          "description": "为安妮或一名友军提供一层护盾、一个爆发性的移动速度加成并且对任何用攻击或技能袭击她的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "安妮·熔岩护盾",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "annie_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:26.829762Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "annie_r": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:27.133351Z",
+          "description": "安妮召唤地狱火泰迪：提伯斯为其作战，对目标区域造成伤害，提伯斯也会攻击和烧伤站在它周围的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "安妮·提伯斯之怒",
+          "skillCategoryKeys": [],
+          "skillKey": "annie_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:27.133351Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "brand_p": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:17:56.203617Z",
+          "description": "布兰德的技能会对他的目标施加【烈焰焚身】效果，在4秒里持续造成伤害，最多可叠加3次。如果布兰德击杀了身上带有【烈焰焚身】的敌人，那么他会回复法力值。当【炽热之焰】在一名英雄或大型野怪身上叠至满层时，它会变得不稳定。它会在2秒内爆炸，在目标附近的区域施加法术特效并造成大量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "布兰德·炽热之焰",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "brand_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:17:56.203617Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "brand_q": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:17:56.496373Z",
+          "description": "布兰德向前方放出一团可造成魔法伤害的火球。如果目标带有【烈焰焚身】效果，那么【Q火焰烙印】将使目标晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "布兰德·火焰烙印",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "brand_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:17:56.496373Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "brand_w": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:17:56.763213Z",
+          "description": "在短暂的延迟后，布兰德会在目标区域创造一根烈焰之柱，来对范围内的敌方单位造成魔法伤害。带有【烈焰焚身】效果的单位会额外受到25%伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "布兰德·烈焰之柱",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "brand_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:17:56.763213Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "brand_e": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:17:57.053751Z",
+          "description": "布兰德在目标身上引发一阵强力的爆裂至附近的敌人处，造成魔法伤害。如果目标带有【烈焰焚身】效果，那么【E烈火燃烧】的扩散距离翻倍。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "布兰德·烈火燃烧",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "brand_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:17:57.053751Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "brand_r": {
+      "skill": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:17:57.320373Z",
+          "description": "布兰德释放一颗破坏力极强的火焰之种，火焰之种会在布兰德和附近敌人之间弹跳至多5次，每次弹跳时对敌人造成魔法伤害。弹跳会优先以带有即将满层的【炽热之焰】效果的英雄为目标。如果目标带有【烈焰焚身】效果，那么【R烈焰风暴】将使目标短暂减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "布兰德·烈焰风暴",
+          "skillCategoryKeys": [],
+          "skillKey": "brand_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:17:57.320373Z"
+        }
+      },
+      "counts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "skillKey": "mel_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_q/parameters",
+    "stableKey": "initial_base_damage",
+    "body": {
+      "parameterKey": "initial_base_damage",
+      "name": "首次爆炸基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 85,
+        "3": 110,
+        "4": 135,
+        "5": 160
+      },
+      "description": "索引1至5为60/85/110/135/160。",
+      "sortOrder": 20
+    }
+  }
+}

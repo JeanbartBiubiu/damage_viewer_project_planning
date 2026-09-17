@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T14:53:59.284Z",
+  "status": "PASS",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "files": [
+    {
+      "id": "zhonyasReview",
+      "root": "web",
+      "relativePath": "数据参考/全量录入-2026-09/装备技能实录/Luna下一批装备触发候选/候选汇总.json",
+      "sha256": "04b06e69d7de5890f556f9cda8d5e2e462a39caa6e9b28a2d7314b960d70eb62",
+      "absolutePathRecorded": false,
+      "byteSize": 127243,
+      "actualSha256": "04b06e69d7de5890f556f9cda8d5e2e462a39caa6e9b28a2d7314b960d70eb62"
+    },
+    {
+      "id": "qssReview",
+      "root": "web",
+      "relativePath": "数据参考/全量录入-2026-09/装备技能实录/Luna第二轮装备触发候选/候选汇总.json",
+      "sha256": "2997714badb1efbe4270f370789e6f2343ec46f30969887d42faa3751a151dcb",
+      "absolutePathRecorded": false,
+      "byteSize": 102242,
+      "actualSha256": "2997714badb1efbe4270f370789e6f2343ec46f30969887d42faa3751a151dcb"
+    },
+    {
+      "id": "redemptionSource",
+      "root": "planning",
+      "relativePath": "数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/冻结来源.json",
+      "sha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+      "absolutePathRecorded": false,
+      "byteSize": 186640,
+      "actualSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+    }
+  ],
+  "assertions": {
+    "redemption": "2.5秒后对敌方英雄造成10%最大生命值真实伤害；90秒冷却、550区域、5500距离、8秒重复窗与50%保留比例均有固定来源。",
+    "qss": "50%自身移动速度持续2秒及90秒冷却有固定来源；解控、浮空例外和幽灵状态仍未接。",
+    "zhonyas": "全类型伤害免疫持续2.5秒及120秒冷却有固定来源；不可选取和行动限制仍未接。"
+  },
+  "batchSha256": "e35f1521b34a873e6ef2994c8d7c7142430e19df43139d02b54d96d24be65e45"
+}

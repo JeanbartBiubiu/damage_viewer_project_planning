@@ -1,0 +1,23 @@
+{
+  "i": 146,
+  "intent": {
+    "sequence": 147,
+    "method": "POST",
+    "route": "/skills/singed_e/parameters",
+    "detailRoute": "/skills/singed_e/parameters/ap_ratio",
+    "skillKey": "singed_e",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "基础伤害法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.55,
+      "levelValues": null,
+      "description": "当前BaseDamage树StatByCoefficient=0.55；读取来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

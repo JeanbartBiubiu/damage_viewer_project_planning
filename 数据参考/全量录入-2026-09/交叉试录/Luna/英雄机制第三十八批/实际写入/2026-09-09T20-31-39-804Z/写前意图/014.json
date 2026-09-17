@@ -1,0 +1,23 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "method": "POST",
+    "route": "/skills/jarvaniv_q/parameters",
+    "detailRoute": "/skills/jarvaniv_q/parameters/cast_time_ms",
+    "skillKey": "jarvaniv_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "巨龙撞击根施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "只记录根spellCastTime；不表示命中或击飞事件完成。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:55:07.169Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/orianna_w/parameters/self_haste_ratio",
+  "id": "self_haste_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "self_haste_ratio",
+    "name": "合资格友方英雄加速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.2,
+      "2": 0.25,
+      "3": 0.3,
+      "4": 0.35,
+      "5": 0.4
+    },
+    "description": "客户端当前根绑定 DataValues.HasteAmount 取索引1至5；当前仅保存合资格友方英雄加速比例，自身目标资格未证，实际目标判定待补，不默认作用于自身。",
+    "sortOrder": 70
+  }
+}

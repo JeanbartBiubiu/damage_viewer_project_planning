@@ -1,0 +1,226 @@
+{
+  "at": "2026-09-10T15:03:00.768Z",
+  "sourceHashes": {
+    "official": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+    "client": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d"
+  },
+  "listBefore": [
+    {
+      "createdAt": "2026-09-07T16:38:10.657215Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 13000,
+        "2": 12000,
+        "3": 11000,
+        "4": 10000,
+        "5": 9000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "brand_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:10.657215Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    {
+      "createdAt": "2026-09-07T16:38:10.998635Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "brand_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:38:10.998635Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    {
+      "createdAt": "2026-09-07T16:38:11.385058Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 55,
+        "2": 80,
+        "3": 105,
+        "4": 130,
+        "5": 155
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "brand_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:38:11.385058Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    {
+      "createdAt": "2026-09-07T16:38:11.771345Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "brand_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:38:11.771345Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    }
+  ],
+  "protectedBefore": {
+    "cooldown_ms": {
+      "createdAt": "2026-09-07T16:38:10.657215Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 13000,
+        "2": 12000,
+        "3": 11000,
+        "4": 10000,
+        "5": 9000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "brand_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:38:10.657215Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "cast_time_ms": {
+      "createdAt": "2026-09-07T16:38:10.998635Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "brand_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:38:10.998635Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "base_damage": {
+      "createdAt": "2026-09-07T16:38:11.385058Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 55,
+        "2": 80,
+        "3": 105,
+        "4": 130,
+        "5": 155
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "brand_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:38:11.385058Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "ap_ratio": {
+      "createdAt": "2026-09-07T16:38:11.771345Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "brand_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:38:11.771345Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    }
+  },
+  "formulaBefore": {
+    "createdAt": "2026-09-07T16:38:12.203978Z",
+    "description": "当前根技能 EDamageCalc：基础伤害+来源总法术强度×倍率。",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            },
+            {
+              "attributeKey": "ability_power",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        }
+      ],
+      "operation": "ADD"
+    },
+    "formulaKey": "damage",
+    "gameId": "lol",
+    "name": "烈火燃烧伤害",
+    "skillKey": "brand_e",
+    "sortOrder": 10,
+    "updatedAt": "2026-09-07T16:38:12.203978Z"
+  },
+  "effectBefore": {
+    "createdAt": "2026-09-07T16:38:12.568002Z",
+    "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+    "effectKey": "conflagration_hit",
+    "gameId": "lol",
+    "lifecycle": null,
+    "name": "烈火燃烧直接伤害",
+    "results": [
+      {
+        "description": null,
+        "detail": {
+          "critical": {
+            "mode": "DISALLOWED",
+            "multiplierValue": null
+          },
+          "damageTypeKey": "magic",
+          "deliveryKind": "SKILL",
+          "originKind": "DIRECT",
+          "vampRules": []
+        },
+        "lifecycleBehavior": null,
+        "name": "烈火燃烧直接伤害",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "sortOrder": 10,
+        "spellShieldBlockScope": "RESULT",
+        "target": "TARGET",
+        "valueRule": {
+          "fixedMaxValue": null,
+          "fixedMinValue": 0,
+          "fixedMultiplier": 1,
+          "value": {
+            "formulaKey": "damage",
+            "kind": "FORMULA"
+          }
+        }
+      }
+    ],
+    "skillKey": "brand_e",
+    "sortOrder": 10,
+    "updatedAt": "2026-09-07T16:38:12.568002Z"
+  },
+  "apiWrites": 0
+}

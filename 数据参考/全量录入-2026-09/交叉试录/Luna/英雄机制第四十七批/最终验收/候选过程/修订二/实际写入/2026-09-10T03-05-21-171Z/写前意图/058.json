@@ -1,0 +1,24 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 58,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_q/parameters",
+    "detailRoute": "/skills/nidalee_q/parameters/range_threshold",
+    "skillKey": "nidalee_q",
+    "kind": "parameters",
+    "stableKey": "range_threshold",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "range_threshold",
+      "name": "距离阈值",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 525,
+      "levelValues": null,
+      "description": "当前根RangeThreshold=525；距离中间曲线语义未证，只保留源值不擅设线性换算。",
+      "sortOrder": 40
+    }
+  }
+}

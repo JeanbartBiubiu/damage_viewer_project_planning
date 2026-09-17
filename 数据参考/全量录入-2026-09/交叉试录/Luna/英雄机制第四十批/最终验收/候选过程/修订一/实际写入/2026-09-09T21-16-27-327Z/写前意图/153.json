@@ -1,0 +1,23 @@
+{
+  "i": 152,
+  "intent": {
+    "sequence": 153,
+    "method": "POST",
+    "route": "/skills/pyke_e/parameters",
+    "detailRoute": "/skills/pyke_e/parameters/bonus_ad_ratio",
+    "skillKey": "pyke_e",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "魅影浪洄额外攻击力伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前TotalDamage的mStat2无formula，按技能来源窄口径取额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

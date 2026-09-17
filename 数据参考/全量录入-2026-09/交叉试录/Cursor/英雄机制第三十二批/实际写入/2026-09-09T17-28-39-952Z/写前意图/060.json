@@ -1,0 +1,23 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/kaisa_q/parameters",
+    "detailRoute": "/skills/kaisa_q/parameters/bonus_attack_damage_ratio",
+    "skillKey": "kaisa_q",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_damage_ratio",
+      "name": "额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.550000011920929,
+      "levelValues": null,
+      "description": "当前Q单发树ADRatio带mStat2/mStatFormula2，取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

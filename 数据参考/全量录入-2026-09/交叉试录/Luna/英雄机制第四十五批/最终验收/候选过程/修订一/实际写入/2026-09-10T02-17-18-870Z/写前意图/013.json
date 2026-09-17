@@ -1,0 +1,30 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_w/parameters",
+    "detailRoute": "/skills/teemo_w/parameters/active_move_speed_ratio",
+    "skillKey": "teemo_w",
+    "kind": "parameters",
+    "stableKey": "active_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_move_speed_ratio",
+      "name": "主动移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.239999995,
+        "2": 0.319999993,
+        "3": 0.400000006,
+        "4": 0.479999989,
+        "5": 0.560000002
+      },
+      "description": "ActiveMoveSpeedBonus索引1至5为0.24/0.32/0.40/0.48/0.56；比例属性用attribute_flat_add。",
+      "sortOrder": 30
+    }
+  }
+}

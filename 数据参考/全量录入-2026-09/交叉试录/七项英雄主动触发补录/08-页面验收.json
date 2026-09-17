@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "capturedAt": "2026-09-13T04:15:38.478Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 304
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "nautilus_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "诺提勒斯·泰坦之怒代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "shield",
+          "resultKey": "shield",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "missfortune_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "厄运小姐·大步流星代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "active_attack_speed",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "aatrox_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "亚托克斯·大灭代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "attack_damage_amp",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "kennen_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "凯南·秘奥义！万雷天牢引代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "armor",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        },
+        {
+          "effectKey": "magic_resistance",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "sivir_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "希维尔·弹射代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "effects": [],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "renekton_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "雷克顿·终极统治代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "effects": [],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "screenshots": [
+    "aatrox_r-attack_damage_amp结果.png",
+    "aatrox_r-on_used规则.png",
+    "aatrox_r-列表图片.png",
+    "kennen_r-armor结果.png",
+    "kennen_r-magic_resistance结果.png",
+    "kennen_r-on_used规则.png",
+    "kennen_r-列表图片.png",
+    "missfortune_w-active_attack_speed结果.png",
+    "missfortune_w-on_used规则.png",
+    "missfortune_w-列表图片.png",
+    "nautilus_w-on_used规则.png",
+    "nautilus_w-shield结果.png",
+    "nautilus_w-列表图片.png",
+    "renekton_r-cast过程.png",
+    "renekton_r-on_used规则.png",
+    "renekton_r-列表图片.png",
+    "sivir_w-cast过程.png",
+    "sivir_w-on_used规则.png",
+    "sivir_w-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "0f9f32689401a6315e27886cbc0f6451ebdd39169756d7dd5da947f4eac2977e"
+}

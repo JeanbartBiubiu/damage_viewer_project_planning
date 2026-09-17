@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T10:35:48.169Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/anivia_q/formulas/explosion_damage",
+  "id": "explosion_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "explosion_damage",
+    "name": "寒冰闪耀爆炸伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "explosion_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "explosion_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalExplosionDamage = ExplosionBaseDamage + 0.45×法强。",
+    "sortOrder": 20
+  }
+}

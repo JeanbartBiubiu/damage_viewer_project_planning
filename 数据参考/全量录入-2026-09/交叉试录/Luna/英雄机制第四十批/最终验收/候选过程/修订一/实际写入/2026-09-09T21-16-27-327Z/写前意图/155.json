@@ -1,0 +1,23 @@
+{
+  "i": 154,
+  "intent": {
+    "sequence": 155,
+    "method": "POST",
+    "route": "/skills/pyke_e/parameters",
+    "detailRoute": "/skills/pyke_e/parameters/lethality_stun_bonus_ms_per_point",
+    "skillKey": "pyke_e",
+    "kind": "parameters",
+    "stableKey": "lethality_stun_bonus_ms_per_point",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lethality_stun_bonus_ms_per_point",
+      "name": "魅影浪洄每点穿甲晕眩增加（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10,
+      "levelValues": null,
+      "description": "当前StunDuration每点mStat29增加0.01秒，转换为10毫秒；不改变展示精度语义。",
+      "sortOrder": 40
+    }
+  }
+}

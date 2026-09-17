@@ -1,0 +1,512 @@
+{
+  "sampleOnly": true,
+  "note": "从第十六批修订版2已审候选抽取少量 skill.write 形状，供字段命名参考；不复制其中数值、来源结论或业务写入意图。",
+  "source": {
+    "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十六批/完整候选-修订版2.json",
+    "sha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+    "revision": "修订版2"
+  },
+  "apiFields": {
+    "subject": [
+      "skillKey",
+      "name",
+      "maxLevel",
+      "status",
+      "skillCategoryKeys",
+      "description",
+      "sortOrder"
+    ],
+    "parameter": [
+      "parameterKey",
+      "name",
+      "valueType",
+      "valueMode",
+      "fixedValue",
+      "levelValues",
+      "description",
+      "sortOrder"
+    ],
+    "formula": [
+      "formulaKey",
+      "name",
+      "expression",
+      "description",
+      "sortOrder"
+    ],
+    "effect": [
+      "effectKey",
+      "name",
+      "description",
+      "sortOrder",
+      "lifecycle",
+      "results"
+    ],
+    "expressionNode": [
+      "nodeType=PARAMETER(parameterKey)",
+      "nodeType=ATTRIBUTE(attributeOwner,attributeKey,attributeValueKind)",
+      "nodeType=OPERATION(operation,operands)"
+    ],
+    "readRoutes": [
+      "/skills/{skillKey}",
+      "/skills/{skillKey}/{parameters|formulas|effects|processes|internal-states|trigger-rules}",
+      "/skills/{skillKey}/{kind}/{id}",
+      "/skills/{skillKey}/representative-image"
+    ]
+  },
+  "examples": [
+    {
+      "skillKey": "malzahar_p",
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "damage_reduction_percent",
+            "name": "伤害减免百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DRPercent 取索引1至1；单位%；正文直接显示 @DRPercent@%，保留90，不再乘0.01。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "damage_reduction_linger_ms",
+            "name": "受击后减伤持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.LingerDuration 取索引1至1；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "shield_cooldown_seconds",
+            "name": "被动护盾冷却（秒，实际等级值外供）（实际值外供）",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "原树只有角色等级断点，当前没有把等级曲线猜展开为固定1至18级。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    },
+    {
+      "skillKey": "malzahar_q",
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 70,
+              "2": 105,
+              "3": 140,
+              "4": 175,
+              "5": 210
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "silence_duration_ms",
+            "name": "沉默持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 1000,
+              "2": 1250,
+              "3": 1500,
+              "4": 1750,
+              "5": 2000
+            },
+            "description": "客户端当前根绑定 DataValues.SilenceDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "ap_ratio_constant",
+            "name": "法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.55,
+            "levelValues": null,
+            "description": "TotalDamageTooltip树直接给出0.55；固定系数进入公式。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "虚空召唤魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio_constant"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamageTooltip = BaseDamage + 0.55×法强；当前树的StatByCoefficient无独立运行输入。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    },
+    {
+      "skillKey": "lissandra_r",
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Lissandra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 120000,
+              "2": 100000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Lissandra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "冰封陵墓法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.75,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "冰封陵墓基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 150,
+              "2": 250,
+              "3": 350
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "slow_percent",
+            "name": "区域减速百分数点",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 45,
+              "2": 60,
+              "3": 75
+            },
+            "description": "客户端当前根绑定 DataValues.SlowAmount；原始值为负移速修正，当前正文占位为 @SlowAmount*-100@%，转为正的45至75百分数点。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "区域减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "enemy_stun_duration_ms",
+            "name": "对敌人眩晕持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.EnemyCastDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "self_stasis_duration_ms",
+            "name": "自身凝滞持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SelfCastDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "self_heal_flat",
+            "name": "自身施放基础治疗",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 100,
+              "2": 150,
+              "3": 200
+            },
+            "description": "客户端当前根绑定 DataValues.SelfCastFlatHeal 取索引1至3。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "self_heal_missing_hp_percent",
+            "name": "每缺失生命提升治疗百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SelfCastMissingHPRatio 取索引1至3；单位正文写百分号，保留1，不乘0.01。",
+            "sortOrder": 110
+          },
+          {
+            "parameterKey": "self_heal_missing_hp_per_above_percent",
+            "name": "每段缺失生命百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.SelfCastMissingHPPerAbove 取索引1至3；单位正文写百分号，保留1，不乘0.01。",
+            "sortOrder": 120
+          },
+          {
+            "parameterKey": "heal_ap_ratio",
+            "name": "基础治疗法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.55,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.PercentMissingHPRatio；HealAmount节点省略mStat/mStatFormula，与同版本mStat0默认法强窄证一致，作为基础治疗的来源总法强倍率0.55；不按字段名绑定缺失生命或hp。",
+            "sortOrder": 130
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "冰封陵墓对敌魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "CalculatedDamage = BaseDamage + APRatio×法强；省略统计选择器的具名节点按当前版本窄口径映射法强。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "self_heal",
+            "name": "自身施放治疗量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_heal_flat"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "HealAmount基础项 = SelfCastFlatHeal + PercentMissingHPRatio×来源总法强；同版本省略mStat/mStatFormula的默认法强窄证仅支持这一基础项。已损生命提升另由正文两个数据值描述，未猜分段、取整或封顶。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:54:18.380Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_e/parameters/aftershock_base_damage",
+  "id": "aftershock_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "aftershock_base_damage",
+    "name": "后续爆炸基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 20,
+      "2": 50,
+      "3": 80,
+      "4": 110,
+      "5": 140
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamageAftershock 取索引1至5。",
+    "sortOrder": 40
+  }
+}

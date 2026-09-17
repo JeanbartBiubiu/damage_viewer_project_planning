@@ -1,0 +1,29 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_r/parameters",
+    "detailRoute": "/skills/quinn_r/parameters/end_damage_base",
+    "skillKey": "quinn_r",
+    "kind": "parameters",
+    "stableKey": "end_damage_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "end_damage_base",
+      "name": "结束攻击基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 90,
+        "3": 120
+      },
+      "description": "R1/2/3为60/90/120。",
+      "sortOrder": 20
+    }
+  }
+}

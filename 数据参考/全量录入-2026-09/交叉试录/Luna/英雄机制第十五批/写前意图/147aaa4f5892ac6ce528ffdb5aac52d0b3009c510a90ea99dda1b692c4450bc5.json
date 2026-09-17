@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:56:53.457Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_e/parameters/scatter_base_damage",
+  "id": "scatter_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "scatter_base_damage",
+    "name": "撒石阵基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 60,
+      "2": 105,
+      "3": 150,
+      "4": 195,
+      "5": 240
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+    "sortOrder": 30
+  }
+}

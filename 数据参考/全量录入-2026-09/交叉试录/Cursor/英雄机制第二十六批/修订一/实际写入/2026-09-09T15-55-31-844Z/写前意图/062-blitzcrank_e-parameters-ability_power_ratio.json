@@ -1,0 +1,40 @@
+{
+  "sequence": 62,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 62,
+    "method": "POST",
+    "route": "/skills/blitzcrank_e/parameters",
+    "detailRoute": "/skills/blitzcrank_e/parameters/ability_power_ratio",
+    "skillKey": "blitzcrank_e",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "法术强度倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前TotalDamage树第二项mCoefficient=0.25，当前节点未给单独数据名，按同版窄证法术强度选择器使用。",
+      "sortOrder": 40
+    }
+  },
+  "before": {
+    "sequence": 363,
+    "method": "GET",
+    "route": "/skills/blitzcrank_e/parameters/ability_power_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "ability_power_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:52.571Z"
+  }
+}

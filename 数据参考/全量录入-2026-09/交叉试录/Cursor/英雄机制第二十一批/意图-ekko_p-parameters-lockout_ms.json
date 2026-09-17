@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:14.546Z",
+  "method": "POST",
+  "skillKey": "ekko_p",
+  "kind": "parameters",
+  "stableKey": "lockout_ms",
+  "route": "/skills/ekko_p/parameters",
+  "readRoute": "/skills/ekko_p/parameters/lockout_ms",
+  "body": {
+    "parameterKey": "lockout_ms",
+    "name": "同目标锁定间隔（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 4000,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.LockoutTime 取索引1，原值4秒转毫秒。仅基础间隔，未接线实际锁定。",
+    "sortOrder": 20
+  }
+}

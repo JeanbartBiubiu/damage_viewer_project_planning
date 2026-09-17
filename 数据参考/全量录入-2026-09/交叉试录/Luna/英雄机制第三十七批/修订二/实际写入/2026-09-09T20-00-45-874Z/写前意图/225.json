@@ -1,0 +1,23 @@
+{
+  "i": 224,
+  "intent": {
+    "sequence": 225,
+    "method": "POST",
+    "route": "/skills/briar_e/parameters",
+    "detailRoute": "/skills/briar_e/parameters/max_damage_ap_ratio",
+    "skillKey": "briar_e",
+    "kind": "parameters",
+    "stableKey": "max_damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_damage_ap_ratio",
+      "name": "惊吼满蓄法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前Damage第三项无mStat、系数1，按同版窄证读取来源法强。",
+      "sortOrder": 40
+    }
+  }
+}

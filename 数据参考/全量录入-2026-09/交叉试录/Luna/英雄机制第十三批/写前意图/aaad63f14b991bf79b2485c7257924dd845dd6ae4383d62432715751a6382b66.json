@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T05:43:53.303Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/cassiopeia_p/parameters/qualified_move_speed_bonus",
+  "id": "qualified_move_speed_bonus",
+  "method": "POST",
+  "body": {
+    "parameterKey": "qualified_move_speed_bonus",
+    "name": "本次合格移动速度加成数值",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "只取当前可被提升效率的加成，不能用总移动速度；不同固定/比例来源的取值与合并需另核。",
+    "sortOrder": 20
+  }
+}

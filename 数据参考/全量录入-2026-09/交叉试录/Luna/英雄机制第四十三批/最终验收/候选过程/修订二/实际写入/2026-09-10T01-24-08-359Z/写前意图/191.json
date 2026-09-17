@@ -1,0 +1,24 @@
+{
+  "i": 190,
+  "intent": {
+    "sequence": 191,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_e/parameters",
+    "detailRoute": "/skills/zed_e/parameters/shadow_hit_cdr_ms",
+    "skillKey": "zed_e",
+    "kind": "parameters",
+    "stableKey": "shadow_hit_cdr_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shadow_hit_cdr_ms",
+      "name": "本体命中后W冷却缩短（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "本体命中当前敌方英雄使W冷却缩短3秒。",
+      "sortOrder": 40
+    }
+  }
+}

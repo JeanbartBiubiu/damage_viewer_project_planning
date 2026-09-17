@@ -1,0 +1,20 @@
+{
+  "i": 70,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_e/parameters",
+    "skillKey": "poppy_e",
+    "kind": "parameters",
+    "stableKey": "wall_hit_count",
+    "body": {
+      "parameterKey": "wall_hit_count",
+      "name": "撞墙同一目标伤害次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前正文明确首次TackleDamage及撞墙后额外一次同额TackleDamage；不表示第二名敌人。",
+      "sortOrder": 50
+    }
+  }
+}

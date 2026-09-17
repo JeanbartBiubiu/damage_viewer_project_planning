@@ -1,0 +1,24 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_p/parameters",
+    "detailRoute": "/skills/gangplank_p/parameters/move_speed_upper_ratio",
+    "skillKey": "gangplank_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_upper_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_upper_ratio",
+      "name": "被动移动速度比例上界",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.300000012,
+      "levelValues": null,
+      "description": "MoveSpeed角色等级插值上界，比例属性以1表示100%。",
+      "sortOrder": 90
+    }
+  }
+}

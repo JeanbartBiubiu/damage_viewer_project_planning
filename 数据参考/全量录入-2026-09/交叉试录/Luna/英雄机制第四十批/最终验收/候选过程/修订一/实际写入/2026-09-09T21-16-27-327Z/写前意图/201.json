@@ -1,0 +1,29 @@
+{
+  "i": 200,
+  "intent": {
+    "sequence": 201,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/parameters",
+    "detailRoute": "/skills/twistedfate_w/parameters/gold_stun_duration_ms",
+    "skillKey": "twistedfate_w",
+    "kind": "parameters",
+    "stableKey": "gold_stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "gold_stun_duration_ms",
+      "name": "金牌晕眩持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1000,
+        "2": 1250,
+        "3": 1500,
+        "4": 1750,
+        "5": 2000
+      },
+      "description": "当前官方中文Effect[3]技能等级1至5为1/1.25/1.5/1.75/2秒。",
+      "sortOrder": 150
+    }
+  }
+}

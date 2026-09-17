@@ -1,0 +1,23 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/milio_q/parameters",
+    "detailRoute": "/skills/milio_q/parameters/slow_ap_ratio",
+    "skillKey": "milio_q",
+    "kind": "parameters",
+    "stableKey": "slow_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ap_ratio",
+      "name": "减速法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0005,
+      "levelValues": null,
+      "description": "当前系数0.0005，输出比例。",
+      "sortOrder": 50
+    }
+  }
+}

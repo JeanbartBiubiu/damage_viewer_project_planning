@@ -1,0 +1,23 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "method": "POST",
+    "route": "/skills/ambessa_r/parameters",
+    "detailRoute": "/skills/ambessa_r/parameters/omnivamp_unknown_stat_ratio",
+    "skillKey": "ambessa_r",
+    "kind": "parameters",
+    "stableKey": "omnivamp_unknown_stat_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "omnivamp_unknown_stat_ratio",
+      "name": "公开处刑未知属性18系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前Calc_Omnivamp第二项为mStat18×0.5；mStat18枚举未窄证，保留系数但不映射生命偷取。",
+      "sortOrder": 70
+    }
+  }
+}

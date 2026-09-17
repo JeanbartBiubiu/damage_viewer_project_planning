@@ -1,0 +1,53 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "skillKey": "mel_w",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/mel_w/formulas",
+    "stableKey": "reflected_magic_damage",
+    "body": {
+      "formulaKey": "reflected_magic_damage",
+      "name": "反射弹体魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "reflected_damage_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "reflected_damage_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_reflected_source_damage"
+          }
+        ]
+      },
+      "description": "非物理来源反射： (DamagePercent+0.0005×来源总法强)×原施法者调整前实际伤害；不含物理转魔法30%减伤，来源类型条件待接线。",
+      "sortOrder": 20
+    }
+  }
+}

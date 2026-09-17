@@ -1,0 +1,23 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 136,
+    "method": "POST",
+    "route": "/skills/seraphine_q/parameters",
+    "detailRoute": "/skills/seraphine_q/parameters/ability_power_ratio",
+    "skillKey": "seraphine_q",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "清籁法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "当前TotalEmpoweredDamage/基础伤害树AP比例为0.4。",
+      "sortOrder": 20
+    }
+  }
+}

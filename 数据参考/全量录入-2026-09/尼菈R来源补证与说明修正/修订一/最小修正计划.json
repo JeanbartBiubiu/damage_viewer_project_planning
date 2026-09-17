@@ -1,0 +1,321 @@
+{
+  "at": "2026-09-10T06:12:04.813Z",
+  "method": "六项原有说明修正",
+  "sourceSha256": "6d942ae9c745b839374c745c8d3a4360d0dcc5cc7fd945fb21ad3bc6a5bda85c",
+  "sourceLinks": [
+    "https://www.leagueoflegends.com/en-au/news/game-updates/patch-14-20-notes/",
+    "https://www.leagueoflegends.com/en-us/news/game-updates/patch-12-23-notes/"
+  ],
+  "decision": "复用已有乘数4，不再新增同值未消费参数；仅修正原有参数和公式说明，数值、表达式、身份、图片及其他组成不变。",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/nilah_r/parameters/source_num_ticks",
+      "before": {
+        "createdAt": "2026-09-09T21:03:27.982294Z",
+        "description": "原树NumTicks=6；与当前正文消费的4倍展示式不一致，保留来源值并列待核。",
+        "fixedValue": 6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡原始跳数",
+        "parameterKey": "source_num_ticks",
+        "skillKey": "nilah_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T21:03:27.982294Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "body": {
+        "description": "固定16.17原树 NumTicks=6，保留原始来源事实；当前正文和已固定计算消费者未引用此字段。持续伤害总量采用每跳式的4倍，不把本参数直接接成实际伤害次数。",
+        "fixedValue": 6,
+        "levelValues": null,
+        "name": "神恩激荡原始跳数",
+        "sortOrder": 70,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nilah_r/parameters/tick_delay_ms",
+      "before": {
+        "createdAt": "2026-09-09T21:03:29.257375Z",
+        "description": "TickDelay=0.2秒，转换为200毫秒；只保存来源时序值，不创建周期过程。",
+        "fixedValue": 200,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡每跳间隔（毫秒）",
+        "parameterKey": "tick_delay_ms",
+        "skillKey": "nilah_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T21:03:29.257375Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "body": {
+        "description": "固定16.17原树 TickDelay=0.20000000298023224秒，归一为200毫秒的来源记录；当前正文未消费该字段，实际伤害事件间隔未证，不直接接成运行计时器。",
+        "fixedValue": 200,
+        "levelValues": null,
+        "name": "神恩激荡每跳间隔（毫秒）",
+        "sortOrder": 80,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nilah_r/parameters/display_sustained_damage_multiplier",
+      "before": {
+        "createdAt": "2026-09-09T21:03:26.694439Z",
+        "description": "正文消费tooltipOnly的DamagePerTickCalcTooltip=4×每跳式；实际跳数另有NumTicks冲突，不能由此宣称总跳数。",
+        "fixedValue": 4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡展示持续伤害倍率",
+        "parameterKey": "display_sustained_damage_multiplier",
+        "skillKey": "nilah_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T21:03:26.694439Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "body": {
+        "description": "固定16.17正文消费 DamagePerTickCalcTooltip=4×DamagePerTickCalc；R持续伤害总量为60/100/140+0.4×额外攻击力，与官方14.20改动后的总量一致。4是已核实的总量乘数，实际事件间隔与治疗阶段仍未验证。",
+        "fixedValue": 4,
+        "levelValues": null,
+        "name": "神恩激荡展示持续伤害倍率",
+        "sortOrder": 60,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nilah_r/formulas/tooltip_sustained_damage",
+      "before": {
+        "createdAt": "2026-09-09T21:03:43.06999Z",
+        "description": "DamagePerTickCalcTooltip当前正文消费4×每跳式；NumTicks=6仅作为冲突来源值保留。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "display_sustained_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_tick_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_per_tick_bonus_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "tooltip_sustained_damage",
+        "gameId": "lol",
+        "name": "神恩激荡正文持续伤害展示式",
+        "skillKey": "nilah_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:03:43.06999Z"
+      },
+      "body": {
+        "description": "固定16.17持续物理伤害总量=4×每跳伤害，得到60/100/140+0.4×来源额外攻击力；原正文展示式经官方14.20持续总量交叉核对。原树NumTicks=6仅保留来源记录；本公式不决定事件间隔。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "display_sustained_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_tick_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_per_tick_bonus_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "name": "神恩激荡正文持续伤害展示式",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nilah_r/parameters/actual_current_enemy_healing_basis_damage",
+      "before": {
+        "createdAt": "2026-09-09T21:03:36.810768Z",
+        "description": "自身治疗量需要当前目标合资格伤害作为实际输入；折前或折后阶段尚无当前文本和计算树证据，使用中性实际治疗基准伤害，不设默认。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡当前敌方治疗基准伤害",
+        "parameterKey": "actual_current_enemy_healing_basis_damage",
+        "skillKey": "nilah_r",
+        "sortOrder": 140,
+        "updatedAt": "2026-09-09T21:03:36.810768Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      "body": {
+        "description": "当前敌方英雄受到尼菈R的合资格减免后实际伤害，由真实伤害记账提供，无默认值。官方12.23明确治疗按减免后伤害；不能传入折前伤害或直接代入R基础伤害式。逐跳还是合并治疗、护盾转换时序仍未证。",
+        "fixedValue": null,
+        "levelValues": null,
+        "name": "神恩激荡当前敌方治疗基准伤害",
+        "sortOrder": 140,
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/nilah_r/formulas/self_healing_amount",
+      "before": {
+        "createdAt": "2026-09-09T21:03:45.599159Z",
+        "description": "自身治疗量=完整治疗比例×当前目标合资格的实际治疗基准伤害；折前或折后阶段尚未证明，不能默认，实际基准由运行层提供。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_healing_base_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "self_healing_mstat8_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_mstat8_value"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_q_crit_lifesteal_ratio"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_current_enemy_healing_basis_damage"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "self_healing_amount",
+        "gameId": "lol",
+        "name": "神恩激荡自身治疗量",
+        "skillKey": "nilah_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T21:09:09.402443Z"
+      },
+      "body": {
+        "description": "自身治疗量=已保存治疗比例×当前敌方英雄合资格的减免后实际伤害。伤害基准由实际记账输入；不以折前伤害代替。实际治疗实例与过量转盾阶段仍未验证，本公式不自动产生治疗事件。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_healing_base_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "self_healing_mstat8_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_mstat8_value"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_q_crit_lifesteal_ratio"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_current_enemy_healing_basis_damage"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "name": "神恩激荡自身治疗量",
+        "sortOrder": 50
+      }
+    }
+  ],
+  "runtimeValidation": "未执行，时序与事件仍保留未知",
+  "revision": "更新请求移除不可变标识，原六项说明和其他字段不变",
+  "previousFailure": "首个PUT含parameterKey被400.IMMUTABLE拒绝，零成功写入；原请求和流水完整保留。"
+}

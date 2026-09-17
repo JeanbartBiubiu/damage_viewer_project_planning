@@ -1,0 +1,27 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "method": "POST",
+    "route": "/skills/akshan_r/parameters",
+    "detailRoute": "/skills/akshan_r/parameters/bullet_count",
+    "skillKey": "akshan_r",
+    "kind": "parameters",
+    "stableKey": "bullet_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bullet_count",
+      "name": "恩怨相抵最大子弹数",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 5,
+        "2": 6,
+        "3": 7
+      },
+      "description": "当前NumberOfBullets技能等级1至3为5/6/7。",
+      "sortOrder": 90
+    }
+  }
+}

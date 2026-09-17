@@ -1,0 +1,21 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "skillKey": "qiyana_e",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_e/parameters",
+    "stableKey": "dash_speed_max",
+    "body": {
+      "parameterKey": "dash_speed_max",
+      "name": "冲刺速度上界",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1200,
+      "levelValues": null,
+      "description": "当前根DashSpeedMax=1200；中间算法未证。",
+      "sortOrder": 40
+    }
+  }
+}

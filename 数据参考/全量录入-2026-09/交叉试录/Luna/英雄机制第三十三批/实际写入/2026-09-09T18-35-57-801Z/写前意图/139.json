@@ -1,0 +1,23 @@
+{
+  "i": 138,
+  "intent": {
+    "sequence": 139,
+    "method": "POST",
+    "route": "/skills/seraphine_q/parameters",
+    "detailRoute": "/skills/seraphine_q/parameters/cast_time_ms",
+    "skillKey": "seraphine_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "基础施法时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "当前清籁原始spellCastTime=0；本槽没有冲突的mCastTime字段，保留原始零值，不解释为缺省。",
+      "sortOrder": 50
+    }
+  }
+}

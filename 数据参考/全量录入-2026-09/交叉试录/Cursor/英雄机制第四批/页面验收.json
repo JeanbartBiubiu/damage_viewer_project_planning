@@ -1,0 +1,145 @@
+{
+  "checkedAt": "2026-09-08T00:51:06.475Z",
+  "passed": true,
+  "page": "http://127.0.0.1:5173/#/skills",
+  "skillKey": "diana_p",
+  "observations": [
+    "按 diana_p 查询后显示月银之刃代表图片；效果列表有常态攻速、施法后攻速和顺劈三个效果。",
+    "查看常态攻速：施法者、持续生效、到当前时点重新读取、整个实例共享数值；按来源对象、仅显式移除。",
+    "关闭常态详情再打开施法后攻速：引用 empowered_duration_ms，保留层数、刷新全部时间、一次全部到期；结果同样为施法者持续生效并动态读取。"
+  ],
+  "readbacks": [
+    {
+      "key": "passive_attack_speed",
+      "ok": true,
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:26.682733Z",
+        "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+        "effectKey": "passive_attack_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "月银之刃常态攻速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "月银之刃常态攻速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_attack_speed_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T19:23:16.739395Z"
+      }
+    },
+    {
+      "key": "cast_attack_speed",
+      "ok": true,
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:53:27.257173Z",
+        "description": null,
+        "effectKey": "cast_attack_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "empowered_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "施法后月银攻速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "临时额外攻速",
+            "resultKey": "attack_speed",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "additional_attack_speed",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T19:23:17.996122Z"
+      }
+    }
+  ],
+  "boundary": "代表配置真实页面查看及独立 GET；没有新增战斗或 Wasm 验证，维迦失败草稿另有未保存记录。"
+}

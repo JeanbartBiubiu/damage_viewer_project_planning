@@ -1,0 +1,29 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "method": "POST",
+    "route": "/skills/jarvaniv_q/parameters",
+    "detailRoute": "/skills/jarvaniv_q/parameters/armor_shred_ratio",
+    "skillKey": "jarvaniv_q",
+    "kind": "parameters",
+    "stableKey": "armor_shred_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "armor_shred_ratio",
+      "name": "巨龙撞击护甲削减比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.1,
+        "2": 0.14,
+        "3": 0.18000001,
+        "4": 0.22,
+        "5": 0.25999999
+      },
+      "description": "正文将BaseARShred乘100后显示；保存0.10至0.26比例，不把显示百分数当整数点。",
+      "sortOrder": 30
+    }
+  }
+}

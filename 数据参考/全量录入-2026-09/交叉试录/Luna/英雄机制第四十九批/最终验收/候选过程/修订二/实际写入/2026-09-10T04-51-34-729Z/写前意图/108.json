@@ -1,0 +1,69 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/formulas",
+    "detailRoute": "/skills/kled_r/formulas/maximum_magic_damage",
+    "skillKey": "kled_r",
+    "kind": "formulas",
+    "stableKey": "maximum_magic_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "maximum_magic_damage",
+      "name": "冲撞最大魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_charge_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_percent_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_percent_points"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "最大=0.03×(4/6/8+0.03×额外攻击力)×目标最大生命；括号按源百分数点读数。",
+      "sortOrder": 140
+    }
+  }
+}

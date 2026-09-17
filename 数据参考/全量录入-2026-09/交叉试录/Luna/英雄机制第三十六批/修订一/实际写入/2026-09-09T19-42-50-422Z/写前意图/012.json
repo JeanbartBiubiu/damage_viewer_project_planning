@@ -1,0 +1,23 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "method": "POST",
+    "route": "/skills/evelynn_q/parameters",
+    "detailRoute": "/skills/evelynn_q/parameters/max_recasts",
+    "skillKey": "evelynn_q",
+    "kind": "parameters",
+    "stableKey": "max_recasts",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_recasts",
+      "name": "最大重施次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文至多重施3次；不自动把三次伤害相加。",
+      "sortOrder": 50
+    }
+  }
+}

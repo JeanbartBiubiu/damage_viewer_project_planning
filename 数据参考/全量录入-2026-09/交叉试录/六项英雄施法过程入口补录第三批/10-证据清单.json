@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T13:14:35.415Z",
+  "status": "PASS",
+  "scope": "图奇Q/E、维迦E/R、沃里克W和特朗德尔W六项已有主动施法过程入口规则",
+  "frozenBatchSha256": "35a4cdce57c16b6bc12449d8a5eb44ffd854529942adcff36d7e679561cd65c7",
+  "sourceSnapshotSha256": "b2fc32c5d949a0f95c97e8b426c462bbe753a45ba4693c22bd969968c587b7d3",
+  "prepare": {
+    "getCount": 1355,
+    "statusCounts": {
+      "200": 1349,
+      "404": 6
+    },
+    "businessWrites": 0,
+    "bodyRulesSha256": "8ff1fb19efb9cf75be8a3068cc59220c8a86e118a638b1d38253295bb931b0c7",
+    "metadataRulesSha256": "99eaf9f49f1043b948742433cc06f300071bf63696a4a884151d68e9f3f7e9e6"
+  },
+  "review": {
+    "status": "APPROVED",
+    "getCount": 1355,
+    "approvedBatchSha256": "35a4cdce57c16b6bc12449d8a5eb44ffd854529942adcff36d7e679561cd65c7",
+    "approvalDecisionSha256": "31787a1b529a56728e805073362401aa849c041460727e8f1ec483c510560784",
+    "bodyRulesSha256": "8ff1fb19efb9cf75be8a3068cc59220c8a86e118a638b1d38253295bb931b0c7",
+    "metadataRulesSha256": "99eaf9f49f1043b948742433cc06f300071bf63696a4a884151d68e9f3f7e9e6",
+    "businessWrites": 0
+  },
+  "write": {
+    "businessWrites": 6,
+    "alreadyLanded": 0,
+    "recoveryMode": false,
+    "requestAudit": {
+      "requestCount": 152,
+      "methods": {
+        "GET": 146,
+        "POST": 6
+      },
+      "statuses": {
+        "200": 140,
+        "201": 6,
+        "404": 6
+      },
+      "nonGetPaths": [
+        {
+          "method": "POST",
+          "path": "/skills/twitch_q/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/twitch_e/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/veigar_e/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/veigar_r/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/warwick_w/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/trundle_w/trigger-rules"
+        }
+      ]
+    }
+  },
+  "independent": {
+    "getCount": 1355,
+    "skillCount": 1062,
+    "ruleCount": 158,
+    "sourceInitializedCount": 29,
+    "oldRulesCount": 152,
+    "oldBodyRulesSha256": "8ff1fb19efb9cf75be8a3068cc59220c8a86e118a638b1d38253295bb931b0c7",
+    "oldMetadataRulesSha256": "99eaf9f49f1043b948742433cc06f300071bf63696a4a884151d68e9f3f7e9e6",
+    "businessWrites": 0
+  },
+  "browser": {
+    "targetCount": 6,
+    "getRequests": null,
+    "nonGetRequests": 0,
+    "screenshots": 6,
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "pageErrors": 0,
+    "failedRequests": 0,
+    "businessWrites": 0
+  },
+  "files": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "e4529015b8238b06b9dde1b111dde8089d24736e3208ed6218aa5d77a2e44d72",
+      "byteSize": 1224
+    },
+    {
+      "name": "README.md",
+      "sha256": "af24779d2f2874aef41c93e8065f8f8741e750449a8cc48b511cd5ddf0beebf1",
+      "byteSize": 750
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "b2643e5ccb5705eafe17e702ac6051c9689471f18a567b94b8faa2f999b4b4df",
+      "byteSize": 6399
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "ff487e1c4b097d07a3872ce604991995317b80560cb9e7c5680f5723e09081ee",
+      "byteSize": 392
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "cc3befb58ca846adb22b584cea42027f209797d557e7abef8189dc0e24e46337",
+      "byteSize": 11487
+    },
+    {
+      "name": "03-来源散列快照.json",
+      "sha256": "b2fc32c5d949a0f95c97e8b426c462bbe753a45ba4693c22bd969968c587b7d3",
+      "byteSize": 7289
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "17a314947ae3aa7b8d3328832bf36912ce1f28303ca15d6684f71062426fce69",
+      "byteSize": 354893
+    },
+    {
+      "name": "05-只读准备报告.json",
+      "sha256": "5772d5f80ceb9deef3ad6c6c59ffdf8b37b396e0d4f6587bad3ec79951e5507b",
+      "byteSize": 857
+    },
+    {
+      "name": "05-独立写前评审.json",
+      "sha256": "b6f7ae1dac4332f7f5fcbfa5fae90eda36fb1a5256895bdfc77d0edb56bbfc40",
+      "byteSize": 1946
+    },
+    {
+      "name": "06-写入流水.jsonl",
+      "sha256": "07a1d241b4a16a52f68c93a12f2b55e3ec56e4a0f83c6229996194df3bb9cf5e",
+      "byteSize": 1222
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "0521af46206bcd3576f8bb3b28a5a83b1483ea8f2b5e829b9533c8f03ef069bc",
+      "byteSize": 4122
+    },
+    {
+      "name": "07-独立GET回读.json",
+      "sha256": "042e98429ddf8d5cd169ba60a677f7ba0d7c128ea014ebbe85a6d3d21408abad",
+      "byteSize": 210609
+    },
+    {
+      "name": "08-页面目标.json",
+      "sha256": "fe7fa0b76722a58548754eb2fca447a47e2466d8fae49c657eb2a94896079398",
+      "byteSize": 4543
+    },
+    {
+      "name": "09-页面验收.json",
+      "sha256": "0cfbeb5794669f77bb58ef55b5042550cb43065f5a46dc1e36cadc1aca1ae0a6",
+      "byteSize": 10252
+    },
+    {
+      "name": "录入体验报告.md",
+      "sha256": "6d9313659a7e8422ca9f9cf50b04910100c858fae845c5d8faeafd9c4362a9e9",
+      "byteSize": 2643
+    }
+  ],
+  "boundary": "六条过程入口、独立批准、两路完整GET回读和真实页面通过；伪装、实际命中、伤害、控制、区域增益、目标选择、Wasm组装、宿主事件及真实战斗未执行。"
+}

@@ -1,0 +1,24 @@
+{
+  "i": 224,
+  "intent": {
+    "sequence": 225,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_e/parameters",
+    "detailRoute": "/skills/locke_e/parameters/next_attack_delay_ms",
+    "skillKey": "locke_e",
+    "kind": "parameters",
+    "stableKey": "next_attack_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "next_attack_delay_ms",
+      "name": "下次攻击延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "下次攻击阶段0.1秒。",
+      "sortOrder": 50
+    }
+  }
+}

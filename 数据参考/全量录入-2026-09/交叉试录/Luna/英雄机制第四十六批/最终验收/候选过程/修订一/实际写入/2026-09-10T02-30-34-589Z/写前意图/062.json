@@ -1,0 +1,24 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_p/parameters",
+    "detailRoute": "/skills/hwei_p/parameters/actual_slow_stack_decay_ratio",
+    "skillKey": "hwei_p",
+    "kind": "parameters",
+    "stableKey": "actual_slow_stack_decay_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_slow_stack_decay_ratio",
+      "name": "当前技能减速递减有效比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "不同技能减速的递减组合规则未证，运行层提供实际有效比例，不设默认。",
+      "sortOrder": 70
+    }
+  }
+}

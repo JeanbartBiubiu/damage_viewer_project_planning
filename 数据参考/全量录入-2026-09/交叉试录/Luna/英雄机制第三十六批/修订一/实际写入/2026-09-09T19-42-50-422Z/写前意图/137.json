@@ -1,0 +1,23 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 137,
+    "method": "POST",
+    "route": "/skills/singed_q/parameters",
+    "detailRoute": "/skills/singed_q/parameters/approximate_total_multiplier",
+    "skillKey": "singed_q",
+    "kind": "parameters",
+    "stableKey": "approximate_total_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "approximate_total_multiplier",
+      "name": "大概总伤害展示倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 4.75,
+      "levelValues": null,
+      "description": "ApproximateTotalDamageTooltip根mMultiplier=4.75且标记tooltipOnly，仅作来源估计。",
+      "sortOrder": 80
+    }
+  }
+}

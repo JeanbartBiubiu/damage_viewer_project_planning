@@ -1,0 +1,30 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_q/parameters",
+    "detailRoute": "/skills/elise_q/parameters/target_current_health_percent_points",
+    "skillKey": "elise_q",
+    "kind": "parameters",
+    "stableKey": "target_current_health_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_current_health_percent_points",
+      "name": "目标当前生命伤害百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 4,
+        "2": 4,
+        "3": 4,
+        "4": 4,
+        "5": 4
+      },
+      "description": "HumanPercentHealth读取TargetHPDamage索引1至5为4百分数点；伤害目标是当前生命。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 299,
+  "intent": {
+    "sequence": 300,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_r/parameters",
+    "detailRoute": "/skills/zaahen_r/parameters/actual_eligible_damage",
+    "skillKey": "zaahen_r",
+    "kind": "parameters",
+    "stableKey": "actual_eligible_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_eligible_damage",
+      "name": "当前合资格实际伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "治疗基准折前/折后未证，运行层提供对当前敌方英雄合资格实际伤害，不设默认。",
+      "sortOrder": 90
+    }
+  }
+}

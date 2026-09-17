@@ -1,0 +1,30 @@
+{
+  "capturedAt": "2026-09-12T04:50:41.358Z",
+  "runId": "run-14f11d14-2843-4910-a6ec-9d75b7a77f96",
+  "requestId": "bfbee07a-8662-4beb-99af-f73917e13029",
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "verdict": "READY",
+  "reviewedPlanRevision": 1,
+  "blockers": [],
+  "writeAllowlistAudit": {
+    "beforeAuditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "runDeltaOutsideScopeCount": 0
+  },
+  "apiWrites": 0,
+  "review": "VERDICT: READY  \nREVIEWED_PLAN_REV: 1  \nBLOCKERS: NONE  \nNON_BLOCKING: NONE\n\n固定来源 `Gain 15% slow resist`、参数 `slow_resist_ratio = 0.15`（说明为客户端 SlowResistTooltip 15%）和属性 `slow_resist_percent`（1 表示 100%，0.25 表示 25%）已经对齐。向该属性固定加算 `0.15` 就是 15 个百分点，足以支撑这一次结果。\n\n应使用 `attribute_flat_add`，不能用 `attribute_percent_bonus`。当前 `slow_resist_percent` 本身是比例属性；`attribute_flat_add` 为 `ATTRIBUTE + FLAT_ADD + ATTRIBUTE_FLAT`，说明写明比例类属性以 1 表示 100%、增加 0.6 表示增加 60 个百分点。`attribute_percent_bonus` 为 `ATTRIBUTE + RATIO_ADD + ATTRIBUTE_PERCENT`，共享契约把该阶段的公式值解释为小数比例，0.15 会变成对已有减速抗性再乘 15%，且在现值为 0 时得不到 15 个百分点。乌迪尔 `life_steal_percent` 等同类比例属性持续增加也是 `attribute_flat_add`。\n\n冻结请求形状与当前契约一致：`ATTRIBUTE_CHANGE`、`target = SOURCE`、`INCREASE`、`PERSISTENT + APPLICATION_SNAPSHOT + SHARED + REPLACE`，父生命周期为 `SOURCE`、单层、`KEEP`、无自然到期、`EXPLICIT_ONLY`。管理端允许该组合；无持续时间时必须是 `EXPLICIT_ONLY` 且 `reapplicationDurationMode = null`。固定参数用施加快照是对的；魔切同类装备效果用当前时点读取，是因为数值随最大法力变化，不适用于这里的 0.15。\n\n当前过程、内部状态和触发规则均为空。效果与生命周期管理只保存定义，不执行计时或属性结算；没有 `SOURCE_INITIALIZED` 或 `EXECUTE_EFFECT` 时不会被误执行。方案已写明装配、卸除和跨来源组合仍待接线，与这次只保存结果定义一致。\n\n新增 `unsinkable_slow_resist` / `sortOrder = 20` 是另一次 POST，不会改写已有 `max_momentum_hit`（`sortOrder = 10`、`lifecycle = null`）。候选效果现网仍为 404。参数、公式、装备关系和代表图片均不在写入范围。排除的纳沃利、千变者、焚天、死亡之舞和狂妄不共享 `item_3742`，排除它们不会反向影响本批。\n\n独立核过的哈希与批准值一致：冻结请求 `b726d22e8c09791009408a416e3474c58c27c82df949fc168e6317ae3a40ba55`，写前现值 `d45ae718357f71af9d822bc5716feac15575b3e9e78638ab97e27763ed5c7936`，来源快照 `62c3f3c581316dbd90676be604528947cff38b48bd137d61ca579ab4c4e87464`，计划 `30d26af5aae7890d0f59bf758f6f8a0f4952c91515887ebb456cdeddf2ee3328`，完整来源 `17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4`。现网只读确认与预检一致，本评审未发业务写请求。"
+}

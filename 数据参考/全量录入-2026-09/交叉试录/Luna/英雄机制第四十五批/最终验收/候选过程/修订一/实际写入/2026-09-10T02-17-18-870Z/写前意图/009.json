@@ -1,0 +1,46 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_q/formulas",
+    "detailRoute": "/skills/teemo_q/formulas/magic_damage",
+    "skillKey": "teemo_q",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "致盲吹箭魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "CalculatedDamage=BaseDamage+APRatio×法强。",
+      "sortOrder": 10
+    }
+  }
+}

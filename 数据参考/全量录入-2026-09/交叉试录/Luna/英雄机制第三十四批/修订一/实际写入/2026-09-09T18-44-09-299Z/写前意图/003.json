@@ -1,0 +1,23 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/katarina_p/parameters",
+    "detailRoute": "/skills/katarina_p/parameters/dagger_radius",
+    "skillKey": "katarina_p",
+    "kind": "parameters",
+    "stableKey": "dagger_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dagger_radius",
+      "name": "匕首斩击范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 340,
+      "levelValues": null,
+      "description": "客户端DaggerRadius为340；仅保存当前正文载体范围。",
+      "sortOrder": 30
+    }
+  }
+}

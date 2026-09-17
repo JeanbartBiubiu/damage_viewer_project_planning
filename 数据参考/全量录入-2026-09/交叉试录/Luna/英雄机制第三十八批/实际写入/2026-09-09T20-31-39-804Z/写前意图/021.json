@@ -1,0 +1,23 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "method": "POST",
+    "route": "/skills/jarvaniv_w/parameters",
+    "detailRoute": "/skills/jarvaniv_w/parameters/slow_duration_ms",
+    "skillKey": "jarvaniv_w",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "黄金圣盾减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前Effect5Amount取索引1为2秒，转换为2000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

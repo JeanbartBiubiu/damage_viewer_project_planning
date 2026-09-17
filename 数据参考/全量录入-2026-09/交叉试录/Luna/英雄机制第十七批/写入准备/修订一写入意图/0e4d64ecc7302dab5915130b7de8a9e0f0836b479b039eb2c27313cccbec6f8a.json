@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T12:17:48.569Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/aurelionsol_q/parameters/burst_base_damage",
+  "id": "burst_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "burst_base_damage",
+    "name": "爆发基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 60,
+      "2": 70,
+      "3": 80,
+      "4": 90,
+      "5": 100
+    },
+    "description": "客户端当前根绑定 DataValues.RankBurstDamage 取索引1至5",
+    "sortOrder": 100
+  }
+}

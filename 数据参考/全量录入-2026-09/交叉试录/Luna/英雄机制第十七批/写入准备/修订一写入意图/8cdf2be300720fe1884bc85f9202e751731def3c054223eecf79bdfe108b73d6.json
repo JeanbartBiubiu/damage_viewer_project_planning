@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-09T12:14:49.670Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_q/formulas/empowered_heal",
+  "id": "empowered_heal",
+  "method": "POST",
+  "body": {
+    "formulaKey": "empowered_heal",
+    "name": "强化鲜血转换生命回复",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "empowered_heal_base"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "empowered_missing_health_base_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "empowered_missing_health_per_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "missing_health_for_empowered_heal"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "EmpoweredHealTooltip + EmpoweredHealPercent×已损失生命值；等级插值固定部分和运行输入均不设默认。",
+    "sortOrder": 40
+  }
+}

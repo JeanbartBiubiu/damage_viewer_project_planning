@@ -1,0 +1,29 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_w/parameters",
+    "detailRoute": "/skills/fiddlesticks_w/parameters/end_missing_health_percent_points",
+    "skillKey": "fiddlesticks_w",
+    "kind": "parameters",
+    "stableKey": "end_missing_health_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "end_missing_health_percent_points",
+      "name": "结束时已损生命百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 12,
+        "2": 14.5,
+        "3": 17,
+        "4": 19.5,
+        "5": 22
+      },
+      "description": "当前正文结尾消费PercentForTooltip，取索引1至5；运行时已损生命输入必须是结尾阶段实际值。",
+      "sortOrder": 50
+    }
+  }
+}

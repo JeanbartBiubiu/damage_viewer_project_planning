@@ -1,0 +1,24 @@
+{
+  "i": 192,
+  "intent": {
+    "sequence": 193,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_e/parameters",
+    "detailRoute": "/skills/smolder_e/parameters/actual_stack_count",
+    "skillKey": "smolder_e",
+    "kind": "parameters",
+    "stableKey": "actual_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_stack_count",
+      "name": "扑棱当前层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "弹数原式消费当前层数；运行层提供实际整数层数，不设默认。",
+      "sortOrder": 50
+    }
+  }
+}

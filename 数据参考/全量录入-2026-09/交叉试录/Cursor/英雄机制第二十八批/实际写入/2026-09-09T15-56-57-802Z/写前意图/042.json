@@ -1,0 +1,20 @@
+{
+  "i": 41,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/parameters",
+    "skillKey": "poppy_q",
+    "kind": "parameters",
+    "stableKey": "delay_between_hits_ms",
+    "body": {
+      "parameterKey": "delay_between_hits_ms",
+      "name": "两次伤害间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前根DataValues.DelayBetweenTwoHits为1秒，单位秒转毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/note_attack_range_bonus",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "note_attack_range_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "note_attack_range_bonus",
+      "name": "音符攻击距离加成",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 25,
+      "levelValues": null,
+      "description": "当前BonusAARange=25，点数而非百分比。",
+      "sortOrder": 40
+    }
+  }
+}

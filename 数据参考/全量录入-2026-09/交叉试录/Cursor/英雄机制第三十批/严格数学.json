@@ -1,0 +1,1678 @@
+{
+  "generatedAt": "2026-09-09T16:47:58.517Z",
+  "status": "通过",
+  "batch": "英雄机制第三十批",
+  "methodology": "独立脚本直接读取候选表达式，同时从输入包的客户端16.17原始DataValues/计算树读取源值，使用独立期望式逐公式比较；未调用业务接口。",
+  "candidateSha256": "2efb89e7a4698b77b12a438922b1f9c5353460eb711e299039ab613c3cea7e12",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "currentSnapshotSha256": "65decb352a57f467bb8d90beccf1e09d86d463688e00d501dccf2c51d54a753c",
+  "noApiCalls": true,
+  "counts": {
+    "actualFormulas": 20,
+    "formulaCases": 40,
+    "requiredFormulaCases": 40,
+    "missingInputChecks": 20,
+    "binaryNodeChecks": 65,
+    "runtimeInputChecks": 8,
+    "integerMillisecondsChecks": 19,
+    "ratioChecks": 26,
+    "boundaryChecks": 12,
+    "sourceSeriesChecks": 8,
+    "failures": 0
+  },
+  "formulaCases": [
+    {
+      "skillKey": "yasuo_p",
+      "formulaKey": "crit_chance_after_self_modifier_ratio",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 0.5,
+      "expected": 0.5,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_p",
+      "formulaKey": "crit_chance_after_self_modifier_ratio",
+      "case": "高等级/高输入",
+      "level": 1,
+      "actual": 1.6,
+      "expected": 1.6,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_p",
+      "formulaKey": "crit_overcap_bonus_attack_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 0,
+      "expected": 0,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_p",
+      "formulaKey": "crit_overcap_bonus_attack_damage",
+      "case": "高等级/高输入",
+      "level": 1,
+      "actual": 30.000000000000004,
+      "expected": 30.000000000000004,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "physical_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 104,
+      "expected": 103.99999618530273,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "physical_damage",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 393,
+      "expected": 392.9999876022339,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "critical_physical_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 167,
+      "expected": 166.99999332427979,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "critical_physical_damage",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 734.25,
+      "expected": 734.2499721050262,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_e",
+      "formulaKey": "magic_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 149,
+      "expected": 149.00000296533108,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_e",
+      "formulaKey": "magic_damage",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 190,
+      "expected": 190.00000149011612,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_e",
+      "formulaKey": "stacked_magic_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 149,
+      "expected": 149.00000296533108,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_e",
+      "formulaKey": "stacked_magic_damage",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 380,
+      "expected": 380.00000298023224,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_r",
+      "formulaKey": "physical_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 252.5,
+      "expected": 252.5,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yasuo_r",
+      "formulaKey": "physical_damage",
+      "case": "高等级/高输入",
+      "level": 3,
+      "actual": 770,
+      "expected": 770,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "second_attack_physical_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 40,
+      "expected": 40,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "second_attack_physical_damage",
+      "case": "高等级/高输入",
+      "level": 1,
+      "actual": 130,
+      "expected": 130,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "second_attack_magic_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 40,
+      "expected": 40,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "second_attack_magic_damage",
+      "case": "高等级/高输入",
+      "level": 1,
+      "actual": 130,
+      "expected": 130,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "crit_chance_after_self_modifier_ratio",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 0.5,
+      "expected": 0.5,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "crit_chance_after_self_modifier_ratio",
+      "case": "高等级/高输入",
+      "level": 1,
+      "actual": 1.6,
+      "expected": 1.6,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "crit_overcap_bonus_attack_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 0,
+      "expected": 0,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "crit_overcap_bonus_attack_damage",
+      "case": "高等级/高输入",
+      "level": 1,
+      "actual": 30.000000000000004,
+      "expected": 30.000000000000004,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_q",
+      "formulaKey": "physical_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 113,
+      "expected": 113.00000190734863,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_q",
+      "formulaKey": "physical_damage",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 411,
+      "expected": 411.00000619888306,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_q",
+      "formulaKey": "critical_physical_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 179,
+      "expected": 179.0000033378601,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_q",
+      "formulaKey": "critical_physical_damage",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 768.5,
+      "expected": 768.5000139474869,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "physical_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 77,
+      "expected": 76.99999839067459,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "physical_damage",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 277,
+      "expected": 276.99999436736107,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "magic_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 77,
+      "expected": 76.99999839067459,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "magic_damage",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 277,
+      "expected": 276.99999436736107,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "shield_value",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 67.75,
+      "expected": 67.74999916553497,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "shield_value",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 202,
+      "expected": 201.99999570846558,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "first_champion_shield_value",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 135.5,
+      "expected": 135.49999833106995,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "first_champion_shield_value",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 404,
+      "expected": 403.99999141693115,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_e",
+      "formulaKey": "return_additional_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 75,
+      "expected": 75,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_e",
+      "formulaKey": "return_additional_damage",
+      "case": "高等级/高输入",
+      "level": 5,
+      "actual": 420,
+      "expected": 419.9999928474426,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_r",
+      "formulaKey": "physical_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 114,
+      "expected": 114.00000020861626,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_r",
+      "formulaKey": "physical_damage",
+      "case": "高等级/高输入",
+      "level": 3,
+      "actual": 372,
+      "expected": 372.0000010728836,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_r",
+      "formulaKey": "magic_damage",
+      "case": "一级/低输入",
+      "level": 1,
+      "actual": 114,
+      "expected": 114.00000020861626,
+      "pass": true,
+      "error": null
+    },
+    {
+      "skillKey": "yone_r",
+      "formulaKey": "magic_damage",
+      "case": "高等级/高输入",
+      "level": 3,
+      "actual": 372,
+      "expected": 372.0000010728836,
+      "pass": true,
+      "error": null
+    }
+  ],
+  "missingInputChecks": [
+    {
+      "skillKey": "yasuo_p",
+      "formulaKey": "crit_chance_after_self_modifier_ratio",
+      "removed": "crit_chance_before_self_modifier_ratio",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:crit_chance_before_self_modifier_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_p",
+      "formulaKey": "crit_overcap_bonus_attack_damage",
+      "removed": "crit_chance_before_self_modifier_ratio",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:crit_chance_before_self_modifier_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "physical_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "critical_physical_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_e",
+      "formulaKey": "magic_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_e",
+      "formulaKey": "stacked_magic_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_r",
+      "formulaKey": "physical_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "second_attack_physical_damage",
+      "removed": "physical_damage_split_ratio",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:physical_damage_split_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "second_attack_magic_damage",
+      "removed": "magic_damage_split_ratio",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:magic_damage_split_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "crit_chance_after_self_modifier_ratio",
+      "removed": "crit_chance_before_self_modifier_ratio",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:crit_chance_before_self_modifier_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_p",
+      "formulaKey": "crit_overcap_bonus_attack_damage",
+      "removed": "crit_chance_before_self_modifier_ratio",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:crit_chance_before_self_modifier_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_q",
+      "formulaKey": "physical_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_q",
+      "formulaKey": "critical_physical_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "physical_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "magic_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "shield_value",
+      "removed": "shield_level_base_value",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:shield_level_base_value",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "first_champion_shield_value",
+      "removed": "shield_level_base_value",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:shield_level_base_value",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_e",
+      "formulaKey": "return_additional_damage",
+      "removed": "return_damage_ratio",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:return_damage_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_r",
+      "formulaKey": "physical_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "yone_r",
+      "formulaKey": "magic_damage",
+      "removed": "base_damage",
+      "expectedErrorPrefix": "MISSING_PARAMETER:",
+      "error": "MISSING_PARAMETER:base_damage",
+      "pass": true
+    }
+  ],
+  "binaryChecks": [
+    {
+      "location": "yasuo_p/crit_chance_after_self_modifier_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_p/crit_chance_after_self_modifier_ratio.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_p/crit_overcap_bonus_attack_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_p/crit_overcap_bonus_attack_damage.0",
+      "operation": "MAX",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_p/crit_overcap_bonus_attack_damage.0.0",
+      "operation": "SUBTRACT",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_p/crit_overcap_bonus_attack_damage.0.0.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_p/crit_overcap_bonus_attack_damage.0.0.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_q/physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_q/physical_damage.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_q/critical_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_q/critical_physical_damage.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_q/critical_physical_damage.1.0",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/magic_damage.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/magic_damage.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/magic_damage.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.0.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.0.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.1.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.1.0.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.1.0.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.1.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.1.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_e/stacked_magic_damage.1.1.0",
+      "operation": "MIN",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_r/physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yasuo_r/physical_damage.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_p/second_attack_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_p/second_attack_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_p/crit_chance_after_self_modifier_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_p/crit_chance_after_self_modifier_ratio.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_p/crit_overcap_bonus_attack_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_p/crit_overcap_bonus_attack_damage.0",
+      "operation": "MAX",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_p/crit_overcap_bonus_attack_damage.0.0",
+      "operation": "SUBTRACT",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_p/crit_overcap_bonus_attack_damage.0.0.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_p/crit_overcap_bonus_attack_damage.0.0.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_q/physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_q/physical_damage.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_q/critical_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_q/critical_physical_damage.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_q/critical_physical_damage.1.0",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/physical_damage.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/physical_damage.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/magic_damage.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/magic_damage.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/shield_value",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/shield_value.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/first_champion_shield_value",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/first_champion_shield_value.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/first_champion_shield_value.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/first_champion_shield_value.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/first_champion_shield_value.1.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_w/first_champion_shield_value.1.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_e/return_additional_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_r/physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_r/physical_damage.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_r/physical_damage.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_r/magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_r/magic_damage.0",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "location": "yone_r/magic_damage.0.1",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    }
+  ],
+  "runtimeInputChecks": [
+    {
+      "skillKey": "yasuo_p",
+      "parameterKey": "crit_chance_before_self_modifier_ratio",
+      "fixedValue": null,
+      "levelValues": null,
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_p",
+      "parameterKey": "shield_value",
+      "fixedValue": null,
+      "levelValues": null,
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_q",
+      "parameterKey": "actual_critical_damage_ratio",
+      "fixedValue": null,
+      "levelValues": null,
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_e",
+      "parameterKey": "current_stack_count",
+      "fixedValue": null,
+      "levelValues": null,
+      "pass": true
+    },
+    {
+      "skillKey": "yone_p",
+      "parameterKey": "crit_chance_before_self_modifier_ratio",
+      "fixedValue": null,
+      "levelValues": null,
+      "pass": true
+    },
+    {
+      "skillKey": "yone_q",
+      "parameterKey": "actual_critical_damage_ratio",
+      "fixedValue": null,
+      "levelValues": null,
+      "pass": true
+    },
+    {
+      "skillKey": "yone_w",
+      "parameterKey": "shield_level_base_value",
+      "fixedValue": null,
+      "levelValues": null,
+      "pass": true
+    },
+    {
+      "skillKey": "yone_e",
+      "parameterKey": "return_damage_stored",
+      "fixedValue": null,
+      "levelValues": null,
+      "pass": true
+    }
+  ],
+  "integerMsChecks": [
+    {
+      "skillKey": "yasuo_p",
+      "parameterKey": "shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_q",
+      "parameterKey": "stack_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_q",
+      "parameterKey": "knockup_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_q",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        125
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_w",
+      "parameterKey": "wall_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_e",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_e",
+      "parameterKey": "stack_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_e",
+      "parameterKey": "per_target_cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        10000,
+        9000,
+        8000,
+        7000,
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_r",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_r",
+      "parameterKey": "armor_penetration_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        15000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yasuo_r",
+      "parameterKey": "knockup_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yone_q",
+      "parameterKey": "stack_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yone_q",
+      "parameterKey": "knockup_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        750
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yone_q",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        350
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yone_w",
+      "parameterKey": "shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yone_w",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yone_e",
+      "parameterKey": "return_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yone_e",
+      "parameterKey": "recast_lockout_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "yone_r",
+      "parameterKey": "knockup_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        750
+      ],
+      "pass": true
+    }
+  ],
+  "ratioChecks": [
+    {
+      "skillKey": "yasuo_p",
+      "parameterKey": "crit_chance_multiplier",
+      "values": [
+        1
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yasuo_p",
+      "parameterKey": "crit_damage_modifier_ratio",
+      "values": [
+        0.95
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yasuo_p",
+      "parameterKey": "crit_chance_cap_ratio",
+      "values": [
+        1
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yasuo_p",
+      "parameterKey": "zero_ratio",
+      "values": [
+        0
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yasuo_q",
+      "parameterKey": "total_attack_damage_ratio",
+      "values": [
+        1.05
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yasuo_e",
+      "parameterKey": "bonus_attack_damage_ratio",
+      "values": [
+        0.2
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yasuo_e",
+      "parameterKey": "ability_power_ratio",
+      "values": [
+        0.6
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yasuo_e",
+      "parameterKey": "bonus_damage_per_stack_ratio",
+      "values": [
+        0.25
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yasuo_r",
+      "parameterKey": "bonus_attack_damage_ratio",
+      "values": [
+        1.5
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yasuo_r",
+      "parameterKey": "bonus_armor_penetration_ratio",
+      "values": [
+        0.6
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_p",
+      "parameterKey": "magic_damage_split_ratio",
+      "values": [
+        0.5
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_p",
+      "parameterKey": "physical_damage_split_ratio",
+      "values": [
+        0.5
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_p",
+      "parameterKey": "crit_chance_multiplier",
+      "values": [
+        1
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_p",
+      "parameterKey": "crit_damage_modifier_ratio",
+      "values": [
+        0.95
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_p",
+      "parameterKey": "crit_chance_cap_ratio",
+      "values": [
+        1
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_p",
+      "parameterKey": "zero_ratio",
+      "values": [
+        0
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_q",
+      "parameterKey": "total_attack_damage_ratio",
+      "values": [
+        1.1
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_w",
+      "parameterKey": "target_max_health_ratio",
+      "values": [
+        0.08,
+        0.09,
+        0.1,
+        0.11,
+        0.12
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_w",
+      "parameterKey": "damage_split_ratio",
+      "values": [
+        0.5
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_w",
+      "parameterKey": "shield_bonus_attack_damage_ratio",
+      "values": [
+        0.65
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_w",
+      "parameterKey": "first_champion_shield_increase_ratio",
+      "values": [
+        1
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_e",
+      "parameterKey": "movement_speed_start_ratio",
+      "values": [
+        0.1
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_e",
+      "parameterKey": "movement_speed_end_ratio",
+      "values": [
+        0.3
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_e",
+      "parameterKey": "return_damage_ratio",
+      "values": [
+        0.25,
+        0.275,
+        0.3,
+        0.325,
+        0.35
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_r",
+      "parameterKey": "bonus_attack_damage_ratio",
+      "values": [
+        0.8
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    },
+    {
+      "skillKey": "yone_r",
+      "parameterKey": "damage_split_ratio",
+      "values": [
+        0.5
+      ],
+      "pass": true,
+      "convention": "比例1代表100%"
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "name": "亚索E零层不追加",
+      "pass": true,
+      "actual": 209,
+      "expected": 209.00000296533108
+    },
+    {
+      "name": "亚索E四层封顶为两倍完整基数",
+      "pass": true,
+      "actual": 418,
+      "expected": 418.00000593066216
+    },
+    {
+      "name": "亚索E层数拒绝-1",
+      "pass": true,
+      "acceptedByLocalGuard": false
+    },
+    {
+      "name": "亚索E层数拒绝4.5",
+      "pass": true,
+      "acceptedByLocalGuard": false
+    },
+    {
+      "name": "亚索E层数拒绝5",
+      "pass": true,
+      "acceptedByLocalGuard": false
+    },
+    {
+      "name": "永恩W物理魔法合计一个完整基数",
+      "pass": true,
+      "physical": 77,
+      "magic": 77,
+      "expectedFull": 153.99999678134918
+    },
+    {
+      "name": "永恩W首个敌方英雄护盾整体翻倍",
+      "pass": true,
+      "shield": 67.75,
+      "firstChampion": 135.5,
+      "expected": 135.5
+    },
+    {
+      "name": "永恩R物理魔法合计完整基数",
+      "pass": true,
+      "physical": 114,
+      "magic": 114
+    },
+    {
+      "name": "亚索Q暴击不放大固定基础值",
+      "pass": true,
+      "normal": 393,
+      "critical": 734.25,
+      "base": 120
+    },
+    {
+      "name": "永恩Q暴击不放大固定基础值",
+      "pass": true,
+      "normal": 411,
+      "critical": 768.5,
+      "base": 125
+    },
+    {
+      "name": "亚索P低于100%无超额攻击力",
+      "pass": true,
+      "actual": 0
+    },
+    {
+      "name": "亚索P超额暴击按比例换攻击力",
+      "pass": true,
+      "actual": 30.000000000000004,
+      "expected": 30
+    }
+  ],
+  "sourceSeriesChecks": [
+    {
+      "name": "亚索Q基础伤害",
+      "actual": [
+        20,
+        45,
+        70,
+        95,
+        120
+      ],
+      "expected": [
+        20,
+        45,
+        70,
+        95,
+        120
+      ],
+      "pass": true
+    },
+    {
+      "name": "亚索E基础伤害",
+      "actual": [
+        70,
+        85,
+        100,
+        115,
+        130
+      ],
+      "expected": [
+        70,
+        85,
+        100,
+        115,
+        130
+      ],
+      "pass": true
+    },
+    {
+      "name": "亚索E每目标锁定冷却毫秒",
+      "actual": [
+        10000,
+        9000,
+        8000,
+        7000,
+        6000
+      ],
+      "expected": [
+        10000,
+        9000,
+        8000,
+        7000,
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "name": "亚索R基础伤害",
+      "actual": [
+        200,
+        350,
+        500
+      ],
+      "expected": [
+        200,
+        350,
+        500
+      ],
+      "pass": true
+    },
+    {
+      "name": "永恩Q基础伤害",
+      "actual": [
+        25,
+        50,
+        75,
+        100,
+        125
+      ],
+      "expected": [
+        25,
+        50,
+        75,
+        100,
+        125
+      ],
+      "pass": true
+    },
+    {
+      "name": "永恩W目标最大生命比例",
+      "actual": [
+        0.07999999821186066,
+        0.09000000357627869,
+        0.10000000149011612,
+        0.10999999940395355,
+        0.11999999731779099
+      ],
+      "expected": [
+        0.08,
+        0.09,
+        0.1,
+        0.11,
+        0.12
+      ],
+      "pass": true
+    },
+    {
+      "name": "永恩E返回比例",
+      "actual": [
+        0.25,
+        0.2750000059604645,
+        0.30000001192092896,
+        0.32499998807907104,
+        0.3499999940395355
+      ],
+      "expected": [
+        0.25,
+        0.275,
+        0.3,
+        0.325,
+        0.35
+      ],
+      "pass": true
+    },
+    {
+      "name": "永恩R完整伤害基数",
+      "actual": [
+        200,
+        400,
+        600
+      ],
+      "expected": [
+        200,
+        400,
+        600
+      ],
+      "pass": true
+    }
+  ],
+  "sourceTreeCheck": {
+    "yasuoPassiveAnonymousBreakpoint": true,
+    "yasuoEStackCalculation": true,
+    "yoneWUnconsumedDamageTree": true,
+    "yoneEAnonymousTree": true,
+    "unconsumedTreesNotUsedAsFormulaInputs": true
+  },
+  "failures": []
+}

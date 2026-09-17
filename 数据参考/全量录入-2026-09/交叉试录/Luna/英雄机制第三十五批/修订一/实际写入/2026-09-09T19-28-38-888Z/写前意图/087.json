@@ -1,0 +1,23 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 86,
+    "method": "POST",
+    "route": "/skills/taric_p/parameters",
+    "detailRoute": "/skills/taric_p/parameters/character_level_base_damage",
+    "skillKey": "taric_p",
+    "kind": "parameters",
+    "stableKey": "character_level_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "character_level_base_damage",
+      "name": "正气凌人角色等级基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前TotalDamage含25至93的ByCharLevelInterpolation，完整中间等级算法未证，实际等级值由运行输入提供。",
+      "sortOrder": 40
+    }
+  }
+}

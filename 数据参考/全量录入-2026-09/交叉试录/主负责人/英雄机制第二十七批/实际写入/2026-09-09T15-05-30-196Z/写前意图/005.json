@@ -1,0 +1,26 @@
+{
+  "i": 4,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_q/parameters",
+    "skillKey": "gragas_q",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "基础冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 9000,
+        "3": 8000,
+        "4": 7000,
+        "5": 6000
+      },
+      "description": "官方16.17.1与当前根索引1至5逐级一致，补齐现有缺项。",
+      "sortOrder": 20
+    }
+  }
+}

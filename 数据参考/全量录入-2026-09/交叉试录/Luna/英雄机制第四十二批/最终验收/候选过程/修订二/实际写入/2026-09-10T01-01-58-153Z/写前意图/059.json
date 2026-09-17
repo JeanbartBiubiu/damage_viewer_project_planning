@@ -1,0 +1,27 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "skillKey": "ksante_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_w/parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "辟路先锋基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 75,
+        "3": 105,
+        "4": 135,
+        "5": 165
+      },
+      "description": "BaseDamage索引1至5为45/75/105/135/165。",
+      "sortOrder": 10
+    }
+  }
+}

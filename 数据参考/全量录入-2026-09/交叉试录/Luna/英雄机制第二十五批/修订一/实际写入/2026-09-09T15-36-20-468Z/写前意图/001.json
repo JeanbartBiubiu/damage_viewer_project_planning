@@ -1,0 +1,39 @@
+{
+  "sequence": 1,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/drmundo_p/parameters",
+    "detailRoute": "/skills/drmundo_p/parameters/current_health_loss_ratio",
+    "skillKey": "drmundo_p",
+    "kind": "parameters",
+    "stableKey": "current_health_loss_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_health_loss_ratio",
+      "name": "抵抗定身时当前生命损失比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.04,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.CurrentHealthLoss；正文以 *100 显示百分数，0.04 表示4%；使用来源当前生命输入，不能默认当前生命。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 205,
+    "method": "GET",
+    "route": "/skills/drmundo_p/parameters/current_health_loss_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "current_health_loss_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:36:31.906Z"
+  }
+}

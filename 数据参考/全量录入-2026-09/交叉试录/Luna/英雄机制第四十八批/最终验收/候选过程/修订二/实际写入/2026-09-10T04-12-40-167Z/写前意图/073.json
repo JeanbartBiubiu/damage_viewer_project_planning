@@ -1,0 +1,24 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_r/parameters",
+    "detailRoute": "/skills/yorick_r/parameters/cast_range",
+    "skillKey": "yorick_r",
+    "kind": "parameters",
+    "stableKey": "cast_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_range",
+      "name": "施法距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "当前根castRange=600；室女单位链排除。",
+      "sortOrder": 30
+    }
+  }
+}

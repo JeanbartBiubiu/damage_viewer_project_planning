@@ -1,0 +1,23 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/kaisa_p/parameters",
+    "detailRoute": "/skills/kaisa_p/parameters/mode_damage_multiplier",
+    "skillKey": "kaisa_p",
+    "kind": "parameters",
+    "stableKey": "mode_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mode_damage_multiplier",
+      "name": "模式伤害乘数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前PBaseDamage和PCurrentPerStackDamage都消费该模式乘数，当前值为1。",
+      "sortOrder": 90
+    }
+  }
+}

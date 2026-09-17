@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:26:15.876Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "recommendation": "READY_FOR_INDEPENDENT_REVIEW",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "fixedVersion": "16.17.1",
+  "scope": {
+    "skillKey": "vayne_r",
+    "skillName": "终极时刻",
+    "ruleKey": "on_used",
+    "eventType": "SKILL_USED",
+    "sourceSkillKey": "vayne_r",
+    "useKind": "ACTIVE",
+    "actionEffectKeys": [
+      "bonus_attack_damage"
+    ],
+    "actionType": "START_PROCESS",
+    "processKey": "cast",
+    "actionTargetContext": "CURRENT_TARGET",
+    "actionResultTargets": {
+      "bonus_attack_damage": "SOURCE"
+    },
+    "skippedEffects": [
+      "不重复执行 mana_cost 或 cooldown；这两项属于施放过程。",
+      "不新增敌方命中、伤害或其他目标效果；本条只处理主动施放过程。",
+      "不直接 EXECUTE_EFFECT bonus_attack_damage；本条规则只启动已有 cast 过程，避免重复执行自益效果。"
+    ],
+    "deferredScope": [
+      "暗夜猎手被动的移速替换及普通移速差异可能参与 1V1 计算，本条暂缓接入。",
+      "闪避突袭相关冷却变化、隐身状态及隐身持续时间可能参与 1V1 计算，本条暂缓接入。",
+      "本人造成伤害后的击杀延长、最大持续时间和相关判定窗口可能参与 1V1 计算，本条暂缓接入。"
+    ]
+  },
+  "checks": {
+    "characterSubject": true,
+    "characterAttributes": true,
+    "characterRepresentativeImage": true,
+    "characterSkillRelation": true,
+    "skillSubject": true,
+    "skillRepresentativeImage": true,
+    "candidateAbsent": true,
+    "targetRuleBaselineEmpty": true,
+    "sourceActionEffectsPresent": true,
+    "sourceActionEffectSemantics": true,
+    "castProcessSemantics": true,
+    "requiredParametersPresent": true,
+    "allTargetListsReadable": true,
+    "allTargetDetailsReadable": true,
+    "staticRoutesReadable": true,
+    "triggerDependenciesReady": true,
+    "all": true,
+    "globalOld108Unchanged": true,
+    "globalTwoPassStable": true,
+    "sourceSemanticComplete": true,
+    "archiveChecksComplete": true,
+    "noBusinessWrite": true
+  },
+  "source": {
+    "snapshotFile": "03-来源快照.json",
+    "snapshotSha256": "ec27bfbfdf2a52c285d3f9cd397e6f8049e9cdf8d7a5501a2a61232d1635a237",
+    "candidateFileSha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+    "clientSha256": "23cf52004d1015b09532d1575c5e9dc12538956015fa570b756c6b21766af343",
+    "clientDecompressedSha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+    "officialSha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711"
+  },
+  "getSummary": {
+    "getCount": 2376,
+    "businessWrites": 0,
+    "statusCounts": {
+      "200": 2375,
+      "404": 1
+    },
+    "targetGetCount": 32,
+    "globalSkillListGetCount": 2,
+    "globalTriggerRuleListGetCount": 2125,
+    "globalTriggerRuleDetailGetCount": 216,
+    "candidateDetailGetCount": 1,
+    "catalogGetCount": 4
+  },
+  "observedCurrent": {
+    "first": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "eventTypeCounts": {
+        "DAMAGE_TAKEN": 3,
+        "BASIC_ATTACK_HIT": 10,
+        "SOURCE_INITIALIZED": 24,
+        "SKILL_HIT": 55,
+        "SPELL_SHIELD_BLOCKED": 5,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "KILL": 2,
+        "SKILL_USED": 5
+      },
+      "sourceInitializedCount": 24,
+      "detailStatus200Count": 108
+    },
+    "second": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "eventTypeCounts": {
+        "DAMAGE_TAKEN": 3,
+        "BASIC_ATTACK_HIT": 10,
+        "SOURCE_INITIALIZED": 24,
+        "SKILL_HIT": 55,
+        "SPELL_SHIELD_BLOCKED": 5,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "KILL": 2,
+        "SKILL_USED": 5
+      },
+      "sourceInitializedCount": 24,
+      "detailStatus200Count": 108
+    },
+    "oldRuleKeysSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+    "oldRuleDetailsSha256": "575932dea9b0ba7b7bf8e8fcd91afae793025ede26ffd3677dd9670d9f34dc41",
+    "targetRuleKeys": [],
+    "targetComponentKeys": {
+      "parameters": [
+        "bonus_attack_damage",
+        "base_duration_ms",
+        "night_hunter_replacement_move_speed",
+        "duration_extension_ms",
+        "damage_marker_window_ms",
+        "tumble_cooldown_reduction_ratio",
+        "tumble_invisibility_ms",
+        "ordinary_night_hunter_move_speed",
+        "cooldown_ms",
+        "one",
+        "mana_cost",
+        "current_tumble_cooldown_ms"
+      ],
+      "formulas": [
+        "night_hunter_extra_over_base",
+        "tumble_cooldown_during_final_hour"
+      ],
+      "effects": [
+        "mana_cost",
+        "bonus_attack_damage"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "targetEffectChecks": {
+      "bonus_attack_damage": {
+        "effectPresent": true,
+        "exactlyOneResult": true,
+        "resultType": true,
+        "resultTarget": true,
+        "attributeKey": true,
+        "operation": true,
+        "modifierZoneKey": true,
+        "valueParameter": true,
+        "durationParameter": true
+      }
+    },
+    "castProcessCheck": {
+      "processPresent": true,
+      "activeProcess": true,
+      "cooldownPresent": true,
+      "cooldownParameter": true,
+      "cooldownStartsAtProcessStart": true,
+      "exactEffectBindings": true,
+      "manaEffectBound": true,
+      "actionEffectsBound": true
+    }
+  },
+  "candidate": {
+    "ruleKey": "on_used",
+    "detailRoute": "/skills/vayne_r/trigger-rules/on_used",
+    "preflightStatus": 404,
+    "frozenRequestFile": "02-冻结请求.json",
+    "frozenRequestSha256": "9f38859e0302f670e90dc408e7b16358376cc3a46cf9fb1a1dcac5749dfd58c9",
+    "proposedRequest": {
+      "ruleKey": "on_used",
+      "name": "终极时刻主动使用",
+      "description": "接收 vayne_r 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却和 bonus_attack_damage，自身攻击力增益由过程执行一次。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "vayne_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动终极时刻施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "conditionalRequestBody": {
+      "ruleKey": "on_used",
+      "name": "终极时刻主动使用",
+      "description": "接收 vayne_r 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却和 bonus_attack_damage，自身攻击力增益由过程执行一次。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "vayne_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动终极时刻施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "conditionalRequestBodySha256": "0d7164e5a3abd18150a2e1098aacb87a6fba50a8f7a5df62c14bb68ae114faa8"
+  },
+  "conflicts": [],
+  "deferred": [],
+  "deferredScope": [
+    "暗夜猎手被动的移速替换及普通移速差异可能参与 1V1 计算，本条暂缓接入。",
+    "闪避突袭相关冷却变化、隐身状态及隐身持续时间可能参与 1V1 计算，本条暂缓接入。",
+    "本人造成伤害后的击杀延长、最大持续时间和相关判定窗口可能参与 1V1 计算，本条暂缓接入。"
+  ],
+  "excluded": [
+    "不重复执行 mana_cost 或 cooldown；这两项属于施放过程。",
+    "不新增敌方命中、伤害或其他目标效果；本条只处理主动施放过程。",
+    "不直接 EXECUTE_EFFECT bonus_attack_damage；本条规则只启动已有 cast 过程，避免重复执行自益效果。"
+  ]
+}

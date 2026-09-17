@@ -1,0 +1,24 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_q/formulas",
+    "detailRoute": "/skills/ivern_q/formulas/root_duration",
+    "skillKey": "ivern_q",
+    "kind": "formulas",
+    "stableKey": "root_duration",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "root_duration",
+      "name": "根深敌固禁锢持续",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "root_duration_ms"
+      },
+      "description": "RootDuration直接读取当前技能等级数组。",
+      "sortOrder": 20
+    }
+  }
+}

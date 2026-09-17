@@ -1,0 +1,24 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 110,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_r/parameters",
+    "detailRoute": "/skills/kayn_r/parameters/jump_out_distance",
+    "skillKey": "kayn_r",
+    "kind": "parameters",
+    "stableKey": "jump_out_distance",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "jump_out_distance",
+      "name": "破体位移距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 300,
+      "levelValues": null,
+      "description": "普通形态JumpOutDistance=300。",
+      "sortOrder": 50
+    }
+  }
+}

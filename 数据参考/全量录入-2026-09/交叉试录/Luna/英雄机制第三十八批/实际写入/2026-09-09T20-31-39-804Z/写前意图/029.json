@@ -1,0 +1,29 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "method": "POST",
+    "route": "/skills/jarvaniv_e/parameters",
+    "detailRoute": "/skills/jarvaniv_e/parameters/ally_attack_speed_ratio",
+    "skillKey": "jarvaniv_e",
+    "kind": "parameters",
+    "stableKey": "ally_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ally_attack_speed_ratio",
+      "name": "德邦军旗附近友军攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.22499999,
+        "3": 0.25,
+        "4": 0.27500001,
+        "5": 0.30000001
+      },
+      "description": "当前正文主动消费BaseAuraAS并乘100显示；本轮保留来源数值但不创建第三友方效果。",
+      "sortOrder": 50
+    }
+  }
+}

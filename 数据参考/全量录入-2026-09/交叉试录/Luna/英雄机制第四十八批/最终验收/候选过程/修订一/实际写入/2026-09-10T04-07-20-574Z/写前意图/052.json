@@ -1,0 +1,56 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_q/formulas",
+    "detailRoute": "/skills/yorick_q/formulas/self_heal",
+    "skillKey": "yorick_q",
+    "kind": "formulas",
+    "stableKey": "self_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_heal",
+      "name": "临终仪式自身治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "q_heal_base_actual"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "missing_health_percent_points"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_point_ratio"
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "MISSING"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "治疗=运行层提供的实际QHeal+MissingHealthRatio×0.01×自身已损生命；未知断点不猜。",
+      "sortOrder": 20
+    }
+  }
+}

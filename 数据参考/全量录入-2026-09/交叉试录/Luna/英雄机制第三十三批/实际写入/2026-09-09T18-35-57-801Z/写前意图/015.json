@@ -1,0 +1,23 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "method": "POST",
+    "route": "/skills/sona_q/parameters",
+    "detailRoute": "/skills/sona_q/parameters/melody_aura_duration_ms",
+    "skillKey": "sona_q",
+    "kind": "parameters",
+    "stableKey": "melody_aura_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "melody_aura_duration_ms",
+      "name": "英勇赞美诗乐曲持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "当前AuraDuration=3秒，转换为3000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

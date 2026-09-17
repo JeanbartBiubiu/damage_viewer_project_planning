@@ -1,0 +1,23 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 75,
+    "method": "POST",
+    "route": "/skills/rell_e/parameters",
+    "detailRoute": "/skills/rell_e/parameters/cast_time_ms",
+    "skillKey": "rell_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "全速冲锋施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根只有spellCastTime=0.25秒可用；转换为250毫秒，仅保存来源字段。",
+      "sortOrder": 60
+    }
+  }
+}

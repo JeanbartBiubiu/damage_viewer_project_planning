@@ -1,0 +1,55 @@
+{
+  "i": 151,
+  "intent": {
+    "sequence": 152,
+    "method": "POST",
+    "route": "/skills/renata_w/formulas",
+    "detailRoute": "/skills/renata_w/formulas/initial_attack_speed",
+    "skillKey": "renata_w",
+    "kind": "formulas",
+    "stableKey": "initial_attack_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_attack_speed",
+      "name": "初始攻击速度",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "stat_output_scale"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_attack_speed_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_to_percent_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应ASCalc。",
+      "sortOrder": 10
+    }
+  }
+}

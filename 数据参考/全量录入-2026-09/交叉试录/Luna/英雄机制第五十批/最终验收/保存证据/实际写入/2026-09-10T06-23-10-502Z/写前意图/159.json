@@ -1,0 +1,80 @@
+{
+  "i": 158,
+  "intent": {
+    "sequence": 159,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_p/formulas",
+    "detailRoute": "/skills/ashe_p/formulas/modified_attack_damage",
+    "skillKey": "ashe_p",
+    "kind": "formulas",
+    "stableKey": "modified_attack_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "modified_attack_damage",
+      "name": "冰霜射击既有攻击伤害展开",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_base_multiplier"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "critical_strike_chance",
+                    "attributeValueKind": "TOTAL"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_subpart_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "crit_subpart_coefficient"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "critical_strike_damage_bonus_percent",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "匿名修改树将DamageBonus乘一次SOURCE.attack_damage(TOTAL)；这里仅作既有攻击的期望展开，不生成额外普攻效果。",
+      "sortOrder": 20
+    }
+  }
+}

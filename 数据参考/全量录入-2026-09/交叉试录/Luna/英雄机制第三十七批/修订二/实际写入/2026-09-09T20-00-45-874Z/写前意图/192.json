@@ -1,0 +1,23 @@
+{
+  "i": 191,
+  "intent": {
+    "sequence": 192,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/missing_health_heal_stat_ratio",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "missing_health_heal_stat_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_health_heal_stat_ratio",
+      "name": "猩红诅咒已损生命治疗提升mStat12系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.00025,
+      "levelValues": null,
+      "description": "当前{b38f3487}为mStat12×0.00025；mStat12属性枚举未窄证。",
+      "sortOrder": 120
+    }
+  }
+}

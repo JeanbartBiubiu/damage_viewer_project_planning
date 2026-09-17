@@ -1,0 +1,46 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/formulas",
+    "detailRoute": "/skills/hwei_w/formulas/we_onhit_magic_damage",
+    "skillKey": "hwei_w",
+    "kind": "formulas",
+    "stableKey": "we_onhit_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "we_onhit_magic_damage",
+      "name": "宿墨每次额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "we_onhit_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "we_onhit_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "每次=20至60+0.15×法强。",
+      "sortOrder": 210
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { type NumericValue } from './numericValue';
 export type SkillEffectResultType =
   | 'DAMAGE'
   | 'DIRECT_HEAL'
@@ -29,7 +30,7 @@ export type SkillEffectTarget = 'SOURCE' | 'TARGET';
 export type SkillEffectSpellShieldBlockScope = 'SKILL' | 'EFFECT' | 'DAMAGE_INSTANCE' | 'RESULT';
 
 export type SkillEffectValueRule = {
-  formulaKey: string;
+  value: NumericValue;
   fixedMultiplier: number;
   fixedMinValue: number | null;
   fixedMaxValue: number | null;
@@ -51,7 +52,7 @@ export type SkillEffectHealingKind = 'ANY' | 'DIRECT' | 'VAMP';
 
 export type SkillEffectCriticalPolicy = {
   mode: SkillEffectCriticalMode;
-  multiplierFormulaKey: string | null;
+  multiplierValue: NumericValue | null;
 };
 
 /**
@@ -62,7 +63,7 @@ export type SkillEffectCriticalPolicy = {
 export type SkillEffectVampRule = {
   vampType: SkillEffectVampType;
   basisOutputKind: SkillEffectVampBasisOutputKind;
-  efficiencyFormulaKey: string;
+  efficiencyValue: NumericValue;
 };
 
 export type AttributeChangeOperation = 'INCREASE' | 'DECREASE' | 'SET';
@@ -97,14 +98,14 @@ export type SkillEffectLifecycleOperation =
   | 'REMOVE';
 
 export type SkillEffectLifecycle = {
-  durationFormulaKey: string | null;
-  maxStacksFormulaKey: string;
-  applicationStacksFormulaKey: string;
+  durationValue: NumericValue | null;
+  maxStacksValue: NumericValue;
+  applicationStacksValue: NumericValue;
   instanceScope: SkillEffectLifecycleInstanceScope;
   reapplicationStackMode: SkillEffectReapplicationStackMode;
   reapplicationDurationMode: SkillEffectReapplicationDurationMode | null;
   expiryMode: SkillEffectExpiryMode;
-  periodicIntervalFormulaKey: string | null;
+  periodicIntervalValue: NumericValue | null;
   firstPeriodicExecution: SkillEffectFirstPeriodicExecution | null;
 };
 

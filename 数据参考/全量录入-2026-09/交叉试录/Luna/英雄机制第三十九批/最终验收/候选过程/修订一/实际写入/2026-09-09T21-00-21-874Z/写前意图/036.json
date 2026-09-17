@@ -1,0 +1,24 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_r/parameters",
+    "detailRoute": "/skills/urgot_r/parameters/damage_bonus_ad_ratio",
+    "skillKey": "urgot_r",
+    "kind": "parameters",
+    "stableKey": "damage_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_bonus_ad_ratio",
+      "name": "超越死亡额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "RCalculatedDamage的mStat=2、mStatFormula=2，读取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

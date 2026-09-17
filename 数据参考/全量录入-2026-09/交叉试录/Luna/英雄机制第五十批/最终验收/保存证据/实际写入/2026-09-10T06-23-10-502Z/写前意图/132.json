@@ -1,0 +1,24 @@
+{
+  "i": 131,
+  "intent": {
+    "sequence": 132,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_e/parameters",
+    "detailRoute": "/skills/azir_e/parameters/soldier_qualification_range",
+    "skillKey": "azir_e",
+    "kind": "parameters",
+    "stableKey": "soldier_qualification_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "soldier_qualification_range",
+      "name": "已有士兵资格范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1100,
+      "levelValues": null,
+      "description": "DataValues.CastRange=1100；本体施放需要已有合资格士兵，原始字段3000不当施法距离。",
+      "sortOrder": 70
+    }
+  }
+}

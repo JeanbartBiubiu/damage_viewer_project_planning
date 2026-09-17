@@ -1,0 +1,23 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 28,
+    "method": "POST",
+    "route": "/skills/evelynn_e/parameters",
+    "detailRoute": "/skills/evelynn_e/parameters/percent_points_to_ratio",
+    "skillKey": "evelynn_e",
+    "kind": "parameters",
+    "stableKey": "percent_points_to_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_points_to_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "PercentHealth两棵树根mMultiplier=0.01；完整伤害使用百分数点×0.01。",
+      "sortOrder": 50
+    }
+  }
+}

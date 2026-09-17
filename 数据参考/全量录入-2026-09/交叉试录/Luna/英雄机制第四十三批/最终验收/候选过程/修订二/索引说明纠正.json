@@ -1,0 +1,40 @@
+{
+  "before": {
+    "candidate": "69c53a829368515f39d64b8d609efa6ed606521ef557ac0ea6d30306d722f822",
+    "plan": "6cccd5e08a409b618ab0340c23f7108e85f0995f668ae2c60c8545b2518c3610",
+    "parameter": {
+      "parameterKey": "w_zone_cooldown_ms",
+      "name": "W区域内Q冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 4000,
+        "2": 3500,
+        "3": 3000,
+        "4": 2500,
+        "5": 2000
+      },
+      "description": "当前正文展开为4/3.5/3/2.5/2秒；原始CDNewValue索引2至6，保留W区域资格待接。",
+      "sortOrder": 70
+    }
+  },
+  "after": {
+    "parameterKey": "w_zone_cooldown_ms",
+    "name": "W区域内Q冷却时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 4000,
+      "2": 3500,
+      "3": 3000,
+      "4": 2500,
+      "5": 2000
+    },
+    "description": "当前正文消费CDNewValue，按零基数组索引1至5取4/3.5/3/2.5/2秒，转换4000/3500/3000/2500/2000毫秒；保留W区域资格待接。",
+    "sortOrder": 70
+  },
+  "reason": "全级源数组核对发现说明混淆第几个元素与零基索引；候选数值本来正确，修正说明和期望侧索引，不改数值。",
+  "apiWrites": 0
+}

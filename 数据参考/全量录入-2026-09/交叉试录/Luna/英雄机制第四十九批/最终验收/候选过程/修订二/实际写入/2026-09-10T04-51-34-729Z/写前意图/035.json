@@ -1,0 +1,25 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 35,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_w/parameters",
+    "detailRoute": "/skills/gnar_w/parameters/actual_r_qualified_move_speed_ratio",
+    "skillKey": "gnar_w",
+    "kind": "parameters",
+    "stableKey": "actual_r_qualified_move_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_r_qualified_move_speed_ratio",
+      "name": "当前R等级资格后的移速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "跨槽资格和实际移速由运行层提供；未学习R使用20%，不设默认。",
+      "sortOrder": 90
+    }
+  }
+}

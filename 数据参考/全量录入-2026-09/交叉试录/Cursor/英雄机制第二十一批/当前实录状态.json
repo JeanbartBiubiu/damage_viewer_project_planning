@@ -1,0 +1,69 @@
+{
+  "at": "2026-09-09T12:52:17.011Z",
+  "status": "艾克菲兹十槽明确组成已保存与验收，历史和命中事件继续处理",
+  "skills": [
+    "ekko_p",
+    "ekko_q",
+    "ekko_w",
+    "ekko_e",
+    "ekko_r",
+    "fizz_p",
+    "fizz_q",
+    "fizz_w",
+    "fizz_e",
+    "fizz_r"
+  ],
+  "counts": {
+    "parameters": 105,
+    "formulas": 21,
+    "effects": 8,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedParameters": 15,
+  "createdParameters": 90,
+  "businessWrites": 119,
+  "candidateFileSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+  "writePlanSha256": "425d870edf2d5e40eb2e794f39185696a9eeb9975d683b407ce551f512d5bc25",
+  "execution": {
+    "file": "实际写入-2026-09-09T12-36-06.438Z.json",
+    "GETs": 341,
+    "successfulPOSTs": 119,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "独立回读-2026-09-09T12-38-30.336Z.json",
+    "GETs": 237,
+    "details": 134,
+    "formulaCount": 21,
+    "formulaCases": 42,
+    "missingInputRejections": 25,
+    "boundaries": 11,
+    "checks": 78,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 3,
+    "GETs": 15,
+    "mathCases": 10,
+    "passed": true
+  },
+  "cursor": {
+    "runId": "run-e11c92c8-b78a-48a0-bdaa-ac28103f9e71",
+    "agentId": "agent-95789e03-196e-440c-942d-8bcee1a555bf",
+    "status": "ECONNRESET中断，未finished；主负责人检查已落地脚本并接手",
+    "audit": "Cursor失败与接手审计.json",
+    "rawArtifact": "Cursor原始产物/生成候选与核算.mjs",
+    "rootCandidate": "最终候选.json"
+  },
+  "pending": [
+    "艾克P等级曲线、W命中资格与护盾持续、R历史输入的采样和回溯事件尚未接线。",
+    "菲兹P应用减免的时点与抗性先后、W普攻/击杀返还、E提前再施放与R距离分支及控制事件待接。",
+    "同名mana_cost在参数和效果分属不同类型，重复保护以技能/类型/稳定标识为单位。"
+  ],
+  "runtimeValidation": "未执行"
+}

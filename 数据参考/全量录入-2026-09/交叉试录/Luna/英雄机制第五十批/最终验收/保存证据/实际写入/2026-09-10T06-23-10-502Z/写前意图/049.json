@@ -1,0 +1,72 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/effects",
+    "detailRoute": "/skills/udyr_q/effects/empowered_attack_speed",
+    "skillKey": "udyr_q",
+    "kind": "effects",
+    "stableKey": "empowered_attack_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "empowered_attack_speed",
+      "name": "狂暴爪击觉醒攻击速度",
+      "description": "觉醒攻速为完整替代段，不与普通攻击速度比例相加。",
+      "sortOrder": 50,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "empowered_attack_speed_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "狂暴爪击觉醒攻击速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只记录属性变化，触发条件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "empowered_total_attack_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

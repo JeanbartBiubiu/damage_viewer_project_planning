@@ -1,0 +1,45 @@
+{
+  "at": "2026-09-10T04:51:21.775Z",
+  "approved": true,
+  "candidateSha256": "c152b366b347711a14e22f567552d018ba1f38ab9e356f831a8a35bc1be3fd01",
+  "planSha256": "903e982b866f972873ebca3db81dda24206993a652380a97348cafa4af0b5520",
+  "writerSha256": "b5a2d46375685a88f99b73dac83073c9a04cc605574ec55ad24013179192d40f",
+  "created": 190,
+  "reused": 14,
+  "expectedGETs": 1160,
+  "checks": {
+    "fixed": 106,
+    "arrays": 29,
+    "arrayValues": 123,
+    "ms": 36,
+    "nativeFiniteValues": 229,
+    "integerParams": 85,
+    "integerValues": 133,
+    "changedSkills": [
+      "gnar_q",
+      "gnar_r",
+      "gnar_w",
+      "kled_r",
+      "quinn_p",
+      "quinn_q",
+      "quinn_r"
+    ],
+    "allFormulaNodeWhitelist": true
+  },
+  "sourceReview": [
+    "全部20槽固定来源已核对，修订差异限7技能；排除与待接文字另外核对",
+    "GnarW未学R20%，R1/2/3为40/60/80%；R只保留小型W跨槽资格",
+    "KledR倍率0.01/0.03已经将百分数点转比例，不再额外乘0.01；三等级12场景独立来源对照",
+    "GnarQ1200/QuinnQ1550为速度，不作飞弹范围；QuinnP4000纯显形排除",
+    "QuinnR受伤移除加速3000ms与自身冷却分开；RekSaiW旧4000ms保护",
+    "KledR实际请求仅用ATTRIBUTE节点；资料核对用SOURCE_ATTRIBUTE不得写入接口",
+    "30公式60场景、10缺值拒绝、154二元运算、70公式属性引用11效果属性引用与11字典键通过",
+    "Cursor79只读工具24固定输入Git零变化"
+  ],
+  "pending": [
+    "小型/骑乘/地表保留范围内事件、跨R资格和未知曲线无默认运行输入；不猜完整变形链",
+    "克烈R护盾寿命及距离增长、纳尔衰减移速、雷克塞强化替代命中等事件尚未接线",
+    "上述保存及数学检查不表示运行时伤害或法术护盾等战斗行为通过"
+  ],
+  "apiWrites": 0
+}

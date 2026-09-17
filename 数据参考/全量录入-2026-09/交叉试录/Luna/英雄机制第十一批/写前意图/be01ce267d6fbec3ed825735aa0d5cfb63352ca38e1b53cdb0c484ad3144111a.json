@@ -1,0 +1,29 @@
+{
+  "at": "2026-09-09T04:54:43.936Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_e/formulas/second_attack_damage",
+  "id": "second_attack_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "second_attack_damage",
+    "name": "夺命连刺第二次攻击总攻击力伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "second_attack_total_ad_ratio"
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "attack_damage",
+          "attributeValueKind": "TOTAL"
+        }
+      ]
+    },
+    "description": "AttackTwoPercentTAD×总攻击力；第二次攻击必定暴击的资格留为事件条件。",
+    "sortOrder": 20
+  }
+}

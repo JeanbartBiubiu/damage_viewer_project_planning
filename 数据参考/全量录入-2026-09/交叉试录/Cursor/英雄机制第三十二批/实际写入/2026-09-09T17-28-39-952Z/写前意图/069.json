@@ -1,0 +1,67 @@
+{
+  "i": 68,
+  "intent": {
+    "sequence": 69,
+    "method": "POST",
+    "route": "/skills/kaisa_q/formulas",
+    "detailRoute": "/skills/kaisa_q/formulas/individual_missile_damage",
+    "skillKey": "kaisa_q",
+    "kind": "formulas",
+    "stableKey": "individual_missile_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "individual_missile_damage",
+      "name": "艾卡西亚暴雨单发物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前单发树=基础值+0.55×额外攻击力+0.2×法强。",
+      "sortOrder": 10
+    }
+  }
+}

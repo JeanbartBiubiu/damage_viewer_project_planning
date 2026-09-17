@@ -1,0 +1,617 @@
+{
+  "at": "2026-09-09T09:22:20.131Z",
+  "status": "READY_FOR_GUARDED_WRITE_SCRIPT",
+  "finalCandidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "planSha256": "eefb4349d27c7ac42b3192eac33981551b5dfeebe2fbdb4957f1948feeed3991",
+  "approvedChanges": [
+    {
+      "skill": "viktor_q",
+      "kind": "parameters",
+      "key": "buff_duration_ms",
+      "type": "change",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "after": {
+        "parameterKey": "buff_duration_ms",
+        "name": "护盾与强化移速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5；仅对应正文护盾与进化后强化移速持续时间。强化后续普攻另有独立4秒资格窗口，不共用此时长。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "skill": "viktor_q",
+      "kind": "parameters",
+      "key": "shield_mana_ratio",
+      "type": "remove",
+      "fields": [
+        "parameterKey",
+        "name",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "description",
+        "sortOrder"
+      ]
+    },
+    {
+      "skill": "viktor_q",
+      "kind": "parameters",
+      "key": "next_attack_window_ms",
+      "type": "add",
+      "fields": [
+        "parameterKey",
+        "name",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "description",
+        "sortOrder"
+      ],
+      "after": {
+        "parameterKey": "next_attack_window_ms",
+        "name": "强化后续普攻资格窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "官方当前正文明确“在4秒内的下一次攻击”；这是独立资格窗口，不并入护盾与强化移速持续时间，也不创建默认触发。",
+        "sortOrder": 65
+      }
+    },
+    {
+      "skill": "viktor_q",
+      "kind": "formulas",
+      "key": "next_attack_total_ad",
+      "type": "remove",
+      "fields": [
+        "formulaKey",
+        "name",
+        "expression",
+        "description",
+        "sortOrder"
+      ]
+    },
+    {
+      "skill": "viktor_q",
+      "kind": "effects",
+      "key": "shield",
+      "type": "change",
+      "fields": [
+        "description"
+      ],
+      "after": {
+        "effectKey": "shield",
+        "name": "虹吸能量自身护盾",
+        "description": "仅普通Q命中分支；与进化Q强化护盾互斥。护盾数值和实际命中/取样时点未接线，不表示无条件自动应用。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "虹吸能量自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_amount"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skill": "viktor_q",
+      "kind": "effects",
+      "key": "augmented_shield",
+      "type": "change",
+      "fields": [
+        "description"
+      ],
+      "after": {
+        "effectKey": "augmented_shield",
+        "name": "虹吸能量强化自身护盾",
+        "description": "仅进化Q命中分支；与普通Q护盾互斥。强化资格和实际命中/取样时点未接线，不表示无条件自动应用。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "虹吸能量强化自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "augmented_shield_amount"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skill": "viktor_q",
+      "kind": "effects",
+      "key": "augment_move_speed",
+      "type": "change",
+      "fields": [
+        "description"
+      ],
+      "after": {
+        "effectKey": "augment_move_speed",
+        "name": "虹吸能量强化移速",
+        "description": "仅进化Q分支的自身收益；不适用于普通Q。进化资格、实际触发和提前结束未接线，不表示无条件自动应用。",
+        "sortOrder": 40,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "虹吸能量强化移速",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "augment_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skill": "viktor_w",
+      "kind": "parameters",
+      "key": "stun_residence_duration_ms",
+      "type": "add",
+      "fields": [
+        "parameterKey",
+        "name",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "description",
+        "sortOrder"
+      ],
+      "after": {
+        "parameterKey": "stun_residence_duration_ms",
+        "name": "眩晕所需驻留时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "官方当前正文明确敌人在范围内驻留1.25秒后才会眩晕；独立保存为条件字段，不由层数节拍与层数相乘推导。实际停留判定和事件顺序未接线。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "skill": "viktor_r",
+      "kind": "parameters",
+      "key": "enhanced_slow_ratio",
+      "type": "remove",
+      "fields": [
+        "parameterKey",
+        "name",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "description",
+        "sortOrder"
+      ]
+    },
+    {
+      "skill": "viktor_r",
+      "kind": "parameters",
+      "key": "enhanced_slow_duration_ms",
+      "type": "remove",
+      "fields": [
+        "parameterKey",
+        "name",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "description",
+        "sortOrder"
+      ]
+    },
+    {
+      "skill": "orianna_q",
+      "kind": "parameters",
+      "key": "reduced_damage_ratio",
+      "type": "change",
+      "fields": [
+        "name",
+        "fixedValue",
+        "description"
+      ],
+      "after": {
+        "parameterKey": "reduced_damage_ratio",
+        "name": "后续目标伤害减少幅度",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ReducedDamagePercent 取索引1至5；源字段表示减少百分数，候选保存正的0.3减少幅度，不使用负号。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "skill": "orianna_w",
+      "kind": "parameters",
+      "key": "self_haste_ratio",
+      "type": "change",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "after": {
+        "parameterKey": "self_haste_ratio",
+        "name": "合资格友方英雄加速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "description": "客户端当前根绑定 DataValues.HasteAmount 取索引1至5；当前仅保存合资格友方英雄加速比例，自身目标资格未证，实际目标判定待补，不默认作用于自身。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "skill": "syndra_p",
+      "kind": "formulas",
+      "key": "stacks_per_proc",
+      "type": "remove",
+      "fields": [
+        "formulaKey",
+        "name",
+        "expression",
+        "description",
+        "sortOrder"
+      ]
+    },
+    {
+      "skill": "syndra_p",
+      "kind": "formulas",
+      "key": "mana_per_proc",
+      "type": "remove",
+      "fields": [
+        "formulaKey",
+        "name",
+        "expression",
+        "description",
+        "sortOrder"
+      ]
+    },
+    {
+      "skill": "syndra_q",
+      "kind": "parameters",
+      "key": "q_upgrade2_max_ammo",
+      "type": "remove",
+      "fields": [
+        "parameterKey",
+        "name",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "description",
+        "sortOrder"
+      ]
+    },
+    {
+      "skill": "syndra_w",
+      "kind": "formulas",
+      "key": "slow_amount",
+      "type": "remove",
+      "fields": [
+        "formulaKey",
+        "name",
+        "expression",
+        "description",
+        "sortOrder"
+      ]
+    },
+    {
+      "skill": "taliyah_p",
+      "kind": "formulas",
+      "key": "wall_move_speed_ratio",
+      "type": "remove",
+      "fields": [
+        "formulaKey",
+        "name",
+        "expression",
+        "description",
+        "sortOrder"
+      ]
+    },
+    {
+      "skill": "taliyah_q",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "type": "change",
+      "fields": [
+        "levelValues",
+        "description"
+      ],
+      "after": {
+        "parameterKey": "slow_ratio",
+        "name": "工作地面大石块减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；源值已经是比例，当前正文绑定 @SlowPercent*100@%，不再乘0.01。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "skill": "taliyah_q",
+      "kind": "parameters",
+      "key": "worked_ground_mana_cost",
+      "type": "change",
+      "fields": [
+        "name",
+        "description"
+      ],
+      "after": {
+        "parameterKey": "worked_ground_mana_cost",
+        "name": "掘石场分支法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BigRockManaCost 取索引1至5；正文仅在【掘石场】分支使用10法力，这是该分支的唯一法力消耗，不与普通石穿基础法力消耗相加。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "skill": "taliyah_q",
+      "kind": "effects",
+      "key": "mana_cost",
+      "type": "change",
+      "fields": [
+        "name",
+        "description",
+        "results"
+      ],
+      "after": {
+        "effectKey": "mana_cost",
+        "name": "普通石穿分支法力消耗",
+        "description": "仅普通石穿五石分支适用；与掘石场分支法力消耗互斥，不与10法力相加。实际分支判定和扣除时点未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "普通分支消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "普通石穿分支；与掘石场分支互斥。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skill": "taliyah_q",
+      "kind": "effects",
+      "key": "worked_ground_mana_cost",
+      "type": "change",
+      "fields": [
+        "name",
+        "description",
+        "results"
+      ],
+      "after": {
+        "effectKey": "worked_ground_mana_cost",
+        "name": "掘石场分支法力消耗",
+        "description": "仅【掘石场】大石块分支适用；与普通石穿分支基础法力消耗互斥，不叠加。实际工作地面状态和扣除时点未接线。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume",
+            "name": "掘石场分支消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "掘石场分支唯一法力消耗10；与普通分支互斥。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "worked_ground_mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skill": "taliyah_e",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "type": "change",
+      "fields": [
+        "fixedValue",
+        "description"
+      ],
+      "after": {
+        "parameterKey": "slow_ratio",
+        "name": "撒石阵减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；源值已经是比例，当前正文绑定 @SlowPercent*100@%，不再乘0.01。",
+        "sortOrder": 90
+      }
+    }
+  ],
+  "counts": {
+    "parameters": 168,
+    "formulas": 31,
+    "effects": 20
+  },
+  "reusedPublicParameters": 28,
+  "newRequests": 191,
+  "referenceChecks": 102,
+  "businessWrites": 0,
+  "note": "主负责人直接对比全部组件载荷，仅22项批准变更。其余原候选组件不变；28复用参数全字段不变；所有191请求精确对应。继续写入前实际保护、独立回读、数学及页面验收。"
+}

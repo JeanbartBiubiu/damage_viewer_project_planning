@@ -1,0 +1,30 @@
+{
+  "i": 282,
+  "intent": {
+    "sequence": 283,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_e/parameters",
+    "detailRoute": "/skills/zaahen_e/parameters/outer_target_max_health_ratio",
+    "skillKey": "zaahen_e",
+    "kind": "parameters",
+    "stableKey": "outer_target_max_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "outer_target_max_health_ratio",
+      "name": "外圈目标最大生命魔法伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.039999999,
+        "2": 0.045000002,
+        "3": 0.050000001,
+        "4": 0.055,
+        "5": 0.059999999
+      },
+      "description": "外圈另加目标最大生命4/4.5/5/5.5/6%，比例单位。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/storm_damage_ap_ratio",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "storm_damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "storm_damage_ap_ratio",
+      "name": "风暴伤害法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.349999994,
+      "levelValues": null,
+      "description": "StormDamage第二分支mCoefficient=0.35×法强。",
+      "sortOrder": 60
+    }
+  }
+}

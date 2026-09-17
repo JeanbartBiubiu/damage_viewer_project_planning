@@ -1,0 +1,29 @@
+{
+  "i": 112,
+  "intent": {
+    "sequence": 113,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_e/parameters",
+    "detailRoute": "/skills/fiddlesticks_e/parameters/slow_ratio",
+    "skillKey": "fiddlesticks_e",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "夜割减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.35,
+        "3": 0.4,
+        "4": 0.45,
+        "5": 0.5
+      },
+      "description": "客户端SlowAmount原值为-0.30至-0.50，正文按负号×100显示正减速；保存正比例并记录转换。",
+      "sortOrder": 30
+    }
+  }
+}

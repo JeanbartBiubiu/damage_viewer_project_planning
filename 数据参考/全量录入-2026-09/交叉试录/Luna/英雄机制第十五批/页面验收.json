@@ -1,0 +1,1122 @@
+{
+  "at": "2026-09-09T10:10:59.915Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browser": "真实Codex内置浏览器已有标签2",
+  "representativeSkills": [
+    "taliyah_q",
+    "viktor_q",
+    "orianna_q",
+    "syndra_w"
+  ],
+  "observations": [
+    {
+      "skillKey": "taliyah_q",
+      "observed": "参数页面五级比例0.2/0.25/0.3/0.35/0.4；掘石场消耗10。效果详情明确该消耗与普通Q基础消耗互斥、不叠加，实际状态未接。"
+    },
+    {
+      "skillKey": "viktor_q",
+      "observed": "护盾与强化移速持续2500毫秒，强化后续普攻资格窗口4000毫秒分别可见；公式列表仅法球伤害、后续攻击、基础盾、强化盾，无总攻击力直通公式。"
+    },
+    {
+      "skillKey": "orianna_q",
+      "observed": "后续目标伤害减少幅度显示正0.3。"
+    },
+    {
+      "skillKey": "syndra_w",
+      "observed": "减速比例直接为0.25；公式列表是投掷伤害、升级W额外伤害及升级额外比例，无减速直通换算公式。"
+    }
+  ],
+  "GETs": 18,
+  "apiWrites": 0,
+  "passed": true,
+  "requests": [
+    {
+      "route": "/skills/taliyah_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:33.9541Z",
+        "description": "塔莉垭朝目标方向扔出一串岩石，同时自身可自由移动。这个技能会在她脚下生成【掘石场】。如果塔莉垭在【掘石场】上使用【Q石穿】，她将消耗掉【掘石场】来投掷一颗更强大的岩石来减速敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "塔莉垭·石穿",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "taliyah_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:33.9541Z"
+      }
+    },
+    {
+      "route": "/skills/taliyah_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_taliyah_q",
+          "name": "taliyah_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/taliyah_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:56:34.123439Z",
+          "description": "客户端当前根绑定 DataValues.WorkedGroundCDR 取索引1至5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "工作地面冷却缩短比例",
+          "parameterKey": "worked_ground_cooldown_ratio",
+          "skillKey": "taliyah_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T09:56:34.123439Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:35.199826Z",
+          "description": "客户端当前根绑定 DataValues.MinimumWorkedGroundCD 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "工作地面冷却下限（毫秒）",
+          "parameterKey": "minimum_worked_ground_cooldown_ms",
+          "skillKey": "taliyah_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:56:35.199826Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:36.208329Z",
+          "description": "客户端当前根绑定 DataValues.BigRockDamageMult 取索引1至5。",
+          "fixedValue": 1.8,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "工作地面大石块伤害倍数",
+          "parameterKey": "big_rock_damage_multiplier",
+          "skillKey": "taliyah_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T09:56:36.208329Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:37.194949Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 55,
+            "2": 72.5,
+            "3": 90,
+            "4": 107.5,
+            "5": 125
+          },
+          "name": "石块基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "taliyah_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T09:56:37.194949Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:38.278808Z",
+          "description": "客户端当前根绑定 DataValues.ExtraMissileReducedDamagePercent 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 0.6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "后续石块伤害减少比例",
+          "parameterKey": "subsequent_rock_reduction_ratio",
+          "skillKey": "taliyah_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T09:56:38.278808Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:39.292319Z",
+          "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；源值已经是比例，当前正文绑定 @SlowPercent*100@%，不再乘0.01。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.25,
+            "3": 0.3,
+            "4": 0.35,
+            "5": 0.4
+          },
+          "name": "工作地面大石块减速比例",
+          "parameterKey": "slow_ratio",
+          "skillKey": "taliyah_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T09:56:39.292319Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:40.286978Z",
+          "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "工作地面减速持续时间（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "taliyah_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T09:56:40.286978Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:46.321851Z",
+          "description": "DDragon16.17.1 Taliyah.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 6000,
+            "3": 5000,
+            "4": 4000,
+            "5": 3000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "taliyah_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:46.321851Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:41.285833Z",
+          "description": "客户端当前根绑定 DataValues.GroundExhaustDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 30000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "工作地面持续时间（毫秒）",
+          "parameterKey": "worked_ground_duration_ms",
+          "skillKey": "taliyah_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T09:56:41.285833Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:46.773737Z",
+          "description": "DDragon16.17.1 Taliyah.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 55,
+            "2": 60,
+            "3": 65,
+            "4": 70,
+            "5": 75
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "taliyah_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:46.773737Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:42.337094Z",
+          "description": "客户端当前根绑定 DataValues.BigRockManaCost 取索引1至5；正文仅在【掘石场】分支使用10法力，这是该分支的唯一法力消耗，不与普通石穿基础法力消耗相加。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "掘石场分支法力消耗",
+          "parameterKey": "worked_ground_mana_cost",
+          "skillKey": "taliyah_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T09:56:42.337094Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:43.380236Z",
+          "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法强系数",
+          "parameterKey": "ap_ratio",
+          "skillKey": "taliyah_q",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T09:56:43.380236Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:44.492813Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 2.6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最多石块合计伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "taliyah_q",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T09:56:44.492813Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/taliyah_q/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:56:45.502146Z",
+          "description": "当前树基础伤害+法强；后续石块对同一目标的折减保留为待接分支。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "rock_damage",
+          "gameId": "lol",
+          "name": "石穿单发魔法伤害",
+          "skillKey": "taliyah_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T09:56:45.502146Z"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:46.609534Z",
+          "description": "当前树基础单发伤害乘1.8；工作地面条件待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "big_rock_damage",
+          "gameId": "lol",
+          "name": "工作地面大石块魔法伤害",
+          "skillKey": "taliyah_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T09:56:46.609534Z"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:47.684327Z",
+          "description": "当前tooltipOnly公式为单发伤害乘2.6，只作为源算术上限，不把五发总伤或命中资格写成默认结果。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "max_rock_damage",
+          "gameId": "lol",
+          "name": "最多石块合计伤害",
+          "skillKey": "taliyah_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T09:56:47.684327Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/viktor_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:01.656566Z",
+        "description": "维克托引爆一个敌方单位，造成魔法伤害，同时获得一道护盾，并强化自己的下次普通攻击。<br><br>增强：虹吸能量的护盾提升60%，并且维克托在施放这个技能后获得额外移动速度加成。<br>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "维克托·虹吸能量",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "viktor_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:01.656566Z"
+      }
+    },
+    {
+      "route": "/skills/viktor_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viktor_q",
+          "name": "viktor_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/viktor_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:53:45.680985Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "viktor_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T09:53:45.680985Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:46.705271Z",
+          "description": "客户端当前根绑定 DataValues.MissileDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 75,
+            "3": 90,
+            "4": 105,
+            "5": 120
+          },
+          "name": "法球基础魔法伤害",
+          "parameterKey": "missile_base_damage",
+          "skillKey": "viktor_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:53:46.705271Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:47.782109Z",
+          "description": "客户端当前根绑定 DataValues.AABonusDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 45,
+            "3": 70,
+            "4": 95,
+            "5": 120
+          },
+          "name": "强化后续普攻基础伤害",
+          "parameterKey": "next_attack_base_damage",
+          "skillKey": "viktor_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T09:53:47.782109Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:48.89855Z",
+          "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5；仅对应正文护盾与进化后强化移速持续时间。强化后续普攻另有独立4秒资格窗口，不共用此时长。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾与强化移速持续时间（毫秒）",
+          "parameterKey": "buff_duration_ms",
+          "skillKey": "viktor_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T09:53:48.89855Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:58.305714Z",
+          "description": "官方当前正文明确“在4秒内的下一次攻击”；这是独立资格窗口，不并入护盾与强化移速持续时间，也不创建默认触发。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化后续普攻资格窗口（毫秒）",
+          "parameterKey": "next_attack_window_ms",
+          "skillKey": "viktor_q",
+          "sortOrder": 65,
+          "updatedAt": "2026-09-09T09:53:58.305714Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:50.009122Z",
+          "description": "客户端当前根绑定 DataValues.MissileAPRatio 取索引1至5。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法球法强系数",
+          "parameterKey": "missile_ap_ratio",
+          "skillKey": "viktor_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T09:53:50.009122Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:51.12613Z",
+          "description": "客户端当前根绑定 DataValues.HitAPRatio 取索引1至5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化后续普攻法强系数",
+          "parameterKey": "next_attack_ap_ratio",
+          "skillKey": "viktor_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T09:53:51.12613Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:47.179406Z",
+          "description": "DDragon16.17.1 Viktor.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8000,
+            "3": 7000,
+            "4": 6000,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "viktor_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:47.179406Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:52.241842Z",
+          "description": "客户端当前根绑定 DataValues.ShieldAPRatio 取索引1至5。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾法强系数",
+          "parameterKey": "shield_ap_ratio",
+          "skillKey": "viktor_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T09:53:52.241842Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:47.676743Z",
+          "description": "DDragon16.17.1 Viktor.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 45,
+            "2": 50,
+            "3": 55,
+            "4": 60,
+            "5": 65
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "viktor_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:47.676743Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:53.327774Z",
+          "description": "客户端当前根绑定 DataValues.AugmentShieldBonus 取索引1至5。",
+          "fixedValue": 1.6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化护盾倍数",
+          "parameterKey": "augmented_shield_multiplier",
+          "skillKey": "viktor_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T09:53:53.327774Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:54.927213Z",
+          "description": "客户端当前根绑定 DataValues.AugmentMoveSpeedBonus 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化移速加成比例",
+          "parameterKey": "augment_move_speed_ratio",
+          "skillKey": "viktor_q",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T09:53:54.927213Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:55.991016Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化后续普攻伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "viktor_q",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T09:53:55.991016Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:53:57.16274Z",
+          "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础护盾数值的实际等级项",
+          "parameterKey": "shield_amount_level_value",
+          "skillKey": "viktor_q",
+          "sortOrder": 140,
+          "updatedAt": "2026-09-09T09:53:57.16274Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/viktor_q/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:53:59.451726Z",
+          "description": "实际命中敌方英雄的法球伤害；后续普攻与护盾分开。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "missile_damage",
+          "gameId": "lol",
+          "name": "法球魔法伤害",
+          "skillKey": "viktor_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T09:53:59.451726Z"
+        },
+        {
+          "createdAt": "2026-09-09T09:54:00.552778Z",
+          "description": "当前树为基础伤害+法强项+总AD；实际普攻资格待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "next_attack_damage",
+          "gameId": "lol",
+          "name": "强化后续普攻伤害",
+          "skillKey": "viktor_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T09:54:00.552778Z"
+        },
+        {
+          "createdAt": "2026-09-09T09:54:01.788595Z",
+          "description": "角色等级插值基础项+护盾法强系数；实际等级值外供，不按端点猜线性。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "shield_amount",
+          "gameId": "lol",
+          "name": "基础护盾数值",
+          "skillKey": "viktor_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:54:01.788595Z"
+        },
+        {
+          "createdAt": "2026-09-09T09:54:03.018774Z",
+          "description": "基础护盾乘当前强化护盾倍数1.6；强化触发条件待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "augmented_shield_amount",
+          "gameId": "lol",
+          "name": "强化护盾数值",
+          "skillKey": "viktor_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T09:54:03.018774Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/orianna_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:45.279411Z",
+        "description": "奥莉安娜指挥她的魔偶，朝目标区域发射，对沿途目标造成魔法伤害（对后续目标伤害递减）。指令结束后魔偶会停在目标区域。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥莉安娜·指令：攻击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "orianna_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:45.279411Z"
+      }
+    },
+    {
+      "route": "/skills/orianna_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_orianna_q",
+          "name": "orianna_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/orianna_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:54:53.678852Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "orianna_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T09:54:53.678852Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:54:54.846699Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 90,
+            "3": 120,
+            "4": 150,
+            "5": 180
+          },
+          "name": "球路径基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "orianna_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:54:54.846699Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:54:56.000705Z",
+          "description": "客户端当前根绑定 DataValues.ReducedDamagePercent 取索引1至5；源字段表示减少百分数，候选保存正的0.3减少幅度，不使用负号。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "后续目标伤害减少幅度",
+          "parameterKey": "reduced_damage_ratio",
+          "skillKey": "orianna_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T09:54:56.000705Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:54:57.155639Z",
+          "description": "客户端当前根绑定 DataValues.MinimumDamagePercent 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "后续目标最低伤害比例",
+          "parameterKey": "minimum_damage_ratio",
+          "skillKey": "orianna_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T09:54:57.155639Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:54:58.167958Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.55,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "指令：攻击魔法伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "orianna_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T09:54:58.167958Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:54:59.609974Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "指令：攻击最低魔法伤害固定系数",
+          "parameterKey": "calculation_constant_2",
+          "skillKey": "orianna_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T09:54:59.609974Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:53.673743Z",
+          "description": "DDragon16.17.1 Orianna.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 6000,
+            "3": 5000,
+            "4": 4000,
+            "5": 3000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "orianna_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:53.673743Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:54.003245Z",
+          "description": "DDragon16.17.1 Orianna.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 35,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "orianna_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:54.003245Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/orianna_q/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:55:00.70842Z",
+          "description": "球沿路径对当前敌方目标的伤害；同一目标单次取值保留。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "指令：攻击魔法伤害",
+          "skillKey": "orianna_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T09:55:00.70842Z"
+        },
+        {
+          "createdAt": "2026-09-09T09:55:01.813422Z",
+          "description": "当前树明确最低伤害比例；路径目标次序和衰减触发待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "minimum_damage",
+          "gameId": "lol",
+          "name": "指令：攻击最低魔法伤害",
+          "skillKey": "orianna_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T09:55:01.813422Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/syndra_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:31.487387Z",
+        "description": "辛德拉抓取并投掷一名敌方小兵或者暗黑法球，来对敌人造成魔法伤害，并减少他们的移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "辛德拉·驱使念力",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "syndra_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:31.487387Z"
+      }
+    },
+    {
+      "route": "/skills/syndra_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_syndra_w",
+          "name": "syndra_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/syndra_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:55:54.325541Z",
+          "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "syndra_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T09:55:54.325541Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:55:55.740625Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "syndra_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T09:55:55.740625Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:55:56.827619Z",
+          "description": "客户端当前根绑定 DataValues.BaseSlow 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "驱使念力减速比例",
+          "parameterKey": "slow_ratio",
+          "skillKey": "syndra_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:55:56.827619Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:55:57.88088Z",
+          "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速持续时间（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "syndra_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T09:55:57.88088Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:55:58.968261Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 100,
+            "3": 130,
+            "4": 160,
+            "5": 190
+          },
+          "name": "驱使念力基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "syndra_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T09:55:58.968261Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:55:59.992295Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.65,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "投掷魔法伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "syndra_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T09:55:59.992295Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:01.107636Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.12,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "升级W额外真实伤害固定系数",
+          "parameterKey": "calculation_constant_2",
+          "skillKey": "syndra_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T09:56:01.107636Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:02.252352Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.02,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "升级W额外真实伤害固定系数",
+          "parameterKey": "calculation_constant_3",
+          "skillKey": "syndra_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T09:56:02.252352Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:03.286698Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "升级W额外真实伤害固定系数",
+          "parameterKey": "calculation_constant_4",
+          "skillKey": "syndra_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T09:56:03.286698Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:04.669353Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 12,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "升级W额外伤害比例固定系数",
+          "parameterKey": "calculation_constant_5",
+          "skillKey": "syndra_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T09:56:04.669353Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:39:09.662737Z",
+          "description": "DDragon16.17.1 Syndra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 70,
+            "3": 80,
+            "4": 90,
+            "5": 100
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "syndra_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:39:09.662737Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/syndra_w/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:56:05.749076Z",
+          "description": "当前树基础伤害+0.65AP；实际拾取、投掷及目标资格待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "throw_damage",
+          "gameId": "lol",
+          "name": "投掷魔法伤害",
+          "skillKey": "syndra_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T09:56:05.749076Z"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:07.003927Z",
+          "description": "当前树只保留升级后的额外数学关系；真实伤害结果资格仍未证，不创建默认结果。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "passive_bonus_damage",
+          "gameId": "lol",
+          "name": "升级W额外真实伤害",
+          "skillKey": "syndra_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T09:56:07.003927Z"
+        },
+        {
+          "createdAt": "2026-09-09T09:56:08.103234Z",
+          "description": "tooltipOnly数学关系保留；不把显示百分比误当独立伤害结果。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "passive_bonus_ratio",
+          "gameId": "lol",
+          "name": "升级W额外伤害比例",
+          "skillKey": "syndra_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:56:08.103234Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/taliyah_q/effects/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:56:48.726016Z",
+        "description": "仅普通石穿五石分支适用；与掘石场分支法力消耗互斥，不与10法力相加。实际分支判定和扣除时点未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "普通石穿分支法力消耗",
+        "results": [
+          {
+            "description": "普通石穿分支；与掘石场分支互斥。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "普通分支消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "taliyah_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:56:48.726016Z"
+      }
+    },
+    {
+      "route": "/skills/taliyah_q/effects/worked_ground_mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:56:49.9066Z",
+        "description": "仅【掘石场】大石块分支适用；与普通石穿分支基础法力消耗互斥，不叠加。实际工作地面状态和扣除时点未接线。",
+        "effectKey": "worked_ground_mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "掘石场分支法力消耗",
+        "results": [
+          {
+            "description": "掘石场分支唯一法力消耗10；与普通分支互斥。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "掘石场分支消耗法力",
+            "resultKey": "consume",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "worked_ground_mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "taliyah_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T09:56:49.9066Z"
+      }
+    }
+  ],
+  "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "runtimeValidation": "未执行"
+}

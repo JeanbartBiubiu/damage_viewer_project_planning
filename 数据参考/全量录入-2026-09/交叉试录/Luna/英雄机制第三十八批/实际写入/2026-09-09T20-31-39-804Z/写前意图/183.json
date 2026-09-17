@@ -1,0 +1,23 @@
+{
+  "i": 182,
+  "intent": {
+    "sequence": 183,
+    "method": "POST",
+    "route": "/skills/kayle_e/parameters",
+    "detailRoute": "/skills/kayle_e/parameters/buff_duration_ms",
+    "skillKey": "kayle_e",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "星火符刃主动强化持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前来源BuffDuration=5秒；只记录来源时长，不替代下一次攻击事件。",
+      "sortOrder": 70
+    }
+  }
+}

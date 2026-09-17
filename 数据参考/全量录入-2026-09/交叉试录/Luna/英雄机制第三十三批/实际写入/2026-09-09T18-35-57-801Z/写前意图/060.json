@@ -1,0 +1,29 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/soraka_q/parameters",
+    "detailRoute": "/skills/soraka_q/parameters/self_heal_base",
+    "skillKey": "soraka_q",
+    "kind": "parameters",
+    "stableKey": "self_heal_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_heal_base",
+      "name": "流星坠落自身持续治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 75,
+        "3": 90,
+        "4": 105,
+        "5": 120
+      },
+      "description": "当前BaseHoT技能等级1至5；是2.5秒总量。",
+      "sortOrder": 50
+    }
+  }
+}

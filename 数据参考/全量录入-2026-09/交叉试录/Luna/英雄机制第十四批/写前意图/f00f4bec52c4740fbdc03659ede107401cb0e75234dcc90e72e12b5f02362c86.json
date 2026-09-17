@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T06:40:42.271Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/velkoz_r/parameters/base_total_damage",
+  "id": "base_total_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_total_damage",
+    "name": "完整射线基础总伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 450,
+      "2": 700,
+      "3": 925
+    },
+    "description": "原EffectValueCalculationPart.mEffectIndex=1，mEffectAmount第1项技能索引1..3与官方e1逐级一致。",
+    "sortOrder": 40
+  }
+}

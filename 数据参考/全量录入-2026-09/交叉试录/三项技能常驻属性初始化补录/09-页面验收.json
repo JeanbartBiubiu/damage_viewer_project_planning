@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T19:47:39+08:00",
+  "status": "PASS",
+  "browser": "Codex内置Chromium",
+  "title": "Damage Viewer Web",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 3,
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": null,
+  "requestAudit": {
+    "exactBrowserGetCountAvailable": false,
+    "reason": "当前浏览器控制能力未暴露网络方法流水；不猜GET数量。",
+    "writeActionAudit": "只执行关键词查询、打开效果详情、打开规则列表与编辑查看；没有点击保存、删除、新增或停用。",
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 1066,
+      "skillCount": 1062,
+      "ruleCount": 142,
+      "sourceInitializedCount": 29,
+      "targetDetailCount": 3,
+      "businessWrites": 0
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "targets": [
+    {
+      "id": "kogmaw_q_passive_attack_speed",
+      "skillKey": "kogmaw_q",
+      "matched": true,
+      "list": {
+        "name": "克格莫·腐蚀唾液",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "克格莫·腐蚀唾液代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effects": [
+        {
+          "effectKey": "passive_attack_speed",
+          "name": "腐蚀唾液被动额外攻速",
+          "resultCount": 1,
+          "hasLifecycle": true
+        }
+      ],
+      "rule": {
+        "ruleKey": "initialize_passive_attack_speed",
+        "name": "初始化腐蚀唾液被动攻速",
+        "event": "来源对象初始化完成",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "actions": [
+          {
+            "name": "执行腐蚀唾液被动攻速",
+            "actionTarget": "事件来源对象",
+            "effectKey": "passive_attack_speed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "olaf_r_passive_resists",
+      "skillKey": "olaf_r",
+      "matched": true,
+      "list": {
+        "name": "奥拉夫·诸神黄昏",
+        "status": "启用",
+        "maxLevel": 3,
+        "imageAlt": "奥拉夫·诸神黄昏代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effects": [
+        {
+          "effectKey": "passive_armor",
+          "name": "诸神黄昏被动护甲",
+          "resultCount": 1,
+          "hasLifecycle": true
+        },
+        {
+          "effectKey": "passive_magic_resistance",
+          "name": "诸神黄昏被动魔抗",
+          "resultCount": 1,
+          "hasLifecycle": true
+        }
+      ],
+      "rule": {
+        "ruleKey": "initialize_passive_resists",
+        "name": "初始化诸神黄昏被动双抗",
+        "event": "来源对象初始化完成",
+        "conditionGroupCount": 0,
+        "actionCount": 2,
+        "actions": [
+          {
+            "name": "执行诸神黄昏被动护甲",
+            "actionTarget": "事件来源对象",
+            "effectKey": "passive_armor"
+          },
+          {
+            "name": "执行诸神黄昏被动魔抗",
+            "actionTarget": "事件来源对象",
+            "effectKey": "passive_magic_resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "zaahen_r_armor_penetration",
+      "skillKey": "zaahen_r",
+      "matched": true,
+      "list": {
+        "name": "亚恒·大赦",
+        "status": "启用",
+        "maxLevel": 3,
+        "imageAlt": "亚恒·大赦代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effects": [
+        {
+          "effectKey": "armor_penetration",
+          "name": "大赦常驻护甲穿透",
+          "resultCount": 1,
+          "hasLifecycle": true
+        }
+      ],
+      "rule": {
+        "ruleKey": "initialize_armor_penetration",
+        "name": "初始化大赦常驻护甲穿透",
+        "event": "来源对象初始化完成",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "actions": [
+          {
+            "name": "执行大赦常驻护甲穿透",
+            "actionTarget": "事件来源对象",
+            "effectKey": "armor_penetration"
+          }
+        ]
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "target": "kogmaw_q",
+      "sha256": "b19aeab314cc6ca467de28d84e561810c3da328c50a374a9b8779e864d38913c",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "olaf_r",
+      "sha256": "1666ec17a6db8b3613b701ab793c8037f92d82c539671f200386e0d943e8e644",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "zaahen_r",
+      "sha256": "b5b9927791cccbcd1765e7cdec953295150d0e35a02762ddffbd2554fc142a42",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    }
+  ],
+  "readOnlyCorrections": [
+    "首次复用上一标签页的辅助定位器时，定位器已绑定关闭的旧标签，填写前即停止，没有页面业务动作或业务请求；按当前标签重建辅助函数后完整执行。",
+    "来源初始化规则页面不显示来源技能和使用种类，按实际事件界面核对空明细，不补写不存在的页面字段。",
+    "奥拉夫R两条动作按页面序号确认被动护甲在前、被动魔抗在后。",
+    "浏览器只读执行环境没有提供性能请求条目，未把不可见的网络信息伪造成精确计数。"
+  ],
+  "boundary": "真实页面确认三个目标保存后可重新打开，列表图、四个效果、来源初始化事件和动作顺序一致；未点击任何页面写入按钮。来源初始化不表示复活、换装或后续技能升级，Wasm、宿主事件生产和真实战斗未执行。"
+}

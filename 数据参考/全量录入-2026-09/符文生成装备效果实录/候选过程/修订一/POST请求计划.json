@@ -1,0 +1,665 @@
+{
+  "generatedAt": "2026-09-10T04:46:04.469Z",
+  "execute": false,
+  "note": "仅列出计划中的POST创建请求；四个图片复用PUT、唯一旧鞋效果DELETE和写前GET在写前请求计划及迁移意图中。",
+  "requests": [
+    {
+      "sequence": 1,
+      "id": "item_2010_consume-skill",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills",
+      "body": {
+        "skillKey": "item_2010_consume",
+        "name": "永续意志夹心饼干·消耗",
+        "description": "保存消费后的5秒恢复总量基数、已损生命提升上限和每实际消耗或出售一块永久增加30最大生命值。恢复节拍、首跳、最大生命读取时点与出售是否回血未证；不把总量当单次治疗，也不挂符文8345整套。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 2,
+      "id": "item_2010_consume-parameter-recovery_duration_ms",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/parameters",
+      "body": {
+        "parameterKey": "recovery_duration_ms",
+        "name": "恢复窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端PotionDurationTOOLTIP=5秒；转换为5000毫秒。只表示恢复窗口，不表示跳数或首跳。",
+        "sortOrder": 10
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 3,
+      "id": "item_2010_consume-parameter-flat_recovery",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/parameters",
+      "body": {
+        "parameterKey": "flat_recovery",
+        "name": "饼干固定恢复量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "客户端FlatHealTOOLTIP=20；单位为生命值点数。",
+        "sortOrder": 20
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 4,
+      "id": "item_2010_consume-parameter-client_health_recovery_ratio",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/parameters",
+      "body": {
+        "parameterKey": "client_health_recovery_ratio",
+        "name": "客户端最大生命恢复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.015,
+        "levelValues": null,
+        "description": "客户端MaxHPMultiplierTOOLTIP=0.014999999664723873，按当前构建归一化为0.015；1表示100%。",
+        "sortOrder": 30
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 5,
+      "id": "item_2010_consume-parameter-maximum_recovery_increase_ratio",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/parameters",
+      "body": {
+        "parameterKey": "maximum_recovery_increase_ratio",
+        "name": "已损生命恢复提升上限",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端MaxHealIncreaseTOOLTIP=100%，参数采用比例1表示100%；没有另建100点参数。",
+        "sortOrder": 40
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 6,
+      "id": "item_2010_consume-parameter-health_ratio_at_maximum_recovery",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/parameters",
+      "body": {
+        "parameterKey": "health_ratio_at_maximum_recovery",
+        "name": "达到最大恢复提升的生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端MinHPThresholdTOOLTIP=0.30000001192092896，按来源归一化为0.3；中间曲线和边界时点未证。",
+        "sortOrder": 50
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 7,
+      "id": "item_2010_consume-parameter-permanent_health_per_cookie",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/parameters",
+      "body": {
+        "parameterKey": "permanent_health_per_cookie",
+        "name": "每块永久最大生命",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "客户端BonusMaxHealthTOOLTIP=30；只对真实消耗或出售事件计数。",
+        "sortOrder": 60
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 8,
+      "id": "item_2010_consume-parameter-actual_consumed_or_sold_count",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/parameters",
+      "body": {
+        "parameterKey": "actual_consumed_or_sold_count",
+        "name": "实际已消耗或出售饼干数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无默认值；由实际消耗或出售事件提供，不能用取得数、背包数或满堆数代替。",
+        "sortOrder": 70
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 9,
+      "id": "item_2010_consume-parameter-actual_missing_health_boost_ratio",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/parameters",
+      "body": {
+        "parameterKey": "actual_missing_health_boost_ratio",
+        "name": "实际已损生命恢复提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无默认值；由运行时已损生命曲线提供，不能用0或自行假设线性曲线。",
+        "sortOrder": 80
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 10,
+      "id": "item_2010_consume-formula-base_biscuit_recovery",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/formulas",
+      "body": {
+        "formulaKey": "base_biscuit_recovery",
+        "name": "饼干恢复基数",
+        "description": "来源计算式为20+0.015×SOURCE.hp.TOTAL；来源只证明数值组成，尚未证明治疗节拍。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_recovery"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "client_health_recovery_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 11,
+      "id": "item_2010_consume-formula-biscuit_recovery_total",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/formulas",
+      "body": {
+        "formulaKey": "biscuit_recovery_total",
+        "name": "饼干5秒恢复总量",
+        "description": "在恢复基数上乘以1+MIN(实际已损生命提升,100%上限)。这是5秒总量，不能作为单次治疗结果。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_recovery"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "client_health_recovery_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "flat_recovery"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "client_health_recovery_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MIN",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_missing_health_boost_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "maximum_recovery_increase_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 12,
+      "id": "item_2010_consume-formula-permanent_health_gain",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/formulas",
+      "body": {
+        "formulaKey": "permanent_health_gain",
+        "name": "饼干永久最大生命增量",
+        "description": "30×实际已消耗或出售饼干数；实际计数缺失时拒绝计算。",
+        "sortOrder": 30,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "permanent_health_per_cookie"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_consumed_or_sold_count"
+            }
+          ]
+        }
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 13,
+      "id": "item_2010_consume-effect-permanent_health_gain",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2010_consume/effects",
+      "body": {
+        "effectKey": "permanent_health_gain",
+        "name": "饼干永久最大生命",
+        "description": "保存30×实际已消耗或出售累计块数这一来源的完整永久最大生命贡献；施加时绑定实际累计数并快照保存，同来源再次施加替换完整贡献，不能将累计总量重复相加。消费事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute_bonus",
+            "name": "永久最大生命增加",
+            "target": "SOURCE",
+            "description": "最大生命值点数的完整累计贡献，在施加时读取实际累计块数；替换本来源已保存贡献，不覆盖其他来源最大生命。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "permanent_health_gain"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "resultType": "ATTRIBUTE_CHANGE",
+            "detail": {
+              "attributeKey": "hp",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 14,
+      "id": "item_2010_consume-equipment-skill-relation",
+      "method": "POST",
+      "path": "/api/admin/games/lol/equipment-skill-relations",
+      "body": {
+        "equipmentKey": "item_2010",
+        "skillKey": "item_2010_consume",
+        "sortOrder": 10
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2010"
+    },
+    {
+      "sequence": 16,
+      "id": "item_2150_consume-skill",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills",
+      "body": {
+        "skillKey": "item_2150_consume",
+        "name": "技能合剂·消耗",
+        "description": "保存消费后提供1技能点，以及不提升角色等级、不能投入已升满技能的来源限制。现有结果类型没有技能点分配结果，因此不伪造成属性或等级变化。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2150"
+    },
+    {
+      "sequence": 17,
+      "id": "item_2150_consume-parameter-skill_points_granted",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2150_consume/parameters",
+      "body": {
+        "parameterKey": "skill_points_granted",
+        "name": "技能合剂提供技能点数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "官方与客户端主动说明均为提供1技能点数；消费事件与战前分配接口尚未接线。",
+        "sortOrder": 10
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2150"
+    },
+    {
+      "sequence": 18,
+      "id": "item_2150_consume-equipment-skill-relation",
+      "method": "POST",
+      "path": "/api/admin/games/lol/equipment-skill-relations",
+      "body": {
+        "equipmentKey": "item_2150",
+        "skillKey": "item_2150_consume",
+        "sortOrder": 10
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2150"
+    },
+    {
+      "sequence": 20,
+      "id": "item_2152_consume-skill",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills",
+      "body": {
+        "skillKey": "item_2152_consume",
+        "name": "原力合剂·消耗",
+        "description": "保存消费后25适应之力、持续60000毫秒及适应选择互斥边界。转换到攻击力或法术强度的方向、比例和判定时点未证，不同时创建两种属性效果。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2152"
+    },
+    {
+      "sequence": 21,
+      "id": "item_2152_consume-parameter-adaptive_force_amount",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2152_consume/parameters",
+      "body": {
+        "parameterKey": "adaptive_force_amount",
+        "name": "原力合剂适应之力",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 25,
+        "levelValues": null,
+        "description": "客户端AdaptiveAmount=25；保存为原始适应之力，不默认转换成攻击力或法术强度。",
+        "sortOrder": 10
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2152"
+    },
+    {
+      "sequence": 22,
+      "id": "item_2152_consume-parameter-duration_ms",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2152_consume/parameters",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "原力合剂持续时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60000,
+        "levelValues": null,
+        "description": "客户端Duration=60秒，转换为60000毫秒；不是生成等级或消费等级。",
+        "sortOrder": 20
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2152"
+    },
+    {
+      "sequence": 23,
+      "id": "item_2152_consume-equipment-skill-relation",
+      "method": "POST",
+      "path": "/api/admin/games/lol/equipment-skill-relations",
+      "body": {
+        "equipmentKey": "item_2152",
+        "skillKey": "item_2152_consume",
+        "sortOrder": 10
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2152"
+    },
+    {
+      "sequence": 25,
+      "id": "item_2422_passive-skill",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills",
+      "body": {
+        "skillKey": "item_2422_passive",
+        "name": "有点神奇之鞋·额外移速",
+        "description": "保存有点神奇之鞋额外10移动速度的物品归属参数和等价属性效果；直接属性25保持在装备主体。按修订三顺序先核对新效果，再删除旧符文效果，最后挂载本装备技能，避免两份可执行来源并存。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2422"
+    },
+    {
+      "sequence": 26,
+      "id": "item_2422_passive-parameter-additional_move_speed",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2422_passive/parameters",
+      "body": {
+        "parameterKey": "additional_move_speed",
+        "name": "有点神奇之鞋额外移速",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "官方与客户端均证明额外10移动速度；效果迁移前先保存参数，迁移完成后只保留一个有效来源。",
+        "sortOrder": 10
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2422"
+    },
+    {
+      "sequence": 27,
+      "id": "item_2422_passive-effect-magical_footwear_additional_speed",
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_2422_passive/effects",
+      "body": {
+        "effectKey": "magical_footwear_additional_speed",
+        "name": "有点神奇之鞋额外移速",
+        "description": "将旧符文效果的等价结果保存到item_2422技能；自身固定增加10移动速度，单层同来源替换，外部显式移除。创建和旧效果删除之间不挂载新技能。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute_bonus",
+            "name": "额外移动速度",
+            "target": "SOURCE",
+            "description": "固定增加10移动速度点数；不改主体直接移速25。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "additional_move_speed"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "resultType": "ATTRIBUTE_CHANGE",
+            "detail": {
+              "attributeKey": "move_speed",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2422"
+    },
+    {
+      "sequence": 29,
+      "id": "item_2422_passive-equipment-skill-relation",
+      "method": "POST",
+      "path": "/api/admin/games/lol/equipment-skill-relations",
+      "body": {
+        "equipmentKey": "item_2422",
+        "skillKey": "item_2422_passive",
+        "sortOrder": 10
+      },
+      "execute": false,
+      "status": "仅计划，未调用",
+      "owner": "item_2422"
+    }
+  ],
+  "count": 25,
+  "rootRevision": "修订一",
+  "candidateSha256": "81f13a8676254cd7db18d40e5fffe9c54bea98ea45651963a112e7f3b55a460a"
+}

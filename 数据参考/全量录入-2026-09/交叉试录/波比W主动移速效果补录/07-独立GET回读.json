@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "completedAt": "2026-09-13T08:40:19.043Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 1231,
+  "statusCounts": {
+    "200": 1231
+  },
+  "differenceCount": 0,
+  "approvedBatchSha256": "3483b292cd3ada6929ee311a9a92136859705a1a2dd006cc63559cb4324b53ff",
+  "frozenBodySha256": "433994799fe772e04b5a42a8ae5dc4e2ff544ce0b422127a4e4ebdd1dbe9619e",
+  "globalReadback": {
+    "skillCount": 1062,
+    "ruleListGetCount": 1062,
+    "ruleDetailGetCount": 131,
+    "ruleCount": 131,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_USED": 24,
+      "SKILL_HIT": 59,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "KILL": 2
+    },
+    "ruleRefsSha256": "6a9c7ec9170ff89849b7de333fe20df6d46c58dac63351aff0c3031960c998ee",
+    "ruleDetailsSha256": "0977aaa127f34b1804ac54bbdebb60fea2a9c7009694d79e5bf2227863246264",
+    "matchesPriorIndependentCheckpoint": true
+  },
+  "targetReadback": {
+    "effectKeys": [
+      "active_move_speed",
+      "mana_cost"
+    ],
+    "newEffectNormalizedSha256": "433994799fe772e04b5a42a8ae5dc4e2ff544ce0b422127a4e4ebdd1dbe9619e",
+    "newEffectEqualsFrozenBody": true,
+    "existingEffectUnchanged": true,
+    "protectedKindsUnchanged": [
+      "parameters",
+      "formulas",
+      "processes",
+      "internal-states",
+      "trigger-rules"
+    ],
+    "staticAndAnalogUnchanged": true,
+    "targetSnapshotSha256": "aa78858bc617eef8f0732cdad9af88b46194624684d75daf6f0d114de1891982"
+  },
+  "boundary": "独立GET回读证明1062个技能、131条规则、24条来源初始化规则与上一检查点一致，并证明波比新效果及受保护组成；不证明页面、Wasm、宿主事件或真实战斗。"
+}

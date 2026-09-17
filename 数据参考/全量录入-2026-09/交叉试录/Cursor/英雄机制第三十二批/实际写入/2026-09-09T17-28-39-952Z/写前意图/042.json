@@ -1,0 +1,55 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/corki_r/formulas",
+    "detailRoute": "/skills/corki_r/formulas/big_missile_damage",
+    "skillKey": "corki_r",
+    "kind": "formulas",
+    "stableKey": "big_missile_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "big_missile_damage",
+      "name": "超级导弹单一敌方物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "big_missile_multiplier"
+          }
+        ]
+      },
+      "description": "当前RBigMissileDamage是完整小导弹树乘2；每第三颗的序列由事件层处理。",
+      "sortOrder": 20
+    }
+  }
+}

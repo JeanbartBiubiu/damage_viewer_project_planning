@@ -1,0 +1,24 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_q/parameters",
+    "detailRoute": "/skills/samira_q/parameters/critical_hit_eligible",
+    "skillKey": "samira_q",
+    "kind": "parameters",
+    "stableKey": "critical_hit_eligible",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_hit_eligible",
+      "name": "交火可暴击",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文和CriticalDamageCalc均保留暴击分支；实际暴击触发由运行输入决定。",
+      "sortOrder": 50
+    }
+  }
+}

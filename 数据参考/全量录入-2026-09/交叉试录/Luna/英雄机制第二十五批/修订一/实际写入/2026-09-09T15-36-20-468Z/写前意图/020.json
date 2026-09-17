@@ -1,0 +1,49 @@
+{
+  "sequence": 20,
+  "intent": {
+    "sequence": 20,
+    "method": "POST",
+    "route": "/skills/drmundo_q/formulas",
+    "detailRoute": "/skills/drmundo_q/formulas/health_refund_on_champion_monster",
+    "skillKey": "drmundo_q",
+    "kind": "formulas",
+    "stableKey": "health_refund_on_champion_monster",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "health_refund_on_champion_monster",
+      "name": "命中英雄或野怪生命回复量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "health_refund_on_champion_monster_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "health_cost"
+          }
+        ]
+      },
+      "description": "当前计算树 HealthRestoreOnHitChampionMonster=HealthRefundOnHitChampionMonsterPercent×HealthCost；直接治疗结果留待事件接线。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 262,
+    "method": "GET",
+    "route": "/skills/drmundo_q/formulas/health_refund_on_champion_monster",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "health_refund_on_champion_monster"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:36:51.823Z"
+  }
+}

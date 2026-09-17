@@ -1,0 +1,21 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 118,
+    "skillKey": "mel_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_w/parameters",
+    "stableKey": "reflected_damage_ap_ratio",
+    "body": {
+      "parameterKey": "reflected_damage_ap_ratio",
+      "name": "反射原伤害法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0005000000237487257,
+      "levelValues": null,
+      "description": "DamagePercent第二项来源系数0.0005，读取来源总法强；与等级反射比例相加。",
+      "sortOrder": 75
+    }
+  }
+}

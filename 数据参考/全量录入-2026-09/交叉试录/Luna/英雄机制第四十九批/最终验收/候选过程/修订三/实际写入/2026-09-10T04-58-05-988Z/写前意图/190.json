@@ -1,0 +1,79 @@
+{
+  "i": 189,
+  "intent": {
+    "sequence": 190,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/formulas",
+    "detailRoute": "/skills/reksai_r/formulas/total_physical_damage",
+    "skillKey": "reksai_r",
+    "kind": "formulas",
+    "stableKey": "total_physical_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_physical_damage",
+      "name": "虚空猛冲总物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "target_max_hp_percent_points"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_point_unit"
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "总伤害=基础+额外AD+目标最大生命比例。",
+      "sortOrder": 150
+    }
+  }
+}

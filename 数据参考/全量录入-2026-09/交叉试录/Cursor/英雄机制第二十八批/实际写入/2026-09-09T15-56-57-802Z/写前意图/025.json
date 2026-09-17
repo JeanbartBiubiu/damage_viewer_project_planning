@@ -1,0 +1,24 @@
+{
+  "i": 24,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_r/parameters",
+    "skillKey": "maokai_r",
+    "kind": "parameters",
+    "stableKey": "maximum_root_duration_ms",
+    "body": {
+      "parameterKey": "maximum_root_duration_ms",
+      "name": "最高禁锢持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2250,
+        "2": 2250,
+        "3": 2250
+      },
+      "description": "当前正文消费MaxRootDuration，根值2.25秒；单位秒转毫秒，中间随距离变化未接线。",
+      "sortOrder": 40
+    }
+  }
+}

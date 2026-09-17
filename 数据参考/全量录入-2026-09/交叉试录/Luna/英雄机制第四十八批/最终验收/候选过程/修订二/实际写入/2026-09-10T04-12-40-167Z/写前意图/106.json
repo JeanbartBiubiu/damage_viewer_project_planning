@@ -1,0 +1,28 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_r/parameters",
+    "detailRoute": "/skills/kayn_r/parameters/base_damage",
+    "skillKey": "kayn_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "破体基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "新动态正文Damage按R保护最高等级取BaseDamage索引1至最高等级。",
+      "sortOrder": 10
+    }
+  }
+}

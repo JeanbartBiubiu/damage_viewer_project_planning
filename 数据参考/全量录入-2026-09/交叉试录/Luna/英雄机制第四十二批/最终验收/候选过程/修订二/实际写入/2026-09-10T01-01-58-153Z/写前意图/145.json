@@ -1,0 +1,21 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 145,
+    "skillKey": "mel_r",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_r/parameters",
+    "stableKey": "disintegrate_delay_ms",
+    "body": {
+      "parameterKey": "disintegrate_delay_ms",
+      "name": "能量命中延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 900,
+      "levelValues": null,
+      "description": "当前根0.9秒，不与施法时间混同。",
+      "sortOrder": 90
+    }
+  }
+}

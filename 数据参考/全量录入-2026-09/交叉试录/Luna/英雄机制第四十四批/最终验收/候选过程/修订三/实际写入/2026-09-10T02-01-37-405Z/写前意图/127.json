@@ -1,0 +1,30 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 127,
+    "method": "POST",
+    "route": "/skills/yuumi_q/parameters",
+    "detailRoute": "/skills/yuumi_q/parameters/empowered_damage_base",
+    "skillKey": "yuumi_q",
+    "kind": "parameters",
+    "stableKey": "empowered_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_damage_base",
+      "name": "强化飞弹基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 135,
+        "3": 190,
+        "4": 245,
+        "5": 300,
+        "6": 355
+      },
+      "description": "来源80/135/190/245/300/355；强化资格依附状态待核。",
+      "sortOrder": 30
+    }
+  }
+}

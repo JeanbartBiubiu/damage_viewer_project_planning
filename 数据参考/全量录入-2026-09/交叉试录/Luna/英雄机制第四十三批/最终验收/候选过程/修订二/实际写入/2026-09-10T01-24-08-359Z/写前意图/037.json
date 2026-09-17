@@ -1,0 +1,24 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_r/parameters",
+    "detailRoute": "/skills/gangplank_r/parameters/slow_duration_ms",
+    "skillKey": "gangplank_r",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "每波减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "正文明确每波0.5秒减速。",
+      "sortOrder": 70
+    }
+  }
+}

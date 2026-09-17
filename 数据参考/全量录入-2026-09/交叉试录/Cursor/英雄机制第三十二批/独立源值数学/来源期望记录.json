@@ -1,0 +1,57 @@
+{
+  "批次": "英雄机制第三十二批",
+  "模块": "source-expected.mjs",
+  "导出接口": "expected(skillKey, formulaKey, context, binding)",
+  "模块SHA256": "b6e7f97242ca77dc11f9fa9b9af35892dc11987d1e0b7efe54f23d7704efce1e",
+  "候选SHA256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
+  "来源绑定SHA256": "d56f5c20188d75dfffbdae773017a189b53162ed649e90f913febbfbe6c0a657",
+  "源值核对说明SHA256": "3b499ff3d1d30debbaa6d81746fe282ce244b3578e7c0db0655b6cec9636935c",
+  "公式数": 41,
+  "接口请求数": 0,
+  "业务写入数": 0,
+  "独立性约束": [
+    "模块不读取完整候选或候选参数；固定值和技能等级值只从binding的DataValues、mEffectAmount、mSpellCalculations或当前文本字面量取得。",
+    "context.parameters只读取明确的RUNTIME_INPUT：角色等级插值实际值、暴击输入、层数、实际属性阶段和序号。",
+    "mStat=2且mStatFormula=2按已核窄口径取额外攻击力；Zeri Q、Kaisa R等原树没有该组合的分支按来源说明取总攻击力。",
+    "Kaisa Q普通和进化最大式由原树的5/11次后续命中与ExtraHitReduction重建，得到2.25和3.75；没有复制候选固定倍率。",
+    "Zeri P四项从Zeri Q实际计算树取系数并保留角色等级实际值外供；Zeri W过墙式只使用暴击伤害倍率，Zeri E才使用暴击几率。",
+    "Xayah E逐根衰减按当前文本最低10%与原树FeatherFalloff计算MAX；不创建羽毛数量上限。"
+  ],
+  "已知缺证": [
+    {
+      "范围": "Kaisa P",
+      "来源": "PBaseDamage/PCurrentPerStackDamage的ByCharLevelInterpolationCalculationPart，端点分别为4至30、1至8",
+      "处理": "中间角色等级曲线没有来源函数，实际等级值和当前层数由运行输入提供，不猜插值。"
+    },
+    {
+      "范围": "Zeri P",
+      "来源": "Zeri Q的MinDamage、PassiveExecuteThreshold、PassiveMaxDamage、PassiveMaxChargePercentHealth均含角色等级计算类",
+      "处理": "四项基础端点实际值由运行输入提供；保留原树的0.03、0.2、1.1和目标最大生命乘数。"
+    },
+    {
+      "范围": "Corki P/R、Xayah E、Zeri W/E",
+      "来源": "原树mStat8或mStat9只给属性编号，当前阶段绑定没有完整运行求值证据",
+      "处理": "实际暴击倍率、暴击几率、回充mStat8值等只从运行输入读取，不设默认。"
+    },
+    {
+      "范围": "Kaisa E",
+      "来源": "TotalMovespeed使用mStat4/mStatFormula2，TotalCastTime使用mStat4但未给同一完整阶段说明",
+      "处理": "分别读取实际额外攻速和实际攻速运行输入，不把两棵树强行绑定为同一属性。"
+    },
+    {
+      "范围": "Xayah Q",
+      "来源": "当前中文文本明确‘两把匕首’，原树MultiHitDamage的0.5仅是后续目标分支",
+      "处理": "两把主目标全量由当前文本字面量确认；不把后续目标分支混入同一敌人第二把。"
+    },
+    {
+      "范围": "Xayah E",
+      "来源": "最低10%只在当前扩展正文出现，FeatherDamage原树没有该下限节点",
+      "处理": "以当前绑定文本的‘最低降至10%’为下限证据；文本缺失时明确报错，不回退候选参数。"
+    }
+  ],
+  "静态验证": {
+    "nodeCheck": true,
+    "使用完整源绑定构造上下文": 41,
+    "模块内部候选读取": false
+  }
+}

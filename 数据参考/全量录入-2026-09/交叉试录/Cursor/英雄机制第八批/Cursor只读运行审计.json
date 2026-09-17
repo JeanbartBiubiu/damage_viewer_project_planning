@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-09-09T01:44:28.477Z",
+  "runId": "run-96eb9496-3277-4982-8caa-93fb743b9ebe",
+  "resultStatus": "finished",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "planRevision": "HERO8-CANDIDATE-20260909-PRE1",
+  "verdict": "REVISE",
+  "fileDelta": 0,
+  "unchangedSeeds": 29,
+  "eventRows": 3785,
+  "toolStarts": 57,
+  "tools": [
+    "glob",
+    "read",
+    "shell",
+    "grep"
+  ],
+  "shellStarts": 9,
+  "allShellCommandsManuallyReviewed": "9个命令均为node只读文件、摘要与内存计算，没有调用生成器或持久写函数",
+  "truncatedTools": 0,
+  "existingOutOfScope": [
+    ".gitignore在启动前已存在且本次无变化"
+  ],
+  "durationMs": 559751,
+  "bodyLocation": "summary.json.assistantText",
+  "boundary": "只读审查旧候选，结论REVISE，不表示最终候选已放行"
+}

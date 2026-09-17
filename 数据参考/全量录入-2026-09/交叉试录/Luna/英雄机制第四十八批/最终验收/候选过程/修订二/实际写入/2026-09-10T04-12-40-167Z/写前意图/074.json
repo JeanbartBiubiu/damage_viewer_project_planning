@@ -1,0 +1,46 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_r/formulas",
+    "detailRoute": "/skills/yorick_r/formulas/marked_target_magic_damage",
+    "skillKey": "yorick_r",
+    "kind": "formulas",
+    "stableKey": "marked_target_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "marked_target_magic_damage",
+      "name": "海屿悼词标记目标魔法附伤",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_point_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "r_mark_damage_percent_points"
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "约里克对室女标记目标的本人附伤=0.01×RMarkDamagePercent×目标最大生命。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "at": "2026-09-07T19:23:16.439Z",
+  "mode": "explicit-bounded-apply",
+  "changes": [],
+  "preflight": [
+    {
+      "route": "/skills/diana_p/effects/passive_attack_speed",
+      "before": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:53:26.682733Z",
+          "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+          "effectKey": "passive_attack_speed",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "月银之刃常态攻速",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "bonus_attack_speed_percent",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "月银之刃常态攻速",
+              "resultKey": "attribute",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "passive_attack_speed_ratio"
+                }
+              }
+            }
+          ],
+          "skillKey": "diana_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:53:26.682733Z"
+        }
+      },
+      "target": {
+        "effectKey": "passive_attack_speed",
+        "name": "月银之刃常态攻速",
+        "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "月银之刃常态攻速",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "MOMENT_EVALUATION",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_attack_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      "state": "old"
+    },
+    {
+      "route": "/skills/diana_p/effects/cast_attack_speed",
+      "before": {
+        "ok": true,
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:53:27.257173Z",
+          "description": null,
+          "effectKey": "cast_attack_speed",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "empowered_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "施法后月银攻速",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "bonus_attack_speed_percent",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "临时额外攻速",
+              "resultKey": "attack_speed",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "additional_attack_speed",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "diana_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:53:27.257173Z"
+        }
+      },
+      "target": {
+        "effectKey": "cast_attack_speed",
+        "name": "施法后月银攻速",
+        "description": null,
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "empowered_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attack_speed",
+            "name": "临时额外攻速",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "MOMENT_EVALUATION",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "additional_attack_speed"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      "state": "old"
+    }
+  ]
+}

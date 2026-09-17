@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/jarvaniv_p/parameters",
+    "detailRoute": "/skills/jarvaniv_p/parameters/cadence_cooldown_base_seconds",
+    "skillKey": "jarvaniv_p",
+    "kind": "parameters",
+    "stableKey": "cadence_cooldown_base_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cadence_cooldown_base_seconds",
+      "name": "战争律动基础冷却（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "当前TooltipCooldown是角色等级断点树，保留1级起点，不把断点曲线展开为技能等级。",
+      "sortOrder": 20
+    }
+  }
+}

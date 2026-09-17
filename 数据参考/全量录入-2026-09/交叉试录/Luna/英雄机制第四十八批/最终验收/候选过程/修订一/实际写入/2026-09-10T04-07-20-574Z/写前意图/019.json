@@ -1,0 +1,24 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/parameters",
+    "detailRoute": "/skills/ivern_w/parameters/brush_spacing",
+    "skillKey": "ivern_w",
+    "kind": "parameters",
+    "stableKey": "brush_spacing",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "brush_spacing",
+      "name": "本人资格草丛间距",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 90,
+      "levelValues": null,
+      "description": "BrushSpacing固定90，只记录艾翁本人资格地形，不表示自主单位。",
+      "sortOrder": 50
+    }
+  }
+}

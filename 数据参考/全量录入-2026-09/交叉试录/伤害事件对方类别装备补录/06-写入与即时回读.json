@@ -1,0 +1,1348 @@
+{
+  "startedAt": "2026-09-12T09:20:08.599Z",
+  "status": "PASS",
+  "authorizationValueRecorded": false,
+  "approvedHashes": {
+    "01-来源与方案.md": "43e46bbd7d3abff6882b5db8981e0a5fd00fb18dd8851eb4cb6704195a84b805",
+    "04-写入前现值.json": "87674f4f9d22158b3907a3ca979447db1bc1326ad303acc95b65a0401f1d13f4",
+    "02-冻结请求.json": "20d72445b6247fe7b7a9344ec2f10b9c26f969ab83edf9660df39731ae503350",
+    "05-Cursor独立评审.json": "a60291040ab11ff692bb0aabe2b5f00a23c57a7945d0fb4581caef993f583c89",
+    "03-来源快照.json": "d81dfdd38ae59345b1dadb28a2f13b2f85deb93b581f21c40e34c0643be8b2b3"
+  },
+  "cursorReview": {
+    "runId": "run-09730fac-3d07-4432-881a-7503f9581e48",
+    "requestId": "9a8e5b84-fa52-4116-9860-2f3f3ca197eb",
+    "resultStatus": "finished",
+    "model": {
+      "id": "grok-4.6",
+      "effort": "high",
+      "fast": false,
+      "sdkVersion": "1.0.24"
+    },
+    "verdict": "READY",
+    "reviewedPlanRevision": 1,
+    "uniqueToolCalls": 44,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "runDeltaCount": 0,
+    "apiWrites": 0
+  },
+  "preflight": {
+    "staticRequests": [
+      {
+        "route": "/damage-types",
+        "status": 200,
+        "sha256": "1fe633fc5953d80471179fa630139be72ae12faa017285974ea53112b62fa177",
+        "matched": true
+      },
+      {
+        "route": "/attributes/move_speed",
+        "status": 200,
+        "sha256": "b37d1b77e5f610613e73b11ebe26dbffcd8890aa6cca235e51810134d7846282",
+        "matched": true
+      },
+      {
+        "route": "/attributes/mana",
+        "status": 200,
+        "sha256": "5d0550a4d7aa5a30a709b5d6f3b4d728c606bbbdb980ce60c1674c45b9d8d5ba",
+        "matched": true
+      },
+      {
+        "route": "/modifier-zones/attribute_flat_add",
+        "status": 200,
+        "sha256": "9bb35ed383ee556064304c8243e4dc24bc653f9e8e3a25eb5fff6cef459ff4b2",
+        "matched": true
+      },
+      {
+        "route": "/equipment/item_4629",
+        "status": 200,
+        "sha256": "97e3067cfa4ec59dc85a56f59ae3bcbe758220f1942a5296050b785a9a581c19",
+        "matched": true
+      },
+      {
+        "route": "/equipment/item_4629/attributes",
+        "status": 200,
+        "sha256": "93739ae3b716e26e4ed183168e7f71cc2a60cb9fc4913f36e0803732c09d2c0e",
+        "matched": true
+      },
+      {
+        "route": "/equipment-skill-relations?equipmentKey=item_4629",
+        "status": 200,
+        "sha256": "96f918320f9c2349841f5d8c364c0921165f30bf18c106a84a86e5fb3cb1284b",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive",
+        "status": 200,
+        "sha256": "fe8207a449096de08b928bb51da174377d11a54ff4da5bbda94cb213e349d6a9",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/representative-image",
+        "status": 200,
+        "sha256": "3fa7fa55c4b94b1a9ce53fbcb56e197de5ad2c506e9bfa363c80df878e1cd4c7",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/parameters",
+        "status": 200,
+        "sha256": "e72c37594f4c5ad43f3ffac46be73c0fc27e4924ace7ad32660ddcb37b8a34f6",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/parameters/move_speed_bonus",
+        "status": 200,
+        "sha256": "c18dbf8f9cda21d5f1c18bfa771e2c2c10c2127325f7df68e9d998fe05331006",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/parameters/move_speed_duration_ms",
+        "status": 200,
+        "sha256": "f9ba7f9c01d652acc07ff73f71ed2dbde5b3b863606294d9e2072cceb32293d7",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/formulas",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/effects",
+        "status": 200,
+        "sha256": "44e2a9b3500224a00e2e2443ed71b5754280fd742e6ac8b24e52a0ef44ecd7f3",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/effects/spelldance_move_speed",
+        "status": 200,
+        "sha256": "604af9379e04183b95043d6433de8f65c8ed85f91d8be14b9847da6ad56bcd10",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/processes",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/trigger-rules",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/equipment/item_3803",
+        "status": 200,
+        "sha256": "bf85c54d52e37c790da1e8fd05f7f2b0483990da06f446279bf7463c385d9270",
+        "matched": true
+      },
+      {
+        "route": "/equipment/item_3803/attributes",
+        "status": 200,
+        "sha256": "4e8956621d4688bd7927e0d9d5684fc250133af353fdb622a4ea89cc447cd424",
+        "matched": true
+      },
+      {
+        "route": "/equipment-skill-relations?equipmentKey=item_3803",
+        "status": 200,
+        "sha256": "df9b4033c476a151d0b4f70f7e02c018c584203078b5678fc7005976512c4437",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive",
+        "status": 200,
+        "sha256": "98e3f0d283f40a39e7d67aaf5ef63312312ecd7f71ed84227a1b683baa94a8be",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/representative-image",
+        "status": 200,
+        "sha256": "2a71090444fa709c50f3679cc40ed254efd4522f1178a096212a49e6f49c7299",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters",
+        "status": 200,
+        "sha256": "6bb78a0500f083b16a601f8d004f8751d5b79602f7f8b3c6dbc47f1c19972f82",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/mana_restore_ratio_from_damage",
+        "status": 200,
+        "sha256": "ba2c3e6bbee97419e4a01b964ddf9d3da78af2ef2e9a95b7fa1958a8eba2a508",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/health_restore_ratio_from_mana_cost",
+        "status": 200,
+        "sha256": "4b262b638c64203af6c8d019fb9a49e11f5b88b47f401ecb8235085a4aa8d712",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/health_restore_cap_per_cast",
+        "status": 200,
+        "sha256": "cafb7a63e37ee4f4ce26cb200940cf11651dc434c67ef78cc5e8a3125ae37360",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/eternity_internal_cooldown_ms",
+        "status": 200,
+        "sha256": "2b279ae53a79b2438107b70fbed7edc900a41aaa5283168609eec7df1e1c7033",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/damage_input",
+        "status": 200,
+        "sha256": "ed474f822355f9e49a5061b1c9d5daab1cc27a942b9c4059aa21ea34950c812d",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/mana_cost_input",
+        "status": 200,
+        "sha256": "41148ca2aa503dd4be7bcbdd1a3f7fbd50b1228fd710629aa72cf5ee35f2617e",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/health_restore_cap_per_second",
+        "status": 200,
+        "sha256": "2a0f58caa937da2adc895f426b34228937a5abc0f5660e88957c9690fc4bb362",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/formulas",
+        "status": 200,
+        "sha256": "f97e919e9a48262ef22f7996048f9d03505e96b228c6f49807244ce51cce5f90",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/formulas/mana_restore_from_damage",
+        "status": 200,
+        "sha256": "18d2ad50fea5f098ac1f845bf369a06d86a0d75bd0d3893531349796d873b721",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/formulas/health_restore_uncapped",
+        "status": 200,
+        "sha256": "f59b5a2f3fc9ecfb6138167f547e010043b4c3f8d39c3e6c281d7fb4aa7a2ff9",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/formulas/health_restore_from_skill_cost",
+        "status": 200,
+        "sha256": "111daf3d75031b414b8e1cb1e95a485dec3a4f103bce0643cc88856cb56cee2b",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/effects",
+        "status": 200,
+        "sha256": "6a04a176527e6128676bc9eef13e2847ddcb4f8e6e34e42a6415773069cfe069",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/effects/mana_from_hero_damage",
+        "status": 200,
+        "sha256": "c5e1a95ed3f884cbd2dcf373f3fce3ece2e4bd5d3b95fd3c8c3efe4a5ee04100",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/effects/health_from_skill_cost",
+        "status": 200,
+        "sha256": "dd2c497de70bf6cee84489e78edc768619e9c4f9e819bd6d2243dce84fb90759",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/processes",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/trigger-rules",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/trigger-rules/on_magic_damage_dealt_to_champion",
+        "status": 404,
+        "sha256": "e64fa98c74ab3cdfc2d203bfaa72304c5f5ed6da555bc0b315692c6b333dd4bf",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/trigger-rules/on_real_damage_dealt_to_champion",
+        "status": 404,
+        "sha256": "69b338724fdb3852a6ea951034722c9c1ba78857daaaf91488398b9920ad2c2b",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/trigger-rules/on_damage_taken_from_champion_restore_mana",
+        "status": 404,
+        "sha256": "70c2182313470690979218a8b11b0287a85e5e5d3c403058f9de107976eb890d",
+        "matched": true
+      }
+    ],
+    "triggerRuleScan": {
+      "skillCount": 1062,
+      "listGetCount": 1062,
+      "detailGetCount": 87,
+      "ruleCount": 87,
+      "targetCategoryConditionCount": 5,
+      "damageRuleCount": 3,
+      "damageRulesWithTargetCategoryCount": 0,
+      "sha256": "84e75f15845e9b8e44f7ab3dfb73104dc3d3f24c57bc14365070a9da6ee442da"
+    }
+  },
+  "writes": [
+    {
+      "method": "PUT",
+      "route": "/skills/item_4629_passive",
+      "detailRoute": "/skills/item_4629_passive",
+      "bodySha256": "d1104b999cddad0809e5760d3804b28bf50945abc0cb452525e8aabbfd8b3680",
+      "responseStatus": 200,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_4629_passive",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T16:43:01.319894Z",
+          "description": "对英雄造成魔法或真实伤害后提供自身20点固定移动速度，持续4秒。两条造成伤害规则分别限定魔法与真实伤害，并要求事件对方为英雄；不重复现有4%直接移速，不采用未绑定旧叠层字段。管理配置已接线，战斗运行时未验证。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "星界驱驰·咒舞",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_4629_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-12T09:20:13.000703Z"
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_4629_passive/effects/spelldance_move_speed",
+      "detailRoute": "/skills/item_4629_passive/effects/spelldance_move_speed",
+      "bodySha256": "8d418aca2044f83cc408e28ee76336ead8e434f4206d9f535f29a19866a6ab0a",
+      "responseStatus": 200,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_4629_passive/effects/spelldance_move_speed",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T16:43:03.314916Z",
+          "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；重新触发只刷新持续时间，不叠加多份。",
+          "effectKey": "spelldance_move_speed",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_speed_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "咒舞自身移动速度",
+          "results": [
+            {
+              "description": "规则限定事件对方为英雄；满足魔法或真实伤害入口后，为持有者增加20点固定移动速度。",
+              "detail": {
+                "attributeKey": "move_speed",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "咒舞自身移动速度",
+              "resultKey": "move_speed",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "move_speed_bonus"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_4629_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T09:20:14.520883Z"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "detailRoute": "/skills/item_4629_passive/trigger-rules/on_magic_damage_dealt_to_champion",
+      "bodySha256": "3ec774b771d07e4355360c6bc2594b4831f0ff3a0bc92fa04a1b66ec608a9023",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_4629_passive/trigger-rules/on_magic_damage_dealt_to_champion",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_spelldance_move_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spelldance_move_speed"
+              },
+              "name": "执行咒舞自身移动速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_counterparty",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_counterparty",
+              "name": "伤害承受对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "来源对象对英雄造成魔法伤害后执行咒舞自身移动速度；不响应物理伤害或非英雄对象。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "eventType": "DAMAGE_DEALT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "对英雄造成魔法伤害触发咒舞",
+          "perTargetCooldown": null,
+          "ruleKey": "on_magic_damage_dealt_to_champion",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "detailRoute": "/skills/item_4629_passive/trigger-rules/on_real_damage_dealt_to_champion",
+      "bodySha256": "4f3b28b96bc46f9873f844f218c2d959a288ff8ebb2247753dccec0c84c2e063",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_4629_passive/trigger-rules/on_real_damage_dealt_to_champion",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_spelldance_move_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spelldance_move_speed"
+              },
+              "name": "执行咒舞自身移动速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_counterparty",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_counterparty",
+              "name": "伤害承受对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "来源对象对英雄造成真实伤害后执行咒舞自身移动速度；不响应物理伤害或非英雄对象。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": "real",
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "eventType": "DAMAGE_DEALT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "对英雄造成真实伤害触发咒舞",
+          "perTargetCooldown": null,
+          "ruleKey": "on_real_damage_dealt_to_champion",
+          "sortOrder": 20
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3803_passive",
+      "detailRoute": "/skills/item_3803_passive",
+      "bodySha256": "d23b57426f222f4443b33c4ad2b5b5d8657f486295eaf2e876104622b4f01e3d",
+      "responseStatus": 200,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_3803_passive",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:44.736393Z",
+          "description": "保存来自英雄的减免前伤害10%回蓝、技能法力消耗25%自疗、单次施放上限20和维持型技能每秒上限20参数。受击回蓝已由受到伤害事件限定英雄来源并绑定减免前伤害；技能消耗自疗和持续技能统计仍待接线。客户端EternityCDPerCast=1000毫秒仅保留原字段，不解释为受击回蓝冷却。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "万世催化石·永恒",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-12T09:20:19.405277Z"
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3803_passive/parameters/damage_input",
+      "detailRoute": "/skills/item_3803_passive/parameters/damage_input",
+      "bodySha256": "14a9abbf43e371ace72868f658a975bcc1618a14c8b59ec767c08a9775359ad1",
+      "responseStatus": 200,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_3803_passive/parameters/damage_input",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:47.185583Z",
+          "description": "受到伤害规则在事件对方为英雄时绑定本次减免前伤害，单位：伤害点；不使用防御结算后的伤害值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "受击伤害运行时输入",
+          "parameterKey": "damage_input",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-12T09:20:20.772953Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3803_passive/formulas/mana_restore_from_damage",
+      "detailRoute": "/skills/item_3803_passive/formulas/mana_restore_from_damage",
+      "bodySha256": "806df25c10b56ff826b8734acabadbdeb383ce813d513e8480181aac59cfd36a",
+      "responseStatus": 200,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_3803_passive/formulas/mana_restore_from_damage",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:48.139728Z",
+          "description": "受到伤害规则提供来自英雄的减免前伤害运行时输入，再乘10%回蓝比例。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_input"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_restore_ratio_from_damage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "mana_restore_from_damage",
+          "gameId": "lol",
+          "name": "所受伤害转法力",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T09:20:22.202077Z"
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3803_passive/effects/mana_from_hero_damage",
+      "detailRoute": "/skills/item_3803_passive/effects/mana_from_hero_damage",
+      "bodySha256": "f30eb30bd2e1d774266c370a4fe3f4d929e67cecd588f6d255f40518e0cbb1c1",
+      "responseStatus": 200,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_3803_passive/effects/mana_from_hero_damage",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:48:56.29344Z",
+          "description": "受到来自英雄的伤害时，以本次减免前伤害的10%恢复持有者法力。客户端EternityCDPerCast=1000毫秒仅作为原字段保留，适用范围待证，不预设受击回蓝冷却。",
+          "effectKey": "mana_from_hero_damage",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "受击回蓝",
+          "results": [
+            {
+              "description": "恢复来自英雄的减免前伤害输入的10%法力。",
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "RESTORE"
+              },
+              "lifecycleBehavior": null,
+              "name": "恢复法力",
+              "resultKey": "mana_restore",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "mana_restore_from_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T09:20:23.723507Z"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3803_passive/trigger-rules",
+      "detailRoute": "/skills/item_3803_passive/trigger-rules/on_damage_taken_from_champion_restore_mana",
+      "bodySha256": "b520cfc3905c3ad2a7e86dff8c1ee246ba4f57f39c2e30b97808f012d17407ae",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_3803_passive/trigger-rules/on_damage_taken_from_champion_restore_mana",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_mana_from_hero_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "mana_from_hero_damage"
+              },
+              "name": "执行受击回蓝",
+              "resultModifiers": [],
+              "runtimeInputBindings": [
+                {
+                  "bindingKey": "bind_raw_damage",
+                  "detail": {
+                    "eventValueKey": "RAW_DAMAGE"
+                  },
+                  "parameterKey": "damage_input",
+                  "sourceType": "EVENT_VALUE"
+                }
+              ],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_counterparty",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_counterparty",
+              "name": "伤害来源对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "持有者受到来自英雄的伤害时，把本次减免前伤害绑定到受击输入并执行回蓝效果；不设置未经证实的内部冷却。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "eventType": "DAMAGE_TAKEN"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "受到英雄伤害恢复法力",
+          "perTargetCooldown": null,
+          "ruleKey": "on_damage_taken_from_champion_restore_mana",
+          "sortOrder": 10
+        }
+      }
+    }
+  ],
+  "finalReadback": {
+    "targets": [
+      {
+        "method": "GET",
+        "route": "/skills/item_4629_passive",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T16:43:01.319894Z",
+          "description": "对英雄造成魔法或真实伤害后提供自身20点固定移动速度，持续4秒。两条造成伤害规则分别限定魔法与真实伤害，并要求事件对方为英雄；不重复现有4%直接移速，不采用未绑定旧叠层字段。管理配置已接线，战斗运行时未验证。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "星界驱驰·咒舞",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_4629_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-12T09:20:13.000703Z"
+        }
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_4629_passive/effects/spelldance_move_speed",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T16:43:03.314916Z",
+          "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；重新触发只刷新持续时间，不叠加多份。",
+          "effectKey": "spelldance_move_speed",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_speed_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "咒舞自身移动速度",
+          "results": [
+            {
+              "description": "规则限定事件对方为英雄；满足魔法或真实伤害入口后，为持有者增加20点固定移动速度。",
+              "detail": {
+                "attributeKey": "move_speed",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "咒舞自身移动速度",
+              "resultKey": "move_speed",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "move_speed_bonus"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_4629_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T09:20:14.520883Z"
+        }
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_4629_passive/trigger-rules/on_magic_damage_dealt_to_champion",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_spelldance_move_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spelldance_move_speed"
+              },
+              "name": "执行咒舞自身移动速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_counterparty",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_counterparty",
+              "name": "伤害承受对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "来源对象对英雄造成魔法伤害后执行咒舞自身移动速度；不响应物理伤害或非英雄对象。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "eventType": "DAMAGE_DEALT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "对英雄造成魔法伤害触发咒舞",
+          "perTargetCooldown": null,
+          "ruleKey": "on_magic_damage_dealt_to_champion",
+          "sortOrder": 10
+        }
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_4629_passive/trigger-rules/on_real_damage_dealt_to_champion",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_spelldance_move_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spelldance_move_speed"
+              },
+              "name": "执行咒舞自身移动速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_counterparty",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_counterparty",
+              "name": "伤害承受对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "来源对象对英雄造成真实伤害后执行咒舞自身移动速度；不响应物理伤害或非英雄对象。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": "real",
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "eventType": "DAMAGE_DEALT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "对英雄造成真实伤害触发咒舞",
+          "perTargetCooldown": null,
+          "ruleKey": "on_real_damage_dealt_to_champion",
+          "sortOrder": 20
+        }
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_3803_passive",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:44.736393Z",
+          "description": "保存来自英雄的减免前伤害10%回蓝、技能法力消耗25%自疗、单次施放上限20和维持型技能每秒上限20参数。受击回蓝已由受到伤害事件限定英雄来源并绑定减免前伤害；技能消耗自疗和持续技能统计仍待接线。客户端EternityCDPerCast=1000毫秒仅保留原字段，不解释为受击回蓝冷却。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "万世催化石·永恒",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-12T09:20:19.405277Z"
+        }
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_3803_passive/parameters/damage_input",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:47.185583Z",
+          "description": "受到伤害规则在事件对方为英雄时绑定本次减免前伤害，单位：伤害点；不使用防御结算后的伤害值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "受击伤害运行时输入",
+          "parameterKey": "damage_input",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-12T09:20:20.772953Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_3803_passive/formulas/mana_restore_from_damage",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:47:48.139728Z",
+          "description": "受到伤害规则提供来自英雄的减免前伤害运行时输入，再乘10%回蓝比例。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_input"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_restore_ratio_from_damage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "mana_restore_from_damage",
+          "gameId": "lol",
+          "name": "所受伤害转法力",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T09:20:22.202077Z"
+        }
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_3803_passive/effects/mana_from_hero_damage",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:48:56.29344Z",
+          "description": "受到来自英雄的伤害时，以本次减免前伤害的10%恢复持有者法力。客户端EternityCDPerCast=1000毫秒仅作为原字段保留，适用范围待证，不预设受击回蓝冷却。",
+          "effectKey": "mana_from_hero_damage",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "受击回蓝",
+          "results": [
+            {
+              "description": "恢复来自英雄的减免前伤害输入的10%法力。",
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "RESTORE"
+              },
+              "lifecycleBehavior": null,
+              "name": "恢复法力",
+              "resultKey": "mana_restore",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "mana_restore_from_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T09:20:23.723507Z"
+        }
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_3803_passive/trigger-rules/on_damage_taken_from_champion_restore_mana",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_mana_from_hero_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "mana_from_hero_damage"
+              },
+              "name": "执行受击回蓝",
+              "resultModifiers": [],
+              "runtimeInputBindings": [
+                {
+                  "bindingKey": "bind_raw_damage",
+                  "detail": {
+                    "eventValueKey": "RAW_DAMAGE"
+                  },
+                  "parameterKey": "damage_input",
+                  "sourceType": "EVENT_VALUE"
+                }
+              ],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_counterparty",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_counterparty",
+              "name": "伤害来源对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "持有者受到来自英雄的伤害时，把本次减免前伤害绑定到受击输入并执行回蓝效果；不设置未经证实的内部冷却。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "eventType": "DAMAGE_TAKEN"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "受到英雄伤害恢复法力",
+          "perTargetCooldown": null,
+          "ruleKey": "on_damage_taken_from_champion_restore_mana",
+          "sortOrder": 10
+        }
+      }
+    ],
+    "protectedStaticRequests": [
+      {
+        "route": "/damage-types",
+        "status": 200,
+        "sha256": "1fe633fc5953d80471179fa630139be72ae12faa017285974ea53112b62fa177",
+        "matched": true
+      },
+      {
+        "route": "/attributes/move_speed",
+        "status": 200,
+        "sha256": "b37d1b77e5f610613e73b11ebe26dbffcd8890aa6cca235e51810134d7846282",
+        "matched": true
+      },
+      {
+        "route": "/attributes/mana",
+        "status": 200,
+        "sha256": "5d0550a4d7aa5a30a709b5d6f3b4d728c606bbbdb980ce60c1674c45b9d8d5ba",
+        "matched": true
+      },
+      {
+        "route": "/modifier-zones/attribute_flat_add",
+        "status": 200,
+        "sha256": "9bb35ed383ee556064304c8243e4dc24bc653f9e8e3a25eb5fff6cef459ff4b2",
+        "matched": true
+      },
+      {
+        "route": "/equipment/item_4629",
+        "status": 200,
+        "sha256": "97e3067cfa4ec59dc85a56f59ae3bcbe758220f1942a5296050b785a9a581c19",
+        "matched": true
+      },
+      {
+        "route": "/equipment/item_4629/attributes",
+        "status": 200,
+        "sha256": "93739ae3b716e26e4ed183168e7f71cc2a60cb9fc4913f36e0803732c09d2c0e",
+        "matched": true
+      },
+      {
+        "route": "/equipment-skill-relations?equipmentKey=item_4629",
+        "status": 200,
+        "sha256": "96f918320f9c2349841f5d8c364c0921165f30bf18c106a84a86e5fb3cb1284b",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/representative-image",
+        "status": 200,
+        "sha256": "3fa7fa55c4b94b1a9ce53fbcb56e197de5ad2c506e9bfa363c80df878e1cd4c7",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/parameters",
+        "status": 200,
+        "sha256": "e72c37594f4c5ad43f3ffac46be73c0fc27e4924ace7ad32660ddcb37b8a34f6",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/parameters/move_speed_bonus",
+        "status": 200,
+        "sha256": "c18dbf8f9cda21d5f1c18bfa771e2c2c10c2127325f7df68e9d998fe05331006",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/parameters/move_speed_duration_ms",
+        "status": 200,
+        "sha256": "f9ba7f9c01d652acc07ff73f71ed2dbde5b3b863606294d9e2072cceb32293d7",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/formulas",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/processes",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/equipment/item_3803",
+        "status": 200,
+        "sha256": "bf85c54d52e37c790da1e8fd05f7f2b0483990da06f446279bf7463c385d9270",
+        "matched": true
+      },
+      {
+        "route": "/equipment/item_3803/attributes",
+        "status": 200,
+        "sha256": "4e8956621d4688bd7927e0d9d5684fc250133af353fdb622a4ea89cc447cd424",
+        "matched": true
+      },
+      {
+        "route": "/equipment-skill-relations?equipmentKey=item_3803",
+        "status": 200,
+        "sha256": "df9b4033c476a151d0b4f70f7e02c018c584203078b5678fc7005976512c4437",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/representative-image",
+        "status": 200,
+        "sha256": "2a71090444fa709c50f3679cc40ed254efd4522f1178a096212a49e6f49c7299",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/mana_restore_ratio_from_damage",
+        "status": 200,
+        "sha256": "ba2c3e6bbee97419e4a01b964ddf9d3da78af2ef2e9a95b7fa1958a8eba2a508",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/health_restore_ratio_from_mana_cost",
+        "status": 200,
+        "sha256": "4b262b638c64203af6c8d019fb9a49e11f5b88b47f401ecb8235085a4aa8d712",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/health_restore_cap_per_cast",
+        "status": 200,
+        "sha256": "cafb7a63e37ee4f4ce26cb200940cf11651dc434c67ef78cc5e8a3125ae37360",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/eternity_internal_cooldown_ms",
+        "status": 200,
+        "sha256": "2b279ae53a79b2438107b70fbed7edc900a41aaa5283168609eec7df1e1c7033",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/mana_cost_input",
+        "status": 200,
+        "sha256": "41148ca2aa503dd4be7bcbdd1a3f7fbd50b1228fd710629aa72cf5ee35f2617e",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters/health_restore_cap_per_second",
+        "status": 200,
+        "sha256": "2a0f58caa937da2adc895f426b34228937a5abc0f5660e88957c9690fc4bb362",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/formulas/health_restore_uncapped",
+        "status": 200,
+        "sha256": "f59b5a2f3fc9ecfb6138167f547e010043b4c3f8d39c3e6c281d7fb4aa7a2ff9",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/formulas/health_restore_from_skill_cost",
+        "status": 200,
+        "sha256": "111daf3d75031b414b8e1cb1e95a485dec3a4f103bce0643cc88856cb56cee2b",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/effects/health_from_skill_cost",
+        "status": 200,
+        "sha256": "dd2c497de70bf6cee84489e78edc768619e9c4f9e819bd6d2243dce84fb90759",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/processes",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_3803_passive/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "matched": true
+      },
+      {
+        "route": "/skills/item_4629_passive/effects",
+        "status": 200,
+        "keys": [
+          "spelldance_move_speed"
+        ]
+      },
+      {
+        "route": "/skills/item_4629_passive/trigger-rules",
+        "status": 200,
+        "keys": [
+          "on_magic_damage_dealt_to_champion",
+          "on_real_damage_dealt_to_champion"
+        ]
+      },
+      {
+        "route": "/skills/item_3803_passive/parameters",
+        "status": 200,
+        "keys": [
+          "mana_restore_ratio_from_damage",
+          "health_restore_ratio_from_mana_cost",
+          "health_restore_cap_per_cast",
+          "eternity_internal_cooldown_ms",
+          "damage_input",
+          "mana_cost_input",
+          "health_restore_cap_per_second"
+        ]
+      },
+      {
+        "route": "/skills/item_3803_passive/formulas",
+        "status": 200,
+        "keys": [
+          "mana_restore_from_damage",
+          "health_restore_uncapped",
+          "health_restore_from_skill_cost"
+        ]
+      },
+      {
+        "route": "/skills/item_3803_passive/effects",
+        "status": 200,
+        "keys": [
+          "mana_from_hero_damage",
+          "health_from_skill_cost"
+        ]
+      },
+      {
+        "route": "/skills/item_3803_passive/trigger-rules",
+        "status": 200,
+        "keys": [
+          "on_damage_taken_from_champion_restore_mana"
+        ]
+      }
+    ],
+    "triggerRuleScan": {
+      "skillCount": 1062,
+      "listGetCount": 1062,
+      "detailGetCount": 90,
+      "ruleCount": 90,
+      "targetCategoryConditionCount": 8,
+      "damageRuleCount": 6,
+      "damageRulesWithTargetCategoryCount": 3,
+      "sha256": "828da9dd829f643451b6de91c297622b31ad92fea729bd3e06bc75064021ba74"
+    }
+  },
+  "businessWriteCount": 9,
+  "error": null,
+  "completedAt": "2026-09-12T09:20:35.598Z"
+}

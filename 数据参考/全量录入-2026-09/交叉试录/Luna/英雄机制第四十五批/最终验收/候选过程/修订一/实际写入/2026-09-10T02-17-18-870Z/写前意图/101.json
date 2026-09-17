@@ -1,0 +1,56 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_r/formulas",
+    "detailRoute": "/skills/heimerdinger_r/formulas/re_same_target_total_magic_damage",
+    "skillKey": "heimerdinger_r",
+    "kind": "formulas",
+    "stableKey": "re_same_target_total_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "re_same_target_total_magic_damage",
+      "name": "强化闪电手雷同一目标总魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "re_discharge_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "re_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "re_same_target_discharge_count"
+          }
+        ]
+      },
+      "description": "按运行层提供的同一目标实际放电命中次数计算；不把正文3次直接当同目标总次数。",
+      "sortOrder": 40
+    }
+  }
+}

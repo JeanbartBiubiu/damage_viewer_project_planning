@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T10:36:51.496Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/lissandra_r/parameters/self_stasis_duration_ms",
+  "id": "self_stasis_duration_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "self_stasis_duration_ms",
+    "name": "自身凝滞持续（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 2500,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.SelfCastDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 90
+  }
+}

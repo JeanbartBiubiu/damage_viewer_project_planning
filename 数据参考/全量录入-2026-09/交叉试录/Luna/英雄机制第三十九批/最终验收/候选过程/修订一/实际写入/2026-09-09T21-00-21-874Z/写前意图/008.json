@@ -1,0 +1,30 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_q/parameters",
+    "detailRoute": "/skills/urgot_q/parameters/base_damage",
+    "skillKey": "urgot_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "腐蚀电荷基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 70,
+        "3": 115,
+        "4": 160,
+        "5": 205
+      },
+      "description": "BaseDamage取索引1至5；索引0=-20是占位，不作为1级。",
+      "sortOrder": 10
+    }
+  }
+}

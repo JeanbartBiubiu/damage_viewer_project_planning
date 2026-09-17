@@ -1,0 +1,24 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 81,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_p/parameters",
+    "detailRoute": "/skills/shyvana_p/parameters/bonus_magic_resist_per_stack",
+    "skillKey": "shyvana_p",
+    "kind": "parameters",
+    "stableKey": "bonus_magic_resist_per_stack",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_magic_resist_per_stack",
+      "name": "每层额外魔抗点数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.300000012,
+      "levelValues": null,
+      "description": "当前源值每层0.3固定属性点数，按实际龙鳞层数累加；不是百分比或比例属性。",
+      "sortOrder": 20
+    }
+  }
+}

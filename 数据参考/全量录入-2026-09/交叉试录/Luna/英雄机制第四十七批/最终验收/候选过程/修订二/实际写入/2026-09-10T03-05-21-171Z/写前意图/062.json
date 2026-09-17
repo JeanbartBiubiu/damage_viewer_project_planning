@@ -1,0 +1,24 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_q/parameters",
+    "detailRoute": "/skills/nidalee_q/parameters/cast_time_ms",
+    "skillKey": "nidalee_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

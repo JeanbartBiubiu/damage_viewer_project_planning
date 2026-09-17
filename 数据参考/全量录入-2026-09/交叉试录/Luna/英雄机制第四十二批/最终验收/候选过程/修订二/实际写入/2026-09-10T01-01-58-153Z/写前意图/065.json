@@ -1,0 +1,21 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "skillKey": "ksante_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_w/parameters",
+    "stableKey": "charge_min_duration_ms",
+    "body": {
+      "parameterKey": "charge_min_duration_ms",
+      "name": "蓄力下限（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "正文消费0.4秒。",
+      "sortOrder": 70
+    }
+  }
+}

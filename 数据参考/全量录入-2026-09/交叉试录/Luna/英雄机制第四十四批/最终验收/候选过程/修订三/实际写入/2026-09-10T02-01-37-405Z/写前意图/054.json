@@ -1,0 +1,23 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "method": "POST",
+    "route": "/skills/monkeyking_q/formulas",
+    "detailRoute": "/skills/monkeyking_q/formulas/armor_shred_ratio",
+    "skillKey": "monkeyking_q",
+    "kind": "formulas",
+    "stableKey": "armor_shred_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "armor_shred_ratio",
+      "name": "粉碎打击护甲降低比例",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "armor_shred_ratio"
+      },
+      "description": "只保留目标护甲降低来源比例；目标属性效果待接。",
+      "sortOrder": 20
+    }
+  }
+}

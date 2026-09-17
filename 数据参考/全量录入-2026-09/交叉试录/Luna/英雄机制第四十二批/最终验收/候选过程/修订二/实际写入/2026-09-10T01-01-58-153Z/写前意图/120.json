@@ -1,0 +1,21 @@
+{
+  "i": 119,
+  "intent": {
+    "sequence": 120,
+    "skillKey": "mel_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_w/parameters",
+    "stableKey": "physical_to_magic_multiplier",
+    "body": {
+      "parameterKey": "physical_to_magic_multiplier",
+      "name": "物理来源反射转换倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.699999988079071,
+      "levelValues": null,
+      "description": "完整反射树×(1-PhysDamageMod)=×(1-30%)=×70%；只供物理来源第二公式，来源类型条件待接线。",
+      "sortOrder": 90
+    }
+  }
+}

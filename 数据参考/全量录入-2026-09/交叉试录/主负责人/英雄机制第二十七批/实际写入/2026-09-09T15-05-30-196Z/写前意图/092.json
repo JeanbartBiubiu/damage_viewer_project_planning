@@ -1,0 +1,24 @@
+{
+  "i": 91,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_r/parameters",
+    "skillKey": "hecarim_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "当前根DataValues.BaseDamage取索引1至3。",
+      "sortOrder": 20
+    }
+  }
+}

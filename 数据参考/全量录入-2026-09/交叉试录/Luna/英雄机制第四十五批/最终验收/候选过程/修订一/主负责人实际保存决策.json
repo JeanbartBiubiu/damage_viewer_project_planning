@@ -1,0 +1,35 @@
+{
+  "at": "2026-09-10T02:17:09.146Z",
+  "approved": true,
+  "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
+  "planSha256": "e416d8b6bedadf3bfccaf51a3c68052e4361fe88f8be64661f1dc989dfdf1b05",
+  "writerSha256": "8d090cc799e6a4b84cf2495e2b6729a9f0251b7a39ce3965d03821d45f6ad48c",
+  "created": 120,
+  "reused": 22,
+  "removed": [
+    "heimerdinger_q/effects/mana_cost",
+    "heimerdinger_q/parameters/mana_cost",
+    "heimerdinger_q/parameters/turret_kit_cost",
+    "shaco_w/effects/mana_cost",
+    "shaco_w/parameters/mana_cost"
+  ],
+  "strictParameterChecks": {
+    "params": 82,
+    "fixed": 56,
+    "arrays": 22,
+    "arrayValues": 115
+  },
+  "checks": [
+    "主负责人初版20槽源值核对完成，修订一除5个范围外删除和说明外结构、数值与公式完全未变",
+    "最终23公式46场景、82参数、15效果与6缺值拒绝通过；提莫W五级替代状态检查通过",
+    "提莫W主动被动不同时叠加；黑默丁格P是近合资格目标时自身移速，离开立即移除",
+    "萨科Q已包含本次基础普攻，不能重复总攻击力或自动包含P背刺/其他附伤",
+    "实际Cursor65只读工具24输入Git零变化"
+  ],
+  "pending": [
+    "提莫W主动/被动互斥移除与恢复需要事件层接线",
+    "黑默丁格近炮台/塔状态和重置移除条件待接，不自动创建召唤单位",
+    "未知角色等级曲线、毒伤刷新与同目标命中次数继续保留无默认资格"
+  ],
+  "apiWrites": 0
+}

@@ -1,0 +1,23 @@
+{
+  "i": 119,
+  "intent": {
+    "sequence": 120,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_r/parameters",
+    "detailRoute": "/skills/fiddlesticks_r/parameters/full_duration_ms",
+    "skillKey": "fiddlesticks_r",
+    "kind": "parameters",
+    "stableKey": "full_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "full_duration_ms",
+      "name": "杀人鸦持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前Duration=5秒，转换为5000毫秒供时序记录。",
+      "sortOrder": 40
+    }
+  }
+}

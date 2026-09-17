@@ -1,0 +1,70 @@
+{
+  "i": 158,
+  "intent": {
+    "sequence": 158,
+    "method": "POST",
+    "route": "/skills/tahmkench_e/effects",
+    "detailRoute": "/skills/tahmkench_e/effects/grey_health_shield",
+    "skillKey": "tahmkench_e",
+    "kind": "effects",
+    "stableKey": "grey_health_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "grey_health_shield",
+      "name": "厚实表皮自身灰色生命护盾",
+      "description": "当前主动分支把当前全部灰色生命值转为自身护盾，持续2.5秒；施放事件待接。",
+      "sortOrder": 30,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "name": "厚实表皮自身灰色生命护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "description": "只定义来源明确的自身护盾数值；施放和移除事件由后续事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "current_grey_health"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          }
+        }
+      ]
+    }
+  }
+}

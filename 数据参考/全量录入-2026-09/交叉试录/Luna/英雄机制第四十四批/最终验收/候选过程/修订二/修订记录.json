@@ -1,0 +1,258 @@
+{
+  "at": "2026-09-10T01:50:47.514Z",
+  "changes": [
+    {
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "original": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "description": "当前绑定的官方16.17.1基础冷却，单位转为毫秒；公共参数不在此重复。",
+        "sortOrder": 800
+      },
+      "reason": "独立灵魂整个技能按既定范围排除，不新增该技能专用公共参数。"
+    },
+    {
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "original": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 40,
+          "3": 45,
+          "4": 50,
+          "5": 55
+        },
+        "description": "当前绑定的官方16.17.1基础法力消耗；公共参数不在此重复。",
+        "sortOrder": 810
+      },
+      "reason": "独立灵魂整个技能按既定范围排除，不新增该技能专用公共参数。"
+    },
+    {
+      "skillKey": "illaoi_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "original": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能使用候选新增法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "reason": "独立灵魂整个技能按既定范围排除，不新增其法力效果。"
+    },
+    {
+      "skillKey": "neeko_r",
+      "kind": "parameters",
+      "key": "passive_removal_delay_ms",
+      "original": {
+        "parameterKey": "passive_removal_delay_ms",
+        "name": "施放后解除伪装延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "0.5秒转毫秒；伪装主体链排除，保留明确时长。",
+        "sortOrder": 50
+      },
+      "reason": "只服务已排除的伪装移除，不能混入本体R伤害组成。"
+    },
+    {
+      "skillKey": "yuumi_e",
+      "kind": "effects",
+      "key": "self_shield",
+      "original": {
+        "effectKey": "self_shield",
+        "name": "旺盛精力自身普通护盾",
+        "description": "未附身时自身护盾保留；护盾寿命未从3秒攻速时长推断。",
+        "sortOrder": 100,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "旺盛精力自身普通护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": "普通护盾；触发和移除事件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      },
+      "reason": "护盾移除条件及寿命未证，不能用EXPLICIT_ONLY把未知持续配成永久；保留护盾公式。"
+    },
+    {
+      "skillKey": "yuumi_e",
+      "kind": "effects",
+      "key": "self_move_speed",
+      "original": {
+        "effectKey": "self_move_speed",
+        "name": "旺盛精力自身移动速度",
+        "description": "移动速度仅在护盾存留时有效；护盾寿命与移速联动待接。",
+        "sortOrder": 120,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "旺盛精力自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      "reason": "移速与护盾存续绑定，寿命未证；保留比例公式与有明确3秒源值的攻速效果。"
+    },
+    {
+      "skillKey": "monkeyking_p",
+      "kind": "parameters",
+      "key": "combat_duration_ms",
+      "original": {
+        "parameterKey": "combat_duration_ms",
+        "name": "战斗窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "来源3秒转毫秒；触发资格事件待接。",
+        "sortOrder": 60
+      },
+      "reason": "CombatDuration=3存在但未被当前正文或计算树消费；不能替代明确的5秒叠层持续。"
+    },
+    {
+      "skillKey": "monkeyking_e",
+      "kind": "parameters",
+      "key": "dash_speed",
+      "added": {
+        "parameterKey": "dash_speed",
+        "name": "本体突进速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1050,
+        "levelValues": null,
+        "description": "当前E单目标本体突进DataValues.DashSpeed=1050；不是导弹速度2200，额外目标分身排除。",
+        "sortOrder": 80
+      },
+      "reason": "补齐已证实的本体突进源值。"
+    }
+  ],
+  "descriptionCorrections": 2,
+  "apiWrites": 0
+}

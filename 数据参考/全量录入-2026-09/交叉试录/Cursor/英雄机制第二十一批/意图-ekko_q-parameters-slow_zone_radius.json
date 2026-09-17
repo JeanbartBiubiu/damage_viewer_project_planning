@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:34.000Z",
+  "method": "POST",
+  "skillKey": "ekko_q",
+  "kind": "parameters",
+  "stableKey": "slow_zone_radius",
+  "route": "/skills/ekko_q/parameters",
+  "readRoute": "/skills/ekko_q/parameters/slow_zone_radius",
+  "body": {
+    "parameterKey": "slow_zone_radius",
+    "name": "减速力场半径",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 165,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.SlowZoneRadius 取索引1至5。1v1 下唯一敌人可处于该范围。",
+    "sortOrder": 90
+  }
+}

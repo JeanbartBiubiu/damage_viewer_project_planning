@@ -1,0 +1,43 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 81,
+    "skillKey": "ksante_e",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/ksante_e/formulas",
+    "stableKey": "self_shield_amount",
+    "body": {
+      "formulaKey": "self_shield_amount",
+      "name": "自身护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_hp_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalShield=基础护盾+0.135×来源额外生命。",
+      "sortOrder": 10
+    }
+  }
+}

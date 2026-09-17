@@ -1,0 +1,56 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/formulas",
+    "detailRoute": "/skills/belveth_e/formulas/maximum_damage_per_strike",
+    "skillKey": "belveth_e",
+    "kind": "formulas",
+    "stableKey": "maximum_damage_per_strike",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "maximum_damage_per_strike",
+      "name": "搠面皇锋每击最高物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_hit_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "onhit_damage_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MaxDamagePerStrikeTooltip仅为每击整体×2，不猜中间缺血曲线。",
+      "sortOrder": 120
+    }
+  }
+}

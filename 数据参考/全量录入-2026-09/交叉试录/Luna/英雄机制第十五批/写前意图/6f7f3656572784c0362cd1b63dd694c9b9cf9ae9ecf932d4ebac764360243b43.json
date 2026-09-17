@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:54:17.409Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_e/parameters/laser_base_damage",
+  "id": "laser_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "laser_base_damage",
+    "name": "激光基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 70,
+      "2": 110,
+      "3": 150,
+      "4": 190,
+      "5": 230
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamageLaser 取索引1至5。",
+    "sortOrder": 30
+  }
+}

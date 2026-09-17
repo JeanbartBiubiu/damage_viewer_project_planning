@@ -1,0 +1,23 @@
+{
+  "i": 238,
+  "intent": {
+    "sequence": 239,
+    "method": "POST",
+    "route": "/skills/briar_r/parameters",
+    "detailRoute": "/skills/briar_r/parameters/aoe_radius",
+    "skillKey": "briar_r",
+    "kind": "parameters",
+    "stableKey": "aoe_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "aoe_radius",
+      "name": "毙除猎物着陆范围半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 575,
+      "levelValues": null,
+      "description": "当前正文写着陆时对附近一切造成伤害，AoERadius=575用于包含猎物的着陆范围；额外敌人控制不展开。",
+      "sortOrder": 50
+    }
+  }
+}

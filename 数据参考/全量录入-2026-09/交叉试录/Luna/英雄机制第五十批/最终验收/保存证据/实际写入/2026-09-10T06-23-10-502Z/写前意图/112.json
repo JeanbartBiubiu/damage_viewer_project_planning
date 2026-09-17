@@ -1,0 +1,24 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/percent_hp_level_start_ratio",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "percent_hp_level_start_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_hp_level_start_ratio",
+      "name": "角色1级觉醒目标生命端点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.08,
+      "levelValues": null,
+      "description": "PercentHPBlast角色等级起始端点0.08；中间曲线未知。",
+      "sortOrder": 100
+    }
+  }
+}

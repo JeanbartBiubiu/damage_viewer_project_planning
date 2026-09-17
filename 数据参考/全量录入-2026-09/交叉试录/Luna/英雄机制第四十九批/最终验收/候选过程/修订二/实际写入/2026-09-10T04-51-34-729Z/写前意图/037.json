@@ -1,0 +1,73 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_w/effects",
+    "detailRoute": "/skills/gnar_w/effects/third_hit_move_speed",
+    "skillKey": "gnar_w",
+    "kind": "effects",
+    "stableKey": "third_hit_move_speed",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "third_hit_move_speed",
+      "name": "亢奋移速",
+      "description": "第三次命中后自身移速比例增量；移速随R等级资格并在3秒内衰减。",
+      "sortOrder": 110,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "move_speed_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "亢奋移速",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "仅定义自身属性变化，触发资格和时点由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "actual_r_qualified_move_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

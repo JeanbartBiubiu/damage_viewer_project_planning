@@ -1,0 +1,23 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 144,
+    "method": "POST",
+    "route": "/skills/singed_w/parameters",
+    "detailRoute": "/skills/singed_w/parameters/execute_delay_ms",
+    "skillKey": "singed_w",
+    "kind": "parameters",
+    "stableKey": "execute_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "execute_delay_ms",
+      "name": "执行延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 375,
+      "levelValues": null,
+      "description": "当前DelayExecute=0.375秒，转换为375毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

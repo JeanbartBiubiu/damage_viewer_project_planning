@@ -1,0 +1,4240 @@
+{
+  "generatedAt": "2026-09-09T10:09:06.627Z",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Vladimir",
+      "chineseName": "猩红收割者",
+      "rootPath": "Characters/Vladimir/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Vladimir.json.gz",
+        "sha256": "6417376f7de2a253a42585a60b48f05b951f17d68f92f9f8b4182952a5af8147",
+        "compressedSha256": "22bda7211a0882e6ec1c22d25a1434d471aa30ad91234ab5cc9cf4d1aed85ac6",
+        "byteSize": 71502,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/vladimir/vladimir.bin.json",
+        "fetchedAt": "2026-09-06T14:26:47.732Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Vladimir.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vladimir.json",
+        "fetchedAt": "2026-09-06T14:12:56.003Z",
+        "byteSize": 14780,
+        "sha256": "b6f1848c17d57deb50b6084eee7bc154ae2c3e5f588a889ede865318c45f0d23"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "vladimir_p",
+          "binding": "Characters/Vladimir/Spells/VladimirBloodGorgedAbility/VladimirBloodGorged",
+          "name": "血色契约",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "每30生命值加成给予弗拉基米尔1法术强度，每1法术强度给予弗拉基米尔1.6生命值（不会自我循环叠加）。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "HPforAP",
+              "values": [
+                30,
+                30,
+                30,
+                30,
+                30,
+                30,
+                30
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatioBonusHP",
+              "values": [
+                1.600000023841858,
+                1.600000023841858,
+                1.600000023841858,
+                1.600000023841858,
+                1.600000023841858,
+                1.600000023841858,
+                1.600000023841858
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "ApproximateAPBonusAvoidingRecursion": {
+              "mMultiplier": {
+                "mNumber": 1.059999942779541,
+                "__type": "NumberCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mPart1": {
+                    "mSubparts": [
+                      {
+                        "mStat": 12,
+                        "mStatFormula": 2,
+                        "mCoefficient": 1,
+                        "__type": "StatByCoefficientCalculationPart"
+                      },
+                      {
+                        "mPart1": {
+                          "mDataValue": "APRatioBonusHP",
+                          "__type": "NamedDataValueCalculationPart"
+                        },
+                        "mPart2": {
+                          "mCoefficient": -1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  },
+                  "mPart2": {
+                    "mPart1": {
+                      "mNumber": 0.009999999776482582,
+                      "__type": "NumberCalculationPart"
+                    },
+                    "mPart2": {
+                      "mNumber": 3.3329999446868896,
+                      "__type": "NumberCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ApproximateHPBonusAvoidingRecursion": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mPart1": {
+                    "mSubparts": [
+                      {
+                        "mStatFormula": 2,
+                        "mCoefficient": 1,
+                        "__type": "StatByCoefficientCalculationPart"
+                      },
+                      {
+                        "mPart1": {
+                          "mPart1": {
+                            "mNumber": 0.009999999776482582,
+                            "__type": "NumberCalculationPart"
+                          },
+                          "mPart2": {
+                            "mNumber": 3.3329999446868896,
+                            "__type": "NumberCalculationPart"
+                          },
+                          "__type": "ProductOfSubPartsCalculationPart"
+                        },
+                        "mPart2": {
+                          "mStat": 12,
+                          "mStatFormula": 2,
+                          "mCoefficient": -1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  },
+                  "mPart2": {
+                    "mPart1": {
+                      "mNumber": 1.059999942779541,
+                      "__type": "NumberCalculationPart"
+                    },
+                    "mPart2": {
+                      "mDataValue": "APRatioBonusHP",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "vladimir_q",
+          "binding": "Characters/Vladimir/Spells/VladimirQAbility/VladimirQ",
+          "name": "鲜血转换",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            7.9,
+            6.8,
+            5.7,
+            4.6
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗",
+          "officialDescription": "弗拉基米尔从目标敌人身上偷取生命值。当弗拉基米尔的资源槽攒满后，鲜血转换将暂时获得增益，提升伤害和治疗效果。",
+          "officialTooltip": "弗拉基米尔汲取目标的生命力，造成<magicDamage>{{ basedamagetooltip }}魔法伤害</magicDamage>并回复<healing>{{ basehealtooltip }}生命值</healing>。在使用2次这个技能后，弗拉基米尔会获得持续0.5秒的<speed>{{ movementspeedonq2 }}%移动速度</speed>，并强化这个技能的下一次使用，持续{{ frenzyduration }}秒。<br /><br />这个技能的强化版会转而造成<magicDamage>{{ empowereddamagetooltip }}魔法伤害</magicDamage>并回复额外的<healing>{{ empoweredhealtooltip }}加上{{ empoweredhealpercenttooltip }}已损失生命值</healing>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            10.100000381469727,
+            9,
+            7.900000095367432,
+            6.800000190734863,
+            5.699999809265137,
+            4.599999904632568,
+            3.5
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "HealAPRatio",
+              "values": [
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                60,
+                80,
+                100,
+                120,
+                140,
+                160,
+                180
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseHeal",
+              "values": [
+                15,
+                20,
+                25,
+                30,
+                35,
+                40,
+                45
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Empowered___HealPer100AP_0_1_",
+              "values": [
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DamagePercentAmp",
+              "values": [
+                85,
+                85,
+                85,
+                85,
+                85,
+                85,
+                85
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "FrenzyDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionHealPercent",
+              "values": [
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "BaseDamageTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6000000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BaseHealTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseHeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "HealAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpoweredDamageTooltip": {
+              "mMultiplier": {
+                "mNumber": 1.850000023841858,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "BaseDamageTooltip",
+              "__type": "GameCalculationModified"
+            },
+            "EmpoweredHealPercentTooltip": {
+              "mMultiplier": {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "EmpoweredHealPercent",
+              "__type": "GameCalculationModified"
+            },
+            "{097cda4f}": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 30,
+                  "mEndValue": 200,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpoweredHealTooltip": {
+              "mMultiplier": {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "{097cda4f}",
+              "__type": "GameCalculationModified"
+            },
+            "EmpoweredHealPercent": {
+              "mMultiplier": {
+                "mNumber": 0.009999999776482582,
+                "__type": "NumberCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mNumber": 5,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.03999999910593033,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "MovementSpeedOnQ2": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 10,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 16,
+                      "mAdditionalBonusAtThisLevel": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 21,
+                      "mAdditionalBonusAtThisLevel": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 26,
+                      "mAdditionalBonusAtThisLevel": 10,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "vladimir_w",
+          "binding": "Characters/Vladimir/Spells/VladimirSanguinePoolAbility/VladimirSanguinePool",
+          "name": "血红之池",
+          "maxrank": 5,
+          "officialCooldown": [
+            28,
+            25,
+            22,
+            19,
+            16
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "消耗{{ healthcost*100 }}%当前生命值",
+          "officialDescription": "弗拉基米尔潜入血泊之中，变得不可被选取，持续2秒。血泊上的敌人被减速，同时弗拉基米尔会从他们身上吸取生命。",
+          "officialTooltip": "弗拉基米尔化成一滩持续2秒的血池，获得<speed>{{ hasteboost*100 }}%持续衰减的移动速度</speed>，持续{{ hasteduration }}秒，并进入<keyword>无法被选取</keyword>和<keyword>幽灵</keyword>状态，同时使血池中的敌人<status>减速</status>{{ movespeedmod*-100 }}%。<br /><br />弗拉基米尔在期间会持续造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>，并且每命中一个敌人就会为弗拉基米尔回复<healing>{{ totalheal }}生命值</healing>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            31,
+            28,
+            25,
+            22,
+            19,
+            16,
+            16
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "MinionHealingMod",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                25,
+                80,
+                135,
+                190,
+                245,
+                300,
+                355
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealthCost",
+              "values": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BonusHealthRatio",
+              "values": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MoveSpeedMod",
+              "values": [
+                -0.4000000059604645,
+                -0.4000000059604645,
+                -0.4000000059604645,
+                -0.4000000059604645,
+                -0.4000000059604645,
+                -0.4000000059604645,
+                -0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "VampPercent",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HasteBoost",
+              "values": [
+                0.375,
+                0.375,
+                0.375,
+                0.375,
+                0.375,
+                0.375,
+                0.375
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HasteDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mStatFormula": 2,
+                  "mDataValue": "BonusHealthRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalHeal": {
+              "mMultiplier": {
+                "mDataValue": "VampPercent",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "vladimir_e",
+          "binding": "Characters/Vladimir/Spells/VladimirEAbility/VladimirE",
+          "name": "血之潮汐",
+          "maxrank": 5,
+          "officialCooldown": [
+            13,
+            11,
+            9,
+            7,
+            5
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "引导过程消耗{{ maxhealthcost }}%最大生命值({{ chargehealthtooltip }})",
+          "officialDescription": "弗拉基米尔消耗他的生命值来持续灌注一个蓄血库，蓄血库在释放时会对他身边的敌人造成伤害，但会被敌方单位所阻挡。",
+          "officialTooltip": "<charge>开始蓄力：</charge>弗拉基米尔积攒一个蓄血库，至多消耗<span class=\"colorCC3300\">{{ chargehealthtooltip }}生命值</span>。在攒满后，弗拉基米尔会被<status>减速</status>20%。<br /><br /><release>释放：</release>弗拉基米尔对附近的敌人释放一股血弹激流，基于蓄力时间造成<magicDamage>{{ mindamagetooltip }}</magicDamage>至<magicDamage>{{ maxdamagetooltip }}魔法伤害</magicDamage>。如果这个技能蓄力了至少1秒，那么它还会对目标造成持续0.5秒的{{ slowpercent }}%<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            15,
+            13,
+            11,
+            9,
+            7,
+            5,
+            5
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": -2,
+          "mCastTime": null,
+          "mChannelDuration": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "dataValues": [
+            {
+              "name": "SlowPercent",
+              "values": [
+                35,
+                40,
+                45,
+                50,
+                55,
+                60,
+                65
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxHealthCost",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                15,
+                30,
+                45,
+                60,
+                75,
+                90,
+                105
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TotalMaxHPDamage",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxChannelTime",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TimetoRampMaxDamage",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseMaxDamage",
+              "values": [
+                30,
+                60,
+                90,
+                120,
+                150,
+                180,
+                210
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "MinDamageTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mCoefficient": 0.014999999664723873,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.3499999940395355,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamageTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseMaxDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mCoefficient": 0.05999999865889549,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.800000011920929,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ChargeHealthTooltip": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mCoefficient": 0.07999999821186066,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "vladimir_r",
+          "binding": "Characters/Vladimir/Spells/VladimirHemoplagueAbility/VladimirHemoplague",
+          "name": "血之瘟疫",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            120,
+            120
+          ],
+          "officialCost": [
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗",
+          "officialDescription": "弗拉基米尔令一片区域感染上剧毒瘟疫，增加受感染敌人所受的伤害。在几秒后，血之瘟疫会对被感染的敌人造成魔法伤害，并根据命中的敌方英雄数来治疗弗拉基米尔。",
+          "officialTooltip": "弗拉基米尔生成一个剧毒瘟疫，使他的目标们所受伤害(所有来源)提高{{ damageamp }}%，持续{{ duration }}秒。在它消散后，弗拉基米尔对所有被感染的目标造成<magicDamage>{{ damage }}魔法伤害</magicDamage>。如果弗拉基米尔命中了一名敌方英雄，那么就会回复自身<healing>{{ damage }}生命值</healing>，此后每命中一名敌方英雄会回复自身额外的 <healing>{{ secondaryhealingtooltip }}生命值</healing>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            120,
+            120,
+            120,
+            120,
+            120
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.3888999819755554,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                150,
+                150,
+                250,
+                350,
+                0,
+                0,
+                0
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DamageAmp",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "VampPercentFirstChamp",
+              "values": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Duration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                0,
+                0,
+                0
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "VampPercentAdditionalChamp",
+              "values": [
+                40,
+                40,
+                40,
+                40,
+                40,
+                40,
+                40
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "Damage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.699999988079071,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "SecondaryHealingTooltip": {
+              "mMultiplier": {
+                "mNumber": 0.4000000059604645,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "Damage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Swain",
+      "chineseName": "诺克萨斯统领",
+      "rootPath": "Characters/Swain/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Swain.json.gz",
+        "sha256": "02d529b9d242100cd968da8300be5e241c5afbce3937b8c97d97fe1a649a313b",
+        "compressedSha256": "d96f61764c16ad208bb748ead78edf6b518e26d2ff2e3d4acbf3d261379f04cb",
+        "byteSize": 70386,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/swain/swain.bin.json",
+        "fetchedAt": "2026-09-06T14:26:39.085Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Swain.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Swain.json",
+        "fetchedAt": "2026-09-06T14:12:54.033Z",
+        "byteSize": 14678,
+        "sha256": "543c939c76a1b0c63595c3ad3b0cc13fb99400583a09d613cf7c11ddfd13c73a"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "swain_p",
+          "binding": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
+          "name": "狂食鸦群",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "斯维因的鸦群会收集<i>魂屑</i>来治疗斯维因并永久提升他的最大生命值。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "SoulCollectionRange",
+              "values": [
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealthIncrement",
+              "values": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "PassiveHealPercent": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 0.05999999865889549,
+                  "mEndValue": 0.05999999865889549,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "PassiveHealCalculated": {
+              "mMultiplier": {
+                "mStat": 12,
+                "mCoefficient": 1,
+                "__type": "StatByCoefficientCalculationPart"
+              },
+              "mModifiedGameCalculation": "PassiveHealPercent",
+              "__type": "GameCalculationModified"
+            },
+            "MaxHealthGained": {
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{0dc6979e}",
+                  "mDataValue": "HealthIncrement",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "swain_q",
+          "binding": "Characters/Swain/Spells/SwainQAbility/SwainQ",
+          "name": "解脱之触",
+          "maxrank": 5,
+          "officialCooldown": [
+            7,
+            6,
+            5,
+            4,
+            3
+          ],
+          "officialCost": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "斯维因释放多道恶魔之力，这种力量可以穿透命中的目标。被一道以上的恶魔之力所命中的敌人，会受到基于恶魔之力数量的更多伤害。",
+          "officialTooltip": "斯维因释放5道恶魔之力，造成<magicDamage>{{ initialdamage }}魔法伤害</magicDamage>，第一道之后的每道恶魔之力造成<magicDamage>{{ extraboltdamage }}魔法伤害</magicDamage>(最大伤害为<magicDamage>{{ maxdamage }}魔法伤害</magicDamage>)。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            7,
+            7,
+            6,
+            5,
+            4,
+            3,
+            3
+          ],
+          "mana": [
+            40,
+            45,
+            50,
+            55,
+            60,
+            60
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              45,
+              50,
+              55,
+              60,
+              60
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                60,
+                90,
+                120,
+                150,
+                180,
+                210
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "FirstBoltAPRatio",
+              "values": [
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104,
+                0.44999998807907104
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ExtraBoltRatio",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BoundaryCheckRange",
+              "values": [
+                725,
+                725,
+                725,
+                725,
+                725,
+                725,
+                725
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxDamageMultiTOOLTIP",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "InitialDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "FirstBoltAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ExtraBoltDamage": {
+              "mMultiplier": {
+                "mDataValue": "ExtraBoltRatio",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "InitialDamage",
+              "__type": "GameCalculationModified"
+            },
+            "MaxDamage": {
+              "mMultiplier": {
+                "mDataValue": "MaxDamageMultiTOOLTIP",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "InitialDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "swain_w",
+          "binding": "Characters/Swain/Spells/SwainWAbility/SwainW",
+          "name": "帝国视界",
+          "maxrank": 5,
+          "officialCooldown": [
+            22,
+            21,
+            20,
+            19,
+            18
+          ],
+          "officialCost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "斯维因睁开恶魔之眼来对敌人造成伤害和减速效果。在命中敌方英雄时会使该英雄显形，并为斯维因提供一片魂屑。",
+          "officialTooltip": "斯维因睁开一只恶魔之眼，来使一个位置显形1.5秒，然后造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>和持续{{ slowduration }}秒的{{ slow*-100 }}%<status>减速</status>。<br /><br />被命中的英雄会为斯维因提供一片<span class=\"size18 colorFF3F3F\">魂屑</span>并显形{{ revealduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            22,
+            22,
+            21,
+            20,
+            19,
+            18,
+            18
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            80
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              80
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                35,
+                70,
+                105,
+                140,
+                175,
+                210,
+                245
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionMod",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Slow",
+              "values": [
+                -0.5,
+                -0.5,
+                -0.5,
+                -0.5,
+                -0.5,
+                -0.5,
+                -0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RevealDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "EffectRadius",
+              "values": [
+                325,
+                325,
+                325,
+                325,
+                325,
+                325,
+                325
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "VisionRadius",
+              "values": [
+                420,
+                420,
+                420,
+                420,
+                420,
+                420,
+                420
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinionDamage": {
+              "mMultiplier": {
+                "mDataValue": "MinionMod",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "swain_e",
+          "binding": "Characters/Swain/Spells/SwainEAbility/SwainE",
+          "name": "永不复行",
+          "maxrank": 5,
+          "officialCooldown": [
+            12,
+            11.5,
+            11,
+            10.5,
+            10
+          ],
+          "officialCost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "斯维因释放一道恶魔之手向前击出。手臂随后会返回至斯维因处，并禁锢它命中的敌人。斯维因之后可以选择将所有被禁锢的英雄们拉拽得更靠近他。这个技能在【恶魔升华】期间会有一个更短的冷却时间。",
+          "officialTooltip": "斯维因发射一道会折返的恶魔能量波，在命中的第一个敌人身上引爆，对一个区域内的敌人造成<magicDamage>{{ secondarydamage }}魔法伤害</magicDamage>和{{ rootduration }}秒<status>禁锢</status>。<br /><br />用这个技能<status>禁锢</status>一名英雄后，可使斯维因再次施放这个技能来拉拽所有被<spellName>永不复行</spellName><status>禁锢</status>的英雄们，并且每个被他拉拽的英雄将为他提供一个<span class=\"size18 colorFF3F3F\">魂屑</span>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            12,
+            12,
+            11.5,
+            11,
+            10.5,
+            10,
+            10
+          ],
+          "mana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            70
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              70
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "E2Damage",
+              "values": [
+                50,
+                90,
+                130,
+                170,
+                210,
+                250,
+                290
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "E2Ratio",
+              "values": [
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RootDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PullDistance",
+              "values": [
+                290,
+                290,
+                290,
+                290,
+                290,
+                290,
+                290
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CooldownRefund",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ExplosionRadius",
+              "values": [
+                205,
+                205,
+                205,
+                205,
+                205,
+                205,
+                205
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "SecondaryDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "E2Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "E2Ratio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "swain_r",
+          "binding": "Characters/Swain/Spells/SwainRAbility/SwainR",
+          "name": "恶魔升华",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            120,
+            120
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "斯维因变身为恶魔并从附近的敌方英雄、小兵和中立野怪身上汲取生命值。斯维因能施放【恶魔耀光】来用一道魂焰新星残害并减速附近的敌人们。这个形态可以在斯维因汲取敌方英雄时无限持续。",
+          "officialTooltip": "斯维因使体内的恶魔解脱，每秒造成<magicDamage>{{ damagecalc }}魔法伤害</magicDamage>并从附近的敌人们身上汲取<healing>{{ healingcalc }}生命值</healing>。他的恶魔能量会持续消耗，但可通过汲取敌方英雄来无限期地充能并且会在参与击杀英雄后完全回复。<br /><br />在{{ demonflarecastdelay }}秒后以及之后的每{{ demonflarecooldowntooltip }}秒，斯维因能够在变身状态下施放<spellName>恶魔耀光</spellName>来对敌人们造成<magicDamage>{{ demonflaredamagetotal }}魔法伤害</magicDamage>和在{{ demonflareslowduration }}秒里持续衰减的{{ demonflareslowamount*100 }}%<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            120,
+            120,
+            120,
+            120,
+            120
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "DamagePerSecond",
+              "values": [
+                5,
+                15,
+                25,
+                35,
+                45,
+                55,
+                65
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DamageAPRatio",
+              "values": [
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealPerSecond",
+              "values": [
+                0,
+                15,
+                30,
+                45,
+                60,
+                75,
+                90
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealAPRatio",
+              "values": [
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealHPRatio",
+              "values": [
+                0.014999999664723873,
+                0.014999999664723873,
+                0.014999999664723873,
+                0.014999999664723873,
+                0.014999999664723873,
+                0.014999999664723873,
+                0.014999999664723873
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionMonsterHealReduction",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DemonPowerMax",
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DemonPowerDegen",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DemonPowerRegen",
+              "values": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DemonflareDamageBase",
+              "values": [
+                50,
+                150,
+                250,
+                350,
+                450,
+                550,
+                650
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DemonflareDamageRatio",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DemonflareSlowAmount",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DemonflareSlowDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AmpTime",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DegenAmpAmount",
+              "values": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DemonflareCastDelay",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxDemonflareCast",
+              "values": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TimeBetweenTicks",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DemonflareCooldownTooltip",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BasePercentHealthSteal",
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TicksPerSecond",
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DotDuration",
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinDamage",
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "DamageCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "DamagePerSecond",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "DamageAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "HealingCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "HealPerSecond",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "HealAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mStatFormula": 2,
+                  "mDataValue": "HealHPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "DemonflareDamageTotal": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "DemonflareDamageBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "DemonflareDamageRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinionMonsterHeal": {
+              "mMultiplier": {
+                "mDataValue": "MinionMonsterHealReduction",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "HealingCalc",
+              "__type": "GameCalculationModified"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Rumble",
+      "chineseName": "机械公敌",
+      "rootPath": "Characters/Rumble/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Rumble.json.gz",
+        "sha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+        "compressedSha256": "71a308589d8be6ebdd5c620c63911318c6ebe1421009d2cc39db36211bf364eb",
+        "byteSize": 67100,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rumble/rumble.bin.json",
+        "fetchedAt": "2026-09-06T14:26:35.520Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Rumble.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rumble.json",
+        "fetchedAt": "2026-09-06T14:12:52.487Z",
+        "byteSize": 11612,
+        "sha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "rumble_p",
+          "binding": "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem",
+          "name": "机械重组",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "兰博的技能都能使其获得热量。当兰博的热量达到50%时，他会处于危险温度状态，所有基础技能都会获得额外效果。当热量达到100%时，他会进入过热状态，获得额外的攻击速度并让他的普通攻击造成额外伤害，但也会让他在数秒内无法施放技能。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "OverheatDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DangerZoneHeat",
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OverheatingHeat",
+              "values": [
+                150,
+                150,
+                150,
+                150,
+                150,
+                150,
+                150
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OverheatPercBonusDamage",
+              "values": [
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MonsterCap",
+              "values": [
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HeatDecayPerS",
+              "values": [
+                -10,
+                -10,
+                -10,
+                -10,
+                -10,
+                -10,
+                -10
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalBaseDamage": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 5,
+                  "mEndValue": 40,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.25,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "OverheatAS": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 0.5,
+                  "mEndValue": 1.2999999523162842,
+                  "mScaleByStatProgressionMultiplier": true,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "MonsterCapScaling": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 65,
+                  "mEndValue": 150,
+                  "mScaleByStatProgressionMultiplier": true,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "rumble_q",
+          "binding": "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower",
+          "name": "纵火盛宴",
+          "maxrank": 5,
+          "officialCooldown": [
+            10,
+            9,
+            8,
+            7,
+            6
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "{{ initialheatcost }}热量",
+          "officialDescription": "兰博朝敌人放火，每秒对前方锥形范围内的敌人造成伤害，持续3秒。在危险温度时，兰博增加对其造成的伤害。",
+          "officialTooltip": "兰博点燃他的火焰喷射器，在{{ flamespitterduration }}秒里持续造成共<magicDamage>{{ flatdamage }}外加{{ healthdamage*100 }}%最大生命值的魔法伤害</magicDamage>，对小兵降低至<attention>{{ minionmod*100 }}%</attention>。<br /><br /><keywordMajor>危险温度：</keywordMajor>提升至<magicDamage>{{ empowereddamage }}外加{{ empoweredhealth }}最大生命值的魔法伤害</magicDamage>。<br /><br /><rules>对野怪的百分比伤害的上限为{{ monstercap }}。</rules>{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            10,
+            10,
+            9,
+            8,
+            7,
+            6,
+            6
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                25,
+                50,
+                75,
+                100,
+                125,
+                150,
+                175
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionMod",
+              "values": [
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealthDamage",
+              "values": [
+                0.054999999701976776,
+                0.05999999865889549,
+                0.06499999761581421,
+                0.07000000029802322,
+                0.07500000298023224,
+                0.07999999821186066,
+                0.08500000089406967
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                1.0499999523162842,
+                1.0499999523162842,
+                1.0499999523162842,
+                1.0499999523162842,
+                1.0499999523162842,
+                1.0499999523162842,
+                1.0499999523162842
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OverheatMulti",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "FlamespitterDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DebuffTicks",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TickRate",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TotalTicks",
+              "values": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "InitialHeatCost",
+              "values": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BurnDuration",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "FlatDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinionDamage": {
+              "mMultiplier": {
+                "mDataValue": "MinionMod",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "FlatDamage",
+              "__type": "GameCalculationModified"
+            },
+            "EmpoweredDamage": {
+              "mMultiplier": {
+                "mDataValue": "OverheatMulti",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "FlatDamage",
+              "__type": "GameCalculationModified"
+            },
+            "EmpoweredHealth": {
+              "mMultiplier": {
+                "mDataValue": "OverheatMulti",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "HealthDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "MonsterCap": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 65,
+                  "mEndValue": 300,
+                  "mScaleByStatProgressionMultiplier": true,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "rumble_w",
+          "binding": "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield",
+          "name": "破碎护盾",
+          "maxrank": 5,
+          "officialCooldown": [
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "{{ heatcost }}热量",
+          "officialDescription": "兰博制造一个护盾，保护自己免受伤害，并短时间内增加移动速度。在危险温度时，兰博增加护盾强度和速度加成。",
+          "officialTooltip": "兰博开启一道屏障，获得持续{{ shieldduration.1 }}秒的<shield>{{ totalshield }}护盾值</shield>和持续{{ movespeedduration }}秒的<speed>{{ movespeed*100 }}%移动速度</speed>。<br /><br /><keywordMajor>危险温度：</keywordMajor>屏障转而提供<shield>{{ empoweredshield }}护盾值</shield>和<speed>{{ empoweredms }}移动速度</speed>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "HeatCost",
+              "values": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseShield",
+              "values": [
+                -5,
+                25,
+                55,
+                85,
+                115,
+                145,
+                175
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealthShield",
+              "values": [
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033,
+                0.03999999910593033
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MoveSpeed",
+              "values": [
+                0.05000000074505806,
+                0.10000000149011612,
+                0.15000000596046448,
+                0.20000000298023224,
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShieldDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MoveSpeedDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalShield": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseShield",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mDataValue": "HealthShield",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpoweredShield": {
+              "mMultiplier": {
+                "mNumber": 1.5,
+                "__type": "NumberCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "TotalShield",
+              "__type": "GameCalculationModified"
+            },
+            "EmpoweredMS": {
+              "mMultiplier": {
+                "mNumber": 1.5,
+                "__type": "NumberCalculationPart"
+              },
+              "mExpandedTooltipCalculationDisplay": 5,
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MoveSpeed",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "rumble_e",
+          "binding": "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
+          "name": "电子鱼叉",
+          "maxrank": 5,
+          "officialCooldown": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "{{ firstcastheatcost }} 热量",
+          "officialDescription": "兰博发射一把鱼叉，对敌人造成魔法伤害、减速效果和魔法抗性击碎效果。兰博可同时持有2发鱼叉。在危险温度时，兰博增加其伤害和减速百分比。",
+          "officialTooltip": "兰博发射一柄电子鱼叉，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>、持续{{ slowduration }}秒的{{ baseslowamount }}%<status>减速</status>、以及持续{{ shredduration }}秒的{{ percmagicpen*100 }}%<scaleMR>魔抗</scaleMR>击碎效果。<br /><br />命中一名已被此技能<status>减速</status>的敌人时，会将<status>减速</status>提升至{{ empoweredslowamount }}%并使敌人的<scaleMR>魔抗</scaleMR>降低{{ enhancedmagicpen*100 }}%。<br /><br /><keywordMajor>危险温度：</keywordMajor>鱼叉转而造成<magicDamage>{{ empdamage }}魔法伤害</magicDamage>并且<status>减速</status>和<scaleMR>魔抗击碎</scaleMR>效果提升50%。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                55,
+                80,
+                105,
+                130,
+                155,
+                180
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "FirstCastHeatCost",
+              "values": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SecondCastHeatCost",
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PercMagicPen",
+              "values": [
+                0.07999999821186066,
+                0.10000000149011612,
+                0.11999999731779099,
+                0.14000000059604645,
+                0.1599999964237213,
+                0.18000000715255737,
+                0.20000000298023224
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "EnhancedMagicPen",
+              "values": [
+                0.1599999964237213,
+                0.20000000298023224,
+                0.23999999463558197,
+                0.2800000011920929,
+                0.3199999928474426,
+                0.36000001430511475,
+                0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShredDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseSlowAmount",
+              "values": [
+                10,
+                15,
+                20,
+                25,
+                30,
+                35,
+                40
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "EmpoweredSlowAmount",
+              "values": [
+                20,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpDamage": {
+              "mMultiplier": {
+                "mNumber": 1.5,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "rumble_r",
+          "binding": "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb",
+          "name": "恒温灼烧",
+          "maxrank": 3,
+          "officialCooldown": [
+            130,
+            105,
+            80
+          ],
+          "officialCost": [
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗",
+          "officialDescription": "兰博朝目标区域发射火箭，形成一堵火焰之墙，对范围内的敌人造成伤害并减速。",
+          "officialTooltip": "兰博发射一列火箭，生成一道持续{{ trailduration }}秒的燃烧小径，造成{{ slowamount }}%<status>减速</status>并每秒造成<magicDamage>{{ damagepersecond }}魔法伤害</magicDamage>。<br /><br />兰博可以在施放这个技能时，通过点击并拖拽来控制燃烧小径的方向。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            130,
+            130,
+            105,
+            80,
+            80,
+            80,
+            80
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "NumMissiles",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TrailDuration",
+              "values": [
+                4.5,
+                4.5,
+                4.5,
+                4.5,
+                4.5,
+                4.5,
+                4.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TickRate",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamagePerSecond",
+              "values": [
+                40,
+                120,
+                200,
+                280,
+                360,
+                440,
+                520
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxBurnSeconds",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BurnLingerTime",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "DamagePerSecond": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamagePerSecond",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.3499999940395355,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalDamage": {
+              "mMultiplier": {
+                "mDataValue": "TrailDuration",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "DamagePerSecond",
+              "__type": "GameCalculationModified"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "AurelionSol",
+      "chineseName": "铸星龙王",
+      "rootPath": "Characters/AurelionSol/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/AurelionSol.json.gz",
+        "sha256": "8d59b9548b7b0e7f863ed2c78781b6710c7f97c55cbe2ebcb2a78bc6791bcce7",
+        "compressedSha256": "15788658238bef7ef37558de68f4e2d96bcebcc6957a474af759117201d254b0",
+        "byteSize": 102273,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/aurelionsol/aurelionsol.bin.json",
+        "fetchedAt": "2026-09-06T14:26:12.899Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/AurelionSol.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/AurelionSol.json",
+        "fetchedAt": "2026-09-06T14:12:44.715Z",
+        "byteSize": 13533,
+        "sha256": "9b14944c4135d278230cfdc0a00edfc9323fe8641fc7a3e0c24f05cb1e2c1d65"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "aurelionsol_p",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+          "name": "星海焕然",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "奥瑞利安·索尔的伤害型技能会将敌人们化为<font color='#3458eb'>星尘</font>，星尘可用来永久增强他的每个技能。 ",
+          "officialTooltip": null,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "QMaxHealthTrueDamagePerStack",
+              "values": [
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseExecutionThreshold",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ExecutionGrowthPerBreakpoint",
+              "values": [
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "QPassiveScaling": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{c9372c6b}",
+                  "mIconKey": "%i:asolStackIcon%",
+                  "mDataValue": "QMaxHealthTrueDamagePerStack",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "EPassiveScalingExecute": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{c9372c6b}",
+                  "mIconKey": "%i:asolStackIcon%",
+                  "mDataValue": "ExecutionGrowthPerBreakpoint",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "ExecuteHealthThreshold": {
+              "mFormulaParts": [
+                {
+                  "{a8cb9c14}": true,
+                  "mStat": 12,
+                  "mSubpart": {
+                    "mSubparts": [
+                      {
+                        "mPart1": {
+                          "mDataValue": "BaseExecutionThreshold",
+                          "__type": "NamedDataValueCalculationPart"
+                        },
+                        "mPart2": {
+                          "mNumber": 0.009999999776482582,
+                          "__type": "NumberCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      },
+                      {
+                        "mPart1": {
+                          "mSpellCalculationKey": "EPassiveScalingExecute",
+                          "__type": "{f3cbe7b2}"
+                        },
+                        "mPart2": {
+                          "mNumber": 0.009999999776482582,
+                          "__type": "NumberCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "aurelionsol_q",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+          "name": "星河冲荡",
+          "maxrank": 5,
+          "officialCooldown": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "officialCost": [
+            30,
+            35,
+            40,
+            45,
+            50
+          ],
+          "officialResource": "每秒{{ manacostpersecond }}法力",
+          "officialDescription": "奥瑞利安·索尔引导他的龙息若干秒，伤害首个命中的敌人并对附近的敌人们造成削减过的溅射伤害。龙息在一个敌人身上每直接引导一秒就会造成额外伤害，这个伤害可通过已收集的【星尘】来提升。如果目标是一名英雄，那么这个技能还会收集【星尘】。",
+          "officialTooltip": "奥瑞利安·索尔喷吐星焰，至多持续{{ maxchannelduration }}秒，每秒对首个命中的敌人造成<magicDamage>{{ damagepersecond }}魔法伤害</magicDamage>并对附近的敌人们造成{{ aoemodifier*100 }}%此伤害。<br /><br />对相同敌人每进行一整秒的吐息，就会造成一次爆发性的<magicDamage>{{ burstdamage }}魔法伤害</magicDamage>外加<magicDamage>{{ burstbonustruedamagetochamps }}最大生命值的魔法伤害</magicDamage>，并且如果这个敌人是英雄，还会吸收<span class=\"color3458eb\">{{ qmassstolen }}星尘</span>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "mana": [
+            35,
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "manaValues": {
+            "values": [
+              30,
+              35,
+              40,
+              45,
+              50,
+              55
+            ],
+            "{0a3e0478}": 30,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.009999990463256836,
+          "mCastTime": null,
+          "mChannelDuration": [
+            3.25,
+            3.25,
+            3.25,
+            3.25,
+            3.25,
+            3.25,
+            3.25
+          ],
+          "dataValues": [
+            {
+              "name": "AngularDegreesPerSec",
+              "values": [
+                180,
+                180,
+                180,
+                180,
+                180,
+                180,
+                180
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BeamWidth",
+              "values": [
+                140,
+                140,
+                140,
+                140,
+                140,
+                140,
+                140
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxChannelDuration",
+              "values": [
+                3.25,
+                3.25,
+                3.25,
+                3.25,
+                3.25,
+                9999,
+                9999
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BurstAfter",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ManaCostPerSecond",
+              "values": [
+                25,
+                30,
+                35,
+                40,
+                45,
+                50,
+                55
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RankDamagePerSecond",
+              "values": [
+                30,
+                45,
+                60,
+                75,
+                90,
+                105,
+                120
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APPerSecond",
+              "values": [
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RankBurstDamage",
+              "values": [
+                50,
+                60,
+                70,
+                80,
+                90,
+                100,
+                110
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BurstAPRatio",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BeamSegments",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "WProcCooldown",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "QMassStolen",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DistancePerMass",
+              "values": [
+                0.375,
+                0.375,
+                0.375,
+                0.375,
+                0.375,
+                0.375,
+                0.375
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "QMaxHealthTrueDamagePerStack",
+              "values": [
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777,
+                0.0003100000030826777
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MonsterDamageCap",
+              "values": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AOEModifier",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "DamagePerSecond": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RankDamagePerSecond",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APPerSecond",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BurstDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RankBurstDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "BurstAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BurstBonusTrueDamageToChamps": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{c9372c6b}",
+                  "mIconKey": "%i:asolStackIcon%",
+                  "mDataValue": "QMaxHealthTrueDamagePerStack",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "LevelBasedRangeScaling": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 750,
+                  "mInitialBonusPerLevel": 10,
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "aurelionsol_w",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+          "name": "星穹流丽",
+          "maxrank": 5,
+          "officialCooldown": [
+            22,
+            20,
+            18,
+            16,
+            14
+          ],
+          "officialCost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "奥瑞利安 · 索尔沿着目标方向飞越地形。在这个状态下，他可以施放其它技能。飞行期间，星河冲荡没有冷却时间，也没有最长蓄力时间，并且造成的伤害会提升。<br><br>如果有敌方英雄因为奥瑞利安 · 索尔近期造成的伤害阵亡，星穹流丽的冷却时间会缩短。<br><br>星尘会提升星穹流丽的最大飞行距离。",
+          "officialTooltip": "奥瑞利安·索尔向一个方向飞行。在飞行时，<spellName>星河冲荡</spellName>没有冷却时间，没有最大引导时长，并且它的固定伤害提升{{ truedamagebonus*100 }}%。<br /><br />参与击杀那些在{{ resetwindow }}秒内被你造成过伤害的英雄后，会返还这个技能{{ tooltiptakedowncooldownmultiplier }}%的冷却时间。<br /><br /><recast>再次施放：</recast>提前结束飞行。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            23.5,
+            22,
+            20.5,
+            19,
+            17.5,
+            16,
+            14.5
+          ],
+          "mana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            70
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              70
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.375,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "TrueDamageBonus",
+              "values": [
+                0.07000000029802322,
+                0.07999999821186066,
+                0.09000000357627869,
+                0.10000000149011612,
+                0.10999999940395355,
+                0.11999999731779099,
+                0.12999999523162842
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseMS",
+              "values": [
+                340,
+                340,
+                340,
+                340,
+                340,
+                340,
+                340
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseCruiseMS",
+              "values": [
+                340,
+                340,
+                340,
+                340,
+                340,
+                340,
+                340
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DistancePerMass",
+              "values": [
+                7.5,
+                7.5,
+                7.5,
+                7.5,
+                7.5,
+                7.5,
+                7.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ResetWindow",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TakedownCooldownMultiplier",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TooltipTakedownCooldownMultiplier",
+              "values": [
+                90,
+                90,
+                90,
+                90,
+                90,
+                90,
+                90
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "FakeCastTime",
+              "values": [
+                0.375,
+                0.375,
+                0.375,
+                0.375,
+                0.375,
+                0.375,
+                0.375
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OverrideECastRange",
+              "values": [
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CD",
+              "values": [
+                22,
+                22,
+                20.5,
+                19,
+                17.5,
+                16,
+                16
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "DashSpeed": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseMS",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 7,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{70212d39}": {
+              "mMultiplier": {
+                "mNumber": 0.5,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "{ffd78035}",
+              "__type": "GameCalculationModified"
+            },
+            "{ffd78035}": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseMS",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 7,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{e3ddb2ca}": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 0.800000011920929,
+                  "mEndValue": 1.2000000476837158,
+                  "mScalePastDefaultMaxLevel": false,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "aurelionsol_e",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+          "name": "星芒凝汇",
+          "maxrank": 5,
+          "officialCooldown": [
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "officialCost": [
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "奥瑞利安·索尔召唤一个黑洞，对敌人们造成伤害并缓慢地将他们拉拽向黑洞的中心。每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，这个技能都会提供【星尘】。黑洞的中心会处决低于一定百分比最大生命值的敌人。【星尘】会提升【星芒凝汇】的区域以及处决阈值。",
+          "officialTooltip": "奥瑞利安·索尔召唤一个黑洞，对敌人们每秒造成<magicDamage>{{ damagepersecond }}魔法伤害</magicDamage>并缓慢地将他们<status>拉拽</status>向黑洞的中心，持续{{ duration }}秒。黑洞中心的敌人一旦低于<scaleHealth>{{ currentexecutionthreshold }}%最大生命值</scaleHealth>就会立刻阵亡。<br /><br />每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，黑洞就会吸收<span class=\"color3458eb\">星尘</span>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "mana": [
+            90,
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "manaValues": {
+            "values": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "{0a3e0478}": 90,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": 0.20000000298023224,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "ChampionMassPerSecond",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionMassDeath",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "LargeMinionCountBonus",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "LargeMonsterCountBonus",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ChampionCountBonus",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "EpicMonsterCountBonus",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StartingRadius",
+              "values": [
+                275,
+                275,
+                275,
+                275,
+                275,
+                275,
+                275
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StartingInnerRadius",
+              "values": [
+                120,
+                120,
+                120,
+                120,
+                120,
+                120,
+                120
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "GrowthBreakPoint",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StartingGravity",
+              "values": [
+                150,
+                150,
+                150,
+                150,
+                150,
+                150,
+                150
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "NonChampGravity",
+              "values": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "GravityIncPerBreakpoint",
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Duration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamagePerSecond",
+              "values": [
+                5,
+                10,
+                15,
+                20,
+                25,
+                30,
+                35
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DamageperSecondAPRatio",
+              "values": [
+                0.11999999731779099,
+                0.11999999731779099,
+                0.11999999731779099,
+                0.11999999731779099,
+                0.11999999731779099,
+                0.11999999731779099,
+                0.11999999731779099
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseExecutionThreshold",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ExecutionGrowthPerBreakpoint",
+              "values": [
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803,
+                0.026000000536441803
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OuterRadiusAreaPerStack",
+              "values": [
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "InnerRadiusAreaPerStack",
+              "values": [
+                180,
+                180,
+                180,
+                180,
+                180,
+                180,
+                180
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PI",
+              "values": [
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "InversePI",
+              "values": [
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "DamagePerSecond": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamagePerSecond",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "DamageperSecondAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{b0a79c98}": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "StartingRadius",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mBuffName": "{c9372c6b}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "CurrentExecutionThreshold": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseExecutionThreshold",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mBuffName": "{c9372c6b}",
+                  "mIconKey": "%i:asolStackIcon%",
+                  "mDataValue": "ExecutionGrowthPerBreakpoint",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "{57c521f0}": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "StartingGravity",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mBuffName": "{c9372c6b}",
+                  "mDataValue": "GravityIncPerBreakpoint",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{7741d788}": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 120,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 7,
+                      "mAdditionalBonusAtThisLevel": 10,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 8,
+                      "mAdditionalBonusAtThisLevel": 10,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "LevelBasedRangeScaling": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 750,
+                  "mInitialBonusPerLevel": 10,
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{5dfac189}": {
+              "ResultModifier": 1,
+              "mMultiplier": {
+                "mDataValue": "InversePI",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mPart1": {
+                    "mDataValue": "StartingRadius",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mPart2": {
+                    "mPart1": {
+                      "mDataValue": "StartingRadius",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "mPart2": {
+                      "mDataValue": "PI",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                },
+                {
+                  "mBuffName": "{c9372c6b}",
+                  "mIconKey": "%i:asolStackIcon%",
+                  "mDataValue": "OuterRadiusAreaPerStack",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{94f76880}": {
+              "mMultiplier": {
+                "mNumber": 0.20000000298023224,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "{5dfac189}",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "aurelionsol_r",
+          "binding": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+          "name": "星天落瀑",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            110,
+            100
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "星落：奥瑞利安 · 索尔召唤一颗星辰坠落地面。这次冲击造成魔法伤害并眩晕敌人，并且每命中一个敌方英雄还会提供星尘。收集足够的星尘后，奥瑞利安·索尔的下一次星落将会升级为天瀑。<br><br>天瀑：奥瑞利安 · 索尔从诸天拽下一颗巨大的星辰撞击地面，拥有提升过的冲击范围和提升过的伤害，并且会对敌人们造成击飞而非晕眩。随后会有一道冲击波从冲击范围的边缘散播出去，对命中的敌人们造成伤害和减速。星尘会提升【星落】和【天瀑】的冲击范围。",
+          "officialTooltip": "奥瑞利安·索尔从诸天摘取一颗巨型星星并将其砸入大地中，对敌人造成<magicDamage>{{ maxdamagetooltip }}魔法伤害</magicDamage>、{{ stunduration }}秒<status>晕眩</status>并且每命中一名英雄就会吸收<span class=\"color3458eb\">{{ massstolen }}星尘</span>。<br /><br />收集<span class=\"color3458eb\">{{ calamitystacks }}星尘</span>时会使下一个<spellName>星落</spellName>转变为<spellName>天瀑</spellName>。<br /><br /><spellName>天瀑</spellName>：奥瑞利安·索尔从宇宙中拖来一个星座的怒火，在一个更大的区域造成<magicDamage>{{ r2damage }}魔法伤害</magicDamage>，对命中的敌人们造成{{ stunduration }}秒<status>击飞</status>，并释放一道巨型冲击波，对英雄和史诗级野怪造成<magicDamage>{{ shockwavedamage }}魔法伤害</magicDamage>并对命中的所有敌人造成持续1秒的{{ shockwaveslow*100 }}%<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            120,
+            120,
+            110,
+            100,
+            100,
+            100,
+            100
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "CalamityStacks",
+              "values": [
+                75,
+                75,
+                75,
+                75,
+                75,
+                75,
+                75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StartingRadius",
+              "values": [
+                275,
+                275,
+                275,
+                275,
+                275,
+                275,
+                275
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SkiesDescendStartingRadius",
+              "values": [
+                550,
+                550,
+                550,
+                550,
+                550,
+                550,
+                550
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CalamitySizeBonus",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MassStolen",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                50,
+                150,
+                250,
+                350,
+                450,
+                550,
+                650
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StunDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "R2DamageRatio",
+              "values": [
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShockwaveDamageRatio",
+              "values": [
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShockwaveSlow",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AreaPerPassiveStack",
+              "values": [
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PI",
+              "values": [
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203,
+                3.141590118408203
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "InversePI",
+              "values": [
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036,
+                0.3183099925518036
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "MaxDamageTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "R2Damage": {
+              "mMultiplier": {
+                "mDataValue": "R2DamageRatio",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "MaxDamageTooltip",
+              "__type": "GameCalculationModified"
+            },
+            "ShockwaveDamage": {
+              "mMultiplier": {
+                "mDataValue": "ShockwaveDamageRatio",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "MaxDamageTooltip",
+              "__type": "GameCalculationModified"
+            },
+            "{1d7ce9ef}": {
+              "ResultModifier": 1,
+              "mMultiplier": {
+                "mDataValue": "InversePI",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mPart1": {
+                    "mDataValue": "StartingRadius",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mPart2": {
+                    "mPart1": {
+                      "mDataValue": "StartingRadius",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "mPart2": {
+                      "mDataValue": "PI",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                },
+                {
+                  "mBuffName": "{c9372c6b}",
+                  "mIconKey": "%i:asolStackIcon%",
+                  "mDataValue": "AreaPerPassiveStack",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 96,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_e/parameters",
+    "detailRoute": "/skills/kayn_e/parameters/wall_walk_duration_ms",
+    "skillKey": "kayn_e",
+    "kind": "parameters",
+    "stableKey": "wall_walk_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wall_walk_duration_ms",
+      "name": "地形内持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 7000,
+        "2": 7500,
+        "3": 8000,
+        "4": 8500,
+        "5": 9000
+      },
+      "description": "WallWalkDuration按保护最高等级逐级取值并精确转换为整数毫秒；不固定使用满级9秒。",
+      "sortOrder": 10
+    }
+  }
+}

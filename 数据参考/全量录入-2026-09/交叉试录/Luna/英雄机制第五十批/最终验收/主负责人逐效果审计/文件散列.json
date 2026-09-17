@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-09-10T05:41:05.836Z",
+  "status": "PASS（结构与契约审计通过；艾希Q建议null，四个乌迪尔范围未证）",
+  "files": {
+    "独立根审计.mjs": {
+      "sha256": "d322415192eb77ccccb602e9b365ae55ad596d26c214aa16189ecddd1ce107d3",
+      "byteSize": 67295
+    },
+    "审计报告.json": {
+      "sha256": "fc0934f6b69712498c976e5c695bb141b49f00314c9dfa3c74125872c92965aa",
+      "byteSize": 68824
+    },
+    "README.md": {
+      "sha256": "311f35b9056323da49c1b16c71a87fa5d8d814639415223eef3c3d214908a795",
+      "byteSize": 3880
+    }
+  },
+  "reportSha256": "fc0934f6b69712498c976e5c695bb141b49f00314c9dfa3c74125872c92965aa",
+  "candidateSha256": "14905a98ad4be773283bb740e7a5a98ff6ce41eeed7014c4428a053c697471ec",
+  "planSha256": "15c841da9bda7dd8b9fc1c4fcb19ec71f97d4a2baec7431a7961dbb21a20c485",
+  "sourceValuesSha256": "eec7f401013775c68f01cbfec843a0d0472d074cc606e822ae88c5ebb8e063df",
+  "mathReportSha256": "f884870fe5b1a4c8b5b9b6159de10e1de129d7faa09b624b0cf7ea36a9523fe0",
+  "counts": {
+    "candidateLocal": {
+      "parameters": 120,
+      "formulas": 24,
+      "effects": 30,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "candidateLocalTotal": 174,
+    "planRequests": 174,
+    "reusedPublicParameters": 26,
+    "requiredFieldChecks": {
+      "envelope": 1740,
+      "body": 1260,
+      "effectResult": 300
+    },
+    "requiredFieldFailures": 0,
+    "candidateFailures": 0,
+    "formulaCount": 24,
+    "formulaNodeCount": 190,
+    "runtimeInputCount": 11,
+    "lifecycleEffectCount": 12,
+    "lifecycleResultCount": 12,
+    "persistentResultCount": 12,
+    "dictionaryReferenceCount": 34,
+    "scopeQuestionEffectCount": 5
+  },
+  "noApiCalls": true,
+  "noDatabaseAccess": true,
+  "noBrowserAccess": true,
+  "noGitWrites": true
+}

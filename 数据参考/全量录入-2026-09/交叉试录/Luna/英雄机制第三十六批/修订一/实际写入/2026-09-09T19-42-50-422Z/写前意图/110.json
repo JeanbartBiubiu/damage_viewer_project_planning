@@ -1,0 +1,43 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 110,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_w/formulas",
+    "detailRoute": "/skills/fiddlesticks_w/formulas/champion_heal_amount",
+    "skillKey": "fiddlesticks_w",
+    "kind": "formulas",
+    "stableKey": "champion_heal_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "champion_heal_amount",
+      "name": "五骨丰登英雄折前治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_points_to_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "champion_heal_percent_points"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_hero_pre_mitigation_damage"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "英雄治疗 = 0.01×VampPercentage百分数点×当前合资格折前伤害；正文明确基于折前伤害。",
+      "sortOrder": 30
+    }
+  }
+}

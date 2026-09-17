@@ -1,0 +1,29 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/attack_speed_ratio",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "撼地强化攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.25,
+        "3": 0.30000001,
+        "4": 0.34999999,
+        "5": 0.40000001
+      },
+      "description": "正文将AttackSpeed乘100显示；技能等级索引1至5为0.20至0.40。",
+      "sortOrder": 50
+    }
+  }
+}

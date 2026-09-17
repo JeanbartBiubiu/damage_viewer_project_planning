@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T12:34:18.693Z",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "method": "POST",
+  "route": "/skills/aatrox_e/parameters",
+  "detailRoute": "/skills/aatrox_e/parameters/bonus_healing_ratio_per_bonus_health",
+  "skillKey": "aatrox_e",
+  "kind": "parameters",
+  "id": "bonus_healing_ratio_per_bonus_health",
+  "body": {
+    "parameterKey": "bonus_healing_ratio_per_bonus_health",
+    "name": "每点额外生命值带来的治疗比例增量",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.00011,
+    "levelValues": null,
+    "description": "当前根 DataValues.EVampHPRatio 原值约0.011，TotalEVamp的mMultiplier为0.01；与第十七批Vladimir W的BonusHealthRatio同型mStat=12、mStatFormula=2交叉证明为来源额外生命值，因此每点来源额外生命值的治疗比例增量为0.011×0.01=0.00011。",
+    "sortOrder": 40
+  }
+}

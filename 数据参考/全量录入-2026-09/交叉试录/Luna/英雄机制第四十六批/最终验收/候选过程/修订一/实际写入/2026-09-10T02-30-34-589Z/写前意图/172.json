@@ -1,0 +1,30 @@
+{
+  "i": 171,
+  "intent": {
+    "sequence": 172,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/parameters",
+    "detailRoute": "/skills/locke_q/parameters/mark_ap_ratio",
+    "skillKey": "locke_q",
+    "kind": "parameters",
+    "stableKey": "mark_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_ap_ratio",
+      "name": "每层印记法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.275000006,
+        "3": 0.300000012,
+        "4": 0.324999988,
+        "5": 0.349999994
+      },
+      "description": "每层系数0.25/0.275/0.3/0.325/0.35。",
+      "sortOrder": 40
+    }
+  }
+}

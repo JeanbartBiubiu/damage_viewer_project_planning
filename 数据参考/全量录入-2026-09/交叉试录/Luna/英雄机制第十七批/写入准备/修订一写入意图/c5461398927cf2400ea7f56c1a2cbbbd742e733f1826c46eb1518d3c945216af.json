@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T12:18:00.362Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/aurelionsol_q/formulas/bonus_max_health_magic_damage_ratio",
+  "id": "bonus_max_health_magic_damage_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "bonus_max_health_magic_damage_ratio",
+    "name": "星尘额外最大生命魔法伤害比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "stardust_count"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "bonus_max_health_damage_ratio_per_stardust"
+        }
+      ]
+    },
+    "description": "BurstBonusTrueDamageToChamps = 星尘数量×每层最大生命伤害比例；当前正文明确该值用于最大生命值的魔法伤害。",
+    "sortOrder": 30
+  }
+}

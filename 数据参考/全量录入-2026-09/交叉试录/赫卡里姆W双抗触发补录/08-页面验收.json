@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T07:39:39.270Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "target": {
+    "skillKey": "hecarim_w",
+    "ruleKey": "on_used",
+    "effectKeys": [
+      "armor_gain",
+      "magic_resistance_gain"
+    ]
+  },
+  "methods": {
+    "GET": 174
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "hecarim_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "赫卡里姆·恐惧之灵代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "effects": [
+        {
+          "effectKey": "armor_gain",
+          "resultKey": "armor_gain",
+          "effectTextsVisible": true,
+          "resultTextsVisible": true
+        },
+        {
+          "effectKey": "magic_resistance_gain",
+          "resultKey": "magic_resistance_gain",
+          "effectTextsVisible": true,
+          "resultTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "screenshots": [
+    "hecarim_w-armor_gain结果.png",
+    "hecarim_w-magic_resistance_gain结果.png",
+    "hecarim_w-on_used规则.png",
+    "hecarim_w-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "5ce5d6ee33fb730ec584f3e97e2c876b54cc59eab5d52e36652f1e31708da102"
+}

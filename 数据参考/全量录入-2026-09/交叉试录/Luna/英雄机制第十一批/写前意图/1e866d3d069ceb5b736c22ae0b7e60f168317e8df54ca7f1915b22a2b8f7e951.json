@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T04:55:37.317Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_r/parameters/duration_ms",
+  "id": "duration_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "duration_ms",
+    "name": "区域锁定持续时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 2500,
+      "2": 3250,
+      "3": 4000
+    },
+    "description": "客户端当前根绑定 DataValues.RDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 40
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 209,
+  "intent": {
+    "sequence": 210,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_r/parameters",
+    "detailRoute": "/skills/smolder_r/parameters/center_replaces_outer_damage",
+    "skillKey": "smolder_r",
+    "kind": "parameters",
+    "stableKey": "center_replaces_outer_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "center_replaces_outer_damage",
+      "name": "妈----！中心伤害替换外圈",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确中心敌人转而受到中心伤害；1表示替换，不将1.5倍再叠加到外圈结果。",
+      "sortOrder": 100
+    }
+  }
+}

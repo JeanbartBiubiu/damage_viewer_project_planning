@@ -1,0 +1,199 @@
+{
+  "planRevision": 1,
+  "plannedWrites": 6,
+  "source": {
+    "normalizedPath": "数据参考/lol-wiki-current-items/current-items.normalized.json",
+    "normalizedSha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4",
+    "itemIds": [3047, 3143]
+  },
+  "writes": [
+    {
+      "method": "POST",
+      "route": "/modifier-zones",
+      "body": {
+        "modifierZoneKey": "item_3047_basic_damage_reduction",
+        "name": "铁板靴基础攻击伤害减免",
+        "domain": "DAMAGE",
+        "calculationMode": "RATIO_ADD",
+        "applicationStage": "DAMAGE_PRE_DEFENSE",
+        "description": "铁板靴镀板的10%基础攻击伤害减免独立乘区；与其他来源分乘区相乘，避免在叠加规则未确认时直接相加。",
+        "status": "ENABLED",
+        "sortOrder": 220
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/modifier-zones",
+      "body": {
+        "modifierZoneKey": "item_3143_critical_damage_reduction",
+        "name": "兰顿暴击伤害减免",
+        "domain": "DAMAGE",
+        "calculationMode": "RATIO_ADD",
+        "applicationStage": "DAMAGE_PRE_DEFENSE",
+        "description": "兰顿之兆复原力的30%暴击伤害减免独立乘区；与其他来源分乘区相乘，避免在叠加规则未确认时直接相加。",
+        "status": "ENABLED",
+        "sortOrder": 230
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3047_passive/effects",
+      "body": {
+        "effectKey": "plating_basic_damage_reduction",
+        "name": "镀板基础攻击伤害减免",
+        "description": "持有者受到的基础攻击伤害降低10%；防御塔不在本轮英雄一对一范围。战斗运行时尚未验证。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {"kind": "FIXED", "value": 1},
+          "applicationStacksValue": {"kind": "FIXED", "value": 1},
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "incoming_basic_damage_reduction",
+            "name": "受到基础攻击伤害减免",
+            "target": "SOURCE",
+            "resultType": "DAMAGE_MODIFIER",
+            "description": "受到基础攻击伤害减少0.1；伤害类型不限，防御塔不在本轮范围。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {"kind": "PARAMETER", "parameterKey": "incoming_attack_damage_reduction"},
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": 1
+            },
+            "detail": {
+              "direction": "TAKEN",
+              "operation": "DECREASE",
+              "modifierZoneKey": "item_3047_basic_damage_reduction",
+              "damageTypeKey": null,
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "ANY",
+              "criticalFilter": "ANY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3047_passive/trigger-rules",
+      "body": {
+        "ruleKey": "initialize_plating_basic_damage_reduction",
+        "name": "初始化镀板伤害减免",
+        "description": "来源对象初始化完成后建立铁板靴持续基础攻击伤害减免。",
+        "sortOrder": 10,
+        "eventSource": {"eventType": "SOURCE_INITIALIZED", "detail": {}},
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_plating_basic_damage_reduction",
+            "name": "执行镀板伤害减免",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {"effectKey": "plating_basic_damage_reduction"},
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3143_passive/effects",
+      "body": {
+        "effectKey": "resilience_critical_damage_reduction",
+        "name": "复原力暴击伤害减免",
+        "description": "持有者受到的暴击伤害降低30%；战斗运行时暴击上下文尚未验证。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {"kind": "FIXED", "value": 1},
+          "applicationStacksValue": {"kind": "FIXED", "value": 1},
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "incoming_critical_damage_reduction",
+            "name": "受到暴击伤害减免",
+            "target": "SOURCE",
+            "resultType": "DAMAGE_MODIFIER",
+            "description": "受到暴击伤害减少0.3；伤害类型和传递方式不限。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {"kind": "PARAMETER", "parameterKey": "critical_damage_reduction_ratio"},
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": 1
+            },
+            "detail": {
+              "direction": "TAKEN",
+              "operation": "DECREASE",
+              "modifierZoneKey": "item_3143_critical_damage_reduction",
+              "damageTypeKey": null,
+              "deliveryKind": "ANY",
+              "originKind": "ANY",
+              "criticalFilter": "CRITICAL_ONLY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3143_passive/trigger-rules",
+      "body": {
+        "ruleKey": "initialize_resilience_critical_damage_reduction",
+        "name": "初始化复原力伤害减免",
+        "description": "来源对象初始化完成后建立兰顿之兆持续暴击伤害减免。",
+        "sortOrder": 10,
+        "eventSource": {"eventType": "SOURCE_INITIALIZED", "detail": {}},
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_resilience_critical_damage_reduction",
+            "name": "执行复原力伤害减免",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {"effectKey": "resilience_critical_damage_reduction"},
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}

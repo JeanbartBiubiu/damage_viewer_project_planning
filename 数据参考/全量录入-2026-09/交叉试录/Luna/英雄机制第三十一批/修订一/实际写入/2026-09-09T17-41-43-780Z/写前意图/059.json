@@ -1,0 +1,23 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "method": "POST",
+    "route": "/skills/lulu_p/parameters",
+    "detailRoute": "/skills/lulu_p/parameters/ap_ratio_per_bolt",
+    "skillKey": "lulu_p",
+    "kind": "parameters",
+    "stableKey": "ap_ratio_per_bolt",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio_per_bolt",
+      "name": "每颗飞弹法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.05,
+      "levelValues": null,
+      "description": "客户端DataValues.APRatioPerHit为0.05。",
+      "sortOrder": 20
+    }
+  }
+}

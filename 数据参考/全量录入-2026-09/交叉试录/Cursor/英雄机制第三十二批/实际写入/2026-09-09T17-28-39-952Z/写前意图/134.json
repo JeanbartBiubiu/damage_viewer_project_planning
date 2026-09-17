@@ -1,0 +1,45 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "method": "POST",
+    "route": "/skills/xayah_e/formulas",
+    "detailRoute": "/skills/xayah_e/formulas/base_feather_damage",
+    "skillKey": "xayah_e",
+    "kind": "formulas",
+    "stableKey": "base_feather_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "base_feather_damage",
+      "name": "单根羽毛未计暴击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前FeatherDamage基础树=基础值+0.4×额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "i": 67,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_w/parameters",
+    "skillKey": "hecarim_w",
+    "kind": "parameters",
+    "stableKey": "resistance_gain",
+    "body": {
+      "parameterKey": "resistance_gain",
+      "name": "自身护甲和魔抗增加量",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 5,
+        "2": 10,
+        "3": 15,
+        "4": 20,
+        "5": 25
+      },
+      "description": "当前根DataValues.ResistAmount取索引1至5。",
+      "sortOrder": 60
+    }
+  }
+}

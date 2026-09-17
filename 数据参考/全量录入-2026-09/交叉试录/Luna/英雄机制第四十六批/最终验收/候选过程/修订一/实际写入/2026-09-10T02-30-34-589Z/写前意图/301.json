@@ -1,0 +1,24 @@
+{
+  "i": 300,
+  "intent": {
+    "sequence": 301,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_r/parameters",
+    "detailRoute": "/skills/zaahen_r/parameters/m_cast_time_ms",
+    "skillKey": "zaahen_r",
+    "kind": "parameters",
+    "stableKey": "m_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "m_cast_time_ms",
+      "name": "客户端mCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "mCastTime=0.5秒，与spellCastTime=0并列。",
+      "sortOrder": 100
+    }
+  }
+}

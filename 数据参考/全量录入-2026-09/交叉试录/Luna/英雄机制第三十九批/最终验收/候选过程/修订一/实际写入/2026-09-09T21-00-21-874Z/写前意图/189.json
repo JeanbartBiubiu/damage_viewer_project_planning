@@ -1,0 +1,24 @@
+{
+  "i": 188,
+  "intent": {
+    "sequence": 189,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_e/parameters",
+    "detailRoute": "/skills/smolder_e/parameters/flight_duration_ms",
+    "skillKey": "smolder_e",
+    "kind": "parameters",
+    "stableKey": "flight_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "flight_duration_ms",
+      "name": "扑棱飞行持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1250,
+      "levelValues": null,
+      "description": "Duration=1.25秒，转换为1250毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

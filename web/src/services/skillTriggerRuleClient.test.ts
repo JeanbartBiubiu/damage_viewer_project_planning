@@ -1,3 +1,4 @@
+import { formulaValue } from '../types/numericValue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ApiRequestError } from './apiClient';
 import {
@@ -101,6 +102,35 @@ describe('skillTriggerRuleClient', () => {
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
+
+  it('saves and reads initialization rules with empty details and event-source actions', async () => {
+    const initialized: SkillTriggerRuleDetail = {
+      ...detail,
+      eventSource: { eventType: 'SOURCE_INITIALIZED', detail: {} },
+      actions: [{ ...detail.actions[0], targetContext: 'EVENT_SOURCE' }]
+    };
+    const calls: unknown[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      calls.push(init?.body ? JSON.parse(String(init.body)) : null);
+      return jsonResponse(init?.method === 'POST' ? 201 : 200, initialized);
+    }));
+    const created = await createSkillTriggerRule('http://localhost:8080', 'lol', 'nasus_p', 'local-entry', initialized);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'lol', 'nasus_p', initialized.ruleKey, 'local-entry');
+    expect(calls).toEqual([initialized, null]);
+    expect(created.data).toEqual(initialized);
+    expect(loaded.data).toEqual(initialized);
+    expect(parseSkillTriggerRuleSummary({ ...summary, eventType: 'SOURCE_INITIALIZED' }).eventType).toBe('SOURCE_INITIALIZED');
+  });
+
+  it.each([undefined, null, [], '', 0, true, { sourceSkillKey: null }, { subject: 'SOURCE' }])(
+    'rejects nonempty or nonobject initialization detail %j',
+    (eventDetail) => {
+      expect(() => parseSkillTriggerRuleDetail({
+        ...detail,
+        eventSource: { eventType: 'SOURCE_INITIALIZED', detail: eventDetail }
+      })).toThrow(/detail\.eventSource\.detail/);
+    }
+  );
 
   it('encodes game, skill and rule path segments with admin token and JSON headers', async () => {
     const listMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -326,7 +356,7 @@ describe('skillTriggerRuleClient', () => {
           detail: {
             eventValueKey: 'LINK_COUNT',
             comparator: 'EQ',
-            comparisonFormulaKey: 'one'
+            comparisonValue: formulaValue("one")
           }
         }]
       }],
@@ -378,7 +408,7 @@ describe('skillTriggerRuleClient', () => {
           detail: {
             eventValueKey: 'FREE_OUTPUT',
             comparator: 'EQ',
-            comparisonFormulaKey: 'one'
+            comparisonValue: formulaValue("one")
           }
         }]
       }]
@@ -492,5 +522,126 @@ describe('skillTriggerRuleClient', () => {
       details: payload.details
     });
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('生命周期条件响应分支', () => {
+  const withCondition = (conditionDetail: unknown) => ({ ...detail, conditionGroups: [{ groupKey: 'group', name: '印记条件', sortOrder: 0, conditions: [{ conditionKey: 'mark_present', conditionType: 'LIFECYCLE_CHECK', sortOrder: 0, detail: conditionDetail }] }] });
+  const presence = { effectKey: 'mark', subject: 'CURRENT_TARGET', checkKind: 'PRESENT', comparator: null, comparisonValue: null };
+  it.each([
+    presence,
+    { ...presence, subject: null, checkKind: 'ABSENT' },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: { kind: 'FIXED', value: 0 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'EQ', comparisonValue: { kind: 'PARAMETER', parameterKey: 'stacks' } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'LT', comparisonValue: { kind: 'FORMULA', formulaKey: 'limit' } }
+  ])('严格读取合法生命周期分支 %j', (conditionDetail) => {
+    expect(parseSkillTriggerRuleDetail(withCondition(conditionDetail)).conditionGroups[0].conditions[0].detail).toEqual(conditionDetail);
+  });
+  it.each([
+    { ...presence, scope: 'SOURCE_TARGET' }, { ...presence, subject: undefined }, { ...presence, subject: 'OTHER' },
+    { ...presence, subject: ['CURRENT_TARGET'] },
+    { ...presence, effectKey: '' }, { ...presence, checkKind: 'UNKNOWN' }, { ...presence, comparator: 'EQ' },
+    { ...presence, comparisonValue: { kind: 'FIXED', value: 0 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: null },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: ['GTE'], comparisonValue: { kind: 'FIXED', value: 0 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: { kind: 'FIXED', value: -1 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: { kind: 'FIXED', value: 0.5 } },
+    { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: 'stacks' }
+  ])('拒绝字段串用、缺失与非法层数 %j', (conditionDetail) => {
+    expect(() => parseSkillTriggerRuleDetail(withCondition(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
+
+describe('来源施放资源消耗响应', () => {
+  const withBinding = (bindingDetail: unknown) => ({ ...detail,
+    eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'ezreal_q' } },
+    actions: [{ ...detail.actions[0], runtimeInputBindings: [{ bindingKey: 'cast_cost', parameterKey: 'source_cost', sourceType: 'SOURCE_CAST_RESOURCE_COST', detail: bindingDetail }] }]
+  });
+  it('只读取 attributeKey，不复制来源技能或取值字段', () => {
+    expect(parseSkillTriggerRuleDetail(withBinding({ attributeKey: 'mana' })).actions[0].runtimeInputBindings[0]).toEqual({
+      bindingKey: 'cast_cost', parameterKey: 'source_cost', sourceType: 'SOURCE_CAST_RESOURCE_COST', detail: { attributeKey: 'mana' }
+    });
+  });
+  it.each([null, {}, [], { attributeKey: null }, { attributeKey: '' }, { attributeKey: 0 }, { attributeKey: ['mana'] },
+    { attributeKey: 'mana', sourceSkillKey: 'ezreal_q' }, { attributeKey: 'mana', value: 0 }, { attributeKey: 'mana', eventValueKey: 'HIT_INDEX' }, { attributeKey: 'bad-key' }
+  ])('拒绝缺失、错误类型及混合明细 %j', (bindingDetail) => {
+    expect(() => parseSkillTriggerRuleDetail(withBinding(bindingDetail))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
+
+describe('事件对方类别响应', () => {
+  const withCategory = (conditionDetail: unknown) => ({ ...detail,
+    eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'ezreal_r' } },
+    conditionGroups: [{ groupKey: 'targets', name: '对方类别', sortOrder: 0, conditions: [{ conditionKey: 'hit_category', conditionType: 'TARGET_CATEGORY_CHECK', sortOrder: 0, detail: conditionDetail }] }]
+  });
+  it.each([['CHAMPION'], ['CHAMPION', 'EPIC_MONSTER', 'MINION', 'NON_EPIC_MONSTER', 'STRUCTURE']])('读取类别数组 %j，不要求比较取值字段', (...categories) => {
+    const conditionDetail = { categories };
+    expect(parseSkillTriggerRuleDetail(withCategory(conditionDetail)).conditionGroups[0].conditions[0].detail).toEqual(conditionDetail);
+  });
+  it.each([null, {}, { categories: [] }, { categories: null }, { categories: 'CHAMPION' }, { categories: ['UNKNOWN'] },
+    { categories: ['CHAMPION', 'CHAMPION'] }, { categories: [0] }, { categories: [['CHAMPION']] },
+    { categories: ['CHAMPION'], subject: 'CURRENT_TARGET' }, { categories: ['CHAMPION'], comparisonValue: null },
+    { categories: ['CHAMPION'], comparator: null }, { categories: ['CHAMPION'], scope: 'TARGET' }
+  ])('拒绝缺字段、非法数组和多余明细 %j', (conditionDetail) => {
+    expect(() => parseSkillTriggerRuleDetail(withCategory(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
+
+describe('显式目标为来源对象响应', () => {
+  const withExplicitSelfTarget = (conditionDetail: unknown, eventType = 'SKILL_USED') => ({
+    ...detail,
+    eventSource: eventType === 'SKILL_USED'
+      ? { eventType, detail: { sourceSkillKey: 'annie_e', useKind: 'ACTIVE' } }
+      : { eventType, detail: { sourceSkillKey: 'annie_e' } },
+    conditionGroups: [{
+      groupKey: 'self_target',
+      name: '显式自施',
+      sortOrder: 0,
+      conditions: [{
+        conditionKey: 'explicit_self',
+        conditionType: 'EXPLICIT_TARGET_IS_SOURCE',
+        sortOrder: 0,
+        detail: conditionDetail
+      }]
+    }]
+  });
+
+  it('精确读取空明细，不要求比较取值', () => {
+    expect(parseSkillTriggerRuleDetail(withExplicitSelfTarget({})).conditionGroups[0].conditions[0]).toMatchObject({
+      conditionType: 'EXPLICIT_TARGET_IS_SOURCE',
+      detail: {}
+    });
+  });
+
+  it.each([null, [], { source: true }, { comparisonValue: null }, { relation: 'SOURCE' }])(
+    '拒绝非空或错误形状明细 %j',
+    (conditionDetail) => {
+      expect(() => parseSkillTriggerRuleDetail(withExplicitSelfTarget(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
+    }
+  );
+});
+
+describe('技能命中法术护盾事件值响应', () => {
+  const valueKey = 'SKILL_HIT_SPELL_SHIELD_BLOCKED';
+  const conditionDetail = { eventValueKey: valueKey, comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 0.5 } };
+  const response = (condition: unknown = conditionDetail, binding: unknown = { eventValueKey: valueKey }) => ({ ...detail,
+    eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'ezreal_q' } },
+    conditionGroups: [{ groupKey: 'unblocked', name: '命中结果', sortOrder: 0, conditions: [{ conditionKey: 'shield', conditionType: 'EVENT_VALUE_COMPARE', sortOrder: 0, detail: condition }] }],
+    actions: [{ ...detail.actions[0], runtimeInputBindings: [{ bindingKey: 'shield', parameterKey: 'blocked', sourceType: 'EVENT_VALUE', detail: binding }] }]
+  });
+  it('同时读取条件和绑定，比较取值保留小数', () => {
+    const parsed = parseSkillTriggerRuleDetail(response());
+    expect(parsed.conditionGroups[0].conditions[0].detail).toEqual(conditionDetail);
+    expect(parsed.actions[0].runtimeInputBindings[0].detail).toEqual({ eventValueKey: valueKey });
+  });
+  it.each([null, [valueKey], 'SKILL_HIT_SHIELD_BLOCKED', 'skill_hit_spell_shield_blocked'])('拒绝非法事件值 %j', (eventValueKey) => {
+    expect(() => parseSkillTriggerRuleDetail(response({ ...conditionDetail, eventValueKey }))).toThrow(SkillTriggerRuleProtocolError);
+    expect(() => parseSkillTriggerRuleDetail(response(conditionDetail, { eventValueKey }))).toThrow(SkillTriggerRuleProtocolError);
+  });
+  it('拒绝混合字段和非法比较符，不接受客户端自填阻挡结果', () => {
+    for (const extra of [{ subject: 'CURRENT_TARGET' }, { value: 0 }, { comparator: 'UNKNOWN' }]) {
+      expect(() => parseSkillTriggerRuleDetail(response({ ...conditionDetail, ...extra }))).toThrow(SkillTriggerRuleProtocolError);
+    }
+    expect(() => parseSkillTriggerRuleDetail(response(conditionDetail, { eventValueKey: valueKey, value: 1 }))).toThrow(SkillTriggerRuleProtocolError);
   });
 });

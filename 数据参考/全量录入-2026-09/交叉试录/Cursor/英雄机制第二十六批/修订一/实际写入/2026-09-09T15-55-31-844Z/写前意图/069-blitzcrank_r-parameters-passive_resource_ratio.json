@@ -1,0 +1,40 @@
+{
+  "sequence": 69,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 69,
+    "method": "POST",
+    "route": "/skills/blitzcrank_r/parameters",
+    "detailRoute": "/skills/blitzcrank_r/parameters/passive_resource_ratio",
+    "skillKey": "blitzcrank_r",
+    "kind": "parameters",
+    "stableKey": "passive_resource_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_resource_ratio",
+      "name": "被动资源倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.02,
+      "levelValues": null,
+      "description": "当前PassiveDamage树的AbilityResourceByCoefficient实际系数约0.02；不采用未消费的PassiveManaRatio=0.05。",
+      "sortOrder": 40
+    }
+  },
+  "before": {
+    "sequence": 384,
+    "method": "GET",
+    "route": "/skills/blitzcrank_r/parameters/passive_resource_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "passive_resource_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:57:00.466Z"
+  }
+}

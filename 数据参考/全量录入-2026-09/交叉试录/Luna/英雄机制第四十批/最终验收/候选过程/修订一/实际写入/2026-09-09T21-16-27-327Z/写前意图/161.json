@@ -1,0 +1,43 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "method": "POST",
+    "route": "/skills/pyke_e/formulas",
+    "detailRoute": "/skills/pyke_e/formulas/stun_duration_ms",
+    "skillKey": "pyke_e",
+    "kind": "formulas",
+    "stableKey": "stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "stun_duration_ms",
+      "name": "魅影浪洄单一敌人晕眩时间",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_stun_duration_ms"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "lethality_stun_bonus_ms_per_point"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "lethality_points_input"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前StunDuration=1.25秒+0.01秒×mStat29，统一以毫秒表达。",
+      "sortOrder": 20
+    }
+  }
+}

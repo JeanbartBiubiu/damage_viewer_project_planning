@@ -1,0 +1,30 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_q/parameters",
+    "detailRoute": "/skills/naafiri_q/parameters/bleed_base_damage",
+    "skillKey": "naafiri_q",
+    "kind": "parameters",
+    "stableKey": "bleed_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bleed_base_damage",
+      "name": "流血全程基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 35,
+        "2": 60,
+        "3": 85,
+        "4": 110,
+        "5": 135
+      },
+      "description": "流血全程值索引1至5：35/60/85/110/135。",
+      "sortOrder": 30
+    }
+  }
+}

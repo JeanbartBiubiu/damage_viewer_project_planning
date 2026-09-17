@@ -1,0 +1,23 @@
+{
+  "i": 172,
+  "intent": {
+    "sequence": 173,
+    "method": "POST",
+    "route": "/skills/zeri_w/parameters",
+    "detailRoute": "/skills/zeri_w/parameters/beam_cast_time_ms",
+    "skillKey": "zeri_w",
+    "kind": "parameters",
+    "stableKey": "beam_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "beam_cast_time_ms",
+      "name": "过墙激光来源延时（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 850,
+      "levelValues": null,
+      "description": "当前BeamCastTime约0.85秒，转换为850毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

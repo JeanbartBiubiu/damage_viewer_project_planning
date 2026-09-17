@@ -1,0 +1,46 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_w/effects",
+    "detailRoute": "/skills/gangplank_w/effects/mana_cost",
+    "skillKey": "gangplank_w",
+    "kind": "effects",
+    "stableKey": "mana_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "mana_cost",
+      "name": "施放法力消耗",
+      "description": "仅记录基础资源消耗；实际扣除时点与施放资格由事件层接线。",
+      "sortOrder": 900,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "consume_resource",
+          "name": "消耗法力",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "description": "不表示战斗事件已经接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          }
+        }
+      ]
+    }
+  }
+}

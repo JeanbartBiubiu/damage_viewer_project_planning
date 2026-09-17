@@ -1,0 +1,44 @@
+{
+  "at": "2026-09-09T04:27:19.205Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/graves_e/effects",
+  "method": "POST",
+  "body": {
+    "effectKey": "pellet_cooldown_reduction",
+    "name": "单颗真实弹丸命中减少E冷却",
+    "description": "中文明确每颗弹丸命中减少0.5秒，候选为500毫秒；真实弹丸命中事件尚未接线。",
+    "sortOrder": 40,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "reduce_e",
+        "name": "减少快速拔枪冷却",
+        "resultType": "COOLDOWN_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_reduction_per_pellet_ms"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "operation": "REDUCE",
+          "affectedSkillScope": {
+            "mode": "SKILLS",
+            "skillKeys": [
+              "graves_e"
+            ],
+            "skillCategoryKeys": []
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "method": "POST",
+    "route": "/skills/yasuo_q/parameters",
+    "detailRoute": "/skills/yasuo_q/parameters/total_attack_damage_ratio",
+    "skillKey": "yasuo_q",
+    "kind": "parameters",
+    "stableKey": "total_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_attack_damage_ratio",
+      "name": "总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.05,
+      "levelValues": null,
+      "description": "客户端ADRatio约1.05；当前Damage树使用来源总攻击力，比例1代表100%。",
+      "sortOrder": 20
+    }
+  }
+}

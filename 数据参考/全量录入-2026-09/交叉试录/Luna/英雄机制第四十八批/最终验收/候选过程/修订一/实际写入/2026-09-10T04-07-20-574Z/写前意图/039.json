@@ -1,0 +1,24 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_e/parameters",
+    "detailRoute": "/skills/ivern_e/parameters/missile_speed",
+    "skillKey": "ivern_e",
+    "kind": "parameters",
+    "stableKey": "missile_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missile_speed",
+      "name": "施放弹道速度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20,
+      "levelValues": null,
+      "description": "当前根missileSpeed=20；按原字段保留。",
+      "sortOrder": 90
+    }
+  }
+}

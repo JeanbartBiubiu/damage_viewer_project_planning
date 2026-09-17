@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-09T12:37:49.002Z",
+  "method": "POST",
+  "skillKey": "fizz_w",
+  "kind": "formulas",
+  "stableKey": "active_damage",
+  "route": "/skills/fizz_w/formulas",
+  "readRoute": "/skills/fizz_w/formulas/active_damage",
+  "body": {
+    "formulaKey": "active_damage",
+    "name": "强化攻击额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "active_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "ActiveDamage = ActiveBaseDamage + ActiveRatio×来源总法强。",
+    "sortOrder": 20
+  }
+}

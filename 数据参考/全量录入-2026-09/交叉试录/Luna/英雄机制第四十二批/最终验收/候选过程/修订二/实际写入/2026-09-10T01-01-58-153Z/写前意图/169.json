@@ -1,0 +1,27 @@
+{
+  "i": 168,
+  "intent": {
+    "sequence": 169,
+    "skillKey": "yunara_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/yunara_w/parameters",
+    "stableKey": "initial_base_damage",
+    "body": {
+      "parameterKey": "initial_base_damage",
+      "name": "念珠首段基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 55,
+        "2": 95,
+        "3": 135,
+        "4": 175,
+        "5": 215
+      },
+      "description": "索引1至5为55/95/135/175/215。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 20,
+    "method": "POST",
+    "route": "/skills/braum_w/parameters",
+    "detailRoute": "/skills/braum_w/parameters/actual_armor_stage",
+    "skillKey": "braum_w",
+    "kind": "parameters",
+    "stableKey": "actual_armor_stage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_armor_stage",
+      "name": "挺身而出实际护甲阶段",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前GrantedBraumArmor使用mStat1/mStatFormula2；具体属性阶段由运行输入提供，不在证据不足时指定总护甲或额外护甲，也不默认取施加前或施加后值。",
+      "sortOrder": 40
+    }
+  }
+}

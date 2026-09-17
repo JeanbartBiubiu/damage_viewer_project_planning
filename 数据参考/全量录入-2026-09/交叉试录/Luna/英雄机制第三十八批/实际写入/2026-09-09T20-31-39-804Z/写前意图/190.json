@@ -1,0 +1,27 @@
+{
+  "i": 189,
+  "intent": {
+    "sequence": 190,
+    "method": "POST",
+    "route": "/skills/kayle_r/parameters",
+    "detailRoute": "/skills/kayle_r/parameters/aoe_radius",
+    "skillKey": "kayle_r",
+    "kind": "parameters",
+    "stableKey": "aoe_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "aoe_radius",
+      "name": "圣裁之刻范围半径",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 675,
+        "2": 675,
+        "3": 775
+      },
+      "description": "当前正文消费AoERadius，技能等级索引1至3为675/675/775。",
+      "sortOrder": 50
+    }
+  }
+}

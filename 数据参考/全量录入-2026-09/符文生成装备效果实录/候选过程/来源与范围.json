@@ -1,0 +1,293 @@
+{
+  "generatedAt": "2026-09-10T04:46:04.469Z",
+  "status": "候选范围已冻结，Cursor v3已READY，待主负责人执行前后GET验收",
+  "fixedSourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "included": [
+    {
+      "equipmentKey": "item_2010",
+      "skillKey": "item_2010_consume",
+      "scope": "保留消费/出售后的永久最大生命与消费恢复资料；排除符文发放节奏、纯经济和未知治疗节拍。",
+      "parameters": [
+        "recovery_duration_ms",
+        "flat_recovery",
+        "client_health_recovery_ratio",
+        "maximum_recovery_increase_ratio",
+        "health_ratio_at_maximum_recovery",
+        "permanent_health_per_cookie",
+        "actual_consumed_or_sold_count",
+        "actual_missing_health_boost_ratio"
+      ],
+      "formulas": [
+        "base_biscuit_recovery",
+        "biscuit_recovery_total",
+        "permanent_health_gain"
+      ],
+      "effects": [
+        "permanent_health_gain"
+      ]
+    },
+    {
+      "equipmentKey": "item_2150",
+      "skillKey": "item_2150_consume",
+      "scope": "保留1技能点及官方两条限制；排除角色等级、属性伪映射、符文生成等级和经济分支。",
+      "parameters": [
+        "skill_points_granted"
+      ],
+      "formulas": [],
+      "effects": []
+    },
+    {
+      "equipmentKey": "item_2152",
+      "skillKey": "item_2152_consume",
+      "scope": "保留25适应之力和60000毫秒；排除双修、韧性分类误读、符文生成等级和经济分支。",
+      "parameters": [
+        "adaptive_force_amount",
+        "duration_ms"
+      ],
+      "formulas": [],
+      "effects": []
+    },
+    {
+      "equipmentKey": "item_2422",
+      "skillKey": "item_2422_passive",
+      "scope": "保留主体25与额外10来源及升级资格边界；候选提供等价新效果和单独迁移意图，当前不改符文历史对象。",
+      "parameters": [
+        "additional_move_speed"
+      ],
+      "formulas": [],
+      "effects": [
+        "magical_footwear_additional_speed"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "equipmentKey": "item_2010",
+      "component": "治疗每跳/首跳/跳数",
+      "reason": "来源只证明5秒持续窗口与总量，未证明节拍，不能拆成五跳。"
+    },
+    {
+      "equipmentKey": "item_2010",
+      "component": "出售金币",
+      "reason": "纯经济分支不属于本批战斗和成长候选。"
+    },
+    {
+      "equipmentKey": "item_2010",
+      "component": "符文8345取得间隔与截止时间",
+      "reason": "属于符文生成资格，不是物品消费条件。"
+    },
+    {
+      "equipmentKey": "item_2010",
+      "component": "官方0.02实际恢复比例",
+      "reason": "与当前物品树/符文候选0.015存在来源差异，不能并行创建两套实际治疗。"
+    },
+    {
+      "equipmentKey": "item_2150",
+      "component": "角色等级增加",
+      "reason": "官方明确不会提升角色等级。"
+    },
+    {
+      "equipmentKey": "item_2150",
+      "component": "属性变化",
+      "reason": "技能点不是攻击力、法强、生命等属性，不能凭空映射。"
+    },
+    {
+      "equipmentKey": "item_2150",
+      "component": "符文8313的9级获得资格",
+      "reason": "属于符文生成资格，不是消费最低等级。"
+    },
+    {
+      "equipmentKey": "item_2152",
+      "component": "同时增加攻击力和法术强度",
+      "reason": "适应选择必须互斥，转换方向与比例未证。"
+    },
+    {
+      "equipmentKey": "item_2152",
+      "component": "韧性",
+      "reason": "客户端分类Tenacity不是本人增益数值证明。"
+    },
+    {
+      "equipmentKey": "item_2152",
+      "component": "符文8313的6级获得资格",
+      "reason": "属于符文生成资格，不是消费最低等级。"
+    },
+    {
+      "equipmentKey": "item_2152",
+      "component": "出售金币和额外目标",
+      "reason": "纯经济与额外目标分支不属于本批。"
+    },
+    {
+      "equipmentKey": "item_2422",
+      "component": "直接移速35或45",
+      "reason": "主体直接属性25必须保持；额外10不能先写进35再叠效果。"
+    },
+    {
+      "equipmentKey": "item_2422",
+      "component": "符文8304整套挂载",
+      "reason": "生成时间和参与击杀提前属于符文资格，整套挂载会混淆消费/持有归属。"
+    },
+    {
+      "equipmentKey": "item_2422",
+      "component": "对所有升级鞋无条件加10",
+      "reason": "只保留经本鞋合成的升级继承资格，未建全鞋类执行效果。"
+    },
+    {
+      "equipmentKey": "item_2422",
+      "component": "旧符文效果与新装备效果并存",
+      "reason": "修订三要求先保存新效果、确认旧效果可删除，再按顺序完成单源迁移；不把两份同时挂载。"
+    }
+  ],
+  "pending": [
+    {
+      "equipmentKey": "item_2010",
+      "component": "恢复触发与节拍",
+      "reason": "当前无物品消耗事件契约；本候选不声称已接线。"
+    },
+    {
+      "equipmentKey": "item_2010",
+      "component": "已损生命中间曲线和最大生命读取时点",
+      "reason": "仅保留实际运行输入和来源阈值，不填默认或线性曲线。"
+    },
+    {
+      "equipmentKey": "item_2010",
+      "component": "与符文8345的唯一有效恢复/永久生命来源",
+      "reason": "装备候选保留消费侧组成，执行时需保证符文资料对象不再重复结算。"
+    },
+    {
+      "equipmentKey": "item_2150",
+      "component": "技能点分配与满级限制的运行接口",
+      "reason": "现有结果类型没有技能点分配类型；保留参数和两条来源限制，不声称已接线。"
+    },
+    {
+      "equipmentKey": "item_2150",
+      "component": "消费触发",
+      "reason": "当前没有物品消费事件契约。"
+    },
+    {
+      "equipmentKey": "item_2152",
+      "component": "适应力转换与选择",
+      "reason": "当前属性快照没有适应之力属性；保存原始量，不凭空选择攻击力或法术强度，也不声称系统不能保存。"
+    },
+    {
+      "equipmentKey": "item_2152",
+      "component": "消费触发与持续效果寿命",
+      "reason": "当前没有物品消费事件契约；参数可保存但效果不伪造。"
+    },
+    {
+      "equipmentKey": "item_2422",
+      "component": "已有符文效果到装备技能的唯一归属迁移",
+      "reason": "候选提供等价新效果和删除意图；删除旧效果必须在新效果逐次GET确认、旧效果DELETE204并GET404后才能挂载新装备技能，当前尚未执行。"
+    },
+    {
+      "equipmentKey": "item_2422",
+      "component": "升级继承资格",
+      "reason": "来源列出升级链，但当前类型没有本装备生成/继承专用结果，不能伪造成已对全部升级鞋生效。"
+    }
+  ],
+  "protected": {
+    "runeSkills": [
+      "rune_8304_passive",
+      "rune_8313_passive",
+      "rune_8345_passive"
+    ],
+    "currentComposition": {
+      "parameters": 19,
+      "formulas": 2,
+      "effects": 1,
+      "total": 22
+    },
+    "compositionAfterMigration": {
+      "parameters": 19,
+      "formulas": 2,
+      "effects": 0,
+      "total": 21
+    },
+    "noRuneSkillRelationChanges": true,
+    "existingRune8304Effect": "magical_footwear_additional_speed在迁移完成前保护；候选提供等价新效果，实际删除必须按迁移意图顺序执行。",
+    "oldEffectRepresentativeImageAfterMigration": "原GET200且image=null；旧效果删除后计划内GET404",
+    "allowedEquipmentRelations": [
+      {
+        "equipmentKey": "item_2010",
+        "beforeTotal": 0,
+        "afterTotal": 1,
+        "skillKey": "item_2010_consume"
+      },
+      {
+        "equipmentKey": "item_2150",
+        "beforeTotal": 0,
+        "afterTotal": 1,
+        "skillKey": "item_2150_consume"
+      },
+      {
+        "equipmentKey": "item_2152",
+        "beforeTotal": 0,
+        "afterTotal": 1,
+        "skillKey": "item_2152_consume"
+      },
+      {
+        "equipmentKey": "item_2422",
+        "beforeTotal": 0,
+        "afterTotal": 1,
+        "skillKey": "item_2422_passive"
+      }
+    ]
+  },
+  "attributeAndUnitRules": {
+    "validAttributeKeysFromSnapshot": [
+      "move_speed",
+      "move_speed_percent",
+      "armor_pen_flat",
+      "armor_pen_percent",
+      "magic_pen_flat",
+      "magic_pen_percent",
+      "hp",
+      "hp_regen",
+      "base_hp_regen_percent",
+      "mana",
+      "mana_regen",
+      "base_mana_regen_percent",
+      "energy",
+      "armor",
+      "magic_resistance",
+      "tenacity_percent",
+      "slow_resist_percent",
+      "attack_damage",
+      "ability_power",
+      "attack_speed",
+      "bonus_attack_speed_percent",
+      "critical_strike_chance",
+      "critical_strike_damage_bonus_percent",
+      "attack_range",
+      "ability_haste",
+      "life_steal_percent",
+      "omnivamp_percent",
+      "heal_shield_power_percent"
+    ],
+    "validModifierZoneKeysFromSnapshot": [
+      "attribute_percent_bonus",
+      "attribute_flat_add",
+      "item_3071_armor_reduction",
+      "item_8010_magic_resistance_reduction"
+    ],
+    "ratioRepresentation": "比例属性以1表示100%；本批没有把额外10移速当比例属性。",
+    "milliseconds": "所有_ms固定值为非负整数；未知运行输入不填默认。",
+    "adaptiveForce": "只保存25原始点数和60000毫秒，不默认转换为AD或AP。"
+  },
+  "sourceConflicts": [
+    {
+      "subject": "饼干最大生命恢复比例",
+      "currentCandidate": 0.015,
+      "officialDisplayed": 0.02,
+      "disposition": "以当前物品树/符文同构建0.015作为实际候选；0.02只留来源差异，不并存两套效果。"
+    },
+    {
+      "subject": "神奇之鞋额外10移速",
+      "currentProtected": "rune_8304_passive.magical_footwear_additional_speed",
+      "newCandidate": "item_2422_passive.additional_move_speed及等价效果",
+      "disposition": "按修订三先保存并GET确认新效果，删除旧效果204并GET404后再挂载新技能；已DELETE204时用GET404和空列表续跑，不重复DELETE；当前未执行。"
+    }
+  ]
+}

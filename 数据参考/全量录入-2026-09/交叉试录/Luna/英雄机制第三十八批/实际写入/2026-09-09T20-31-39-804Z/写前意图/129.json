@@ -1,0 +1,23 @@
+{
+  "i": 128,
+  "intent": {
+    "sequence": 129,
+    "method": "POST",
+    "route": "/skills/skarner_e/parameters",
+    "detailRoute": "/skills/skarner_e/parameters/refund_percent",
+    "skillKey": "skarner_e",
+    "kind": "parameters",
+    "stableKey": "refund_percent",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "refund_percent",
+      "name": "以绪塔尔冲击撞墙后冷却保留比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.64999998,
+      "levelValues": null,
+      "description": "当前正文写冷却时间降至65%，保存0.65保留比例，不写成返还65%。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 99,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/formulas",
+    "detailRoute": "/skills/shyvana_q/formulas/passive_max_health_magic_damage",
+    "skillKey": "shyvana_q",
+    "kind": "formulas",
+    "stableKey": "passive_max_health_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_max_health_magic_damage",
+      "name": "焚焰打击普攻附加魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_health_damage_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "max_health_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "Calc_Max_Health_Damage=[0.01+0.00011×来源额外攻击力]×目标最大生命。",
+      "sortOrder": 10
+    }
+  }
+}

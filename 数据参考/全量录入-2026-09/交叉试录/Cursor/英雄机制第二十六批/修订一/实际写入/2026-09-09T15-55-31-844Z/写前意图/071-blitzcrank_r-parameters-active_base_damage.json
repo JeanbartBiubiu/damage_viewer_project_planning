@@ -1,0 +1,44 @@
+{
+  "sequence": 71,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 71,
+    "method": "POST",
+    "route": "/skills/blitzcrank_r/parameters",
+    "detailRoute": "/skills/blitzcrank_r/parameters/active_base_damage",
+    "skillKey": "blitzcrank_r",
+    "kind": "parameters",
+    "stableKey": "active_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_base_damage",
+      "name": "主动基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 275,
+        "2": 400,
+        "3": 525
+      },
+      "description": "当前绑定DataValues.ActiveBaseDamage索引1至3为275/400/525。",
+      "sortOrder": 60
+    }
+  },
+  "before": {
+    "sequence": 390,
+    "method": "GET",
+    "route": "/skills/blitzcrank_r/parameters/active_base_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "active_base_damage"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:57:02.608Z"
+  }
+}

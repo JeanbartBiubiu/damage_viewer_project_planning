@@ -1,0 +1,46 @@
+{
+  "sequence": 48,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 48,
+    "method": "POST",
+    "route": "/skills/blitzcrank_w/parameters",
+    "detailRoute": "/skills/blitzcrank_w/parameters/move_speed_ratio",
+    "skillKey": "blitzcrank_w",
+    "kind": "parameters",
+    "stableKey": "move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_ratio",
+      "name": "移动速度起始加成比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.6,
+        "2": 0.65,
+        "3": 0.7,
+        "4": 0.75,
+        "5": 0.8
+      },
+      "description": "当前正文以MoveSpeedMod*100显示持续衰减的移动速度；保存等级1至5起始比例0.6/0.65/0.7/0.75/0.8，仅作衰减端点输入，不创建固定持续属性效果。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 321,
+    "method": "GET",
+    "route": "/skills/blitzcrank_w/parameters/move_speed_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "move_speed_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:36.275Z"
+  }
+}

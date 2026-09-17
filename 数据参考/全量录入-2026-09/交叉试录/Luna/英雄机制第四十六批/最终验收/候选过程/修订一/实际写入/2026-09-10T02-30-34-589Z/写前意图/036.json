@@ -1,0 +1,24 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/parameters",
+    "detailRoute": "/skills/belveth_e/parameters/onhit_effect_ratio_max_multiplier",
+    "skillKey": "belveth_e",
+    "kind": "parameters",
+    "stableKey": "onhit_effect_ratio_max_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "onhit_effect_ratio_max_multiplier",
+      "name": "攻击特效效能上限相对倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "正文明确12%至24%，以2倍下限表示上限。",
+      "sortOrder": 40
+    }
+  }
+}

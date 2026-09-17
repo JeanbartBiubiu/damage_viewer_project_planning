@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-09T13:45:14.877Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_p/formulas",
+  "detailRoute": "/skills/nautilus_p/formulas/physical_damage",
+  "skillKey": "nautilus_p",
+  "kind": "formulas",
+  "stableKey": "physical_damage",
+  "body": {
+    "formulaKey": "physical_damage",
+    "name": "排山倒海物理伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "bonus_damage_by_character_level"
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "attack_damage",
+          "attributeValueKind": "TOTAL"
+        }
+      ]
+    },
+    "description": "TotalDamageTooltip=显式角色等级额外伤害+来源总攻击力；mStat2窄证为总攻击力，不创建伤害结果。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "method": "POST",
+    "route": "/skills/kayle_q/parameters",
+    "detailRoute": "/skills/kayle_q/parameters/ap_ratio",
+    "skillKey": "kayle_q",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "耀焰冲击法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "TotalDamage的第二项无mStat，按同版窄证读取来源总法术强度。",
+      "sortOrder": 20
+    }
+  }
+}

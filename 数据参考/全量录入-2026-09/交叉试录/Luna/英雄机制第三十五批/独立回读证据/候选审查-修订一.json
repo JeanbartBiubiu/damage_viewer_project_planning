@@ -1,0 +1,317 @@
+{
+  "generatedAt": "2026-09-09T19:27:40.924Z",
+  "status": "READY",
+  "canSave": true,
+  "scope": "第35批修订一保存前窄范围独立审查；不调用业务接口。",
+  "files": {
+    "candidate": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero35-luna-candidate\\修订一\\完整候选.json",
+    "candidateSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
+    "plan": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero35-luna-candidate\\修订一\\写前请求计划.json",
+    "planSha256": "9f610f2d19b05ff34ff5e30c4246bd6a97c2405d28538e9678f1477b99589192",
+    "sourceBinding": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero35-root-entry-20260910\\来源绑定与当前文本.json",
+    "sourceBindingSha256": "75f30e6aeb338134517008a63a99f80c732f642bf1eb6a8fddec79810cd9fe32"
+  },
+  "counts": {
+    "candidate": {
+      "newParameters": 137,
+      "newFormulas": 32,
+      "newEffects": 2,
+      "newProcesses": 0,
+      "newInternalStates": 0,
+      "newTriggerRules": 0,
+      "newTotal": 171,
+      "reusedPublicParameters": 28,
+      "plannedTotalIncludingReused": 199,
+      "protectedCurrentCompositionLists": 120
+    },
+    "plan": {
+      "requestCount": 171,
+      "requestCounts": {
+        "parameters": 137,
+        "formulas": 32,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    }
+  },
+  "checks": [
+    {
+      "id": "candidate_sha256",
+      "pass": true,
+      "expected": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
+      "actual": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
+      "evidence": "修订一候选实际字节"
+    },
+    {
+      "id": "plan_sha256",
+      "pass": true,
+      "expected": "9f610f2d19b05ff34ff5e30c4246bd6a97c2405d28538e9678f1477b99589192",
+      "actual": "9f610f2d19b05ff34ff5e30c4246bd6a97c2405d28538e9678f1477b99589192",
+      "evidence": "修订一请求计划实际字节"
+    },
+    {
+      "id": "source_index",
+      "pass": true,
+      "expected": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+      "actual": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+      "evidence": "候选与来源绑定索引一致"
+    },
+    {
+      "id": "counts",
+      "pass": true,
+      "expected": {
+        "newParameters": 137,
+        "newFormulas": 32,
+        "newEffects": 2,
+        "newProcesses": 0,
+        "newInternalStates": 0,
+        "newTriggerRules": 0,
+        "newTotal": 171,
+        "reusedPublicParameters": 28,
+        "plannedTotalIncludingReused": 199,
+        "protectedCurrentCompositionLists": 120
+      },
+      "actual": {
+        "newParameters": 137,
+        "newFormulas": 32,
+        "newEffects": 2,
+        "newProcesses": 0,
+        "newInternalStates": 0,
+        "newTriggerRules": 0,
+        "newTotal": 171,
+        "reusedPublicParameters": 28,
+        "plannedTotalIncludingReused": 199,
+        "protectedCurrentCompositionLists": 120
+      },
+      "evidence": "修订一计数"
+    },
+    {
+      "id": "plan_counts",
+      "pass": true,
+      "expected": {
+        "requestCount": 171,
+        "requestCounts": {
+          "parameters": 137,
+          "formulas": 32,
+          "effects": 2
+        }
+      },
+      "actual": {
+        "requestCount": 171,
+        "requestCounts": {
+          "parameters": 137,
+          "formulas": 32,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      "evidence": "修订一计划计数"
+    },
+    {
+      "id": "no_business_writes",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "businessWrites": 0,
+        "apiCalls": 0,
+        "tokenStored": false,
+        "apiWrites": 0
+      },
+      "evidence": "静态候选无业务写入"
+    },
+    {
+      "id": "braum_q_source_max_hp",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "mStat": 12,
+        "attribute": "SOURCE.hp.TOTAL",
+        "ratio": 0.025
+      },
+      "evidence": {
+        "source": {
+          "mStat": 12,
+          "mDataValue": "MaxHPDamageValue",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "attribute": {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "hp",
+          "attributeValueKind": "TOTAL"
+        },
+        "refs": [
+          "base_damage",
+          "source_max_hp_ratio"
+        ],
+        "ratio": {
+          "parameterKey": "source_max_hp_ratio",
+          "name": "寒冬之咬自身最大生命比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.025,
+          "levelValues": null,
+          "description": "当前TotalDamage使用施法者mStat12且mStatFormula省略，MaxHPDamageValue=0.025乘来源最大生命；不读取命中目标生命。",
+          "sortOrder": 20
+        }
+      }
+    },
+    {
+      "id": "braum_w_armor_runtime",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "parameterKey": "actual_armor_stage",
+        "name": "挺身而出实际护甲阶段",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前GrantedBraumArmor使用mStat1/mStatFormula2；具体属性阶段由运行输入提供，不在证据不足时指定总护甲或额外护甲，也不默认取施加前或施加后值。",
+        "sortOrder": 40
+      },
+      "evidence": "mStat1/mStatFormula2未证属性阶段改运行输入"
+    },
+    {
+      "id": "braum_w_mr_mapping",
+      "pass": true,
+      "expected": "SOURCE.magic_resistance.BONUS",
+      "actual": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "magic_resistance",
+        "attributeValueKind": "BONUS"
+      },
+      "evidence": "mStat6/mStatFormula2已有魔抗窄证"
+    },
+    {
+      "id": "taric_stage_descriptions_neutral",
+      "pass": true,
+      "expected": true,
+      "actual": [
+        [
+          "taric_p",
+          "actual_armor_stage",
+          "当前伤害树使用mStat1/mStatFormula2实际护甲阶段，由运行输入提供；尚不声明总护甲、额外护甲或事件读取时点。"
+        ],
+        [
+          "taric_p",
+          "empowered_attack_extra_magic_damage",
+          "当前TotalDamage=角色等级基础值×模式系数+0.15×实际护甲阶段；等级曲线、mStat1/mStatFormula2阶段值及读取时点由运行输入提供。"
+        ],
+        [
+          "taric_w",
+          "self_armor_bonus",
+          "当前BonusArmor=ArmorBonusPercentage×实际来源护甲阶段；原树mStat1的mStatFormula省略，具体读取时点待接，输入无默认。"
+        ],
+        [
+          "taric_e",
+          "actual_armor_stage",
+          "当前伤害树使用mStat1/mStatFormula2实际护甲阶段，由运行输入提供；尚不声明总护甲、额外护甲或事件读取时点。"
+        ],
+        [
+          "taric_e",
+          "magic_damage",
+          "当前正文消费的tooltipOnly TotalDamage=BaseDamage+0.5×来源总法强+0.5×mStat1/mStatFormula2实际护甲阶段；阶段值由运行输入提供。"
+        ]
+      ],
+      "evidence": "塔里克P/W/E不再将未证阶段写成额外护甲或固定时点"
+    },
+    {
+      "id": "taric_runtime_stage_refs",
+      "pass": true,
+      "expected": true,
+      "actual": [
+        [
+          "taric_p",
+          {
+            "parameterKey": "actual_armor_stage",
+            "name": "正气凌人实际护甲阶段",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前伤害树使用mStat1/mStatFormula2实际护甲阶段，由运行输入提供；尚不声明总护甲、额外护甲或事件读取时点。",
+            "sortOrder": 70
+          }
+        ],
+        [
+          "taric_w",
+          {
+            "parameterKey": "actual_armor_stage",
+            "name": "坚毅壁垒护甲阶段",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前BonusArmor使用mStat1且mStatFormula省略；具体事件读取阶段由运行输入提供，禁止用本次护甲加成结果递归反馈，也不预先指定施加前快照。",
+            "sortOrder": 20
+          }
+        ],
+        [
+          "taric_e",
+          {
+            "parameterKey": "actual_armor_stage",
+            "name": "炫光实际护甲阶段",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前伤害树使用mStat1/mStatFormula2实际护甲阶段，由运行输入提供；尚不声明总护甲、额外护甲或事件读取时点。",
+            "sortOrder": 30
+          }
+        ]
+      ],
+      "evidence": "塔里克三处护甲阶段无默认输入"
+    },
+    {
+      "id": "all_formula_operations_binary",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "全部公式运算节点二元"
+    },
+    {
+      "id": "all_refs_exist",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "公式与效果引用均在技能写入集合内"
+    },
+    {
+      "id": "milliseconds_integer_nonnegative",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "所有毫秒参数为非负整数"
+    },
+    {
+      "id": "runtime_no_defaults",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "运行输入无固定值或等级默认"
+    },
+    {
+      "id": "effects_nullable_scope",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "效果结果显式保留spellShieldBlockScope"
+    },
+    {
+      "id": "plan_bodies_match",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "计划请求体与修订一候选逐项一致"
+    }
+  ],
+  "apiWrites": 0,
+  "apiCalls": 0,
+  "runtimeValidation": "未执行"
+}

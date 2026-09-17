@@ -1,0 +1,57 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "method": "POST",
+    "route": "/skills/renata_p/formulas",
+    "detailRoute": "/skills/renata_p/formulas/self_mark_damage",
+    "skillKey": "renata_p",
+    "kind": "formulas",
+    "stableKey": "self_mark_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_mark_damage",
+      "name": "自身标记目标生命值伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_amp_base_at_character_level"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_to_percent_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前正文比例乘目标最大生命值。",
+      "sortOrder": 20
+    }
+  }
+}

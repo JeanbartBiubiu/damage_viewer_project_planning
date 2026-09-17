@@ -1,0 +1,5167 @@
+{
+  "generatedAt": "2026-09-09T20:22:11.631Z",
+  "batch": "第三十八批嘉文四世李青斯卡纳凯尔",
+  "revision": "hero38-source-v1-candidate",
+  "status": "独立源值摘要，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceInputSha256": "60f4bda96ba32aec592c70fd4e9c54a8fbed9f5382a6f8ff7bd7f731e5bdb822",
+  "sourceBindingSha256": "3daaf5e697541e14b27a079688879bab54d1607a113e13bbf82f46a717961792",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero38-cursor-review-run-20260910/review.md",
+    "conclusionSha256": "a581f7a09fd18787edb2cd3bae578478562afae79262909dc1f727dc6f1dd232",
+    "auditFile": ".agents/artifacts/hero38-cursor-review-run-20260910/主负责人执行审计.json",
+    "auditSha256": "f5a43bfd41214cee3299a1f623b4cba99a290b4619eb8cd432240c9bd464d5ba",
+    "inputManifestFile": ".agents/artifacts/hero38-cursor-review-20260910/输入冻结散列.json",
+    "inputManifestSha256": "f4de735f3e1675d007ee37cb23cb0f4bd2eed2685e5e8829f2d1ed146eb01c4f",
+    "verdict": "READY",
+    "runId": "run-b30c563a-993b-462d-b83c-5a2d657e916e",
+    "requestId": "59c6c0e0-28a6-4610-842e-ed0d5f206a1f",
+    "events": 5391,
+    "uniqueTools": [
+      "glob",
+      "grep",
+      "read"
+    ],
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "inputIntegrity": [
+    {
+      "path": "README.md",
+      "sha256": "5ee6bed389b5ea25a7ca26200e33c9ce2e222269ad47bd239c2e0ce464b6168a",
+      "byteSize": 457,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "byteSize": 8350124,
+      "declaredSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "declaredByteSize": 8350124,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/公共参数复用清单.json",
+      "sha256": "bd5102dea8eb301f6eeaf4467e5ff336cb58325e9f99096989e622c909a85e1b",
+      "byteSize": 1775,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "参考资料/官方中文/JarvanIV.json",
+      "sha256": "6ad75b89b0c298bbe08c5aa13b46f8013f81a4c6fa460e6826157d8efce4e483",
+      "byteSize": 13365,
+      "declaredSha256": "6ad75b89b0c298bbe08c5aa13b46f8013f81a4c6fa460e6826157d8efce4e483",
+      "declaredByteSize": 13365,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方中文/Kayle.json",
+      "sha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93",
+      "byteSize": 16333,
+      "declaredSha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93",
+      "declaredByteSize": 16333,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方中文/LeeSin.json",
+      "sha256": "3dff63235df8785f38f43560a0c149f3edd05455a0e0e541e8aeee6d162929c9",
+      "byteSize": 16203,
+      "declaredSha256": "3dff63235df8785f38f43560a0c149f3edd05455a0e0e541e8aeee6d162929c9",
+      "declaredByteSize": 16203,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方中文/Skarner.json",
+      "sha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2",
+      "byteSize": 10433,
+      "declaredSha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2",
+      "declaredByteSize": 10433,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方英文/JarvanIV.json",
+      "sha256": "27820f30fdda0380b5c25006a6253c4b4bc61050e63b4709c165bd99c14e4343",
+      "byteSize": 13088,
+      "declaredSha256": "27820f30fdda0380b5c25006a6253c4b4bc61050e63b4709c165bd99c14e4343",
+      "declaredByteSize": 13088,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方英文/Kayle.json",
+      "sha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7",
+      "byteSize": 15967,
+      "declaredSha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7",
+      "declaredByteSize": 15967,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方英文/LeeSin.json",
+      "sha256": "fd18d187390bdf3519900fcf45968d2b3f9382dc670ad24181029971631f52a7",
+      "byteSize": 15947,
+      "declaredSha256": "fd18d187390bdf3519900fcf45968d2b3f9382dc670ad24181029971631f52a7",
+      "declaredByteSize": 15947,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/官方英文/Skarner.json",
+      "sha256": "dba7c616a97453855cdca38601146cf5be1a6e6de13057b2f12707f49058823c",
+      "byteSize": 9912,
+      "declaredSha256": "dba7c616a97453855cdca38601146cf5be1a6e6de13057b2f12707f49058823c",
+      "declaredByteSize": 9912,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/客户端原文/JarvanIV.json.gz",
+      "sha256": "45eb3307c6d2a0015ce3942366e08a6d8b5566402e94afec8d2acef1e473b9ae",
+      "byteSize": 6612,
+      "declaredSha256": "45eb3307c6d2a0015ce3942366e08a6d8b5566402e94afec8d2acef1e473b9ae",
+      "declaredByteSize": 6612,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/客户端原文/Kayle.json.gz",
+      "sha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7",
+      "byteSize": 9416,
+      "declaredSha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7",
+      "declaredByteSize": 9416,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/客户端原文/LeeSin.json.gz",
+      "sha256": "25530711b203461d3d5986910e8ea2c600b678ee5ae0714d597a1e98b00caf8f",
+      "byteSize": 8332,
+      "declaredSha256": "25530711b203461d3d5986910e8ea2c600b678ee5ae0714d597a1e98b00caf8f",
+      "declaredByteSize": 8332,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/客户端原文/Skarner.json.gz",
+      "sha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68",
+      "byteSize": 8228,
+      "declaredSha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68",
+      "declaredByteSize": 8228,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "byteSize": 4045,
+      "declaredSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "declaredByteSize": 4045,
+      "declaredMatch": true
+    },
+    {
+      "path": "参考资料/当前20槽保护快照.json",
+      "sha256": "6d84f4781aba0f03055f7ec480148b919e7604847f0166fe683093051f747d34",
+      "byteSize": 139632,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "参考资料/接口载荷样例.json",
+      "sha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "byteSize": 18896,
+      "declaredSha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "declaredByteSize": 18896,
+      "declaredMatch": true
+    },
+    {
+      "path": "来源绑定与当前文本.json",
+      "sha256": "3daaf5e697541e14b27a079688879bab54d1607a113e13bbf82f46a717961792",
+      "byteSize": 260026,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    },
+    {
+      "path": "输入版本.json",
+      "sha256": "60f4bda96ba32aec592c70fd4e9c54a8fbed9f5382a6f8ff7bd7f731e5bdb822",
+      "byteSize": 4304,
+      "declaredSha256": null,
+      "declaredByteSize": null,
+      "declaredMatch": null
+    }
+  ],
+  "selectedValues": {
+    "jarvaniv_p": {
+      "binding": "Characters/JarvanIV/Spells/JarvanIVMartialCadenceAbility/JarvanIVMartialCadence",
+      "officialMaxRank": 1,
+      "rawDataValues": {
+        "MaximumCadenceDamage": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "MinimumCadenceDamage": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "TooltipCurrentHealthDamage": [
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "TooltipCooldown": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 6,
+              "mBreakpoints": [
+                {
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": -1,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": -1,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 16,
+                  "mAdditionalBonusAtThisLevel": -1,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "current_health_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.08,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cadence_cooldown_base_seconds",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 6,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cadence_cooldown_breakpoint_1_level",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cadence_cooldown_breakpoint_1_delta_seconds",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": -1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cadence_cooldown_breakpoint_2_level",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 11,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cadence_cooldown_breakpoint_2_delta_seconds",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": -1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cadence_cooldown_breakpoint_3_level",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 16,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cadence_cooldown_breakpoint_3_delta_seconds",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": -1,
+          "levelValues": null
+        }
+      ],
+      "formulas": [],
+      "excluded": [
+        {
+          "item": "非英雄单位最低/最高伤害",
+          "reason": "仅在扩展正文出现，属于非英雄专用分支；本轮一对一敌方英雄不建立兵野分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "目标当前生命值实际属性和首次攻击触发",
+          "reason": "当前绑定正文消费比例但计算树没有目标生命属性节点，保留比例并待运行事件接线。"
+        },
+        {
+          "item": "角色等级断点求值",
+          "reason": "保留起点、断点等级和变化量；没有证据把其展开为完整角色等级公式。"
+        }
+      ]
+    },
+    "jarvaniv_q": {
+      "binding": "Characters/JarvanIV/Spells/JarvanIVDragonStrikeAbility/JarvanIVDragonStrike",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "BaseDamage": [
+          50,
+          90,
+          130,
+          170,
+          210,
+          250,
+          290
+        ],
+        "BaseARShred": [
+          0.05999999865889549,
+          0.10000000149011612,
+          0.14000000059604645,
+          0.18000000715255737,
+          0.2199999988079071,
+          0.25999999046325684,
+          0.30000001192092896
+        ]
+      },
+      "rawEffectAmount": [
+        {
+          "value": [
+            70,
+            80,
+            120,
+            160,
+            200,
+            240,
+            250
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1.4500000476837158,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 90,
+            "2": 130,
+            "3": 170,
+            "4": 210,
+            "5": 250
+          }
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.45000005,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "armor_shred_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.1,
+            "2": 0.14,
+            "3": 0.18000001,
+            "4": 0.22,
+            "5": 0.25999999
+          }
+        },
+        {
+          "parameterKey": "armor_shred_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knock_up_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 750,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "physical_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "TotalDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "E旗帜牵引/击飞的位移几何",
+          "reason": "属于与军旗连接的另一技能和空间事件，不并入Q伤害公式。"
+        },
+        {
+          "item": "SWIFTPLAY、BotData和模式覆盖树",
+          "reason": "不是当前标准根绑定正文。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "目标资格、沿途多目标和与军旗连接",
+          "reason": "保留单一敌人伤害树；目标、击飞和连接事件待接。"
+        }
+      ]
+    },
+    "jarvaniv_w": {
+      "binding": "Characters/JarvanIV/Spells/JarvanIVGoldenAegisAbility/JarvanIVGoldenAegis",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "BaseSlowAmount": [
+          0.10000000149011612,
+          0.15000000596046448,
+          0.20000000298023224,
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355,
+          0.4000000059604645
+        ]
+      },
+      "rawEffectAmount": [
+        {
+          "value": [
+            60,
+            60,
+            80,
+            100,
+            120,
+            140,
+            160
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            0,
+            10,
+            20,
+            30,
+            40,
+            50,
+            60
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            0.013000000268220901,
+            0.013000000268220901,
+            0.013000000268220901,
+            0.013000000268220901,
+            0.013000000268220901,
+            0.013000000268220901,
+            0.013000000268220901
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        }
+      ],
+      "calculations": {
+        "TotalShield": {
+          "mFormulaParts": [
+            {
+              "mEffectIndex": 1,
+              "__type": "EffectValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.699999988079071,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BonusShield": {
+          "mFormulaParts": [
+            {
+              "mStat": 12,
+              "mCoefficient": 0.013000000268220901,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "shield_base",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 80,
+            "3": 100,
+            "4": 120,
+            "5": 140
+          }
+        },
+        {
+          "parameterKey": "shield_bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.69999999,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_bonus_stat12_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.013,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.15000001,
+            "2": 0.2,
+            "3": 0.25,
+            "4": 0.30000001,
+            "5": 0.34999999
+          }
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 125,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "shield_value",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "TotalShield"
+          ]
+        },
+        {
+          "formulaKey": "bonus_shield_value",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_bonus_stat12_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "BonusShield"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "护盾持续时间4秒",
+          "reason": "Effect4Amount虽有4秒值，但当前绑定正文没有消费该字段；不把未消费字段当已证生命周期。"
+        },
+        {
+          "item": "额外敌人目标事件",
+          "reason": "本轮只保留数值，附近敌人资格和每名英雄应用由事件层接线。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾英雄资格和额外护盾叠加时点",
+          "reason": "保留TotalShield与BonusShield两棵树；当前正文目标资格和命中次数待接。"
+        }
+      ]
+    },
+    "jarvaniv_e": {
+      "binding": "Characters/JarvanIV/Spells/JarvanIVDemacianStandardAbility/JarvanIVDemacianStandard",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "EDashSpeed": [
+          1400,
+          1400,
+          1400,
+          1400,
+          1400,
+          1400,
+          1400
+        ],
+        "EBehindJarvanCheck": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "EKnockUpAoE": [
+          0,
+          180,
+          180,
+          180,
+          180,
+          180,
+          180
+        ],
+        "PermanentAttackSpeed": [
+          0.17499999701976776,
+          0.20000000298023224,
+          0.22499999403953552,
+          0.25,
+          0.2750000059604645,
+          0.30000001192092896,
+          0.32499998807907104
+        ],
+        "APRatio": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "BaseAuraAS": [
+          0.17499999701976776,
+          0.20000000298023224,
+          0.22499999403953552,
+          0.25,
+          0.2750000059604645,
+          0.30000001192092896,
+          0.32499998807907104
+        ]
+      },
+      "rawEffectAmount": [
+        {
+          "value": [
+            7,
+            10,
+            13,
+            16,
+            19,
+            22,
+            25
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            80,
+            80,
+            120,
+            160,
+            200,
+            240,
+            280
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mEffectIndex": 2,
+              "__type": "EffectValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "dash_speed",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1400,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "behind_flag_check_distance",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 400,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knock_up_radius",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 180,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_attack_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.22499999,
+            "3": 0.25,
+            "4": 0.27500001,
+            "5": 0.30000001
+          }
+        },
+        {
+          "parameterKey": "ally_attack_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.22499999,
+            "3": 0.25,
+            "4": 0.27500001,
+            "5": 0.30000001
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.80000001,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "base_magic_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 80,
+            "2": 120,
+            "3": 160,
+            "4": 200,
+            "5": 240
+          }
+        },
+        {
+          "parameterKey": "flag_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_magic_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "TotalDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "附近友军攻击速度效果",
+          "reason": "第三友方收益不属于唯一敌人一对一主路径；仅保留来源参数供后续定向接线。"
+        },
+        {
+          "item": "旗帜连接击飞事件",
+          "reason": "空间连接和控制事件未在本轮创建。"
+        },
+        {
+          "item": "cherry模式APRatio和BotData",
+          "reason": "标准根绑定正文不消费。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "旗帜落地、自身被动应用和友军目标资格",
+          "reason": "保留数值与自身属性效果；触发、目标资格和控制时序待接。"
+        }
+      ]
+    },
+    "jarvaniv_r": {
+      "binding": "Characters/JarvanIV/Spells/JarvanIVCataclysmAbility/JarvanIVCataclysm",
+      "officialMaxRank": 3,
+      "rawDataValues": {
+        "BaseDamage": [
+          75,
+          200,
+          325,
+          450,
+          575,
+          700,
+          825
+        ],
+        "WallDuration": [
+          3.5,
+          3.5,
+          3.5,
+          3.5,
+          3.5,
+          3.5,
+          3.5
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "DamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1.7999999523162842,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 200,
+            "2": 325,
+            "3": 450
+          }
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.79999995,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "wall_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "physical_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "DamageCalc"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "附近额外敌人的独立命中",
+          "reason": "正文共用DamageCalc但额外目标事件不在本轮单一敌人公式内。"
+        },
+        {
+          "item": "竞技场倒塌再次施放",
+          "reason": "只保留墙体持续数值，不创建再次施放事件。"
+        },
+        {
+          "item": "冷却尾部8/5/0和索引0占位",
+          "reason": "根数组中非技能等级值，且冷却/法力已由公共参数保护。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "选中敌方英雄资格和落地时序",
+          "reason": "保留单一主目标公式；目标标签、区域命中和再次施放待接。"
+        }
+      ]
+    },
+    "leesin_p": {
+      "binding": "Characters/LeeSin/Spells/LeeSinPassiveAbility/LeeSinPassive",
+      "officialMaxRank": 1,
+      "rawDataValues": {
+        "PassiveAS": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "FirstHitEnergyMult": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "EnergyReturn": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 10,
+              "mBreakpoints": [
+                {
+                  "mLevel": 7,
+                  "mAdditionalBonusAtThisLevel": 5,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "mAdditionalBonusAtThisLevel": 5,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TTFirstHitEnergy": {
+          "mMultiplier": {
+            "mDataValue": "FirstHitEnergyMult",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mModifiedGameCalculation": "EnergyReturn",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "empowered_attack_count",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_attack_speed_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "energy_return_at_character_level",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "energy_return_level1",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "energy_return_breakpoint_1_level",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 7,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "energy_return_breakpoint_1_increase",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "energy_return_breakpoint_2_level",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 13,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "energy_return_breakpoint_2_increase",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "first_hit_energy_multiplier",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "first_hit_energy_return",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "energy_return_at_character_level"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "first_hit_energy_multiplier"
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "TTFirstHitEnergy",
+            "EnergyReturn"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "攻击、技能触发和第二次攻击时序",
+          "reason": "本轮只保存自身数值，不创建攻击事件或内部状态。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "EnergyReturn角色等级实际求值",
+          "reason": "保留断点来源和运行输入；未编完整等级曲线。"
+        }
+      ]
+    },
+    "leesin_q": {
+      "binding": "Characters/LeeSin/Spells/LeeSinQOneAbility/LeeSinQOne",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "Q1BaseDamage": [
+          30,
+          60,
+          90,
+          120,
+          150,
+          180,
+          210
+        ],
+        "Q2BaseDamage": [
+          30,
+          60,
+          90,
+          120,
+          150,
+          180,
+          210
+        ],
+        "Q1ADRatio": [
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421
+        ],
+        "Q2ADRatio": [
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421
+        ],
+        "Q2MaxMissingHealthMod": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ReactivateTime": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "CherryBonusHaste": [
+          30,
+          30,
+          30,
+          30,
+          30,
+          30,
+          30
+        ],
+        "DashSpeed": [
+          1350,
+          1350,
+          1350,
+          1350,
+          1350,
+          1350,
+          1350
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "InitialDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Q1BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "Q1ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "RecastDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Q2BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "Q2ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "EmpoweredDamage": {
+          "mMultiplier": {
+            "mNumber": 2,
+            "__type": "NumberCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "RecastDamage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "q1_base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 90,
+            "3": 120,
+            "4": 150,
+            "5": 180
+          }
+        },
+        {
+          "parameterKey": "q2_base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 90,
+            "3": 120,
+            "4": 150,
+            "5": 180
+          }
+        },
+        {
+          "parameterKey": "q1_bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.89999998,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "q2_bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.89999998,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "reactivate_window_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "empowered_damage_multiplier",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "energy_cost",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 50,
+            "3": 50,
+            "4": 50,
+            "5": 50
+          }
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "initial_physical_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q1_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "q1_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "InitialDamage"
+          ]
+        },
+        {
+          "formulaKey": "recast_physical_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q2_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "q2_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "RecastDamage"
+          ]
+        },
+        {
+          "formulaKey": "empowered_physical_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "empowered_damage_multiplier"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "q2_base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "q2_bonus_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "EmpoweredDamage",
+            "RecastDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "Q2MaxMissingHealthMod",
+          "reason": "当前根计算树和正文不消费该DataValue；不得用它补造已损生命曲线。"
+        },
+        {
+          "item": "EmpoweredDamage的独立重复树",
+          "reason": "保留一棵完整回音击最高值公式；不再把tooltipOnly节点另建为第二套重复伤害。"
+        },
+        {
+          "item": "真实视野、突进几何和SWIFTPLAY",
+          "reason": "属于视野/空间或模式分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "回音击已损生命中间曲线",
+          "reason": "保留RecastDamage基础树与最高展示边界，不猜线性函数。"
+        },
+        {
+          "item": "首个命中与再次施放事件",
+          "reason": "同一技能两段保留，事件和目标资格待接。"
+        }
+      ]
+    },
+    "leesin_w": {
+      "binding": "Characters/LeeSin/Spells/LeeSinWOneAbility/LeeSinWOne",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "LifestealAndSpellVamp": [
+          6,
+          10,
+          14,
+          18,
+          22,
+          26,
+          30
+        ],
+        "ShieldValue": [
+          15,
+          60,
+          105,
+          150,
+          195,
+          240,
+          285
+        ],
+        "ShieldDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "DashSpeed": [
+          1350,
+          1350,
+          1350,
+          1350,
+          1350,
+          1350,
+          1350
+        ],
+        "W1ReactivateTime": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "W1CooldownRecovered": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "LifestealAndSpellVampTime": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "ShieldAmount": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "ShieldValue",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.800000011920929,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "shield_base",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 105,
+            "3": 150,
+            "4": 195,
+            "5": 240
+          }
+        },
+        {
+          "parameterKey": "shield_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.80000001,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "omnivamp_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.1,
+            "2": 0.14,
+            "3": 0.18,
+            "4": 0.22,
+            "5": 0.26
+          }
+        },
+        {
+          "parameterKey": "omnivamp_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "reactivate_window_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "energy_cost",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 50,
+            "3": 50,
+            "4": 50,
+            "5": 50
+          }
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "shield_value",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "ShieldAmount"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "守卫/友军目标的护盾结果",
+          "reason": "第三方目标结果不在本轮自身与单一敌人范围；参数和自身护盾保留。"
+        },
+        {
+          "item": "W1CooldownRecovered和SWIFTPLAY",
+          "reason": "当前正文与计算树未消费或属于模式字段。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "友军英雄资格、再次施放和减速衰减事件",
+          "reason": "数值与生命周期保存，触发目标和衰减曲线待接。"
+        }
+      ]
+    },
+    "leesin_e": {
+      "binding": "Characters/LeeSin/Spells/LeeSinEOneAbility/LeeSinEOne",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "SlowAmount": [
+          25,
+          35,
+          45,
+          55,
+          65,
+          75,
+          85
+        ],
+        "E1Damage": [
+          10,
+          35,
+          60,
+          85,
+          110,
+          135,
+          160
+        ],
+        "ReactivateTime": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "SlowDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "InitialDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "E1Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mCoefficient": 0.8999999761581421,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "slow_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 35,
+            "2": 45,
+            "3": 55,
+            "4": 65,
+            "5": 75
+          }
+        },
+        {
+          "parameterKey": "base_magic_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 35,
+            "2": 60,
+            "3": 85,
+            "4": 110,
+            "5": 135
+          }
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.89999998,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "reactivate_window_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "energy_cost",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 50,
+            "3": 50,
+            "4": 50,
+            "5": 50
+          }
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "initial_magic_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_magic_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "total_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "InitialDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "减速逐渐恢复的完整曲线",
+          "reason": "当前正文只有持续时间和初始减速，没有恢复曲线。"
+        },
+        {
+          "item": "显形、空间范围与SWIFTPLAY",
+          "reason": "视野、空间和模式分支不进入本轮公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "首段命中与再次施放时序",
+          "reason": "保留两段共用窗口与减速持续，触发事件待接。"
+        }
+      ]
+    },
+    "leesin_r": {
+      "binding": "Characters/LeeSin/Spells/LeeSinRAbility/LeeSinR",
+      "officialMaxRank": 3,
+      "rawDataValues": {
+        "BaseDamage": [
+          -50,
+          175,
+          400,
+          625,
+          850,
+          1075,
+          1300
+        ],
+        "PercentHPCarryThrough": [
+          12,
+          12,
+          15,
+          18,
+          21,
+          24,
+          27
+        ],
+        "KickDistance": [
+          800,
+          800,
+          800,
+          800,
+          800,
+          800,
+          800
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "Damage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 2,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 175,
+            "2": 400,
+            "3": 625
+          }
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "kick_distance",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 800,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "physical_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "Damage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "碰撞到其他英雄的额外伤害公式和初始目标额外生命",
+          "reason": "该支路要求另一名敌方英雄及其额外生命，本轮唯一敌方英雄一对一范围不写入参数或公式。"
+        },
+        {
+          "item": "击退、击飞和施法内禁锢结果",
+          "reason": "控制和时序不创建直接结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "目标碰撞、额外生命求值和地图边界",
+          "reason": "主目标伤害已保留，碰撞事件及额外目标接线待补。"
+        }
+      ]
+    },
+    "skarner_p": {
+      "binding": "Characters/Skarner/Spells/SkarnerPassiveAbility/SkarnerPassive",
+      "officialMaxRank": 1,
+      "rawDataValues": {
+        "StacksToTriggerPassive": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "Duration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "TickFrequency": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "PercentHealthDamage": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mStartValue": 5,
+              "mEndValue": 9,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "DamageMonsterCap": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 100,
+              "mEndValue": 300,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "stacks_to_trigger",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "percent_health_base_at_character_level",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "percent_health_level1_value",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "percent_health_level_max_value",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 9,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "percent_health_multiplier",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "percent_health_damage_ratio",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_health_multiplier"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_health_base_at_character_level"
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "PercentHealthDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "野怪总伤害上限",
+          "reason": "扩展正文只针对野怪，本轮唯一敌方英雄不建立野怪封顶参数。"
+        },
+        {
+          "item": "TickFrequency与每跳过程",
+          "reason": "当前正文未消费TickFrequency，不把0.5秒字段编成周期过程。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "角色等级插值实际值、目标最大生命和满层事件",
+          "reason": "保留端点和无默认运行输入，实际层数、目标资格与周期由事件层提供。"
+        }
+      ]
+    },
+    "skarner_q": {
+      "binding": "Characters/Skarner/Spells/SkarnerQAbility/SkarnerQ",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "RockHoldDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "AttackRadius": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "BaseDamage": [
+          0,
+          10,
+          20,
+          30,
+          40,
+          50,
+          60
+        ],
+        "MaxHPPercent": [
+          0.10999999940395355,
+          0.10999999940395355,
+          0.10999999940395355,
+          0.10999999940395355,
+          0.10999999940395355,
+          0.10999999940395355,
+          0.10999999940395355
+        ],
+        "SlowDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "SlowPercent": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "MonsterDamageCap": [
+          100,
+          150,
+          200,
+          250,
+          300,
+          350,
+          400
+        ],
+        "AttackRange": [
+          25,
+          25,
+          25,
+          25,
+          25,
+          25,
+          25
+        ],
+        "AttackSpeed": [
+          0.15000000596046448,
+          0.20000000298023224,
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355,
+          0.4000000059604645,
+          0.44999998807907104
+        ],
+        "BonusHealthRatio": [
+          0.029999999329447746,
+          0.029999999329447746,
+          0.029999999329447746,
+          0.029999999329447746,
+          0.029999999329447746,
+          0.029999999329447746,
+          0.029999999329447746
+        ],
+        "ADRatio": [
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421
+        ],
+        "TurretDamageMod": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "AbilityDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mDataValue": "BonusHealthRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 8000,
+            "2": 6750,
+            "3": 5500,
+            "4": 4250,
+            "5": 3000
+          }
+        },
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10,
+            "2": 20,
+            "3": 30,
+            "4": 40,
+            "5": 50
+          }
+        },
+        {
+          "parameterKey": "max_health_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.11,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.40000001,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "attack_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.25,
+            "3": 0.30000001,
+            "4": 0.34999999,
+            "5": 0.40000001
+          }
+        },
+        {
+          "parameterKey": "empowered_attack_count",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_health_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.03,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.89999998,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rock_hold_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 350,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "ability_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_health_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "AbilityDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "cooldown_ms误用占位",
+          "reason": "本参数由生成器从根cooldownTime按索引1至5直接读取，见脚本后置赋值；不使用伪造DataValues名称。"
+        },
+        {
+          "item": "野怪封顶和建筑物倍率",
+          "reason": "扩展正文专用分支；本轮唯一敌方英雄不建立。"
+        },
+        {
+          "item": "投掷巨石的其它敌人、命中盒和攻击次数事件",
+          "reason": "目标分支和空间时序不并入单一敌人公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "最后一次攻击、目标最大生命和三次攻击事件",
+          "reason": "参数已保存，事件和目标生命实际输入待接。"
+        }
+      ]
+    },
+    "skarner_w": {
+      "binding": "Characters/Skarner/Spells/SkarnerWAbility/SkarnerW",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "BaseDamage": [
+          30,
+          50,
+          70,
+          90,
+          110,
+          130,
+          150
+        ],
+        "DamageAPRatio": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "InitialShieldRatio": [
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066
+        ],
+        "ShieldDuration": [
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5
+        ],
+        "SlowEffect": [
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224
+        ],
+        "SlowDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "InitialShield": {
+          "mFormulaParts": [
+            {
+              "mStat": 12,
+              "mDataValue": "InitialShieldRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "DamageAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 70,
+            "3": 90,
+            "4": 110,
+            "5": 130
+          }
+        },
+        {
+          "parameterKey": "damage_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.80000001,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_stat12_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.08,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 300,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "Damage"
+          ]
+        },
+        {
+          "formulaKey": "shield_value",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_stat12_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "InitialShield"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "附近额外敌人逐个命中",
+          "reason": "本轮只表达单一敌人伤害公式，不创建范围结果。"
+        },
+        {
+          "item": "Tick/命中盒时序",
+          "reason": "当前数据字段未构成当前正文消费的周期过程。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾、地震、减速的触发时序",
+          "reason": "数值与生命周期已保存，具体事件待接。"
+        }
+      ]
+    },
+    "skarner_e": {
+      "binding": "Characters/Skarner/Spells/SkarnerEAbility/SkarnerE",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "ChargeDuration": [
+          2.75,
+          2.75,
+          2.75,
+          2.75,
+          2.75,
+          2.75,
+          2.75
+        ],
+        "InitialSpeed": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150
+        ],
+        "Acceleration": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "MaximumSpeed": [
+          950,
+          950,
+          950,
+          950,
+          950,
+          950,
+          950
+        ],
+        "GrabHitboxRadius": [
+          160,
+          160,
+          160,
+          160,
+          160,
+          160,
+          160
+        ],
+        "GrabHitboxOffset": [
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90
+        ],
+        "WallRevealRadius": [
+          650,
+          650,
+          650,
+          650,
+          650,
+          650,
+          650
+        ],
+        "WallWarningRadius": [
+          1750,
+          1750,
+          1750,
+          1750,
+          1750,
+          1750,
+          1750
+        ],
+        "GrabbedMoveSpeedBonus": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "MinGrabbedSpeed": [
+          650,
+          650,
+          650,
+          650,
+          650,
+          650,
+          650
+        ],
+        "DistancePostGrab": [
+          675,
+          675,
+          675,
+          675,
+          675,
+          675,
+          675
+        ],
+        "StunDuration": [
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858
+        ],
+        "PinBaseDamage": [
+          0,
+          30,
+          60,
+          90,
+          120,
+          150,
+          180
+        ],
+        "ADRatio": [
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158
+        ],
+        "PinDamageRatio": [
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549,
+          0.05999999865889549
+        ],
+        "VictimOffsetIncrease": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "RefundPercent": [
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421,
+          0.6499999761581421
+        ],
+        "MinimumQRenew": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "InitialHitboxRadius": [
+          160,
+          160,
+          160,
+          160,
+          160,
+          160,
+          160
+        ],
+        "InitialHitboxOffset": [
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90
+        ],
+        "SecondHitboxDelay": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "SecondHitboxRadius": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "SecondHitboxOffset": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150
+        ],
+        "FinalHitboxDelay": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "PinDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "PinBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mDataValue": "PinDamageRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "charge_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2750,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "initial_speed",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 150,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "acceleration",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "maximum_speed",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 950,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stun_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1100,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "pin_base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 30,
+            "2": 60,
+            "3": 90,
+            "4": 120,
+            "5": 150
+          }
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.20000005,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "pin_stat12_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.06,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "refund_percent",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.64999998,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "pin_physical_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "pin_base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "pin_stat12_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "PinDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "碰撞过程命中盒、预警和MinimumQRenew",
+          "reason": "属于空间与表现/内部字段，不建立伤害或周期公式。"
+        },
+        {
+          "item": "大型野怪目标分支",
+          "reason": "本轮唯一敌方英雄范围不创建兵野专用资格或结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "冲锋、拖拽、撞墙和冷却降至事件",
+          "reason": "保留对应数值，事件时序和目标资格待接。"
+        }
+      ]
+    },
+    "skarner_r": {
+      "binding": "Characters/Skarner/Spells/SkarnerRAbility/SkarnerR",
+      "officialMaxRank": 3,
+      "rawDataValues": {
+        "BackwardOffset": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "HitboxStartHalfWidth": [
+          175,
+          175,
+          175,
+          175,
+          175,
+          175,
+          175
+        ],
+        "HitboxEndHalfWidth": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "BaseDamage": [
+          50,
+          150,
+          250,
+          350,
+          450,
+          550,
+          650
+        ],
+        "Duration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "HoldDistance": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "SpeedBoostAmount": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "SpeedBoostDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "DropDistance": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150,
+            "2": 250,
+            "3": 350
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "suppression_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.40000001,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 750,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "Damage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "第二、第三敌方英雄命中",
+          "reason": "本轮一对一只保留单一敌方英雄主伤害，不建立多目标结果。"
+        },
+        {
+          "item": "拖行、命中盒和撼地/擎天切换事件",
+          "reason": "属于控制/空间/跨技能时序。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "至少命中一个英雄的自身加速触发",
+          "reason": "自身属性效果已保存，触发条件待接。"
+        }
+      ]
+    },
+    "kayle_p": {
+      "binding": "Characters/Kayle/Spells/KaylePassiveAbility/KaylePassive",
+      "officialMaxRank": 1,
+      "rawDataValues": {
+        "LevelForPassiveRank0": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "LevelForPassiveRank1": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "LevelForPassiveRank2": [
+          11,
+          11,
+          11,
+          11,
+          11,
+          11,
+          11
+        ],
+        "LevelForPassiveRank3": [
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16
+        ],
+        "UpgradedAttackRange": [
+          525,
+          525,
+          525,
+          525,
+          525,
+          525,
+          525
+        ],
+        "FinalAttackRange": [
+          625,
+          625,
+          625,
+          625,
+          625,
+          625,
+          625
+        ],
+        "MSTowardsEnemy": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "MSTowardsEnemyRadius": [
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000,
+          2000
+        ],
+        "EnrageMaxStacks": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "EnrageDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "EnrageASPerStack": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "PassiveWaveAPRatio": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "PassiveWaveBonusADRatio": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "EnrageTotalASPerStack": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "EnrageASPerStack",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "PassiveWaveDamage": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 20,
+              "mBreakpoints": [
+                {
+                  "mLevel": 12,
+                  "mBonusPerLevelAtAndAfter": 3,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            },
+            {
+              "mDataValue": "PassiveWaveAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "PassiveWaveBonusADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "level_for_rank_0",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "level_for_rank_1",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "level_for_rank_2",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 11,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "level_for_rank_3",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 16,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "upgraded_attack_range",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 525,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "final_attack_range",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 625,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_radius",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_stack_count",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stack_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "attack_speed_per_stack_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_wave_base_at_character_level",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_wave_level1_value",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_wave_breakpoint_level",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 12,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_wave_breakpoint_increment",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_wave_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_wave_bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "passive_wave_magic_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_wave_base_at_character_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "passive_wave_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_wave_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "PassiveWaveDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "焰浪暴击与法术特效",
+          "reason": "扩展正文只说明效能，不创建暴击或攻击事件。"
+        },
+        {
+          "item": "等级替换整套技能",
+          "reason": "等级是同一技能的进阶门槛，不能拆成多个技能。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "层数累积、11级焰浪资格和16级永久昂扬",
+          "reason": "保留门槛、层数和数值；触发时序待接。"
+        }
+      ]
+    },
+    "kayle_q": {
+      "binding": "Characters/Kayle/Spells/KayleQAbility/KayleQ",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "ManaRefundPercent": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "CastDelay": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "Damage": [
+          30,
+          60,
+          90,
+          120,
+          150,
+          180,
+          210
+        ],
+        "SlowPercent": [
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50
+        ],
+        "SlowDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ShredPercent": [
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ],
+        "ShredDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "ExplosionLeftRightDist": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150
+        ],
+        "ExplosionLeftRightWidth": [
+          125,
+          125,
+          125,
+          125,
+          125,
+          125,
+          125
+        ],
+        "ExplosionForwardDist": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "ExplosionBackwardDist": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "ExplosionForwardBackWidth": [
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90
+        ],
+        "ExplosionCenterAoERadius": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "ExplosionForwardOffset": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "MissileSpawnOffset": null
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.5,
+              "__type": "StatByCoefficientCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 90,
+            "3": 120,
+            "4": 150,
+            "5": 180
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.60000002,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 25,
+            "2": 30,
+            "3": 35,
+            "4": 40,
+            "5": 45
+          }
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shred_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 15,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shred_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "TotalDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "Explosion几何和未消费退还比例",
+          "reason": "当前正文未提供独立爆炸伤害树；ManaRefundPercent不在当前正文消费。"
+        },
+        {
+          "item": "尾部冷却占位7和mDoesNotConsume标志",
+          "reason": "冷却/法力已由公共参数保护，不能据标志删改。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "减速、削减和穿透多个敌人的事件",
+          "reason": "数值保留，控制目标和后方敌人事件待接。"
+        },
+        {
+          "item": "CastDelay前摇",
+          "reason": "DataValues.CastDelay为0.25秒但根spellCastTime为0，二者冲突；暂不把其写成已证施法时长。"
+        }
+      ]
+    },
+    "kayle_w": {
+      "binding": "Characters/Kayle/Spells/KayleWAbility/KayleW",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "Heal": [
+          30,
+          55,
+          80,
+          105,
+          130,
+          155,
+          180
+        ],
+        "Haste": [
+          0.20000000298023224,
+          0.23999999463558197,
+          0.2800000011920929,
+          0.3199999928474426,
+          0.36000001430511475,
+          0.4000000059604645,
+          0.4399999976158142
+        ],
+        "HasteDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "TotalHeal": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Heal",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.25,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalHaste": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Haste",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.0007999999797903001,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_heal",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 55,
+            "2": 80,
+            "3": 105,
+            "4": 130,
+            "5": 155
+          }
+        },
+        {
+          "parameterKey": "heal_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "haste_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.23999999,
+            "2": 0.28,
+            "3": 0.31999999,
+            "4": 0.36000001,
+            "5": 0.40000001
+          }
+        },
+        {
+          "parameterKey": "haste_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0008,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "haste_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "heal_value",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "TotalHeal"
+          ]
+        },
+        {
+          "formulaKey": "haste_ratio",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "haste_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "haste_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "TotalHaste"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "目标友军治疗结果",
+          "reason": "直接治疗结果不在本轮创建；数值公式保留供后续自身/友军目标接线。"
+        },
+        {
+          "item": "mDoesNotConsumeMana/mDoesNotConsumeCooldown标志",
+          "reason": "与根数组及公共参数并存，不能据标志删改基础消耗和冷却。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "无目标施放选最近伤势友军",
+          "reason": "当前正文明确目标选择规则，数值不代表任意目标或自施放资格。"
+        }
+      ]
+    },
+    "kayle_e": {
+      "binding": "Characters/Kayle/Spells/KayleEAbility/KayleE",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "PassiveDamage": [
+          15,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40
+        ],
+        "ActiveExecutePercent": [
+          7.5,
+          8,
+          8.5,
+          9,
+          9.5,
+          10,
+          10.5
+        ],
+        "MaxExecuteVsMonsters": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "ExplosionRadius": [
+          350,
+          350,
+          350,
+          350,
+          350,
+          350,
+          350
+        ],
+        "BuffDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "PassiveAPRatio": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "PassiveBonusADRatio": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "{266027bf}": {
+          "mFormulaParts": [
+            {
+              "mStat": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "EPassiveTotalDamage": {
+          "{72c5c2a8}": 1,
+          "mFormulaParts": [
+            {
+              "mDataValue": "PassiveDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "PassiveAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "PassiveBonusADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ActiveTotalExecuteDamage": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "ActiveExecutePercent",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.014999999664723873,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "passive_base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 15,
+            "2": 20,
+            "3": 25,
+            "4": 30,
+            "5": 35
+          }
+        },
+        {
+          "parameterKey": "active_execute_percent_points",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 8,
+            "2": 8.5,
+            "3": 9,
+            "4": 9.5,
+            "5": 10
+          }
+        },
+        {
+          "parameterKey": "passive_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "active_execute_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.015,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "active_execute_multiplier",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "passive_magic_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "passive_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "EPassiveTotalDamage"
+          ]
+        },
+        {
+          "formulaKey": "active_execute_ratio",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_execute_multiplier"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "active_execute_percent_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "active_execute_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "ActiveTotalExecuteDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "野怪额外伤害上限",
+          "reason": "仅扩展正文兵野专用分支。"
+        },
+        {
+          "item": "爆炸直接伤害、爆炸半径和攻击特效事件",
+          "reason": "爆炸影响周围额外敌人，超出本轮唯一敌人范围；当前没有独立爆炸伤害树，不创建伤害结果或伪造公式。"
+        },
+        {
+          "item": "无关匿名计算树",
+          "reason": "未被当前正文消费，不作参数/公式引用。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "主动下一次攻击、已损生命输入和11级爆炸资格",
+          "reason": "保留两棵数值树、半径与等级门槛依赖；触发和目标生命待接。"
+        }
+      ]
+    },
+    "kayle_r": {
+      "binding": "Characters/Kayle/Spells/KayleRAbility/KayleR",
+      "officialMaxRank": 3,
+      "rawDataValues": {
+        "Damage": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700
+        ],
+        "InvulnDuration": [
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5
+        ],
+        "AoERadius": [
+          675,
+          675,
+          675,
+          775,
+          775,
+          775,
+          775
+        ]
+      },
+      "rawEffectAmount": null,
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.699999988079071,
+              "__type": "StatByCoefficientCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 200,
+            "2": 300,
+            "3": 400
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.69999999,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "invulnerability_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "aoe_radius",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 675,
+            "2": 675,
+            "3": 775
+          }
+        },
+        {
+          "parameterKey": "mana_cost",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 100,
+            "2": 50,
+            "3": 0
+          }
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          "sourceCalculationNames": [
+            "TotalDamage"
+          ]
+        }
+      ],
+      "excluded": [
+        {
+          "item": "友方英雄无敌结果",
+          "reason": "本轮不创建直接无敌/控制结果，只保存明确持续与目标资格说明。"
+        },
+        {
+          "item": "附近多个敌人的范围事件",
+          "reason": "仅保留单一敌人伤害公式，多个目标由事件层分别结算。"
+        },
+        {
+          "item": "冷却尾部和mDoesNotConsume标志",
+          "reason": "冷却/法力不从非等级占位推断，公共冷却保护与新法力参数分开。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "一名友方英雄选中施放资格",
+          "reason": "当前文本明确友方英雄，但mRequiredUnitTags没有可用枚举；不假定自身或任意友方。"
+        }
+      ]
+    }
+  },
+  "scope": {
+    "jarvaniv_p": {
+      "excluded": [
+        {
+          "item": "非英雄单位最低/最高伤害",
+          "reason": "仅在扩展正文出现，属于非英雄专用分支；本轮一对一敌方英雄不建立兵野分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "目标当前生命值实际属性和首次攻击触发",
+          "reason": "当前绑定正文消费比例但计算树没有目标生命属性节点，保留比例并待运行事件接线。"
+        },
+        {
+          "item": "角色等级断点求值",
+          "reason": "保留起点、断点等级和变化量；没有证据把其展开为完整角色等级公式。"
+        }
+      ]
+    },
+    "jarvaniv_q": {
+      "excluded": [
+        {
+          "item": "E旗帜牵引/击飞的位移几何",
+          "reason": "属于与军旗连接的另一技能和空间事件，不并入Q伤害公式。"
+        },
+        {
+          "item": "SWIFTPLAY、BotData和模式覆盖树",
+          "reason": "不是当前标准根绑定正文。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "目标资格、沿途多目标和与军旗连接",
+          "reason": "保留单一敌人伤害树；目标、击飞和连接事件待接。"
+        }
+      ]
+    },
+    "jarvaniv_w": {
+      "excluded": [
+        {
+          "item": "护盾持续时间4秒",
+          "reason": "Effect4Amount虽有4秒值，但当前绑定正文没有消费该字段；不把未消费字段当已证生命周期。"
+        },
+        {
+          "item": "额外敌人目标事件",
+          "reason": "本轮只保留数值，附近敌人资格和每名英雄应用由事件层接线。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾英雄资格和额外护盾叠加时点",
+          "reason": "保留TotalShield与BonusShield两棵树；当前正文目标资格和命中次数待接。"
+        }
+      ]
+    },
+    "jarvaniv_e": {
+      "excluded": [
+        {
+          "item": "附近友军攻击速度效果",
+          "reason": "第三友方收益不属于唯一敌人一对一主路径；仅保留来源参数供后续定向接线。"
+        },
+        {
+          "item": "旗帜连接击飞事件",
+          "reason": "空间连接和控制事件未在本轮创建。"
+        },
+        {
+          "item": "cherry模式APRatio和BotData",
+          "reason": "标准根绑定正文不消费。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "旗帜落地、自身被动应用和友军目标资格",
+          "reason": "保留数值与自身属性效果；触发、目标资格和控制时序待接。"
+        }
+      ]
+    },
+    "jarvaniv_r": {
+      "excluded": [
+        {
+          "item": "附近额外敌人的独立命中",
+          "reason": "正文共用DamageCalc但额外目标事件不在本轮单一敌人公式内。"
+        },
+        {
+          "item": "竞技场倒塌再次施放",
+          "reason": "只保留墙体持续数值，不创建再次施放事件。"
+        },
+        {
+          "item": "冷却尾部8/5/0和索引0占位",
+          "reason": "根数组中非技能等级值，且冷却/法力已由公共参数保护。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "选中敌方英雄资格和落地时序",
+          "reason": "保留单一主目标公式；目标标签、区域命中和再次施放待接。"
+        }
+      ]
+    },
+    "leesin_p": {
+      "excluded": [
+        {
+          "item": "攻击、技能触发和第二次攻击时序",
+          "reason": "本轮只保存自身数值，不创建攻击事件或内部状态。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "EnergyReturn角色等级实际求值",
+          "reason": "保留断点来源和运行输入；未编完整等级曲线。"
+        }
+      ]
+    },
+    "leesin_q": {
+      "excluded": [
+        {
+          "item": "Q2MaxMissingHealthMod",
+          "reason": "当前根计算树和正文不消费该DataValue；不得用它补造已损生命曲线。"
+        },
+        {
+          "item": "EmpoweredDamage的独立重复树",
+          "reason": "保留一棵完整回音击最高值公式；不再把tooltipOnly节点另建为第二套重复伤害。"
+        },
+        {
+          "item": "真实视野、突进几何和SWIFTPLAY",
+          "reason": "属于视野/空间或模式分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "回音击已损生命中间曲线",
+          "reason": "保留RecastDamage基础树与最高展示边界，不猜线性函数。"
+        },
+        {
+          "item": "首个命中与再次施放事件",
+          "reason": "同一技能两段保留，事件和目标资格待接。"
+        }
+      ]
+    },
+    "leesin_w": {
+      "excluded": [
+        {
+          "item": "守卫/友军目标的护盾结果",
+          "reason": "第三方目标结果不在本轮自身与单一敌人范围；参数和自身护盾保留。"
+        },
+        {
+          "item": "W1CooldownRecovered和SWIFTPLAY",
+          "reason": "当前正文与计算树未消费或属于模式字段。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "友军英雄资格、再次施放和减速衰减事件",
+          "reason": "数值与生命周期保存，触发目标和衰减曲线待接。"
+        }
+      ]
+    },
+    "leesin_e": {
+      "excluded": [
+        {
+          "item": "减速逐渐恢复的完整曲线",
+          "reason": "当前正文只有持续时间和初始减速，没有恢复曲线。"
+        },
+        {
+          "item": "显形、空间范围与SWIFTPLAY",
+          "reason": "视野、空间和模式分支不进入本轮公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "首段命中与再次施放时序",
+          "reason": "保留两段共用窗口与减速持续，触发事件待接。"
+        }
+      ]
+    },
+    "leesin_r": {
+      "excluded": [
+        {
+          "item": "碰撞到其他英雄的额外伤害公式和初始目标额外生命",
+          "reason": "该支路要求另一名敌方英雄及其额外生命，本轮唯一敌方英雄一对一范围不写入参数或公式。"
+        },
+        {
+          "item": "击退、击飞和施法内禁锢结果",
+          "reason": "控制和时序不创建直接结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "目标碰撞、额外生命求值和地图边界",
+          "reason": "主目标伤害已保留，碰撞事件及额外目标接线待补。"
+        }
+      ]
+    },
+    "skarner_p": {
+      "excluded": [
+        {
+          "item": "野怪总伤害上限",
+          "reason": "扩展正文只针对野怪，本轮唯一敌方英雄不建立野怪封顶参数。"
+        },
+        {
+          "item": "TickFrequency与每跳过程",
+          "reason": "当前正文未消费TickFrequency，不把0.5秒字段编成周期过程。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "角色等级插值实际值、目标最大生命和满层事件",
+          "reason": "保留端点和无默认运行输入，实际层数、目标资格与周期由事件层提供。"
+        }
+      ]
+    },
+    "skarner_q": {
+      "excluded": [
+        {
+          "item": "cooldown_ms误用占位",
+          "reason": "本参数由生成器从根cooldownTime按索引1至5直接读取，见脚本后置赋值；不使用伪造DataValues名称。"
+        },
+        {
+          "item": "野怪封顶和建筑物倍率",
+          "reason": "扩展正文专用分支；本轮唯一敌方英雄不建立。"
+        },
+        {
+          "item": "投掷巨石的其它敌人、命中盒和攻击次数事件",
+          "reason": "目标分支和空间时序不并入单一敌人公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "最后一次攻击、目标最大生命和三次攻击事件",
+          "reason": "参数已保存，事件和目标生命实际输入待接。"
+        }
+      ]
+    },
+    "skarner_w": {
+      "excluded": [
+        {
+          "item": "附近额外敌人逐个命中",
+          "reason": "本轮只表达单一敌人伤害公式，不创建范围结果。"
+        },
+        {
+          "item": "Tick/命中盒时序",
+          "reason": "当前数据字段未构成当前正文消费的周期过程。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾、地震、减速的触发时序",
+          "reason": "数值与生命周期已保存，具体事件待接。"
+        }
+      ]
+    },
+    "skarner_e": {
+      "excluded": [
+        {
+          "item": "碰撞过程命中盒、预警和MinimumQRenew",
+          "reason": "属于空间与表现/内部字段，不建立伤害或周期公式。"
+        },
+        {
+          "item": "大型野怪目标分支",
+          "reason": "本轮唯一敌方英雄范围不创建兵野专用资格或结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "冲锋、拖拽、撞墙和冷却降至事件",
+          "reason": "保留对应数值，事件时序和目标资格待接。"
+        }
+      ]
+    },
+    "skarner_r": {
+      "excluded": [
+        {
+          "item": "第二、第三敌方英雄命中",
+          "reason": "本轮一对一只保留单一敌方英雄主伤害，不建立多目标结果。"
+        },
+        {
+          "item": "拖行、命中盒和撼地/擎天切换事件",
+          "reason": "属于控制/空间/跨技能时序。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "至少命中一个英雄的自身加速触发",
+          "reason": "自身属性效果已保存，触发条件待接。"
+        }
+      ]
+    },
+    "kayle_p": {
+      "excluded": [
+        {
+          "item": "焰浪暴击与法术特效",
+          "reason": "扩展正文只说明效能，不创建暴击或攻击事件。"
+        },
+        {
+          "item": "等级替换整套技能",
+          "reason": "等级是同一技能的进阶门槛，不能拆成多个技能。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "层数累积、11级焰浪资格和16级永久昂扬",
+          "reason": "保留门槛、层数和数值；触发时序待接。"
+        }
+      ]
+    },
+    "kayle_q": {
+      "excluded": [
+        {
+          "item": "Explosion几何和未消费退还比例",
+          "reason": "当前正文未提供独立爆炸伤害树；ManaRefundPercent不在当前正文消费。"
+        },
+        {
+          "item": "尾部冷却占位7和mDoesNotConsume标志",
+          "reason": "冷却/法力已由公共参数保护，不能据标志删改。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "减速、削减和穿透多个敌人的事件",
+          "reason": "数值保留，控制目标和后方敌人事件待接。"
+        },
+        {
+          "item": "CastDelay前摇",
+          "reason": "DataValues.CastDelay为0.25秒但根spellCastTime为0，二者冲突；暂不把其写成已证施法时长。"
+        }
+      ]
+    },
+    "kayle_w": {
+      "excluded": [
+        {
+          "item": "目标友军治疗结果",
+          "reason": "直接治疗结果不在本轮创建；数值公式保留供后续自身/友军目标接线。"
+        },
+        {
+          "item": "mDoesNotConsumeMana/mDoesNotConsumeCooldown标志",
+          "reason": "与根数组及公共参数并存，不能据标志删改基础消耗和冷却。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "无目标施放选最近伤势友军",
+          "reason": "当前正文明确目标选择规则，数值不代表任意目标或自施放资格。"
+        }
+      ]
+    },
+    "kayle_e": {
+      "excluded": [
+        {
+          "item": "野怪额外伤害上限",
+          "reason": "仅扩展正文兵野专用分支。"
+        },
+        {
+          "item": "爆炸直接伤害、爆炸半径和攻击特效事件",
+          "reason": "爆炸影响周围额外敌人，超出本轮唯一敌人范围；当前没有独立爆炸伤害树，不创建伤害结果或伪造公式。"
+        },
+        {
+          "item": "无关匿名计算树",
+          "reason": "未被当前正文消费，不作参数/公式引用。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "主动下一次攻击、已损生命输入和11级爆炸资格",
+          "reason": "保留两棵数值树、半径与等级门槛依赖；触发和目标生命待接。"
+        }
+      ]
+    },
+    "kayle_r": {
+      "excluded": [
+        {
+          "item": "友方英雄无敌结果",
+          "reason": "本轮不创建直接无敌/控制结果，只保存明确持续与目标资格说明。"
+        },
+        {
+          "item": "附近多个敌人的范围事件",
+          "reason": "仅保留单一敌人伤害公式，多个目标由事件层分别结算。"
+        },
+        {
+          "item": "冷却尾部和mDoesNotConsume标志",
+          "reason": "冷却/法力不从非等级占位推断，公共冷却保护与新法力参数分开。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "一名友方英雄选中施放资格",
+          "reason": "当前文本明确友方英雄，但mRequiredUnitTags没有可用枚举；不假定自身或任意友方。"
+        }
+      ]
+    }
+  },
+  "noApiCalls": true
+}

@@ -1,0 +1,24 @@
+{
+  "i": 165,
+  "intent": {
+    "sequence": 166,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/burn_bonus_ad_ratio",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "burn_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "burn_bonus_ad_ratio",
+      "name": "超级灼热龙息灼烧额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0002500000118743628,
+      "levelValues": null,
+      "description": "Tier3_Burn第一项为mStat2/mStatFormula2系数0.00025，读取来源额外攻击力；mDisplayAsPercent只影响显示。",
+      "sortOrder": 100
+    }
+  }
+}

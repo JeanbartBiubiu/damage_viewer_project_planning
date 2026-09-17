@@ -1,0 +1,23 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "method": "POST",
+    "route": "/skills/singed_e/parameters",
+    "detailRoute": "/skills/singed_e/parameters/percent_points_to_ratio",
+    "skillKey": "singed_e",
+    "kind": "parameters",
+    "stableKey": "percent_points_to_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_points_to_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "MaxHPDamage为6至8百分数点，完整最大生命组件使用0.01×百分数点。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "method": "POST",
+    "route": "/skills/braum_q/parameters",
+    "detailRoute": "/skills/braum_q/parameters/initial_slow_percent_points",
+    "skillKey": "braum_q",
+    "kind": "parameters",
+    "stableKey": "initial_slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_slow_percent_points",
+      "name": "初始减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 70,
+      "levelValues": null,
+      "description": "正文直接显示InitialSlow%，保留70百分数点，不乘0.01。",
+      "sortOrder": 30
+    }
+  }
+}

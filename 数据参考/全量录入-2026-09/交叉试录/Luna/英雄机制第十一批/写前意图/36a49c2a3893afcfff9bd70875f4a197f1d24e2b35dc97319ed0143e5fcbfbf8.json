@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:56:15.027Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_e/formulas/on_hit_damage",
+  "id": "on_hit_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "on_hit_damage",
+    "name": "断续疾走强化攻击附加魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "on_hit_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "OnHitDamage=BaseDamage+0.2×法强。",
+    "sortOrder": 20
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "method": "POST",
+    "route": "/skills/skarner_p/parameters",
+    "detailRoute": "/skills/skarner_p/parameters/stacks_to_trigger",
+    "skillKey": "skarner_p",
+    "kind": "parameters",
+    "stableKey": "stacks_to_trigger",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stacks_to_trigger",
+      "name": "战栗触发层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文明确3层触发。",
+      "sortOrder": 10
+    }
+  }
+}

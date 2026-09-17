@@ -1,0 +1,2039 @@
+{
+  "at": "2026-09-09T05:36:35.865Z",
+  "mode": "读取已冻结148GET现值及当前本地DTO源码；没有新增API请求或写入",
+  "snapshotSha256": "d6f0f7a2178fc79dd8e9b1aa2649c2125427c8c2d3f3f9c0fae1a5c5f966aa7f",
+  "rules": [
+    {
+      "skillKey": "diana_p",
+      "ruleKey": "initialize_passive_attack_speed",
+      "route": "/skills/diana_p/trigger-rules/initialize_passive_attack_speed",
+      "currentDto": {
+        "actions": [
+          {
+            "actionKey": "passive_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "passive_attack_speed"
+            },
+            "name": "执行passive_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化月银之刃常态攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_passive_attack_speed",
+        "sortOrder": 10
+      },
+      "exactCreateBody": {
+        "actions": [
+          {
+            "actionKey": "passive_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "passive_attack_speed"
+            },
+            "name": "执行passive_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化月银之刃常态攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_passive_attack_speed",
+        "sortOrder": 10
+      },
+      "exactUpdateBody": {
+        "actions": [
+          {
+            "actionKey": "passive_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "passive_attack_speed"
+            },
+            "name": "执行passive_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化月银之刃常态攻速",
+        "perTargetCooldown": null,
+        "sortOrder": 10
+      },
+      "affectedParameters": [
+        "passive_attack_speed_ratio"
+      ],
+      "currentRuntimeInputBindings": [
+        {
+          "actionKey": "passive_attack_speed",
+          "bindings": []
+        }
+      ],
+      "referenceChain": [
+        {
+          "kind": "trigger-rules",
+          "key": "initialize_passive_attack_speed",
+          "data": {
+            "actions": [
+              {
+                "actionKey": "passive_attack_speed",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "passive_attack_speed"
+                },
+                "name": "执行passive_attack_speed",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "EVENT_SOURCE"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+            "eventSource": {
+              "detail": {},
+              "eventType": "SOURCE_INITIALIZED"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "初始化月银之刃常态攻速",
+            "perTargetCooldown": null,
+            "ruleKey": "initialize_passive_attack_speed",
+            "sortOrder": 10
+          },
+          "route": "/skills/diana_p/trigger-rules/initialize_passive_attack_speed",
+          "references": [
+            {
+              "kind": "effects",
+              "key": "passive_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "passive_attack_speed",
+          "data": {
+            "createdAt": "2026-09-07T18:53:26.682733Z",
+            "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+            "effectKey": "passive_attack_speed",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": null,
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "月银之刃常态攻速",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": null,
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "MOMENT_EVALUATION"
+                },
+                "name": "月银之刃常态攻速",
+                "resultKey": "attribute",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "passive_attack_speed_ratio"
+                  }
+                }
+              }
+            ],
+            "skillKey": "diana_p",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T19:23:16.739395Z"
+          },
+          "route": "/skills/diana_p/effects/passive_attack_speed",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "passive_attack_speed_ratio",
+              "path": "$.results.0.valueRule.value.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "passive_attack_speed_ratio",
+          "data": {
+            "createdAt": "2026-09-07T18:53:23.278944Z",
+            "description": "当前完整计算树的1至18级线性插值，端点均明确。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.15,
+              "2": 0.161764706,
+              "3": 0.173529412,
+              "4": 0.185294118,
+              "5": 0.197058824,
+              "6": 0.208823529,
+              "7": 0.220588235,
+              "8": 0.232352941,
+              "9": 0.244117647,
+              "10": 0.255882353,
+              "11": 0.267647059,
+              "12": 0.279411765,
+              "13": 0.291176471,
+              "14": 0.302941176,
+              "15": 0.314705882,
+              "16": 0.326470588,
+              "17": 0.338235294,
+              "18": 0.35
+            },
+            "name": "常态额外攻击速度",
+            "parameterKey": "passive_attack_speed_ratio",
+            "skillKey": "diana_p",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T18:53:23.278944Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "route": "/skills/diana_p/parameters/passive_attack_speed_ratio",
+          "references": []
+        }
+      ],
+      "disableField": null,
+      "emptyActionsAllowed": false
+    },
+    {
+      "skillKey": "diana_p",
+      "ruleKey": "after_q_attack_speed",
+      "route": "/skills/diana_p/trigger-rules/after_q_attack_speed",
+      "currentDto": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放Q后强化攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "after_q_attack_speed",
+        "sortOrder": 20
+      },
+      "exactCreateBody": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放Q后强化攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "after_q_attack_speed",
+        "sortOrder": 20
+      },
+      "exactUpdateBody": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放Q后强化攻速",
+        "perTargetCooldown": null,
+        "sortOrder": 20
+      },
+      "affectedParameters": [
+        "passive_attack_speed_ratio"
+      ],
+      "currentRuntimeInputBindings": [
+        {
+          "actionKey": "cast_attack_speed",
+          "bindings": []
+        }
+      ],
+      "referenceChain": [
+        {
+          "kind": "trigger-rules",
+          "key": "after_q_attack_speed",
+          "data": {
+            "actions": [
+              {
+                "actionKey": "cast_attack_speed",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "cast_attack_speed"
+                },
+                "name": "执行cast_attack_speed",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": "diana_q",
+                "useKind": "ACTIVE"
+              },
+              "eventType": "SKILL_USED"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "施放Q后强化攻速",
+            "perTargetCooldown": null,
+            "ruleKey": "after_q_attack_speed",
+            "sortOrder": 20
+          },
+          "route": "/skills/diana_p/trigger-rules/after_q_attack_speed",
+          "references": [
+            {
+              "kind": "effects",
+              "key": "cast_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "cast_attack_speed",
+          "data": {
+            "createdAt": "2026-09-07T18:53:27.257173Z",
+            "description": null,
+            "effectKey": "cast_attack_speed",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "empowered_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "施法后月银攻速",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": null,
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "MOMENT_EVALUATION"
+                },
+                "name": "临时额外攻速",
+                "resultKey": "attack_speed",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "additional_attack_speed",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "diana_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T19:23:17.996122Z"
+          },
+          "route": "/skills/diana_p/effects/cast_attack_speed",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "empowered_duration_ms",
+              "path": "$.lifecycle.durationValue.parameterKey"
+            },
+            {
+              "kind": "formulas",
+              "key": "additional_attack_speed",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "empowered_duration_ms",
+          "data": {
+            "createdAt": "2026-09-07T18:53:23.97035Z",
+            "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至1。",
+            "fixedValue": 5000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法后强化攻速持续（毫秒）",
+            "parameterKey": "empowered_duration_ms",
+            "skillKey": "diana_p",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T18:53:23.97035Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "route": "/skills/diana_p/parameters/empowered_duration_ms",
+          "references": []
+        },
+        {
+          "kind": "formulas",
+          "key": "additional_attack_speed",
+          "data": {
+            "createdAt": "2026-09-07T18:53:26.120562Z",
+            "description": "常态+临时=1倍+2倍=3倍。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_attack_speed_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_as_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "additional_attack_speed",
+            "gameId": "lol",
+            "name": "施法后临时额外攻速",
+            "skillKey": "diana_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:53:26.120562Z"
+          },
+          "route": "/skills/diana_p/formulas/additional_attack_speed",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "passive_attack_speed_ratio",
+              "path": "$.expression.operands.0.parameterKey"
+            },
+            {
+              "kind": "parameters",
+              "key": "additional_as_multiplier",
+              "path": "$.expression.operands.1.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "passive_attack_speed_ratio",
+          "data": {
+            "createdAt": "2026-09-07T18:53:23.278944Z",
+            "description": "当前完整计算树的1至18级线性插值，端点均明确。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.15,
+              "2": 0.161764706,
+              "3": 0.173529412,
+              "4": 0.185294118,
+              "5": 0.197058824,
+              "6": 0.208823529,
+              "7": 0.220588235,
+              "8": 0.232352941,
+              "9": 0.244117647,
+              "10": 0.255882353,
+              "11": 0.267647059,
+              "12": 0.279411765,
+              "13": 0.291176471,
+              "14": 0.302941176,
+              "15": 0.314705882,
+              "16": 0.326470588,
+              "17": 0.338235294,
+              "18": 0.35
+            },
+            "name": "常态额外攻击速度",
+            "parameterKey": "passive_attack_speed_ratio",
+            "skillKey": "diana_p",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T18:53:23.278944Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "route": "/skills/diana_p/parameters/passive_attack_speed_ratio",
+          "references": []
+        },
+        {
+          "kind": "parameters",
+          "key": "additional_as_multiplier",
+          "data": {
+            "createdAt": "2026-09-07T18:53:25.077548Z",
+            "description": "EmpoweredAS=常态3倍；常态仍存在，因此临时只额外加2倍。",
+            "fixedValue": 2,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法后额外攻速份数",
+            "parameterKey": "additional_as_multiplier",
+            "skillKey": "diana_p",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T18:53:25.077548Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "route": "/skills/diana_p/parameters/additional_as_multiplier",
+          "references": []
+        }
+      ],
+      "disableField": null,
+      "emptyActionsAllowed": false
+    },
+    {
+      "skillKey": "diana_p",
+      "ruleKey": "after_w_attack_speed",
+      "route": "/skills/diana_p/trigger-rules/after_w_attack_speed",
+      "currentDto": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放W后强化攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "after_w_attack_speed",
+        "sortOrder": 30
+      },
+      "exactCreateBody": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放W后强化攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "after_w_attack_speed",
+        "sortOrder": 30
+      },
+      "exactUpdateBody": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放W后强化攻速",
+        "perTargetCooldown": null,
+        "sortOrder": 30
+      },
+      "affectedParameters": [
+        "passive_attack_speed_ratio"
+      ],
+      "currentRuntimeInputBindings": [
+        {
+          "actionKey": "cast_attack_speed",
+          "bindings": []
+        }
+      ],
+      "referenceChain": [
+        {
+          "kind": "trigger-rules",
+          "key": "after_w_attack_speed",
+          "data": {
+            "actions": [
+              {
+                "actionKey": "cast_attack_speed",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "cast_attack_speed"
+                },
+                "name": "执行cast_attack_speed",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": "diana_w",
+                "useKind": "ACTIVE"
+              },
+              "eventType": "SKILL_USED"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "施放W后强化攻速",
+            "perTargetCooldown": null,
+            "ruleKey": "after_w_attack_speed",
+            "sortOrder": 30
+          },
+          "route": "/skills/diana_p/trigger-rules/after_w_attack_speed",
+          "references": [
+            {
+              "kind": "effects",
+              "key": "cast_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "cast_attack_speed",
+          "data": {
+            "createdAt": "2026-09-07T18:53:27.257173Z",
+            "description": null,
+            "effectKey": "cast_attack_speed",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "empowered_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "施法后月银攻速",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": null,
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "MOMENT_EVALUATION"
+                },
+                "name": "临时额外攻速",
+                "resultKey": "attack_speed",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "additional_attack_speed",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "diana_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T19:23:17.996122Z"
+          },
+          "route": "/skills/diana_p/effects/cast_attack_speed",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "empowered_duration_ms",
+              "path": "$.lifecycle.durationValue.parameterKey"
+            },
+            {
+              "kind": "formulas",
+              "key": "additional_attack_speed",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "empowered_duration_ms",
+          "data": {
+            "createdAt": "2026-09-07T18:53:23.97035Z",
+            "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至1。",
+            "fixedValue": 5000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法后强化攻速持续（毫秒）",
+            "parameterKey": "empowered_duration_ms",
+            "skillKey": "diana_p",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T18:53:23.97035Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "route": "/skills/diana_p/parameters/empowered_duration_ms",
+          "references": []
+        },
+        {
+          "kind": "formulas",
+          "key": "additional_attack_speed",
+          "data": {
+            "createdAt": "2026-09-07T18:53:26.120562Z",
+            "description": "常态+临时=1倍+2倍=3倍。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_attack_speed_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_as_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "additional_attack_speed",
+            "gameId": "lol",
+            "name": "施法后临时额外攻速",
+            "skillKey": "diana_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:53:26.120562Z"
+          },
+          "route": "/skills/diana_p/formulas/additional_attack_speed",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "passive_attack_speed_ratio",
+              "path": "$.expression.operands.0.parameterKey"
+            },
+            {
+              "kind": "parameters",
+              "key": "additional_as_multiplier",
+              "path": "$.expression.operands.1.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "passive_attack_speed_ratio",
+          "data": {
+            "createdAt": "2026-09-07T18:53:23.278944Z",
+            "description": "当前完整计算树的1至18级线性插值，端点均明确。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.15,
+              "2": 0.161764706,
+              "3": 0.173529412,
+              "4": 0.185294118,
+              "5": 0.197058824,
+              "6": 0.208823529,
+              "7": 0.220588235,
+              "8": 0.232352941,
+              "9": 0.244117647,
+              "10": 0.255882353,
+              "11": 0.267647059,
+              "12": 0.279411765,
+              "13": 0.291176471,
+              "14": 0.302941176,
+              "15": 0.314705882,
+              "16": 0.326470588,
+              "17": 0.338235294,
+              "18": 0.35
+            },
+            "name": "常态额外攻击速度",
+            "parameterKey": "passive_attack_speed_ratio",
+            "skillKey": "diana_p",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T18:53:23.278944Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "route": "/skills/diana_p/parameters/passive_attack_speed_ratio",
+          "references": []
+        },
+        {
+          "kind": "parameters",
+          "key": "additional_as_multiplier",
+          "data": {
+            "createdAt": "2026-09-07T18:53:25.077548Z",
+            "description": "EmpoweredAS=常态3倍；常态仍存在，因此临时只额外加2倍。",
+            "fixedValue": 2,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法后额外攻速份数",
+            "parameterKey": "additional_as_multiplier",
+            "skillKey": "diana_p",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T18:53:25.077548Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "route": "/skills/diana_p/parameters/additional_as_multiplier",
+          "references": []
+        }
+      ],
+      "disableField": null,
+      "emptyActionsAllowed": false
+    },
+    {
+      "skillKey": "diana_p",
+      "ruleKey": "after_e_attack_speed",
+      "route": "/skills/diana_p/trigger-rules/after_e_attack_speed",
+      "currentDto": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放E后强化攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "after_e_attack_speed",
+        "sortOrder": 40
+      },
+      "exactCreateBody": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放E后强化攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "after_e_attack_speed",
+        "sortOrder": 40
+      },
+      "exactUpdateBody": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放E后强化攻速",
+        "perTargetCooldown": null,
+        "sortOrder": 40
+      },
+      "affectedParameters": [
+        "passive_attack_speed_ratio"
+      ],
+      "currentRuntimeInputBindings": [
+        {
+          "actionKey": "cast_attack_speed",
+          "bindings": []
+        }
+      ],
+      "referenceChain": [
+        {
+          "kind": "trigger-rules",
+          "key": "after_e_attack_speed",
+          "data": {
+            "actions": [
+              {
+                "actionKey": "cast_attack_speed",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "cast_attack_speed"
+                },
+                "name": "执行cast_attack_speed",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": "diana_e",
+                "useKind": "ACTIVE"
+              },
+              "eventType": "SKILL_USED"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "施放E后强化攻速",
+            "perTargetCooldown": null,
+            "ruleKey": "after_e_attack_speed",
+            "sortOrder": 40
+          },
+          "route": "/skills/diana_p/trigger-rules/after_e_attack_speed",
+          "references": [
+            {
+              "kind": "effects",
+              "key": "cast_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "cast_attack_speed",
+          "data": {
+            "createdAt": "2026-09-07T18:53:27.257173Z",
+            "description": null,
+            "effectKey": "cast_attack_speed",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "empowered_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "施法后月银攻速",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": null,
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "MOMENT_EVALUATION"
+                },
+                "name": "临时额外攻速",
+                "resultKey": "attack_speed",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "additional_attack_speed",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "diana_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T19:23:17.996122Z"
+          },
+          "route": "/skills/diana_p/effects/cast_attack_speed",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "empowered_duration_ms",
+              "path": "$.lifecycle.durationValue.parameterKey"
+            },
+            {
+              "kind": "formulas",
+              "key": "additional_attack_speed",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "empowered_duration_ms",
+          "data": {
+            "createdAt": "2026-09-07T18:53:23.97035Z",
+            "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至1。",
+            "fixedValue": 5000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法后强化攻速持续（毫秒）",
+            "parameterKey": "empowered_duration_ms",
+            "skillKey": "diana_p",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T18:53:23.97035Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "route": "/skills/diana_p/parameters/empowered_duration_ms",
+          "references": []
+        },
+        {
+          "kind": "formulas",
+          "key": "additional_attack_speed",
+          "data": {
+            "createdAt": "2026-09-07T18:53:26.120562Z",
+            "description": "常态+临时=1倍+2倍=3倍。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_attack_speed_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_as_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "additional_attack_speed",
+            "gameId": "lol",
+            "name": "施法后临时额外攻速",
+            "skillKey": "diana_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:53:26.120562Z"
+          },
+          "route": "/skills/diana_p/formulas/additional_attack_speed",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "passive_attack_speed_ratio",
+              "path": "$.expression.operands.0.parameterKey"
+            },
+            {
+              "kind": "parameters",
+              "key": "additional_as_multiplier",
+              "path": "$.expression.operands.1.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "passive_attack_speed_ratio",
+          "data": {
+            "createdAt": "2026-09-07T18:53:23.278944Z",
+            "description": "当前完整计算树的1至18级线性插值，端点均明确。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.15,
+              "2": 0.161764706,
+              "3": 0.173529412,
+              "4": 0.185294118,
+              "5": 0.197058824,
+              "6": 0.208823529,
+              "7": 0.220588235,
+              "8": 0.232352941,
+              "9": 0.244117647,
+              "10": 0.255882353,
+              "11": 0.267647059,
+              "12": 0.279411765,
+              "13": 0.291176471,
+              "14": 0.302941176,
+              "15": 0.314705882,
+              "16": 0.326470588,
+              "17": 0.338235294,
+              "18": 0.35
+            },
+            "name": "常态额外攻击速度",
+            "parameterKey": "passive_attack_speed_ratio",
+            "skillKey": "diana_p",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T18:53:23.278944Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "route": "/skills/diana_p/parameters/passive_attack_speed_ratio",
+          "references": []
+        },
+        {
+          "kind": "parameters",
+          "key": "additional_as_multiplier",
+          "data": {
+            "createdAt": "2026-09-07T18:53:25.077548Z",
+            "description": "EmpoweredAS=常态3倍；常态仍存在，因此临时只额外加2倍。",
+            "fixedValue": 2,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法后额外攻速份数",
+            "parameterKey": "additional_as_multiplier",
+            "skillKey": "diana_p",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T18:53:25.077548Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "route": "/skills/diana_p/parameters/additional_as_multiplier",
+          "references": []
+        }
+      ],
+      "disableField": null,
+      "emptyActionsAllowed": false
+    },
+    {
+      "skillKey": "diana_p",
+      "ruleKey": "after_r_attack_speed",
+      "route": "/skills/diana_p/trigger-rules/after_r_attack_speed",
+      "currentDto": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放R后强化攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "after_r_attack_speed",
+        "sortOrder": 50
+      },
+      "exactCreateBody": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放R后强化攻速",
+        "perTargetCooldown": null,
+        "ruleKey": "after_r_attack_speed",
+        "sortOrder": 50
+      },
+      "exactUpdateBody": {
+        "actions": [
+          {
+            "actionKey": "cast_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "cast_attack_speed"
+            },
+            "name": "执行cast_attack_speed",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "施放R后强化攻速",
+        "perTargetCooldown": null,
+        "sortOrder": 50
+      },
+      "affectedParameters": [
+        "passive_attack_speed_ratio"
+      ],
+      "currentRuntimeInputBindings": [
+        {
+          "actionKey": "cast_attack_speed",
+          "bindings": []
+        }
+      ],
+      "referenceChain": [
+        {
+          "kind": "trigger-rules",
+          "key": "after_r_attack_speed",
+          "data": {
+            "actions": [
+              {
+                "actionKey": "cast_attack_speed",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "cast_attack_speed"
+                },
+                "name": "执行cast_attack_speed",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": "diana_r",
+                "useKind": "ACTIVE"
+              },
+              "eventType": "SKILL_USED"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "施放R后强化攻速",
+            "perTargetCooldown": null,
+            "ruleKey": "after_r_attack_speed",
+            "sortOrder": 50
+          },
+          "route": "/skills/diana_p/trigger-rules/after_r_attack_speed",
+          "references": [
+            {
+              "kind": "effects",
+              "key": "cast_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "cast_attack_speed",
+          "data": {
+            "createdAt": "2026-09-07T18:53:27.257173Z",
+            "description": null,
+            "effectKey": "cast_attack_speed",
+            "gameId": "lol",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "empowered_duration_ms"
+              },
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "施法后月银攻速",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "modifierZoneKey": "attribute_flat_add",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": null,
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "MOMENT_EVALUATION"
+                },
+                "name": "临时额外攻速",
+                "resultKey": "attack_speed",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "additional_attack_speed",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "diana_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T19:23:17.996122Z"
+          },
+          "route": "/skills/diana_p/effects/cast_attack_speed",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "empowered_duration_ms",
+              "path": "$.lifecycle.durationValue.parameterKey"
+            },
+            {
+              "kind": "formulas",
+              "key": "additional_attack_speed",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "empowered_duration_ms",
+          "data": {
+            "createdAt": "2026-09-07T18:53:23.97035Z",
+            "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至1。",
+            "fixedValue": 5000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法后强化攻速持续（毫秒）",
+            "parameterKey": "empowered_duration_ms",
+            "skillKey": "diana_p",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T18:53:23.97035Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "route": "/skills/diana_p/parameters/empowered_duration_ms",
+          "references": []
+        },
+        {
+          "kind": "formulas",
+          "key": "additional_attack_speed",
+          "data": {
+            "createdAt": "2026-09-07T18:53:26.120562Z",
+            "description": "常态+临时=1倍+2倍=3倍。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_attack_speed_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_as_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "additional_attack_speed",
+            "gameId": "lol",
+            "name": "施法后临时额外攻速",
+            "skillKey": "diana_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:53:26.120562Z"
+          },
+          "route": "/skills/diana_p/formulas/additional_attack_speed",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "passive_attack_speed_ratio",
+              "path": "$.expression.operands.0.parameterKey"
+            },
+            {
+              "kind": "parameters",
+              "key": "additional_as_multiplier",
+              "path": "$.expression.operands.1.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "passive_attack_speed_ratio",
+          "data": {
+            "createdAt": "2026-09-07T18:53:23.278944Z",
+            "description": "当前完整计算树的1至18级线性插值，端点均明确。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.15,
+              "2": 0.161764706,
+              "3": 0.173529412,
+              "4": 0.185294118,
+              "5": 0.197058824,
+              "6": 0.208823529,
+              "7": 0.220588235,
+              "8": 0.232352941,
+              "9": 0.244117647,
+              "10": 0.255882353,
+              "11": 0.267647059,
+              "12": 0.279411765,
+              "13": 0.291176471,
+              "14": 0.302941176,
+              "15": 0.314705882,
+              "16": 0.326470588,
+              "17": 0.338235294,
+              "18": 0.35
+            },
+            "name": "常态额外攻击速度",
+            "parameterKey": "passive_attack_speed_ratio",
+            "skillKey": "diana_p",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T18:53:23.278944Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "route": "/skills/diana_p/parameters/passive_attack_speed_ratio",
+          "references": []
+        },
+        {
+          "kind": "parameters",
+          "key": "additional_as_multiplier",
+          "data": {
+            "createdAt": "2026-09-07T18:53:25.077548Z",
+            "description": "EmpoweredAS=常态3倍；常态仍存在，因此临时只额外加2倍。",
+            "fixedValue": 2,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法后额外攻速份数",
+            "parameterKey": "additional_as_multiplier",
+            "skillKey": "diana_p",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T18:53:25.077548Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "route": "/skills/diana_p/parameters/additional_as_multiplier",
+          "references": []
+        }
+      ],
+      "disableField": null,
+      "emptyActionsAllowed": false
+    },
+    {
+      "skillKey": "warwick_p",
+      "ruleKey": "basic_attack_hit",
+      "route": "/skills/warwick_p/trigger-rules/basic_attack_hit",
+      "currentDto": {
+        "actions": [
+          {
+            "actionKey": "on_hit_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "on_hit_damage"
+            },
+            "name": "执行on_hit_damage",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接受所列真实事件；规则不自行生成命中。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击实际命中附带血之饥渴",
+        "perTargetCooldown": null,
+        "ruleKey": "basic_attack_hit",
+        "sortOrder": 10
+      },
+      "exactCreateBody": {
+        "actions": [
+          {
+            "actionKey": "on_hit_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "on_hit_damage"
+            },
+            "name": "执行on_hit_damage",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接受所列真实事件；规则不自行生成命中。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击实际命中附带血之饥渴",
+        "perTargetCooldown": null,
+        "ruleKey": "basic_attack_hit",
+        "sortOrder": 10
+      },
+      "exactUpdateBody": {
+        "actions": [
+          {
+            "actionKey": "on_hit_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "on_hit_damage"
+            },
+            "name": "执行on_hit_damage",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只接受所列真实事件；规则不自行生成命中。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击实际命中附带血之饥渴",
+        "perTargetCooldown": null,
+        "sortOrder": 10
+      },
+      "affectedParameters": [
+        "on_hit_base"
+      ],
+      "currentRuntimeInputBindings": [
+        {
+          "actionKey": "on_hit_damage",
+          "bindings": []
+        }
+      ],
+      "referenceChain": [
+        {
+          "kind": "trigger-rules",
+          "key": "basic_attack_hit",
+          "data": {
+            "actions": [
+              {
+                "actionKey": "on_hit_damage",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "on_hit_damage"
+                },
+                "name": "执行on_hit_damage",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "只接受所列真实事件；规则不自行生成命中。",
+            "eventSource": {
+              "detail": {},
+              "eventType": "BASIC_ATTACK_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "普通攻击实际命中附带血之饥渴",
+            "perTargetCooldown": null,
+            "ruleKey": "basic_attack_hit",
+            "sortOrder": 10
+          },
+          "route": "/skills/warwick_p/trigger-rules/basic_attack_hit",
+          "references": [
+            {
+              "kind": "effects",
+              "key": "on_hit_damage",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "on_hit_damage",
+          "data": {
+            "createdAt": "2026-09-08T14:38:17.283937Z",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "effectKey": "on_hit_damage",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "血之饥渴普通攻击独立附伤",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "血之饥渴普通攻击独立附伤",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "on_hit_damage",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "warwick_p",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-08T14:38:17.283937Z"
+          },
+          "route": "/skills/warwick_p/effects/on_hit_damage",
+          "references": [
+            {
+              "kind": "formulas",
+              "key": "on_hit_damage",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        },
+        {
+          "kind": "formulas",
+          "key": "on_hit_damage",
+          "data": {
+            "createdAt": "2026-09-08T14:38:15.472911Z",
+            "description": "当前完整树：角色1至18级6至55 + 0.15额外攻击力 + 0.1法强；不含普通攻击本体。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "on_hit_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BONUS",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "on_hit_damage",
+            "gameId": "lol",
+            "name": "血之饥渴附带魔法伤害",
+            "skillKey": "warwick_p",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-08T14:38:15.472911Z"
+          },
+          "route": "/skills/warwick_p/formulas/on_hit_damage",
+          "references": [
+            {
+              "kind": "parameters",
+              "key": "on_hit_base",
+              "path": "$.expression.operands.0.operands.0.parameterKey"
+            },
+            {
+              "kind": "parameters",
+              "key": "bonus_ad_ratio",
+              "path": "$.expression.operands.0.operands.1.operands.0.parameterKey"
+            },
+            {
+              "kind": "parameters",
+              "key": "ap_ratio",
+              "path": "$.expression.operands.1.operands.0.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "parameters",
+          "key": "on_hit_base",
+          "data": {
+            "createdAt": "2026-09-08T14:38:10.48706Z",
+            "description": "完整计算树1至18级端点线性插值。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 6,
+              "2": 8.882353,
+              "3": 11.764706,
+              "4": 14.647059,
+              "5": 17.529412,
+              "6": 20.411765,
+              "7": 23.294118,
+              "8": 26.176471,
+              "9": 29.058824,
+              "10": 31.941176,
+              "11": 34.823529,
+              "12": 37.705882,
+              "13": 40.588235,
+              "14": 43.470588,
+              "15": 46.352941,
+              "16": 49.235294,
+              "17": 52.117647,
+              "18": 55
+            },
+            "name": "普攻附带基础魔法伤害",
+            "parameterKey": "on_hit_base",
+            "skillKey": "warwick_p",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-08T14:38:10.48706Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "route": "/skills/warwick_p/parameters/on_hit_base",
+          "references": []
+        },
+        {
+          "kind": "parameters",
+          "key": "bonus_ad_ratio",
+          "data": {
+            "createdAt": "2026-09-08T14:38:11.158486Z",
+            "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至1。",
+            "fixedValue": 0.15,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动额外攻击力倍率",
+            "parameterKey": "bonus_ad_ratio",
+            "skillKey": "warwick_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-08T14:38:11.158486Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "route": "/skills/warwick_p/parameters/bonus_ad_ratio",
+          "references": []
+        },
+        {
+          "kind": "parameters",
+          "key": "ap_ratio",
+          "data": {
+            "createdAt": "2026-09-08T14:38:11.770641Z",
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至1。",
+            "fixedValue": 0.1,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动法术强度倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "warwick_p",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-08T14:38:11.770641Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "route": "/skills/warwick_p/parameters/ap_ratio",
+          "references": []
+        }
+      ],
+      "disableField": null,
+      "emptyActionsAllowed": false
+    }
+  ],
+  "interfaceConclusion": {
+    "ruleEnabledField": null,
+    "ruleStatusField": null,
+    "actionEnabledField": null,
+    "availableOperations": [
+      "GET集合",
+      "GET详情",
+      "POST",
+      "PUT",
+      "DELETE"
+    ],
+    "emptyActionsAllowed": false,
+    "evidence": "Create/Update/Detail三个规则record与动作record均无enabled/status；规则actions具有@NotEmpty约束；控制器只有普通CRUD，无启停路由。",
+    "boundary": "SkillTriggerInternalStateValueKind.ENABLED是内部状态查询值，不能据此给规则添加enabled字段。",
+    "implementationGate": "只撤10参数等级表会使现有自动动作缺运行输入，不能直接上线。当前未准备6条DELETE或任何业务执行器，根任务决定最小撤除或真实输入接线后另定执行计划。"
+  },
+  "sourceEvidence": [
+    {
+      "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerRuleCreateRequest.java",
+      "sha256": "2c66256d22cba02db10eaf2a46d3e5f9c22f20fea52307dd9abcc0bdeb4858fe",
+      "text": "package xyz.game.datamanage.model.skilltrigger;\n\nimport jakarta.validation.Valid;\nimport jakarta.validation.constraints.Max;\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotEmpty;\nimport jakarta.validation.constraints.NotNull;\nimport jakarta.validation.constraints.Pattern;\nimport jakarta.validation.constraints.PositiveOrZero;\nimport jakarta.validation.constraints.Size;\nimport java.util.List;\n\npublic record SkillTriggerRuleCreateRequest(\n    @NotBlank(message = \"规则标识不能为空\")\n    @Pattern(regexp = \"^[a-z][a-z0-9_]{0,63}$\", message = \"规则标识格式不合法\")\n    String ruleKey,\n    @NotBlank(message = \"规则名称不能为空\")\n    @Size(max = 100, message = \"规则名称不能超过100个字符\")\n    String name,\n    @Size(max = 1000, message = \"说明不能超过1000个字符\")\n    String description,\n    @NotNull(message = \"排序不能为空\")\n    @PositiveOrZero(message = \"排序不能小于0\")\n    @Max(value = 999999, message = \"排序不能大于999999\")\n    Integer sortOrder,\n    @NotNull(message = \"事件来源不能为空\")\n    @Valid\n    SkillTriggerEventSource eventSource,\n    @NotNull(message = \"条件组不能缺失\")\n    @Valid\n    List<SkillTriggerConditionGroup> conditionGroups,\n    @NotNull(message = \"动作列表不能缺失\")\n    @NotEmpty(message = \"规则至少包含一个动作\")\n    @Valid\n    List<SkillTriggerAction> actions,\n    @Valid\n    SkillTriggerPerTargetCooldown perTargetCooldown,\n    @Valid\n    SkillTriggerProcessLimit maxTriggersPerProcess\n) {\n    public SkillTriggerRuleCreateRequest {\n        ruleKey = ruleKey == null ? null : ruleKey.trim();\n        name = name == null ? null : name.trim();\n        if (description != null) {\n            description = description.trim();\n            description = description.isEmpty() ? null : description;\n        }\n        conditionGroups = conditionGroups == null ? List.of() : List.copyOf(conditionGroups);\n    }\n}\n"
+    },
+    {
+      "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerRuleUpdateRequest.java",
+      "sha256": "8c34bad88e2764e28d2f319acb654e91982684cd0398c6d92344a1432d56b09d",
+      "text": "package xyz.game.datamanage.model.skilltrigger;\n\nimport jakarta.validation.Valid;\nimport jakarta.validation.constraints.Max;\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotEmpty;\nimport jakarta.validation.constraints.NotNull;\nimport jakarta.validation.constraints.PositiveOrZero;\nimport jakarta.validation.constraints.Size;\nimport java.util.List;\n\npublic record SkillTriggerRuleUpdateRequest(\n    String ruleKey,\n    @NotBlank(message = \"规则名称不能为空\")\n    @Size(max = 100, message = \"规则名称不能超过100个字符\")\n    String name,\n    @Size(max = 1000, message = \"说明不能超过1000个字符\")\n    String description,\n    @NotNull(message = \"排序不能为空\")\n    @PositiveOrZero(message = \"排序不能小于0\")\n    @Max(value = 999999, message = \"排序不能大于999999\")\n    Integer sortOrder,\n    @NotNull(message = \"事件来源不能为空\")\n    @Valid\n    SkillTriggerEventSource eventSource,\n    @NotNull(message = \"条件组不能缺失\")\n    @Valid\n    List<SkillTriggerConditionGroup> conditionGroups,\n    @NotNull(message = \"动作列表不能缺失\")\n    @NotEmpty(message = \"规则至少包含一个动作\")\n    @Valid\n    List<SkillTriggerAction> actions,\n    @Valid\n    SkillTriggerPerTargetCooldown perTargetCooldown,\n    @Valid\n    SkillTriggerProcessLimit maxTriggersPerProcess\n) {\n    public SkillTriggerRuleUpdateRequest {\n        name = name == null ? null : name.trim();\n        if (description != null) {\n            description = description.trim();\n            description = description.isEmpty() ? null : description;\n        }\n        conditionGroups = conditionGroups == null ? List.of() : List.copyOf(conditionGroups);\n    }\n}\n"
+    },
+    {
+      "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerRuleDetailResponse.java",
+      "sha256": "ae4efd3354ecde1bf579de75f92dac02bff74483644ebdd24d4debf24769d604",
+      "text": "package xyz.game.datamanage.model.skilltrigger;\n\nimport java.util.List;\n\npublic record SkillTriggerRuleDetailResponse(\n    String ruleKey,\n    String name,\n    String description,\n    Integer sortOrder,\n    SkillTriggerEventSource eventSource,\n    List<SkillTriggerConditionGroup> conditionGroups,\n    List<SkillTriggerAction> actions,\n    SkillTriggerPerTargetCooldown perTargetCooldown,\n    SkillTriggerProcessLimit maxTriggersPerProcess\n) {\n}\n"
+    },
+    {
+      "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerAction.java",
+      "sha256": "b27132198c8bbfec03f4b40a04b50a72f420570300f708d8c8b1fe6ad7d2571e",
+      "text": "package xyz.game.datamanage.model.skilltrigger;\n\nimport com.fasterxml.jackson.databind.annotation.JsonDeserialize;\nimport jakarta.validation.Valid;\nimport jakarta.validation.constraints.Max;\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotNull;\nimport jakarta.validation.constraints.Pattern;\nimport jakarta.validation.constraints.PositiveOrZero;\nimport jakarta.validation.constraints.Size;\nimport java.util.List;\n\n@JsonDeserialize(using = SkillTriggerActionDeserializer.class)\npublic record SkillTriggerAction(\n    @NotBlank(message = \"动作标识不能为空\")\n    @Pattern(regexp = \"^[a-z][a-z0-9_]{0,63}$\", message = \"动作标识格式不合法\")\n    String actionKey,\n    @NotBlank(message = \"动作名称不能为空\")\n    @Size(max = 100, message = \"动作名称不能超过100个字符\")\n    String name,\n    @NotNull(message = \"动作种类不能为空\")\n    SkillTriggerActionType actionType,\n    @NotNull(message = \"排序不能为空\")\n    @PositiveOrZero(message = \"排序不能小于0\")\n    @Max(value = 999999, message = \"排序不能大于999999\")\n    Integer sortOrder,\n    SkillTriggerTargetContext targetContext,\n    @NotNull(message = \"动作明细不能为空\")\n    @Valid\n    SkillTriggerActionDetail detail,\n    @NotNull(message = \"动态输入绑定不能缺失\")\n    @Valid\n    List<SkillTriggerRuntimeInputBinding> runtimeInputBindings,\n    @NotNull(message = \"结果修正不能缺失\")\n    @Valid\n    List<SkillTriggerResultModifier> resultModifiers\n) {\n    public SkillTriggerAction {\n        actionKey = actionKey == null ? null : actionKey.trim();\n        name = name == null ? null : name.trim();\n        runtimeInputBindings = runtimeInputBindings == null ? List.of() : List.copyOf(runtimeInputBindings);\n        resultModifiers = resultModifiers == null ? List.of() : List.copyOf(resultModifiers);\n    }\n}\n"
+    },
+    {
+      "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/controller/adminapi/skilltrigger/SkillTriggerRuleAdminController.java",
+      "sha256": "fa32ea9c47e233a6601a68d285f29d595181bee08cd839f1e97dc586f433a907",
+      "text": "package xyz.game.datamanage.controller.adminapi.skilltrigger;\n\nimport com.fasterxml.jackson.databind.JsonNode;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport jakarta.servlet.http.HttpServletRequest;\nimport jakarta.validation.Valid;\nimport java.util.List;\nimport org.springframework.http.HttpStatus;\nimport org.springframework.validation.annotation.Validated;\nimport org.springframework.web.bind.annotation.DeleteMapping;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.PathVariable;\nimport org.springframework.web.bind.annotation.PostMapping;\nimport org.springframework.web.bind.annotation.PutMapping;\nimport org.springframework.web.bind.annotation.RequestAttribute;\nimport org.springframework.web.bind.annotation.RequestBody;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.ResponseStatus;\nimport org.springframework.web.bind.annotation.RestController;\nimport xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;\nimport xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest;\nimport xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleDetailResponse;\nimport xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;\nimport xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleUpdateRequest;\nimport xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;\nimport xyz.game.datamanage.support.auth.AdminAuthFilter;\nimport xyz.game.datamanage.support.auth.AuthContext;\n\n@RestController\n@Validated\n@RequestMapping(\"/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules\")\npublic class SkillTriggerRuleAdminController {\n\n    private final SkillTriggerRuleService service;\n    private final AdminEditLogHelper logHelper;\n    private final ObjectMapper objectMapper;\n\n    public SkillTriggerRuleAdminController(\n        SkillTriggerRuleService service,\n        AdminEditLogHelper logHelper,\n        ObjectMapper objectMapper\n    ) {\n        this.service = service;\n        this.logHelper = logHelper;\n        this.objectMapper = objectMapper;\n    }\n\n    @GetMapping\n    public List<SkillTriggerRuleSummaryResponse> list(\n        @PathVariable(\"gameId\") String gameId,\n        @PathVariable(\"skillKey\") String skillKey\n    ) {\n        return service.list(gameId, skillKey);\n    }\n\n    @GetMapping(\"/{ruleKey}\")\n    public SkillTriggerRuleDetailResponse get(\n        @PathVariable(\"gameId\") String gameId,\n        @PathVariable(\"skillKey\") String skillKey,\n        @PathVariable(\"ruleKey\") String ruleKey\n    ) {\n        return service.get(gameId, skillKey, ruleKey);\n    }\n\n    @PostMapping\n    @ResponseStatus(HttpStatus.CREATED)\n    public SkillTriggerRuleDetailResponse create(\n        @PathVariable(\"gameId\") String gameId,\n        @PathVariable(\"skillKey\") String skillKey,\n        @Valid @RequestBody SkillTriggerRuleCreateRequest body,\n        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,\n        HttpServletRequest request\n    ) {\n        SkillTriggerRuleDetailResponse response = service.create(gameId, skillKey, body);\n        log(auth, request, objectMapper.valueToTree(body), HttpStatus.CREATED);\n        return response;\n    }\n\n    @PutMapping(\"/{ruleKey}\")\n    public SkillTriggerRuleDetailResponse update(\n        @PathVariable(\"gameId\") String gameId,\n        @PathVariable(\"skillKey\") String skillKey,\n        @PathVariable(\"ruleKey\") String ruleKey,\n        @Valid @RequestBody SkillTriggerRuleUpdateRequest body,\n        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,\n        HttpServletRequest request\n    ) {\n        SkillTriggerRuleDetailResponse response = service.update(gameId, skillKey, ruleKey, body);\n        log(auth, request, objectMapper.valueToTree(body), HttpStatus.OK);\n        return response;\n    }\n\n    @DeleteMapping(\"/{ruleKey}\")\n    @ResponseStatus(HttpStatus.NO_CONTENT)\n    public void delete(\n        @PathVariable(\"gameId\") String gameId,\n        @PathVariable(\"skillKey\") String skillKey,\n        @PathVariable(\"ruleKey\") String ruleKey,\n        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,\n        HttpServletRequest request\n    ) {\n        service.delete(gameId, skillKey, ruleKey);\n        log(auth, request, objectMapper.createObjectNode(), HttpStatus.NO_CONTENT);\n    }\n\n    private void log(AuthContext auth, HttpServletRequest request, JsonNode body, HttpStatus status) {\n        logHelper.log(auth, request, body, status.value());\n    }\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+{
+  "generatedAt": "2026-09-09T03:18:53.440Z",
+  "sourceIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Irelia",
+      "chineseName": "刀锋舞者",
+      "rootPath": "Characters/Irelia/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Irelia.json.gz",
+        "sha256": "3690c80214c9b7a467df867e7cb38b875171cecb91256d339371dc80e5583d76",
+        "compressedSha256": "f135c64b1d57b225edc38977c52525aa974f57e1cae0ed63e2e1d48e73fc7b28",
+        "byteSize": 48830,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/irelia/irelia.bin.json",
+        "fetchedAt": "2026-09-06T14:26:19.808Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Irelia.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Irelia.json",
+        "fetchedAt": "2026-09-06T14:12:47.476Z",
+        "byteSize": 15459,
+        "sha256": "609b71e3e675c1a18b10c76310fc3f46253f5a003c5538d8e0fbdb1a5ad053a2"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "irelia_p",
+          "binding": "Characters/Irelia/Spells/IreliaPassiveAbility/IreliaPassive",
+          "name": "艾欧尼亚热诚",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "irelia_q",
+          "binding": "Characters/Irelia/Spells/IreliaQAbility/IreliaQ",
+          "name": "利刃冲击",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "irelia_w",
+          "binding": "Characters/Irelia/Spells/IreliaWAbility/IreliaW",
+          "name": "距破之舞",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "irelia_e",
+          "binding": "Characters/Irelia/Spells/IreliaEAbility/IreliaE",
+          "name": "比翼双刃",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "irelia_r",
+          "binding": "Characters/Irelia/Spells/IreliaRAbility/IreliaR",
+          "name": "先锋之刃",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Fiora",
+      "chineseName": "无双剑姬",
+      "rootPath": "Characters/Fiora/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Fiora.json.gz",
+        "sha256": "1a5623425ab022eed88ce3da18995e627a33e90cf810f0bac50a0f563e16fa51",
+        "compressedSha256": "ac0bc9a74bbf8ba76e3b3198269f34d9b8b7c89255bd2b85f0e2147ab914336a",
+        "byteSize": 46235,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/fiora/fiora.bin.json",
+        "fetchedAt": "2026-09-06T14:26:17.052Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Fiora.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Fiora.json",
+        "fetchedAt": "2026-09-06T14:12:46.542Z",
+        "byteSize": 19035,
+        "sha256": "212601130bfe3723ffeb58f8818e5c5466395c41f9c32e76c30761f67f509688"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "fiora_p",
+          "binding": "Characters/Fiora/Spells/FioraPassiveAbility/FioraPassive",
+          "name": "决斗之舞",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "fiora_q",
+          "binding": "Characters/Fiora/Spells/FioraQAbility/FioraQ",
+          "name": "破空斩",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "fiora_w",
+          "binding": "Characters/Fiora/Spells/FioraWAbility/FioraW",
+          "name": "劳伦特心眼刀",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "fiora_e",
+          "binding": "Characters/Fiora/Spells/FioraEAbility/FioraE",
+          "name": "夺命连刺",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "fiora_r",
+          "binding": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+          "name": "无双挑战",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Camille",
+      "chineseName": "青钢影",
+      "rootPath": "Characters/Camille/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Camille.json.gz",
+        "sha256": "3f6bfb9db980faa31c3733101cdaebf0b066cae2bb9b5c4f3b3b6bdb5219dea9",
+        "compressedSha256": "1fa9dbd1b9338d283f0d5e655eb437181c9b3bff35a687dc69bc0e66cf48250b",
+        "byteSize": 68197,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/camille/camille.bin.json",
+        "fetchedAt": "2026-09-06T14:26:14.442Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Camille.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Camille.json",
+        "fetchedAt": "2026-09-06T14:12:45.696Z",
+        "byteSize": 14452,
+        "sha256": "b9650ff2bbf0add8107854832bfa5c7df16f6ad4c88b6c5fd5720e120ecacdda"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "camille_p",
+          "binding": "Characters/Camille/Spells/CamillePassiveAbility/CamillePassive",
+          "name": "适应性防御",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "camille_q",
+          "binding": "Characters/Camille/Spells/CamilleQAbility/CamilleQ",
+          "name": "精准礼仪",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "camille_w",
+          "binding": "Characters/Camille/Spells/CamilleWAbility/CamilleW",
+          "name": "战术横扫",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "camille_e",
+          "binding": "Characters/Camille/Spells/CamilleEAbility/CamilleE",
+          "name": "钩索",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "camille_r",
+          "binding": "Characters/Camille/Spells/CamilleRAbility/CamilleR",
+          "name": "海克斯最后通牒",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Gwen",
+      "chineseName": "灵罗娃娃",
+      "rootPath": "Characters/Gwen/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Gwen.json.gz",
+        "sha256": "f19c4a5ea57ac5d5ec3d2ee3f9e6d0af26e9bfdb00581efccc545298cedc6cc5",
+        "compressedSha256": "c2714fc4a1993e211be8cc3728c631a0e2cda41af052371d59c8658440fe58a5",
+        "byteSize": 63516,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/gwen/gwen.bin.json",
+        "fetchedAt": "2026-09-06T14:26:19.002Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Gwen.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gwen.json",
+        "fetchedAt": "2026-09-06T14:12:46.877Z",
+        "byteSize": 14933,
+        "sha256": "7f61d0d5adaced63622da690fd699e9f9d28906b2cdf50845c878551fb89b4ee"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "gwen_p",
+          "binding": "Characters/Gwen/Spells/GwenPAbility/GwenP",
+          "name": "千穿百孔",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "gwen_q",
+          "binding": "Characters/Gwen/Spells/GwenQAbility/GwenQ",
+          "name": "快刀剪乱",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "gwen_w",
+          "binding": "Characters/Gwen/Spells/GwenWAbility/GwenW",
+          "name": "丝缕缠流",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "gwen_e",
+          "binding": "Characters/Gwen/Spells/GwenEAbility/GwenE",
+          "name": "断续疾走",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "gwen_r",
+          "binding": "Characters/Gwen/Spells/GwenRAbility/GwenR",
+          "name": "引针簇射",
+          "maxrank": 3
+        }
+      ]
+    }
+  ]
+}

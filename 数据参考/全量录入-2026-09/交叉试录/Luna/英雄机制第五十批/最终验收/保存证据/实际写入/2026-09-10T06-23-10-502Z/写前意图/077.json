@@ -1,0 +1,68 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 77,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/formulas",
+    "detailRoute": "/skills/udyr_w/formulas/awakened_on_hit_heal",
+    "skillKey": "udyr_w",
+    "kind": "formulas",
+    "stableKey": "awakened_on_hit_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "awakened_on_hit_heal",
+      "name": "坚铁甲胄觉醒命中治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "life_on_hit_hp_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "life_on_hit_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "awakened_heal_attack_multiplier"
+          }
+        ]
+      },
+      "description": "LifeOnHitAwakened=HealAttackMult×LifeOnHit。",
+      "sortOrder": 50
+    }
+  }
+}

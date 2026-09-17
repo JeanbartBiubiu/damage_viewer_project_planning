@@ -1,0 +1,26 @@
+{
+  "i": 20,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_w/parameters",
+    "skillKey": "ornn_w",
+    "kind": "parameters",
+    "stableKey": "target_max_health_ratio_per_tick",
+    "body": {
+      "parameterKey": "target_max_health_ratio_per_tick",
+      "name": "每次目标最大生命伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.024,
+        "2": 0.026,
+        "3": 0.028,
+        "4": 0.03,
+        "5": 0.032
+      },
+      "description": "当前根DataValues.PercentHPPerTick取索引1至5，原值2.4%至3.2%，直接录入比例。",
+      "sortOrder": 30
+    }
+  }
+}

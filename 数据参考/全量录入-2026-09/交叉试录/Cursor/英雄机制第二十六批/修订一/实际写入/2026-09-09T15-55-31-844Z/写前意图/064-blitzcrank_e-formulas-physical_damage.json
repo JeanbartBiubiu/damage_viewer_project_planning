@@ -1,0 +1,74 @@
+{
+  "sequence": 64,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 64,
+    "method": "POST",
+    "route": "/skills/blitzcrank_e/formulas",
+    "detailRoute": "/skills/blitzcrank_e/formulas/physical_damage",
+    "skillKey": "blitzcrank_e",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "能量铁拳整次攻击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_attack_damage_multiplier"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage树=2×来源总攻击力+0.25×来源总法术强度；这是整次强化攻击的总值，不再叠加一次基础攻击。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 369,
+    "method": "GET",
+    "route": "/skills/blitzcrank_e/formulas/physical_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "physical_damage"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:54.838Z"
+  }
+}

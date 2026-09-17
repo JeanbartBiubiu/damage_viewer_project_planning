@@ -1,0 +1,24 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/parameters",
+    "detailRoute": "/skills/belveth_e/parameters/actual_attack_speed_stat_formula_2",
+    "skillKey": "belveth_e",
+    "kind": "parameters",
+    "stableKey": "actual_attack_speed_stat_formula_2",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_attack_speed_stat_formula_2",
+      "name": "当前mStat4/formula2实际攻速值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "攻击次数读取mStat4且formula2的属性口径未证明，运行层提供实际值，不设默认。",
+      "sortOrder": 90
+    }
+  }
+}

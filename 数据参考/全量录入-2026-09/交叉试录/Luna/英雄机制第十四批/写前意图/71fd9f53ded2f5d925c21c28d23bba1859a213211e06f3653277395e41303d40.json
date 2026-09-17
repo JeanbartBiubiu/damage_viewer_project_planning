@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T06:41:21.187Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/ziggs_r/parameters/base_damage",
+  "id": "base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "中心基础伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 300,
+      "2": 500,
+      "3": 700
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+    "sortOrder": 40
+  }
+}

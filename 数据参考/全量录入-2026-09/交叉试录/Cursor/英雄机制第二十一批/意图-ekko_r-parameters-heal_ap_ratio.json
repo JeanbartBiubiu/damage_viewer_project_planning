@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:09.538Z",
+  "method": "POST",
+  "skillKey": "ekko_r",
+  "kind": "parameters",
+  "stableKey": "heal_ap_ratio",
+  "route": "/skills/ekko_r/parameters",
+  "readRoute": "/skills/ekko_r/parameters/heal_ap_ratio",
+  "body": {
+    "parameterKey": "heal_ap_ratio",
+    "name": "基础治疗法强倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.6,
+    "levelValues": null,
+    "description": "TotalBaseHeal 第二项 StatByCoefficient mCoefficient 原始 0.6000000238418579，归一为0.6。省略选择器，窄口径来源总法强。",
+    "sortOrder": 60
+  }
+}

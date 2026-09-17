@@ -1,0 +1,306 @@
+{
+  "version": "16.17.8104348",
+  "nameHashMethod": "大小写折叠后FNV1a，与已有具体类哈希交叉一致；字段未命名不猜",
+  "classes": [
+    {
+      "name": "ByCharLevelInterpolationCalculationPart",
+      "hash": "0x15fecdbc",
+      "raw": {
+        "base": "0x12626bff",
+        "secondary_bases": {},
+        "secondary_children": {},
+        "size": 24,
+        "alignment": 8,
+        "is": {
+          "interface": false,
+          "value": false,
+          "secondary_base": false,
+          "finalized": false
+        },
+        "fn": {
+          "upcast_secondary": null,
+          "constructor": "0x5621e0",
+          "destructor": "0x562210",
+          "inplace_constructor": "0x562230",
+          "inplace_destructor": "0x562250",
+          "register": "0x562260"
+        },
+        "properties": {
+          "0x1cd7e522": {
+            "other_class": null,
+            "offset": 12,
+            "bitmask": 0,
+            "value_type": "F32",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0x7fe8e3b3": {
+            "other_class": null,
+            "offset": 16,
+            "bitmask": 0,
+            "value_type": "Bool",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0xa331f6bf": {
+            "other_class": null,
+            "offset": 17,
+            "bitmask": 0,
+            "value_type": "Bool",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0xd06c375d": {
+            "other_class": null,
+            "offset": 8,
+            "bitmask": 0,
+            "value_type": "F32",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          }
+        },
+        "defaults": {
+          "0x1cd7e522": 0,
+          "0x7fe8e3b3": false,
+          "0xa331f6bf": true,
+          "0xd06c375d": 0
+        }
+      },
+      "fields": [
+        {
+          "hash": "0x1cd7e522",
+          "name": "mEndValue",
+          "value": 0
+        },
+        {
+          "hash": "0x7fe8e3b3",
+          "name": null,
+          "value": false
+        },
+        {
+          "hash": "0xa331f6bf",
+          "name": null,
+          "value": true
+        },
+        {
+          "hash": "0xd06c375d",
+          "name": "mStartValue",
+          "value": 0
+        }
+      ],
+      "limit": "仅本次已下载原始类型记录。未解码字段保留哈希；起止等级、特殊插值、取整、表索引均未证。"
+    },
+    {
+      "name": "ByCharLevelFormulaCalculationPart",
+      "hash": "0x2421b258",
+      "raw": {
+        "base": "0x12626bff",
+        "secondary_bases": {},
+        "secondary_children": {},
+        "size": 256,
+        "alignment": 8,
+        "is": {
+          "interface": false,
+          "value": false,
+          "secondary_base": false,
+          "finalized": false
+        },
+        "fn": {
+          "upcast_secondary": null,
+          "constructor": "0x5629c0",
+          "destructor": "0x562a40",
+          "inplace_constructor": "0x562a60",
+          "inplace_destructor": "0x562ad0",
+          "register": "0x562ae0"
+        },
+        "properties": {
+          "0x246b0d8e": {
+            "other_class": null,
+            "offset": 132,
+            "bitmask": 0,
+            "value_type": "List",
+            "container": {
+              "vtable": "0x26225c8",
+              "value_type": "F32",
+              "value_size": 4,
+              "fixed_size": 31,
+              "storage": "Fixed"
+            },
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0x34474c3b": {
+            "other_class": null,
+            "offset": 8,
+            "bitmask": 0,
+            "value_type": "List",
+            "container": {
+              "vtable": "0x26225c8",
+              "value_type": "F32",
+              "value_size": 4,
+              "fixed_size": 31,
+              "storage": "Fixed"
+            },
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          }
+        },
+        "defaults": {
+          "0x246b0d8e": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "0x34474c3b": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "fields": [
+        {
+          "hash": "0x246b0d8e",
+          "name": "mValues",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "hash": "0x34474c3b",
+          "name": null,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "limit": "仅本次已下载原始类型记录。未解码字段保留哈希；起止等级、特殊插值、取整、表索引均未证。"
+    }
+  ]
+}

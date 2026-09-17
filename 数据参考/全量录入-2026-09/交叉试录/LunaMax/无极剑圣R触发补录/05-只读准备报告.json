@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:24:25.173Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "recommendedStatus": "READY_FOR_INDEPENDENT_REVIEW",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "scope": {
+    "ownerName": "无极剑圣",
+    "characterKey": "champion_masteryi",
+    "skillKey": "masteryi_r",
+    "ruleKey": "on_used",
+    "eventType": "SKILL_USED",
+    "useKind": "ACTIVE",
+    "effects": [
+      "attack_speed",
+      "move_speed"
+    ],
+    "excluded": [],
+    "deferred": [
+      "主动期间减速免疫",
+      "击杀/助攻延长主动持续时间",
+      "击杀/助攻后普通技能冷却变化",
+      "法力消耗和基础冷却",
+      "被动段行为"
+    ]
+  },
+  "checks": {
+    "clientArchiveVersion": true,
+    "officialZhVersion": true,
+    "officialEnVersion": true,
+    "officialZhHasExpectedSpell": true,
+    "officialEnHasExpectedSpell": true,
+    "officialZhMentionsExpectedEffects": true,
+    "officialEnMentionsExpectedEffects": true,
+    "clientPointerPresent": true,
+    "sourceValuesPresent": true,
+    "candidateScopeIsExplicit": true,
+    "clientDuration7s": true,
+    "clientAttackSpeed25_45_65": true,
+    "clientMoveSpeed35_45_55": true,
+    "clientHasAttackAndMoveTooltipRows": true,
+    "characterSubject": true,
+    "skillSubject": true,
+    "relationForwardExact": true,
+    "relationReverseExact": true,
+    "characterImagePresent": true,
+    "skillImagePresent": true,
+    "candidateDetail404": true,
+    "triggerListEmpty": true,
+    "effectsPresent": true,
+    "effectsVerified": true,
+    "processWiringVerified": true,
+    "candidateRequestExact": true,
+    "globalBaseline": true,
+    "noBusinessWrite": true
+  },
+  "getSummary": {
+    "totalGetCount": 2457,
+    "targetGetCount": 25,
+    "sharedGlobalGetCount": 2342,
+    "statusCounts": {
+      "200": 2453,
+      "404": 4
+    },
+    "methodCounts": {
+      "GET": 2457
+    },
+    "candidateDetailStatus": 404,
+    "businessWrites": 0
+  },
+  "baseline": {
+    "expected": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "sourceInitializedCount": 24
+    },
+    "observed": {
+      "first": {
+        "skillCount": 1062,
+        "ruleCount": 108,
+        "sourceInitializedCount": 24,
+        "ruleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748"
+      },
+      "second": {
+        "skillCount": 1062,
+        "ruleCount": 108,
+        "sourceInitializedCount": 24,
+        "ruleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748"
+      },
+      "stableTwoPass": true
+    }
+  },
+  "candidate": {
+    "bodySha256": "a0e49d06ccbee0898b642d1c70fde4b9d31aab30ae1965d523aa4acfda528859",
+    "body": {
+      "ruleKey": "on_used",
+      "name": "高原血统主动使用",
+      "description": "接收 masteryi_r 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 attack_speed 和 move_speed。两个效果结果 target=SOURCE，均使用 duration_ms（7000毫秒）；相关的减速免疫、击杀/助攻延长、普通技能冷却变化、法力消耗和基础冷却留待后续规则补录。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "masteryi_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "execute_attack_speed",
+          "name": "执行高原血统额外攻击速度",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "attack_speed"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        },
+        {
+          "actionKey": "execute_move_speed",
+          "name": "执行高原血统额外移动速度",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 20,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "move_speed"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    }
+  },
+  "sourceSnapshotSha256": "f5a62805355cf109939b93c2394c5833a9f2425d961c953e69cede1952b0e765",
+  "frozenRequestSha256": "de35cac4084a38f7604fdd29a6601bed2870621206b80592aeb0682cc2f94567",
+  "experienceIssues": [
+    "主动期间减速免疫",
+    "击杀/助攻延长主动持续时间",
+    "击杀/助攻后普通技能冷却变化",
+    "法力消耗和基础冷却",
+    "被动段行为"
+  ],
+  "reviewDecision": null,
+  "conflicts": []
+}

@@ -1,0 +1,186 @@
+{
+  "at": "2026-09-09T17:58:39.650Z",
+  "batch": "英雄机制第三十一批",
+  "heroes": [
+    "迦娜",
+    "璐璐",
+    "娜美",
+    "莫甘娜"
+  ],
+  "skills": [
+    "janna_p",
+    "janna_q",
+    "janna_w",
+    "janna_e",
+    "janna_r",
+    "lulu_p",
+    "lulu_q",
+    "lulu_w",
+    "lulu_e",
+    "lulu_r",
+    "nami_p",
+    "nami_q",
+    "nami_w",
+    "nami_e",
+    "nami_r",
+    "morgana_p",
+    "morgana_q",
+    "morgana_w",
+    "morgana_e",
+    "morgana_r"
+  ],
+  "status": "明确组成已保存，并通过独立全字段回读、实际公式核算和代表页面验收；等级曲线、触发资格、施放时序和资源阶段继续处理",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "counts": {
+    "parameters": 149,
+    "formulas": 35,
+    "effects": 23,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 120,
+    "formulas": 35,
+    "effects": 23
+  },
+  "reusedParameters": 29,
+  "currentTotalComponents": 207,
+  "created": 178,
+  "businessWrites": 180,
+  "successfulPOSTs": 179,
+  "rejectedPOSTs": 1,
+  "successfulDELETEs": 1,
+  "saveGETs": 1598,
+  "protected": {
+    "catalogs": 4,
+    "characters": 4,
+    "relations": 4,
+    "subjects": 20,
+    "images": 20,
+    "componentLists": 120,
+    "reusedDetails": 29,
+    "referencePaths": 201
+  },
+  "candidateFileSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+  "writePlanSha256": "67d053b4f95435ad515d01e245175081a6bbd5eb4be8f8ca29e0bdae07f4bcc1",
+  "execution": {
+    "revision1": {
+      "file": "修订一/实际写入/2026-09-09T17-41-43-780Z/执行结果.json",
+      "GETs": 569,
+      "successfulPOSTs": 80,
+      "rejectedPOSTs": 1,
+      "apiWrites": 80,
+      "status": "失败后停止并保留证据"
+    },
+    "revision2": {
+      "file": "修订二/实际写入/2026-09-09T17-55-48-470Z/执行结果.json",
+      "GETs": 1012,
+      "successfulPOSTs": 98,
+      "rejectedPOSTs": 0,
+      "apiWrites": 98,
+      "status": "成功"
+    },
+    "revision3": {
+      "plan": "修订三/单位修复方案.json",
+      "result": "修订三/单位修复实际结果.json",
+      "GETs": 17,
+      "successfulPOSTs": 1,
+      "successfulDELETEs": 1,
+      "apiWrites": 2,
+      "status": "成功"
+    },
+    "totalGETs": 1598,
+    "successfulPOSTs": 179,
+    "rejectedPOSTs": 1,
+    "successfulDELETEs": 1,
+    "successfulChanges": 180
+  },
+  "independentReadback": {
+    "file": "实际回读/2026-09-09T18-10-15-716Z/执行结果.json",
+    "fullReport": "实际回读/2026-09-09T18-10-15-716Z/独立全量回读.json",
+    "journal": "实际回读/2026-09-09T18-10-15-716Z/所有GET原始响应.jsonl",
+    "GETs": 379,
+    "protectedPaths": 201,
+    "details": 207,
+    "reusedDetails": 29,
+    "plannedDetails": 178,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "2026-09-09T18-00-09-483Z/实际GET数学.json",
+    "additionalNetworkCalls": 178,
+    "actualFormulas": 35,
+    "formulaCases": 70,
+    "missingInputChecks": 37,
+    "integerChecks": 70,
+    "boundaryChecks": 24,
+    "passed": true
+  },
+  "browser": {
+    "file": "修订三/页面验收.json",
+    "representativePages": 4,
+    "GETs": 24,
+    "mathCases": 20,
+    "passed": true
+  },
+  "unitPage": {
+    "file": "修订三/单位页面补核.json",
+    "additionalScriptGETs": 0,
+    "passed": true
+  },
+  "cursorAudit": {
+    "directory": "Cursor来源审计",
+    "verdict": "READY",
+    "events": 2059,
+    "uniqueTools": 87,
+    "readonlyAuditPassed": true,
+    "gitDelta": []
+  },
+  "hashes": {
+    "完整候选.json": "19a2a142511173d042f8e76a71b65f5421ee2785aae93dba8b14d724263e5b8e",
+    "请求计划.json": "e1e188d8988dd96bc36ad27e46d683be08cd0ecbfa8f870dab841b2b82bcfecd",
+    "修订前/完整候选.json": "19a2a142511173d042f8e76a71b65f5421ee2785aae93dba8b14d724263e5b8e",
+    "修订前/请求计划.json": "e1e188d8988dd96bc36ad27e46d683be08cd0ecbfa8f870dab841b2b82bcfecd",
+    "修订一/完整候选.json": "57b47b85077f9066c72ff12f84f703a767e84ae1d3271824326621e0a90d2dac",
+    "修订一/请求计划.json": "903dc62fee877f3ceecf2b52db64be7815d3c9a4f3cc7b1c21ada7137eab47e4",
+    "修订二/完整候选.json": "fed901ff7819c5a2bd1e5238936c7cf1a6916af8116be2bc776e9ade93d256c0",
+    "修订二/请求计划.json": "440501e0016adb35d584bf73d22eb7a7d9c21f936e86942bb891199409199b90",
+    "修订三/完整候选.json": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+    "修订三/请求计划.json": "67d053b4f95435ad515d01e245175081a6bbd5eb4be8f8ca29e0bdae07f4bcc1",
+    "修订一/实际写入/2026-09-09T17-41-43-780Z/执行结果.json": "21c33d3336432fd8eee58a29ef9762b4a358da66778c8d7b2fe6e36d13f882b0",
+    "修订二/实际写入/2026-09-09T17-55-48-470Z/执行结果.json": "9d7985057f7340009bfe87872a53081a987707193bf293b69169c95d49117948",
+    "修订三/单位修复方案.json": "b8c002b2d25a33ef710d881c43e05b6b79db501bf3925aaf3312066684889d5f",
+    "修订三/单位修复实际结果.json": "2c44fe65c0688c29465c264f26b7336ea4712b32824e1800b1574747fb3a9d16",
+    "修订三/单位页面补核.json": "a352086c7b819153d2dfb746f1d042b6a184db31963cd9e68b0fc9b1f9232f31",
+    "独立验收/实际回读/2026-09-09T18-10-15-716Z/执行结果.json": "ed193750d61f4ba6f4e8364e949eb16d5aed75f621b735f20050715e3ab0de32",
+    "独立验收/实际回读/2026-09-09T18-10-15-716Z/独立全量回读.json": "0901f780930004b9442e3b8623c4a91e0931293b251b598aef561f458c92cb44",
+    "独立验收/实际回读/2026-09-09T18-10-15-716Z/所有GET原始响应.jsonl": "da9f643ee4eab3a27cd8e59f4005a9882025bde4225c405203dcf73f0955f044",
+    "实际公式核算/2026-09-09T18-00-09-483Z/实际GET数学.json": "33aba0443ef624779ad55c5886b6c1cfa02c0d999086b306a2054f65072f5534",
+    "实际公式核算/2026-09-09T18-00-09-483Z/实际GET响应.json": "35b5afdb9f8179f34d51abe515fae71be1bcee51ce6ab235c7285ee7cd666ea3",
+    "实际公式核算/实际GET数学.mjs": "94d838af6d06d34f8f28ee4e4ce86a674cf4d39c4874f6fb1a6f18b6ffe7c2ad",
+    "修订三/最终数学适用核对.json": "cd019ed909ac2f201bb353b2b8e2e1bd206784679c23a6c05c44f9ecb42dbe86",
+    "修订三/页面验收.json": "998955930c19653de4dbd41437061d9b7216216c4c74055bf7125a4042ca3a8a",
+    "Cursor来源审计/Cursor来源复核结论.md": "e77aa2dea849345914fc633d5ffb3fd0531fb6ec7b6c6bf92ca477c952f7fe4d",
+    "Cursor来源审计/主负责人执行审计.json": "23b95d521a4b98ac2110e50d0419ccc88c33fcb76b65d852d070c1ecbada43c3",
+    "Cursor来源审计/summary.json": "48c4eff7aa66685ee0d107974ace5dcd0646fd3a7d1edaab1c030a55326dac29",
+    "Cursor来源审计/events.jsonl": "abef67d06845fcd9f9ab3342e18516f5ec78ec51541edaeec73b1cea8bf9d848",
+    "输入包/来源绑定与当前文本.json": "3903525c50256f6c7df36e692f9648d13a073bffe105e280fd80653c99302330",
+    "输入包/参考资料/当前20槽保护快照.json": "94af4474ea98f040a3ad09aeffc07a8608cde19a10ce3c2995499aba2883802c"
+  },
+  "issues": [
+    "原始候选中的等级索引、额外移动速度点数和伪周期效果问题已在写入前修复。",
+    "璐璐W效果曾以FORMULA类型错误引用参数，修订一的400响应已保留，修订二完成修复。",
+    "璐璐W的SlowAmount原值为-60且当前正文没有百分号语义，修订三改为“变形减速原始量”；公式及依赖未改变。",
+    "独立数学从写后GET表达式核对；非法输入拒绝是验收脚本的校验，不是战斗运行验证。"
+  ],
+  "pending": [
+    "未知等级曲线、触发资格、施放和命中时序、资源阶段不设默认。",
+    "跨技能触发、过程接线、资源扣费与效果资格尚未接入战斗运行。"
+  ],
+  "runtimeValidation": "未执行"
+}

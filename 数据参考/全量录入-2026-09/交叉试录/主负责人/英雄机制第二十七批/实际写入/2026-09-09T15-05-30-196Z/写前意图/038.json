@@ -1,0 +1,20 @@
+{
+  "i": 37,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_r/parameters",
+    "skillKey": "gragas_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+      "sortOrder": 10
+    }
+  }
+}

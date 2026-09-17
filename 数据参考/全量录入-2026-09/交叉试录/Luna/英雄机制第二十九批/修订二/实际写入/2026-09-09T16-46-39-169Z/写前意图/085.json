@@ -1,0 +1,20 @@
+{
+  "i": 84,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_w/parameters",
+    "skillKey": "shen_w",
+    "kind": "parameters",
+    "stableKey": "zone_wait_window_ms",
+    "body": {
+      "parameterKey": "zone_wait_window_ms",
+      "name": "无可保护英雄时最多等待（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前根DataValues.ZoneDelay为2秒，单位换算为毫秒；只保留等待窗口。",
+      "sortOrder": 30
+    }
+  }
+}

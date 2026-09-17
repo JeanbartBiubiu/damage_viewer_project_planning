@@ -1,0 +1,45 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "method": "POST",
+    "route": "/skills/senna_e/formulas",
+    "detailRoute": "/skills/senna_e/formulas/self_move_speed_ratio",
+    "skillKey": "senna_e",
+    "kind": "formulas",
+    "stableKey": "self_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_move_speed_ratio",
+      "name": "黑雾咒附自身移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "movement_speed_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ms_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalMS=MovementSpeedPercent+MSAPRatio×来源总法强，结果供自身属性效果引用。",
+      "sortOrder": 10
+    }
+  }
+}

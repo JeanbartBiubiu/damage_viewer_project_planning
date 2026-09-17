@@ -1,0 +1,45 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "method": "POST",
+    "route": "/skills/nami_p/formulas",
+    "detailRoute": "/skills/nami_p/formulas/movement_speed_bonus",
+    "skillKey": "nami_p",
+    "kind": "formulas",
+    "stableKey": "movement_speed_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "movement_speed_bonus",
+      "name": "踏浪之行移动速度加成",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "flat_move_speed"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalMSBonus = FlatMS + 0.25×来源总法强；触发对象仍按友方命中正文判断。",
+      "sortOrder": 10
+    }
+  }
+}

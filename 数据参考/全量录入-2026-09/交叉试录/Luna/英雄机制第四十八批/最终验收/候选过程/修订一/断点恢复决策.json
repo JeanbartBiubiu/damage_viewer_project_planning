@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-10T04:07:20.504Z",
+  "reason": "前三项POST201，第三项即时GET发生500事务错误；之后只读再次GET200，恢复器仍将重新核对全部193保护与213详情后才能继续",
+  "originalExecution": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-luna-candidate\\修订一\\实际写入\\2026-09-10T04-00-32-211Z/执行结果.json",
+  "originalExecutionSha256": "ee158806da5f5b2a6fd3d03a81773caf7ea52c0db3526acba5e8e188f3ed7c57",
+  "originalWriterSha256": "6f8d0a5e65b3e28e62fcad7d3d26382712b9164c9611e1e1069e853c50f26552",
+  "originalApiWrites": 3,
+  "originalConfirmed": 2,
+  "originalGETs": 412,
+  "prefix": [
+    "/skills/ivern_q/parameters/base_damage",
+    "/skills/ivern_q/parameters/root_duration_ms",
+    "/skills/ivern_q/parameters/ap_ratio"
+  ],
+  "remainingPosts": 189,
+  "recoveryGETs": 1190,
+  "recoveryWriterSha256": "6e0489f0829306e2d95c09ca27a97b901828168c361ea09b61232d41b71d1bec",
+  "preserveOriginalLock": true,
+  "duplicatePOSTsAllowed": false
+}

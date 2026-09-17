@@ -1,3 +1,5 @@
+import type { SkillParameter } from '../../../../types/skillParameter';
+import { NumericValueField } from '../NumericValueField';
 import {
   Alert,
   Button,
@@ -22,18 +24,14 @@ import {
   FIRST_EXECUTION_LABELS,
   INCOMPLETE_CATALOG_MESSAGE,
   MILLISECOND_FORMULA_HINT,
-  MISSING_CATALOG_LABEL,
   POSITIVE_INTEGER_FORMULA_HINT,
   SKILL_PROCESS_STEP_TYPES,
   SKILL_PROCESS_STEP_TYPE_LABELS,
   applyStepTypeChange,
   clearHiddenStepFields,
   createEmptyProcessDraft,
-  isCatalogOptionSelectable,
-  listFormulaOptions,
   sortStepDrafts,
   validateSkillProcessDraft,
-  type CatalogRefOption,
   type ProcessCatalogLoadState,
   type ProcessFormCatalog,
   type SkillProcessStepDraft,
@@ -49,6 +47,8 @@ type SkillProcessStepEditorModalProps = {
   siblingSteps: SkillProcessStepDraft[];
   stepIndex: number | null;
   fieldErrors: SkillProcessStepDraftErrors;
+  parameters: readonly SkillParameter[];
+  parametersLoadState?: 'ready' | 'failed';
   formulas: ReadonlyArray<Pick<SkillFormulaSummary, 'formulaKey' | 'name'>>;
   formulasLoadState?: 'ready' | 'failed';
   onOpenParameterFormula?: () => void;
@@ -62,11 +62,6 @@ function titleFor(mode: SkillProcessStepEditorMode): string {
   return '查看步骤';
 }
 
-function catalogLabel(option: CatalogRefOption, names: Map<string, string>): string {
-  if (option.source === 'unknown') return `${option.key}（${MISSING_CATALOG_LABEL}）`;
-  return names.get(option.key) ?? option.key;
-}
-
 export function SkillProcessStepEditorModal({
   visible,
   mode,
@@ -74,6 +69,8 @@ export function SkillProcessStepEditorModal({
   siblingSteps,
   stepIndex,
   fieldErrors,
+  parameters,
+  parametersLoadState,
   formulas,
   formulasLoadState,
   onOpenParameterFormula,
@@ -93,12 +90,6 @@ export function SkillProcessStepEditorModal({
     setSaveError(null);
   }, [fieldErrors, stepDraft, visible]);
 
-  const formulaNames = useMemo(() => {
-    const names = new Map<string, string>();
-    for (const item of formulas) names.set(item.formulaKey, item.name);
-    return names;
-  }, [formulas]);
-
   const catalog: ProcessFormCatalog = useMemo(() => ({
     formulas,
     effects: [],
@@ -109,12 +100,6 @@ export function SkillProcessStepEditorModal({
   const catalogLoadState: ProcessCatalogLoadState = {
     formulas: formulasLoadState
   };
-
-  const formulaSelect = (currentKey: string) => listFormulaOptions(catalog, currentKey).map((option) => ({
-    value: option.key,
-    label: catalogLabel(option, formulaNames),
-    disabled: !isCatalogOptionSelectable(option)
-  }));
 
   const patchDraft = (next: SkillProcessStepDraft) => {
     setDraft(next);
@@ -145,6 +130,7 @@ export function SkillProcessStepEditorModal({
       },
       {
         includeProcessKey: false,
+      parameters, parametersLoadState,
         catalog: {
           ...catalog,
           effects: [{ effectKey: 'placeholder', name: 'placeholder' }]
@@ -277,113 +263,101 @@ export function SkillProcessStepEditorModal({
 
           {draft.stepType === 'DELAY' ? (
             <Form.Item
-              label="延迟公式"
+              label="延迟取值"
               required
               extra={MILLISECOND_FORMULA_HINT}
-              validateStatus={errors.delayFormulaKey ? 'error' : undefined}
-              help={errors.delayFormulaKey}
+              validateStatus={errors.delayValue ? 'error' : undefined}
+              help={errors.delayValue}
             >
-              <Select
-                aria-label="延迟公式"
-                value={draft.delayFormulaKey || undefined}
-                disabled={readOnly}
-                options={formulaSelect(draft.delayFormulaKey)}
-                placeholder="请选择延迟公式"
-                onChange={(value) => patchDraft({ ...draft, delayFormulaKey: String(value ?? '') })}
-              />
+              <NumericValueField aria-label="延迟取值"
+                  value={draft.delayValue}
+                  onChange={(value) => patchDraft({ ...draft, delayValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
             </Form.Item>
           ) : null}
 
           {draft.stepType === 'MULTI_HIT' || draft.stepType === 'PERIODIC' ? (
             <Form.Item
-              label="执行次数公式"
+              label="执行次数取值"
               required
               extra={POSITIVE_INTEGER_FORMULA_HINT}
-              validateStatus={errors.repeatCountFormulaKey ? 'error' : undefined}
-              help={errors.repeatCountFormulaKey}
+              validateStatus={errors.repeatCountValue ? 'error' : undefined}
+              help={errors.repeatCountValue}
             >
-              <Select
-                aria-label="执行次数公式"
-                value={draft.repeatCountFormulaKey || undefined}
-                disabled={readOnly}
-                options={formulaSelect(draft.repeatCountFormulaKey)}
-                placeholder="请选择执行次数公式"
-                onChange={(value) => patchDraft({ ...draft, repeatCountFormulaKey: String(value ?? '') })}
-              />
+              <NumericValueField aria-label="执行次数取值"
+                  value={draft.repeatCountValue}
+                  onChange={(value) => patchDraft({ ...draft, repeatCountValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
             </Form.Item>
           ) : null}
 
           {draft.stepType === 'MULTI_HIT' ? (
             <Form.Item
-              label="间隔公式"
+              label="间隔取值"
               extra={MILLISECOND_FORMULA_HINT}
-              validateStatus={errors.intervalFormulaKey ? 'error' : undefined}
-              help={errors.intervalFormulaKey}
+              validateStatus={errors.intervalValue ? 'error' : undefined}
+              help={errors.intervalValue}
             >
-              <Select
-                aria-label="间隔公式"
-                value={draft.intervalFormulaKey || undefined}
-                disabled={readOnly}
-                allowClear
-                options={formulaSelect(draft.intervalFormulaKey)}
-                placeholder="可选间隔公式"
-                onChange={(value) => patchDraft({ ...draft, intervalFormulaKey: String(value ?? '') })}
-              />
+              <NumericValueField aria-label="间隔取值"
+                  value={draft.intervalValue}
+                  onChange={(value) => patchDraft({ ...draft, intervalValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly}
+                  allowClear />
             </Form.Item>
           ) : null}
 
           {draft.stepType === 'PERIODIC' ? (
             <Form.Item
-              label="间隔公式"
+              label="间隔取值"
               required
               extra={MILLISECOND_FORMULA_HINT}
-              validateStatus={errors.intervalFormulaKey ? 'error' : undefined}
-              help={errors.intervalFormulaKey}
+              validateStatus={errors.intervalValue ? 'error' : undefined}
+              help={errors.intervalValue}
             >
-              <Select
-                aria-label="间隔公式"
-                value={draft.intervalFormulaKey || undefined}
-                disabled={readOnly}
-                options={formulaSelect(draft.intervalFormulaKey)}
-                placeholder="请选择间隔公式"
-                onChange={(value) => patchDraft({ ...draft, intervalFormulaKey: String(value ?? '') })}
-              />
+              <NumericValueField aria-label="间隔取值"
+                  value={draft.intervalValue}
+                  onChange={(value) => patchDraft({ ...draft, intervalValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
             </Form.Item>
           ) : null}
 
           {draft.stepType === 'CHANNEL' ? (
             <>
               <Form.Item
-                label="持续时间公式"
+                label="持续时间取值"
                 required
                 extra={MILLISECOND_FORMULA_HINT}
-                validateStatus={errors.durationFormulaKey ? 'error' : undefined}
-                help={errors.durationFormulaKey}
+                validateStatus={errors.durationValue ? 'error' : undefined}
+                help={errors.durationValue}
               >
-                <Select
-                  aria-label="持续时间公式"
-                  value={draft.durationFormulaKey || undefined}
-                  disabled={readOnly}
-                  options={formulaSelect(draft.durationFormulaKey)}
-                  placeholder="请选择持续时间公式"
-                  onChange={(value) => patchDraft({ ...draft, durationFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="持续时间取值"
+                  value={draft.durationValue}
+                  onChange={(value) => patchDraft({ ...draft, durationValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
               </Form.Item>
               <Form.Item
-                label="执行次数公式"
+                label="执行次数取值"
                 required
                 extra={POSITIVE_INTEGER_FORMULA_HINT}
-                validateStatus={errors.executionCountFormulaKey ? 'error' : undefined}
-                help={errors.executionCountFormulaKey}
+                validateStatus={errors.executionCountValue ? 'error' : undefined}
+                help={errors.executionCountValue}
               >
-                <Select
-                  aria-label="执行次数公式"
-                  value={draft.executionCountFormulaKey || undefined}
-                  disabled={readOnly}
-                  options={formulaSelect(draft.executionCountFormulaKey)}
-                  placeholder="请选择执行次数公式"
-                  onChange={(value) => patchDraft({ ...draft, executionCountFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="执行次数取值"
+                  value={draft.executionCountValue}
+                  onChange={(value) => patchDraft({ ...draft, executionCountValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
               </Form.Item>
             </>
           ) : null}
@@ -410,36 +384,32 @@ export function SkillProcessStepEditorModal({
           {draft.stepType === 'CHARGE' ? (
             <>
               <Form.Item
-                label="最短蓄力公式"
+                label="最短蓄力取值"
                 required
                 extra={MILLISECOND_FORMULA_HINT}
-                validateStatus={errors.minimumChargeFormulaKey ? 'error' : undefined}
-                help={errors.minimumChargeFormulaKey}
+                validateStatus={errors.minimumChargeValue ? 'error' : undefined}
+                help={errors.minimumChargeValue}
               >
-                <Select
-                  aria-label="最短蓄力公式"
-                  value={draft.minimumChargeFormulaKey || undefined}
-                  disabled={readOnly}
-                  options={formulaSelect(draft.minimumChargeFormulaKey)}
-                  placeholder="请选择最短蓄力公式"
-                  onChange={(value) => patchDraft({ ...draft, minimumChargeFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="最短蓄力取值"
+                  value={draft.minimumChargeValue}
+                  onChange={(value) => patchDraft({ ...draft, minimumChargeValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
               </Form.Item>
               <Form.Item
-                label="最长蓄力公式"
+                label="最长蓄力取值"
                 required
                 extra={MILLISECOND_FORMULA_HINT}
-                validateStatus={errors.maximumChargeFormulaKey ? 'error' : undefined}
-                help={errors.maximumChargeFormulaKey}
+                validateStatus={errors.maximumChargeValue ? 'error' : undefined}
+                help={errors.maximumChargeValue}
               >
-                <Select
-                  aria-label="最长蓄力公式"
-                  value={draft.maximumChargeFormulaKey || undefined}
-                  disabled={readOnly}
-                  options={formulaSelect(draft.maximumChargeFormulaKey)}
-                  placeholder="请选择最长蓄力公式"
-                  onChange={(value) => patchDraft({ ...draft, maximumChargeFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="最长蓄力取值"
+                  value={draft.maximumChargeValue}
+                  onChange={(value) => patchDraft({ ...draft, maximumChargeValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
               </Form.Item>
               <Form.Item
                 label="到达最长时间是否自动释放"
@@ -459,36 +429,32 @@ export function SkillProcessStepEditorModal({
           {draft.stepType === 'RECAST' ? (
             <>
               <Form.Item
-                label="重施窗口公式"
+                label="重施窗口取值"
                 required
                 extra={MILLISECOND_FORMULA_HINT}
-                validateStatus={errors.windowFormulaKey ? 'error' : undefined}
-                help={errors.windowFormulaKey}
+                validateStatus={errors.windowValue ? 'error' : undefined}
+                help={errors.windowValue}
               >
-                <Select
-                  aria-label="重施窗口公式"
-                  value={draft.windowFormulaKey || undefined}
-                  disabled={readOnly}
-                  options={formulaSelect(draft.windowFormulaKey)}
-                  placeholder="请选择重施窗口公式"
-                  onChange={(value) => patchDraft({ ...draft, windowFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="重施窗口取值"
+                  value={draft.windowValue}
+                  onChange={(value) => patchDraft({ ...draft, windowValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
               </Form.Item>
               <Form.Item
-                label="最大重施次数公式"
+                label="最大重施次数取值"
                 required
                 extra={POSITIVE_INTEGER_FORMULA_HINT}
-                validateStatus={errors.maximumRecastCountFormulaKey ? 'error' : undefined}
-                help={errors.maximumRecastCountFormulaKey}
+                validateStatus={errors.maximumRecastCountValue ? 'error' : undefined}
+                help={errors.maximumRecastCountValue}
               >
-                <Select
-                  aria-label="最大重施次数公式"
-                  value={draft.maximumRecastCountFormulaKey || undefined}
-                  disabled={readOnly}
-                  options={formulaSelect(draft.maximumRecastCountFormulaKey)}
-                  placeholder="请选择最大重施次数公式"
-                  onChange={(value) => patchDraft({ ...draft, maximumRecastCountFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="最大重施次数取值"
+                  value={draft.maximumRecastCountValue}
+                  onChange={(value) => patchDraft({ ...draft, maximumRecastCountValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
               </Form.Item>
             </>
           ) : null}
@@ -496,20 +462,18 @@ export function SkillProcessStepEditorModal({
           {draft.stepType === 'EMPOWERED_BASIC_ATTACK' ? (
             <>
               <Form.Item
-                label="有效窗口公式"
+                label="有效窗口取值"
                 required
                 extra={MILLISECOND_FORMULA_HINT}
-                validateStatus={errors.windowFormulaKey ? 'error' : undefined}
-                help={errors.windowFormulaKey}
+                validateStatus={errors.windowValue ? 'error' : undefined}
+                help={errors.windowValue}
               >
-                <Select
-                  aria-label="有效窗口公式"
-                  value={draft.windowFormulaKey || undefined}
-                  disabled={readOnly}
-                  options={formulaSelect(draft.windowFormulaKey)}
-                  placeholder="请选择有效窗口公式"
-                  onChange={(value) => patchDraft({ ...draft, windowFormulaKey: String(value ?? '') })}
-                />
+                <NumericValueField aria-label="有效窗口取值"
+                  value={draft.windowValue}
+                  onChange={(value) => patchDraft({ ...draft, windowValue: value! })}
+                  parameters={parameters}
+                  formulas={formulas}
+                  disabled={readOnly} />
               </Form.Item>
               <Form.Item
                 label="消耗时点"

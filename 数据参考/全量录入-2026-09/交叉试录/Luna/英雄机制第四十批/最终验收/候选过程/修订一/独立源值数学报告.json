@@ -1,0 +1,6068 @@
+{
+  "generatedAt": "2026-09-09T21:11:18.030Z",
+  "status": "PASS",
+  "method": "实际侧读取完整候选表达式和参数；期望侧重新读取冻结客户端/官方原始数组与计算树，未读取候选数值作为期望。",
+  "input": {
+    "candidateFile": "完整候选.json",
+    "candidateFileSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
+    "bindingFile": "输入包/来源绑定与当前文本.json",
+    "bindingFileSha256": "db3e9b2bb4763ab5655f4cb4ea88850632c0c80b5644af403d21cd010eb34d71",
+    "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1"
+  },
+  "counts": {
+    "formulas": 30,
+    "sourceVsCandidateCases": 60,
+    "missingInputChecks": 47,
+    "binaryOperationChecks": 100,
+    "integerMillisecondChecks": 40,
+    "finiteChecks": 170,
+    "sourceBoundaryChecks": 9,
+    "totalChecks": 426,
+    "passed": 426,
+    "failed": 0
+  },
+  "sourceBoundaryChecks": [
+    {
+      "name": "赛娜Q一级伤害索引",
+      "actual": {
+        "1": 30,
+        "5": 130
+      },
+      "expected": {
+        "1": 30,
+        "5": 130
+      }
+    },
+    {
+      "name": "赛娜Q一级治疗索引",
+      "actual": {
+        "1": 40,
+        "5": 120
+      },
+      "expected": {
+        "1": 40,
+        "5": 120
+      }
+    },
+    {
+      "name": "赛娜R前三等级伤害",
+      "actual": {
+        "1": 250,
+        "3": 550
+      },
+      "expected": {
+        "1": 250,
+        "3": 550
+      }
+    },
+    {
+      "name": "赛娜R前三等级护盾",
+      "actual": {
+        "1": 120,
+        "3": 200
+      },
+      "expected": {
+        "1": 120,
+        "3": 200
+      }
+    },
+    {
+      "name": "锤石E主动减速比例",
+      "actual": {
+        "1": 0.2,
+        "5": 0.4
+      },
+      "expected": {
+        "1": 0.2,
+        "5": 0.4
+      }
+    },
+    {
+      "name": "派克E伤害首项",
+      "actual": {
+        "1": 100,
+        "5": 300
+      },
+      "expected": {
+        "1": 100,
+        "5": 300
+      }
+    },
+    {
+      "name": "崔斯特W金牌基础伤害",
+      "actual": {
+        "1": 15,
+        "5": 45
+      },
+      "expected": {
+        "1": 15,
+        "5": 45
+      }
+    },
+    {
+      "name": "崔斯特W完整暴击系数",
+      "actual": 0.25,
+      "expected": 0.25
+    },
+    {
+      "name": "崔斯特R冷却",
+      "actual": {
+        "1": 170000,
+        "3": 110000
+      },
+      "expected": {
+        "1": 170000,
+        "3": 110000
+      }
+    }
+  ],
+  "operationChecks": [
+    {
+      "skillKey": "senna_p",
+      "formulaKey": "bonus_on_hit_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "formulaKey": "soul_attack_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "formulaKey": "self_move_speed_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "formulaKey": "self_move_speed_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_p",
+      "formulaKey": "current_soul_bonus",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_w",
+      "formulaKey": "self_shield",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_w",
+      "formulaKey": "self_shield",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_min",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "formulaKey": "active_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "formulaKey": "active_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "formulaKey": "one_enemy_storage_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "formulaKey": "one_enemy_storage_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "formulaKey": "damage_storage_max",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "formulaKey": "damage_storage_max",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "formulaKey": "mana_refund_amount",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_w",
+      "formulaKey": "move_speed_bonus_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_w",
+      "formulaKey": "move_speed_bonus_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "formulaKey": "stun_duration_ms",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "formulaKey": "stun_duration_ms",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    }
+  ],
+  "integerChecks": [
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_1_5_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_6_10_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_11_18_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000,
+        1250,
+        1500,
+        1750,
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "parameterKey": "root_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1250,
+        1500,
+        1750,
+        2000,
+        2250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "parameterKey": "delay_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "buff_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000,
+        6500,
+        7000,
+        7500,
+        8000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "duration_before_restealth_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_linger_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_arm_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "spell_cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "post_cast_animation_lock_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "parameterKey": "control_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "parameterKey": "hit_bonus_cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_w",
+      "parameterKey": "shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_w",
+      "parameterKey": "lantern_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "full_charge_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        10000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "remaining_wall_slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "wall_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "min_charge_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "max_charge_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "charge_time_to_max_range_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_w",
+      "parameterKey": "camo_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "base_stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "stun_delay_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        275
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "recast_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        20000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_q",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000,
+        1250,
+        1500,
+        1750,
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        425
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        170000,
+        140000,
+        110000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "recast_window_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000,
+        8000,
+        10000
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "teleport_channel_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    }
+  ],
+  "finiteChecks": [
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "ad_per_soul",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "souls_for_bonus",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "bonus_range_points",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "bonus_crit_chance_percent_points",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "crit_damage_mod_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "crit_to_lifesteal_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "bonus_on_hit_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_level_1_5_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_level_6_8_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_level_9_18_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "current_health_damage_level1_percent_points",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "current_health_damage_initial_bonus_per_level_percent_points",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "current_health_damage_breakpoint_level",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "current_health_damage_percent_points_at_character_level",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_1_5_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_6_10_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_11_18_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_breakpoint_1_level",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_breakpoint_2_level",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_p",
+      "parameterKey": "critical_damage_ratio_input",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "base_heal",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "heal_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "heal_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "bonus_ad_damage_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "base_slow_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "slow_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "slow_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "cooldown_reduction_on_hit_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_q",
+      "parameterKey": "autoattack_cast_time_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "parameterKey": "root_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "parameterKey": "delay_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "parameterKey": "mcast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_w",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "buff_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "movement_speed_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "ms_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "defense_radius",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "duration_before_restealth_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_linger_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_arm_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_radius",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "mcast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_e",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "damage",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "shield",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "shield_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "damage_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "damage_bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "shield_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "shield_soul_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "spell_cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "senna_r",
+      "parameterKey": "post_cast_animation_lock_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_p",
+      "parameterKey": "stat_value_per_soul",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_p",
+      "parameterKey": "souls_to_gain_on_pickup",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_p",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "parameterKey": "control_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "parameterKey": "slow_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "parameterKey": "hit_bonus_cooldown_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "parameterKey": "mcast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_q",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_w",
+      "parameterKey": "base_shield",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_w",
+      "parameterKey": "shield_per_soul",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_w",
+      "parameterKey": "shield_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_w",
+      "parameterKey": "lantern_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_w",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "passive_damage_per_soul",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "passive_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "active_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "active_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "active_slow_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "full_charge_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_e",
+      "parameterKey": "cast_time_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "damage",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "slow_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "remaining_wall_slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "wall_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "thresh_r",
+      "parameterKey": "mcast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "parameterKey": "one_enemy_base_storage_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "parameterKey": "one_enemy_lethality_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "parameterKey": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "parameterKey": "storage_max_base",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "parameterKey": "storage_max_bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_p",
+      "parameterKey": "hp_per_bonus_ad",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "slow_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "mana_refund_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "actual_mana_spent",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "min_charge_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "max_charge_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "self_slow_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "pull_distance",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "min_range",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "max_range",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "charge_time_to_max_range_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_q",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_w",
+      "parameterKey": "base_move_speed_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_w",
+      "parameterKey": "lethality_move_speed_ratio_per_point",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_w",
+      "parameterKey": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_w",
+      "parameterKey": "camo_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "base_stun_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "lethality_stun_bonus_ms_per_point",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "dash_distance",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "stun_delay_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_e",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "recast_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "reduced_damage_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_base_damage_level1",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_1_level",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_1_bonus_per_level",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_2_level",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_2_bonus_per_level",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_3_level",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_3_bonus_per_level",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_4_level",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_4_bonus_per_level",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "r_base_damage_at_character_level",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "lethality_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "pyke_r",
+      "parameterKey": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_q",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_q",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_q",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "blue_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "total_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "blue_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "blue_crit_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_crit_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_crit_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "critical_effectiveness_input",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "blue_mana_restore",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_slow_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_stun_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_w",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_e",
+      "parameterKey": "attack_speed_bonus_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_e",
+      "parameterKey": "bonus_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_e",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_e",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_e",
+      "parameterKey": "fourth_attack_count",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "cooldown_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "mana_cost",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "recast_window_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "teleport_distance",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "teleport_channel_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "twistedfate_r",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    }
+  ],
+  "checks": [
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_p",
+      "formulaKey": "bonus_on_hit_damage",
+      "case": 1,
+      "expected": 26.00000039,
+      "actual": 26,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_p",
+      "formulaKey": "bonus_on_hit_damage",
+      "case": 2,
+      "expected": 52.00000077,
+      "actual": 52,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_p",
+      "formulaKey": "bonus_on_hit_damage",
+      "input": "attack_damage:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_p",
+      "formulaKey": "soul_attack_damage",
+      "case": 1,
+      "expected": 9,
+      "actual": 9,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_p",
+      "formulaKey": "soul_attack_damage",
+      "case": 2,
+      "expected": 64.5,
+      "actual": 64.5,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "senna_p",
+      "formulaKey": "soul_attack_damage",
+      "input": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_q",
+      "formulaKey": "enemy_physical_damage",
+      "case": 1,
+      "expected": 57.00000107,
+      "actual": 57.0000009,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_q",
+      "formulaKey": "enemy_physical_damage",
+      "case": 2,
+      "expected": 202.00000286,
+      "actual": 202.0000024,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_q",
+      "formulaKey": "enemy_physical_damage",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "case": 1,
+      "expected": 85.99999979,
+      "actual": 85.99999965,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "case": 2,
+      "expected": 243.24999943,
+      "actual": 243.24999905,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "case": 1,
+      "expected": 0.2735,
+      "actual": 0.27350001,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "case": 2,
+      "expected": 0.4805,
+      "actual": 0.48050001,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_w",
+      "formulaKey": "enemy_physical_damage",
+      "case": 1,
+      "expected": 110.49999893,
+      "actual": 110.4999991,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_w",
+      "formulaKey": "enemy_physical_damage",
+      "case": 2,
+      "expected": 337.99999714,
+      "actual": 337.9999976,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_w",
+      "formulaKey": "enemy_physical_damage",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_e",
+      "formulaKey": "self_move_speed_ratio",
+      "case": 1,
+      "expected": 0.24,
+      "actual": 0.24,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_e",
+      "formulaKey": "self_move_speed_ratio",
+      "case": 2,
+      "expected": 0.30750001,
+      "actual": 0.3075,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_e",
+      "formulaKey": "self_move_speed_ratio",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "case": 1,
+      "expected": 357.74999797,
+      "actual": 357.7499983,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "case": 2,
+      "expected": 838.49999458,
+      "actual": 838.49999545,
+      "pass": true,
+      "inputs": {
+        "rank": 3,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "case": 1,
+      "expected": 178,
+      "actual": 178,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "case": 2,
+      "expected": 436.5,
+      "actual": 436.5,
+      "pass": true,
+      "inputs": {
+        "rank": 3,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "input": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_p",
+      "formulaKey": "current_soul_bonus",
+      "case": 1,
+      "expected": 12,
+      "actual": 12,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_p",
+      "formulaKey": "current_soul_bonus",
+      "case": 2,
+      "expected": 86,
+      "actual": 86,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "thresh_p",
+      "formulaKey": "current_soul_bonus",
+      "input": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_q",
+      "formulaKey": "enemy_magic_damage",
+      "case": 1,
+      "expected": 171.99999809,
+      "actual": 171.9999984,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_q",
+      "formulaKey": "enemy_magic_damage",
+      "case": 2,
+      "expected": 493.49999487,
+      "actual": 493.4999957,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "thresh_q",
+      "formulaKey": "enemy_magic_damage",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_w",
+      "formulaKey": "self_shield",
+      "case": 1,
+      "expected": 74,
+      "actual": 74,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_w",
+      "formulaKey": "self_shield",
+      "case": 2,
+      "expected": 302,
+      "actual": 302,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "thresh_w",
+      "formulaKey": "self_shield",
+      "input": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_min",
+      "case": 1,
+      "expected": 20.40000057,
+      "actual": 20.4000006,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_min",
+      "case": 2,
+      "expected": 146.2000041,
+      "actual": 146.2000043,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_min",
+      "input": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "case": 1,
+      "expected": 137.39999747,
+      "actual": 137.399998,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "case": 2,
+      "expected": 692.19997931,
+      "actual": 692.1999783,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "input": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "input": "attack_damage:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_e",
+      "formulaKey": "active_magic_damage",
+      "case": 1,
+      "expected": 113.00000191,
+      "actual": 113.0000016,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_e",
+      "formulaKey": "active_magic_damage",
+      "case": 2,
+      "expected": 374.00000513,
+      "actual": 374.0000043,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "thresh_e",
+      "formulaKey": "active_magic_damage",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_r",
+      "formulaKey": "enemy_magic_damage",
+      "case": 1,
+      "expected": 330,
+      "actual": 330,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "thresh_r",
+      "formulaKey": "enemy_magic_damage",
+      "case": 2,
+      "expected": 765,
+      "actual": 765,
+      "pass": true,
+      "inputs": {
+        "rank": 3,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "thresh_r",
+      "formulaKey": "enemy_magic_damage",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_p",
+      "formulaKey": "one_enemy_storage_ratio",
+      "case": 1,
+      "expected": 0.12600001,
+      "actual": 0.126,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_p",
+      "formulaKey": "one_enemy_storage_ratio",
+      "case": 2,
+      "expected": 0.17600001,
+      "actual": 0.176,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "pyke_p",
+      "formulaKey": "one_enemy_storage_ratio",
+      "input": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_p",
+      "formulaKey": "damage_storage_max",
+      "case": 1,
+      "expected": 440,
+      "actual": 440,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_p",
+      "formulaKey": "damage_storage_max",
+      "case": 2,
+      "expected": 1040,
+      "actual": 1040,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "pyke_p",
+      "formulaKey": "damage_storage_max",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_q",
+      "formulaKey": "enemy_physical_damage",
+      "case": 1,
+      "expected": 133.75,
+      "actual": 133.75,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_q",
+      "formulaKey": "enemy_physical_damage",
+      "case": 2,
+      "expected": 390,
+      "actual": 390,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "pyke_q",
+      "formulaKey": "enemy_physical_damage",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_q",
+      "formulaKey": "mana_refund_amount",
+      "case": 1,
+      "expected": 48,
+      "actual": 48,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_q",
+      "formulaKey": "mana_refund_amount",
+      "case": 2,
+      "expected": 89.25,
+      "actual": 89.25,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "pyke_q",
+      "formulaKey": "mana_refund_amount",
+      "input": "actual_mana_spent",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_w",
+      "formulaKey": "move_speed_bonus_ratio",
+      "case": 1,
+      "expected": 0.81,
+      "actual": 0.81,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_w",
+      "formulaKey": "move_speed_bonus_ratio",
+      "case": 2,
+      "expected": 1.31,
+      "actual": 1.31,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "pyke_w",
+      "formulaKey": "move_speed_bonus_ratio",
+      "input": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_e",
+      "formulaKey": "enemy_physical_damage",
+      "case": 1,
+      "expected": 145,
+      "actual": 145,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_e",
+      "formulaKey": "enemy_physical_damage",
+      "case": 2,
+      "expected": 420,
+      "actual": 420,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "pyke_e",
+      "formulaKey": "enemy_physical_damage",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_e",
+      "formulaKey": "stun_duration_ms",
+      "case": 1,
+      "expected": 1429.99999598,
+      "actual": 1430,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_e",
+      "formulaKey": "stun_duration_ms",
+      "case": 2,
+      "expected": 1679.99999039,
+      "actual": 1680,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "pyke_e",
+      "formulaKey": "stun_duration_ms",
+      "input": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "case": 1,
+      "expected": 313.00000054,
+      "actual": 313.00000045,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "case": 2,
+      "expected": 780.50000143,
+      "actual": 780.5000012,
+      "pass": true,
+      "inputs": {
+        "rank": 3,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "input": "r_base_damage_at_character_level",
+      "pass": true
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "input": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "case": 1,
+      "expected": 156.50000027,
+      "actual": 156.50000023,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "case": 2,
+      "expected": 390.25000072,
+      "actual": 390.2500006,
+      "pass": true,
+      "inputs": {
+        "rank": 3,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "input": "r_base_damage_at_character_level",
+      "pass": true
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "input": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "case": 1,
+      "expected": 150.50000191,
+      "actual": 150.5000016,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "case": 2,
+      "expected": 482.75000513,
+      "actual": 482.7500043,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "case": 1,
+      "expected": 300.31249896,
+      "actual": 300.31249912,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "case": 2,
+      "expected": 1005.54999149,
+      "actual": 1005.54999286,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "input": "critical_effectiveness_input",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "input": "attack_damage:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "case": 1,
+      "expected": 242.45999848,
+      "actual": 242.45999835,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "case": 2,
+      "expected": 710.70999278,
+      "actual": 710.70999094,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "input": "critical_effectiveness_input",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "input": "attack_damage:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "case": 1,
+      "expected": 201.1875,
+      "actual": 201.1875,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "case": 2,
+      "expected": 536.25,
+      "actual": 536.25,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-runtime-input-rejection",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "input": "critical_effectiveness_input",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "input": "attack_damage:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "case": 1,
+      "expected": 106.00000061,
+      "actual": 106.0000008,
+      "pass": true,
+      "inputs": {
+        "rank": 1,
+        "ability_power": 80,
+        "attack_damage_total": 130,
+        "attack_damage_bonus": 45,
+        "soul_count": 12,
+        "lethality_points_input": 18,
+        "actual_mana_spent": 64,
+        "r_base_damage_at_character_level": 250,
+        "critical_effectiveness_input": 0.35,
+        "current_health_damage_percent_points_at_character_level": 1,
+        "level_move_speed_ratio_at_character_level": 0.25
+      }
+    },
+    {
+      "kind": "source-vs-candidate",
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "case": 2,
+      "expected": 275.00000164,
+      "actual": 275.00000215,
+      "pass": true,
+      "inputs": {
+        "rank": 5,
+        "ability_power": 215,
+        "attack_damage_total": 260,
+        "attack_damage_bonus": 120,
+        "soul_count": 86,
+        "lethality_points_input": 43,
+        "actual_mana_spent": 119,
+        "r_base_damage_at_character_level": 620,
+        "critical_effectiveness_input": 1.2,
+        "current_health_damage_percent_points_at_character_level": 18,
+        "level_move_speed_ratio_at_character_level": 0.58
+      }
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "input": "attack_damage:BONUS",
+      "pass": true
+    },
+    {
+      "kind": "missing-attribute-rejection",
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "input": "ability_power:TOTAL",
+      "pass": true
+    },
+    {
+      "kind": "source-boundary",
+      "name": "赛娜Q一级伤害索引",
+      "actual": {
+        "1": 30,
+        "5": 130
+      },
+      "expected": {
+        "1": 30,
+        "5": 130
+      },
+      "pass": true
+    },
+    {
+      "kind": "source-boundary",
+      "name": "赛娜Q一级治疗索引",
+      "actual": {
+        "1": 40,
+        "5": 120
+      },
+      "expected": {
+        "1": 40,
+        "5": 120
+      },
+      "pass": true
+    },
+    {
+      "kind": "source-boundary",
+      "name": "赛娜R前三等级伤害",
+      "actual": {
+        "1": 250,
+        "3": 550
+      },
+      "expected": {
+        "1": 250,
+        "3": 550
+      },
+      "pass": true
+    },
+    {
+      "kind": "source-boundary",
+      "name": "赛娜R前三等级护盾",
+      "actual": {
+        "1": 120,
+        "3": 200
+      },
+      "expected": {
+        "1": 120,
+        "3": 200
+      },
+      "pass": true
+    },
+    {
+      "kind": "source-boundary",
+      "name": "锤石E主动减速比例",
+      "actual": {
+        "1": 0.2,
+        "5": 0.4
+      },
+      "expected": {
+        "1": 0.2,
+        "5": 0.4
+      },
+      "pass": true
+    },
+    {
+      "kind": "source-boundary",
+      "name": "派克E伤害首项",
+      "actual": {
+        "1": 100,
+        "5": 300
+      },
+      "expected": {
+        "1": 100,
+        "5": 300
+      },
+      "pass": true
+    },
+    {
+      "kind": "source-boundary",
+      "name": "崔斯特W金牌基础伤害",
+      "actual": {
+        "1": 15,
+        "5": 45
+      },
+      "expected": {
+        "1": 15,
+        "5": 45
+      },
+      "pass": true
+    },
+    {
+      "kind": "source-boundary",
+      "name": "崔斯特W完整暴击系数",
+      "actual": 0.25,
+      "expected": 0.25,
+      "pass": true
+    },
+    {
+      "kind": "source-boundary",
+      "name": "崔斯特R冷却",
+      "actual": {
+        "1": 170000,
+        "3": 110000
+      },
+      "expected": {
+        "1": 170000,
+        "3": 110000
+      },
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_p",
+      "formulaKey": "bonus_on_hit_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_p",
+      "formulaKey": "soul_attack_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "self_heal",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_q",
+      "formulaKey": "slow_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_w",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_w",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_e",
+      "formulaKey": "self_move_speed_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_e",
+      "formulaKey": "self_move_speed_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_r",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "senna_r",
+      "formulaKey": "self_shield",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_p",
+      "formulaKey": "current_soul_bonus",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_w",
+      "formulaKey": "self_shield",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_w",
+      "formulaKey": "self_shield",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_min",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_e",
+      "formulaKey": "passive_damage_max",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_e",
+      "formulaKey": "active_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_e",
+      "formulaKey": "active_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_r",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "thresh_r",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_p",
+      "formulaKey": "one_enemy_storage_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_p",
+      "formulaKey": "one_enemy_storage_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_p",
+      "formulaKey": "damage_storage_max",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_p",
+      "formulaKey": "damage_storage_max",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_q",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_q",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_q",
+      "formulaKey": "mana_refund_amount",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_w",
+      "formulaKey": "move_speed_bonus_ratio",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_w",
+      "formulaKey": "move_speed_bonus_ratio",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_e",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_e",
+      "formulaKey": "enemy_physical_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_e",
+      "formulaKey": "stun_duration_ms",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_e",
+      "formulaKey": "stun_duration_ms",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_r",
+      "formulaKey": "execute_threshold_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "pyke_r",
+      "formulaKey": "reduced_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_q",
+      "formulaKey": "enemy_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "blue_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "red_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_w",
+      "formulaKey": "gold_card_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "operation": "ADD",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "binary-operation",
+      "skillKey": "twistedfate_e",
+      "formulaKey": "fourth_attack_magic_damage",
+      "operation": "MULTIPLY",
+      "operandCount": 2,
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_1_5_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_6_10_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_11_18_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_q",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000,
+        1250,
+        1500,
+        1750,
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_w",
+      "parameterKey": "root_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1250,
+        1500,
+        1750,
+        2000,
+        2250
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_w",
+      "parameterKey": "delay_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_e",
+      "parameterKey": "buff_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000,
+        6500,
+        7000,
+        7500,
+        8000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_e",
+      "parameterKey": "duration_before_restealth_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_linger_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3500
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_arm_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_r",
+      "parameterKey": "shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_r",
+      "parameterKey": "spell_cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "senna_r",
+      "parameterKey": "post_cast_animation_lock_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "thresh_q",
+      "parameterKey": "control_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "thresh_q",
+      "parameterKey": "hit_bonus_cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "thresh_w",
+      "parameterKey": "shield_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "thresh_w",
+      "parameterKey": "lantern_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "thresh_e",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "thresh_e",
+      "parameterKey": "full_charge_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        10000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "thresh_r",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "thresh_r",
+      "parameterKey": "remaining_wall_slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "thresh_r",
+      "parameterKey": "wall_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        4000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "pyke_q",
+      "parameterKey": "slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "pyke_q",
+      "parameterKey": "min_charge_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        500
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "pyke_q",
+      "parameterKey": "max_charge_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        3000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "pyke_q",
+      "parameterKey": "charge_time_to_max_range_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "pyke_w",
+      "parameterKey": "camo_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        5000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "pyke_e",
+      "parameterKey": "base_stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1250
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "pyke_e",
+      "parameterKey": "stun_delay_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "pyke_e",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        275
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "pyke_r",
+      "parameterKey": "recast_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        20000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "twistedfate_q",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_slow_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        2500
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_stun_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1000,
+        1250,
+        1500,
+        1750,
+        2000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        425
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "cooldown_ms",
+      "valueType": "INTEGER",
+      "values": [
+        170000,
+        140000,
+        110000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "recast_window_ms",
+      "valueType": "INTEGER",
+      "values": [
+        6000,
+        8000,
+        10000
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "teleport_channel_duration_ms",
+      "valueType": "INTEGER",
+      "values": [
+        1500
+      ],
+      "pass": true
+    },
+    {
+      "kind": "integer-millisecond",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "cast_time_ms",
+      "valueType": "INTEGER",
+      "values": [
+        250
+      ],
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "ad_per_soul",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "souls_for_bonus",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "bonus_range_points",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "bonus_crit_chance_percent_points",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "crit_damage_mod_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "crit_to_lifesteal_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "bonus_on_hit_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_level_1_5_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_level_6_8_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_level_9_18_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "move_speed_steal_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "current_health_damage_level1_percent_points",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "current_health_damage_initial_bonus_per_level_percent_points",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "current_health_damage_breakpoint_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "current_health_damage_percent_points_at_character_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_1_5_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_6_10_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_interval_level_11_18_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_breakpoint_1_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "soul_absorption_breakpoint_2_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_p",
+      "parameterKey": "critical_damage_ratio_input",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "base_heal",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "heal_ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "heal_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "bonus_ad_damage_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "base_slow_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "slow_ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "slow_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "cooldown_reduction_on_hit_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_q",
+      "parameterKey": "autoattack_cast_time_multiplier",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_w",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_w",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_w",
+      "parameterKey": "root_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_w",
+      "parameterKey": "delay_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_w",
+      "parameterKey": "mcast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_w",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "buff_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "movement_speed_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "ms_ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "defense_radius",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "duration_before_restealth_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_linger_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_arm_time_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "smoke_radius",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "mcast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_e",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "shield",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "shield_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "damage_ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "damage_bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "shield_ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "shield_soul_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "spell_cast_time_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "senna_r",
+      "parameterKey": "post_cast_animation_lock_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_p",
+      "parameterKey": "stat_value_per_soul",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_p",
+      "parameterKey": "souls_to_gain_on_pickup",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_p",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_q",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_q",
+      "parameterKey": "control_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_q",
+      "parameterKey": "slow_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_q",
+      "parameterKey": "hit_bonus_cooldown_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_q",
+      "parameterKey": "mcast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_q",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_w",
+      "parameterKey": "base_shield",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_w",
+      "parameterKey": "shield_per_soul",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_w",
+      "parameterKey": "shield_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_w",
+      "parameterKey": "lantern_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_w",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_e",
+      "parameterKey": "passive_damage_per_soul",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_e",
+      "parameterKey": "soul_count",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_e",
+      "parameterKey": "passive_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_e",
+      "parameterKey": "active_base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_e",
+      "parameterKey": "active_ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_e",
+      "parameterKey": "active_slow_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_e",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_e",
+      "parameterKey": "full_charge_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_e",
+      "parameterKey": "cast_time_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_r",
+      "parameterKey": "damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_r",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_r",
+      "parameterKey": "slow_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_r",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_r",
+      "parameterKey": "remaining_wall_slow_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_r",
+      "parameterKey": "wall_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_r",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "thresh_r",
+      "parameterKey": "mcast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_p",
+      "parameterKey": "one_enemy_base_storage_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_p",
+      "parameterKey": "one_enemy_lethality_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_p",
+      "parameterKey": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_p",
+      "parameterKey": "storage_max_base",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_p",
+      "parameterKey": "storage_max_bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_p",
+      "parameterKey": "hp_per_bonus_ad",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "slow_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "mana_refund_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "actual_mana_spent",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "min_charge_time_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "max_charge_time_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "self_slow_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "pull_distance",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "min_range",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "max_range",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "charge_time_to_max_range_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_q",
+      "parameterKey": "spell_cast_time_source_seconds",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_w",
+      "parameterKey": "base_move_speed_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_w",
+      "parameterKey": "lethality_move_speed_ratio_per_point",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_w",
+      "parameterKey": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_w",
+      "parameterKey": "camo_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_e",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_e",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_e",
+      "parameterKey": "base_stun_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_e",
+      "parameterKey": "lethality_stun_bonus_ms_per_point",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_e",
+      "parameterKey": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_e",
+      "parameterKey": "dash_distance",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_e",
+      "parameterKey": "stun_delay_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_e",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "recast_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "reduced_damage_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_base_damage_level1",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_1_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_1_bonus_per_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_2_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_2_bonus_per_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_3_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_3_bonus_per_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_4_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_breakpoint_4_bonus_per_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "r_base_damage_at_character_level",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "lethality_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "pyke_r",
+      "parameterKey": "lethality_points_input",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_q",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_q",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_q",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "blue_base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_base_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "total_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "blue_ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "blue_crit_multiplier",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_crit_multiplier",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_crit_multiplier",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "critical_effectiveness_input",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "blue_mana_restore",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_slow_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "red_slow_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "gold_stun_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_w",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_e",
+      "parameterKey": "attack_speed_bonus_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_e",
+      "parameterKey": "bonus_damage",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_e",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_e",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_e",
+      "parameterKey": "fourth_attack_count",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "cooldown_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "mana_cost",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "recast_window_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "teleport_distance",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "teleport_channel_duration_ms",
+      "pass": true
+    },
+    {
+      "kind": "finite-number",
+      "skillKey": "twistedfate_r",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    }
+  ],
+  "failureSample": []
+}

@@ -1,0 +1,1150 @@
+{
+  "champion": "Annie",
+  "source": {
+    "champion": "Annie",
+    "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/annie/annie.bin.json",
+    "retrievalMethod": "fetched_now",
+    "observedAt": "2026-09-07T15:48:40.414Z",
+    "byteSize": 57093,
+    "sha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961",
+    "jsonParsed": true,
+    "note": "CommunityDragon 16.17 客户端提取（社区提取，不称 Riot 官方 API）；与 DDragon 16.17.1 不混称同一微版本。"
+  },
+  "ddragonVersion": "16.17.1",
+  "objectCount": 13,
+  "slots": {
+    "P": {
+      "primary": {
+        "path": "Characters/Annie/Spells/AnniePassiveAbility/AnniePassive",
+        "score": 30,
+        "objectName": "AnniePassive",
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "mBuff",
+          "__type"
+        ],
+        "mSpell": {
+          "dataValues": [
+            {
+              "name": "MaxStacks",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "StunBaseDuration",
+              "values": [
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "StunDurationPerTier",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            }
+          ],
+          "dataValuesModeOverride": {
+            "cherry": {
+              "SpellDataValues": [
+                {
+                  "name": "StunBaseDuration",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "__type": "SpellDataValueVector"
+            }
+          },
+          "spellCalculations": {
+            "StunDuration": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "ByCharLevelBreakpointsCalculationPart",
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": 0.25,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": 0.25,
+                      "__type": "Breakpoint"
+                    }
+                  ]
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            }
+          },
+          "cooldownTime": null,
+          "mana": null,
+          "cost": null,
+          "spellCastTime": null,
+          "channelDuration": null,
+          "castRange": null,
+          "castRangeDisplayOverride": null,
+          "missileSpeed": null,
+          "mLineWidth": null,
+          "mCoefficient": null,
+          "mCoefficient2": null
+        }
+      },
+      "alternatePaths": [
+        {
+          "path": "Characters/Annie/Spells/AnniePassiveAbility/AnniePassive",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "mBuff",
+            "__type"
+          ]
+        }
+      ],
+      "ddragon": {
+        "id": null,
+        "name": "嗜火",
+        "description": "在施放4个技能后，安妮的下一次伤害类技能就会对目标造成短暂的晕眩效果。<br><br>安妮在游戏开始时和重生时，会带着满层的【嗜火】。"
+      }
+    },
+    "Q": {
+      "primary": {
+        "path": "Characters/Annie/Spells/AnnieQAbility/AnnieQ",
+        "score": 30,
+        "objectName": "AnnieQ",
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "BotData",
+          "__type"
+        ],
+        "mSpell": {
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                35,
+                80,
+                125,
+                170,
+                215,
+                260,
+                305
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            }
+          ],
+          "dataValuesModeOverride": {
+            "cherry": {
+              "SpellDataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    25,
+                    60,
+                    95,
+                    130,
+                    165,
+                    200,
+                    235
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "__type": "SpellDataValueVector"
+            }
+          },
+          "spellCalculations": {
+            "TotalDamage": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "APRatio"
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            }
+          },
+          "cooldownTime": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "cost": null,
+          "spellCastTime": 0.25,
+          "channelDuration": null,
+          "castRange": [
+            625,
+            625,
+            625,
+            625,
+            625,
+            625,
+            625
+          ],
+          "castRangeDisplayOverride": null,
+          "missileSpeed": 1400,
+          "mLineWidth": null,
+          "mCoefficient": 0.800000011920929,
+          "mCoefficient2": null
+        }
+      },
+      "alternatePaths": [
+        {
+          "path": "Characters/Annie/Spells/AnnieQAbility/AnnieQ",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "BotData",
+            "__type"
+          ]
+        }
+      ],
+      "ddragon": {
+        "id": "AnnieQ",
+        "name": "碎裂之火",
+        "maxrank": 5,
+        "cooldown": [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "cost": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "range": [
+          625,
+          625,
+          625,
+          625,
+          625
+        ],
+        "description": "安妮向目标投出注入了法力值的火球，对目标造成魔法伤害。如果目标死于碎裂之火，则碎裂之火消耗的法力值会返还给安妮，且碎裂之火的冷却时间减半。",
+        "tooltip": "安妮投出一团火球，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。如果目标阵亡，那么安妮会返还法力值并缩短50%冷却时间。{{ spellmodifierdescriptionappend }}"
+      }
+    },
+    "W": {
+      "primary": {
+        "path": "Characters/Annie/Spells/AnnieWAbility/AnnieW",
+        "score": 30,
+        "objectName": "AnnieW",
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "BotData",
+          "__type"
+        ],
+        "mSpell": {
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                70,
+                110,
+                150,
+                190,
+                230,
+                270
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            }
+          ],
+          "dataValuesModeOverride": {
+            "cherry": {
+              "SpellDataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    20,
+                    60,
+                    100,
+                    140,
+                    180,
+                    220,
+                    260
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "__type": "SpellDataValueVector"
+            }
+          },
+          "spellCalculations": {
+            "TotalDamage": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "APRatio"
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            }
+          },
+          "cooldownTime": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "mana": [
+            70,
+            75,
+            80,
+            85,
+            90,
+            95
+          ],
+          "cost": null,
+          "spellCastTime": 0.25,
+          "channelDuration": null,
+          "castRange": [
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600
+          ],
+          "castRangeDisplayOverride": null,
+          "missileSpeed": null,
+          "mLineWidth": null,
+          "mCoefficient": 0.8500000238418579,
+          "mCoefficient2": null
+        }
+      },
+      "alternatePaths": [
+        {
+          "path": "Characters/Annie/Spells/AnnieWAbility/AnnieW",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "BotData",
+            "__type"
+          ]
+        }
+      ],
+      "ddragon": {
+        "id": "AnnieW",
+        "name": "焚烧",
+        "maxrank": 5,
+        "cooldown": [
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "cost": [
+          70,
+          75,
+          80,
+          85,
+          90
+        ],
+        "range": [
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "description": "安妮向锥形区域施放一道烈焰，对区域内的所有敌人造成伤害。",
+        "tooltip": "安妮投射出一阵火焰波，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}"
+      }
+    },
+    "E": {
+      "primary": {
+        "path": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
+        "score": 30,
+        "objectName": "AnnieE",
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "mBuff",
+          "BotData",
+          "__type"
+        ],
+        "mSpell": {
+          "dataValues": [
+            {
+              "name": "ShieldDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "DamageReduction",
+              "values": [
+                9,
+                13,
+                17,
+                21,
+                25,
+                29,
+                33
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "DamageReflection",
+              "values": [
+                15,
+                25,
+                35,
+                45,
+                55,
+                65,
+                75
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "MovementSpeed",
+              "values": [
+                0.10000000149011612,
+                0.15000000596046448,
+                0.20000000298023224,
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "MovementSpeedDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "ShieldAmount",
+              "values": [
+                25,
+                60,
+                95,
+                130,
+                165,
+                200,
+                235
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "CastRangeGenerosity",
+              "values": [
+                225,
+                225,
+                225,
+                225,
+                225,
+                225,
+                225
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            }
+          ],
+          "dataValuesModeOverride": null,
+          "spellCalculations": {
+            "DamageReturn": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "DamageReflection"
+                },
+                {
+                  "type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.4000000059604645
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            },
+            "MoveSpeedCalc": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "ByCharLevelInterpolationCalculationPart",
+                  "mStartValue": 0.20000000298023224,
+                  "mEndValue": 0.5
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            },
+            "ShieldBlockTotal": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "ShieldAmount"
+                },
+                {
+                  "type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.4000000059604645
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            }
+          },
+          "cooldownTime": null,
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "cost": null,
+          "spellCastTime": null,
+          "channelDuration": null,
+          "castRange": [
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "castRangeDisplayOverride": null,
+          "missileSpeed": null,
+          "mLineWidth": null,
+          "mCoefficient": 0.20000000298023224,
+          "mCoefficient2": null
+        }
+      },
+      "alternatePaths": [
+        {
+          "path": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "mBuff",
+            "BotData",
+            "__type"
+          ]
+        }
+      ],
+      "ddragon": {
+        "id": "AnnieE",
+        "name": "熔岩护盾",
+        "maxrank": 5,
+        "cooldown": [
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "cost": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "range": [
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "description": "为安妮或一名友军提供一层护盾、一个爆发性的移动速度加成并且对任何用攻击或技能袭击她的敌人造成伤害。",
+        "tooltip": "安妮为一名友方英雄提供持续{{ shieldduration }}秒的<shield>{{ shieldblocktotal }}护盾值</shield>，以及在{{ movementspeedduration }}秒里持续衰减的<speed>{{ movespeedcalc }}移动速度</speed>。当护盾处于激活状态时，敌人用攻击或技能对护盾造成伤害时会受到<magicDamage>{{ damagereturn }}魔法伤害</magicDamage>，每个护盾受到一次伤害。<br /><br />提伯斯在被召唤出来时总会获得<spellName>熔岩护盾</spellName>的效果。{{ spellmodifierdescriptionappend }}"
+      }
+    },
+    "R": {
+      "primary": {
+        "path": "Characters/Annie/Spells/AnnieRAbility/AnnieR",
+        "score": 30,
+        "objectName": "AnnieR",
+        "keys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "BotData",
+          "__type"
+        ],
+        "mSpell": {
+          "dataValues": [
+            {
+              "name": "InitialDamage",
+              "values": [
+                25,
+                150,
+                275,
+                400,
+                525,
+                650,
+                775
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "AuraDamage",
+              "values": [
+                4,
+                8,
+                12,
+                16,
+                20,
+                24,
+                28
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "TibbersAttackDamage",
+              "values": [
+                15,
+                30,
+                45,
+                60,
+                75,
+                90,
+                105
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "TibbersAttackSpeedDecay",
+              "values": [
+                -0.10000000149011612,
+                -0.10000000149011612,
+                -0.10000000149011612,
+                -0.10000000149011612,
+                -0.10000000149011612,
+                -0.10000000149011612,
+                -0.10000000149011612
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "TibbersAttackAPRatio",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "MovespeedBurst",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "EnrageDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "AvengerEnrageDuration",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "TibbersLifetime",
+              "values": [
+                45,
+                45,
+                45,
+                45,
+                45,
+                45,
+                45
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "TibbersBonusMS",
+              "values": [
+                -25,
+                0,
+                25,
+                50,
+                75,
+                100,
+                125
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "TibbersModeSpecificHPMod",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            },
+            {
+              "name": "RPercentPenBuff",
+              "values": [
+                0.05000000074505806,
+                0.10000000149011612,
+                0.15000000596046448,
+                0.20000000298023224,
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355
+              ],
+              "valuesP2": null,
+              "valuesP3": null
+            }
+          ],
+          "dataValuesModeOverride": {
+            "cherry": {
+              "SpellDataValues": [
+                {
+                  "name": "TibbersAttackAPRatio",
+                  "values": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "InitialDamage",
+                  "values": [
+                    25,
+                    125,
+                    225,
+                    325,
+                    425,
+                    525,
+                    625
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TibbersAttackDamage",
+                  "values": [
+                    0,
+                    25,
+                    50,
+                    75,
+                    100,
+                    125,
+                    150
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "AuraDamage",
+                  "values": [
+                    10,
+                    15,
+                    20,
+                    25,
+                    30,
+                    35,
+                    40
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TibbersModeSpecificHPMod",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "__type": "SpellDataValueVector"
+            }
+          },
+          "spellCalculations": {
+            "InitialBurstDamage": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "InitialDamage"
+                },
+                {
+                  "type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.75
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            },
+            "TibbersAuraDamage": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "AuraDamage"
+                },
+                {
+                  "type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.03999999910593033
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            },
+            "TibbersAADamage": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "NamedDataValueCalculationPart",
+                  "mDataValue": "TibbersAttackDamage"
+                },
+                {
+                  "type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "TibbersAttackAPRatio"
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            },
+            "TibbersTotalHP": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "ProductOfSubPartsCalculationPart"
+                },
+                {
+                  "type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.5
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            },
+            "TibbersTotalResists": {
+              "type": "GameCalculation",
+              "formulaParts": [
+                {
+                  "type": "ByCharLevelBreakpointsCalculationPart",
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 7,
+                      "mBonusPerLevelAtAndAfter": 5,
+                      "__type": "Breakpoint"
+                    }
+                  ]
+                }
+              ],
+              "multiplier": null,
+              "result": null
+            }
+          },
+          "cooldownTime": [
+            130,
+            130,
+            115,
+            100,
+            100,
+            100,
+            100
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "cost": null,
+          "spellCastTime": 0.25,
+          "channelDuration": null,
+          "castRange": [
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600
+          ],
+          "castRangeDisplayOverride": null,
+          "missileSpeed": null,
+          "mLineWidth": null,
+          "mCoefficient": null,
+          "mCoefficient2": null
+        }
+      },
+      "alternatePaths": [
+        {
+          "path": "Characters/Annie/Spells/AnnieRAbility/AnnieR",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "BotData",
+            "__type"
+          ]
+        },
+        {
+          "path": "Characters/Annie/Spells/AnnieRAbility/AnnieRController",
+          "score": "alt",
+          "keys": [
+            "ObjectName",
+            "objectPath",
+            "mScriptName",
+            "mSpell",
+            "mBuff",
+            "BotData",
+            "__type"
+          ]
+        }
+      ],
+      "ddragon": {
+        "id": "AnnieR",
+        "name": "提伯斯之怒",
+        "maxrank": 3,
+        "cooldown": [
+          130,
+          115,
+          100
+        ],
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "range": [
+          600,
+          600,
+          600
+        ],
+        "description": "安妮召唤地狱火泰迪：提伯斯为其作战，对目标区域造成伤害，提伯斯也会攻击和烧伤站在它周围的敌人。",
+        "tooltip": "<spellPassive>被动：</spellPassive>安妮获得<magicPen>{{ rpercentpenbuff*100 }}%法术穿透</magicPen>。<br /><br />安妮召唤提伯斯，造成<magicDamage>{{ initialburstdamage }}魔法伤害</magicDamage>。在接下来的{{ tibberslifetime }}秒里，提伯斯会灼烧附近的敌人，<magicDamage>每秒造成{{ tibbersauradamage }}魔法伤害</magicDamage>。<br /><br />提伯斯在以下情况下会变得暴怒：在被召唤出来时、在安妮晕眩一名敌方英雄时、以及在安妮阵亡时。在暴怒状态下，提伯斯获得<attackSpeed>275%攻击速度</attackSpeed>和在3秒里持续衰减的<speed>100%移动速度</speed>。<br /><br /><recast>再次施放：</recast>手动给提伯斯下达指令。{{ spellmodifierdescriptionappend }}"
+      }
+    }
+  }
+}

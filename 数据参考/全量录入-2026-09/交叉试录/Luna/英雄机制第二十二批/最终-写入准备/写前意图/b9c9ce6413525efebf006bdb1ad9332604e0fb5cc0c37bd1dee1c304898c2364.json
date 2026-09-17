@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T13:45:08.022Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/leona_r/formulas",
+  "detailRoute": "/skills/leona_r/formulas/magic_damage",
+  "skillKey": "leona_r",
+  "kind": "formulas",
+  "stableKey": "magic_damage",
+  "body": {
+    "formulaKey": "magic_damage",
+    "name": "日炎耀斑魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "explosion_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "explosion_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "ExplosionCalculatedDamage=ExplosionBaseDamage+0.8×来源总法术强度；只建立数值公式。",
+    "sortOrder": 10
+  }
+}

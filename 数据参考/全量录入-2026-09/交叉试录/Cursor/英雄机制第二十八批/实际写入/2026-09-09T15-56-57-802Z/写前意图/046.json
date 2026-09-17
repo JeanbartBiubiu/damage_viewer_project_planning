@@ -1,0 +1,64 @@
+{
+  "i": 45,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/formulas",
+    "skillKey": "poppy_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage_per_hit",
+    "body": {
+      "formulaKey": "physical_damage_per_hit",
+      "name": "圣锤猛击单次物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "target_max_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "每一次正文伤害=基础+0.75×来源额外攻击力+目标最大生命比例×目标总生命。",
+      "sortOrder": 10
+    }
+  }
+}

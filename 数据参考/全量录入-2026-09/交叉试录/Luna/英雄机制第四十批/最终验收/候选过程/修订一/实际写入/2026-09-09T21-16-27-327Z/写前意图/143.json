@@ -1,0 +1,33 @@
+{
+  "i": 142,
+  "intent": {
+    "sequence": 143,
+    "method": "POST",
+    "route": "/skills/pyke_q/formulas",
+    "detailRoute": "/skills/pyke_q/formulas/mana_refund_amount",
+    "skillKey": "pyke_q",
+    "kind": "formulas",
+    "stableKey": "mana_refund_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "mana_refund_amount",
+      "name": "透骨尖钉条件法力返还",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mana_refund_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_mana_spent"
+          }
+        ]
+      },
+      "description": "只在命中英雄或引导未成功完成时返还，本次实际消耗是无默认运行输入。",
+      "sortOrder": 20
+    }
+  }
+}

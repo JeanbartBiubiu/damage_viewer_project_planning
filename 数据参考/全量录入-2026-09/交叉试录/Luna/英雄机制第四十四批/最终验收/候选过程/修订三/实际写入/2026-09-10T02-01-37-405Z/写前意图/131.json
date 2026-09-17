@@ -1,0 +1,23 @@
+{
+  "i": 130,
+  "intent": {
+    "sequence": 131,
+    "method": "POST",
+    "route": "/skills/yuumi_q/parameters",
+    "detailRoute": "/skills/yuumi_q/parameters/empowered_slow_duration_ms",
+    "skillKey": "yuumi_q",
+    "kind": "parameters",
+    "stableKey": "empowered_slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_slow_duration_ms",
+      "name": "强化减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "2秒转毫秒；当前正文明确强化分支。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/bonus_health_ratio",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "bonus_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_health_ratio",
+      "name": "撼地额外生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.03,
+      "levelValues": null,
+      "description": "AbilityDamage的mStat=12、mStatFormula=2；结合同版窄证映射为来源额外生命，使用SOURCE.hp.BONUS。",
+      "sortOrder": 70
+    }
+  }
+}

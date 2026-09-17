@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T07:23:52.884Z",
+  "method": "使用已发生实际流水的两个最终列表，独立提取新旧期望函数核对列表投影；业务写0，API GET0，未重放。完整公式表达式由写后详情和另一次独立回读验证。",
+  "originalWriterSha256": "45eeab1e3bcbbfc43420ea403ae0f7f3dd5293d17dca001f250fe9c610806d11",
+  "correctedWriterSha256": "9e462486aaf5e481e2a2241aae759d8cecd7166c7f1a920c5243efca4978b390",
+  "cases": [
+    {
+      "kind": "parameters",
+      "unchangedProjection": true,
+      "pass": true
+    },
+    {
+      "kind": "formulas",
+      "unchangedProjection": true,
+      "pass": true
+    },
+    {
+      "name": "旧详情字段混入列表被反例识别",
+      "pass": true
+    }
+  ]
+}

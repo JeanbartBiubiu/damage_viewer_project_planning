@@ -1,0 +1,67 @@
+{
+  "i": 184,
+  "intent": {
+    "sequence": 185,
+    "method": "POST",
+    "route": "/skills/twistedfate_q/formulas",
+    "detailRoute": "/skills/twistedfate_q/formulas/enemy_magic_damage",
+    "skillKey": "twistedfate_q",
+    "kind": "formulas",
+    "stableKey": "enemy_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "enemy_magic_damage",
+      "name": "万能牌单一敌人单张魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=BaseDamage+0.5×来源额外攻击力+0.85×来源总法强；同一敌人只受一张牌伤害，不乘3。",
+      "sortOrder": 10
+    }
+  }
+}

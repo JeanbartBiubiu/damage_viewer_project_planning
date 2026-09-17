@@ -1,0 +1,25 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/parameters",
+    "detailRoute": "/skills/kled_r/parameters/shield_bonus_ad_ratio",
+    "skillKey": "kled_r",
+    "kind": "parameters",
+    "stableKey": "shield_bonus_ad_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_bonus_ad_ratio",
+      "name": "护盾额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "MaximumShield树的3倍额外攻击力。",
+      "sortOrder": 155
+    }
+  }
+}

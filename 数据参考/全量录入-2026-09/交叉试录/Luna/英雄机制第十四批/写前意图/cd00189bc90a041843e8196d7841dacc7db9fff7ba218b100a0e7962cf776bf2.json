@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T06:41:38.142Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_q/parameters/actual_mana_spent",
+  "id": "actual_mana_spent",
+  "method": "POST",
+  "body": {
+    "parameterKey": "actual_mana_spent",
+    "name": "这次蓄力实际已消耗法力",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "来源写返还一半消耗，须提供这次真实已扣金额，不默认用基础mana_cost代替。",
+    "sortOrder": 60
+  }
+}

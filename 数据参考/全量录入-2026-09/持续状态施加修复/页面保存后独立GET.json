@@ -1,0 +1,503 @@
+{
+  "at": "2026-09-10T05:29:39.196Z",
+  "GETs": 18,
+  "apiWrites": 0,
+  "pass": true,
+  "oldRecordsUnchanged": true,
+  "newEffectExactlyMatches": true,
+  "browserCreationCount": 1,
+  "rows": [
+    {
+      "route": "/skills/veigar_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:55.351379Z",
+        "description": "维迦扭曲空间的边缘，创造一个牢笼来使途径的敌人晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "维迦·扭曲空间",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "veigar_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:55.351379Z"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_veigar_e",
+          "name": "veigar_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/veigar_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:51:52.481133Z",
+          "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20000,
+            "2": 18500,
+            "3": 17000,
+            "4": 15500,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "veigar_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:51:52.481133Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:51:53.013332Z",
+          "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 75,
+            "3": 80,
+            "4": 85,
+            "5": 90
+          },
+          "name": "法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "veigar_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:51:53.013332Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:51:53.492156Z",
+          "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "veigar_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:51:53.492156Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:51:54.009472Z",
+          "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 1500,
+            "2": 1750,
+            "3": 2000,
+            "4": 2250,
+            "5": 2500
+          },
+          "name": "事件视界眩晕时长（毫秒）",
+          "parameterKey": "stun_duration_ms",
+          "skillKey": "veigar_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T18:51:54.009472Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:51:54.540006Z",
+          "description": "客户端当前根绑定 DataValues.CageDelay 取索引1至5。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "牢笼生成延迟（毫秒）",
+          "parameterKey": "cage_delay_ms",
+          "skillKey": "veigar_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T18:51:54.540006Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:51:55.036375Z",
+          "description": "当前根Spell_VeigarEventHorizon_Tooltip明确持续3秒。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "牢笼持续（毫秒）",
+          "parameterKey": "cage_duration_ms",
+          "skillKey": "veigar_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T18:51:55.036375Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/veigar_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:51:52.481133Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18500,
+          "3": 17000,
+          "4": 15500,
+          "5": 14000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "veigar_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:51:52.481133Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:51:53.013332Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "veigar_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:51:53.013332Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/parameters/cast_time_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:51:53.492156Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "veigar_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:51:53.492156Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/parameters/stun_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:51:54.009472Z",
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1500,
+          "2": 1750,
+          "3": 2000,
+          "4": 2250,
+          "5": 2500
+        },
+        "name": "事件视界眩晕时长（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "veigar_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:51:54.009472Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/parameters/cage_delay_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:51:54.540006Z",
+        "description": "客户端当前根绑定 DataValues.CageDelay 取索引1至5。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "牢笼生成延迟（毫秒）",
+        "parameterKey": "cage_delay_ms",
+        "skillKey": "veigar_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:51:54.540006Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/parameters/cage_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:51:55.036375Z",
+        "description": "当前根Spell_VeigarEventHorizon_Tooltip明确持续3秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "牢笼持续（毫秒）",
+        "parameterKey": "cage_duration_ms",
+        "skillKey": "veigar_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:51:55.036375Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/veigar_e/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:51:55.526579Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "veigar_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:51:55.526579Z"
+        },
+        {
+          "createdAt": "2026-09-10T05:28:20.482357Z",
+          "description": "碰到牢笼边缘时向当前目标施加眩晕；本次状态随父效果期限结束，施加结果可被法术护盾阻挡。真实边缘接触事件的产生另行接线。",
+          "effectKey": "event_horizon_stun",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "碰到牢笼边缘眩晕",
+          "resultCount": 1,
+          "skillKey": "veigar_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-10T05:28:20.482357Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/veigar_e/effects/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:51:55.526579Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "veigar_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:51:55.526579Z"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/processes",
+      "status": 200,
+      "data": [
+        {
+          "activationType": "ACTIVE",
+          "createdAt": "2026-09-07T18:51:56.113598Z",
+          "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+          "effectBindingCount": 1,
+          "gameId": "lol",
+          "name": "施放扭曲空间",
+          "processKey": "cast",
+          "skillKey": "veigar_e",
+          "sortOrder": 10,
+          "stateOperationCount": 0,
+          "stepCount": 1,
+          "updatedAt": "2026-09-07T18:51:56.113598Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/veigar_e/processes/cast",
+      "status": 200,
+      "data": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-07T18:51:56.113598Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放扭曲空间",
+        "processKey": "cast",
+        "skillKey": "veigar_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能已核对的施法时间。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-07T18:51:56.113598Z"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/veigar_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/statuses/vertigo",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-08-28T14:55:06.53067Z",
+        "description": null,
+        "gameId": "lol",
+        "name": "眩晕",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "statusKey": "vertigo",
+        "updatedAt": "2026-08-28T14:55:06.53067Z"
+      }
+    },
+    {
+      "route": "/skills/veigar_e/effects/event_horizon_stun",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-10T05:28:20.482357Z",
+        "description": "碰到牢笼边缘时向当前目标施加眩晕；本次状态随父效果期限结束，施加结果可被法术护盾阻挡。真实边缘接触事件的产生另行接线。",
+        "effectKey": "event_horizon_stun",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "stun_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "碰到牢笼边缘眩晕",
+        "results": [
+          {
+            "description": "状态施加时按当前结果参与法术护盾判断；成功施加后随本次来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "vertigo"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "事件视界眩晕",
+            "resultKey": "stun",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "veigar_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T05:28:20.482357Z"
+      }
+    }
+  ],
+  "boundary": "页面一次保存已经落地；最初响应解析失败不代表后端未保存。未重复POST；未运行战斗。"
+}

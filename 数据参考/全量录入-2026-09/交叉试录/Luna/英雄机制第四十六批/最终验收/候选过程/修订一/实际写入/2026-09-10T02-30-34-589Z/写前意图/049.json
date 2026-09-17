@@ -1,0 +1,24 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/formulas",
+    "detailRoute": "/skills/belveth_e/formulas/total_lifesteal_ratio",
+    "skillKey": "belveth_e",
+    "kind": "formulas",
+    "stableKey": "total_lifesteal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_lifesteal_ratio",
+      "name": "搠面皇锋自身生命偷取比例",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "life_steal_ratio"
+      },
+      "description": "自身生命偷取比例20%至40%。",
+      "sortOrder": 150
+    }
+  }
+}

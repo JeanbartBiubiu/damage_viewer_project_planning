@@ -1,0 +1,23 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "method": "POST",
+    "route": "/skills/janna_r/parameters",
+    "detailRoute": "/skills/janna_r/parameters/max_knockback_distance",
+    "skillKey": "janna_r",
+    "kind": "parameters",
+    "stableKey": "max_knockback_distance",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_knockback_distance",
+      "name": "最大击退距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 875,
+      "levelValues": null,
+      "description": "客户端MaxKnockback按等级索引1取875；不把轨迹展开成过程。",
+      "sortOrder": 50
+    }
+  }
+}

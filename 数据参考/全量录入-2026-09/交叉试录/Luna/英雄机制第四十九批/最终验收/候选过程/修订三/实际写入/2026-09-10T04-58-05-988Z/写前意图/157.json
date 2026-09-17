@@ -1,0 +1,25 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 157,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_p/parameters",
+    "detailRoute": "/skills/reksai_p/parameters/fury_generation_pause_ms",
+    "skillKey": "reksai_p",
+    "kind": "parameters",
+    "stableKey": "fury_generation_pause_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "fury_generation_pause_ms",
+      "name": "停止生成怒气后的等待时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "源值5秒。",
+      "sortOrder": 30
+    }
+  }
+}

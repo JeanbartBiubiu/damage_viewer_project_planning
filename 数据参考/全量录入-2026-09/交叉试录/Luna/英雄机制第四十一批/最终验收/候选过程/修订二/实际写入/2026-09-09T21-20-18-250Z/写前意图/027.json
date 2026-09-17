@@ -1,0 +1,23 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "method": "POST",
+    "route": "/skills/bard_w/parameters",
+    "detailRoute": "/skills/bard_w/parameters/ammo_recharge_ms",
+    "skillKey": "bard_w",
+    "kind": "parameters",
+    "stableKey": "ammo_recharge_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ammo_recharge_ms",
+      "name": "充能回复时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 18000,
+      "levelValues": null,
+      "description": "18秒转毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

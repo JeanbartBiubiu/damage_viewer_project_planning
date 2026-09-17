@@ -1,0 +1,45 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "method": "POST",
+    "route": "/skills/evelynn_r/formulas",
+    "detailRoute": "/skills/evelynn_r/formulas/normal_magic_damage",
+    "skillKey": "evelynn_r",
+    "kind": "formulas",
+    "stableKey": "normal_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "normal_magic_damage",
+      "name": "最终抚慰普通魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Damage = 基础伤害 + 0.75×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

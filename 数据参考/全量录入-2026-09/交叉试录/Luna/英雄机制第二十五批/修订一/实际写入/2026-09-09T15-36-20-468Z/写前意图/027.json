@@ -1,0 +1,39 @@
+{
+  "sequence": 27,
+  "intent": {
+    "sequence": 27,
+    "method": "POST",
+    "route": "/skills/drmundo_w/parameters",
+    "detailRoute": "/skills/drmundo_w/parameters/gray_health_storage_ratio",
+    "skillKey": "drmundo_w",
+    "kind": "parameters",
+    "stableKey": "gray_health_storage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "gray_health_storage_ratio",
+      "name": "灰色生命后续储存比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.GrayHealthStorage=0.25；正文以*100显示25%。",
+      "sortOrder": 50
+    }
+  },
+  "before": {
+    "sequence": 283,
+    "method": "GET",
+    "route": "/skills/drmundo_w/parameters/gray_health_storage_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "gray_health_storage_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:36:59.385Z"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 133,
+    "method": "POST",
+    "route": "/skills/seraphine_p/formulas",
+    "detailRoute": "/skills/seraphine_p/formulas/note_magic_damage",
+    "skillKey": "seraphine_p",
+    "kind": "formulas",
+    "stableKey": "note_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "note_magic_damage",
+      "name": "单个音符额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "note_character_level_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "note_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "AutoDamage=等级基础值+0.04×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

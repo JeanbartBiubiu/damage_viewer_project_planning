@@ -1,3 +1,4 @@
+import { formulaValue } from '../types/numericValue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createSkillProcess,
@@ -44,7 +45,7 @@ const detail: SkillProcess = {
   description: null,
   sortOrder: 10,
   cooldown: {
-    durationFormulaKey: 'cooldown_ms',
+    durationValue: formulaValue("cooldown_ms"),
     startMoment: {
       momentType: 'PROCESS_START',
       stepKey: null

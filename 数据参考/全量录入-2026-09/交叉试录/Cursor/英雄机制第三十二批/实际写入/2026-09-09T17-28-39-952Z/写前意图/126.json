@@ -1,0 +1,23 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "method": "POST",
+    "route": "/skills/xayah_e/parameters",
+    "detailRoute": "/skills/xayah_e/parameters/actual_critical_damage_ratio",
+    "skillKey": "xayah_e",
+    "kind": "parameters",
+    "stableKey": "actual_critical_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_critical_damage_ratio",
+      "name": "实际暴击伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前FeatherDamage的mStat9阶段未窄证；实际暴击伤害倍率无默认。",
+      "sortOrder": 50
+    }
+  }
+}

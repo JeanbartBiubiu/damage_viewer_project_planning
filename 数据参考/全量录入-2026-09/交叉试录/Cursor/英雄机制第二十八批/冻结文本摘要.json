@@ -1,0 +1,171 @@
+{
+  "generatedAt": "2026-09-09T15:32:15.550Z",
+  "sourceBindingSha256": "ca0a59262844bee277255af85af7dfdb391caa7306f04746c3ea16a97b208298",
+  "skills": {
+    "maokai_p": {
+      "keyName": {
+        "sourceKey": "Spell_MaokaiPassive_Name",
+        "text": "吸元秘术"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_MaokaiPassive_Tooltip",
+        "text": "茂凯的下一次攻击会回复自身<healing>@PassiveHealingTotal@生命值</healing>。<br><br>每施放一次技能或被一名敌方英雄的技能命中时，都会使这个冷却时间缩短@PassiveCooldownReduction@秒。被大型野怪或史诗级野怪的攻击或技能命中时，都会使这个冷却时间缩短@JungPassCooldownReduction@秒。"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_MaokaiPassive_Summary",
+        "text": "茂凯的普通攻击也会治疗自身并造成额外伤害，此效果拥有一个中等的冷却时间。每当茂凯施放一次技能或被一个敌方技能击中时，这个冷却时间都会缩短。"
+      },
+      "keyCooldown": {
+        "sourceKey": "Spell_Maokai_Cooldown",
+        "text": "@PassiveCooldown@秒%i:cooldown%"
+      }
+    },
+    "maokai_q": {
+      "keyName": {
+        "sourceKey": "Spell_MaokaiQ_Name",
+        "text": "荆棘重击"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_MaokaiQ_Summary",
+        "text": "茂凯用一记冲击波击退附近的敌人，造成魔法伤害和减速效果。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_MaokaiQ_Tooltip",
+        "text": "茂凯将他的拳头砸入大地中，造成<magicDamage>@TotalDamage@外加@BasePercentHealth*100@%最大生命值的魔法伤害</magicDamage>和短暂的<status>减速</status>。附近的敌人们还会被<status>击退</status>。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_MaokaiQ_TooltipExtendedBelowLine",
+        "text": "<rules>这个技能对野怪造成额外的<magicDamage>@BonusMonsterDamage@魔法伤害</magicDamage>。</rules>"
+      }
+    },
+    "maokai_w": {
+      "keyName": {
+        "sourceKey": "Spell_MaokaiW_Name",
+        "text": "扭曲突刺"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_MaokaiW_Summary",
+        "text": "茂凯扭曲为一团移动根须，不可被选取并且向目标突进。在抵达后，他会禁锢住目标。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_MaokaiW_Tooltip",
+        "text": "茂凯扭曲为一团移动根须，无法被选取并且向目标突进。在抵达后，他会<status>禁锢</status>该敌人@RootDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。 "
+      }
+    },
+    "maokai_e": {
+      "keyName": {
+        "sourceKey": "Spell_MaokaiE_Name",
+        "text": "树苗投掷"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_MaokaiE_Summary",
+        "text": "茂凯投出一颗树苗去目标地区戒备。在草丛中更加有效。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_MaokaiE_Tooltip",
+        "text": "茂凯扔出一棵树苗，戒备@SaplingDuration@秒。树苗会追击附近的敌人，并在抵达后爆炸，对周围的敌人们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。如果树苗命中了一名敌方英雄或史诗级野怪，<keywordMajor>吸元秘术</keywordMajor>的冷却时间就会缩短额外的4秒。<br><br>投掷在草丛里的树苗会持续@EmpoweredSaplingDuration@秒，并引发一次范围更大的爆炸，在@EmpoweredDoTDuration@秒的持续时间里共造成<magicDamage>@TotalEmpoweredDamage@魔法伤害</magicDamage>并且<status>减速</status>幅度变为@EmpoweredSlowAmount@。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_MaokaiE_TooltipExtendedBelowLine",
+        "text": "<rules>树苗以@SaplingMoveSpeed@速度进行奔跑。草丛树苗不会对小兵造成提升过的伤害。</rules>"
+      }
+    },
+    "maokai_r": {
+      "keyName": {
+        "sourceKey": "Spell_MaokaiR_Name",
+        "text": "自然之握"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_MaokaiR_Summary",
+        "text": "茂凯召唤一道荆棘和尖刺灌木组成的巨墙缓慢向前行进，对沿途的敌人造成伤害和禁锢效果。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_MaokaiR_Tooltip",
+        "text": "茂凯召唤出一道由荆棘和带刺灌木组成的巨墙缓慢向前行进，<status>禁锢</status>敌人@MinRootDuration@到@MaxRootDuration@秒，时长随着行进距离提升，并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。命中一名英雄时会为茂凯提供在@HasteDuration@秒里持续衰减的<speed>@MoveHaste*100@%移动速度</speed>。 "
+      }
+    },
+    "poppy_p": {
+      "keyName": {
+        "sourceKey": "Spell_PoppyPassive_Name",
+        "text": "钢铁大使"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_PoppyPassive_Tooltip",
+        "text": "每过@ActualCooldown@秒，波比的下次攻击就会将她的圆盾投掷出去，获得@BonusRange@距离并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。圆盾会从目标处弹开，在附近着陆。波比能够将它拾起来获得<shield>@ShieldValue@护盾值</shield>，并且敌人们可以踩在它上面来将它摧毁。<br><br>如果圆盾击杀了目标，那么它会自动返回至波比处。"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_PoppyPassive_Summary",
+        "text": "波比扔出她的圆盾，圆盾会在命中目标后弹起。波比可以捡起圆盾来获得一个短暂的护盾效果。"
+      },
+      "keyCooldown": {
+        "sourceKey": "Spell_PoppyP_CD",
+        "text": "@ActualCooldown@秒%i:cooldown%"
+      }
+    },
+    "poppy_q": {
+      "keyName": {
+        "sourceKey": "Spell_PoppyQ_Name",
+        "text": "圣锤猛击"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_PoppyQ_Summary",
+        "text": "波比挥舞她的铁锤，造成伤害并创造一个区域，这个区域会减速敌人并在一段时间后爆炸。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_PoppyQ_Tooltip",
+        "text": "波比猛砸地面，造成<physicalDamage>@BaseDamage@</physicalDamage>外加<physicalDamage>@HealthDamagePercent@%最大生命值的物理伤害</physicalDamage>并使该地面变得不稳定。 <br><br>不稳定区域会使敌人<status>减速</status>@MoveSpeedMod@%并在@DelayBetweenTwoHits@秒后喷发，再次造成<physicalDamage>@BaseDamage@</physicalDamage>外加<physicalDamage>@HealthDamagePercent@%最大生命值的物理伤害</physicalDamage>。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_PoppyQ_TooltipExtendedBelowLine",
+        "text": "<rules>每一击对小兵和野怪的百分比生命值伤害的上限为@MaxHealthDamageToNonHeroes@。</rules>"
+      }
+    },
+    "poppy_w": {
+      "keyName": {
+        "sourceKey": "Spell_PoppyW_Name",
+        "text": "坚定风采"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_PoppyW_Summary",
+        "text": "波比被动获得护甲和魔法抗性。这个加成会在她生命值较低时得到提升。波比可以主动施放此技能来获得移动速度加成并中断附近敌人的突进。如果中断了一次突进，那么该敌人还会被减速和缚地。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_PoppyW_Tooltip",
+        "text": "<spellPassive>被动：</spellPassive>波比获得<scaleArmor>@BonusArmor@护甲</scaleArmor>和<scaleMR>@BonusMR@魔法抗性</scaleMR>。在波比低于@PassiveEmpoweredHealthPercent*100@%生命值时，这个加成会翻倍。<br><br><spellActive>主动：</spellActive>波比获得<speed>@Haste@%移动速度</speed>并投射出一个环绕自身的领域，持续@Duration@秒，该领域可中断敌人的冲刺。被领域中断的敌人们会受到持续@GroundingDuration@秒的<status>缚地</status>和@SlowAmount*-100@%<status>减速</status>，以及<magicDamage>@InterruptDamage@魔法伤害</magicDamage>。"
+      }
+    },
+    "poppy_e": {
+      "keyName": {
+        "sourceKey": "Spell_PoppyE_Name",
+        "text": "英勇冲锋"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_PoppyE_Summary",
+        "text": "波比冲向目标并把目标推后。如果目标被推到墙上，就会受到晕眩效果。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_PoppyE_Tooltip",
+        "text": "波比擒抱一名敌人，造成<physicalDamage>@TackleDamage@物理伤害</physicalDamage>并将该敌人带向前方。如果波比将目标擒抱到地形上，那么该敌人会被<status>晕眩</status>@StunDuration@秒并受到额外的<physicalDamage>@TackleDamage@物理伤害</physicalDamage>。"
+      }
+    },
+    "poppy_r": {
+      "keyName": {
+        "sourceKey": "Spell_PoppyR_Name",
+        "text": "持卫的裁决"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_PoppyR_Summary",
+        "text": "波比引导一次能够把敌人击飞到远方的锤击。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_PoppyR_Tooltip",
+        "text": "<charge>开始施放：</charge>波比开始为她的战锤蓄力，至多@ChannelMaxDuration@秒，自身<status>减速</status>@SelfSlow@%。<br><br><release>释放：</release>波比猛砸地面，生成一道冲击波，来对命中的第一个敌方英雄及其身边的敌人们造成<physicalDamage>@Damage@物理伤害</physicalDamage>，将他们朝着他们的水晶枢纽处<status>击退</status>，并使他们在飞行时处在不可被选取状态。冲击波距离和<status>击退</status>距离受益于蓄力时长。<br><br>未蓄力的挥锤造成<physicalDamage>@HalfDamage@物理伤害</physicalDamage>和持续@KnockupDurationSnap@秒的<status>击飞</status>。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_PoppyR_TooltipExtendedBelowLine",
+        "text": "<rules>{{Reminder_Untargetable}}</rules>"
+      }
+    }
+  },
+  "apiWrites": 0
+}

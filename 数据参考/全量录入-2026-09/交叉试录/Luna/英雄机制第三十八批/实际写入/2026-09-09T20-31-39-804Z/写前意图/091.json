@@ -1,0 +1,23 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "method": "POST",
+    "route": "/skills/skarner_p/parameters",
+    "detailRoute": "/skills/skarner_p/parameters/duration_ms",
+    "skillKey": "skarner_p",
+    "kind": "parameters",
+    "stableKey": "duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "duration_ms",
+      "name": "战栗持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前Duration=4秒，转换为4000毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

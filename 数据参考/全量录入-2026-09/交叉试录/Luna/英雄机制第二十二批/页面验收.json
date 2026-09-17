@@ -1,0 +1,910 @@
+{
+  "at": "2026-09-09T13:59:36.354Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 3,
+  "observations": [
+    {
+      "key": "leona_q",
+      "observed": "代表图片与整数毫秒施法时间外供输入可见，两个冲突来源值在说明保留。"
+    },
+    {
+      "key": "leona_w",
+      "observed": "固定减免点数8/12/16/20/24、无默认进入伤害输入与最终MIN封顶公式可见。"
+    },
+    {
+      "key": "nautilus_w",
+      "observed": "50/60/70/80/90护盾基础和.08/.09/.10/.11/.12总生命比例可见，自身普通护盾以参数引用6000ms持续。"
+    }
+  ],
+  "GETs": 15,
+  "requests": [
+    {
+      "route": "/skills/leona_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:09.784028Z",
+        "description": "蕾欧娜用盾进行下次普通攻击，造成额外魔法伤害并晕眩目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蕾欧娜·破晓之盾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "leona_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:09.784028Z"
+      }
+    },
+    {
+      "route": "/skills/leona_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_leona_q",
+          "name": "leona_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/leona_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T13:44:26.946597Z",
+          "description": "当前根同时存在spellCastTime=0.5217499732971191秒与mCastTime=0.25秒，字段冲突；保留为无默认运行时输入，不能选定施法时长，也不表示命中或位移发生在施法结束。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "leona_q",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-09T13:44:26.946597Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:28.131974Z",
+          "description": "当前根DataValues.BaseDamage取索引1至5；等级1至5为10、35、60、85、110。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10,
+            "2": 35,
+            "3": 60,
+            "4": 85,
+            "5": 110
+          },
+          "name": "破晓之盾基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "leona_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T13:44:28.131974Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:29.277486Z",
+          "description": "TotalDamageTooltip未显式给mStat，按已证mStat0默认来源总法术强度；系数为0.3。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化攻击法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "leona_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T13:44:29.277486Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:30.32841Z",
+          "description": "当前根DataValues.StunDuration等级值为1秒，转毫秒。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "晕眩持续（毫秒）",
+          "parameterKey": "stun_duration_ms",
+          "skillKey": "leona_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T13:44:30.32841Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:31.407256Z",
+          "description": "当前根扩展正文明确必须在6秒内打出下次攻击；不与施法时间混用。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化攻击有效窗口（毫秒）",
+          "parameterKey": "empowered_attack_window_ms",
+          "skillKey": "leona_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T13:44:31.407256Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:31.514554Z",
+          "description": "DDragon16.17.1 Leona.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "leona_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:31.514554Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:31.830484Z",
+          "description": "DDragon16.17.1 Leona.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 35,
+            "3": 40,
+            "4": 45,
+            "5": 50
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leona_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:31.830484Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/leona_q/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T13:44:32.524917Z",
+          "description": "TotalDamageTooltip=BaseDamage+0.3×来源总法术强度；只建立数值公式，不创建伤害结果。",
+          "formulaKey": "magic_damage",
+          "gameId": "lol",
+          "name": "破晓之盾额外魔法伤害",
+          "skillKey": "leona_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T13:44:32.524917Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/leona_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:10.055159Z",
+        "description": "蕾欧娜举起盾牌，提供伤害减免、护甲和魔法抗性。当持续时间首次结束时，如果附近有敌人，那么她会对其造成魔法伤害并延长效果的持续时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蕾欧娜·日蚀",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "leona_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:10.055159Z"
+      }
+    },
+    {
+      "route": "/skills/leona_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_leona_w",
+          "name": "leona_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/leona_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T13:44:34.850492Z",
+          "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "leona_w",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-09T13:44:34.850492Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:36.061321Z",
+          "description": "当前根DataValues.FlatDamageReduction取索引1至5；保留点数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 8,
+            "2": 12,
+            "3": 16,
+            "4": 20,
+            "5": 24
+          },
+          "name": "即将受到伤害的固定减免",
+          "parameterKey": "flat_damage_reduction",
+          "skillKey": "leona_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T13:44:36.061321Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:37.151759Z",
+          "description": "当前扩展正文@FlatDamageReductionMax*100@%明确为50%，保留比例。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "固定减免后的最低伤害比例",
+          "parameterKey": "flat_damage_reduction_floor_ratio",
+          "skillKey": "leona_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T13:44:37.151759Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:38.267108Z",
+          "description": "当前根DataValues.ExplosionBaseDamage取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 55,
+            "2": 85,
+            "3": 115,
+            "4": 145,
+            "5": 175
+          },
+          "name": "日蚀爆炸基础魔法伤害",
+          "parameterKey": "explosion_base_damage",
+          "skillKey": "leona_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T13:44:38.267108Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:39.583083Z",
+          "description": "TotalDamageTooltip的StatByNamedDataValue APRatio=0.4，按已证mStat0默认来源总法术强度。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "爆炸法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "leona_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T13:44:39.583083Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:40.767918Z",
+          "description": "当前根DataValues.ArmorBaseBonus取索引1至5；保留护甲点数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 27.5,
+            "3": 35,
+            "4": 42.5,
+            "5": 50
+          },
+          "name": "额外护甲基础值",
+          "parameterKey": "armor_base_bonus",
+          "skillKey": "leona_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T13:44:40.767918Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:41.9313Z",
+          "description": "当前BonusMRTooltip绑定计算树的mDataValue实际为ArmorBaseBonus，取该DataValue索引1至5；DataValues.MRBaseBonus数组在本版数值相同，仅作为交叉核对，不改写树的真实引用。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 27.5,
+            "3": 35,
+            "4": 42.5,
+            "5": 50
+          },
+          "name": "额外魔法抗性基础值",
+          "parameterKey": "magic_resistance_base_bonus",
+          "skillKey": "leona_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T13:44:41.9313Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:43.12101Z",
+          "description": "当前根DataValues.ArmorMRDuration=3秒，转毫秒；命中敌人后的延续仍待事件接线。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护甲和魔抗持续（毫秒）",
+          "parameterKey": "armor_magic_resistance_duration_ms",
+          "skillKey": "leona_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T13:44:43.12101Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:44.197674Z",
+          "description": "BonusArmorTooltip含mStat1/formula2×0.2；当前同版窄证未确认属性归属和总/额外口径，无默认值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护甲加成树的未映射属性输入",
+          "parameterKey": "source_mstat1_for_armor_bonus",
+          "skillKey": "leona_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T13:44:44.197674Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:32.118161Z",
+          "description": "DDragon16.17.1 Leona.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "leona_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:32.118161Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:45.251416Z",
+          "description": "当前BonusArmorTooltip的mStat1/formula2系数为0.2。",
+          "fixedValue": 0.2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外护甲输入倍率",
+          "parameterKey": "armor_bonus_ratio",
+          "skillKey": "leona_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T13:44:45.251416Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:32.408581Z",
+          "description": "DDragon16.17.1 Leona.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leona_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:32.408581Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:46.425416Z",
+          "description": "当前BonusMRTooltip的mStat6/formula2系数为0.2。",
+          "fixedValue": 0.2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外魔抗输入倍率",
+          "parameterKey": "magic_resistance_bonus_ratio",
+          "skillKey": "leona_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T13:44:46.425416Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:47.527488Z",
+          "description": "按当前步骤提供的即将受到伤害数值计算固定减免量；缺输入不默认0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "本次步骤进入伤害输入",
+          "parameterKey": "incoming_damage_for_reduction",
+          "skillKey": "leona_w",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T13:44:47.527488Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/leona_w/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T13:44:48.553418Z",
+          "description": "TotalDamageTooltip=ExplosionBaseDamage+0.4×来源总法术强度；只建立数值公式。",
+          "formulaKey": "magic_damage",
+          "gameId": "lol",
+          "name": "日蚀爆炸魔法伤害",
+          "skillKey": "leona_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T13:44:48.553418Z"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:49.720918Z",
+          "description": "BonusArmorTooltip=ArmorBaseBonus+0.2×未映射mStat1运行时输入；属性归属待窄证。",
+          "formulaKey": "bonus_armor",
+          "gameId": "lol",
+          "name": "日蚀额外护甲",
+          "skillKey": "leona_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T13:44:49.720918Z"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:50.839699Z",
+          "description": "BonusMRTooltip实际树=ArmorBaseBonus+0.2×来源额外魔法抗性；mStat6/formula2按同版窄证绑定为额外魔抗。",
+          "formulaKey": "bonus_magic_resistance",
+          "gameId": "lol",
+          "name": "日蚀额外魔法抗性",
+          "skillKey": "leona_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T13:44:50.839699Z"
+        },
+        {
+          "createdAt": "2026-09-09T13:44:51.964455Z",
+          "description": "最终固定减免量=MIN(FlatDamageReduction,0.5×本次步骤进入伤害输入)；50%保底来自当前扩展正文，不创建伤害结果。",
+          "formulaKey": "damage_reduction_amount",
+          "gameId": "lol",
+          "name": "日蚀固定减免量",
+          "skillKey": "leona_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T13:44:51.964455Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nautilus_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:35.990679Z",
+        "description": "诺提勒斯获得一个临时护盾。当护盾存在时，他的攻击会对目标及目标周围的敌人造成持续伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "诺提勒斯·泰坦之怒",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nautilus_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:35.990679Z"
+      }
+    },
+    {
+      "route": "/skills/nautilus_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nautilus_w",
+          "name": "nautilus_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/nautilus_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T13:45:24.081125Z",
+          "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "nautilus_w",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-09T13:45:24.081125Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:45:25.246004Z",
+          "description": "当前根DataValues.ShieldBase取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "name": "泰坦之怒护盾基础值",
+          "parameterKey": "shield_base",
+          "skillKey": "nautilus_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T13:45:25.246004Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:45:26.31162Z",
+          "description": "当前根DataValues.ShieldHealthRatio取索引1至5；mStat12按同版根证据取来源生命值总值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.08,
+            "2": 0.09,
+            "3": 0.1,
+            "4": 0.11,
+            "5": 0.12
+          },
+          "name": "护盾生命值倍率",
+          "parameterKey": "shield_health_ratio",
+          "skillKey": "nautilus_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T13:45:26.31162Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T13:45:27.484803Z",
+          "description": "当前绑定正文明确护盾持续6秒，转毫秒。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续（毫秒）",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "nautilus_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T13:45:27.484803Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:45:28.600431Z",
+          "description": "当前根DataValues.DotDamageBase取索引1至5；正文称2秒内总额。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 40,
+            "3": 50,
+            "4": 60,
+            "5": 70
+          },
+          "name": "护盾期间额外魔法伤害基础值",
+          "parameterKey": "dot_damage_base",
+          "skillKey": "nautilus_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T13:45:28.600431Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T13:45:29.80109Z",
+          "description": "DotDamageCalc的StatByNamedDataValue DotDamageAPRatio=0.4，按已证mStat0默认来源总法术强度。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾期间额外伤害法术强度倍率",
+          "parameterKey": "dot_damage_ap_ratio",
+          "skillKey": "nautilus_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T13:45:29.80109Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T13:45:30.859049Z",
+          "description": "当前绑定正文明确在2秒里持续造成共计额外伤害；不能解释成每个节拍数值。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外伤害总持续（毫秒）",
+          "parameterKey": "dot_total_duration_ms",
+          "skillKey": "nautilus_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T13:45:30.859049Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:51.347927Z",
+          "description": "DDragon16.17.1 Nautilus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nautilus_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:51.347927Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:51.715818Z",
+          "description": "DDragon16.17.1 Nautilus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nautilus_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:51.715818Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nautilus_w/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T13:45:32.004814Z",
+          "description": "ShieldCalc=ShieldBase+ShieldHealthRatio×来源生命值总值；供自身NORMAL_SHIELD效果引用，施放事件另行接线。",
+          "formulaKey": "shield_value",
+          "gameId": "lol",
+          "name": "泰坦之怒护盾数值",
+          "skillKey": "nautilus_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T13:45:32.004814Z"
+        },
+        {
+          "createdAt": "2026-09-09T13:45:33.106378Z",
+          "description": "DotDamageCalc=DotDamageBase+0.4×来源总法术强度；正文共2秒总量，不表示单节拍。",
+          "formulaKey": "bonus_magic_damage_total",
+          "gameId": "lol",
+          "name": "护盾期间额外魔法伤害总量",
+          "skillKey": "nautilus_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T13:45:33.106378Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/leona_w/formulas/damage_reduction_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T13:44:51.964455Z",
+        "description": "最终固定减免量=MIN(FlatDamageReduction,0.5×本次步骤进入伤害输入)；50%保底来自当前扩展正文，不创建伤害结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_damage_reduction"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_damage_reduction_floor_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "incoming_damage_for_reduction"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "damage_reduction_amount",
+        "gameId": "lol",
+        "name": "日蚀固定减免量",
+        "skillKey": "leona_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T13:44:51.964455Z"
+      }
+    },
+    {
+      "route": "/skills/nautilus_w/formulas/shield_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T13:45:32.004814Z",
+        "description": "ShieldCalc=ShieldBase+ShieldHealthRatio×来源生命值总值；供自身NORMAL_SHIELD效果引用，施放事件另行接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_health_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "shield_value",
+        "gameId": "lol",
+        "name": "泰坦之怒护盾数值",
+        "skillKey": "nautilus_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T13:45:32.004814Z"
+      }
+    },
+    {
+      "route": "/skills/nautilus_w/effects/shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T13:45:34.228326Z",
+        "description": "当前根绑定正文明确自身获得持续6秒护盾；只记录成熟NORMAL_SHIELD组成，攻击额外伤害事件另待接。",
+        "effectKey": "shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "泰坦之怒自身护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "泰坦之怒自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "nautilus_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T13:45:34.228326Z"
+      }
+    }
+  ],
+  "mathCases": 6,
+  "cases": [
+    {
+      "skill": "leona_w",
+      "formula": "damage_reduction_amount",
+      "input": {
+        "rank": 1,
+        "incoming_damage_for_reduction": 0
+      },
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "skill": "leona_w",
+      "formula": "damage_reduction_amount",
+      "input": {
+        "rank": 1,
+        "incoming_damage_for_reduction": 10
+      },
+      "actual": 5,
+      "expected": 5,
+      "passed": true
+    },
+    {
+      "skill": "leona_w",
+      "formula": "damage_reduction_amount",
+      "input": {
+        "rank": 1,
+        "incoming_damage_for_reduction": 100
+      },
+      "actual": 8,
+      "expected": 8,
+      "passed": true
+    },
+    {
+      "skill": "leona_w",
+      "formula": "damage_reduction_amount",
+      "input": {
+        "rank": 5,
+        "incoming_damage_for_reduction": 100
+      },
+      "actual": 24,
+      "expected": 24,
+      "passed": true
+    },
+    {
+      "skill": "nautilus_w",
+      "formula": "shield_value",
+      "input": {
+        "rank": 1,
+        "SOURCE.hp.TOTAL": 2000
+      },
+      "actual": 210,
+      "expected": 210,
+      "passed": true
+    },
+    {
+      "skill": "nautilus_w",
+      "formula": "shield_value",
+      "input": {
+        "rank": 5,
+        "SOURCE.hp.TOTAL": 3000
+      },
+      "actual": 450,
+      "expected": 450,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

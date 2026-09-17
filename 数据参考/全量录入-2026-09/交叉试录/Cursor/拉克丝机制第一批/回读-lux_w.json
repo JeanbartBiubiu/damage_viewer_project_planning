@@ -1,0 +1,439 @@
+{
+  "skillKey": "lux_w",
+  "finishedAt": "2026-09-07T15:26:54.258Z",
+  "planned": {
+    "parameters": 7,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "triggerRules": 0,
+    "skipped": 3
+  },
+  "skipped": [
+    {
+      "kind": "effect",
+      "key": "ally_shield",
+      "reason": "DDragon 描述魔杖途经友军时提供护盾；仅队友关系本轮跳过，自身护盾单独保留。"
+    },
+    {
+      "kind": "trigger",
+      "key": "shield_on_missile_hit",
+      "reason": "施加时点与回程叠加未证实，不挂过程。"
+    },
+    {
+      "kind": "parameter",
+      "key": "projectile_speed",
+      "reason": "主技能 1200、去程弹体 2200、回程 50，冲突且回程 25000 射程已排除。"
+    }
+  ],
+  "keys": {
+    "parameters": [
+      "base_shield",
+      "ap_ratio",
+      "shield_duration_ms",
+      "cooldown_ms",
+      "mana_cost",
+      "cast_time_ms",
+      "target_range"
+    ],
+    "formulas": [
+      "shield"
+    ],
+    "effects": [
+      "mana_cost",
+      "prismatic_shield"
+    ],
+    "processes": [
+      "cast"
+    ],
+    "trigger-rules": [],
+    "internal-states": []
+  },
+  "readbacks": [
+    {
+      "skillKey": "lux_w",
+      "kind": "parameters",
+      "id": "base_shield",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:47.107438Z",
+        "description": "客户端 BaseShieldAmount 含 rank0=25；跳过 rank0 后 rank1-5=40/55/70/85/100。来源：社区提取 16.17 mSpell。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 55,
+          "3": 70,
+          "4": 85,
+          "5": 100
+        },
+        "name": "基础护盾值",
+        "parameterKey": "base_shield",
+        "skillKey": "lux_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:47.107438Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:47.451613Z",
+        "description": "客户端 APRatio=0.4000000059604645，按设计值归一为 0.4。TotalShieldTT=BaseShieldAmount+AP×APRatio。未叠加治疗护盾强度。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "lux_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:47.451613Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "parameters",
+      "id": "shield_duration_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:47.747651Z",
+        "description": "客户端 ShieldDuration=2.5 秒。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续时间（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "lux_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:45:47.747651Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:48.120785Z",
+        "description": "客户端 cooldownTime 含 rank0 重复 12；跳过 rank0 后与 DDragon 12/11.5/11/10.5/10 秒一致，按毫秒写入。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lux_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T14:45:48.120785Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:48.455652Z",
+        "description": "客户端 mana 无 rank0 重复，前 5 项与 DDragon 一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lux_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T14:45:48.455652Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:48.795488Z",
+        "description": "客户端主技能 spellCastTime=0.25 秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lux_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T14:45:48.795488Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "parameters",
+      "id": "target_range",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:49.183767Z",
+        "description": "采用 castRangeDisplayOverride 与 DDragon range=1150。主技能 castRange=10000、返回弹体 25000 不写入。",
+        "fixedValue": 1150,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "技能指示范围",
+        "parameterKey": "target_range",
+        "skillKey": "lux_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T14:45:49.183767Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "formulas",
+      "id": "shield",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:49.531442Z",
+        "description": "BaseShieldAmount + 法术强度×0.4。来源：客户端 TotalShieldTT。去程与回程各提供等额护盾的叠加方式待确认，公式只表达单次护盾量。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "shield",
+        "gameId": "lol",
+        "name": "曲光屏障护盾值",
+        "skillKey": "lux_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:49.531442Z"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:45:49.887812Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:49.887812Z"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "effects",
+      "id": "prismatic_shield",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "createdAt": "2026-09-07T14:59:18.841674Z",
+        "description": "独立普通自护盾：结果目标与实例范围为施法者，本批按 1V1 范围保留自身部分。冻结客户端数值：单次 40/55/70/85/100 + 0.4 法术强度，持续 2500 毫秒。施加时点与回程叠加未证实，不挂过程。",
+        "effectKey": "prismatic_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "曲光屏障自我护盾",
+        "results": [
+          {
+            "description": "单次自我护盾量；回程叠加与施加时点未证实，本批不猜测。",
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "曲光护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T15:26:50.650297Z"
+      }
+    },
+    {
+      "skillKey": "lux_w",
+      "kind": "processes",
+      "id": "cast",
+      "action": "independent-get",
+      "match": true,
+      "diff": null,
+      "actual": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-07T14:45:50.622722Z",
+        "description": "过程只负责法力、施法延迟和冷却。独立自护盾效果不在此过程自动施加；施加时点与回程叠加未证实。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放曲光屏障",
+        "processKey": "cast",
+        "skillKey": "lux_w",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能 spellCastTime，按毫秒录入。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-07T14:59:19.106287Z"
+      }
+    }
+  ]
+}

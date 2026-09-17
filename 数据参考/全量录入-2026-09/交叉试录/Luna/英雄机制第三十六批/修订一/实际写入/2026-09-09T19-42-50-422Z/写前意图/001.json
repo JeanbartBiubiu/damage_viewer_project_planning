@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/evelynn_p/parameters",
+    "detailRoute": "/skills/evelynn_p/parameters/demon_shade_delay_ms",
+    "skillKey": "evelynn_p",
+    "kind": "parameters",
+    "stableKey": "demon_shade_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "demon_shade_delay_ms",
+      "name": "进入恶魔魅影等待（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "客户端DemonShadeTimer为4秒，转换为4000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

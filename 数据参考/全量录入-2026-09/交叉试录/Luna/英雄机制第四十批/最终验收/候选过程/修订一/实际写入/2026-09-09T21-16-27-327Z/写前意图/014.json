@@ -1,0 +1,23 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/current_health_damage_initial_bonus_per_level_percent_points",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "current_health_damage_initial_bonus_per_level_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_health_damage_initial_bonus_per_level_percent_points",
+      "name": "当前生命伤害每级初始增加百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前树有mInitialBonusPerLevel=1；角色等级11断点后的具体曲线仍待核。",
+      "sortOrder": 140
+    }
+  }
+}

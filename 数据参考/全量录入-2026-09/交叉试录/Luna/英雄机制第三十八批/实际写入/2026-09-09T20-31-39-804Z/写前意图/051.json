@@ -1,0 +1,23 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "method": "POST",
+    "route": "/skills/leesin_p/parameters",
+    "detailRoute": "/skills/leesin_p/parameters/first_hit_energy_multiplier",
+    "skillKey": "leesin_p",
+    "kind": "parameters",
+    "stableKey": "first_hit_energy_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "first_hit_energy_multiplier",
+      "name": "疾风骤雨第一次攻击能量倍率",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "TTFirstHitEnergy以FirstHitEnergyMult修改EnergyReturn，当前倍率2。",
+      "sortOrder": 90
+    }
+  }
+}

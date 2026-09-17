@@ -1,0 +1,23 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 35,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/ammo_when_learned",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "ammo_when_learned",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ammo_when_learned",
+      "name": "学习时弹药数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前DataValues.AmmoWhenLearned=2。",
+      "sortOrder": 70
+    }
+  }
+}

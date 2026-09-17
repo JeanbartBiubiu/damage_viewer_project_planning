@@ -1,0 +1,55 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/janna_r/formulas",
+    "detailRoute": "/skills/janna_r/formulas/total_heal",
+    "skillKey": "janna_r",
+    "kind": "formulas",
+    "stableKey": "total_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_heal",
+      "name": "复苏季风持续治疗总量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "heal_duration_seconds"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_base_per_second"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalHeal = Duration×HealPerSecond；接口公式只能引用参数，故内联每秒治疗式；该量是tooltipOnly数值，不创建直接治疗结果。",
+      "sortOrder": 20
+    }
+  }
+}

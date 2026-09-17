@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T04:27:14.589Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/graves_e/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "current_grit_armor",
+    "name": "当前层数护甲总增益",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "armor_per_stack"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "current_grit_stacks"
+        }
+      ]
+    },
+    "description": "每层护甲乘当前实际层数。",
+    "sortOrder": 20
+  }
+}

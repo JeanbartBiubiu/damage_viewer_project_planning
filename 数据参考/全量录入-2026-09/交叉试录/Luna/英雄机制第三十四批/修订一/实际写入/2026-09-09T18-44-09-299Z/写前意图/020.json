@@ -1,0 +1,23 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 22,
+    "method": "POST",
+    "route": "/skills/katarina_e/parameters",
+    "detailRoute": "/skills/katarina_e/parameters/ap_ratio",
+    "skillKey": "katarina_e",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "TotalDamage树的EAPRatio=0.25，读取来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

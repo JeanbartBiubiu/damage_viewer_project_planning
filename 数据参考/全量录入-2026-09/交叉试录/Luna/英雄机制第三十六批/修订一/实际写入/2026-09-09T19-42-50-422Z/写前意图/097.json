@@ -1,0 +1,29 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 97,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_w/parameters",
+    "detailRoute": "/skills/fiddlesticks_w/parameters/damage_per_second_base",
+    "skillKey": "fiddlesticks_w",
+    "kind": "parameters",
+    "stableKey": "damage_per_second_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_second_base",
+      "name": "每秒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 90,
+        "3": 120,
+        "4": 150,
+        "5": 180
+      },
+      "description": "DrainDamageCalc消费DamagePerSecond索引1至5。",
+      "sortOrder": 10
+    }
+  }
+}

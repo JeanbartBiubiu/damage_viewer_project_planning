@@ -1,0 +1,23 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 48,
+    "method": "POST",
+    "route": "/skills/rell_q/parameters",
+    "detailRoute": "/skills/rell_q/parameters/stun_duration_ms",
+    "skillKey": "rell_q",
+    "kind": "parameters",
+    "stableKey": "stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_ms",
+      "name": "裂阵晕眩时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 650,
+      "levelValues": null,
+      "description": "客户端StunDuration=0.65秒；转换为650毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

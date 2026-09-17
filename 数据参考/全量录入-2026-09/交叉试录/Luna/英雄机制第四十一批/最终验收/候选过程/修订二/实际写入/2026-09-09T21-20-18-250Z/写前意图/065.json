@@ -1,0 +1,23 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/milio_q/parameters",
+    "detailRoute": "/skills/milio_q/parameters/impact_adjustment",
+    "skillKey": "milio_q",
+    "kind": "parameters",
+    "stableKey": "impact_adjustment",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "impact_adjustment",
+      "name": "落点调整距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 50,
+      "levelValues": null,
+      "description": "当前值50。",
+      "sortOrder": 100
+    }
+  }
+}

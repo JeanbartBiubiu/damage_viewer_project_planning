@@ -1,0 +1,24 @@
+{
+  "i": 295,
+  "intent": {
+    "sequence": 296,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_r/parameters",
+    "detailRoute": "/skills/zaahen_r/parameters/damage_reduction_ratio",
+    "skillKey": "zaahen_r",
+    "kind": "parameters",
+    "stableKey": "damage_reduction_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_reduction_ratio",
+      "name": "施放期间伤害减免比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "施放期间50%减伤。",
+      "sortOrder": 50
+    }
+  }
+}

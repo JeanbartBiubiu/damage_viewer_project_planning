@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T13:44:51.006Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/leona_w/formulas",
+  "detailRoute": "/skills/leona_w/formulas/bonus_magic_resistance",
+  "skillKey": "leona_w",
+  "kind": "formulas",
+  "stableKey": "bonus_magic_resistance",
+  "body": {
+    "formulaKey": "bonus_magic_resistance",
+    "name": "日蚀额外魔法抗性",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "magic_resistance_base_bonus"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "magic_resistance_bonus_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "magic_resistance",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "BonusMRTooltip实际树=ArmorBaseBonus+0.2×来源额外魔法抗性；mStat6/formula2按同版窄证绑定为额外魔抗。",
+    "sortOrder": 30
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "method": "POST",
+    "route": "/skills/karma_e/formulas",
+    "detailRoute": "/skills/karma_e/formulas/shield_value",
+    "skillKey": "karma_e",
+    "kind": "formulas",
+    "stableKey": "shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_value",
+      "name": "鼓舞自身护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "护盾公式仅供符合资格的自身效果引用，不自动创建效果。",
+      "sortOrder": 10
+    }
+  }
+}

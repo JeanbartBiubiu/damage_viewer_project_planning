@@ -1,0 +1,45 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/senna_q/formulas",
+    "detailRoute": "/skills/senna_q/formulas/enemy_physical_damage",
+    "skillKey": "senna_q",
+    "kind": "formulas",
+    "stableKey": "enemy_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "enemy_physical_damage",
+      "name": "黑暗洞灭单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=BaseDamage+0.6×来源额外攻击力；同一目标只结算一条伤害。",
+      "sortOrder": 10
+    }
+  }
+}

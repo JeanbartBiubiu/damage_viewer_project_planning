@@ -1,0 +1,45 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "method": "POST",
+    "route": "/skills/evelynn_q/formulas",
+    "detailRoute": "/skills/evelynn_q/formulas/marked_bonus_magic_damage",
+    "skillKey": "evelynn_q",
+    "kind": "formulas",
+    "stableKey": "marked_bonus_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "marked_bonus_magic_damage",
+      "name": "标记目标额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalBonusDamage = BonusDamageBase + 0.25×来源总法强；对标记目标的下3次攻击或技能分别消费，不把Q重施次数混入。",
+      "sortOrder": 20
+    }
+  }
+}

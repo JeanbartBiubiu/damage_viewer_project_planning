@@ -1,0 +1,523 @@
+{
+  "planRevision": 2,
+  "recoveryOfPlanRevision": 1,
+  "plannedWrites": 15,
+  "methodCounts": {
+    "PUT": 6,
+    "POST": 7,
+    "DELETE": 2
+  },
+  "diagnosisSha256": "cf2f1644f0009dc82d1f77d7ece5947d9b663c953821be1374b68436ece9c749",
+  "failedReportSha256": "0cb773810d8a623755e16005b4f06347be018465e77e37dcda3a49abad3502c7",
+  "originalApprovedHashes": {
+    "01-来源与方案.md": "7bfe759d8ebae5e18dea99654f227304f0af2c02cfab16a7143f337ebc6f3442",
+    "02-冻结请求.json": "b6debba2c1d8704346c9b5c01b1d448e9e65ebf25ef0a5eddddc380ee3d5d639",
+    "03-来源快照.json": "0e64c89c27fc9fdd5346b8230d06e88b298689500a69a31f66fdc4a9a01297ba",
+    "04-写入前现值.json": "a9ae9bb62862c5f9955145ceef3da218b2053461741361623abb3f591aced4c3"
+  },
+  "sources": [
+    {
+      "path": "C:/project/damage_web_dev/数据参考/lol-wiki-current-items/current-items.normalized.json",
+      "sha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十六批成长与触发装备/冻结来源.json",
+      "sha256": "5a1ac9819cf064de2b6f743dfd0f3a512857224650746e423fdf9ebeed343cc2"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文生成装备第一批/候选与来源.json",
+      "sha256": "d8f769c5c407406bd38d1154115334403e92141001b5c5a39e2b049c45e3f92f"
+    }
+  ],
+  "correction": {
+    "alreadyCompletedRoute": "/skills/item_2422_passive",
+    "removedFromRecovery": true,
+    "effectUpdateBodyRule": "PUT 效果请求体删除路径中已固定的 effectKey",
+    "correctedEffectRoutes": [
+      "/skills/item_2422_passive/effects/magical_footwear_additional_speed",
+      "/skills/item_3742_passive/effects/unsinkable_slow_resist",
+      "/skills/item_3042_passive/effects/bonus_attack_damage_from_max_mana"
+    ]
+  },
+  "writes": [
+    {
+      "method": "PUT",
+      "route": "/skills/item_2422_passive/effects/magical_footwear_additional_speed",
+      "body": {
+        "description": "持有者初始化时建立单层常驻10点固定移动速度；装备主体25点移动速度不重复施加，外部显式移除。",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "有点神奇之鞋额外移速",
+        "results": [
+          {
+            "description": "固定增加10点移动速度；不重复装备主体的25点直接移动速度。",
+            "detail": {
+              "attributeKey": "move_speed",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "额外移动速度",
+            "resultKey": "attribute_bonus",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "additional_move_speed"
+              }
+            }
+          }
+        ],
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_2422_passive/trigger-rules",
+      "detailRoute": "/skills/item_2422_passive/trigger-rules/initialize_magical_footwear_additional_speed",
+      "body": {
+        "ruleKey": "initialize_magical_footwear_additional_speed",
+        "name": "初始化有点神奇之鞋额外移速",
+        "description": "装备生效时建立额外10点固定移动速度；装备主体25点直接属性不在本规则重复执行。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_magical_footwear_additional_speed",
+            "name": "执行有点神奇之鞋额外移速",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "magical_footwear_additional_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3742_passive",
+      "body": {
+        "name": "亡者的板甲·沉船者",
+        "description": "保存移动积攒上限、下一次攻击的最大额外物理伤害、达到满层时间和自身减速抗性；15%减速抗性在来源初始化时建立。最大攻击公式使用基础攻击力窄映射；移动过程和中间层数不按端点猜曲线。管理配置已接线，战斗运行时未验证。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3742_passive/effects/unsinkable_slow_resist",
+      "body": {
+        "description": "持有者初始化时建立单层常驻15%减速抗性；装备主体没有该直接属性，外部显式移除。",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "不沉减速抗性",
+        "results": [
+          {
+            "description": "向来源增加0.15减速抗性比例；1表示100%。",
+            "detail": {
+              "attributeKey": "slow_resist_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "不沉减速抗性",
+            "resultKey": "slow_resist",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_resist_ratio"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3742_passive/trigger-rules",
+      "detailRoute": "/skills/item_3742_passive/trigger-rules/initialize_unsinkable_slow_resist",
+      "body": {
+        "ruleKey": "initialize_unsinkable_slow_resist",
+        "name": "初始化不沉减速抗性",
+        "description": "装备生效时建立15%减速抗性；装备主体没有减速抗性直接属性。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_unsinkable_slow_resist",
+            "name": "执行不沉减速抗性",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "unsinkable_slow_resist"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3042_passive",
+      "body": {
+        "name": "魔切·敬畏与冲击",
+        "description": "保存并初始化2%最大法力值转额外攻击力；另保存1.2%最大法力值攻击特效伤害、伤害型技能远程3%与近战4%最大法力值伤害，以及客户端远程施法分支1/2。所有法力公式使用来源总法力值；冲击的攻击或技能伤害事件仍未接线。管理配置已接线，战斗运行时未验证。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3042_passive/effects/bonus_attack_damage_from_max_mana",
+      "body": {
+        "description": "来源初始化时建立按当前最大法力值动态读取的额外攻击力；外部显式移除。",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "敬畏最大法力转额外攻击力",
+        "results": [
+          {
+            "description": "按当前总最大法力值动态读取额外攻击力；不重复装备主体的35点直接攻击力。",
+            "detail": {
+              "attributeKey": "attack_damage",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "最大法力提供的额外攻击力",
+            "resultKey": "bonus_attack_damage",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "bonus_attack_damage_from_max_mana",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3042_passive/trigger-rules",
+      "detailRoute": "/skills/item_3042_passive/trigger-rules/initialize_bonus_attack_damage_from_max_mana",
+      "body": {
+        "ruleKey": "initialize_bonus_attack_damage_from_max_mana",
+        "name": "初始化敬畏最大法力转攻击力",
+        "description": "装备生效时建立按当前最大法力值动态读取的额外攻击力效果；冲击伤害不在本规则执行。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_bonus_attack_damage_from_max_mana",
+            "name": "执行敬畏额外攻击力",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "bonus_attack_damage_from_max_mana"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3040_passive/parameters",
+      "detailRoute": "/skills/item_3040_passive/parameters/ap_from_bonus_mana_ratio",
+      "body": {
+        "parameterKey": "ap_from_bonus_mana_ratio",
+        "name": "敬畏额外法力转法术强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.02,
+        "levelValues": null,
+        "description": "每1点额外法力提供0.02点法术强度，小数0.02表示2%。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3040_passive/formulas",
+      "detailRoute": "/skills/item_3040_passive/formulas/ap_from_bonus_mana",
+      "body": {
+        "formulaKey": "ap_from_bonus_mana",
+        "name": "额外法力转法术强度",
+        "description": "按来源对象当前额外法力值乘以2%敬畏比例计算法术强度。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "mana",
+              "attributeValueKind": "BONUS"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_from_bonus_mana_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3040_passive/effects",
+      "detailRoute": "/skills/item_3040_passive/effects/ap_from_bonus_mana",
+      "body": {
+        "effectKey": "ap_from_bonus_mana",
+        "name": "敬畏额外法力转法术强度",
+        "description": "来源初始化时建立按当前额外法力值动态读取的2%法术强度；外部显式移除。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "results": [
+          {
+            "resultKey": "ap_from_bonus_mana",
+            "name": "额外法力提供的法术强度",
+            "target": "SOURCE",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "description": "每1点额外法力提供0.02点法术强度；按当前时点动态读取。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "MOMENT_EVALUATION",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "ap_from_bonus_mana"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "ability_power",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3040_passive/trigger-rules",
+      "detailRoute": "/skills/item_3040_passive/trigger-rules/initialize_ap_from_bonus_mana",
+      "body": {
+        "ruleKey": "initialize_ap_from_bonus_mana",
+        "name": "初始化敬畏额外法力转法术强度",
+        "description": "装备生效时建立按当前额外法力值动态读取的敬畏属性效果；救主灵刃保持由伤前阈值规则独立触发。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_ap_from_bonus_mana",
+            "name": "执行敬畏法术强度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "ap_from_bonus_mana"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3040_passive",
+      "body": {
+        "name": "炽天使之拥·敬畏与救主灵刃",
+        "description": "敬畏按当前额外法力值的2%动态提供法术强度，并在来源初始化时建立常驻效果。救主灵刃在待处理伤害使持有者生命值从不低于最大生命值30%降到低于30%时，先获得最大法力值18%的3秒普通护盾；同一持有者冷却90秒。管理配置已接线，战斗运行时未验证。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/item_3040_passive/formulas/bonus_ap_from_max_mana",
+      "expectedBeforeSha256": "2c8184cd2c80ede014f393b0e90531fd824a6776a1d670aa8e96a87b5c57e8de"
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/item_3040_passive/parameters/bonus_ap_from_max_mana_ratio",
+      "expectedBeforeSha256": "d0fd7defcd681a4f90a7f1c3627fbc78abdc571b33362e7b09377b2cddb18155"
+    }
+  ],
+  "replacementSafety": {
+    "oldFormula": "bonus_ap_from_max_mana",
+    "oldFormulaIncomingReferences": [],
+    "oldParameter": "bonus_ap_from_max_mana_ratio",
+    "oldParameterReferencesBeforeFormulaDeletion": [
+      {
+        "kind": "formulas",
+        "key": "bonus_ap_from_max_mana"
+      }
+    ],
+    "deletionOrder": [
+      "formula",
+      "parameter"
+    ]
+  },
+  "excluded": [
+    "四件装备主体属性、装备技能关系和图片保持不变",
+    "亡者的板甲移动积攒与强化攻击不接线",
+    "魔切冲击攻击和技能伤害不接线",
+    "有点神奇之鞋升级继承过程不接线",
+    "不修改炽天使之拥救主灵刃现有组成",
+    "不声称战斗运行时、装备卸除或升级过程已经验证"
+  ]
+}

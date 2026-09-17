@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T12:16:49.809Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/rumble_q/formulas/empowered_health_damage_ratio",
+  "id": "empowered_health_damage_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "empowered_health_damage_ratio",
+    "name": "危险温度最大生命伤害比例组成",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "overheat_damage_multiplier"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "max_health_damage_ratio"
+        }
+      ]
+    },
+    "description": "EmpoweredMaxHealthDamageRatio = OverheatMulti×HealthDamageRatio；仅表示最大生命值伤害比例，不含平伤，目标事件和伤害结果待接线。",
+    "sortOrder": 40
+  }
+}

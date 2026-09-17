@@ -1,0 +1,24 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_w/parameters",
+    "detailRoute": "/skills/viego_w/parameters/interrupted_cooldown_ms",
+    "skillKey": "viego_w",
+    "kind": "parameters",
+    "stableKey": "interrupted_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "interrupted_cooldown_ms",
+      "name": "打断后冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "CDWheninterrupted=3秒，精确转换为3000毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

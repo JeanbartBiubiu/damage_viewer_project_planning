@@ -1,0 +1,23 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "method": "POST",
+    "route": "/skills/rakan_p/formulas",
+    "detailRoute": "/skills/rakan_p/formulas/shield_cooldown",
+    "skillKey": "rakan_p",
+    "kind": "formulas",
+    "stableKey": "shield_cooldown",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_cooldown",
+      "name": "异色羽裳护盾冷却",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "shield_cooldown_at_character_level"
+      },
+      "description": "对应ShieldCooldown的实际角色等级值。",
+      "sortOrder": 20
+    }
+  }
+}

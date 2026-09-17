@@ -1,0 +1,23 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 133,
+    "method": "POST",
+    "route": "/skills/singed_q/parameters",
+    "detailRoute": "/skills/singed_q/parameters/cloud_duration_ms",
+    "skillKey": "singed_q",
+    "kind": "parameters",
+    "stableKey": "cloud_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cloud_duration_ms",
+      "name": "毒云持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3250,
+      "levelValues": null,
+      "description": "当前CloudDuration=3.25秒，转换为3250毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

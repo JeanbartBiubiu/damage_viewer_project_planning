@@ -1,0 +1,52 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/effects",
+    "detailRoute": "/skills/ivern_w/effects/passive_damage",
+    "skillKey": "ivern_w",
+    "kind": "effects",
+    "stableKey": "passive_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "passive_damage",
+      "name": "揠苗助攻自身攻击附伤",
+      "description": "只记录艾翁自身在草丛或离开草丛后的本体附伤；友军附伤和地形事件待接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "揠苗助攻自身攻击附伤",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

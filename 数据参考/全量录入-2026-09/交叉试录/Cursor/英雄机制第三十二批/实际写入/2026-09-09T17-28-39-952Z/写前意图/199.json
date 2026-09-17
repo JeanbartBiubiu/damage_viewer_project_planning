@@ -1,0 +1,23 @@
+{
+  "i": 198,
+  "intent": {
+    "sequence": 199,
+    "method": "POST",
+    "route": "/skills/zeri_r/parameters",
+    "detailRoute": "/skills/zeri_r/parameters/base_attack_speed_bonus_ratio",
+    "skillKey": "zeri_r",
+    "kind": "parameters",
+    "stableKey": "base_attack_speed_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_attack_speed_bonus_ratio",
+      "name": "命中英雄攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.30000001192092896,
+      "levelValues": null,
+      "description": "当前正文命中英雄后提供30%攻击速度，转为0.3比例。",
+      "sortOrder": 60
+    }
+  }
+}

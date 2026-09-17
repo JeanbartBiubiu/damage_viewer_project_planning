@@ -1,0 +1,23 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "method": "POST",
+    "route": "/skills/kayle_p/parameters",
+    "detailRoute": "/skills/kayle_p/parameters/passive_wave_ap_ratio",
+    "skillKey": "kayle_p",
+    "kind": "parameters",
+    "stableKey": "passive_wave_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_wave_ap_ratio",
+      "name": "登神长阶焰浪法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前PassiveWaveDamage第二项无mStat，按同版窄证读取来源总法术强度。",
+      "sortOrder": 160
+    }
+  }
+}

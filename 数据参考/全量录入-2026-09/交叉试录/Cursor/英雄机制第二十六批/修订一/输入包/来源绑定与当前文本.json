@@ -1,0 +1,4213 @@
+{
+  "at": "2026-09-09T14:14:11.789Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "stringTableSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "heroes": [
+    {
+      "id": "Alistar",
+      "key": "champion_alistar",
+      "name": "阿利斯塔",
+      "source": {
+        "championId": "Alistar",
+        "chineseName": "牛头酋长",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Alistar.json.gz",
+          "sha256": "1609dfbe0fef16be3b38b5d0e7d3b7b99a897f01209fc98dd4d0584575f320b7",
+          "compressedSha256": "2c72127bcbee2c91cb4b9c9d8c099c33d27701b227f523e46829519f6d5b0e0d",
+          "byteSize": 45570,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/alistar/alistar.bin.json",
+          "fetchedAt": "2026-09-06T14:26:11.770Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Alistar.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Alistar.json",
+          "fetchedAt": "2026-09-06T14:12:44.120Z",
+          "byteSize": 11700,
+          "sha256": "6521b313321ff025c937bafbb8cb1160cd732e88a8997ed9a2ecdbe48908db0b"
+        },
+        "rootPath": "Characters/Alistar/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "凯旋怒吼",
+            "clientPath": "Characters/Alistar/Spells/AlistarPassiveAbility/AlistarPassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "AlistarPassiveHealRatio",
+              "AlistarPassiveAllyHealRatio",
+              "PassiveCooldown",
+              "PassiveMaxStacks",
+              "PassiveStacksChampionKill",
+              "PassiveAllyNumHeal"
+            ],
+            "calculationNames": [
+              "BaseHeal",
+              "AllyHeal"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "Pulverize",
+            "name": "大地粉碎",
+            "clientPath": "Characters/Alistar/Spells/PulverizeAbility/Pulverize",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cost": [
+              50,
+              55,
+              60,
+              65,
+              70
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              15,
+              14,
+              13,
+              12,
+              11,
+              10,
+              9
+            ],
+            "clientMana": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              75
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "APRatio",
+              "AoERadius",
+              "KnockupDuration"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "Headbutt",
+            "name": "野蛮冲撞",
+            "clientPath": "Characters/Alistar/Spells/HeadbuttAbility/Headbutt",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cost": [
+              50,
+              55,
+              60,
+              65,
+              70
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              15,
+              14,
+              13,
+              12,
+              11,
+              10,
+              10
+            ],
+            "clientMana": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              75
+            ],
+            "clientCastTime": 0.5055999755859375,
+            "dataValueNames": [
+              "KnockBackDistance",
+              "Damage",
+              "StunDuration",
+              "KnockUpDuration",
+              "APRatio"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "AlistarE",
+            "name": "践踏",
+            "clientPath": "Characters/Alistar/Spells/AlistarEAbility/AlistarE",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              12,
+              11.5,
+              11,
+              10.5,
+              10
+            ],
+            "cost": [
+              50,
+              55,
+              60,
+              65,
+              70
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              12.5,
+              12,
+              11.5,
+              11,
+              10.5,
+              10,
+              9.5
+            ],
+            "clientMana": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              75
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "APRatio",
+              "TrampleDamage",
+              "BonusAARange",
+              "Duration",
+              "Radius",
+              "MaxStacks",
+              "StunDuration",
+              "ProcDamageBase",
+              "ProcDamageScale",
+              "FullChargeDuration"
+            ],
+            "calculationNames": [
+              "TotalDamage",
+              "AttackBonusDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "FerociousHowl",
+            "name": "坚定意志",
+            "clientPath": "Characters/Alistar/Spells/FerociousHowlAbility/FerociousHowl",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              120,
+              100,
+              80
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              120,
+              120,
+              100,
+              80,
+              120,
+              120,
+              120
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "RDuration",
+              "RDamageReduction"
+            ],
+            "calculationNames": [],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Alistar/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Alistar/Spells/AlistarPassiveAbility/AlistarPassive",
+        "spells": [
+          "Characters/Alistar/Spells/PulverizeAbility/Pulverize",
+          "Characters/Alistar/Spells/HeadbuttAbility/Headbutt",
+          "Characters/Alistar/Spells/AlistarEAbility/AlistarE",
+          "Characters/Alistar/Spells/FerociousHowlAbility/FerociousHowl"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "alistar_p",
+          "binding": "Characters/Alistar/Spells/AlistarPassiveAbility/AlistarPassive",
+          "object": {
+            "ObjectName": "AlistarPassive",
+            "objectPath": "Characters/Alistar/Spells/AlistarPassiveAbility/AlistarPassive",
+            "mScriptName": "AlistarPassive",
+            "mSpell": {
+              "mSpellTags": [
+                "PositiveEffect_Boon"
+              ],
+              "DataValues": [
+                {
+                  "name": "AlistarPassiveHealRatio",
+                  "values": [
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "AlistarPassiveAllyHealRatio",
+                  "values": [
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveCooldown",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveMaxStacks",
+                  "values": [
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveStacksChampionKill",
+                  "values": [
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveAllyNumHeal",
+                  "values": [
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "BaseHeal": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mStat": 12,
+                      "mDataValue": "AlistarPassiveHealRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "AllyHeal": {
+                  "mMultiplier": {
+                    "mDataValue": "AlistarPassiveAllyHealRatio",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mModifiedGameCalculation": "BaseHeal",
+                  "__type": "GameCalculationModified"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/Alistar/HUD/Icons2D/Alistar_E.dds"
+              ],
+              "cooldownTime": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "Cooldown": {
+                "values": [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ],
+                "{0a3e0478}": 3,
+                "__type": "{0a0eddc9}"
+              },
+              "castRange": [
+                950,
+                950,
+                950,
+                950,
+                950,
+                950,
+                950
+              ],
+              "castRangeValues": {
+                "values": [
+                  950,
+                  950,
+                  950,
+                  950,
+                  950,
+                  950,
+                  950
+                ],
+                "{0a3e0478}": 950,
+                "__type": "{0a0eddc9}"
+              },
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "AlistarPassive",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyName": "Spell_AlistarPassive_Name",
+                    "keyTooltip": "Spell_AlistarPassive_Tooltip",
+                    "keySummary": "Spell_AlistarPassive_Summary"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_AlistarPassive",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_AlistarPassive_Name",
+              "text": "凯旋怒吼"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_AlistarPassive_Tooltip",
+              "text": "阿利斯塔在对一个敌方英雄造成<status>晕眩</status>或<status>震移</status>时，或附近有一名敌人阵亡时，会获得一层效果。在@PassiveMaxStacks@层时，他会发出怒吼，治疗自身<healing>@BaseHeal@生命值</healing>并治疗所有附近的友方英雄<healing>@AllyHeal@生命值</healing>。<br><br>敌方英雄和史诗级野怪的阵亡会完全充能这个技能。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_AlistarPassive_Summary",
+              "text": "阿利斯塔在对敌方英雄造成晕眩或强制位移时，或附近有敌人阵亡时，会积攒他的怒吼层数。在层数攒满后，他会治疗他自己和所有附近的友方英雄。"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "alistar_q",
+          "binding": "Characters/Alistar/Spells/PulverizeAbility/Pulverize",
+          "object": {
+            "ObjectName": "Pulverize",
+            "objectPath": "Characters/Alistar/Spells/PulverizeAbility/Pulverize",
+            "mScriptName": "Pulverize",
+            "mSpell": {
+              "mAffectsTypeFlags": 14346,
+              "mAlternateName": "Pulverize",
+              "mSpellTags": [
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_SignatureSpell",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    20,
+                    60,
+                    100,
+                    140,
+                    180,
+                    220,
+                    260
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "AoERadius",
+                  "values": [
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375,
+                    375
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockupDuration",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    17,
+                    17,
+                    16,
+                    15,
+                    14,
+                    13,
+                    13
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Alistar/HUD/Icons2D/Alistar_Q.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                15,
+                14,
+                13,
+                12,
+                11,
+                10,
+                9
+              ],
+              "Cooldown": {
+                "values": [
+                  15,
+                  14,
+                  13,
+                  12,
+                  11,
+                  10,
+                  9
+                ],
+                "{0a3e0478}": 15,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                330,
+                330,
+                330,
+                330,
+                330,
+                330,
+                330
+              ],
+              "castRangeValues": {
+                "values": [
+                  330,
+                  330,
+                  330,
+                  330,
+                  330,
+                  330,
+                  330
+                ],
+                "{0a3e0478}": 330,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                365,
+                365,
+                365,
+                365,
+                365,
+                365,
+                365
+              ],
+              "castRadius": [
+                365,
+                365,
+                365,
+                365,
+                365,
+                365,
+                365
+              ],
+              "castConeDistance": 100,
+              "castFrame": 11.779999732971191,
+              "missileSpeed": 20,
+              "mana": [
+                50,
+                55,
+                60,
+                65,
+                70,
+                75
+              ],
+              "manaValues": {
+                "values": [
+                  50,
+                  55,
+                  60,
+                  65,
+                  70,
+                  75
+                ],
+                "{0a3e0478}": 50,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "SpellEventToAudioEventSuffix": {
+                "12": "Play_sfx_Alistar_Pulverize_OnCast"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "Pulverize",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_Pulverize_Name",
+                    "keySummary": "Spell_Pulverize_Summary",
+                    "keyTooltip": "Spell_Pulverize_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 2,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_Pulverize",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mMultiplier": {
+                  "mSpellCalculationKey": "TotalDamage",
+                  "__type": "{f3cbe7b2}"
+                },
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "KnockupDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "KnockupDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "KnockupDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16777216,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "KnockupDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 8,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_Pulverize_Name",
+              "text": "大地粉碎"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_Pulverize_Summary",
+              "text": "阿利斯塔锤击地面，对附近的敌人造成魔法伤害并使他们浮空。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_Pulverize_Tooltip",
+              "text": "阿利斯塔使大地破裂，<status>击飞</status>敌人@KnockupDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "alistar_w",
+          "binding": "Characters/Alistar/Spells/HeadbuttAbility/Headbutt",
+          "object": {
+            "ObjectName": "Headbutt",
+            "objectPath": "Characters/Alistar/Spells/HeadbuttAbility/Headbutt",
+            "mScriptName": "Headbutt",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "Headbutt",
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_KnockBack"
+              ],
+              "mEffectAmount": [
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    700,
+                    700,
+                    700,
+                    700,
+                    700,
+                    700,
+                    700
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "KnockBackDistance",
+                  "values": [
+                    700,
+                    700,
+                    700,
+                    700,
+                    700,
+                    700,
+                    700
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Damage",
+                  "values": [
+                    0,
+                    55,
+                    110,
+                    165,
+                    220,
+                    275,
+                    330
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "StunDuration",
+                  "values": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockUpDuration",
+                  "values": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "URF": {
+                  "SpellDataValues": [
+                    {
+                      "name": "StunDuration",
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    18,
+                    17,
+                    16,
+                    15,
+                    14,
+                    13,
+                    12
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "Damage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell2",
+              "mImgIconName": [
+                "ASSETS/Characters/Alistar/HUD/Icons2D/Alistar_W.dds"
+              ],
+              "spellCastTime": 0.5055999755859375,
+              "spellTotalTime": 0.8999999761581421,
+              "cooldownTime": [
+                15,
+                14,
+                13,
+                12,
+                11,
+                10,
+                10
+              ],
+              "Cooldown": {
+                "values": [
+                  15,
+                  14,
+                  13,
+                  12,
+                  11,
+                  10,
+                  10
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mCantCancelWhileChanneling": true,
+              "cantCastWhileRooted": true,
+              "castRange": [
+                650,
+                650,
+                650,
+                650,
+                650,
+                650,
+                650
+              ],
+              "castRangeValues": {
+                "values": [
+                  650,
+                  650,
+                  650,
+                  650,
+                  650,
+                  650,
+                  650
+                ],
+                "{0a3e0478}": 650,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "castConeDistance": 100,
+              "castFrame": 23.0049991607666,
+              "missileSpeed": 0,
+              "mHitBoneName": "C_BuffBone_Glb_Center_Loc",
+              "mana": [
+                50,
+                55,
+                60,
+                65,
+                70,
+                75
+              ],
+              "manaValues": {
+                "values": [
+                  50,
+                  55,
+                  60,
+                  65,
+                  70,
+                  75
+                ],
+                "{0a3e0478}": 50,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "SpellEventToAudioEventSuffix": {
+                "12": "Play_sfx_Alistar_Headbutt_OnCast"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "Headbutt",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_Headbutt_Name",
+                    "keySummary": "Spell_Headbutt_Summary",
+                    "keyTooltip": "Spell_Headbutt_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Damage",
+                          "typeIndex": 2,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "startLocator": {
+                      "basePosition": 2,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "endLocator": {
+                      "basePosition": 2,
+                      "distanceOffset": 100,
+                      "orientationType": 2,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        700,
+                        700,
+                        700,
+                        700,
+                        700,
+                        700
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_Headbutt",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mMultiplier": {
+                  "mSpellCalculationKey": "TotalDamage",
+                  "__type": "{f3cbe7b2}"
+                },
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4194304,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "KnockbackDistance",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 256,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_Headbutt_Name",
+              "text": "野蛮冲撞"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_Headbutt_Summary",
+              "text": "阿利斯塔冲撞目标，对其造成伤害并击退目标。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_Headbutt_Tooltip",
+              "text": "阿利斯塔顶向一名敌人，将其<status>击退</status>并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "alistar_e",
+          "binding": "Characters/Alistar/Spells/AlistarEAbility/AlistarE",
+          "object": {
+            "ObjectName": "AlistarE",
+            "objectPath": "Characters/Alistar/Spells/AlistarEAbility/AlistarE",
+            "mScriptName": "AlistarE",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 9221,
+              "mAlternateName": "Trample",
+              "mSpellTags": [
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_DoT",
+                "Trait_Low_Damage",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    80,
+                    80,
+                    110,
+                    140,
+                    170,
+                    200,
+                    230
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    50,
+                    50,
+                    50,
+                    50,
+                    50,
+                    50,
+                    50
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TrampleDamage",
+                  "values": [
+                    80,
+                    80,
+                    110,
+                    140,
+                    170,
+                    200,
+                    230
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BonusAARange",
+                  "values": [
+                    50,
+                    50,
+                    50,
+                    50,
+                    50,
+                    50,
+                    50
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Duration",
+                  "values": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Radius",
+                  "values": [
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxStacks",
+                  "values": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "StunDuration",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ProcDamageBase",
+                  "values": [
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20,
+                    20
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ProcDamageScale",
+                  "values": [
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "FullChargeDuration",
+                  "values": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "APRatio",
+                      "values": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "TrampleDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "AttackBonusDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 20,
+                      "mInitialBonusPerLevel": 15,
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.699999988079071,
+              "mAnimationName": "Spell3",
+              "mImgIconName": [
+                "ASSETS/Characters/Alistar/HUD/Icons2D/Alistar_Passive.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                12.5,
+                12,
+                11.5,
+                11,
+                10.5,
+                10,
+                9.5
+              ],
+              "Cooldown": {
+                "values": [
+                  12.5,
+                  12,
+                  11.5,
+                  11,
+                  10.5,
+                  10,
+                  9.5
+                ],
+                "{0a3e0478}": 12.5,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ],
+              "castRangeValues": {
+                "values": [
+                  350,
+                  350,
+                  350,
+                  350,
+                  350,
+                  350,
+                  350
+                ],
+                "{0a3e0478}": 350,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                575,
+                575,
+                575,
+                575,
+                575,
+                575,
+                575
+              ],
+              "castConeDistance": 100,
+              "castFrame": 20.760000228881836,
+              "missileSpeed": 0,
+              "mAfterEffectKey": "Alistar_E_Meditate_01",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mana": [
+                50,
+                55,
+                60,
+                65,
+                70,
+                75
+              ],
+              "manaValues": {
+                "values": [
+                  50,
+                  55,
+                  60,
+                  65,
+                  70,
+                  75
+                ],
+                "{0a3e0478}": 50,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "AlistarE",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_AlistarE_Name",
+                    "keySummary": "Spell_AlistarE_Summary",
+                    "keyTooltip": "Spell_AlistarE_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_AlistarE_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "TrampleDamage",
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_AlistarE",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_AlistarE_Name",
+              "text": "践踏"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_AlistarE_Summary",
+              "text": "阿利斯塔践踏附近的敌方单位，无视单位的碰撞体积并在他伤害到一名敌方英雄时获得一层充能。在满层充能时，阿利斯塔的下次对敌方英雄发起的普攻将造成额外魔法伤害和晕眩效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_AlistarE_Tooltip",
+              "text": "阿利斯塔践踏地面，变为幽灵状态并在@Duration@秒里持续对附近的敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。每段践踏在至少伤害到一名敌方英雄时会为阿利斯塔提供一层效果。<br><br>在@MaxStacks@层效果时，阿利斯塔的下一个对英雄打出的攻击会<status>晕眩</status>目标@StunDuration@秒并造成额外的<magicDamage>@AttackBonusDamage@魔法伤害</magicDamage>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_AlistarE_TooltipExtendedBelowLine",
+              "text": "<rules>幽灵状态的单位无视其它单位的碰撞体积。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "alistar_r",
+          "binding": "Characters/Alistar/Spells/FerociousHowlAbility/FerociousHowl",
+          "object": {
+            "ObjectName": "FerociousHowl",
+            "objectPath": "Characters/Alistar/Spells/FerociousHowlAbility/FerociousHowl",
+            "mScriptName": "FerociousHowl",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "FerociousHowl",
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "SpecialCase_StasisLocked",
+                "Trait_Parry"
+              ],
+              "DataValues": [
+                {
+                  "name": "RDuration",
+                  "values": [
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RDamageReduction",
+                  "values": [
+                    45,
+                    55,
+                    65,
+                    75,
+                    85,
+                    95,
+                    105
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "URF": {
+                  "SpellDataValues": [
+                    {
+                      "name": "RDuration",
+                      "values": [
+                        3.5,
+                        3.5,
+                        3.5,
+                        3.5,
+                        3.5,
+                        3.5,
+                        3.5
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                },
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "RDamageReduction",
+                      "values": [
+                        40,
+                        50,
+                        60,
+                        70,
+                        80,
+                        90,
+                        100
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    180,
+                    180,
+                    150,
+                    120,
+                    100,
+                    100,
+                    100
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mAnimationName": "None",
+              "mImgIconName": [
+                "ASSETS/Characters/Alistar/HUD/Icons2D/Alistar_R.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                120,
+                120,
+                100,
+                80,
+                120,
+                120,
+                120
+              ],
+              "Cooldown": {
+                "values": [
+                  120,
+                  120,
+                  100,
+                  80,
+                  120,
+                  120,
+                  120
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "cannotBeSuppressed": true,
+              "canCastWhileDisabled": true,
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "castRangeValues": {
+                "values": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "{0a3e0478}": 1,
+                "__type": "{0a0eddc9}"
+              },
+              "castConeDistance": 100,
+              "castFrame": 20.799999237060547,
+              "missileSpeed": 828.5,
+              "mana": [
+                100,
+                100,
+                100,
+                0,
+                0,
+                0
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  100,
+                  100,
+                  0,
+                  0,
+                  0
+                ],
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "SpellEventToAudioEventSuffix": {
+                "12": "Play_sfx_Alistar_FerociousHowl_OnCast",
+                "18": "Play_sfx_Alistar_FerociousHowl_OnBuffActivate"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "FerociousHowl",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_FerociousHowl_Name",
+                    "keySummary": "Spell_FerociousHowl_Summary",
+                    "keyTooltip": "Spell_FerociousHowl_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "RDamageReduction",
+                          "typeIndex": 2,
+                          "nameOverride": "Spell_ListType_DamageReduction",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2097152,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "RDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 524288,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "RDamageReduction",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 2,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_FerociousHowl_Name",
+              "text": "坚定意志"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_FerociousHowl_Summary",
+              "text": "阿利斯塔发出野性的咆哮，移除身上所有控制效果，并且持续时间内所受的物理和魔法伤害将减少。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_FerociousHowl_Tooltip",
+              "text": "阿利斯塔立刻净化掉所有<status>限制</status>效果并获得@RDamageReduction@%伤害减免，持续@RDuration@秒。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Blitzcrank",
+      "key": "champion_blitzcrank",
+      "name": "布里茨",
+      "source": {
+        "championId": "Blitzcrank",
+        "chineseName": "蒸汽机器人",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Blitzcrank.json.gz",
+          "sha256": "f0e49a7dad1c061adc6a4fe37d9f3e7ad0a568991b74e3fa17b899e98337f3b2",
+          "compressedSha256": "e3cafce036f0af36589bbd0cd4fd46719cbb6bc7f63bb0e498481a826caf27d2",
+          "byteSize": 47568,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/blitzcrank/blitzcrank.bin.json",
+          "fetchedAt": "2026-09-06T14:26:13.738Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Blitzcrank.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Blitzcrank.json",
+          "fetchedAt": "2026-09-06T14:12:45.562Z",
+          "byteSize": 15385,
+          "sha256": "d97f4cdd58e7e8be51098259aa34a395050cc3e79bbd0c4aef6426bd418f1451"
+        },
+        "rootPath": "Characters/Blitzcrank/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "法力屏障",
+            "clientPath": "Characters/Blitzcrank/Spells/ManaBarrierIconAbility/ManaBarrierIcon",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": null,
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "HealthThreshold",
+              "ManaPercent",
+              "ShieldDuration",
+              "Cooldown",
+              "ManaRatio"
+            ],
+            "calculationNames": [
+              "ShieldAmount"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "RocketGrab",
+            "name": "机械飞爪",
+            "clientPath": "Characters/Blitzcrank/Spells/RocketGrabAbility/RocketGrab",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              20,
+              19,
+              18,
+              17,
+              16
+            ],
+            "cost": [
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              21,
+              20,
+              19,
+              18,
+              17,
+              16,
+              16
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "LolipopLength",
+              "APRatio",
+              "CherryBonusHaste"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "Overdrive",
+            "name": "过载运转",
+            "clientPath": "Characters/Blitzcrank/Spells/OverdriveAbility/Overdrive",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              15,
+              15,
+              15,
+              15,
+              15
+            ],
+            "cost": [
+              75,
+              75,
+              75,
+              75,
+              75
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              15,
+              15,
+              15,
+              15,
+              15,
+              15,
+              15
+            ],
+            "clientMana": [
+              75,
+              75,
+              75,
+              75,
+              75,
+              75
+            ],
+            "clientCastTime": 0.4043000042438507,
+            "dataValueNames": [
+              "MoveSpeedMod",
+              "AttackSpeedMod",
+              "Duration",
+              "MoveSpeedModReduction",
+              "SlowDuration",
+              "MoveSpeedModMin",
+              "MoveSpeedModMinTime",
+              "PercentHealthDamage"
+            ],
+            "calculationNames": [
+              "{c01903c1}"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "PowerFist",
+            "name": "能量铁拳",
+            "clientPath": "Characters/Blitzcrank/Spells/PowerFistAbility/PowerFist",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              7,
+              6.5,
+              6,
+              5.5,
+              5
+            ],
+            "cost": [
+              25,
+              25,
+              25,
+              25,
+              25
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              7,
+              7,
+              6.5,
+              6,
+              5.5,
+              5,
+              5
+            ],
+            "clientMana": [
+              25,
+              25,
+              25,
+              25,
+              25,
+              25
+            ],
+            "clientCastTime": 0.5217499732971191,
+            "dataValueNames": [
+              "CCDuration"
+            ],
+            "calculationNames": [
+              "TotalDamage",
+              "{a9d6b924}"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "StaticField",
+            "name": "静电力场",
+            "clientPath": "Characters/Blitzcrank/Spells/StaticFieldAbility/StaticField",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              60,
+              40,
+              20
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              0,
+              60,
+              40,
+              20,
+              0,
+              0,
+              0
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              150,
+              150,
+              0
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "PassiveBaseDamage",
+              "ZapCountdown",
+              "ActiveRange",
+              "ActiveBaseDamage",
+              "SilenceDuration",
+              "PassiveAPRatio",
+              "ActiveAPRatio",
+              "PassiveManaRatio"
+            ],
+            "calculationNames": [
+              "ActiveDamage",
+              "PassiveDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Blitzcrank/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Blitzcrank/Spells/ManaBarrierIconAbility/ManaBarrierIcon",
+        "spells": [
+          "Characters/Blitzcrank/Spells/RocketGrabAbility/RocketGrab",
+          "Characters/Blitzcrank/Spells/OverdriveAbility/Overdrive",
+          "Characters/Blitzcrank/Spells/PowerFistAbility/PowerFist",
+          "Characters/Blitzcrank/Spells/StaticFieldAbility/StaticField"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "blitzcrank_p",
+          "binding": "Characters/Blitzcrank/Spells/ManaBarrierIconAbility/ManaBarrierIcon",
+          "object": {
+            "ObjectName": "ManaBarrierIcon",
+            "objectPath": "Characters/Blitzcrank/Spells/ManaBarrierIconAbility/ManaBarrierIcon",
+            "mScriptName": "ManaBarrierIcon",
+            "mSpell": {
+              "mEffectAmount": [
+                {
+                  "value": [
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "HealthThreshold",
+                  "values": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ManaPercent",
+                  "values": [
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355,
+                    0.3499999940395355
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ShieldDuration",
+                  "values": [
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Cooldown",
+                  "values": [
+                    90,
+                    90,
+                    90,
+                    90,
+                    90,
+                    90,
+                    90
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ManaRatio",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "ManaRatio",
+                      "values": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "Cooldown",
+                      "values": [
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "ShieldAmount": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mCoefficient": 0.3499999940395355,
+                      "__type": "AbilityResourceByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/Blitzcrank/HUD/Icons2D/BlitzcrankP.dds"
+              ],
+              "castRange": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "castRangeValues": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "ManaBarrierIcon",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyName": "Spell_ManaBarrierIcon_Name",
+                    "keySummary": "Spell_ManaBarrierIcon_Summary",
+                    "keyTooltip": "Spell_ManaBarrierIcon_Tooltip",
+                    "keyCooldown": "Spell_ManaBarrierIcon_Cooldown"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_ManaBarrierIcon",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ManaBarrierIcon_Name",
+              "text": "法力屏障"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ManaBarrierIcon_Summary",
+              "text": "布里茨在血量过低时会获得一层基于它法力值的护盾。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ManaBarrierIcon_Tooltip",
+              "text": "当布里茨跌到@HealthThreshold*100@%生命值以下时，它会获得持续@ShieldDuration@秒的<shield>@ShieldAmount@护盾值</shield>。"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_ManaBarrierIcon_Cooldown",
+              "text": "@Cooldown@秒%i:cooldown%"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "blitzcrank_q",
+          "binding": "Characters/Blitzcrank/Spells/RocketGrabAbility/RocketGrab",
+          "object": {
+            "ObjectName": "RocketGrab",
+            "objectPath": "Characters/Blitzcrank/Spells/RocketGrabAbility/RocketGrab",
+            "mScriptName": "RocketGrab",
+            "mSpell": {
+              "mAffectsTypeFlags": 13327,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_SignatureSpell",
+                "Trait_Ranged_StopsFirstHit"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    40,
+                    90,
+                    140,
+                    190,
+                    240,
+                    290,
+                    340
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    60,
+                    110,
+                    160,
+                    210,
+                    260,
+                    310,
+                    360
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "LolipopLength",
+                  "values": [
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    1.2000000476837158,
+                    1.2000000476837158,
+                    1.2000000476837158,
+                    1.2000000476837158,
+                    1.2000000476837158,
+                    1.2000000476837158,
+                    1.2000000476837158
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CherryBonusHaste",
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "APRatio",
+                      "values": [
+                        1.5,
+                        1.5,
+                        1.5,
+                        1.5,
+                        1.5,
+                        1.5,
+                        1.5
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "CherryBonusHaste",
+                      "values": [
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    11,
+                    11,
+                    10.5,
+                    10,
+                    9.5,
+                    9,
+                    8
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 1,
+              "mAnimationName": "Spell1",
+              "mAnimationLoopName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Blitzcrank/HUD/Icons2D/BlitzcrankQ.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                21,
+                20,
+                19,
+                18,
+                17,
+                16,
+                16
+              ],
+              "Cooldown": {
+                "values": [
+                  21,
+                  20,
+                  19,
+                  18,
+                  17,
+                  16,
+                  16
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "useAnimatorFramerate": true,
+              "castRange": [
+                10000,
+                10000,
+                10000,
+                10000,
+                10000,
+                10000,
+                10000
+              ],
+              "castRangeValues": {
+                "values": [
+                  10000,
+                  10000,
+                  10000,
+                  10000,
+                  10000,
+                  10000,
+                  10000
+                ],
+                "{0a3e0478}": 10000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                1079,
+                1079,
+                1079,
+                1079,
+                1079,
+                1079,
+                1079
+              ],
+              "castRadius": [
+                210,
+                210,
+                210,
+                210,
+                210,
+                210,
+                210
+              ],
+              "castConeDistance": 100,
+              "missileSpeed": 1800,
+              "mLineWidth": 70,
+              "bHaveHitBone": true,
+              "mHitBoneName": "root",
+              "mana": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  100,
+                  100,
+                  100,
+                  100,
+                  100
+                ],
+                "{0a3e0478}": 100,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "RocketGrab",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_RocketGrab_Name",
+                    "keySummary": "Spell_RocketGrab_Summary",
+                    "keyTooltip": "Spell_RocketGrab_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "hideWithLineIndicator": true,
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        70,
+                        70,
+                        70,
+                        70,
+                        70,
+                        70
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_RocketGrab",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 32768,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mNumber": 70,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 65536,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 32,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_RocketGrab_Name",
+              "text": "机械飞爪"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_RocketGrab_Summary",
+              "text": "布里茨发射它的右手，来抓取碰到的第一个敌人，在对敌人造成伤害的同时，还会将这名敌人拉到它的面前。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_RocketGrab_Tooltip",
+              "text": "布里茨射出它的右拳，将命中的第一个敌人<status>拉拽</status>向它并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "blitzcrank_w",
+          "binding": "Characters/Blitzcrank/Spells/OverdriveAbility/Overdrive",
+          "object": {
+            "ObjectName": "Overdrive",
+            "objectPath": "Characters/Blitzcrank/Spells/OverdriveAbility/Overdrive",
+            "mScriptName": "Overdrive",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 9221,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "Trait_AttackBuff_Duration"
+              ],
+              "DataValues": [
+                {
+                  "name": "MoveSpeedMod",
+                  "values": [
+                    0.550000011920929,
+                    0.6000000238418579,
+                    0.6499999761581421,
+                    0.699999988079071,
+                    0.75,
+                    0.800000011920929,
+                    0.8500000238418579
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "AttackSpeedMod",
+                  "values": [
+                    0.20000000298023224,
+                    0.30000001192092896,
+                    0.4000000059604645,
+                    0.5,
+                    0.6000000238418579,
+                    0.699999988079071,
+                    0.800000011920929
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Duration",
+                  "values": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MoveSpeedModReduction",
+                  "values": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MoveSpeedModMin",
+                  "values": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MoveSpeedModMinTime",
+                  "values": [
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PercentHealthDamage",
+                  "values": [
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582,
+                    0.009999999776482582
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "SlowDuration",
+                      "values": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "AttackSpeedMod",
+                      "values": [
+                        0.6499999761581421,
+                        0.699999988079071,
+                        0.75,
+                        0.800000011920929,
+                        0.8500000238418579,
+                        0.8999999761581421,
+                        0.949999988079071
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "MoveSpeedModReduction",
+                      "values": [
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224,
+                        0.20000000298023224
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "{c01903c1}": {
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 60,
+                      "mInitialBonusPerLevel": 20,
+                      "mBreakpoints": [
+                        {
+                          "mLevel": 7,
+                          "mBonusPerLevelAtAndAfter": 5,
+                          "__type": "Breakpoint"
+                        }
+                      ],
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell3",
+              "mImgIconName": [
+                "ASSETS/Characters/Blitzcrank/HUD/Icons2D/BlitzcrankW.dds"
+              ],
+              "spellCastTime": 0.4043000042438507,
+              "spellTotalTime": 1.2461999654769897,
+              "cooldownTime": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ],
+              "Cooldown": {
+                "values": [
+                  15,
+                  15,
+                  15,
+                  15,
+                  15,
+                  15,
+                  15
+                ],
+                "{0a3e0478}": 15,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "castRangeValues": {
+                "values": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "{0a3e0478}": 1,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "castConeDistance": 100,
+              "castFrame": 5.394999980926514,
+              "missileSpeed": 20,
+              "bHaveHitBone": true,
+              "mHitBoneName": "C_BUFFBONE_GLB_HEAD_LOC",
+              "mana": [
+                75,
+                75,
+                75,
+                75,
+                75,
+                75
+              ],
+              "manaValues": {
+                "values": [
+                  75,
+                  75,
+                  75,
+                  75,
+                  75,
+                  75
+                ],
+                "{0a3e0478}": 75,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "Overdrive",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_Overdrive_Name",
+                    "keySummary": "Spell_Overdrive_Summary",
+                    "keyTooltip": "Spell_Overdrive_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_Overdrive_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "MoveSpeedMod",
+                          "typeIndex": 1,
+                          "multiplier": 100,
+                          "nameOverride": "Spell_ListType_MovementSpeed",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "AttackSpeedMod",
+                          "typeIndex": 2,
+                          "multiplier": 100,
+                          "nameOverride": "Spell_ListType_AttackSpeed",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_Overdrive",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MoveSpeedMod",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_Overdrive_Name",
+              "text": "过载运转"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_Overdrive_Summary",
+              "text": "布里茨对自己进行了超级充电，它的攻击速度和移动速度得到了显著提升。它会在效果结束后暂时减速。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_Overdrive_Tooltip",
+              "text": "布里茨进行超级充能，获得<speed>持续衰减的@MoveSpeedMod*100@%移动速度</speed>和<attackSpeed>@AttackSpeedMod*100@%攻击速度</attackSpeed>，持续@Duration@秒。<br><br>持续期间过后，布里茨会<status>减速</status>@MoveSpeedModReduction*100@%，持续@SlowDuration@秒。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_Overdrive_TooltipExtendedBelowLine",
+              "text": "<rules>移动速度会在@MoveSpeedModMinTime@秒里持续衰减至@MoveSpeedModMin*100@%</rules>"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "blitzcrank_e",
+          "binding": "Characters/Blitzcrank/Spells/PowerFistAbility/PowerFist",
+          "object": {
+            "ObjectName": "PowerFist",
+            "objectPath": "Characters/Blitzcrank/Spells/PowerFistAbility/PowerFist",
+            "mScriptName": "PowerFist",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 9221,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "PositiveEffect_EmpowerAttack",
+                "Trait_AttackReset",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_Strike",
+                "Trait_Low_Damage"
+              ],
+              "DataValues": [
+                {
+                  "name": "CCDuration",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mStat": 2,
+                      "mCoefficient": 2,
+                      "__type": "StatByCoefficientCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.25,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "{a9d6b924}": {
+                  "mFormulaParts": [
+                    {
+                      "mStat": 2,
+                      "mCoefficient": 1.75,
+                      "__type": "StatByCoefficientCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 1.25,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.800000011920929,
+              "mImgIconName": [
+                "ASSETS/Characters/Blitzcrank/HUD/Icons2D/BlitzcrankE.dds"
+              ],
+              "spellCastTime": 0.5217499732971191,
+              "spellTotalTime": 1.533400058746338,
+              "cooldownTime": [
+                7,
+                7,
+                6.5,
+                6,
+                5.5,
+                5,
+                5
+              ],
+              "Cooldown": {
+                "values": [
+                  7,
+                  7,
+                  6.5,
+                  6,
+                  5.5,
+                  5,
+                  5
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castRangeValues": {
+                "values": [
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300
+                ],
+                "{0a3e0478}": 300,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                210,
+                210,
+                210,
+                210,
+                210,
+                210,
+                210
+              ],
+              "castConeDistance": 100,
+              "castFrame": 5.264999866485596,
+              "missileSpeed": 0,
+              "bHaveHitBone": true,
+              "mHitBoneName": "root",
+              "mana": [
+                25,
+                25,
+                25,
+                25,
+                25,
+                25
+              ],
+              "manaValues": {
+                "values": [
+                  25,
+                  25,
+                  25,
+                  25,
+                  25,
+                  25
+                ],
+                "{0a3e0478}": 25,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "PowerFist",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_PowerFist_Name",
+                    "keySummary": "Spell_PowerFist_Summary",
+                    "keyTooltip": "Spell_PowerFist_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_PowerFist",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 0,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 16777216,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "CCDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_PowerFist_Name",
+              "text": "能量铁拳"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_PowerFist_Summary",
+              "text": "布里茨为机械手臂充能，下次攻击造成双倍伤害并击飞目标。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_PowerFist_Tooltip",
+              "text": "布里茨给它的拳头充能，使它的下次攻击可以<status>击飞</status>@CCDuration@秒并造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "blitzcrank_r",
+          "binding": "Characters/Blitzcrank/Spells/StaticFieldAbility/StaticField",
+          "object": {
+            "ObjectName": "StaticField",
+            "objectPath": "Characters/Blitzcrank/Spells/StaticFieldAbility/StaticField",
+            "mScriptName": "StaticField",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "Trait_DamageAbility",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "PassiveBaseDamage",
+                  "values": [
+                    0,
+                    50,
+                    100,
+                    150,
+                    200,
+                    250,
+                    300
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ZapCountdown",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ActiveRange",
+                  "values": [
+                    600,
+                    600,
+                    600,
+                    600,
+                    600,
+                    600,
+                    600
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ActiveBaseDamage",
+                  "values": [
+                    150,
+                    275,
+                    400,
+                    525,
+                    650,
+                    775,
+                    900
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SilenceDuration",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveAPRatio",
+                  "values": [
+                    0.20000000298023224,
+                    0.30000001192092896,
+                    0.4000000059604645,
+                    0.5,
+                    0.6000000238418579,
+                    0.699999988079071,
+                    0.800000011920929
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ActiveAPRatio",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveManaRatio",
+                  "values": [
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "ActiveAPRatio",
+                      "values": [
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "PassiveBaseDamage",
+                      "values": [
+                        10,
+                        60,
+                        110,
+                        160,
+                        210,
+                        260,
+                        310
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "PassiveAPRatio",
+                      "values": [
+                        0.30000001192092896,
+                        0.4000000059604645,
+                        0.5,
+                        0.6000000238418579,
+                        0.699999988079071,
+                        0.800000011920929,
+                        0.8999999761581421
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "ActiveDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "ActiveBaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "ActiveAPRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "PassiveDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "PassiveBaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "PassiveAPRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.019999999552965164,
+                      "__type": "AbilityResourceByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/Blitzcrank/HUD/Icons2D/BlitzcrankR.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                0,
+                60,
+                40,
+                20,
+                0,
+                0,
+                0
+              ],
+              "Cooldown": {
+                "values": [
+                  0,
+                  60,
+                  40,
+                  20,
+                  0,
+                  0,
+                  0
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ],
+              "castRangeValues": {
+                "values": [
+                  600,
+                  600,
+                  600,
+                  600,
+                  600,
+                  600,
+                  600
+                ],
+                "{0a3e0478}": 600,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ],
+              "castConeDistance": 100,
+              "castFrame": 10.050000190734863,
+              "missileSpeed": 347.79998779296875,
+              "mana": [
+                100,
+                100,
+                100,
+                150,
+                150,
+                0
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  100,
+                  100,
+                  150,
+                  150,
+                  0
+                ],
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "StaticField",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_StaticField_Name",
+                    "keySummary": "Spell_StaticField_Summary",
+                    "keyTooltip": "Spell_StaticField_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_StaticField_ExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "PassiveBaseDamage",
+                          "nameOverride": "Spell_StaticField_PassiveBase_LevelUp",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "PassiveAPRatio",
+                          "multiplier": 100,
+                          "nameOverride": "Spell_StaticField_PassiveAPRatio_LevelUp",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "ActiveBaseDamage",
+                          "nameOverride": "Spell_StaticField_ActiveDamage_LevelUp",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "nameOverride": "Spell_StaticField_Cooldown_LevelUp",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_StaticField",
+              "mTooltipData": {
+                "mObjectName": "StaticField",
+                "mFormat": "{b34f999a}",
+                "mLocKeys": {
+                  "keyName": "Buff_StaticFieldAbility_Name",
+                  "keyTooltip": "Buff_StaticFieldAbility_Tooltip"
+                },
+                "__type": "TooltipInstanceBuff"
+              },
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "ActiveDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SilenceDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_StaticField_Name",
+              "text": "静电力场"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_StaticField_Summary",
+              "text": "被布里茨攻击过的敌人会被标记并在1秒后受到闪电伤害。此外，布里茨可以主动激活这个技能来移除附近敌人们的护盾、对他们造成伤害并暂时沉默他们。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_StaticField_Tooltip",
+              "text": "<spellPassive>被动：</spellPassive>在这个技能可以使用时，闪电会充盈着布里茨的双拳，标记它攻击的敌人。在1秒后，被标记的敌人会被震击，受到<magicDamage>@PassiveDamage@魔法伤害</magicDamage>。<br><br><spellActive>主动：</spellActive>布里茨进行过度充能，对附近的敌人造成<magicDamage>@ActiveDamage@魔法伤害</magicDamage>和@SilenceDuration@秒<status>沉默</status>效果。敌人的护盾也会被摧毁。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_StaticField_ExtendedBelowLine",
+              "text": "<rules>不会打破野怪身上的护盾。</rules>"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

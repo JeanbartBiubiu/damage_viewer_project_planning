@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/souls_for_bonus",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "souls_for_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "souls_for_bonus",
+      "name": "黑雾换取一档属性所需层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20,
+      "levelValues": null,
+      "description": "当前DataValues.StacksForBonus=20。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T12:15:47.859Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/swain_w/parameters/slow_ratio",
+  "id": "slow_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "帝国视界减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.5,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.Slow 取索引1至5；单位负值修正转为正比例；按来源单位换算为系统比例或毫秒",
+    "sortOrder": 60
+  }
+}

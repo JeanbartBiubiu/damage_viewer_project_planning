@@ -1,0 +1,20 @@
+{
+  "i": 49,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_r/parameters",
+    "skillKey": "ornn_r",
+    "kind": "parameters",
+    "stableKey": "second_pass_first_enemy_knockup_ms",
+    "body": {
+      "parameterKey": "second_pass_first_enemy_knockup_ms",
+      "name": "第二程首个英雄击飞持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前根DataValues.RStunDuration为1秒；第三目标缩短分支排除。",
+      "sortOrder": 80
+    }
+  }
+}

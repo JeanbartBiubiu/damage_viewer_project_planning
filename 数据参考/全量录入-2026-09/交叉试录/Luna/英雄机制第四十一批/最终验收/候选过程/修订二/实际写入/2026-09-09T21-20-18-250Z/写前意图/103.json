@@ -1,0 +1,67 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 103,
+    "method": "POST",
+    "route": "/skills/rakan_p/effects",
+    "detailRoute": "/skills/rakan_p/effects/self_shield",
+    "skillKey": "rakan_p",
+    "kind": "effects",
+    "stableKey": "self_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_shield",
+      "name": "异色羽裳自身普通护盾",
+      "description": "当前正文明确自身周期性护盾。",
+      "sortOrder": 30,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "name": "异色羽裳自身普通护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "description": "普通护盾，触发和移除事件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "total_shield"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          }
+        }
+      ]
+    }
+  }
+}

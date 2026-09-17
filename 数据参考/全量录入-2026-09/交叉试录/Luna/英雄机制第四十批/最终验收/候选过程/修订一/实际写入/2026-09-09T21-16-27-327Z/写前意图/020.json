@@ -1,0 +1,23 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/soul_absorption_breakpoint_1_level",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "soul_absorption_breakpoint_1_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "soul_absorption_breakpoint_1_level",
+      "name": "吸魂间隔第一次断点等级",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "来自当前DebuffDuration树。",
+      "sortOrder": 200
+    }
+  }
+}

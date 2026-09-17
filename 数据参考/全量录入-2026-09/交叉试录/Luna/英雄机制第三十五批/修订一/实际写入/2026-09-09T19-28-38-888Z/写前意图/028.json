@@ -1,0 +1,29 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 27,
+    "method": "POST",
+    "route": "/skills/braum_e/parameters",
+    "detailRoute": "/skills/braum_e/parameters/subsequent_damage_reduction_percent_points",
+    "skillKey": "braum_e",
+    "kind": "parameters",
+    "stableKey": "subsequent_damage_reduction_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "subsequent_damage_reduction_percent_points",
+      "name": "后续弹体伤害降低百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 35,
+        "2": 40,
+        "3": 45,
+        "4": 50,
+        "5": 55
+      },
+      "description": "当前正文直接显示ShieldFacingDRAmount%，取索引1至5的35/40/45/50/55百分数点。",
+      "sortOrder": 30
+    }
+  }
+}

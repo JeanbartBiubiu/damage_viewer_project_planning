@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:55:57.974Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_q/formulas/final_swipe_damage",
+  "id": "final_swipe_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "final_swipe_damage",
+    "name": "格温最终剪切魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "final_swipe_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "final_swipe_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "FinalSwipeDamage=SwipeDamageBase+APRatio×法强。",
+    "sortOrder": 10
+  }
+}

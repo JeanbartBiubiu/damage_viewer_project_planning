@@ -1,0 +1,20 @@
+{
+  "i": 90,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_r/parameters",
+    "skillKey": "hecarim_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "两个字段冲突：spellCastTime=0.75秒，mCastTime=0.009999999776482582秒；不任选。实际输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}

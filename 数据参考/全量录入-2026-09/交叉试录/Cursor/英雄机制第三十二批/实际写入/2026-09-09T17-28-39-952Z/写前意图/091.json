@@ -1,0 +1,23 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/cast_time_attack_speed_coefficient_ms",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_attack_speed_coefficient_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_attack_speed_coefficient_ms",
+      "name": "攻击速度缩短系数（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "当前TotalCastTime树为1.2-0.4×mStat4，转换系数为400毫秒。",
+      "sortOrder": 120
+    }
+  }
+}

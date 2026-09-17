@@ -1,0 +1,23 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 59,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/dismounted_attack_range_points",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "dismounted_attack_range_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dismounted_attack_range_points",
+      "name": "披甲形态攻击距离点数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 75,
+      "levelValues": null,
+      "description": "当前DismountedRangeBoost=75，点数而非比例。",
+      "sortOrder": 100
+    }
+  }
+}

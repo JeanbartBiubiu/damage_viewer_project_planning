@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-09-09T21:12:36.537Z",
+  "batch": "第四十一批巴德米利欧洛烈娜塔",
+  "revision": "hero41-source-v1-luna-revision-1",
+  "originalFrozen": {
+    "candidateSha256": "ac19d3599c215cbc33d12aef0be0b324ab60898908c466148ee45a05408d8be7",
+    "planSha256": "6912b4ffe076ff3f3aa20adc9b4fc6c75eb7f993b0ab165f4c5c5c4829cc7c1b",
+    "sourceValuesSha256": "020332f29a199e4afcc21caf1c1c4b0532c14ca683a8eff459af35713298d82c"
+  },
+  "changes": [
+    {
+      "skillKey": "rakan_r",
+      "type": "effect-value-rule",
+      "effectKeys": [
+        "self_initial_move_speed",
+        "self_touch_move_speed"
+      ],
+      "beforeFixedMultiplier": 1,
+      "afterFixedMultiplier": 0.01,
+      "reason": "百分点参数写入move_speed_percent前转换为系统比例。"
+    },
+    {
+      "skillKey": "rakan_r",
+      "type": "modifier-zone",
+      "effectKeys": [
+        "self_initial_move_speed",
+        "self_touch_move_speed"
+      ],
+      "beforeModifierZoneKey": "attribute_percent_bonus",
+      "afterModifierZoneKey": "attribute_flat_add",
+      "reason": "当前move_speed_percent本身是比例属性；沿当前标准使用平加区，跨批次同类映射仍列入集中统一复核。"
+    },
+    {
+      "skillKey": "milio_w",
+      "type": "remove-effect",
+      "effectKey": "self_attack_range",
+      "reason": "攻击距离基准未证，移除未经证明的属性效果，保留比例公式。"
+    },
+    {
+      "skillKey": "renata_q",
+      "type": "remove-parameter",
+      "parameterKey": "stun_duration_ms",
+      "reason": "另一敌人碰撞分支，移出本轮。"
+    },
+    {
+      "skillKey": "bard_p",
+      "type": "remove-formulas-and-parameters",
+      "formulaKeys": [
+        "chimes_for_splash_damage_upgrade",
+        "chimes_for_splash_area_upgrade"
+      ],
+      "parameterKeys": [
+        "chimes_splash_damage_multiplier",
+        "chimes_splash_area_multiplier"
+      ],
+      "reason": "额外敌人范围升级移出本轮，单敌chime_damage_checkpoint保留。"
+    }
+  ],
+  "counts": {
+    "original": 181,
+    "revision": 175,
+    "delta": -6
+  },
+  "apiCalls": 0,
+  "apiWrites": 0
+}

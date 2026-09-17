@@ -1,0 +1,32 @@
+{
+  "i": 32,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_w/formulas",
+    "skillKey": "ornn_w",
+    "kind": "formulas",
+    "stableKey": "brittle_extra_magic_damage",
+    "body": {
+      "formulaKey": "brittle_extra_magic_damage",
+      "name": "易碎下一次定身额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_brittle_extra_magic_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "实际等级易碎比例×目标最大生命；比例无默认且不把自身普攻的触发条件重复写入。",
+      "sortOrder": 40
+    }
+  }
+}

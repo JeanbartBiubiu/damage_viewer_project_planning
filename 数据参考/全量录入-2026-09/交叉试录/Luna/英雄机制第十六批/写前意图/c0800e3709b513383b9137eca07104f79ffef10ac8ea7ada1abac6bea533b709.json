@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T10:36:56.064Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/lissandra_r/parameters/heal_ap_ratio",
+  "id": "heal_ap_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "heal_ap_ratio",
+    "name": "基础治疗法强倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.55,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.PercentMissingHPRatio；HealAmount节点省略mStat/mStatFormula，与同版本mStat0默认法强窄证一致，作为基础治疗的来源总法强倍率0.55；不按字段名绑定缺失生命或hp。",
+    "sortOrder": 130
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T04:56:10.533Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_e/parameters/cooldown_refund_ratio",
+  "id": "cooldown_refund_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "cooldown_refund_ratio",
+    "name": "首次命中后的冷却返还比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.25,
+      "2": 0.35,
+      "3": 0.45,
+      "4": 0.55,
+      "5": 0.65
+    },
+    "description": "客户端当前根绑定 DataValues.CDRefund 取索引1至5。",
+    "sortOrder": 50
+  }
+}

@@ -1,0 +1,1232 @@
+{
+  "startedAt": "2026-09-09T02:48:08.652Z",
+  "sha": "e67f35dcb651387c13124c7c4f34bffd823fd91cab1330297da85a994700c43b",
+  "apply": false,
+  "records": [
+    {
+      "route": "/skills/caitlyn_p/formulas/headshot_bonus_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:03:26.61366Z",
+        "description": "外部已核攻击力输入×（外部已核等级比例 + 暴击几率×1×（暴击倍率−1））；攻击力口径及等级比例均无默认值，这是普通攻击之外的额外部分。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_attack_damage_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "level_bonus_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "critical_strike_chance",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "critical_strike_scaling"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one"
+                        },
+                        {
+                          "attributeKey": "critical_strike_damage_bonus_percent",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "ADD"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "headshot_bonus_damage",
+        "gameId": "lol",
+        "name": "爆头额外物理伤害",
+        "skillKey": "caitlyn_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:03:26.61366Z"
+      }
+    },
+    {
+      "route": "/skills/caitlyn_p/parameters/level_bonus_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:03:24.250113Z",
+        "description": "只在外部明确提供已核等级比例时可算；原树缺少初始每级增量与断点后增量，当前绑定中文没有精确分段，不能展开成18级数组或填0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "爆头等级基础攻击力倍率（等级曲线待核输入）",
+        "parameterKey": "level_bonus_ratio",
+        "skillKey": "caitlyn_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:03:24.250113Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/jhin_w/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:07.57721Z",
+        "description": "70/105/140/175/210 +.5×外部已核攻击力输入；取值口径未绑定，只保留首个英雄目标。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_damage_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "current_attack_damage_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "致命华彩首个英雄物理伤害",
+        "skillKey": "jhin_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:04:07.57721Z"
+      }
+    },
+    {
+      "route": "/skills/jhin_w/parameters/attack_damage_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:06.104203Z",
+        "description": "TotalDamage明确mStat=2及系数.5；mStatFormula省略，官方正文只有计算占位，没有总攻击力说明。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "致命华彩攻击力系数（口径待核）",
+        "parameterKey": "attack_damage_ratio",
+        "skillKey": "jhin_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T02:04:06.104203Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/jhin_r/formulas/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:16.551393Z",
+        "description": "64/128/192 +.25×外部已核攻击力输入；输入口径未绑定，这是每颗子弹的未增幅端点。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_damage_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "current_attack_damage_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "base_damage",
+        "gameId": "lol",
+        "name": "完美谢幕基础子弹伤害",
+        "skillKey": "jhin_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:04:16.551393Z"
+      }
+    },
+    {
+      "route": "/skills/jhin_r/formulas/maximum_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:10:44.435364Z",
+        "description": "MaxIncreaseCalc明确为基础×4，仅表示目标已损生命增幅的最大端点。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "attack_damage_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "current_attack_damage_value"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_max_amp"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "maximum_damage",
+        "gameId": "lol",
+        "name": "完美谢幕最大端点伤害",
+        "skillKey": "jhin_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:10:44.435364Z"
+      }
+    },
+    {
+      "route": "/skills/jhin_r/parameters/attack_damage_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:13.657856Z",
+        "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至3。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "完美谢幕攻击力系数（口径待核）",
+        "parameterKey": "attack_damage_ratio",
+        "skillKey": "jhin_r",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T02:04:13.657856Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/formulas/first_spear_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:56.43101Z",
+        "description": "5/15/25/35/45 +.7×已核对攻击力输入+.65×未解码属性输入；输入口径尚未绑定，不宣称完整可执行伤害。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "first_spear_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "first_spear_ad_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "current_attack_damage_value"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "first_spear_other_stat_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "current_other_stat_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "first_spear_damage",
+        "gameId": "lol",
+        "name": "撕裂第一根伤害计算",
+        "skillKey": "kalista_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:04:56.43101Z"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/formulas/additional_spear_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:57.182293Z",
+        "description": "7/14/21/28/35 +.2/.275/.35/.425/.5×攻击力输入+.5×未解码属性输入。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_spear_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "additional_spear_ad_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "current_attack_damage_value"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_spear_other_stat_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "current_other_stat_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "additional_spear_damage",
+        "gameId": "lol",
+        "name": "撕裂每根后续长矛伤害计算",
+        "skillKey": "kalista_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:04:57.182293Z"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/formulas/total_spear_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:57.970791Z",
+        "description": "目标至少有一根长矛时：第一根 +（实际根数-1）×每根后续伤害。没有把第一根重复按总根数累乘；无长矛目标不适用此式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "first_spear_base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "first_spear_ad_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "current_attack_damage_value"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "first_spear_other_stat_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "current_other_stat_value"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_spear_count"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "additional_spear_base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "additional_spear_ad_ratio"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "current_attack_damage_value"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "additional_spear_other_stat_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "current_other_stat_value"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "total_spear_damage",
+        "gameId": "lol",
+        "name": "至少一根长矛时撕裂总伤害",
+        "skillKey": "kalista_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:04:57.970791Z"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/formulas/slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:58.740242Z",
+        "description": "基础.1/.18/.26/.34/.42 + .0005×同一未解码属性输入；比例1表示100%，没有自创封顶值或把.0005转成.05。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_slow_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "other_stat_slow_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "current_other_stat_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "slow_ratio",
+        "gameId": "lol",
+        "name": "撕裂减速比例计算",
+        "skillKey": "kalista_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:04:58.740242Z"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/first_spear_other_stat_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:46.57006Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "撕裂第一根未解码属性系数",
+        "parameterKey": "first_spear_other_stat_ratio",
+        "skillKey": "kalista_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T02:04:46.57006Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/additional_spear_other_stat_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:49.125681Z",
+        "description": "客户端当前根绑定 DataValues.AdditionalAPRatio 取索引1至5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "撕裂后续长矛未解码属性系数",
+        "parameterKey": "additional_spear_other_stat_ratio",
+        "skillKey": "kalista_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T02:04:49.125681Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/other_stat_slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:50.809195Z",
+        "description": "客户端当前根绑定 DataValues.SlowAPRatio 取索引1至5。",
+        "fixedValue": 0.0005,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "撕裂未解码属性减速系数",
+        "parameterKey": "other_stat_slow_ratio",
+        "skillKey": "kalista_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T02:04:50.809195Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2503_passive/formulas/burn_damage_per_second",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:27:53.356919Z",
+        "description": "20 + 0.02 × 显式缩放属性输入；只表达客户端计算形状，不指定mStat属性。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "burn_flat_damage_per_second"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "burn_scaling_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "burn_scaling_stat_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "burn_damage_per_second",
+        "gameId": "lol",
+        "name": "邪焰每秒伤害值",
+        "skillKey": "item_2503_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:27:53.356919Z"
+      }
+    },
+    {
+      "route": "/skills/item_2503_passive/parameters/burn_scaling_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:27:50.359062Z",
+        "description": "当前APRatio=0.02；对应计算节点mStat缺失，只保存系数，不把它命名为法术强度比例。",
+        "fixedValue": 0.02,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "邪焰未定属性缩放比例",
+        "parameterKey": "burn_scaling_ratio",
+        "skillKey": "item_2503_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:27:50.359062Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2503_passive",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:27:48.724984Z",
+        "description": "保留伤害型技能每秒20与3秒持续，以及客户端0.02缩放系数和每个受影响目标4%法术强度比例。缩放属性由显式小数输入提供，mStat缺失不命名为法术强度；客户端节拍字段只作来源记录，单位和绑定用途未证实，不构造持续伤害节拍或黯炎触发规则。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "黯炎火炬·邪焰与黯炎",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_2503_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:27:48.724984Z"
+      }
+    },
+    {
+      "route": "/skills/item_3118_passive/formulas/ground_burn_damage_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:05.021633Z",
+        "description": "60 + 0.05 × 显式缩放属性输入；只表达计算值，不指定每秒或每跳节拍。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ground_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ground_damage_scaling_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ground_damage_scaling_stat_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "ground_burn_damage_value",
+        "gameId": "lol",
+        "name": "憎恨之雾地面伤害值",
+        "skillKey": "item_3118_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:28:05.021633Z"
+      }
+    },
+    {
+      "route": "/skills/item_3118_passive/parameters/ground_damage_scaling_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:02.323503Z",
+        "description": "当前APRatio=0.05；计算节点mStat缺失，只保存系数，不命名为法术强度比例。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "憎恨之雾未定属性缩放比例",
+        "parameterKey": "ground_damage_scaling_ratio",
+        "skillKey": "item_3118_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:28:02.323503Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3118_passive",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:27:59.13098Z",
+        "description": "保留20点终极技能急速、3秒地面持续、10点魔法抗性削减和地面伤害计算值。伤害使用显式未定属性输入，mStat缺失不补法术强度；地面范围字段只作来源依据，不进入单目标数值参数；每秒/每跳节拍、半径动态和终极技能命中规则保持缺口。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "残疫·憎恨之雾",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3118_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:27:59.13098Z"
+      }
+    },
+    {
+      "route": "/skills/item_3152_active/formulas/firebolt_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:10.733236Z",
+        "description": "100 + 0.1 × 显式缩放属性输入；不表达魔法弹数量、命中和主动过程。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "firebolt_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "firebolt_scaling_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "firebolt_scaling_stat_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "firebolt_damage",
+        "gameId": "lol",
+        "name": "超音速魔法弹伤害",
+        "skillKey": "item_3152_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:28:10.733236Z"
+      }
+    },
+    {
+      "route": "/skills/item_3152_active/parameters/firebolt_scaling_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:09.089938Z",
+        "description": "当前APRatio=0.1；计算节点mStat缺失，只保存系数。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "超音速未定属性缩放比例",
+        "parameterKey": "firebolt_scaling_ratio",
+        "skillKey": "item_3152_active",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:28:09.089938Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3152_active",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:06.757539Z",
+        "description": "保留主动50秒冷却和魔法弹计算值100+0.1×显式缩放属性输入。当前FireboltDamage的mStat缺失，不把系数命名为法术强度；冲刺、魔法弹命中与无法穿过地形的规则保持未接线。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "海克斯科技火箭腰带·超音速",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3152_active",
+        "sortOrder": 10,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:28:06.757539Z"
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive/formulas/echo_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:24.793872Z",
+        "description": "75 + 0.05 × 显式缩放属性输入；只保存计算值。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "echo_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "echo_scaling_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "echo_scaling_stat_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "echo_damage",
+        "gameId": "lol",
+        "name": "单道回声伤害",
+        "skillKey": "item_6655_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:28:24.793872Z"
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive/formulas/single_target_max_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:26.361539Z",
+        "description": "单道伤害 × 2；2由首道1份加剩余5道各20%独立得到。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "echo_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "echo_scaling_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "echo_scaling_stat_value"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "single_target_multiplier"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "single_target_max_damage",
+        "gameId": "lol",
+        "name": "单目标最大回声伤害",
+        "skillKey": "item_6655_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:28:26.361539Z"
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive/parameters/echo_scaling_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:20.123018Z",
+        "description": "当前APRatio=0.05；Damage节点mStat缺失，只保存系数。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "回声未定属性缩放比例",
+        "parameterKey": "echo_scaling_ratio",
+        "skillKey": "item_6655_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:28:20.123018Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:17.673171Z",
+        "description": "保留12秒冷却、每道回声75+0.05×显式缩放属性输入、6道最大充能、剩余5道各按20%伤害，独立总倍率为1+5×0.2=2。0.2是剩余回声伤害比例，绝不是20%减伤；650弹道范围只作空间来源依据；mStat缺失不补法强。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "卢登的回声·回声",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_6655_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:28:17.673171Z"
+      }
+    },
+    {
+      "route": "/skills/item_4646_passive/formulas/squall_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:57.158Z",
+        "description": "当前根文本绑定的SquallDamage：125 + 0.1 × 显式缩放属性输入；仅保存延迟后的数值计算。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "squall_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "squall_scaling_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "squall_scaling_stat_value"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "squall_damage",
+        "gameId": "lol",
+        "name": "风啸伤害",
+        "skillKey": "item_4646_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:28:57.158Z"
+      }
+    },
+    {
+      "route": "/skills/item_4646_passive/parameters/squall_scaling_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:55.478675Z",
+        "description": "当前APRatio=0.1；计算节点mStat缺失，只保存系数。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "风啸未定属性缩放比例",
+        "parameterKey": "squall_scaling_ratio",
+        "skillKey": "item_4646_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T02:28:55.478675Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_4646_passive",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:51.039089Z",
+        "description": "保留2.5秒伤害窗口、25%最大生命值阈值、2秒延迟、30秒冷却和当前根文本绑定的SquallDamage风啸伤害。缩放属性显式输入，mStat缺失不补法术强度；RangedProcDamageMod与RangedItemCalcValue虽有来源字段但未沿当前根文本绑定，不进入额外远程分支；GoldReward、ProcMoveSpeedAmount缺值不补0。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "风暴狂涌·风暴掠袭与风啸",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_4646_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T02:28:51.039089Z"
+      }
+    },
+    {
+      "route": "/skills/caitlyn_p/parameters/current_attack_damage_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:03:25.746859Z",
+        "description": "当前外层mStat=2但mStatFormula省略，无同版本TotalADRatio名称或明确中文说明；不可默认总AD/额外AD或0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "爆头本次攻击力输入（口径待核）",
+        "parameterKey": "current_attack_damage_value",
+        "skillKey": "caitlyn_p",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T02:03:25.746859Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/jhin_w/parameters/current_attack_damage_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:06.830755Z",
+        "description": "mStat=2但mStatFormula省略，无同版本TotalADRatio名称或明确总/额外AD正文，不默认总AD或0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "致命华彩本次攻击力输入（口径待核）",
+        "parameterKey": "current_attack_damage_value",
+        "skillKey": "jhin_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T02:04:06.830755Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/jhin_r/parameters/current_attack_damage_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:14.429142Z",
+        "description": "DamageCalc节点mStat=2但mStatFormula省略，ADRatio没有同版本TotalADRatio名称或精确正文佐证，不默认总AD/额外AD或0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "完美谢幕本次攻击力输入（口径待核）",
+        "parameterKey": "current_attack_damage_value",
+        "skillKey": "jhin_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T02:04:14.429142Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/current_attack_damage_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:54.008068Z",
+        "description": "当前NormalDamage/AdditionalDamage明确mStat=2但省略mStatFormula；本批不依通用默认解码其取值种类。只有确认该节点的实际攻击力口径后才能绑定，不能用0代替。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次撕裂计算所需攻击力值",
+        "parameterKey": "current_attack_damage_value",
+        "skillKey": "kalista_e",
+        "sortOrder": 140,
+        "updatedAt": "2026-09-09T02:04:54.008068Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/current_other_stat_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:04:54.825778Z",
+        "description": "当前同型StatByNamedDataValue节点只给APRatio/AdditionalAPRatio/SlowAPRatio，不显式给mStat/mStatFormula；名字提示法强但不足以认定默认枚举。本批用同一未绑定输入保留原数学式，不能直接取AP或默认为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次撕裂未解码属性值",
+        "parameterKey": "current_other_stat_value",
+        "skillKey": "kalista_e",
+        "sortOrder": 150,
+        "updatedAt": "2026-09-09T02:04:54.825778Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2503_passive/parameters/burn_scaling_stat_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:27:51.135687Z",
+        "description": "非负小数输入；来源应在运行时明确mStat对应的属性后提供。mStat在当前客户端节点中缺失，不能默认法术强度或缺失为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "邪焰缩放属性显式输入",
+        "parameterKey": "burn_scaling_stat_value",
+        "skillKey": "item_2503_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:27:51.135687Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3118_passive/parameters/ground_damage_scaling_stat_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:03.242529Z",
+        "description": "非负小数输入；运行时须先明确mStat对应属性。当前来源没有提供属性编号，不能默认法术强度或缺失为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "憎恨之雾缩放属性显式输入",
+        "parameterKey": "ground_damage_scaling_stat_value",
+        "skillKey": "item_3118_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T02:28:03.242529Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_3152_active/parameters/firebolt_scaling_stat_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:09.850294Z",
+        "description": "非负小数输入；运行时须先明确mStat属性，不能默认法术强度或缺失为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "超音速缩放属性显式输入",
+        "parameterKey": "firebolt_scaling_stat_value",
+        "skillKey": "item_3152_active",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:28:09.850294Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_6655_passive/parameters/echo_scaling_stat_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:20.90959Z",
+        "description": "非负小数输入；运行时须先明确mStat属性，不能默认法术强度或缺失为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "回声缩放属性显式输入",
+        "parameterKey": "echo_scaling_stat_value",
+        "skillKey": "item_6655_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:28:20.90959Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_4646_passive/parameters/squall_scaling_stat_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T02:28:56.196435Z",
+        "description": "非负小数输入；运行时须先明确mStat属性，不能默认法术强度或缺失为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "风啸缩放属性显式输入",
+        "parameterKey": "squall_scaling_stat_value",
+        "skillKey": "item_4646_passive",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T02:28:56.196435Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    }
+  ],
+  "operations": [],
+  "success": true,
+  "finishedAt": "2026-09-09T02:48:10.969Z"
+}

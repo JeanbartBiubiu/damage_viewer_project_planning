@@ -1,0 +1,260 @@
+{
+  "at": "2026-09-09T08:46:01.642Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "success": true,
+  "pages": [
+    {
+      "skillKey": "rune_8008_passive",
+      "verified": "近远程当前攻速两条公式都显示每层比例乘实际层数与上限取较小值；远程仍要求已核实比例输入，不以试算值覆盖来源冲突。满层伤害公式列表继续独立存在。"
+    },
+    {
+      "skillKey": "rune_8010_passive",
+      "verified": "最大层数参数为12，适应之力中文预览为已确认每层值乘实际层数与12取较小值；没有默认适应属性换算，近远程满层治疗公式仍独立存在。"
+    }
+  ],
+  "rootGets": 10,
+  "gets": [
+    {
+      "route": "/skills/rune_8010_passive/formulas/adaptive_force_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:36:12.816752Z",
+        "description": "适应属性选择尚未连接，不默认AD=0.6×适应之力。 实际层数通过MIN与max_stacks比较，明确上限进入最终数值；缺层数或其他必要输入仍不得默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_adaptive_per_stack"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_stacks"
+                }
+              ],
+              "operation": "MIN"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "adaptive_force_amount",
+        "gameId": "lol",
+        "name": "当前层数适应之力",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T07:30:32.935927Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8010_passive/parameters/confirmed_adaptive_per_stack",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:36:05.333714Z",
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认每层适应之力",
+        "parameterKey": "confirmed_adaptive_per_stack",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:36:05.333714Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/rune_8010_passive/parameters/actual_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:36:10.95731Z",
+        "description": "已确认0至12的整数，不默认满层。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际征服者层数",
+        "parameterKey": "actual_stacks",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T05:36:10.95731Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8010_passive/parameters/max_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:36:06.138472Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 12,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大层数",
+        "parameterKey": "max_stacks",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:36:06.138472Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8008_passive/formulas/melee_attack_speed_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:35:57.986015Z",
+        "description": "仅当前近战分支及已确认层数；输出比例，不能直接加算到每秒攻击次数属性。 实际层数通过MIN与max_stacks比较，明确上限进入最终数值；缺层数或其他必要输入仍不得默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_as_per_stack"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_stacks"
+                }
+              ],
+              "operation": "MIN"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "melee_attack_speed_amount",
+        "gameId": "lol",
+        "name": "近战当前层数额外攻速比例",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T07:30:34.055304Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8008_passive/parameters/melee_as_per_stack",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:35:50.453309Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 0.06,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近战每层额外攻速比例",
+        "parameterKey": "melee_as_per_stack",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:35:50.453309Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/rune_8008_passive/parameters/actual_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:35:51.281697Z",
+        "description": "仅已确认0至6的整数；不默认满层。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际层数",
+        "parameterKey": "actual_stacks",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:35:51.281697Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8008_passive/parameters/max_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:35:49.658716Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "层数上限",
+        "parameterKey": "max_stacks",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:35:49.658716Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8008_passive/formulas/ranged_attack_speed_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:35:58.737956Z",
+        "description": "远程源冲突数值必须由后续已核实来源供值；输出比例。 实际层数通过MIN与max_stacks比较，明确上限进入最终数值；缺层数或其他必要输入仍不得默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_ranged_as_per_stack"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_stacks"
+                }
+              ],
+              "operation": "MIN"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "ranged_attack_speed_amount",
+        "gameId": "lol",
+        "name": "远程当前层数额外攻速比例",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T07:30:35.056654Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8008_passive/parameters/confirmed_ranged_as_per_stack",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T05:35:52.152482Z",
+        "description": "来源冲突：当前ASPerStack计算0.06×0.8=0.048，长说明TTASPerStackRanged=0.04；本批不选择任一值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认远程每层攻速比例",
+        "parameterKey": "confirmed_ranged_as_per_stack",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:35:52.152482Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    }
+  ],
+  "method": "主负责人真实浏览器只读，未提交草稿；另10次GET确认实际3公式及使用参数与独立实值核算现值相同。",
+  "runtimeValidation": "未执行"
+}

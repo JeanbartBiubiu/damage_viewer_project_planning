@@ -1,0 +1,23 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "method": "POST",
+    "route": "/skills/braum_p/parameters",
+    "detailRoute": "/skills/braum_p/parameters/stun_cooldown_reduction_ms",
+    "skillKey": "braum_p",
+    "kind": "parameters",
+    "stableKey": "stun_cooldown_reduction_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_cooldown_reduction_ms",
+      "name": "晕眩后叠层封锁每次减少（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前StunCD在6级、11级各减少2秒；参数取正的减少幅度。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 271,
+  "intent": {
+    "sequence": 272,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_w/parameters",
+    "detailRoute": "/skills/zaahen_w/parameters/secondary_damage_base",
+    "skillKey": "zaahen_w",
+    "kind": "parameters",
+    "stableKey": "secondary_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "secondary_damage_base",
+      "name": "回拉基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 50,
+        "3": 70,
+        "4": 90,
+        "5": 110
+      },
+      "description": "回拉30/50/70/90/110。",
+      "sortOrder": 30
+    }
+  }
+}

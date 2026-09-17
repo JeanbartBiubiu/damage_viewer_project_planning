@@ -1,0 +1,23 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "method": "POST",
+    "route": "/skills/yone_p/parameters",
+    "detailRoute": "/skills/yone_p/parameters/zero_ratio",
+    "skillKey": "yone_p",
+    "kind": "parameters",
+    "stableKey": "zero_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "zero_ratio",
+      "name": "零比例边界",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "为超额转换的MAX下界提供显式二元叶子。",
+      "sortOrder": 80
+    }
+  }
+}

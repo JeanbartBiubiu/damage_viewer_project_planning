@@ -1,0 +1,45 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/sona_w/formulas",
+    "detailRoute": "/skills/sona_w/formulas/shield_value",
+    "skillKey": "sona_w",
+    "kind": "formulas",
+    "stableKey": "shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_value",
+      "name": "坚毅咏叹调护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "护盾数值保留供后续符合资格的自身护盾事件引用。",
+      "sortOrder": 20
+    }
+  }
+}

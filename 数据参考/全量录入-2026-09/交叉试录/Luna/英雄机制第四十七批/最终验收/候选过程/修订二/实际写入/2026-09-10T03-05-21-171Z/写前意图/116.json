@@ -1,0 +1,46 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 117,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/formulas",
+    "detailRoute": "/skills/shyvana_w/formulas/explosion_magic_damage",
+    "skillKey": "shyvana_w",
+    "kind": "formulas",
+    "stableKey": "explosion_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "explosion_magic_damage",
+      "name": "烈火圣盾结束爆炸魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "explosion_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "explosion_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Damage=结束爆炸基础值+0.65×来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

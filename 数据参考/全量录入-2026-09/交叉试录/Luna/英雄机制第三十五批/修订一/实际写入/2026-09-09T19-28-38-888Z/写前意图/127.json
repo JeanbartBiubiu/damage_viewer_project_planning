@@ -1,0 +1,23 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 126,
+    "method": "POST",
+    "route": "/skills/tahmkench_p/parameters",
+    "detailRoute": "/skills/tahmkench_p/parameters/current_stack_count",
+    "skillKey": "tahmkench_p",
+    "kind": "parameters",
+    "stableKey": "current_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_stack_count",
+      "name": "当前培养品味层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "实际目标层数由运行输入提供，范围0至3；Q/R强化资格不默认满足。",
+      "sortOrder": 80
+    }
+  }
+}

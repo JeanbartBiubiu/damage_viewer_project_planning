@@ -1,0 +1,23 @@
+{
+  "i": 214,
+  "intent": {
+    "sequence": 215,
+    "method": "POST",
+    "route": "/skills/briar_w/parameters",
+    "detailRoute": "/skills/briar_w/parameters/attack_heal_stat12_ratio",
+    "skillKey": "briar_w",
+    "kind": "parameters",
+    "stableKey": "attack_heal_stat12_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_heal_stat12_ratio",
+      "name": "噬击治疗来源总生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.05,
+      "levelValues": null,
+      "description": "当前AttackMaxHPHeal为无选择器mStat12×0.05；按主负责人同版窄证读取SOURCE.hp.TOTAL。",
+      "sortOrder": 100
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "i": 218,
+  "intent": {
+    "sequence": 219,
+    "method": "POST",
+    "route": "/skills/briar_w/formulas",
+    "detailRoute": "/skills/briar_w/formulas/empowered_attack_heal_base",
+    "skillKey": "briar_w",
+    "kind": "formulas",
+    "stableKey": "empowered_attack_heal_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_attack_heal_base",
+      "name": "噬击治疗平坦部分",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "attack_heal_stat12_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前AttackMaxHPHeal为mStat12×0.05；按主负责人同版窄证将无选择器mStat12读取为来源总生命，治疗事件另行接线。",
+      "sortOrder": 30
+    }
+  }
+}

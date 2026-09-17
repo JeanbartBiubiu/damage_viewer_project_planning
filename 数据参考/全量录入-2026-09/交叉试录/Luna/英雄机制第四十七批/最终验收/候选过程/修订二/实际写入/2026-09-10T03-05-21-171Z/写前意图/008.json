@@ -1,0 +1,68 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_q/formulas",
+    "detailRoute": "/skills/elise_q/formulas/current_health_magic_damage",
+    "skillKey": "elise_q",
+    "kind": "formulas",
+    "stableKey": "current_health_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "current_health_magic_damage",
+      "name": "神经毒素目标当前生命附加魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "target_current_health_percent_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_point_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "HumanPercentHealth=0.01×(TargetHPDamage+APRatio×来源法强)×目标当前生命。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/cast_range",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "cast_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_range",
+      "name": "主动施法距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "当前根castRange=600。",
+      "sortOrder": 200
+    }
+  }
+}

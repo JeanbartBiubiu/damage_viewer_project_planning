@@ -1,0 +1,23 @@
+{
+  "i": 81,
+  "intent": {
+    "sequence": 82,
+    "method": "POST",
+    "route": "/skills/thresh_q/parameters",
+    "detailRoute": "/skills/thresh_q/parameters/control_duration_ms",
+    "skillKey": "thresh_q",
+    "kind": "parameters",
+    "stableKey": "control_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "control_duration_ms",
+      "name": "死亡判决晕眩拉拽持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "原始字段名TauntLength不代表嘲讽；当前正文语义是1.5秒晕眩和拉拽。",
+      "sortOrder": 30
+    }
+  }
+}

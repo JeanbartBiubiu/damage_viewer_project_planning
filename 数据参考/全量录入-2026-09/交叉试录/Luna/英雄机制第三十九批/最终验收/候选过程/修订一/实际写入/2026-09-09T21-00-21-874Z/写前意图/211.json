@@ -1,0 +1,24 @@
+{
+  "i": 210,
+  "intent": {
+    "sequence": 211,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_r/parameters",
+    "detailRoute": "/skills/smolder_r/parameters/self_heal_if_mom_hits_smolder",
+    "skillKey": "smolder_r",
+    "kind": "parameters",
+    "stableKey": "self_heal_if_mom_hits_smolder",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_heal_if_mom_hits_smolder",
+      "name": "妈----！龙母命中自身时治疗",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确龙母命中斯莫德时消费MomHealCalc；实际命中事件待接线。",
+      "sortOrder": 110
+    }
+  }
+}

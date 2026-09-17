@@ -1,0 +1,94 @@
+{
+  "generatedAt": "2026-09-09T13:33:34.191Z",
+  "previousRevisionCandidateSha256": "e70babf3438399d5d40e5e848b9a5819bbdeca5dd70f216fbe498ca91403459b",
+  "revisedCandidateSha256": "a95d6f7a739ebc9edf18ee997a03302d5dcd4df624104c4fc9923744e19f0c46",
+  "exactChanges": [
+    "Leona Q的spellCastTime=0.5217499732971191秒与mCastTime=0.25秒冲突；cast_time_ms改为无默认RUNTIME_INPUT，说明同时保留两个根字段。",
+    "Nautilus R的spellCastTime=0.25秒与mCastTime=0.46000000834465027秒冲突；cast_time_ms改为无默认RUNTIME_INPUT，说明同时保留两个根字段。",
+    "Leona W BonusMRTooltip当前绑定计算树的mDataValue实际为ArmorBaseBonus；修订来源说明，数值数组不变。",
+    "Nautilus W shield_value供新增自身NORMAL_SHIELD效果引用；修订说明，不改变公式或数值。"
+  ],
+  "changedFields": [
+    {
+      "path": "skills.leona_q.write.parameters[cast_time_ms]",
+      "before": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 522,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.5217499732971191秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      },
+      "after": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前根同时存在spellCastTime=0.5217499732971191秒与mCastTime=0.25秒，字段冲突；保留为无默认运行时输入，不能选定施法时长，也不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "path": "skills.nautilus_r.write.parameters[cast_time_ms]",
+      "before": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      },
+      "after": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前根同时存在spellCastTime=0.25秒与mCastTime=0.46000000834465027秒，字段冲突；保留为无默认运行时输入，不能选定施法时长，也不表示命中或控制发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "path": "skills.leona_w.write.parameters[magic_resistance_base_bonus].description",
+      "before": "当前根DataValues.MRBaseBonus取索引1至5；保留魔法抗性点数。",
+      "after": "当前BonusMRTooltip绑定计算树的mDataValue实际为ArmorBaseBonus，取该DataValue索引1至5；DataValues.MRBaseBonus数组在本版数值相同，仅作为交叉核对，不改写树的真实引用。"
+    },
+    {
+      "path": "skills.leona_w.write.formulas[bonus_magic_resistance].description",
+      "before": "BonusMRTooltip=MRBaseBonus+0.2×来源额外魔法抗性；mStat6/formula2按同版窄证绑定为额外魔抗。",
+      "after": "BonusMRTooltip实际树=ArmorBaseBonus+0.2×来源额外魔法抗性；mStat6/formula2按同版窄证绑定为额外魔抗。"
+    },
+    {
+      "path": "skills.nautilus_w.write.formulas[shield_value].description",
+      "before": "ShieldCalc=ShieldBase+ShieldHealthRatio×来源生命值总值；不创建护盾结果。",
+      "after": "ShieldCalc=ShieldBase+ShieldHealthRatio×来源生命值总值；供自身NORMAL_SHIELD效果引用，施放事件另行接线。"
+    }
+  ],
+  "countsBefore": {
+    "parameters": 54,
+    "formulas": 14,
+    "effects": 9,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "countsAfter": {
+    "parameters": 54,
+    "formulas": 14,
+    "effects": 9,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requestCountBefore": 77,
+  "requestCountAfter": 77,
+  "businessWrites": 0,
+  "previousRevisionPreserved": true
+}

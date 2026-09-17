@@ -1,0 +1,23 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "method": "POST",
+    "route": "/skills/skarner_q/parameters",
+    "detailRoute": "/skills/skarner_q/parameters/bonus_ad_ratio",
+    "skillKey": "skarner_q",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "撼地额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.89999998,
+      "levelValues": null,
+      "description": "AbilityDamage的mStat=2、mStatFormula=2，读取来源额外攻击力。",
+      "sortOrder": 80
+    }
+  }
+}

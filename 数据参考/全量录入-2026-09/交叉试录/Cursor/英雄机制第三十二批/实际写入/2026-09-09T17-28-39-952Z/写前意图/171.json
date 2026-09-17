@@ -1,0 +1,29 @@
+{
+  "i": 170,
+  "intent": {
+    "sequence": 171,
+    "method": "POST",
+    "route": "/skills/zeri_w/parameters",
+    "detailRoute": "/skills/zeri_w/parameters/slow_ratio",
+    "skillKey": "zeri_w",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.30000001192092896,
+        "2": 0.3499999940395355,
+        "3": 0.4000000059604645,
+        "4": 0.44999998807907104,
+        "5": 0.5
+      },
+      "description": "当前SlowPercent正文直接乘100显示，保存0.3至0.5比例。",
+      "sortOrder": 60
+    }
+  }
+}

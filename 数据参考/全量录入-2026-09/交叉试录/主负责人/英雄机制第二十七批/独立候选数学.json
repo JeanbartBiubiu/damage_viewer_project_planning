@@ -1,0 +1,953 @@
+{
+  "at": "2026-09-09T14:28:55.689Z",
+  "candidateSha256": "046f2671121092a906008b6b07909156a90d4bc241e18ce646fc12480f3303cf",
+  "sourceBindingSha256": "37a25d9cf21276968b5c72c9655e93eb7f6b7ceaabbaf451242dccf5fa14180c",
+  "status": "PASS",
+  "formulaCount": 18,
+  "caseCount": 36,
+  "missingValueRejections": 20,
+  "boundaryChecks": 12,
+  "cases": [
+    {
+      "key": "gragas_p/heal_amount",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 192.5,
+      "expected": 192.5,
+      "passed": true
+    },
+    {
+      "key": "gragas_p/heal_amount",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 286,
+      "expected": 286,
+      "passed": true
+    },
+    {
+      "key": "gragas_q/minimum_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 218.4,
+      "expected": 218.4,
+      "passed": true
+    },
+    {
+      "key": "gragas_q/minimum_damage",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 492,
+      "expected": 492,
+      "passed": true
+    },
+    {
+      "key": "gragas_q/maximum_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 327.6,
+      "expected": 327.6,
+      "passed": true
+    },
+    {
+      "key": "gragas_q/maximum_damage",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 738,
+      "expected": 738,
+      "passed": true
+    },
+    {
+      "key": "gragas_q/maximum_slow_percent_points",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 60,
+      "expected": 60,
+      "passed": true
+    },
+    {
+      "key": "gragas_q/maximum_slow_percent_points",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 90,
+      "expected": 90,
+      "passed": true
+    },
+    {
+      "key": "gragas_w/damage_reduction_ratio",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 0.16920000000000002,
+      "expected": 0.16920000000000002,
+      "passed": true
+    },
+    {
+      "key": "gragas_w/damage_reduction_ratio",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 0.386,
+      "expected": 0.386,
+      "passed": true
+    },
+    {
+      "key": "gragas_w/empowered_bonus_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 323.1,
+      "expected": 323.1,
+      "passed": true
+    },
+    {
+      "key": "gragas_w/empowered_bonus_damage",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 647.5,
+      "expected": 647.5,
+      "passed": true
+    },
+    {
+      "key": "gragas_e/magic_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 183.8,
+      "expected": 183.8,
+      "passed": true
+    },
+    {
+      "key": "gragas_e/magic_damage",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 449,
+      "expected": 449,
+      "passed": true
+    },
+    {
+      "key": "gragas_r/magic_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 338.4,
+      "expected": 338.4,
+      "passed": true
+    },
+    {
+      "key": "gragas_r/magic_damage",
+      "input": {
+        "rank": 3,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 652,
+      "expected": 652,
+      "passed": true
+    },
+    {
+      "key": "hecarim_p/bonus_attack_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 5.6000000000000005,
+      "expected": 5.6000000000000005,
+      "passed": true
+    },
+    {
+      "key": "hecarim_p/bonus_attack_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 25.2,
+      "expected": 25.2,
+      "passed": true
+    },
+    {
+      "key": "hecarim_q/base_physical_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 127.5,
+      "expected": 127.5,
+      "passed": true
+    },
+    {
+      "key": "hecarim_q/base_physical_damage",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 297,
+      "expected": 297,
+      "passed": true
+    },
+    {
+      "key": "hecarim_q/damage_boost_per_stack_percent_points",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 5.25,
+      "expected": 5.25,
+      "passed": true
+    },
+    {
+      "key": "hecarim_q/damage_boost_per_stack_percent_points",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 6.9,
+      "expected": 6.9,
+      "passed": true
+    },
+    {
+      "key": "hecarim_q/physical_damage_at_stacks",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 127.5,
+      "expected": 127.5,
+      "passed": true
+    },
+    {
+      "key": "hecarim_q/physical_damage_at_stacks",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 358.47900000000004,
+      "expected": 358.47900000000004,
+      "passed": true
+    },
+    {
+      "key": "hecarim_q/cooldown_at_stacks_ms",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 4000,
+      "expected": 4000,
+      "passed": true
+    },
+    {
+      "key": "hecarim_q/cooldown_at_stacks_ms",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "key": "hecarim_w/magic_damage_total",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 218.4,
+      "expected": 218.4,
+      "passed": true
+    },
+    {
+      "key": "hecarim_w/magic_damage_total",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 492,
+      "expected": 492,
+      "passed": true
+    },
+    {
+      "key": "hecarim_w/self_healing_from_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 100,
+      "expected": 100,
+      "passed": true
+    },
+    {
+      "key": "hecarim_w/self_healing_from_damage",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 222.5,
+      "expected": 222.5,
+      "passed": true
+    },
+    {
+      "key": "hecarim_e/minimum_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 67.5,
+      "expected": 67.5,
+      "passed": true
+    },
+    {
+      "key": "hecarim_e/minimum_damage",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 155,
+      "expected": 155,
+      "passed": true
+    },
+    {
+      "key": "hecarim_e/maximum_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 135,
+      "expected": 135,
+      "passed": true
+    },
+    {
+      "key": "hecarim_e/maximum_damage",
+      "input": {
+        "rank": 5,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 310,
+      "expected": 310,
+      "passed": true
+    },
+    {
+      "key": "hecarim_r/magic_damage",
+      "input": {
+        "rank": 1,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 3500,
+          "SOURCE.ability_power.TOTAL": 173,
+          "SOURCE.attack_damage.BONUS": 75,
+          "TARGET.hp.TOTAL": 2600
+        },
+        "runtime": {
+          "actual_stacks": 0,
+          "actual_bonus_move_speed": 40,
+          "move_speed_to_ad_ratio": 0.14,
+          "actual_self_damage_dealt": 400
+        }
+      },
+      "actual": 323,
+      "expected": 323,
+      "passed": true
+    },
+    {
+      "key": "hecarim_r/magic_damage",
+      "input": {
+        "rank": 3,
+        "attributes": {
+          "SOURCE.hp.TOTAL": 5200,
+          "SOURCE.ability_power.TOTAL": 315,
+          "SOURCE.attack_damage.BONUS": 130,
+          "TARGET.hp.TOTAL": 4100
+        },
+        "runtime": {
+          "actual_stacks": 3,
+          "actual_bonus_move_speed": 105,
+          "move_speed_to_ad_ratio": 0.24,
+          "actual_self_damage_dealt": 890
+        }
+      },
+      "actual": 665,
+      "expected": 665,
+      "passed": true
+    }
+  ],
+  "missing": [
+    {
+      "key": "gragas_p/heal_amount",
+      "missing": "A|SOURCE.hp.TOTAL",
+      "rejected": true
+    },
+    {
+      "key": "gragas_q/minimum_damage",
+      "missing": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "key": "gragas_q/maximum_damage",
+      "missing": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "key": "gragas_w/damage_reduction_ratio",
+      "missing": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "key": "gragas_w/empowered_bonus_damage",
+      "missing": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "key": "gragas_w/empowered_bonus_damage",
+      "missing": "A|TARGET.hp.TOTAL",
+      "rejected": true
+    },
+    {
+      "key": "gragas_e/magic_damage",
+      "missing": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "key": "gragas_r/magic_damage",
+      "missing": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_p/bonus_attack_damage",
+      "missing": "P|actual_bonus_move_speed",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_p/bonus_attack_damage",
+      "missing": "P|move_speed_to_ad_ratio",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_q/base_physical_damage",
+      "missing": "A|SOURCE.attack_damage.BONUS",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_q/damage_boost_per_stack_percent_points",
+      "missing": "A|SOURCE.attack_damage.BONUS",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_q/physical_damage_at_stacks",
+      "missing": "A|SOURCE.attack_damage.BONUS",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_q/physical_damage_at_stacks",
+      "missing": "P|actual_stacks",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_q/cooldown_at_stacks_ms",
+      "missing": "P|actual_stacks",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_w/magic_damage_total",
+      "missing": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_w/self_healing_from_damage",
+      "missing": "P|actual_self_damage_dealt",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_e/minimum_damage",
+      "missing": "A|SOURCE.attack_damage.BONUS",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_e/maximum_damage",
+      "missing": "A|SOURCE.attack_damage.BONUS",
+      "rejected": true
+    },
+    {
+      "key": "hecarim_r/magic_damage",
+      "missing": "A|SOURCE.ability_power.TOTAL",
+      "rejected": true
+    }
+  ],
+  "bounds": [
+    {
+      "key": "physical_damage_at_stacks",
+      "count": 0,
+      "actual": 127.5,
+      "expected": 127.5,
+      "passed": true
+    },
+    {
+      "key": "cooldown_at_stacks_ms",
+      "count": 0,
+      "actual": 4000,
+      "expected": 4000,
+      "passed": true
+    },
+    {
+      "key": "physical_damage_at_stacks",
+      "count": 1,
+      "actual": 134.19375,
+      "expected": 134.19375,
+      "passed": true
+    },
+    {
+      "key": "cooldown_at_stacks_ms",
+      "count": 1,
+      "actual": 3250,
+      "expected": 3250,
+      "passed": true
+    },
+    {
+      "key": "physical_damage_at_stacks",
+      "count": 3,
+      "actual": 147.58124999999998,
+      "expected": 147.58124999999998,
+      "passed": true
+    },
+    {
+      "key": "cooldown_at_stacks_ms",
+      "count": 3,
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "key": "physical_damage_at_stacks",
+      "count": 4,
+      "actual": 147.58124999999998,
+      "expected": 147.58124999999998,
+      "passed": true
+    },
+    {
+      "key": "cooldown_at_stacks_ms",
+      "count": 4,
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "key": "physical_damage_at_stacks",
+      "count": 20,
+      "actual": 147.58124999999998,
+      "expected": 147.58124999999998,
+      "passed": true
+    },
+    {
+      "key": "cooldown_at_stacks_ms",
+      "count": 20,
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "count": -1,
+      "rejected": true
+    },
+    {
+      "count": 0.5,
+      "rejected": true
+    }
+  ],
+  "basis": "独立使用主负责人已核对的绑定原文数字和规则计算期望，不复用生成器公式函数；这里只核候选，写后仍须实际GET表达式。",
+  "apiWrites": 0,
+  "businessMathReady": false
+}

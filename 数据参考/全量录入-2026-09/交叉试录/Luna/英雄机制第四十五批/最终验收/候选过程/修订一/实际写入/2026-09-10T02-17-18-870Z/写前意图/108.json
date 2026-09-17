@@ -1,0 +1,30 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zyra_e/parameters",
+    "detailRoute": "/skills/zyra_e/parameters/base_damage",
+    "skillKey": "zyra_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "本体魔法伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 95,
+        "3": 130,
+        "4": 165,
+        "5": 200
+      },
+      "description": "TotalDamage当前消费BaseDamage索引1至5为60/95/130/165/200；索引0=25。",
+      "sortOrder": 10
+    }
+  }
+}

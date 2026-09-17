@@ -1,0 +1,45 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "method": "POST",
+    "route": "/skills/xayah_q/formulas",
+    "detailRoute": "/skills/xayah_q/formulas/single_dagger_damage",
+    "skillKey": "xayah_q",
+    "kind": "formulas",
+    "stableKey": "single_dagger_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "single_dagger_damage",
+      "name": "双刃单把匕首物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=基础值+0.5×额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

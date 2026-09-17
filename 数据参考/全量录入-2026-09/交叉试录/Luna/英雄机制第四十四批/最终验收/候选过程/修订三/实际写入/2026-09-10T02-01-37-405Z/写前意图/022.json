@@ -1,0 +1,55 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "method": "POST",
+    "route": "/skills/illaoi_w/formulas",
+    "detailRoute": "/skills/illaoi_w/formulas/health_percent_ratio",
+    "skillKey": "illaoi_w",
+    "kind": "formulas",
+    "stableKey": "health_percent_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "health_percent_ratio",
+      "name": "严酷训诫最大生命伤害比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_point_scale"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_percent_damage_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "health_damage_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "0.01×(百分数点+0.035×来源总攻击力)。",
+      "sortOrder": 10
+    }
+  }
+}

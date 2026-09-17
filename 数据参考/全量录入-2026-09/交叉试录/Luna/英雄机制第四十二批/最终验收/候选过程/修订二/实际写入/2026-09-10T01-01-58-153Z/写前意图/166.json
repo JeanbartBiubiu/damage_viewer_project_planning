@@ -1,0 +1,27 @@
+{
+  "i": 165,
+  "intent": {
+    "sequence": 166,
+    "skillKey": "yunara_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/yunara_q/parameters",
+    "stableKey": "attack_speed_percent_points",
+    "body": {
+      "parameterKey": "attack_speed_percent_points",
+      "name": "主动强化攻击速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20.000000298023224,
+        "2": 30.000001192092896,
+        "3": 40.00000059604645,
+        "4": 50,
+        "5": 60.00000238418579
+      },
+      "description": "索引1至5为20/30/40/50/60百分数点。",
+      "sortOrder": 120
+    }
+  }
+}

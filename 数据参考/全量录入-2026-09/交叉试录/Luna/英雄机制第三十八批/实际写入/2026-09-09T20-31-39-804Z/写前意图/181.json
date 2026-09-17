@@ -1,0 +1,23 @@
+{
+  "i": 180,
+  "intent": {
+    "sequence": 181,
+    "method": "POST",
+    "route": "/skills/kayle_e/parameters",
+    "detailRoute": "/skills/kayle_e/parameters/active_execute_ap_ratio",
+    "skillKey": "kayle_e",
+    "kind": "parameters",
+    "stableKey": "active_execute_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_execute_ap_ratio",
+      "name": "星火符刃主动已损生命法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.015,
+      "levelValues": null,
+      "description": "主动树第二项为0.015×来源总法术强度，外层mMultiplier约0.01且按百分数显示。",
+      "sortOrder": 50
+    }
+  }
+}

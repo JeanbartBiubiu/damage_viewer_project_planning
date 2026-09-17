@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:39:16.232Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_q/parameters/energy_cost",
+  "id": "energy_cost",
+  "method": "POST",
+  "body": {
+    "parameterKey": "energy_cost",
+    "name": "基础能量消耗",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 60,
+      "2": 55,
+      "3": 50,
+      "4": 45,
+      "5": 40
+    },
+    "description": "官方资源类型为能量；官方cost与当前manaValues逐级一致，字段名不改变资源身份。",
+    "sortOrder": 30
+  }
+}

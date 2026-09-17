@@ -1,0 +1,29 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 44,
+    "method": "POST",
+    "route": "/skills/bard_e/parameters",
+    "detailRoute": "/skills/bard_e/parameters/base_travel_speed",
+    "skillKey": "bard_e",
+    "kind": "parameters",
+    "stableKey": "base_travel_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_travel_speed",
+      "name": "基础传送速度",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 900,
+        "2": 900,
+        "3": 900,
+        "4": 900,
+        "5": 900
+      },
+      "description": "保存原始速度，不作普通移动速度属性。",
+      "sortOrder": 50
+    }
+  }
+}

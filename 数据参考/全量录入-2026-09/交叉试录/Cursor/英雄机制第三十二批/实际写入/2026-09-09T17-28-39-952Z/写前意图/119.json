@@ -1,0 +1,23 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "method": "POST",
+    "route": "/skills/xayah_w/parameters",
+    "detailRoute": "/skills/xayah_w/parameters/move_speed_bonus_ratio",
+    "skillKey": "xayah_w",
+    "kind": "parameters",
+    "stableKey": "move_speed_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_bonus_ratio",
+      "name": "命中英雄自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "当前WMoveSpeedAmount=30%，转为0.3比例。",
+      "sortOrder": 40
+    }
+  }
+}

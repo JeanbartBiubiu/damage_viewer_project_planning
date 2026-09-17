@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T14:16:44.540Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "requestAudit": {
+    "getCount": 2141,
+    "statusCounts": {
+      "200": 2137,
+      "404": 4
+    },
+    "nonGetRequests": []
+  },
+  "current": {
+    "skillCount": 1062,
+    "ruleCount": 168,
+    "sourceInitializedCount": 29,
+    "activeProcessWithoutRuleCount": 4,
+    "candidates": [
+      {
+        "skillKey": "jax_e",
+        "name": "贾克斯·反击风暴",
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+            "effectBindingCount": 1,
+            "name": "施放反击风暴",
+            "processKey": "cast",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1
+          }
+        ]
+      },
+      {
+        "skillKey": "lux_e",
+        "name": "拉克丝·透光奇点",
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "description": "过程只负责法力、施法延迟和冷却。再次施放引爆与 5 秒后自动爆炸未写入，避免把区域命中猜成立即伤害。",
+            "effectBindingCount": 1,
+            "name": "施放透光奇点",
+            "processKey": "cast",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1
+          }
+        ]
+      },
+      {
+        "skillKey": "vi_q",
+        "name": "蔚·强能冲拳",
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "description": "开始蓄力仅绑定已确证法力消耗；正常释放、取消与冷却起算未核，不以一次IMMEDIATE启动普通冷却。",
+            "effectBindingCount": 1,
+            "name": "施放强能冲拳",
+            "processKey": "cast",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1
+          }
+        ]
+      },
+      {
+        "skillKey": "warwick_e",
+        "name": "沃里克·远祖嗥叫",
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "description": "只表达已确证的成本、冷却与施法延迟；不生成敌人命中。",
+            "effectBindingCount": 1,
+            "name": "施放远祖嗥叫",
+            "processKey": "cast",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "staticContract": {
+    "status": "PASS",
+    "conclusion": "当前SKILL_USED只保存sourceSkillKey和useKind；没有施放阶段字段，未知字段会在后端写入校验中被拒绝。",
+    "files": [
+      {
+        "worktree": "damage_web_dev",
+        "relativePath": "web/src/types/skillTriggerRule.ts",
+        "sha256": "67e6edb1e232fe1eb4ac40024e8028d400864cf16570fd4668461d4a2a7eef2c",
+        "line": 142
+      },
+      {
+        "worktree": "damage_web_dev",
+        "relativePath": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+        "sha256": "a920062d387165c4a9e75de0b8509ba223ef54b05361119d5f3af9c9145c6407",
+        "line": 356
+      },
+      {
+        "worktree": "damage_backend_dev",
+        "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerSkillEventDetail.java",
+        "sha256": "8a2961dcd09321c185e961438e6b646b0d06969a205b0590bcbe283f71e5c7d4",
+        "line": 11
+      },
+      {
+        "worktree": "damage_backend_dev",
+        "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+        "sha256": "15882d977dce66d28854f5a5d6215efe6b66265ad353cfd87b0b70565dd40852",
+        "lines": [
+          854,
+          976,
+          2766
+        ]
+      }
+    ]
+  },
+  "targets": [
+    {
+      "skillKey": "vi_q",
+      "skillName": "蔚·强能冲拳",
+      "ownerKey": "champion_vi",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json",
+      "sourceSha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+      "conclusion": "资料待核",
+      "entryDisposition": "系统暂缓",
+      "reason": "当前过程只表示蓄力开始且没有普通冷却；SKILL_USED无法区分蓄力开始、正常释放和取消，不能决定法力、正常冷却、取消冷却与返还的唯一时点。",
+      "sourceOpenItems": [
+        {
+          "kind": "配置",
+          "component": "普通冷却的起算阶段",
+          "reason": "正常冷却与取消后3秒参数分别保留；开始蓄力、正常释放、中断阶段尚未闭环，开始蓄力过程不启动普通冷却。"
+        },
+        {
+          "kind": "来源",
+          "component": "蓄力伤害时点与中间插值",
+          "reason": "候选已配置最低/最高公式；6秒窗口和5秒特效不能当作伤害蓄满时刻，不自建充能过程或线性插值。"
+        },
+        {
+          "kind": "配置",
+          "component": "取消3秒冷却与50%法力返还",
+          "reason": "须实际取消事件；正常命中或蓄满释放不得走返还。尚未接线取消过程。"
+        },
+        {
+          "kind": "配置",
+          "component": "命中施加爆弹重拳与英雄碰撞停下",
+          "reason": "Q实际命中只结算本体伤害候选；W层数与碰撞位移另接。"
+        }
+      ],
+      "sourceExcluded": [
+        {
+          "component": "冲刺位移、击退空间和非英雄拉近",
+          "reason": "1V1保留对敌伤害；位移与空间查找后置。击退时长字段仅作来源保留。"
+        }
+      ],
+      "process": {
+        "activationType": "ACTIVE",
+        "cooldown": null,
+        "description": "开始蓄力仅绑定已确证法力消耗；正常释放、取消与冷却起算未核，不以一次IMMEDIATE启动普通冷却。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放强能冲拳",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": null,
+            "detail": {},
+            "name": "施放开始",
+            "sortOrder": 10,
+            "stepKey": "start",
+            "stepType": "IMMEDIATE"
+          }
+        ]
+      },
+      "processSha256": "8ddca51e8f23ec94b3eb0c7ed65b2d10bbce3a78f30fbcd5d3fcbf98d8527bb2",
+      "ruleListCount": 0,
+      "ruleDetailStatus": 404,
+      "relation": {
+        "total": 1,
+        "characterKey": "champion_vi",
+        "skillStatus": "ENABLED"
+      },
+      "representativeImage": {
+        "imageKey": "entry_16171_vi_q",
+        "enabled": true
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "skillName": "拉克丝·透光奇点",
+      "ownerKey": "champion_lux",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/拉克丝机制第一批/候选.json",
+      "sourceSha256": "d12ce83ef0a000c8b854045d7065089cf43687818d617ddbb8968829f6baf9fd",
+      "conclusion": "系统暂缓",
+      "entryDisposition": "系统暂缓",
+      "reason": "首次施放生成区域，再次施放或到期才爆炸；SKILL_USED无法区分首次与再次施放，无条件启动cast会在再次施放时重复成本与冷却。",
+      "sourceOpenItems": [
+        {
+          "kind": "effect",
+          "key": "slow",
+          "reason": "无减速状态可挂 STATUS_OPERATION；只保留 slow_ratio 等参数。"
+        },
+        {
+          "kind": "process",
+          "key": "recast_detonate",
+          "reason": "再次施放与到期爆炸的目标筛选、区域半径在当前过程模型中无法准确表达。"
+        },
+        {
+          "kind": "trigger",
+          "key": "explode_on_recast",
+          "reason": "爆炸时点存在再次施放/到期两种路径，挂触发会猜测。"
+        }
+      ],
+      "sourceExcluded": [],
+      "process": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "过程只负责法力、施法延迟和冷却。再次施放引爆与 5 秒后自动爆炸未写入，避免把区域命中猜成立即伤害。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放透光奇点",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能 spellCastTime，按毫秒录入。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      },
+      "processSha256": "f81d5946cd67bda636f87a3405970101467911c9fdd4df2d1dcbae934bc4e471",
+      "ruleListCount": 0,
+      "ruleDetailStatus": 404,
+      "relation": {
+        "total": 1,
+        "characterKey": "champion_lux",
+        "skillStatus": "ENABLED"
+      },
+      "representativeImage": {
+        "imageKey": "entry_16171_lux_e",
+        "enabled": true
+      }
+    },
+    {
+      "skillKey": "warwick_e",
+      "skillName": "沃里克·远祖嗥叫",
+      "ownerKey": "champion_warwick",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sourceSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "conclusion": "系统暂缓",
+      "entryDisposition": "系统暂缓",
+      "reason": "首次施放开始减伤，再次施放或自然结束只应嗥叫一次且不重付初次成本；SKILL_USED无法区分这些阶段。",
+      "sourceOpenItems": [
+        {
+          "kind": "配置",
+          "component": "持续减伤效果及提前结束",
+          "reason": "伤害修正类型可表达减伤，但需匹配伤害乘区目录和真实伤害排除口径；不能使用属性固定加算乘区。二次施放在1秒后提前结束减伤，随后恐惧，不重付初次成本冷却。"
+        },
+        {
+          "kind": "配置",
+          "component": "恐惧及R联动结束行为",
+          "reason": "保留来源2.75秒和1秒恐惧；自然结束/主动结束应只嗥叫一次。R期间提前结束E的具体规则仍待来源，不推测。"
+        }
+      ],
+      "sourceExcluded": [],
+      "process": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "只表达已确证的成本、冷却与施法延迟；不生成敌人命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放远祖嗥叫",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": null,
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      },
+      "processSha256": "ea34bfc18f30af284329aa0f61adaa04567d52365b97f68d563fed243093efe8",
+      "ruleListCount": 0,
+      "ruleDetailStatus": 404,
+      "relation": {
+        "total": 1,
+        "characterKey": "champion_warwick",
+        "skillStatus": "ENABLED"
+      },
+      "representativeImage": {
+        "imageKey": "entry_16171_warwick_e",
+        "enabled": true
+      }
+    },
+    {
+      "skillKey": "jax_e",
+      "skillName": "贾克斯·反击风暴",
+      "ownerKey": "champion_jax",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第六批/完整候选.json",
+      "sourceSha256": "a593bd1f49c1ab6f424bd76b7ad4dbef1e0e7154f00d0347dc90c7c1e39126ac",
+      "conclusion": "系统暂缓",
+      "entryDisposition": "系统暂缓",
+      "reason": "首次施放开始防御，再次施放或自然结束触发一次反击；SKILL_USED无法区分首次与再次施放，无条件启动cast会错误重付成本并重启冷却。",
+      "sourceOpenItems": [
+        {
+          "kind": "系统",
+          "component": "攻击躲闪与群体技能减伤",
+          "reason": "普通免伤只减少伤害，不等于成功躲闪及攻击附加效果处理；当前过滤字段不能可靠区分群体技能，不用ANY/SKILL冒充范围技能条件。"
+        },
+        {
+          "kind": "配置",
+          "component": "防御状态的自然/提前结束与一次反击",
+          "reason": "当前文本确认最多2秒和再次施放可结束；最早重施门槛、躲闪计数输入与一次性结算未接线。不能按固定2秒造命中，也不能因任意提前移除产生反击。"
+        }
+      ],
+      "sourceExcluded": [
+        {
+          "component": "周围多目标空间与野怪伤害上限",
+          "reason": "本次对手的完整伤害保留，不新增空间查找和野怪分支。"
+        }
+      ],
+      "process": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放反击风暴",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": null,
+            "detail": {},
+            "name": "施放开始",
+            "sortOrder": 10,
+            "stepKey": "start",
+            "stepType": "IMMEDIATE"
+          }
+        ]
+      },
+      "processSha256": "d9c857cf956c18a567e698e349c156cd36212cde7ec76f1318fea1c763d1d916",
+      "ruleListCount": 0,
+      "ruleDetailStatus": 404,
+      "relation": {
+        "total": 1,
+        "characterKey": "champion_jax",
+        "skillStatus": "ENABLED"
+      },
+      "representativeImage": {
+        "imageKey": "entry_16171_jax_e",
+        "enabled": true
+      }
+    }
+  ],
+  "boundary": "四项只因当前施放阶段不可区分而关闭简单入口候选；不删除已有过程，不写规则，不改变整技能唯一结论。"
+}

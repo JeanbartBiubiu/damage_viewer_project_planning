@@ -1,0 +1,24 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/parameters",
+    "detailRoute": "/skills/nilah_r/parameters/overheal_shield_duration_ms",
+    "skillKey": "nilah_r",
+    "kind": "parameters",
+    "stableKey": "overheal_shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "overheal_shield_duration_ms",
+      "name": "神恩激荡过量治疗护盾持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6000,
+      "levelValues": null,
+      "description": "当前正文过量治疗转为自身护盾并持续6秒，转换为6000毫秒；未消费ShieldCalc不作为护盾值。",
+      "sortOrder": 150
+    }
+  }
+}

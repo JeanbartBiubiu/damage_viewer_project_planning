@@ -1,0 +1,20 @@
+{
+  "i": 70,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_w/parameters",
+    "skillKey": "hecarim_w",
+    "kind": "parameters",
+    "stableKey": "actual_self_damage_dealt",
+    "body": {
+      "parameterKey": "actual_self_damage_dealt",
+      "name": "期间对唯一敌人实际造成伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "须取实际造成的伤害，不能用抗性减免前数学量替代。实际输入无默认。",
+      "sortOrder": 90
+    }
+  }
+}

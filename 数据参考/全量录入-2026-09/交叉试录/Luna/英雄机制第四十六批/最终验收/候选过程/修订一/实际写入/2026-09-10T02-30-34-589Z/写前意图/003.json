@@ -1,0 +1,24 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/actual_stack_attack_speed_ratio",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "actual_stack_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_stack_attack_speed_ratio",
+      "name": "当前每层实际攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "运行层提供最终实际攻击速度比例（比例值中1表示100%）；上述四个固定断点字段按源值的百分数点单独保存，不直接代替运行值。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 124,
+  "intent": {
+    "sequence": 125,
+    "method": "POST",
+    "route": "/skills/yuumi_q/parameters",
+    "detailRoute": "/skills/yuumi_q/parameters/missile_damage_base",
+    "skillKey": "yuumi_q",
+    "kind": "parameters",
+    "stableKey": "missile_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missile_damage_base",
+      "name": "普通飞弹基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 95,
+        "3": 130,
+        "4": 165,
+        "5": 200,
+        "6": 235
+      },
+      "description": "悠米Q最高六级，来源60/95/130/165/200/235。",
+      "sortOrder": 10
+    }
+  }
+}

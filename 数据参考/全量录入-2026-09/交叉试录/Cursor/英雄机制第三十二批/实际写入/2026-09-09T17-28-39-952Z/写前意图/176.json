@@ -1,0 +1,23 @@
+{
+  "i": 175,
+  "intent": {
+    "sequence": 176,
+    "method": "POST",
+    "route": "/skills/zeri_w/parameters",
+    "detailRoute": "/skills/zeri_w/parameters/base_cast_time_ms",
+    "skillKey": "zeri_w",
+    "kind": "parameters",
+    "stableKey": "base_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_cast_time_ms",
+      "name": "动态施法基础时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 550,
+      "levelValues": null,
+      "description": "当前BaseCastTime约0.55秒，转换为550毫秒。",
+      "sortOrder": 110
+    }
+  }
+}

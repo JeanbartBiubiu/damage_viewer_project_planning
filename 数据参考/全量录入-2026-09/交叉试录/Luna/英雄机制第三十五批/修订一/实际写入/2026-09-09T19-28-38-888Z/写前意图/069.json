@@ -1,0 +1,45 @@
+{
+  "i": 68,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/rell_w/formulas",
+    "detailRoute": "/skills/rell_w/formulas/mount_up_extra_attack_magic_damage",
+    "skillKey": "rell_w",
+    "kind": "formulas",
+    "stableKey": "mount_up_extra_attack_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "mount_up_extra_attack_magic_damage",
+      "name": "上马后下次攻击额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mount_up_extra_attack_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mount_up_extra_attack_ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前FlipDamage=MountUpDamage+0.4×来源总法强，绑定当前消费值而非FlipBaseDamage。",
+      "sortOrder": 30
+    }
+  }
+}

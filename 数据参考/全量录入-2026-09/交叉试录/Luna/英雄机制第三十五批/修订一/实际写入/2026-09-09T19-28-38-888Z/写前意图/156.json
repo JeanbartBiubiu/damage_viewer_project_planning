@@ -1,0 +1,23 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 155,
+    "method": "POST",
+    "route": "/skills/tahmkench_e/parameters",
+    "detailRoute": "/skills/tahmkench_e/parameters/grey_health_max_hp_ratio",
+    "skillKey": "tahmkench_e",
+    "kind": "parameters",
+    "stableKey": "grey_health_max_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "grey_health_max_hp_ratio",
+      "name": "灰色生命上限最大生命倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前GreyHealthMaximum=3×来源最大生命；不使用未消费MaxHPHealRatio=0.1。",
+      "sortOrder": 60
+    }
+  }
+}

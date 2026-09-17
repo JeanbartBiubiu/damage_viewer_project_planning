@@ -1,0 +1,523 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保留当前角色根绑定主技能mLocKeys引用文本；动态键缺失时保留缺失事实，不借旧技能或其他英雄文案。",
+  "skills": {
+    "graves_p": {
+      "binding": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GravesPassive_Name",
+          "key": "spell_gravespassive_name",
+          "text": "新命运"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GravesPassive_Summary",
+          "key": "spell_gravespassive_summary",
+          "text": "格雷福斯的散弹枪拥有一些独特性能。他的弹药打光后就必须重新装弹。每次攻击会发射4颗弹丸，弹丸无法穿透单位。会击退被多颗弹丸命中的非英雄单位。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GravesPassive_Tooltip",
+          "key": "spell_gravespassive_tooltip",
+          "text": "格雷福斯的霰弹枪拥有一些独特性能：<br><li>它只有2颗<keywordMajor>子弹</keywordMajor>并且打完后就必须得重新装填。<attackSpeed>攻击速度</attackSpeed>会略微缩短装填时间，但会显著缩短开火间隔。<li>每次攻击会发射4颗弹丸。对同一目标的第一颗弹丸会造成<physicalDamage>@SingleBulletDamage@物理伤害</physicalDamage>，并且每颗后续弹丸造成<physicalDamage>@MultiBulletDamage@物理伤害</physicalDamage>。作为常规暴击效果的替代，暴击会将弹丸的数量提升至6颗并让每颗弹丸造成的伤害提高@CritDamageMult@。对建筑造成的伤害减少@StructureDamageReduction*100@%。<li>弹丸在命中第一个单位后就会停下。会<status>击退</status>被多颗弹丸命中的非英雄单位。"
+        }
+      }
+    },
+    "graves_q": {
+      "binding": "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GravesQLineSpell_Name",
+          "key": "spell_gravesqlinespell_name",
+          "text": "穷途末路"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GravesQLineSpell_Summary",
+          "key": "spell_gravesqlinespell_summary",
+          "text": "格雷福斯发射一颗爆破性的榴弹，会在1秒后引爆，或是在碰到地形后立刻爆炸。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GravesQLineSpell_Tooltip",
+          "key": "spell_gravesqlinespell_tooltip",
+          "text": "格雷福斯发射一个火药卷，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。在1秒或与地形碰撞之后，它会爆炸，对沿途和爆炸附近的敌人们再次造成<physicalDamage>@TotalDetonationDamage@物理伤害</physicalDamage>。"
+        }
+      }
+    },
+    "graves_w": {
+      "binding": "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GravesSmokeGrenade_Name",
+          "key": "spell_gravessmokegrenade_name",
+          "text": "烟幕弹"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GravesSmokeGrenade_Summary",
+          "key": "spell_gravessmokegrenade_summary",
+          "text": "格雷福斯朝目标区域掷出一颗烟幕弹。如果敌人处在烟幕之中，则其视野会被降低。被烟幕弹的初始冲击所命中的敌人会受到魔法伤害并且移动速度会被短暂降低。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GravesSmokeGrenade_Tooltip",
+          "key": "spell_gravessmokegrenade_tooltip",
+          "text": "格雷福斯生成一团黑色烟幕，持续4秒，使其中的敌人<status>减速</status>@SlowAmount@%并无法看到区域之外。初始冲击造成<magicDamage>@ImpactDamage@魔法伤害</magicDamage>。"
+        }
+      }
+    },
+    "graves_e": {
+      "binding": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GravesMove_Name",
+          "key": "spell_gravesmove_name",
+          "text": "快速拔枪"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GravesMove_Summary",
+          "key": "spell_gravesmove_summary",
+          "text": "格雷福斯向前冲刺，获得一层持续数秒的护甲和魔法抗性加成。如果格雷福斯朝着一名敌方英雄冲刺，则会获得两层纯爷们效果。格雷福斯的每次未被闪避的普通攻击，都会减少这个技能的冷却时间并刷新该防御属性加成。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GravesMove_Tooltip",
+          "key": "spell_gravesmove_tooltip",
+          "text": "格雷福斯冲刺并装填一颗<keywordMajor>子弹</keywordMajor>进他的霰弹枪中。他还会获得一层持续@BuffDuration@秒的效果(最多@MaxStacks@层)或是在朝着敌人突进时获得2层效果。每层效果为他提供<scaleArmor>@ArmorPerStack@护甲</scaleArmor>和<scaleMR>@MRGrant@魔法抗性</scaleMR>。层数会在对非小兵单位造成伤害时刷新。<br><br>格雷福斯的攻击每有一颗弹丸命中敌人，就会使这个技能缩短@CooldownPerHit@秒冷却时间。"
+        }
+      }
+    },
+    "graves_r": {
+      "binding": "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GravesChargeShot_Name",
+          "key": "spell_graveschargeshot_name",
+          "text": "终极爆弹"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GravesChargeShot_Summary",
+          "key": "spell_graveschargeshot_summary",
+          "text": "格雷福斯射出一枚爆破弹，对它所命中的第一个敌人造成大量伤害。在命中一名英雄或者达到它的最大射程之后，爆弹会爆炸，并对锥形范围内的敌人造成伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GravesChargeShot_Tooltip",
+          "key": "spell_graveschargeshot_tooltip",
+          "text": "格雷福斯射出一枚爆破弹，并因后坐力而向后位移。爆破弹对命中的第一敌人造成<physicalDamage>@Damage@物理伤害</physicalDamage>。在命中一名敌方英雄，或者达到最大射程之后，终极爆弹将会向外爆裂，造成<physicalDamage>@FalloffDamage@物理伤害</physicalDamage>。"
+        }
+      }
+    },
+    "jinx_p": {
+      "binding": "Characters/Jinx/Spells/JinxPassiveMarkerAbility/JinxPassiveMarker",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_JinxPassiveMarker_Name",
+          "key": "spell_jinxpassivemarker_name",
+          "text": "罪恶快感"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_JinxPassiveMarker_Summary",
+          "key": "spell_jinxpassivemarker_summary",
+          "text": "金克丝每当参与击杀或摧毁一名英雄、一个史诗级野怪或一座建筑物后，她的移动速度和攻击速度就会得到显著提升。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_JinxPassiveMarker_Tooltip",
+          "key": "spell_jinxpassivemarker_tooltip",
+          "text": "当一名英雄、一个史诗级野怪或一座建筑物在被金克丝造成伤害后的@AssistMarkerDuration@秒内被击杀或摧毁的话，金克丝就会获得不断衰减的<speed>@MSBuff@%移动速度</speed>和<attackSpeed>@ASBuff@%攻击速度</attackSpeed>，持续@BuffDuration@秒。<br><br>参与击杀英雄会使这个<attackSpeed>攻击速度</attackSpeed>叠加至多5次。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_JinxPassiveMarker_TooltipExtended",
+          "key": "spell_jinxpassivemarker_tooltipextended",
+          "text": "{{Spell_JinxPassiveMarker_Tooltip}}<br><rules>这个效果在触发时可让金克丝突破攻击速度上限。</rules>"
+        }
+      }
+    },
+    "jinx_q": {
+      "binding": "Characters/Jinx/Spells/JinxQAbility/JinxQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_JinxQ_Name",
+          "key": "spell_jinxq_name",
+          "text": "枪炮交响曲！"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_JinxQ_Summary",
+          "key": "spell_jinxq_summary",
+          "text": "金克丝可以通过切换武器来改变普通攻击的方式。在用她的轻机枪“砰砰”攻击时，她的攻击速度会提升。在用她的火箭发射器“鱼骨头”攻击时，她的普通攻击会造成范围伤害，攻击距离提升，但会消耗法力值并且攻击得更慢。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_JinxQ_Tooltip",
+          "key": "spell_jinxq_tooltip",
+          "text": "金克丝可在【鱼骨头—火箭发射器】和【砰砰枪—轻机枪】之间切换武器。<br><br>在使用火箭发射器时，金克丝的攻击会对目标和附近的敌人造成<physicalDamage>@RocketDamage@物理伤害</physicalDamage>，提升@RocketBonusRange@距离，消耗法力，但所享的攻速加成减少@RocketASPDPenalty*100@%。<br><br>在使用轻机枪时，金克丝的攻击提供<attackSpeed>攻击速度</attackSpeed>，持续@MinigunAttackSpeedDuration@秒，可叠加至多@MinigunAttackSpeedStacks@次(<attackSpeed>最大攻速加成为+@MinigunAttackSpeedMax@% %i:scaleAS%</attackSpeed>)。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_JinxQ_Cost",
+          "key": "spell_jinxq_cost",
+          "text": "每发火箭@Cost@法力值"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_JinxQ_TooltipExtendedBelowLine",
+          "key": "spell_jinxq_tooltipextendedbelowline",
+          "text": "<rules>轻机枪的叠加效果一次只会消散一层，并且在金克丝切换至火箭发射器后，只有第一次攻击会享受攻速加成。</rules>"
+        }
+      }
+    },
+    "jinx_w": {
+      "binding": "Characters/Jinx/Spells/JinxWAbility/JinxW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_JinxW_Name",
+          "key": "spell_jinxw_name",
+          "text": "震荡电磁波！"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_JinxW_Summary",
+          "key": "spell_jinxw_summary",
+          "text": "金克丝使用她的震荡手枪“电磁器”来发射震荡波，让被命中的第一个敌人暴露在己方视野中（可使隐形英雄现形），并对其造成伤害和减速效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_JinxW_Tooltip",
+          "key": "spell_jinxw_tooltip",
+          "text": "金克丝发射一束震荡波，对命中的第一个目标造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，使其<status>减速</status>@SlowPercent@%并显形，持续@SlowDuration@秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_JinxW_TooltipExtendedBelowLine",
+          "key": "spell_jinxw_tooltipextendedbelowline",
+          "text": "<rules>【震荡电磁波】的施放时间会随着金克丝<attackSpeed>攻击速度</attackSpeed>的增加而缩短。</rules>"
+        }
+      }
+    },
+    "jinx_e": {
+      "binding": "Characters/Jinx/Spells/JinxEAbility/JinxE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_JinxE_Name",
+          "key": "spell_jinxe_name",
+          "text": "嚼火者手雷！"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_JinxE_Summary",
+          "key": "spell_jinxe_summary",
+          "text": "金克丝扔出一串陷阱手雷。手雷会在5秒后爆炸，让敌人着火。嚼火者手雷将会袭击路过的敌方英雄，并将他们束缚在原地。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_JinxE_Tooltip",
+          "key": "spell_jinxe_tooltip",
+          "text": "金克丝扔出3颗持续@GrenadeDuration@秒的嚼火者手雷，手雷会在接触到敌方英雄时爆炸，将其<status>禁锢</status>@RootDuration@秒并对附近敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_JinxE_TooltipExtendedBelowLine",
+          "key": "spell_jinxe_tooltipextendedbelowline",
+          "text": "<rules>这个技能会使敌人<status>中断位移</status>。</rules>"
+        }
+      }
+    },
+    "jinx_r": {
+      "binding": "Characters/Jinx/Spells/JinxRAbility/JinxR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_JinxR_Name",
+          "key": "spell_jinxr_name",
+          "text": "超究极死神飞弹！"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_JinxR_Summary",
+          "key": "spell_jinxr_summary",
+          "text": "金克丝发射一枚能够跨越整个地图的飞弹，并且飞行的时间越长，伤害值越高。飞弹会在命中一名敌方英雄后爆炸，对目标和目标附近的敌人造成伤害，且目标的生命值越低，所受的伤害值越高。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_JinxR_Tooltip",
+          "key": "spell_jinxr_tooltip",
+          "text": "金克丝发射一枚飞弹，在首次命中敌方英雄后爆炸，造成<physicalDamage>@DamageFloor@到@DamageMax@+@PercentDamage@%已损失生命值的物理伤害</physicalDamage>，飞弹在飞行时间超过1秒后会持续提升伤害。目标附近的敌人受到@AoEDamageMult*100@%伤害。<br><br><rules>对野怪的已损失生命值伤害无法超过@MonsterExecuteMax@。</rules>"
+        }
+      }
+    },
+    "varus_p": {
+      "binding": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VarusPassiveBuff_Name",
+          "key": "spell_varuspassivebuff_name",
+          "text": "复仇之欲"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VarusPassiveBuff_Summary",
+          "key": "spell_varuspassivebuff_summary",
+          "text": "每完成一次击杀或助攻，韦鲁斯就会暂时获得攻击速度、攻击力和法术强度。如果敌人是个英雄，则这个加成的幅度会更大。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VarusPassiveBuff_Tooltip",
+          "key": "spell_varuspassivebuff_tooltip",
+          "text": "韦鲁斯在每击杀一名敌人后，就会获得持续@ASDuration@秒的<attackSpeed>@MinionAS@攻击速度</attackSpeed>、<scaleAD>@MinionAD@攻击力</scaleAD>、和<scaleAP>@MinionAP@法术强度</scaleAP>。<br><br>参与击杀英雄后会使这个加成转而提供<attackSpeed>@ChampionAS@攻击速度</attackSpeed>(能够突破攻速上限)、<scaleAD>@ChampionAD@攻击力</scaleAD>、和<scaleAP>@ChampionAP@法术强度</scaleAP>。"
+        }
+      }
+    },
+    "varus_q": {
+      "binding": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VarusQ_Name",
+          "key": "spell_varusq_name",
+          "text": "穿刺之箭"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VarusQ_Summary",
+          "key": "spell_varusq_summary",
+          "text": "韦鲁斯开始蓄力，随后进行一次远距离的强力射击，蓄力时间越长，伤害越高。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VarusQ_Tooltip",
+          "key": "spell_varusq_tooltip",
+          "text": "<attention>开始蓄力：</attention>韦鲁斯为一次强力射击深深挽弓，自我<status>减速</status>@MoveSpeedMod*-100@%。在@MaxChannelDuration@秒后，如果未将箭射出去，则韦鲁斯会取消这个技能并返还其@ManaRefund*100@%法力消耗。<br><br><attention>释放：</attention>韦鲁斯将箭射出，造成<physicalDamage>@TotalDamageMinTooltip@物理伤害</physicalDamage>，每命中一个敌人就会降低@FalloffPercent*100@%(最低降至@MinDamagePercent*100@%)。伤害和<keywordMajor>枯萎</keywordMajor>的引爆效果会基于蓄力时间至多提升至@MaxChargeAmp*100@%(最大值为<physicalDamage>@TotalDamageMax@</physicalDamage>) 。"
+        }
+      }
+    },
+    "varus_w": {
+      "binding": "Characters/Varus/Spells/VarusWAbility/VarusW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VarusW_Name",
+          "key": "spell_varusw_name",
+          "text": "枯萎箭袋"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VarusW_Summary",
+          "key": "spell_varusw_summary",
+          "text": "被动：韦鲁斯的普通攻击会造成额外的伤害，并附加枯萎效果。韦鲁斯的其它技能会引爆枯萎效果，造成基于目标最大生命值的魔法伤害。主动：韦鲁斯增强他的下一个【穿刺之箭】。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VarusW_Tooltip",
+          "key": "spell_varusw_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>韦鲁斯的攻击造成额外的<magicDamage>@OnHitDamage@魔法伤害</magicDamage>并施加一层持续@DebuffDuration@秒的<keywordMajor>枯萎</keywordMajor>(最多至@MaxStacks@层)。<br><br>韦鲁斯的其它技能会引爆<keywordMajor>枯萎</keywordMajor>层数来造成每层<magicDamage>@PercentHPPerStack@最大生命值伤害</magicDamage>(最大值为<magicDamage>@MaxPercentHPPerStack@最大生命值伤害</magicDamage>)。引爆英雄和史诗级野怪身上的<keywordMajor>枯萎</keywordMajor>时也会使他基础技能的冷却时间缩短，数额为每层@CDRPerBlightStack*100@%基础冷却时间。<br><br><spellActive>主动：</spellActive>韦鲁斯的下一个<spellName>{{Spell_VarusQ_Name}}</spellName>会造成额外的<magicDamage>@QEmpowerPercentHP@已损失生命值的魔法伤害</magicDamage>，并且基于蓄力时间不断提升，至多可达<magicDamage>@MaxQEmpowerPercentHP@已损失生命值伤害</magicDamage>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VarusW_TooltipExtendedBelowLine",
+          "key": "spell_varusw_tooltipextendedbelowline",
+          "text": "<rules>来自<keywordMajor>枯萎</keywordMajor>爆炸的被动伤害对野怪的封顶值为每层@MaxMonsterDamage@伤害。</rules>"
+        }
+      }
+    },
+    "varus_e": {
+      "binding": "Characters/Varus/Spells/VarusEAbility/VarusE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VarusE_Name",
+          "key": "spell_varuse_name",
+          "text": "恶灵箭雨"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VarusE_Summary",
+          "key": "spell_varuse_summary",
+          "text": "韦鲁斯射出一阵箭雨，造成物理伤害并污染地面。被污染的地面将会减慢敌人的移动速度，并降低他们的自我治疗效果和回复效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VarusE_Tooltip",
+          "key": "spell_varuse_tooltip",
+          "text": "韦鲁斯射出一阵箭雨，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，并污染地面@GroundDuration@秒，<status>减速</status>敌人@SlowPercent*-100@%并施加@GrievousAmount*100@%重伤。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VarusE_TooltipExtendedBelowLine",
+          "key": "spell_varuse_tooltipextendedbelowline",
+          "text": "<rules>{{Reminder_GrievousWounds}}</rules>"
+        }
+      }
+    },
+    "varus_r": {
+      "binding": "Characters/Varus/Spells/VarusRAbility/VarusR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VarusR_Name",
+          "key": "spell_varusr_name",
+          "text": "腐败锁链"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VarusR_Summary",
+          "key": "spell_varusr_summary",
+          "text": "韦鲁斯投掷出一个腐败藤蔓，来禁锢命中的第一个敌方英雄，随后向附近没有被感染的英雄蔓延，并在碰到后将他们也禁锢。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VarusR_Tooltip",
+          "key": "spell_varusr_tooltip",
+          "text": "韦鲁斯猛射出一根腐败藤蔓，<status>禁锢</status>命中的第一个敌方英雄@RootDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。被<status>禁锢</status>的敌人们会在此期间持续获得@PassiveStacks@层<keywordMajor>枯萎</keywordMajor>。<br><br>随后腐败藤蔓会从它的目标处向附近未被感染的英雄蔓延。如果它接触到了未被感染的英雄，就会使其承受相同的伤害和<status>禁锢</status>。"
+        }
+      }
+    },
+    "kogmaw_p": {
+      "binding": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurpriseReady",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_character_passiveName_KogMaw",
+          "key": "game_character_passivename_kogmaw",
+          "text": "来自艾卡西亚的惊喜"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KogMawIcathianSurprise_Summary",
+          "key": "spell_kogmawicathiansurprise_summary",
+          "text": "在死后4秒，克格莫会爆炸，对周围的敌人造成真实伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KogMawIcathianSurprise_Tooltip",
+          "key": "spell_kogmawicathiansurprise_tooltip",
+          "text": "在阵亡后的@TooltipPassiveDuration@秒里，克格莫能够继续移动，能够无视单位碰撞体积，并且获得<speed>10%移动速度</speed>，在此期间持续提升至<speed>@TooltipPassiveMS*100@%移动速度</speed>。持续时间结束时，他会爆炸并对附近敌人造成<trueDamage>@PassiveDamage@真实伤害</trueDamage>。"
+        }
+      }
+    },
+    "kogmaw_q": {
+      "binding": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KogMawQ_Name",
+          "key": "spell_kogmawq_name",
+          "text": "腐蚀唾液"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KogMawQ_Summary",
+          "key": "spell_kogmawq_summary",
+          "text": "克格莫发射一团腐蚀性物质，对目标造成魔法伤害，并暂时腐蚀目标的护甲和魔法抗性。克格莫还会获得额外攻速。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KogMawQ_Tooltip",
+          "key": "spell_kogmawq_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>克格莫获得<attackSpeed>@AttackSpeed*100@%攻击速度</attackSpeed>。<br><br><spellActive>主动：</spellActive>克格莫抛射出一团腐蚀性的唾沫，对命中的第一个敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，以及持续@ShredDuration@秒的<scaleArmor>@ShredAmount@%护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>击碎。"
+        }
+      }
+    },
+    "kogmaw_w": {
+      "binding": "Characters/KogMaw/Spells/KogMawBioArcaneBarrageAbility/KogMawBioArcaneBarrage",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KogMawBioArcaneBarrage_Name",
+          "key": "spell_kogmawbioarcanebarrage_name",
+          "text": "生化弹幕"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KogMawBioArcaneBarrage_Summary",
+          "key": "spell_kogmawbioarcanebarrage_summary",
+          "text": "克格莫的攻击获得额外距离，并且能够对目标造成额外的魔法伤害，伤害值基于目标的最大生命值%i:OnHit% <OnHit>攻击特效</OnHit>。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KogMawBioArcaneBarrage_Tooltip",
+          "key": "spell_kogmawbioarcanebarrage_tooltip",
+          "text": "克格莫获得@Range@攻击距离，并且他的攻击附带额外的<magicDamage>@TotalHealthDamage@最大生命值的魔法伤害</magicDamage>%i:OnHit% <OnHit>攻击特效</OnHit>，持续@Duration@秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_KogMawBioArcaneBarrage_TooltipExtendedBelowLine",
+          "key": "spell_kogmawbioarcanebarrage_tooltipextendedbelowline",
+          "text": "<rules>至多对野怪造成<magicDamage>@MonsterDamageCap@魔法伤害</magicDamage>。</rules>"
+        }
+      }
+    },
+    "kogmaw_e": {
+      "binding": "Characters/KogMaw/Spells/KogMawVoidOozeAbility/KogMawVoidOoze",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KogMawVoidOoze_Name",
+          "key": "spell_kogmawvoidooze_name",
+          "text": "虚空淤泥"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KogMawVoidOoze_Summary",
+          "key": "spell_kogmawvoidooze_summary",
+          "text": "克格莫抛射出一团特殊的分泌物，对经过或停留在分泌物上的敌人造成伤害和减速效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KogMawVoidOoze_Tooltip",
+          "key": "spell_kogmawvoidooze_tooltip",
+          "text": "克格莫呕出胆汁，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并留下一条持续@TrailDuration@秒的软泥路径。软泥中的敌人们会被<status>减速</status>@SlowAmount@%。"
+        }
+      }
+    },
+    "kogmaw_r": {
+      "binding": "Characters/KogMaw/Spells/KogMawLivingArtilleryAbility/KogMawLivingArtillery",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KogMawLivingArtillery_Name",
+          "key": "spell_kogmawlivingartillery_name",
+          "text": "活体大炮"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KogMawLivingArtillery_Summary",
+          "key": "spell_kogmawlivingartillery_summary",
+          "text": "克格莫发射一枚射程极远的活体炮弹，让被命中的敌人暴露在己方视野中，并对目标造成魔法伤害（对低血量目标的伤害会显著提升）。 在短时间内连续使用活体大炮，将消耗额外的法力值。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KogMawLivingArtillery_Tooltip",
+          "key": "spell_kogmawlivingartillery_tooltip",
+          "text": "克格莫朝一个区域发射一团酸液，造成<magicDamage>@BaseDamageCalc@外加@TooltipMissingHealthDamageAmp@%每1%已损失生命值的魔法伤害</magicDamage>并使命中的敌人显形2秒。低于<healing>40%生命值</healing>的敌人们会转而受到<magicDamage>@MaxDamageCalc@魔法伤害</magicDamage>。<br><br>@ManaCostDuration@秒内的后续发射会消耗额外的<scaleMana>@BaseCost@法力</scaleMana>(最大值：<scaleMana>@ManaCostCap@法力</scaleMana>)。"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_gravespassive_name": "新命运",
+    "spell_gravespassive_summary": "格雷福斯的散弹枪拥有一些独特性能。他的弹药打光后就必须重新装弹。每次攻击会发射4颗弹丸，弹丸无法穿透单位。会击退被多颗弹丸命中的非英雄单位。",
+    "spell_gravespassive_tooltip": "格雷福斯的霰弹枪拥有一些独特性能：<br><li>它只有2颗<keywordMajor>子弹</keywordMajor>并且打完后就必须得重新装填。<attackSpeed>攻击速度</attackSpeed>会略微缩短装填时间，但会显著缩短开火间隔。<li>每次攻击会发射4颗弹丸。对同一目标的第一颗弹丸会造成<physicalDamage>@SingleBulletDamage@物理伤害</physicalDamage>，并且每颗后续弹丸造成<physicalDamage>@MultiBulletDamage@物理伤害</physicalDamage>。作为常规暴击效果的替代，暴击会将弹丸的数量提升至6颗并让每颗弹丸造成的伤害提高@CritDamageMult@。对建筑造成的伤害减少@StructureDamageReduction*100@%。<li>弹丸在命中第一个单位后就会停下。会<status>击退</status>被多颗弹丸命中的非英雄单位。",
+    "spell_gravesqlinespell_name": "穷途末路",
+    "spell_gravesqlinespell_summary": "格雷福斯发射一颗爆破性的榴弹，会在1秒后引爆，或是在碰到地形后立刻爆炸。",
+    "spell_gravesqlinespell_tooltip": "格雷福斯发射一个火药卷，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。在1秒或与地形碰撞之后，它会爆炸，对沿途和爆炸附近的敌人们再次造成<physicalDamage>@TotalDetonationDamage@物理伤害</physicalDamage>。",
+    "spell_gravessmokegrenade_name": "烟幕弹",
+    "spell_gravessmokegrenade_summary": "格雷福斯朝目标区域掷出一颗烟幕弹。如果敌人处在烟幕之中，则其视野会被降低。被烟幕弹的初始冲击所命中的敌人会受到魔法伤害并且移动速度会被短暂降低。",
+    "spell_gravessmokegrenade_tooltip": "格雷福斯生成一团黑色烟幕，持续4秒，使其中的敌人<status>减速</status>@SlowAmount@%并无法看到区域之外。初始冲击造成<magicDamage>@ImpactDamage@魔法伤害</magicDamage>。",
+    "spell_gravesmove_name": "快速拔枪",
+    "spell_gravesmove_summary": "格雷福斯向前冲刺，获得一层持续数秒的护甲和魔法抗性加成。如果格雷福斯朝着一名敌方英雄冲刺，则会获得两层纯爷们效果。格雷福斯的每次未被闪避的普通攻击，都会减少这个技能的冷却时间并刷新该防御属性加成。",
+    "spell_gravesmove_tooltip": "格雷福斯冲刺并装填一颗<keywordMajor>子弹</keywordMajor>进他的霰弹枪中。他还会获得一层持续@BuffDuration@秒的效果(最多@MaxStacks@层)或是在朝着敌人突进时获得2层效果。每层效果为他提供<scaleArmor>@ArmorPerStack@护甲</scaleArmor>和<scaleMR>@MRGrant@魔法抗性</scaleMR>。层数会在对非小兵单位造成伤害时刷新。<br><br>格雷福斯的攻击每有一颗弹丸命中敌人，就会使这个技能缩短@CooldownPerHit@秒冷却时间。",
+    "spell_graveschargeshot_name": "终极爆弹",
+    "spell_graveschargeshot_summary": "格雷福斯射出一枚爆破弹，对它所命中的第一个敌人造成大量伤害。在命中一名英雄或者达到它的最大射程之后，爆弹会爆炸，并对锥形范围内的敌人造成伤害。",
+    "spell_graveschargeshot_tooltip": "格雷福斯射出一枚爆破弹，并因后坐力而向后位移。爆破弹对命中的第一敌人造成<physicalDamage>@Damage@物理伤害</physicalDamage>。在命中一名敌方英雄，或者达到最大射程之后，终极爆弹将会向外爆裂，造成<physicalDamage>@FalloffDamage@物理伤害</physicalDamage>。",
+    "spell_jinxpassivemarker_name": "罪恶快感",
+    "spell_jinxpassivemarker_summary": "金克丝每当参与击杀或摧毁一名英雄、一个史诗级野怪或一座建筑物后，她的移动速度和攻击速度就会得到显著提升。",
+    "spell_jinxpassivemarker_tooltip": "当一名英雄、一个史诗级野怪或一座建筑物在被金克丝造成伤害后的@AssistMarkerDuration@秒内被击杀或摧毁的话，金克丝就会获得不断衰减的<speed>@MSBuff@%移动速度</speed>和<attackSpeed>@ASBuff@%攻击速度</attackSpeed>，持续@BuffDuration@秒。<br><br>参与击杀英雄会使这个<attackSpeed>攻击速度</attackSpeed>叠加至多5次。",
+    "spell_jinxpassivemarker_tooltipextended": "{{Spell_JinxPassiveMarker_Tooltip}}<br><rules>这个效果在触发时可让金克丝突破攻击速度上限。</rules>",
+    "spell_jinxq_name": "枪炮交响曲！",
+    "spell_jinxq_summary": "金克丝可以通过切换武器来改变普通攻击的方式。在用她的轻机枪“砰砰”攻击时，她的攻击速度会提升。在用她的火箭发射器“鱼骨头”攻击时，她的普通攻击会造成范围伤害，攻击距离提升，但会消耗法力值并且攻击得更慢。",
+    "spell_jinxq_tooltip": "金克丝可在【鱼骨头—火箭发射器】和【砰砰枪—轻机枪】之间切换武器。<br><br>在使用火箭发射器时，金克丝的攻击会对目标和附近的敌人造成<physicalDamage>@RocketDamage@物理伤害</physicalDamage>，提升@RocketBonusRange@距离，消耗法力，但所享的攻速加成减少@RocketASPDPenalty*100@%。<br><br>在使用轻机枪时，金克丝的攻击提供<attackSpeed>攻击速度</attackSpeed>，持续@MinigunAttackSpeedDuration@秒，可叠加至多@MinigunAttackSpeedStacks@次(<attackSpeed>最大攻速加成为+@MinigunAttackSpeedMax@% %i:scaleAS%</attackSpeed>)。",
+    "spell_jinxq_cost": "每发火箭@Cost@法力值",
+    "spell_jinxq_tooltipextendedbelowline": "<rules>轻机枪的叠加效果一次只会消散一层，并且在金克丝切换至火箭发射器后，只有第一次攻击会享受攻速加成。</rules>",
+    "spell_jinxw_name": "震荡电磁波！",
+    "spell_jinxw_summary": "金克丝使用她的震荡手枪“电磁器”来发射震荡波，让被命中的第一个敌人暴露在己方视野中（可使隐形英雄现形），并对其造成伤害和减速效果。",
+    "spell_jinxw_tooltip": "金克丝发射一束震荡波，对命中的第一个目标造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，使其<status>减速</status>@SlowPercent@%并显形，持续@SlowDuration@秒。",
+    "spell_jinxw_tooltipextendedbelowline": "<rules>【震荡电磁波】的施放时间会随着金克丝<attackSpeed>攻击速度</attackSpeed>的增加而缩短。</rules>",
+    "spell_jinxe_name": "嚼火者手雷！",
+    "spell_jinxe_summary": "金克丝扔出一串陷阱手雷。手雷会在5秒后爆炸，让敌人着火。嚼火者手雷将会袭击路过的敌方英雄，并将他们束缚在原地。",
+    "spell_jinxe_tooltip": "金克丝扔出3颗持续@GrenadeDuration@秒的嚼火者手雷，手雷会在接触到敌方英雄时爆炸，将其<status>禁锢</status>@RootDuration@秒并对附近敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。",
+    "spell_jinxe_tooltipextendedbelowline": "<rules>这个技能会使敌人<status>中断位移</status>。</rules>",
+    "spell_jinxr_name": "超究极死神飞弹！",
+    "spell_jinxr_summary": "金克丝发射一枚能够跨越整个地图的飞弹，并且飞行的时间越长，伤害值越高。飞弹会在命中一名敌方英雄后爆炸，对目标和目标附近的敌人造成伤害，且目标的生命值越低，所受的伤害值越高。",
+    "spell_jinxr_tooltip": "金克丝发射一枚飞弹，在首次命中敌方英雄后爆炸，造成<physicalDamage>@DamageFloor@到@DamageMax@+@PercentDamage@%已损失生命值的物理伤害</physicalDamage>，飞弹在飞行时间超过1秒后会持续提升伤害。目标附近的敌人受到@AoEDamageMult*100@%伤害。<br><br><rules>对野怪的已损失生命值伤害无法超过@MonsterExecuteMax@。</rules>",
+    "spell_varuspassivebuff_name": "复仇之欲",
+    "spell_varuspassivebuff_summary": "每完成一次击杀或助攻，韦鲁斯就会暂时获得攻击速度、攻击力和法术强度。如果敌人是个英雄，则这个加成的幅度会更大。",
+    "spell_varuspassivebuff_tooltip": "韦鲁斯在每击杀一名敌人后，就会获得持续@ASDuration@秒的<attackSpeed>@MinionAS@攻击速度</attackSpeed>、<scaleAD>@MinionAD@攻击力</scaleAD>、和<scaleAP>@MinionAP@法术强度</scaleAP>。<br><br>参与击杀英雄后会使这个加成转而提供<attackSpeed>@ChampionAS@攻击速度</attackSpeed>(能够突破攻速上限)、<scaleAD>@ChampionAD@攻击力</scaleAD>、和<scaleAP>@ChampionAP@法术强度</scaleAP>。",
+    "spell_varusq_name": "穿刺之箭",
+    "spell_varusq_summary": "韦鲁斯开始蓄力，随后进行一次远距离的强力射击，蓄力时间越长，伤害越高。",
+    "spell_varusq_tooltip": "<attention>开始蓄力：</attention>韦鲁斯为一次强力射击深深挽弓，自我<status>减速</status>@MoveSpeedMod*-100@%。在@MaxChannelDuration@秒后，如果未将箭射出去，则韦鲁斯会取消这个技能并返还其@ManaRefund*100@%法力消耗。<br><br><attention>释放：</attention>韦鲁斯将箭射出，造成<physicalDamage>@TotalDamageMinTooltip@物理伤害</physicalDamage>，每命中一个敌人就会降低@FalloffPercent*100@%(最低降至@MinDamagePercent*100@%)。伤害和<keywordMajor>枯萎</keywordMajor>的引爆效果会基于蓄力时间至多提升至@MaxChargeAmp*100@%(最大值为<physicalDamage>@TotalDamageMax@</physicalDamage>) 。",
+    "spell_varusw_name": "枯萎箭袋",
+    "spell_varusw_summary": "被动：韦鲁斯的普通攻击会造成额外的伤害，并附加枯萎效果。韦鲁斯的其它技能会引爆枯萎效果，造成基于目标最大生命值的魔法伤害。主动：韦鲁斯增强他的下一个【穿刺之箭】。",
+    "spell_varusw_tooltip": "<spellPassive>被动：</spellPassive>韦鲁斯的攻击造成额外的<magicDamage>@OnHitDamage@魔法伤害</magicDamage>并施加一层持续@DebuffDuration@秒的<keywordMajor>枯萎</keywordMajor>(最多至@MaxStacks@层)。<br><br>韦鲁斯的其它技能会引爆<keywordMajor>枯萎</keywordMajor>层数来造成每层<magicDamage>@PercentHPPerStack@最大生命值伤害</magicDamage>(最大值为<magicDamage>@MaxPercentHPPerStack@最大生命值伤害</magicDamage>)。引爆英雄和史诗级野怪身上的<keywordMajor>枯萎</keywordMajor>时也会使他基础技能的冷却时间缩短，数额为每层@CDRPerBlightStack*100@%基础冷却时间。<br><br><spellActive>主动：</spellActive>韦鲁斯的下一个<spellName>{{Spell_VarusQ_Name}}</spellName>会造成额外的<magicDamage>@QEmpowerPercentHP@已损失生命值的魔法伤害</magicDamage>，并且基于蓄力时间不断提升，至多可达<magicDamage>@MaxQEmpowerPercentHP@已损失生命值伤害</magicDamage>。",
+    "spell_cost_nocost": "无消耗",
+    "spell_varusw_tooltipextendedbelowline": "<rules>来自<keywordMajor>枯萎</keywordMajor>爆炸的被动伤害对野怪的封顶值为每层@MaxMonsterDamage@伤害。</rules>",
+    "spell_varuse_name": "恶灵箭雨",
+    "spell_varuse_summary": "韦鲁斯射出一阵箭雨，造成物理伤害并污染地面。被污染的地面将会减慢敌人的移动速度，并降低他们的自我治疗效果和回复效果。",
+    "spell_varuse_tooltip": "韦鲁斯射出一阵箭雨，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，并污染地面@GroundDuration@秒，<status>减速</status>敌人@SlowPercent*-100@%并施加@GrievousAmount*100@%重伤。",
+    "spell_varuse_tooltipextendedbelowline": "<rules>{{Reminder_GrievousWounds}}</rules>",
+    "spell_varusr_name": "腐败锁链",
+    "spell_varusr_summary": "韦鲁斯投掷出一个腐败藤蔓，来禁锢命中的第一个敌方英雄，随后向附近没有被感染的英雄蔓延，并在碰到后将他们也禁锢。",
+    "spell_varusr_tooltip": "韦鲁斯猛射出一根腐败藤蔓，<status>禁锢</status>命中的第一个敌方英雄@RootDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。被<status>禁锢</status>的敌人们会在此期间持续获得@PassiveStacks@层<keywordMajor>枯萎</keywordMajor>。<br><br>随后腐败藤蔓会从它的目标处向附近未被感染的英雄蔓延。如果它接触到了未被感染的英雄，就会使其承受相同的伤害和<status>禁锢</status>。",
+    "game_character_passivename_kogmaw": "来自艾卡西亚的惊喜",
+    "spell_kogmawicathiansurprise_summary": "在死后4秒，克格莫会爆炸，对周围的敌人造成真实伤害。",
+    "spell_kogmawicathiansurprise_tooltip": "在阵亡后的@TooltipPassiveDuration@秒里，克格莫能够继续移动，能够无视单位碰撞体积，并且获得<speed>10%移动速度</speed>，在此期间持续提升至<speed>@TooltipPassiveMS*100@%移动速度</speed>。持续时间结束时，他会爆炸并对附近敌人造成<trueDamage>@PassiveDamage@真实伤害</trueDamage>。",
+    "spell_kogmawq_name": "腐蚀唾液",
+    "spell_kogmawq_summary": "克格莫发射一团腐蚀性物质，对目标造成魔法伤害，并暂时腐蚀目标的护甲和魔法抗性。克格莫还会获得额外攻速。",
+    "spell_kogmawq_tooltip": "<spellPassive>被动：</spellPassive>克格莫获得<attackSpeed>@AttackSpeed*100@%攻击速度</attackSpeed>。<br><br><spellActive>主动：</spellActive>克格莫抛射出一团腐蚀性的唾沫，对命中的第一个敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，以及持续@ShredDuration@秒的<scaleArmor>@ShredAmount@%护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>击碎。",
+    "spell_kogmawbioarcanebarrage_name": "生化弹幕",
+    "spell_kogmawbioarcanebarrage_summary": "克格莫的攻击获得额外距离，并且能够对目标造成额外的魔法伤害，伤害值基于目标的最大生命值%i:OnHit% <OnHit>攻击特效</OnHit>。",
+    "spell_kogmawbioarcanebarrage_tooltip": "克格莫获得@Range@攻击距离，并且他的攻击附带额外的<magicDamage>@TotalHealthDamage@最大生命值的魔法伤害</magicDamage>%i:OnHit% <OnHit>攻击特效</OnHit>，持续@Duration@秒。",
+    "spell_kogmawbioarcanebarrage_tooltipextendedbelowline": "<rules>至多对野怪造成<magicDamage>@MonsterDamageCap@魔法伤害</magicDamage>。</rules>",
+    "spell_kogmawvoidooze_name": "虚空淤泥",
+    "spell_kogmawvoidooze_summary": "克格莫抛射出一团特殊的分泌物，对经过或停留在分泌物上的敌人造成伤害和减速效果。",
+    "spell_kogmawvoidooze_tooltip": "克格莫呕出胆汁，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并留下一条持续@TrailDuration@秒的软泥路径。软泥中的敌人们会被<status>减速</status>@SlowAmount@%。",
+    "spell_kogmawlivingartillery_name": "活体大炮",
+    "spell_kogmawlivingartillery_summary": "克格莫发射一枚射程极远的活体炮弹，让被命中的敌人暴露在己方视野中，并对目标造成魔法伤害（对低血量目标的伤害会显著提升）。 在短时间内连续使用活体大炮，将消耗额外的法力值。",
+    "spell_kogmawlivingartillery_tooltip": "克格莫朝一个区域发射一团酸液，造成<magicDamage>@BaseDamageCalc@外加@TooltipMissingHealthDamageAmp@%每1%已损失生命值的魔法伤害</magicDamage>并使命中的敌人显形2秒。低于<healing>40%生命值</healing>的敌人们会转而受到<magicDamage>@MaxDamageCalc@魔法伤害</magicDamage>。<br><br>@ManaCostDuration@秒内的后续发射会消耗额外的<scaleMana>@BaseCost@法力</scaleMana>(最大值：<scaleMana>@ManaCostCap@法力</scaleMana>)。"
+  }
+}

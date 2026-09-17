@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-09T12:37:31.796Z",
+  "method": "POST",
+  "skillKey": "fizz_q",
+  "kind": "formulas",
+  "stableKey": "magic_damage",
+  "route": "/skills/fizz_q/formulas",
+  "readRoute": "/skills/fizz_q/formulas/magic_damage",
+  "body": {
+    "formulaKey": "magic_damage",
+    "name": "淘气打击额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "magic_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "magic_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "QDamage = Effect1 + 0.55×来源总法强。与物理部分分开。",
+    "sortOrder": 10
+  }
+}

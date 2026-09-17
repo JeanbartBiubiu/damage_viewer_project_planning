@@ -1,0 +1,42 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "method": "POST",
+    "route": "/skills/katarina_p/parameters",
+    "detailRoute": "/skills/katarina_p/parameters/character_level_base_damage",
+    "skillKey": "katarina_p",
+    "kind": "parameters",
+    "stableKey": "character_level_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "character_level_base_damage",
+      "name": "角色等级下匕首基础魔法伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 68.184616,
+        "2": 72.138458,
+        "3": 76.861542,
+        "4": 82.353844,
+        "5": 88.615387,
+        "6": 95.646156,
+        "7": 103.446152,
+        "8": 112.015381,
+        "9": 121.353844,
+        "10": 131.461533,
+        "11": 142.338455,
+        "12": 153.984619,
+        "13": 166.399994,
+        "14": 179.58461,
+        "15": 193.538467,
+        "16": 208.261536,
+        "17": 223.753845,
+        "18": 240.015381
+      },
+      "description": "当前TotalDamage的ByCharLevelFormulaCalculationPart直接取角色等级1至18值；不把曲线改成技能等级。",
+      "sortOrder": 60
+    }
+  }
+}

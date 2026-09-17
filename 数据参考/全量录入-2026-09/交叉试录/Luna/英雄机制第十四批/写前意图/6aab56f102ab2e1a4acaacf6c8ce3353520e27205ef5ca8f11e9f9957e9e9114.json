@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:41:14.114Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/ziggs_e/parameters/slow_ratio",
+  "id": "slow_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "减速幅度比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.1,
+      "2": 0.2,
+      "3": 0.3,
+      "4": 0.4,
+      "5": 0.5
+    },
+    "description": "客户端当前根绑定 DataValues.Slow 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 60
+  }
+}

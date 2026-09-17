@@ -1,0 +1,45 @@
+{
+  "i": 66,
+  "intent": {
+    "sequence": 67,
+    "method": "POST",
+    "route": "/skills/soraka_q/formulas",
+    "detailRoute": "/skills/soraka_q/formulas/self_heal_total",
+    "skillKey": "soraka_q",
+    "kind": "formulas",
+    "stableKey": "self_heal_total",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_heal_total",
+      "name": "流星坠落自身持续治疗总量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_heal_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalHot是2.5秒期间总治疗量，不默认每次周期治疗。",
+      "sortOrder": 20
+    }
+  }
+}

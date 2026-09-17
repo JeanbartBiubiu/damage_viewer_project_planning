@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T13:08:41.651Z",
+  "status": "APPROVED",
+  "reviewer": "既有独立来源复核加新进程完整事件明细GET契约检查",
+  "approvedBatchSha256": "35a4cdce57c16b6bc12449d8a5eb44ffd854529942adcff36d7e679561cd65c7",
+  "preflightSha256": "17a314947ae3aa7b8d3328832bf36912ce1f28303ca15d6684f71062426fce69",
+  "bodyRulesSha256": "8ff1fb19efb9cf75be8a3068cc59220c8a86e118a638b1d38253295bb931b0c7",
+  "metadataRulesSha256": "99eaf9f49f1043b948742433cc06f300071bf63696a4a884151d68e9f3f7e9e6",
+  "targetNonRuleSha256": [
+    {
+      "id": "twitch_q_start_cast",
+      "sha256": "f6fe02d2acb0449459d011caa295f1c94fb258ed3ec20766965c56b89c2c4472"
+    },
+    {
+      "id": "twitch_e_start_cast",
+      "sha256": "27eee58c1553daf5506e92c34e19232caf27a02c3490bad4e83071989d72f681"
+    },
+    {
+      "id": "veigar_e_start_cast",
+      "sha256": "f5024e70f0f98b342b57a6e2dd37c199236bd45fddf6901bb26048736b764cc7"
+    },
+    {
+      "id": "veigar_r_start_cast",
+      "sha256": "6ca56afb945aac87d0f2c9538633bd35783b8cc68f49fbe77d3924ab89cfd781"
+    },
+    {
+      "id": "warwick_w_start_cast",
+      "sha256": "1b03edf7081bee8f63f1e20b3141651ed867ee8924730a6b4e80259c1c18a524"
+    },
+    {
+      "id": "trundle_w_start_cast",
+      "sha256": "8d2084beba441d6bbb431de614549b97fad1a7c9cd313e46e85390facebbfec4"
+    }
+  ],
+  "approvalDecisionSha256": "31787a1b529a56728e805073362401aa849c041460727e8f1ec483c510560784",
+  "getCount": 1355,
+  "statusCounts": {
+    "200": 1349,
+    "404": 6
+  },
+  "skillCount": 1062,
+  "ruleCount": 152,
+  "sourceInitializedCount": 29,
+  "businessWrites": 0,
+  "requestPathsSha256": "9dd4635a19f557cfbf8c0c50675cc11f7eb109f1017303b5a442a6f289dade3a",
+  "boundary": "独立批准只覆盖冻结的六个主动使用入口；不批准各技能剩余伪装、命中、伤害、控制、区域、目标选择或阶段分支。"
+}

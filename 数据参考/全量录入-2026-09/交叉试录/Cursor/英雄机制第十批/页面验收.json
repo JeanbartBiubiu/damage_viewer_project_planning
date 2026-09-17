@@ -1,0 +1,965 @@
+{
+  "at": "2026-09-09T04:37:45.205Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "pages": [
+    {
+      "skillKey": "graves_e",
+      "verified": "主表存在代表图片；效果查看显示冷却变化作用施法者、目标快速拔枪、每弹500毫秒说明和原参数引用。"
+    },
+    {
+      "skillKey": "varus_w",
+      "verified": "中文公式预览为返还比例×本次实际引爆层数×被返还技能基础冷却毫秒，后两项明确计算时传入；主表存在代表图片。"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "verified": "费用表达式取较小值(上限,基础费用×(1+实际已有档数))，说明40递增并封顶400；低于40%替代与不低于40%公式分别显示，主表存在代表图片。"
+    }
+  ],
+  "method": "主负责人真实浏览器只读查看，全部弹窗已关闭；未在页面保存任何草稿",
+  "independentGets": 31,
+  "reads": [
+    {
+      "route": "/skills/graves_e/parameters/cooldown_reduction_per_pellet_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:27:10.163121Z",
+        "description": "客户端当前根绑定 DataValues.CooldownPerHit 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每颗弹丸命中减少冷却（毫秒）",
+        "parameterKey": "cooldown_reduction_per_pellet_ms",
+        "skillKey": "graves_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T04:27:10.163121Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/graves_e/parameters/armor_per_stack",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:27:06.863373Z",
+        "description": "客户端当前根绑定 DataValues.ArmorPerStack 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7,
+          "2": 10,
+          "3": 13,
+          "4": 16,
+          "5": 19
+        },
+        "name": "每层护甲",
+        "parameterKey": "armor_per_stack",
+        "skillKey": "graves_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T04:27:06.863373Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/graves_e/parameters/mr_grant_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:27:07.684858Z",
+        "description": "客户端当前根绑定 DataValues.MRGrantPercent 取索引1至5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每层魔抗相对护甲比例",
+        "parameterKey": "mr_grant_ratio",
+        "skillKey": "graves_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T04:27:07.684858Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/graves_e/parameters/buff_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:27:08.439036Z",
+        "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "纯爷们层数持续（毫秒）",
+        "parameterKey": "buff_duration_ms",
+        "skillKey": "graves_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T04:27:08.439036Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/graves_e/parameters/toward_enemy_total_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:27:12.75418Z",
+        "description": "中文为获得2层总数，不是在1层基础上额外增加2层。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "朝敌人突进单次获得总层数",
+        "parameterKey": "toward_enemy_total_stacks",
+        "skillKey": "graves_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T04:27:12.75418Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/graves_e/parameters/current_grit_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:27:10.921832Z",
+        "description": "只接已确认的当前层数，合法0至8；不默认满层，也不由朝向猜层数。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前实际纯爷们层数",
+        "parameterKey": "current_grit_stacks",
+        "skillKey": "graves_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T04:27:10.921832Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/graves_e/effects/pellet_cooldown_reduction",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:27:19.949852Z",
+        "description": "中文明确每颗弹丸命中减少0.5秒，候选为500毫秒；真实弹丸命中事件尚未接线。",
+        "effectKey": "pellet_cooldown_reduction",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "单颗真实弹丸命中减少E冷却",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "graves_e"
+                ]
+              },
+              "operation": "REDUCE"
+            },
+            "lifecycleBehavior": null,
+            "name": "减少快速拔枪冷却",
+            "resultKey": "reduce_e",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_reduction_per_pellet_ms"
+              }
+            }
+          }
+        ],
+        "skillKey": "graves_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T04:27:19.949852Z"
+      }
+    },
+    {
+      "route": "/skills/graves_e/effects/grit_armor",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:27:18.118187Z",
+        "description": "将已确认的当前总层数作为单份属性快照，持续4秒；刷新替换总值。朝向、叠层和非小兵伤害刷新未自动触发。",
+        "effectKey": "grit_armor",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "纯爷们当前护甲增益",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "armor",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "纯爷们当前护甲增益",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "current_grit_armor",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "graves_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T04:27:18.118187Z"
+      }
+    },
+    {
+      "route": "/skills/graves_e/effects/grit_mr",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:27:19.044706Z",
+        "description": "已确认总层数的魔抗快照，与护甲同时应用/取消；不自行叠到8层。",
+        "effectKey": "grit_mr",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "buff_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "纯爷们当前魔抗增益",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "magic_resistance",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "纯爷们当前魔抗增益",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "current_grit_mr",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "graves_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T04:27:19.044706Z"
+      }
+    },
+    {
+      "route": "/skills/graves_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/graves_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_graves_e",
+          "name": "graves_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/varus_w/parameters/base_cooldown_refund_ratio_per_stack",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:28:35.901227Z",
+        "description": "客户端当前根绑定 DataValues.CDRPerBlightStack 取索引1至5。",
+        "fixedValue": 0.13,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每层引爆返还基础冷却比例",
+        "parameterKey": "base_cooldown_refund_ratio_per_stack",
+        "skillKey": "varus_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T04:28:35.901227Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/varus_w/parameters/actual_detonated_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:28:41.519644Z",
+        "description": "只接实际已引爆的0至3层，不默认满层。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次实际引爆枯萎层数",
+        "parameterKey": "actual_detonated_stacks",
+        "skillKey": "varus_w",
+        "sortOrder": 150,
+        "updatedAt": "2026-09-09T04:28:41.519644Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/varus_w/parameters/affected_skill_base_cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:28:42.34359Z",
+        "description": "原文明确每层返还基础冷却的13%；需给对应技能该等级基础冷却，不用剩余冷却代替。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被返还技能基础冷却毫秒",
+        "parameterKey": "affected_skill_base_cooldown_ms",
+        "skillKey": "varus_w",
+        "sortOrder": 160,
+        "updatedAt": "2026-09-09T04:28:42.34359Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/varus_w/formulas/base_cooldown_refund_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:28:50.418015Z",
+        "description": "13%×实际引爆层数×对应技能基础冷却毫秒；每个受影响技能分别求值，不把同一毫秒数同时用于不同基础冷却。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_cooldown_refund_ratio_per_stack"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_detonated_stacks"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "affected_skill_base_cooldown_ms"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "base_cooldown_refund_ms",
+        "gameId": "lol",
+        "name": "对应基础技能冷却返还毫秒",
+        "skillKey": "varus_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T04:28:50.418015Z"
+      }
+    },
+    {
+      "route": "/skills/varus_w/formulas/detonation_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:28:47.531965Z",
+        "description": "当前目标最大生命比例乘真实引爆层数；Q蓄力引爆提升另行接入。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_hp_ratio_per_stack"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "calculation_constant_1"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "calculation_constant_2"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_detonated_stacks"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "TARGET",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "detonation_damage",
+        "gameId": "lol",
+        "name": "本次引爆枯萎魔法伤害",
+        "skillKey": "varus_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T04:28:47.531965Z"
+      }
+    },
+    {
+      "route": "/skills/varus_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/varus_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_varus_w",
+          "name": "varus_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/parameters/base_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:37.238829Z",
+        "description": "客户端当前根绑定 DataValues.BaseCost 取索引1至3。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "单次基础及每层额外法力",
+        "parameterKey": "base_cost",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T04:29:37.238829Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/parameters/mana_cost_cap",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:38.139215Z",
+        "description": "客户端当前根绑定 DataValues.ManaCostCap 取索引1至3。",
+        "fixedValue": 400,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "单次法力消耗上限",
+        "parameterKey": "mana_cost_cap",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T04:29:38.139215Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/parameters/one",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:41.238651Z",
+        "description": "用于明确文本的基础100%和首次发射计数。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "比例与费用的单位值",
+        "parameterKey": "one",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-09T04:29:41.238651Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/parameters/actual_prior_cost_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:42.131201Z",
+        "description": "只接当前8秒窗口中的已确认费用档数，非负整数；不得默认0或推断叠层刷新算法。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次发射前实际费用叠层数",
+        "parameterKey": "actual_prior_cost_stacks",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 130,
+        "updatedAt": "2026-09-09T04:29:42.131201Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/parameters/low_health_threshold",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:40.261957Z",
+        "description": "当前中文低于40%使用替代伤害；恰好40%仍不是该分支。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "替代伤害严格生命阈值",
+        "parameterKey": "low_health_threshold",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T04:29:40.261957Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/parameters/missing_health_amp_per_point",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:35.402459Z",
+        "description": "客户端当前根绑定 DataValues.TooltipMissingHealthDamageAmp 取索引1至3。",
+        "fixedValue": 0.83333,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每1%已损生命对应的增伤百分比点数",
+        "parameterKey": "missing_health_amp_per_point",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T04:29:35.402459Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/formulas/base_damage_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:42.965526Z",
+        "description": "基础值加逐级法强系数和0.75额外攻击力；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "base_damage_value",
+        "gameId": "lol",
+        "name": "活体大炮基础魔法伤害值",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:29:42.965526Z"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/formulas/low_health_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:43.869244Z",
+        "description": "原分支为2倍基础伤害，不与普通已损生命增伤叠加；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "low_health_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_1"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "low_health_damage",
+        "gameId": "lol",
+        "name": "低于40%生命替代伤害",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T04:29:43.869244Z"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/formulas/normal_missing_health_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:44.775047Z",
+        "description": "每1%已损生命增加0.83333%伤害，百分比单位相消后系数乘已损生命比例；仅生命>=40%、最大生命>0分支，不自动选低生命分支。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_1"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "missing_health_amp_per_point"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "hp",
+                          "attributeOwner": "TARGET",
+                          "attributeValueKind": "MISSING",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "attributeKey": "hp",
+                          "attributeOwner": "TARGET",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "DIVIDE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "normal_missing_health_damage",
+        "gameId": "lol",
+        "name": "生命不低于40%时伤害",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T04:29:44.775047Z"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/formulas/actual_mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:45.648942Z",
+        "description": "原文每次后续发射额外40，最多400；按实际已存在费用档数计算，不以基础mana_cost40替代所有发射。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_cost_cap"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_cost"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_prior_cost_stacks"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "actual_mana_cost",
+        "gameId": "lol",
+        "name": "本次活体大炮法力消耗",
+        "skillKey": "kogmaw_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T04:29:45.648942Z"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/effects/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T04:29:46.498552Z",
+        "description": "只在真实发射时消费已核费用档数对应的法力；无默认叠层和自动施放规则。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "本次活体大炮实际法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗本次法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "actual_mana_cost",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "kogmaw_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:29:46.498552Z"
+      }
+    },
+    {
+      "route": "/skills/kogmaw_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kogmaw_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kogmaw_r",
+          "name": "kogmaw_r"
+        }
+      }
+    }
+  ],
+  "success": true,
+  "runtimeValidation": "未执行战斗引擎"
+}

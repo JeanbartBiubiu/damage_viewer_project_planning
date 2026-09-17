@@ -1,0 +1,479 @@
+{
+  "generatedAt": "2026-09-09T12:50:27.071Z",
+  "sourceIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+  "note": "第二十四批沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整客户端对象、计算树、数据值和官方16.17.1正文均保留。本批不以同名旧技能替代根绑定。",
+  "heroes": [
+    {
+      "id": "Nunu",
+      "chineseName": "雪原双子",
+      "officialResourceType": "法力",
+      "rootPath": "Characters/Nunu/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Nunu.json.gz",
+        "sha256": "4d0c49f0e253b2af1081f5a555fc6668a847b415a590e31a6e9a7637bd912a33",
+        "compressedSha256": "5d602fbf8236c08710743f3a28c98b452fddcd3ed78aa3c4f40faab98ad74355",
+        "byteSize": 72344,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nunu/nunu.bin.json",
+        "fetchedAt": "2026-09-06T14:26:31.222Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Nunu.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nunu.json",
+        "fetchedAt": "2026-09-06T14:12:51.167Z",
+        "byteSize": 14730,
+        "sha256": "92bb38c1f8fddfb9f1d381a83b513c0230bf60aaaf2e36e4a47856f1a296e559"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "nunu_p",
+          "binding": "Characters/Nunu/Spells/NunuPassiveAbility/NunuPassive",
+          "name": "弗雷尔卓德的召唤",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null
+        },
+        {
+          "slot": "Q",
+          "skillKey": "nunu_q",
+          "binding": "Characters/Nunu/Spells/NunuQAbility/NunuQ",
+          "name": "吞噬",
+          "maxrank": 5,
+          "officialCooldown": [
+            13,
+            12,
+            11,
+            10,
+            9
+          ],
+          "officialCost": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "officialResource": "{{ cost }}法力"
+        },
+        {
+          "slot": "W",
+          "skillKey": "nunu_w",
+          "binding": "Characters/Nunu/Spells/NunuWAbility/NunuW",
+          "name": "史上最大雪球！",
+          "maxrank": 5,
+          "officialCooldown": [
+            14,
+            14,
+            14,
+            14,
+            14
+          ],
+          "officialCost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "E",
+          "skillKey": "nunu_e",
+          "binding": "Characters/Nunu/Spells/NunuEAbility/NunuE",
+          "name": "雪球飞射",
+          "maxrank": 5,
+          "officialCooldown": [
+            14,
+            13,
+            12,
+            11,
+            10
+          ],
+          "officialCost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "R",
+          "skillKey": "nunu_r",
+          "binding": "Characters/Nunu/Spells/NunuRAbility/NunuR",
+          "name": "绝对零度",
+          "maxrank": 3,
+          "officialCooldown": [
+            110,
+            100,
+            90
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      ]
+    },
+    {
+      "id": "Sejuani",
+      "chineseName": "北地之怒",
+      "officialResourceType": "法力",
+      "rootPath": "Characters/Sejuani/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Sejuani.json.gz",
+        "sha256": "e21c67a8e82a6ef7ebbaeb702f2517a327ab97993b3e45cceac01dbdb841c0f5",
+        "compressedSha256": "6c2185e25b0fae5561096c98d10e87bf97a3ba8b00be8ebeea4fdfc5ce6ec618",
+        "byteSize": 52655,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sejuani/sejuani.bin.json",
+        "fetchedAt": "2026-09-06T14:26:35.844Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Sejuani.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sejuani.json",
+        "fetchedAt": "2026-09-06T14:12:52.847Z",
+        "byteSize": 13906,
+        "sha256": "738f158d209b207a509f2ca7a5de6d4bf3a70b9d2c13cbae927b15c9b5a9d876"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "sejuani_p",
+          "binding": "Characters/Sejuani/Spells/SejuaniPassiveAbility/SejuaniPassive",
+          "name": "北地之怒",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null
+        },
+        {
+          "slot": "Q",
+          "skillKey": "sejuani_q",
+          "binding": "Characters/Sejuani/Spells/SejuaniQAbility/SejuaniQ",
+          "name": "极寒突袭",
+          "maxrank": 5,
+          "officialCooldown": [
+            18,
+            16.5,
+            15,
+            13.5,
+            12
+          ],
+          "officialCost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "W",
+          "skillKey": "sejuani_w",
+          "binding": "Characters/Sejuani/Spells/SejuaniWAbility/SejuaniW",
+          "name": "凛冬之怒",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            8,
+            7,
+            6,
+            5
+          ],
+          "officialCost": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "E",
+          "skillKey": "sejuani_e",
+          "binding": "Characters/Sejuani/Spells/SejuaniEAbility/SejuaniE",
+          "name": "永冻领域",
+          "maxrank": 5,
+          "officialCooldown": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "officialCost": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "R",
+          "skillKey": "sejuani_r",
+          "binding": "Characters/Sejuani/Spells/SejuaniRAbility/SejuaniR",
+          "name": "极冰寒狱",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            105,
+            90
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      ]
+    },
+    {
+      "id": "Sion",
+      "chineseName": "亡灵战神",
+      "officialResourceType": "法力",
+      "rootPath": "Characters/Sion/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Sion.json.gz",
+        "sha256": "7705f23410fc3e7c9b9ddd854336ba4b5aa003ef38b4524475cbe9bdc4137448",
+        "compressedSha256": "0d01beddfcf751216c8d79acd4c0994742373a0363c9cae47c0bfb1ef83f2b98",
+        "byteSize": 94148,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sion/sion.bin.json",
+        "fetchedAt": "2026-09-06T14:26:38.312Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Sion.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sion.json",
+        "fetchedAt": "2026-09-06T14:12:53.872Z",
+        "byteSize": 15562,
+        "sha256": "d9c522243dd8142ff4639ad57c81801737ed489fe3660d0a2ecd2a319e0e871a"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "sion_p",
+          "binding": "Characters/Sion/Spells/SionPassiveAbility/SionPassive",
+          "name": "死亡荣耀",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null
+        },
+        {
+          "slot": "Q",
+          "skillKey": "sion_q",
+          "binding": "Characters/Sion/Spells/SionQAbility/SionQ",
+          "name": "残虐猛击",
+          "maxrank": 5,
+          "officialCooldown": [
+            10,
+            9,
+            8,
+            7,
+            6
+          ],
+          "officialCost": [
+            45,
+            45,
+            45,
+            45,
+            45
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "W",
+          "skillKey": "sion_w",
+          "binding": "Characters/Sion/Spells/SionWAbility/SionW",
+          "name": "灵魂熔炉",
+          "maxrank": 5,
+          "officialCooldown": [
+            15,
+            14,
+            13,
+            12,
+            11
+          ],
+          "officialCost": [
+            75,
+            80,
+            85,
+            90,
+            95
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "E",
+          "skillKey": "sion_e",
+          "binding": "Characters/Sion/Spells/SionEAbility/SionE",
+          "name": "杀手怒吼",
+          "maxrank": 5,
+          "officialCooldown": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "officialCost": [
+            35,
+            40,
+            45,
+            50,
+            55
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "R",
+          "skillKey": "sion_r",
+          "binding": "Characters/Sion/Spells/SionRAbility/SionR",
+          "name": "蛮横冲撞",
+          "maxrank": 3,
+          "officialCooldown": [
+            140,
+            100,
+            60
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      ]
+    },
+    {
+      "id": "Volibear",
+      "chineseName": "不灭狂雷",
+      "officialResourceType": "法力",
+      "rootPath": "Characters/Volibear/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Volibear.json.gz",
+        "sha256": "df3746e3c9be0548c137d284725e923347b94b85daf4dcfcd914d57b06425046",
+        "compressedSha256": "196140189f1e110d445ade0b276719580502c6e08844405028334676409fd681",
+        "byteSize": 60887,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/volibear/volibear.bin.json",
+        "fetchedAt": "2026-09-06T14:26:47.674Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Volibear.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Volibear.json",
+        "fetchedAt": "2026-09-06T14:12:56.859Z",
+        "byteSize": 12250,
+        "sha256": "7cf5a9ab0366c455c41779e5555651adee7c5d9fe0193112898a721655f5a59c"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "volibear_p",
+          "binding": "Characters/Volibear/Spells/VolibearPAbility/VolibearP",
+          "name": "狂雷渐起",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null
+        },
+        {
+          "slot": "Q",
+          "skillKey": "volibear_q",
+          "binding": "Characters/Volibear/Spells/VolibearQAbility/VolibearQ",
+          "name": "擂首一击",
+          "maxrank": 5,
+          "officialCooldown": [
+            12,
+            11.5,
+            11,
+            10.5,
+            10
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "W",
+          "skillKey": "volibear_w",
+          "binding": "Characters/Volibear/Spells/VolibearWAbility/VolibearW",
+          "name": "暴怒撕咬",
+          "maxrank": 5,
+          "officialCooldown": [
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "officialCost": [
+            20,
+            25,
+            30,
+            35,
+            40
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "E",
+          "skillKey": "volibear_e",
+          "binding": "Characters/Volibear/Spells/VolibearEAbility/VolibearE",
+          "name": "霹天雳地",
+          "maxrank": 5,
+          "officialCooldown": [
+            16,
+            16,
+            16,
+            16,
+            16
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "R",
+          "skillKey": "volibear_r",
+          "binding": "Characters/Volibear/Spells/VolibearRAbility/VolibearR",
+          "name": "天声震落",
+          "maxrank": 3,
+          "officialCooldown": [
+            160,
+            135,
+            110
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      ]
+    }
+  ]
+}

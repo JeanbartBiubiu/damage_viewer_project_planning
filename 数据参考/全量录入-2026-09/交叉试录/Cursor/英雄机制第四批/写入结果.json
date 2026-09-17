@@ -1,0 +1,3447 @@
+{
+  "startedAt": "2026-09-07T18:52:12.010Z",
+  "mode": "explicit-apply-missing-only",
+  "skills": [
+    "ahri_p",
+    "ahri_q",
+    "ahri_w",
+    "ahri_e",
+    "ahri_r",
+    "darius_p",
+    "darius_q",
+    "darius_w",
+    "darius_e",
+    "darius_r",
+    "diana_p",
+    "diana_q",
+    "diana_w",
+    "diana_e",
+    "diana_r",
+    "veigar_p",
+    "veigar_q",
+    "veigar_w",
+    "veigar_e",
+    "veigar_r"
+  ],
+  "preflight": [
+    {
+      "skillKey": "ahri_p",
+      "kind": "parameters",
+      "id": "champion_base_heal",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_p",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_p",
+      "kind": "parameters",
+      "id": "recent_damage_window_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_p",
+      "kind": "formulas",
+      "id": "champion_heal",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_p",
+      "kind": "effects",
+      "id": "champion_soul_heal",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "effects",
+      "id": "outgoing_orb",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "effects",
+      "id": "returning_orb",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_q",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "repeat_damage_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "initial_speed_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "speed_decay_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "initial_fire_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "secondary_fire_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "fire_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "fire_count",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "formulas",
+      "id": "repeat_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "effects",
+      "id": "first_fox_fire",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "effects",
+      "id": "repeat_fox_fire",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_w",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "charm_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "charm_slow_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "effects",
+      "id": "charm_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "recast_window_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "maximum_stored_casts",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "between_dash_lockout_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "soul_granted_casts",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "soul_window_extension_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "effects",
+      "id": "spirit_bolt_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "ahri_r",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "bleed_base_total",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "bonus_ad_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "bleed_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "raw_bleed_tick_interval_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "max_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "noxian_might_bonus_ad",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_p",
+      "kind": "formulas",
+      "id": "bleed_total_per_stack",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_p",
+      "kind": "effects",
+      "id": "noxian_might",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "total_ad_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "handle_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "missing_hp_heal_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "formulas",
+      "id": "blade_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "formulas",
+      "id": "handle_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "formulas",
+      "id": "blade_heal",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "effects",
+      "id": "blade_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "effects",
+      "id": "handle_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_q",
+      "kind": "effects",
+      "id": "blade_heal",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "empowered_total_ad_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "kill_cooldown_refund_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "normal_attack_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "formulas",
+      "id": "empowered_attack_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "formulas",
+      "id": "bonus_attack_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "effects",
+      "id": "noncritical_bonus",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_w",
+      "kind": "effects",
+      "id": "kill_mana_refund",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "armor_penetration_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_e",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "bonus_ad_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "per_bleed_stack_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "kill_recast_window_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "max_bleed_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "zero_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "one",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "bleed_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "formulas",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "effects",
+      "id": "guillotine_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "darius_r",
+      "kind": "effects",
+      "id": "rank_three_kill_reset",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "cleave_base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "passive_attack_speed_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "empowered_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "cleave_attack_count",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "additional_as_multiplier",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "formulas",
+      "id": "cleave_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "formulas",
+      "id": "additional_attack_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "effects",
+      "id": "passive_attack_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "effects",
+      "id": "cast_attack_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "effects",
+      "id": "cleave_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "initialize_passive_attack_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "after_q_attack_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "after_w_attack_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "after_e_attack_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "after_r_attack_speed",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "moonlight_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "effects",
+      "id": "moon_arc_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_q",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "base_shield",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "shield_ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "shield_bonus_hp_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "shield_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "orb_count",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "formulas",
+      "id": "shield",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "effects",
+      "id": "pale_cascade_shield",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "effects",
+      "id": "orb_collision",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_w",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "moonlight_reset_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "effects",
+      "id": "lunar_rush_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "effects",
+      "id": "moonlight_cooldown_reset",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "explosion_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "effects",
+      "id": "moonfall_explosion",
+      "action": "missing"
+    },
+    {
+      "skillKey": "diana_r",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "ability_hit_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "champion_takedown_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "q_kill_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "stacks_per_w_cdr",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "w_cdr_increment",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "ap_per_stack",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "phenomenal_evil_stacks",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_p",
+      "kind": "formulas",
+      "id": "stack_ability_power",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "effects",
+      "id": "baleful_strike_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_q",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "base_cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "impact_delay_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "effects",
+      "id": "dark_matter_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_w",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "parameters",
+      "id": "stun_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "parameters",
+      "id": "cage_delay_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "parameters",
+      "id": "cage_duration_ms",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "effects",
+      "id": "event_horizon_stun",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "processes",
+      "id": "cast",
+      "action": "same-skip"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "triggerRules",
+      "id": "actual_cage_contact",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "maximum_damage_multiplier",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "maximum_damage_health_threshold",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "formulas",
+      "id": "damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "formulas",
+      "id": "max_damage",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "effects",
+      "id": "minimum_burst",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "effects",
+      "id": "maximum_burst",
+      "action": "missing"
+    },
+    {
+      "skillKey": "veigar_r",
+      "kind": "processes",
+      "id": "cast",
+      "action": "missing"
+    }
+  ],
+  "writes": [
+    {
+      "at": "2026-09-07T18:52:23.003Z",
+      "skillKey": "ahri_p",
+      "kind": "parameters",
+      "id": "champion_base_heal",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:23.675Z",
+      "skillKey": "ahri_p",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:24.161Z",
+      "skillKey": "ahri_p",
+      "kind": "parameters",
+      "id": "recent_damage_window_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:24.704Z",
+      "skillKey": "ahri_p",
+      "kind": "formulas",
+      "id": "champion_heal",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:25.245Z",
+      "skillKey": "ahri_p",
+      "kind": "effects",
+      "id": "champion_soul_heal",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:25.766Z",
+      "skillKey": "ahri_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:26.306Z",
+      "skillKey": "ahri_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:26.799Z",
+      "skillKey": "ahri_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:27.274Z",
+      "skillKey": "ahri_q",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:27.822Z",
+      "skillKey": "ahri_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:28.400Z",
+      "skillKey": "ahri_q",
+      "kind": "effects",
+      "id": "outgoing_orb",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:28.958Z",
+      "skillKey": "ahri_q",
+      "kind": "effects",
+      "id": "returning_orb",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:29.478Z",
+      "skillKey": "ahri_q",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:30.051Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:30.685Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:31.184Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:31.707Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "repeat_damage_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:32.269Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "initial_speed_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:32.840Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "speed_decay_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:33.377Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "initial_fire_delay_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:33.937Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "secondary_fire_delay_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:34.656Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "fire_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:35.272Z",
+      "skillKey": "ahri_w",
+      "kind": "parameters",
+      "id": "fire_count",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:35.836Z",
+      "skillKey": "ahri_w",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:36.456Z",
+      "skillKey": "ahri_w",
+      "kind": "formulas",
+      "id": "repeat_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:36.966Z",
+      "skillKey": "ahri_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:37.550Z",
+      "skillKey": "ahri_w",
+      "kind": "effects",
+      "id": "first_fox_fire",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:38.114Z",
+      "skillKey": "ahri_w",
+      "kind": "effects",
+      "id": "repeat_fox_fire",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:38.689Z",
+      "skillKey": "ahri_w",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:39.267Z",
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:39.779Z",
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:40.409Z",
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:41.043Z",
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "charm_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:41.761Z",
+      "skillKey": "ahri_e",
+      "kind": "parameters",
+      "id": "charm_slow_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:42.361Z",
+      "skillKey": "ahri_e",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:43.055Z",
+      "skillKey": "ahri_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:43.569Z",
+      "skillKey": "ahri_e",
+      "kind": "effects",
+      "id": "charm_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:44.119Z",
+      "skillKey": "ahri_e",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:45.231Z",
+      "skillKey": "ahri_e",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:45.762Z",
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:46.306Z",
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:46.871Z",
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:47.464Z",
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "recast_window_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:48.040Z",
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "maximum_stored_casts",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:48.570Z",
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "between_dash_lockout_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:49.053Z",
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "soul_granted_casts",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:49.742Z",
+      "skillKey": "ahri_r",
+      "kind": "parameters",
+      "id": "soul_window_extension_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:50.295Z",
+      "skillKey": "ahri_r",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:51.112Z",
+      "skillKey": "ahri_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:52.024Z",
+      "skillKey": "ahri_r",
+      "kind": "effects",
+      "id": "spirit_bolt_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:52.972Z",
+      "skillKey": "ahri_r",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:53.569Z",
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "bleed_base_total",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:54.068Z",
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "bonus_ad_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:54.621Z",
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "bleed_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:55.138Z",
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "raw_bleed_tick_interval_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:55.732Z",
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "max_stacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:56.249Z",
+      "skillKey": "darius_p",
+      "kind": "parameters",
+      "id": "noxian_might_bonus_ad",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:56.793Z",
+      "skillKey": "darius_p",
+      "kind": "formulas",
+      "id": "bleed_total_per_stack",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:57.367Z",
+      "skillKey": "darius_p",
+      "kind": "effects",
+      "id": "noxian_might",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:57.924Z",
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:58.679Z",
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "total_ad_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:59.258Z",
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "handle_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:52:59.838Z",
+      "skillKey": "darius_q",
+      "kind": "parameters",
+      "id": "missing_hp_heal_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:00.404Z",
+      "skillKey": "darius_q",
+      "kind": "formulas",
+      "id": "blade_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:01.037Z",
+      "skillKey": "darius_q",
+      "kind": "formulas",
+      "id": "handle_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:01.652Z",
+      "skillKey": "darius_q",
+      "kind": "formulas",
+      "id": "blade_heal",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:02.465Z",
+      "skillKey": "darius_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:03.059Z",
+      "skillKey": "darius_q",
+      "kind": "effects",
+      "id": "blade_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:03.659Z",
+      "skillKey": "darius_q",
+      "kind": "effects",
+      "id": "handle_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:04.249Z",
+      "skillKey": "darius_q",
+      "kind": "effects",
+      "id": "blade_heal",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:04.934Z",
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "empowered_total_ad_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:05.445Z",
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:06.022Z",
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:06.589Z",
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "kill_cooldown_refund_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:07.158Z",
+      "skillKey": "darius_w",
+      "kind": "parameters",
+      "id": "normal_attack_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:07.686Z",
+      "skillKey": "darius_w",
+      "kind": "formulas",
+      "id": "empowered_attack_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:08.294Z",
+      "skillKey": "darius_w",
+      "kind": "formulas",
+      "id": "bonus_attack_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:08.871Z",
+      "skillKey": "darius_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:09.404Z",
+      "skillKey": "darius_w",
+      "kind": "effects",
+      "id": "noncritical_bonus",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:09.946Z",
+      "skillKey": "darius_w",
+      "kind": "effects",
+      "id": "kill_mana_refund",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:10.482Z",
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:11.031Z",
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "armor_penetration_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:11.544Z",
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:12.031Z",
+      "skillKey": "darius_e",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:12.577Z",
+      "skillKey": "darius_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:13.122Z",
+      "skillKey": "darius_e",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:13.704Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:14.264Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:14.877Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:15.370Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "bonus_ad_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:16.020Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "per_bleed_stack_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:16.558Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "kill_recast_window_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:17.081Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "max_bleed_stacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:17.730Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "zero_stacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:18.468Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "one",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:19.012Z",
+      "skillKey": "darius_r",
+      "kind": "parameters",
+      "id": "bleed_stacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:19.787Z",
+      "skillKey": "darius_r",
+      "kind": "formulas",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:20.365Z",
+      "skillKey": "darius_r",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:20.904Z",
+      "skillKey": "darius_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:21.472Z",
+      "skillKey": "darius_r",
+      "kind": "effects",
+      "id": "guillotine_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:22.038Z",
+      "skillKey": "darius_r",
+      "kind": "effects",
+      "id": "rank_three_kill_reset",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:22.594Z",
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "cleave_base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:23.151Z",
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:23.858Z",
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "passive_attack_speed_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:24.423Z",
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "empowered_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:24.935Z",
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "cleave_attack_count",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:25.472Z",
+      "skillKey": "diana_p",
+      "kind": "parameters",
+      "id": "additional_as_multiplier",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:26.016Z",
+      "skillKey": "diana_p",
+      "kind": "formulas",
+      "id": "cleave_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:26.588Z",
+      "skillKey": "diana_p",
+      "kind": "formulas",
+      "id": "additional_attack_speed",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:27.128Z",
+      "skillKey": "diana_p",
+      "kind": "effects",
+      "id": "passive_attack_speed",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:27.717Z",
+      "skillKey": "diana_p",
+      "kind": "effects",
+      "id": "cast_attack_speed",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:28.256Z",
+      "skillKey": "diana_p",
+      "kind": "effects",
+      "id": "cleave_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:29.201Z",
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "initialize_passive_attack_speed",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:30.077Z",
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "after_q_attack_speed",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:31.104Z",
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "after_w_attack_speed",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:32.311Z",
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "after_e_attack_speed",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:33.254Z",
+      "skillKey": "diana_p",
+      "kind": "triggerRules",
+      "id": "after_r_attack_speed",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:33.786Z",
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:34.432Z",
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:35.156Z",
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:35.697Z",
+      "skillKey": "diana_q",
+      "kind": "parameters",
+      "id": "moonlight_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:36.234Z",
+      "skillKey": "diana_q",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:36.810Z",
+      "skillKey": "diana_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:37.361Z",
+      "skillKey": "diana_q",
+      "kind": "effects",
+      "id": "moon_arc_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:37.946Z",
+      "skillKey": "diana_q",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:38.775Z",
+      "skillKey": "diana_q",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:39.340Z",
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:39.981Z",
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:40.557Z",
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:41.136Z",
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "base_shield",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:41.735Z",
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "shield_ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:42.237Z",
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "shield_bonus_hp_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:42.779Z",
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "shield_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:43.359Z",
+      "skillKey": "diana_w",
+      "kind": "parameters",
+      "id": "orb_count",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:43.927Z",
+      "skillKey": "diana_w",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:44.484Z",
+      "skillKey": "diana_w",
+      "kind": "formulas",
+      "id": "shield",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:45.049Z",
+      "skillKey": "diana_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:45.651Z",
+      "skillKey": "diana_w",
+      "kind": "effects",
+      "id": "pale_cascade_shield",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:46.189Z",
+      "skillKey": "diana_w",
+      "kind": "effects",
+      "id": "orb_collision",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:46.695Z",
+      "skillKey": "diana_w",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:47.261Z",
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:47.772Z",
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:48.339Z",
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:48.867Z",
+      "skillKey": "diana_e",
+      "kind": "parameters",
+      "id": "moonlight_reset_delay_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:49.534Z",
+      "skillKey": "diana_e",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:50.144Z",
+      "skillKey": "diana_e",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:50.861Z",
+      "skillKey": "diana_e",
+      "kind": "effects",
+      "id": "lunar_rush_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:51.399Z",
+      "skillKey": "diana_e",
+      "kind": "effects",
+      "id": "moonlight_cooldown_reset",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:51.978Z",
+      "skillKey": "diana_e",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:52.905Z",
+      "skillKey": "diana_e",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:53.488Z",
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:54.069Z",
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:54.634Z",
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:55.194Z",
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "explosion_delay_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:55.968Z",
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "slow_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:56.471Z",
+      "skillKey": "diana_r",
+      "kind": "parameters",
+      "id": "slow_duration_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:57.067Z",
+      "skillKey": "diana_r",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:57.562Z",
+      "skillKey": "diana_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:58.368Z",
+      "skillKey": "diana_r",
+      "kind": "effects",
+      "id": "moonfall_explosion",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:58.900Z",
+      "skillKey": "diana_r",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:59.435Z",
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "ability_hit_stacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:53:59.981Z",
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "champion_takedown_stacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:00.521Z",
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "q_kill_stacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:01.115Z",
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "stacks_per_w_cdr",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:01.677Z",
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "w_cdr_increment",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:02.932Z",
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "ap_per_stack",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:03.475Z",
+      "skillKey": "veigar_p",
+      "kind": "parameters",
+      "id": "phenomenal_evil_stacks",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:04.331Z",
+      "skillKey": "veigar_p",
+      "kind": "formulas",
+      "id": "stack_ability_power",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:05.682Z",
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:06.302Z",
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:06.830Z",
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:07.397Z",
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:07.896Z",
+      "skillKey": "veigar_q",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:08.415Z",
+      "skillKey": "veigar_q",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:09.056Z",
+      "skillKey": "veigar_q",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:09.644Z",
+      "skillKey": "veigar_q",
+      "kind": "effects",
+      "id": "baleful_strike_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:10.247Z",
+      "skillKey": "veigar_q",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:11.147Z",
+      "skillKey": "veigar_q",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:11.732Z",
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:12.288Z",
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:12.954Z",
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:13.533Z",
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:14.126Z",
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "base_cooldown_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:14.728Z",
+      "skillKey": "veigar_w",
+      "kind": "parameters",
+      "id": "impact_delay_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:15.344Z",
+      "skillKey": "veigar_w",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:15.950Z",
+      "skillKey": "veigar_w",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:16.778Z",
+      "skillKey": "veigar_w",
+      "kind": "effects",
+      "id": "dark_matter_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:17.729Z",
+      "skillKey": "veigar_w",
+      "kind": "triggerRules",
+      "id": "actual_hit",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "effects",
+      "id": "event_horizon_stun",
+      "action": "reserved-for-parent-browser"
+    },
+    {
+      "skillKey": "veigar_e",
+      "kind": "triggerRules",
+      "id": "actual_cage_contact",
+      "action": "reserved-for-parent-browser"
+    },
+    {
+      "at": "2026-09-07T18:54:18.344Z",
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:18.960Z",
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:19.558Z",
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "cast_time_ms",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:20.240Z",
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "base_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:20.771Z",
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "ap_ratio",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:21.402Z",
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "maximum_damage_multiplier",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:21.983Z",
+      "skillKey": "veigar_r",
+      "kind": "parameters",
+      "id": "maximum_damage_health_threshold",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:22.500Z",
+      "skillKey": "veigar_r",
+      "kind": "formulas",
+      "id": "damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:23.124Z",
+      "skillKey": "veigar_r",
+      "kind": "formulas",
+      "id": "max_damage",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:23.668Z",
+      "skillKey": "veigar_r",
+      "kind": "effects",
+      "id": "mana_cost",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:24.340Z",
+      "skillKey": "veigar_r",
+      "kind": "effects",
+      "id": "minimum_burst",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:24.965Z",
+      "skillKey": "veigar_r",
+      "kind": "effects",
+      "id": "maximum_burst",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    },
+    {
+      "at": "2026-09-07T18:54:25.606Z",
+      "skillKey": "veigar_r",
+      "kind": "processes",
+      "id": "cast",
+      "status": 201,
+      "readbackStatus": 200,
+      "match": true,
+      "diff": null
+    }
+  ],
+  "conflicts": [],
+  "failures": [],
+  "finishedAt": "2026-09-07T18:54:25.607Z"
+}

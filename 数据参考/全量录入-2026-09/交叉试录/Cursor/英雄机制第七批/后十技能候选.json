@@ -1,0 +1,4541 @@
+{
+  "meta": {
+    "executor": "Codex执行代理负责Nocturne和Vayne；Cursor前十独立运行中，分开记账。",
+    "gameId": "lol",
+    "note": "来源冻结与当前录入分开；只计实际GET一致的组成。没有运行Wasm或战斗。本批仅补缺，不更新既有不同内容。",
+    "sources": [
+      {
+        "id": "Vi",
+        "client": {
+          "path": "客户端原文/Vi.json.gz",
+          "sha256": "fe91d9656f49c903f3e0771574eb209995bed82e477ac6a93d0e6dbae51d77a3",
+          "compressedSha256": "88df744509f0873b2df9d2eefeece0d1766c170ccc8fd758f07b3cc1352c9569",
+          "byteSize": 59287,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/vi/vi.bin.json",
+          "fetchedAt": "2026-09-06T14:26:46.201Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Vi.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vi.json",
+          "fetchedAt": "2026-09-06T14:12:55.879Z",
+          "byteSize": 12790,
+          "sha256": "757be8a83852e8b5ac6c9038ba035d0b22ae18d47540ec0d69c290f2ccc351a1"
+        }
+      },
+      {
+        "id": "Olaf",
+        "client": {
+          "path": "客户端原文/Olaf.json.gz",
+          "sha256": "d9d3a5eea4b7fa747afb4fb2f3da8e58fa41ca48fdc15d05df11d59a8770ce80",
+          "compressedSha256": "fb882e8483021bf24d0506a494a8cb5f731fcf1a86a0c9dcde47503938428820",
+          "byteSize": 49859,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/olaf/olaf.bin.json",
+          "fetchedAt": "2026-09-06T14:26:31.210Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Olaf.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Olaf.json",
+          "fetchedAt": "2026-09-06T14:12:51.262Z",
+          "byteSize": 14055,
+          "sha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5"
+        }
+      },
+      {
+        "id": "Nocturne",
+        "client": {
+          "path": "客户端原文/Nocturne.json.gz",
+          "sha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+          "compressedSha256": "c3ac14c59e9250017a85f0b588fca29c66aaacf50c009f80e9d2b2a06804ac53",
+          "byteSize": 51608,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nocturne/nocturne.bin.json",
+          "fetchedAt": "2026-09-06T14:26:31.133Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Nocturne.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nocturne.json",
+          "fetchedAt": "2026-09-06T14:12:52.098Z",
+          "byteSize": 11943,
+          "sha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5"
+        }
+      },
+      {
+        "id": "Vayne",
+        "client": {
+          "path": "客户端原文/Vayne.json.gz",
+          "sha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+          "compressedSha256": "23cf52004d1015b09532d1575c5e9dc12538956015fa570b756c6b21766af343",
+          "byteSize": 51663,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/vayne/vayne.bin.json",
+          "fetchedAt": "2026-09-06T14:26:44.797Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Vayne.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Vayne.json",
+          "fetchedAt": "2026-09-06T14:12:55.353Z",
+          "byteSize": 14322,
+          "sha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711"
+        }
+      }
+    ],
+    "scope": "蔚、奥拉夫、魔腾、薇恩20槽确定组成；公共参数精确复用，候选不写API。",
+    "stage": "后十技能候选；未写业务API",
+    "generatedAt": "2026-09-08T17:13:51.167Z",
+    "apiWrites": 0
+  },
+  "skills": {
+    "nocturne_p": {
+      "skillKey": "nocturne_p",
+      "name": "暗影之刃",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Nocturne",
+        "rootPath": "Characters/Nocturne/CharacterRecords/Root",
+        "spellPath": "Characters/Nocturne/Spells/NocturnePAbility/NocturneP",
+        "clientSha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+        "officialSha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+        "currentBoundText": {
+          "binding": "Characters/Nocturne/Spells/NocturnePAbility/NocturneP",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_NocturneP_Name",
+              "key": "spell_nocturnep_name",
+              "text": "暗影之刃"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NocturneP_Summary",
+              "key": "spell_nocturnep_summary",
+              "text": "每过数秒，魔腾的下次攻击就会对附近敌人造成额外物理伤害，并治疗自己。<br><br>魔腾的普通攻击会减少该技能的冷却时间。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NocturneP_Tooltip",
+              "key": "spell_nocturnep_tooltip",
+              "text": "每过@Cooldown@秒，魔腾的下次攻击就会袭击所有附近的敌人们，造成<physicalDamage>@TotalDamageNoCrit@物理伤害</physicalDamage>并且每命中一个目标就会回复<healing>@TotalHealing@生命值</healing>。<br><br>魔腾的攻击会使这个技能的冷却时间缩短@AACDR@秒，在对抗英雄和野怪时缩短数额会提升至@AAChampMonsterCDR@。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_NocturneP_TooltipExtended",
+              "key": "spell_nocturnep_tooltipextended",
+              "text": "每过@Cooldown@秒，魔腾的下次攻击就会袭击所有附近的敌人们，造成<physicalDamage>@TotalDamageNoCrit@物理伤害</physicalDamage>并且每命中一个目标就会回复<healing>@TotalHealing@生命值</healing>。<br><br>魔腾的攻击会使这个技能的冷却时间缩短@AACDR@秒，在对抗英雄和野怪时缩短数额会提升至@AAChampMonsterCDR@。<br><br><rules><spellName>暗影之刃</spellName>对小兵的伤害降低@DamageMinionMod*100@%，并且从线上小兵处获得的治疗效果降低@HealMinionMod*100@%。</rules>"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_Cooldown_Generic",
+              "key": "spell_cooldown_generic",
+              "text": "@Cooldown@秒%i:cooldown%"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "passive_cooldown_ms",
+            "name": "暗影之刃基础冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 12000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Cooldown 取索引1至1。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "champion_attack_cooldown_reduction_ms",
+            "name": "攻击英雄减少被动冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.AAChampMonsterCDR 取索引1至1。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "noncritical_total_ad_ratio",
+            "name": "未暴击完整攻击总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.2,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.TotalDamageNoCritADRatio 取索引1至1。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "critical_branch_total_ad_ratio",
+            "name": "当前暴击分支总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.1,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.TotalDamageCritADRatio 取索引1至1。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "healing_ap_ratio",
+            "name": "单目标治疗法强系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.HealingAPRatio 取索引1至1。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "healing_level_one",
+            "name": "1级基础治疗端点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 13,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.HealLevel1Value 取索引1至1。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "healing_level_eighteen",
+            "name": "18级基础治疗端点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 32,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.HealLevel18Value 取索引1至1。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "decoded_level_base_heal",
+            "name": "当前等级已解码基础治疗",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前TotalHealing的哈希类型节点尚未解码；外部必须提供与当前等级对应的真实基础治疗，不能用端点默认线性插值或未知0。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "noncritical_attack_damage",
+            "name": "未暴击暗影之刃整次攻击伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "noncritical_total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "description": "1.2总攻击力为当前说明的整次非暴击攻击量，不另加一次普通攻击。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "critical_branch_amount",
+            "name": "当前暴击分支基础算术",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "critical_branch_total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "description": "仅1.1总攻击力分支算术，未证明该分支与普通攻击暴击的组成和倍率，不能直接统一暴击。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "single_target_heal",
+            "name": "命中一个目标治疗量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "decoded_level_base_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "healing_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "已解码等级基础治疗+.3法强；HealingAPRatio明确命名，哈希等级插值输入仍未接入。",
+            "sortOrder": 30
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "single_target_heal",
+            "name": "暗影之刃单目标自身治疗",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "heal",
+                "name": "暗影之刃单目标自身治疗",
+                "resultType": "DIRECT_HEAL",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "single_target_heal"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {}
+              }
+            ]
+          },
+          {
+            "effectKey": "champion_attack_cooldown_reduction",
+            "name": "攻击英雄减少被动冷却",
+            "description": null,
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "cooldown",
+                "name": "攻击英雄减少被动冷却",
+                "resultType": "COOLDOWN_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "champion_attack_cooldown_reduction_ms"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "affectedSkillScope": {
+                    "mode": "SKILLS",
+                    "skillKeys": [
+                      "nocturne_p"
+                    ],
+                    "skillCategoryKeys": []
+                  },
+                  "operation": "REDUCE"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "passive_cooldown_ms",
+          "source": "DataValues.Cooldown",
+          "raw": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "offset": 1,
+          "values": [
+            12000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "champion_attack_cooldown_reduction_ms",
+          "source": "DataValues.AAChampMonsterCDR",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "noncritical_total_ad_ratio",
+          "source": "DataValues.TotalDamageNoCritADRatio",
+          "raw": [
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158
+          ],
+          "offset": 1,
+          "values": [
+            1.2
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "critical_branch_total_ad_ratio",
+          "source": "DataValues.TotalDamageCritADRatio",
+          "raw": [
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858
+          ],
+          "offset": 1,
+          "values": [
+            1.1
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "healing_ap_ratio",
+          "source": "DataValues.HealingAPRatio",
+          "raw": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "offset": 1,
+          "values": [
+            0.3
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "healing_level_one",
+          "source": "DataValues.HealLevel1Value",
+          "raw": [
+            13,
+            13,
+            13,
+            13,
+            13,
+            13,
+            13
+          ],
+          "offset": 1,
+          "values": [
+            13
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "healing_level_eighteen",
+          "source": "DataValues.HealLevel18Value",
+          "raw": [
+            32,
+            32,
+            32,
+            32,
+            32,
+            32,
+            32
+          ],
+          "offset": 1,
+          "values": [
+            32
+          ],
+          "scale": 1
+        },
+        {
+          "source": "mSpellCalculations.TotalHealing",
+          "raw": {
+            "mFormulaParts": [
+              {
+                "{0589a59c}": "HealLevel1Value",
+                "{0b65bc23}": "HealLevel18Value",
+                "__type": "{ee18a47b}"
+              },
+              {
+                "mDataValue": "HealingAPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        {
+          "source": "mSpellCalculations.TotalDamageNoCrit/TotalDamageCrit",
+          "raw": [
+            {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "TotalDamageNoCritADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "TotalDamageCritADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "治疗基础值哈希节点",
+          "reason": "{ee18a47b}节点读取HealLevel1Value13与HealLevel18Value32，但当前资料未给出完整插值函数；端点与外部输入保留，不生成1至18级直线。"
+        },
+        {
+          "kind": "来源",
+          "component": "非暴击与暴击攻击组成及法术护盾",
+          "reason": "当前根保留1.2与1.1总攻击力两分支，但暴击倍率分配、攻击本体替换和附伤法术护盾资格未确证，暂只保留公式，不设未知阻挡粒度。"
+        },
+        {
+          "kind": "配置",
+          "component": "就绪、实际强化攻击和治疗联动",
+          "reason": "必须在被动就绪后接受下一次真实攻击，按实际命中一个目标治疗一次；治疗基础输入生产、冷却消费和英雄普通攻击减3秒尚未绑定。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "周围其他敌人、小兵与野怪支路",
+          "reason": "保留一名英雄目标的本体伤害、自身治疗和英雄攻击减冷却；多目标查询、小兵半伤半疗及普通目标1秒减冷却不进入本轮组成。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "周围其他敌人、小兵与野怪支路",
+            "reason": "保留一名英雄目标的本体伤害、自身治疗和英雄攻击减冷却；多目标查询、小兵半伤半疗及普通目标1秒减冷却不进入本轮组成。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "治疗基础值哈希节点",
+            "reason": "{ee18a47b}节点读取HealLevel1Value13与HealLevel18Value32，但当前资料未给出完整插值函数；端点与外部输入保留，不生成1至18级直线。"
+          },
+          {
+            "kind": "来源",
+            "component": "非暴击与暴击攻击组成及法术护盾",
+            "reason": "当前根保留1.2与1.1总攻击力两分支，但暴击倍率分配、攻击本体替换和附伤法术护盾资格未确证，暂只保留公式，不设未知阻挡粒度。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "就绪、实际强化攻击和治疗联动",
+            "reason": "必须在被动就绪后接受下一次真实攻击，按实际命中一个目标治疗一次；治疗基础输入生产、冷却消费和英雄普通攻击减3秒尚未绑定。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "nocturne_q": {
+      "skillKey": "nocturne_q",
+      "name": "梦魇之径",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Nocturne",
+        "rootPath": "Characters/Nocturne/CharacterRecords/Root",
+        "spellPath": "Characters/Nocturne/Spells/NocturneDuskbringerAbility/NocturneDuskbringer",
+        "clientSha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+        "officialSha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+        "currentBoundText": {
+          "binding": "Characters/Nocturne/Spells/NocturneDuskbringerAbility/NocturneDuskbringer",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_NocturneQ_Name",
+              "key": "spell_nocturneq_name",
+              "text": "梦魇之径"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NocturneQ_Summary",
+              "key": "spell_nocturneq_summary",
+              "text": "魔腾扔出一把暗影之刃，对敌人造成伤害并留下幽灵影径，并使受到伤害的敌方英雄也留下幽灵影径。在影径上时，魔腾无视任何碰撞体积，并且他的移动速度和攻击力也会得到提高。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NocturneQ_Tooltip",
+              "key": "spell_nocturneq_tooltip",
+              "text": "魔腾扔出一把暗影之刃，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>并留下一条持续@TrailDuration@秒的影径。被击中的敌方英雄们也会留下一条影径。<br><br>在影径上移动时，魔腾处于幽灵状态并获得<speed>@MoveSpeed@%移动速度</speed>和<physicalDamage>@BonusTrailAD@攻击力</physicalDamage>。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Spell_NocturneQ_TooltipSimple",
+              "key": "spell_nocturneq_tooltipsimple",
+              "text": "扔出一把暗影之刃，对敌人造成伤害并留下幽灵影径。<br><br>在影径上时，魔腾获得@MoveSpeed@%移动速度和@BonusTrailAD@攻击力。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_NocturneDuskbringer_TooltipExtendedBelowLine",
+              "key": "spell_nocturneduskbringer_tooltipextendedbelowline",
+              "text": "<rules>{{Reminder_Ghosted}}</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Nocturne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 8000,
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Nocturne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "梦魇之径基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 65,
+              "2": 105,
+              "3": 145,
+              "4": 185,
+              "5": 225
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "trail_move_speed_ratio",
+            "name": "影径上移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.2,
+              "2": 0.25,
+              "3": 0.3,
+              "4": 0.35,
+              "5": 0.4
+            },
+            "description": "客户端当前根绑定 DataValues.MoveSpeed 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "trail_attack_damage",
+            "name": "影径上固定攻击力",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 15,
+              "2": 25,
+              "3": 35,
+              "4": 45,
+              "5": 55
+            },
+            "description": "客户端当前根绑定 DataValues.BonusTrailAD 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "trail_lifetime_ms",
+            "name": "影径存在时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.TrailDuration 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "梦魇之径额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.85,
+            "levelValues": null,
+            "description": "当前计算树mStat2/mStatFormula2，额外攻击力系数0.85。",
+            "sortOrder": 70
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "梦魇之径命中伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "65/105/145/185/225+.85额外攻击力。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "damage",
+            "name": "梦魇之径物理伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "梦魇之径物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "on_trail_attributes",
+            "name": "处于影径时自身属性",
+            "description": "只有身处影径时有效，按显式移除结束；5秒是影径寿命，不是离开影径后仍持续5秒的独立增益。进入/离开条件未接线。",
+            "sortOrder": 30,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "move_speed",
+                "name": "影径移动速度",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "trail_move_speed_ratio"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "move_speed_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              },
+              {
+                "resultKey": "attack_damage",
+                "name": "影径攻击力",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 20,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "trail_attack_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "attack_damage",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放梦魇之径",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "梦魇之径实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "nocturne_q"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            8000,
+            8000,
+            8000,
+            8000,
+            8000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            25,
+            65,
+            105,
+            145,
+            185,
+            225,
+            265
+          ],
+          "offset": 1,
+          "values": [
+            65,
+            105,
+            145,
+            185,
+            225
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "trail_move_speed_ratio",
+          "source": "DataValues.MoveSpeed",
+          "raw": [
+            15,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45
+          ],
+          "offset": 1,
+          "values": [
+            0.2,
+            0.25,
+            0.3,
+            0.35,
+            0.4
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "trail_attack_damage",
+          "source": "DataValues.BonusTrailAD",
+          "raw": [
+            5,
+            15,
+            25,
+            35,
+            45,
+            55,
+            65
+          ],
+          "offset": 1,
+          "values": [
+            15,
+            25,
+            35,
+            45,
+            55
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "trail_lifetime_ms",
+          "source": "DataValues.TrailDuration",
+          "raw": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "offset": 1,
+          "values": [
+            5000,
+            5000,
+            5000,
+            5000,
+            5000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            0.85
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "影径进入与离开时自益启停",
+          "reason": "影径有5秒寿命，在影径上获得20–40%移动速度和15–55攻击力。独立条件属性不自动授予，离开时需按来源移除，不能给所有Q施放固定5秒自益。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "影径空间、多目标留迹和幽灵碰撞",
+          "reason": "空间查找和碰撞穿越后置；实际本体伤害及自己在合法影径上的收益保留。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "影径空间、多目标留迹和幽灵碰撞",
+            "reason": "空间查找和碰撞穿越后置；实际本体伤害及自己在合法影径上的收益保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "影径进入与离开时自益启停",
+            "reason": "影径有5秒寿命，在影径上获得20–40%移动速度和15–55攻击力。独立条件属性不自动授予，离开时需按来源移除，不能给所有Q施放固定5秒自益。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "nocturne_w": {
+      "skillKey": "nocturne_w",
+      "name": "黑暗庇护",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Nocturne",
+        "rootPath": "Characters/Nocturne/CharacterRecords/Root",
+        "spellPath": "Characters/Nocturne/Spells/NocturneShroudofDarknessAbility/NocturneShroudofDarkness",
+        "clientSha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+        "officialSha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+        "currentBoundText": {
+          "binding": "Characters/Nocturne/Spells/NocturneShroudofDarknessAbility/NocturneShroudofDarkness",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_NocturneW_Name",
+              "key": "spell_nocturnew_name",
+              "text": "黑暗庇护"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NocturneW_Summary",
+              "key": "spell_nocturnew_summary",
+              "text": "魔腾强化他的刀刃，被动地提升他的攻击速度。主动激活此技能，将使魔腾融入黑影中，同时产生一个能够抵挡掉敌方单个技能的魔法护盾。若抵挡成功，则被动的攻速加成效果将提升至两倍。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NocturneW_Tooltip",
+              "key": "spell_nocturnew_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>魔腾获得<attackSpeed>@ActiveAS@%攻击速度</attackSpeed>。<br><br><spellActive>主动：</spellActive>魔腾生成一个持续1.5秒的暗影屏障，来格挡下一个敌方技能。如果格挡掉一个技能，那么这个技能的被动效果提升至<attackSpeed>@ActiveAS*2@%攻击速度</attackSpeed>，持续@DoubleASDuration@秒。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Spell_NocturneW_TooltipSimple",
+              "key": "spell_nocturnew_tooltipsimple",
+              "text": "<font color='#FF9900'>被动：</font>魔腾获得@ActiveAS@%攻击速度。<br><br><font color='#FF9900'>主动：</font>魔腾制造一个能够抵挡掉下一个敌人技能的魔法护盾，持续1.5秒。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_NocturneShroudofDarkness_TooltipExtendedBelowLine",
+              "key": "spell_nocturneshroudofdarkness_tooltipextendedbelowline",
+              "text": "<rules>这个技能将在<spellName>鬼影重重</spellName>的飞行途中保持激活状态。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Nocturne.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 20000,
+              "2": 18000,
+              "3": 16000,
+              "4": 14000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Nocturne.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 50,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "passive_attack_speed_ratio",
+            "name": "黑暗庇护被动额外攻速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.3,
+              "2": 0.35,
+              "3": 0.4,
+              "4": 0.45,
+              "5": 0.5
+            },
+            "description": "客户端当前根绑定 DataValues.ActiveAS 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "spell_shield_duration_ms",
+            "name": "黑暗庇护普通屏障持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "empowered_attack_speed_duration_ms",
+            "name": "成功格挡后双倍攻速时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DoubleASDuration 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "on_block_total_multiplier",
+            "name": "成功格挡后被动总倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前绑定ActiveAS*2明确提升至两倍，原被动已有一倍，因此额外只加一倍。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "total_attack_speed_after_block",
+            "name": "格挡后合计被动攻速",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_attack_speed_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_block_total_multiplier"
+                }
+              ]
+            },
+            "description": "30–50%原被动+30–50%临时增量=60–100%；仅合计参考，不将两倍再叠到原被动。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "passive_attack_speed",
+            "name": "黑暗庇护常驻被动攻速",
+            "description": "独立持续属性；应用、取消与实际触发分别核对。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "黑暗庇护常驻被动攻速",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "passive_attack_speed_ratio"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "on_block_additional_attack_speed",
+            "name": "成功格挡额外一倍攻速",
+            "description": "在原本30–50%被动之上只追加30–50%，5秒后移除增量。",
+            "sortOrder": 30,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "empowered_attack_speed_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "成功格挡额外一倍攻速",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "passive_attack_speed_ratio"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          },
+          {
+            "description": "普通施放产生一层屏障，1.5秒自然结束或成功格挡后显式消费；R飞行保持激活分支另配。",
+            "effectKey": "spell_shield",
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "spell_shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "REPLACE",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "name": "黑暗庇护法术护盾",
+            "results": [
+              {
+                "description": "法术护盾结果本身不带数值；具体成功格挡范围由法术护盾事件语义决定。",
+                "detail": {},
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": null,
+                  "stackValueMode": null,
+                  "valueReadMode": null
+                },
+                "name": "格挡下一个敌方技能",
+                "resultKey": "spell_shield_block",
+                "resultType": "SPELL_SHIELD",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": null
+              }
+            ],
+            "sortOrder": 40
+          },
+          {
+            "description": "只由本技能法术护盾成功格挡事件执行，显式移除持有者自身护盾；60秒恢复与受伤重置待配。",
+            "effectKey": "consume_spell_shield",
+            "lifecycle": null,
+            "name": "黑暗庇护成功格挡消费",
+            "results": [
+              {
+                "description": "成功格挡后移除来源自身的本技能护盾。",
+                "detail": {
+                  "operation": "REMOVE",
+                  "targetEffectKey": "spell_shield"
+                },
+                "lifecycleBehavior": null,
+                "name": "移除已成功格挡的法术护盾",
+                "resultKey": "remove_spell_shield",
+                "resultType": "LIFECYCLE_OPERATION",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": null
+              }
+            ],
+            "sortOrder": 50
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放黑暗庇护",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              },
+              {
+                "bindingKey": "spell_shield",
+                "effectKey": "spell_shield",
+                "moment": {
+                  "momentType": "STEP_COMPLETE",
+                  "stepKey": "start"
+                },
+                "sortOrder": 20
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "consume_and_empower_on_block",
+            "name": "本技能屏障成功格挡后消费并增攻速",
+            "description": "只接受所列真实事件；不自行生成命中。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SPELL_SHIELD_BLOCKED",
+              "detail": {
+                "shieldEffectKey": "spell_shield"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "consume_spell_shield",
+                "name": "执行consume_spell_shield",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "consume_spell_shield"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              },
+              {
+                "actionKey": "on_block_additional_attack_speed",
+                "name": "执行on_block_additional_attack_speed",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 20,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "on_block_additional_attack_speed"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            20000,
+            18000,
+            16000,
+            14000,
+            12000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        },
+        {
+          "parameterKey": "passive_attack_speed_ratio",
+          "source": "DataValues.ActiveAS",
+          "raw": [
+            30,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55
+          ],
+          "offset": 1,
+          "values": [
+            0.3,
+            0.35,
+            0.4,
+            0.45,
+            0.5
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "spell_shield_duration_ms",
+          "source": "DataValues.ShieldDuration",
+          "raw": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "offset": 1,
+          "values": [
+            1500,
+            1500,
+            1500,
+            1500,
+            1500
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "empowered_attack_speed_duration_ms",
+          "source": "DataValues.DoubleASDuration",
+          "raw": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "offset": 1,
+          "values": [
+            5000,
+            5000,
+            5000,
+            5000,
+            5000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "on_block_total_multiplier",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            2
+          ]
+        },
+        {
+          "source": "当前绑定ActiveAS而非旧PassiveAS",
+          "accepted": {
+            "name": "ActiveAS",
+            "values": [
+              30,
+              30,
+              35,
+              40,
+              45,
+              50,
+              55
+            ],
+            "__type": "SpellDataValue"
+          },
+          "notAdopted": {
+            "name": "PassiveAS",
+            "values": [
+              0.30000001192092896,
+              0.30000001192092896,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        {
+          "source": "成熟法术护盾参考.json",
+          "reference": "item_4632_passive：SPELL_SHIELD及成功格挡消费形状，仅复用结构，不继承装备60秒重获"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "常驻被动的有效技能等级启用",
+          "reason": "独立被动属性已配置，仍需由合法的已学习W技能上下文启用与移除；不为尚未学习W的角色自动初始化攻速。"
+        },
+        {
+          "kind": "配置",
+          "component": "R飞行期间保持屏障激活",
+          "reason": "当前扩展说明明确R飞行中保持激活；与普通1.5秒屏障期限及成功格挡消费如何组合仍需跨技能阶段接线，不能把飞行过程按固定1.5秒完整宣称。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "常驻被动的有效技能等级启用",
+            "reason": "独立被动属性已配置，仍需由合法的已学习W技能上下文启用与移除；不为尚未学习W的角色自动初始化攻速。"
+          },
+          {
+            "kind": "配置",
+            "component": "R飞行期间保持屏障激活",
+            "reason": "当前扩展说明明确R飞行中保持激活；与普通1.5秒屏障期限及成功格挡消费如何组合仍需跨技能阶段接线，不能把飞行过程按固定1.5秒完整宣称。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "nocturne_e": {
+      "skillKey": "nocturne_e",
+      "name": "无言恐惧",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Nocturne",
+        "rootPath": "Characters/Nocturne/CharacterRecords/Root",
+        "spellPath": "Characters/Nocturne/Spells/NocturneUnspeakableHorrorAbility/NocturneUnspeakableHorror",
+        "clientSha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+        "officialSha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+        "currentBoundText": {
+          "binding": "Characters/Nocturne/Spells/NocturneUnspeakableHorrorAbility/NocturneUnspeakableHorror",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_NocturneE_Name",
+              "key": "spell_nocturnee_name",
+              "text": "无言恐惧"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NocturneE_Summary",
+              "key": "spell_nocturnee_summary",
+              "text": "魔腾将梦魇植入目标的大脑之中，持续对目标造成伤害。并且如果在该技能持续时间结束后，目标仍未脱离该技能的范围，那么目标会被恐惧。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NocturneE_Tooltip",
+              "key": "spell_nocturnee_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>魔腾朝着被<status>恐惧</status>的敌人时会获得<speed>@TooltipFearMS*100@%移动速度</speed>。<br><br><spellActive>主动：</spellActive>魔腾将一根梦魇灵链植入他的目标，在@LeashDuration@秒里持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>。如果灵链一直未断裂，目标就会被<status>恐惧</status>@CCDuration@秒。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Spell_NocturneE_TooltipSimple",
+              "key": "spell_nocturnee_tooltipsimple",
+              "text": "<font color='#FF9900'>被动：</font>魔腾在朝着被恐惧的敌人移动时会提升移动速度。<br><br><font color='#FF9900'>主动：</font>在@LeashDuration@秒里持续造成伤害。如果这个过程完成，那么目标会被恐惧@CCDuration@秒。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Nocturne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 15000,
+              "2": 14000,
+              "3": 13000,
+              "4": 12000,
+              "5": 11000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Nocturne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "total_base_damage",
+            "name": "完整灵链基础伤害总量",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 80,
+              "2": 125,
+              "3": 170,
+              "4": 215,
+              "5": 260
+            },
+            "description": "客户端当前根绑定 DataValues.DamageToDeal 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "fear_duration_ms",
+            "name": "不断链恐惧时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 1250,
+              "2": 1500,
+              "3": 1750,
+              "4": 2000,
+              "5": 2250
+            },
+            "description": "客户端当前根绑定 DataValues.CCDuration 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "leash_duration_ms",
+            "name": "完整灵链持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.LeashDuration 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "toward_feared_move_speed_ratio",
+            "name": "朝恐惧敌人移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.9,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.TooltipFearMS 取索引1至5。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "unresolved_stat_coefficient",
+            "name": "完整灵链未定属性系数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "当前StatByCoefficientCalculationPart系数1.0，属性/总量枚举省略，尚未复用可靠默认解码。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "resolved_scaling_attribute",
+            "name": "灵链伤害已解码属性输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前省略mStat/mStatFormula，待同版本默认解码确定后接入；不能猜AP或未知0。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "full_leash_damage",
+            "name": "完整两秒灵链伤害总量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "unresolved_stat_coefficient"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "resolved_scaling_attribute"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "80/125/170/215/260 + 1×已解码属性，只是完整2秒总量，不能当每跳伤害。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "toward_feared_move_speed",
+            "name": "朝恐惧敌人条件移动速度",
+            "description": "只在朝受恐惧敌人移动的条件成立期间启用，并在条件失效时显式移除；没有无条件初始化。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "朝恐惧敌人条件移动速度",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "toward_feared_move_speed_ratio"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "move_speed_percent",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放无言恐惧",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            15000,
+            14000,
+            13000,
+            12000,
+            11000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ]
+        },
+        {
+          "parameterKey": "total_base_damage",
+          "source": "DataValues.DamageToDeal",
+          "raw": [
+            35,
+            80,
+            125,
+            170,
+            215,
+            260,
+            305
+          ],
+          "offset": 1,
+          "values": [
+            80,
+            125,
+            170,
+            215,
+            260
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "fear_duration_ms",
+          "source": "DataValues.CCDuration",
+          "raw": [
+            1,
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25,
+            2.5
+          ],
+          "offset": 1,
+          "values": [
+            1250,
+            1500,
+            1750,
+            2000,
+            2250
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "leash_duration_ms",
+          "source": "DataValues.LeashDuration",
+          "raw": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "offset": 1,
+          "values": [
+            2000,
+            2000,
+            2000,
+            2000,
+            2000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "toward_feared_move_speed_ratio",
+          "source": "DataValues.TooltipFearMS",
+          "raw": [
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421
+          ],
+          "offset": 1,
+          "values": [
+            0.9,
+            0.9,
+            0.9,
+            0.9,
+            0.9
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "unresolved_stat_coefficient",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            1
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "伤害属性默认值与逐次执行",
+          "reason": "当前总量的属性节点未显式枚举；2秒只证明完整总时长，没有确证跳频、首跳或每跳分配，故暂不建伤害效果或周期过程。"
+        },
+        {
+          "kind": "系统",
+          "component": "恐惧状态与法术护盾期限",
+          "reason": "当前状态目录没有恐惧；不能用眩晕替代。若目标状态需要持续结束且参与法术护盾，当前持续目标控制组合还有独立缺口。"
+        },
+        {
+          "kind": "配置",
+          "component": "链持续资格、恐惧与方向移动速度",
+          "reason": "只有灵链在结束时仍未断才恐惧；朝恐惧敌人的90%移动速度条件未接，不能把2秒计时当实际完整链，也不无条件授予移速。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "灵链空间距离检测",
+          "reason": "465距离字段保留原文，空间执行后置，不取消本体伤害与恐惧控制的范围内需求。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "灵链空间距离检测",
+            "reason": "465距离字段保留原文，空间执行后置，不取消本体伤害与恐惧控制的范围内需求。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "伤害属性默认值与逐次执行",
+            "reason": "当前总量的属性节点未显式枚举；2秒只证明完整总时长，没有确证跳频、首跳或每跳分配，故暂不建伤害效果或周期过程。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "恐惧状态与法术护盾期限",
+            "reason": "当前状态目录没有恐惧；不能用眩晕替代。若目标状态需要持续结束且参与法术护盾，当前持续目标控制组合还有独立缺口。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "链持续资格、恐惧与方向移动速度",
+            "reason": "只有灵链在结束时仍未断才恐惧；朝恐惧敌人的90%移动速度条件未接，不能把2秒计时当实际完整链，也不无条件授予移速。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "nocturne_r": {
+      "skillKey": "nocturne_r",
+      "name": "鬼影重重",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Nocturne",
+        "rootPath": "Characters/Nocturne/CharacterRecords/Root",
+        "spellPath": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+        "clientSha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+        "officialSha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+        "currentBoundText": {
+          "binding": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_NocturneR_Name",
+              "key": "spell_nocturner_name",
+              "text": "鬼影重重"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NocturneR_Summary",
+              "key": "spell_nocturner_summary",
+              "text": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NocturneR_Tooltip",
+              "key": "spell_nocturner_tooltip",
+              "text": "魔腾使地图变暗，降低所有敌方英雄的视野半径并移除其友方视野，持续@ParanoiaDuration@秒。魔腾能够在持续期间<recast>再次施放</recast>这个技能，来突进到一名敌方英雄的身边并造成<physicalDamage>@Damage@物理伤害</physicalDamage>。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Spell_NocturneR_TooltipSimple",
+              "key": "spell_nocturner_tooltipsimple",
+              "text": "移除敌方英雄的友军视野，持续@ParanoiaDuration@秒。<br><br>在此期间再次激活此技能即可突进至一名敌方英雄并造成伤害。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 140000,
+              "2": 115000,
+              "3": 90000
+            },
+            "description": "当前根Cooldown.values索引1起，官方逐级相同。",
+            "sortOrder": 10
+          },
+          {
+            "description": "DDragon16.17.1 Nocturne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "再次施放抵达目标基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 150,
+              "2": 275,
+              "3": 400
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "recast_window_ms",
+            "name": "再次施放允许窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ParanoiaDuration 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "鬼影重重额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.2,
+            "levelValues": null,
+            "description": "当前Damage树明确额外攻击力系数1.2。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "arrival_damage",
+            "name": "再次施放实际抵达伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "150/275/400+1.2额外攻击力；只在再次施放实际抵达时交付一次。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "arrival_damage",
+            "name": "鬼影重重抵达物理伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "鬼影重重抵达物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "arrival_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            140000,
+            115000,
+            90000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            150,
+            150,
+            275,
+            400,
+            525,
+            650,
+            775
+          ],
+          "offset": 1,
+          "values": [
+            150,
+            275,
+            400
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "recast_window_ms",
+          "source": "DataValues.ParanoiaDuration",
+          "raw": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "offset": 1,
+          "values": [
+            6000,
+            6000,
+            6000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            1.2
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "初施与再施分阶段及一次命中",
+          "reason": "6秒窗口中允许再次施放；法力与基础冷却应归于合法初施，真实抵达才伤害。当前只保留独立成本、冷却和伤害，未把初施与再施都接actual_hit或重复消耗。"
+        },
+        {
+          "kind": "配置",
+          "component": "黑暗庇护在飞行中保持",
+          "reason": "NocturneW当前扩展有保持激活提醒；飞行结束、1.5秒普通期限与成功格挡的组合需接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "纯视野、飞行空间与全地图目标遍历",
+          "reason": "视野压缩、移除队友视野及空间导航后置；6秒再次施放依赖和对本次敌方英雄的实际伤害保留。"
+        }
+      ],
+      "reusedParameters": [
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "纯视野、飞行空间与全地图目标遍历",
+            "reason": "视野压缩、移除队友视野及空间导航后置；6秒再次施放依赖和对本次敌方英雄的实际伤害保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "初施与再施分阶段及一次命中",
+            "reason": "6秒窗口中允许再次施放；法力与基础冷却应归于合法初施，真实抵达才伤害。当前只保留独立成本、冷却和伤害，未把初施与再施都接actual_hit或重复消耗。"
+          },
+          {
+            "kind": "配置",
+            "component": "黑暗庇护在飞行中保持",
+            "reason": "NocturneW当前扩展有保持激活提醒；飞行结束、1.5秒普通期限与成功格挡的组合需接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "vayne_p": {
+      "skillKey": "vayne_p",
+      "name": "暗夜猎手",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Vayne",
+        "rootPath": "Characters/Vayne/CharacterRecords/Root",
+        "spellPath": "Characters/Vayne/Spells/VaynePassiveAbility/VaynePassive",
+        "clientSha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+        "officialSha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711",
+        "currentBoundText": {
+          "binding": "Characters/Vayne/Spells/VaynePassiveAbility/VaynePassive",
+          "keys": {
+            "keyName": {
+              "sourceKey": "game_character_passiveName_Vayne",
+              "key": "game_character_passivename_vayne",
+              "text": "暗夜猎手"
+            },
+            "keyTooltip": {
+              "sourceKey": "game_character_passiveDescription_Vayne",
+              "key": "game_character_passivedescription_vayne",
+              "text": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得@MovementSpeed@移动速度。"
+            },
+            "keySummary": {
+              "sourceKey": "game_character_passiveSummary_Vayne",
+              "key": "game_character_passivesummary_vayne",
+              "text": "薇恩毫不留情的猎杀世间邪恶，向附近敌方英雄移动时会获得移动速度。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "night_hunter_move_speed",
+            "name": "朝附近英雄固定移动速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MovementSpeed 取索引1至1。",
+            "sortOrder": 10
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "effectKey": "night_hunter_move_speed",
+            "name": "暗夜猎手条件移动速度",
+            "description": "朝附近敌方英雄移动时才启用30固定移速，条件失效显式移除；不无条件初始化。R期间改为90的替换关系另配。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "暗夜猎手条件移动速度",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "night_hunter_move_speed"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "move_speed",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "night_hunter_move_speed",
+          "source": "DataValues.MovementSpeed",
+          "raw": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "offset": 1,
+          "values": [
+            30
+          ],
+          "scale": 1
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "附近英雄与移动朝向条件",
+          "reason": "当前说明同时限定附近敌方英雄与朝向移动；独立30移速效果没有初始化规则，不能对静止、远离或任意目标全时授予。"
+        },
+        {
+          "kind": "配置",
+          "component": "终极时刻替换成90移速",
+          "reason": "R期间暗夜猎手改为90，不是30+90；必须保留相同附近和朝向条件。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "2000距离检测",
+          "reason": "Range2000仅保留原文与条件依据，实际空间/方向检测后置；本体条件移速保留。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "2000距离检测",
+            "reason": "Range2000仅保留原文与条件依据，实际空间/方向检测后置；本体条件移速保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "附近英雄与移动朝向条件",
+            "reason": "当前说明同时限定附近敌方英雄与朝向移动；独立30移速效果没有初始化规则，不能对静止、远离或任意目标全时授予。"
+          },
+          {
+            "kind": "配置",
+            "component": "终极时刻替换成90移速",
+            "reason": "R期间暗夜猎手改为90，不是30+90；必须保留相同附近和朝向条件。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "vayne_q": {
+      "skillKey": "vayne_q",
+      "name": "闪避突袭",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Vayne",
+        "rootPath": "Characters/Vayne/CharacterRecords/Root",
+        "spellPath": "Characters/Vayne/Spells/VayneTumbleAbility/VayneTumble",
+        "clientSha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+        "officialSha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711",
+        "currentBoundText": {
+          "binding": "Characters/Vayne/Spells/VayneTumbleAbility/VayneTumble",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VayneQ_Name",
+              "key": "spell_vayneq_name",
+              "text": "闪避突袭"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_VayneQ_Tooltip",
+              "key": "spell_vayneq_tooltip",
+              "text": "薇恩翻滚一小段距离，并且她的下次普通攻击造成额外的<physicalDamage>@ADRatioBonus@物理伤害</physicalDamage>。<br><br><rules>{{ buff_desc_SpellEffects }}</rules>"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VayneQ_Summary",
+              "key": "spell_vayneq_summary",
+              "text": "薇恩进行翻滚，并小心地填充她的下一发射击。她的下次攻击造成额外伤害。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Vayne.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 6000,
+              "2": 5000,
+              "3": 4000,
+              "4": 3000,
+              "5": 2000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Vayne.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 46,
+              "2": 42,
+              "3": 38,
+              "4": 34,
+              "5": 30
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "bonus_total_ad_ratio",
+            "name": "翻滚后额外伤害总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.75,
+              "2": 0.85,
+              "3": 0.95,
+              "4": 1.05,
+              "5": 1.15
+            },
+            "description": "客户端当前根绑定 DataValues.TotalADRatio 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "bonus_ap_ratio",
+            "name": "翻滚后额外伤害法强系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "empowered_attack_window_ms",
+            "name": "翻滚后强化攻击窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "bonus_attack_damage",
+            "name": "翻滚后额外物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "当前主说明明确额外伤害：.75/.85/.95/1.05/1.15总攻击力+.5法强；该公式不再加普通攻击本体。APRatio为明确命名的法强系数。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            6000,
+            5000,
+            4000,
+            3000,
+            2000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            46,
+            42,
+            38,
+            34,
+            30
+          ]
+        },
+        {
+          "parameterKey": "bonus_total_ad_ratio",
+          "source": "DataValues.TotalADRatio",
+          "raw": [
+            0.6499999761581421,
+            0.75,
+            0.8500000238418579,
+            0.949999988079071,
+            1.0499999523162842,
+            1.149999976158142,
+            1.25
+          ],
+          "offset": 1,
+          "values": [
+            0.75,
+            0.85,
+            0.95,
+            1.05,
+            1.15
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bonus_ap_ratio",
+          "source": "DataValues.APRatio",
+          "raw": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "offset": 1,
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "empowered_attack_window_ms",
+          "source": "DataValues.Duration",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3000,
+            3000,
+            3000,
+            3000,
+            3000
+          ],
+          "scale": 1000
+        },
+        {
+          "source": "mSpellCalculations.ADRatioBonus",
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mDataValue": "TotalADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        {
+          "source": "当前CanBonusDamageCrit缺values，不能猜0",
+          "raw": {
+            "name": "CanBonusDamageCrit",
+            "__type": "SpellDataValue"
+          }
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "额外伤害暴击及法术护盾资格",
+          "reason": "当前CanBonusDamageCrit只有名称没有值，不能猜false；强化攻击额外伤害的暴击和技能交互应分别确认。当前只有完整额外量公式，暂不以DISALLOWED或null默认创建伤害效果。"
+        },
+        {
+          "kind": "配置",
+          "component": "强化攻击消费、冷却开始与R联动",
+          "reason": "3秒窗口已确证，但下一次真实攻击消费、强化到期与冷却起始须核对；不直接假设普通施放起始冷却、自动制造命中。R期间Q冷却减少与1秒隐形仍待接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "翻滚空间执行",
+          "reason": "位移轨迹后置；法力、冷却、下次攻击额外伤害和与R的依赖保留。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "翻滚空间执行",
+            "reason": "位移轨迹后置；法力、冷却、下次攻击额外伤害和与R的依赖保留。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "额外伤害暴击及法术护盾资格",
+            "reason": "当前CanBonusDamageCrit只有名称没有值，不能猜false；强化攻击额外伤害的暴击和技能交互应分别确认。当前只有完整额外量公式，暂不以DISALLOWED或null默认创建伤害效果。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "强化攻击消费、冷却开始与R联动",
+            "reason": "3秒窗口已确证，但下一次真实攻击消费、强化到期与冷却起始须核对；不直接假设普通施放起始冷却、自动制造命中。R期间Q冷却减少与1秒隐形仍待接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "vayne_w": {
+      "skillKey": "vayne_w",
+      "name": "圣银弩箭",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Vayne",
+        "rootPath": "Characters/Vayne/CharacterRecords/Root",
+        "spellPath": "Characters/Vayne/Spells/VayneSilveredBoltsAbility/VayneSilveredBolts",
+        "clientSha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+        "officialSha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711",
+        "currentBoundText": {
+          "binding": "Characters/Vayne/Spells/VayneSilveredBoltsAbility/VayneSilveredBolts",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VayneW_Name",
+              "key": "spell_vaynew_name",
+              "text": "圣银弩箭"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_Vayne_W_Tooltip",
+              "key": "spell_vayne_w_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>对一名敌人的每第三次连续的攻击或技能造成额外的<trueDamage>@TotalDamage@最大生命值的真实伤害</trueDamage>。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VayneW_Summary",
+              "key": "spell_vaynew_summary",
+              "text": "薇恩用稀有金属制作弩箭，让邪恶敌人中毒。对同一目标的第3次攻击或技能施放会对其造成额外真实伤害，数值相当于目标最大生命值的一定百分比。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Passive",
+              "key": "spell_passive",
+              "text": "<spellPassive>被动</spellPassive>"
+            },
+            "keyCooldown": {
+              "sourceKey": "",
+              "key": null,
+              "text": null
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_VayneSilveredBolts_TooltipExtendedBelowLine",
+              "key": "spell_vaynesilveredbolts_tooltipextendedbelowline",
+              "text": "<rules>最少造成@DamageFloor@伤害。<br>对抗野怪时造成@DamageVsMonsters@伤害。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "target_maximum_health_ratio",
+            "name": "第三次命中目标最大生命比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.04,
+              "2": 0.055,
+              "3": 0.07,
+              "4": 0.085,
+              "5": 0.1
+            },
+            "description": "客户端当前根绑定 DataValues.MaxHealthRatio 取索引1至5。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "minimum_true_damage",
+            "name": "圣银弩箭真实伤害保底",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 55,
+              "3": 70,
+              "4": 85,
+              "5": 100
+            },
+            "description": "客户端当前根绑定 DataValues.DamageFloor 取索引1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "same_target_window_ms",
+            "name": "同目标标记持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DebuffDuration 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "consecutive_hit_threshold",
+            "name": "同目标连续命中门槛",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "当前主说明与摘要明确同一目标每第三次连续攻击或技能。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "silver_bolts_damage",
+            "name": "圣银弩箭有保底真实伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MAX",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_true_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_maximum_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "当前4/5.5/7/8.5/10%目标最大生命，至少40/55/70/85/100；不用2025旧Wiki的6–10%及50–110保底。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "target_maximum_health_ratio",
+          "source": "DataValues.MaxHealthRatio",
+          "raw": [
+            0.02500000037252903,
+            0.03999999910593033,
+            0.054999999701976776,
+            0.07000000029802322,
+            0.08500000089406967,
+            0.10000000149011612,
+            0.11500000208616257
+          ],
+          "offset": 1,
+          "values": [
+            0.04,
+            0.055,
+            0.07,
+            0.085,
+            0.1
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "minimum_true_damage",
+          "source": "DataValues.DamageFloor",
+          "raw": [
+            25,
+            40,
+            55,
+            70,
+            85,
+            100,
+            115
+          ],
+          "offset": 1,
+          "values": [
+            40,
+            55,
+            70,
+            85,
+            100
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "same_target_window_ms",
+          "source": "DataValues.DebuffDuration",
+          "raw": [
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5
+          ],
+          "offset": 1,
+          "values": [
+            3500,
+            3500,
+            3500,
+            3500,
+            3500
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "consecutive_hit_threshold",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            3
+          ]
+        },
+        {
+          "source": "当前根DataValues与主/扩展绑定文本",
+          "accepted": {
+            "ratios": [
+              0.04,
+              0.055,
+              0.07,
+              0.085,
+              0.1
+            ],
+            "floors": [
+              40,
+              55,
+              70,
+              85,
+              100
+            ]
+          },
+          "notAdopted": "旧Wiki2025-08-26及APRatio无values字段"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "第三次连续攻击或技能资格与消费",
+          "reason": "需要同目标计数、3.5秒标记、合法攻击/技能集合、第三次消费与切目标清除；不能只接每次普攻，也不把任意技能施放当实际命中。"
+        },
+        {
+          "kind": "来源",
+          "component": "真实伤害结果的法术护盾资格",
+          "reason": "当前第三次触发与攻击/技能结果归属未完全核对；null不是未知占位，先保留确定伤害公式，待实际资格明确后补独立伤害效果。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "野怪专用140–200伤害",
+          "reason": "本轮一名敌方英雄使用当前最大生命比例与保底；不引入DamageVsMonsters专用量。"
+        }
+      ],
+      "reusedParameters": [],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "野怪专用140–200伤害",
+            "reason": "本轮一名敌方英雄使用当前最大生命比例与保底；不引入DamageVsMonsters专用量。"
+          }
+        ],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "真实伤害结果的法术护盾资格",
+            "reason": "当前第三次触发与攻击/技能结果归属未完全核对；null不是未知占位，先保留确定伤害公式，待实际资格明确后补独立伤害效果。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "第三次连续攻击或技能资格与消费",
+            "reason": "需要同目标计数、3.5秒标记、合法攻击/技能集合、第三次消费与切目标清除；不能只接每次普攻，也不把任意技能施放当实际命中。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "vayne_e": {
+      "skillKey": "vayne_e",
+      "name": "恶魔审判",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Vayne",
+        "rootPath": "Characters/Vayne/CharacterRecords/Root",
+        "spellPath": "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn",
+        "clientSha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+        "officialSha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711",
+        "currentBoundText": {
+          "binding": "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VayneE_Name",
+              "key": "spell_vaynee_name",
+              "text": "恶魔审判"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_VayneE_Tooltip",
+              "key": "spell_vaynee_tooltip",
+              "text": "薇恩发射一根弩箭来<status>击退</status>一个目标并造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。如果目标与地形产生碰撞，那么会受到<physicalDamage>@EmpoweredDamageTT@额外物理伤害</physicalDamage>，并且会被<status>晕眩</status>@StunDuration@秒。 "
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VayneE_Summary",
+              "key": "spell_vaynee_summary",
+              "text": "薇恩从背部展开一张重弩，并且朝她的目标发射一根巨型弩箭，将目标击退并造成伤害。如果目标与地形产生碰撞，那么目标会被贯穿，对其造成额外伤害和晕眩效果。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Vayne.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 20000,
+              "2": 18000,
+              "3": 16000,
+              "4": 14000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Vayne.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 90,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "恶魔审判直接基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 50,
+              "2": 85,
+              "3": 120,
+              "4": 155,
+              "5": 190
+            },
+            "description": "客户端当前根绑定 DataValues.Damage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "wall_bonus_multiplier",
+            "name": "撞墙额外伤害倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.5,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.StunDamage 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "wall_stun_duration_ms",
+            "name": "撞墙眩晕时长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "恶魔审判额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "TotalDamage计算树明确额外攻击力0.5。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "initial_damage",
+            "name": "恶魔审判直接伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "50/85/120/155/190+.5额外攻击力。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "wall_bonus_damage",
+            "name": "撞墙追加伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "wall_bonus_multiplier"
+                }
+              ]
+            },
+            "description": "当前EmpoweredDamageTT=1.5×TotalDamage，当前说明明确这是额外量；没有用它替换首次伤害。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "with_wall_total_damage",
+            "name": "直接命中并撞墙两次总伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bonus_ad_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "attack_damage",
+                              "attributeValueKind": "BONUS"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "wall_bonus_multiplier"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "直接1倍+撞墙额外1.5倍，共2.5倍；该总量公式仅核算，不另建第三次总量伤害效果。",
+            "sortOrder": 30
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "initial_damage",
+            "name": "恶魔审判直接物理伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "恶魔审判直接物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "initial_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "wall_bonus_damage",
+            "name": "实际撞墙追加物理伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 30,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "实际撞墙追加物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "wall_bonus_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放恶魔审判",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "actual_hit",
+            "name": "恶魔审判实际命中",
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "vayne_e"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "initial_damage"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ]
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            20000,
+            18000,
+            16000,
+            14000,
+            12000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            90,
+            90,
+            90,
+            90,
+            90
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.Damage",
+          "raw": [
+            15,
+            50,
+            85,
+            120,
+            155,
+            190,
+            225
+          ],
+          "offset": 1,
+          "values": [
+            50,
+            85,
+            120,
+            155,
+            190
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "wall_bonus_multiplier",
+          "source": "DataValues.StunDamage",
+          "raw": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "offset": 1,
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "wall_stun_duration_ms",
+          "source": "DataValues.StunDuration",
+          "raw": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "offset": 1,
+          "values": [
+            1500,
+            1500,
+            1500,
+            1500,
+            1500
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            0.5
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "实际地形碰撞与追加伤害",
+          "reason": "直接实际命中规则只执行首次伤害；撞墙追加必须由真实地形碰撞确认，不能每次E自动追加，也不能把规则自身当碰撞事件。"
+        },
+        {
+          "kind": "系统",
+          "component": "撞墙眩晕与法术护盾期限",
+          "reason": "眩晕1.5秒参数保留；当前PERSISTENT+TARGET状态不能配置非空法术护盾范围，不用null或APPLICATION绕过期限与阻挡。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "击退距离与地形空间算法",
+          "reason": "475击退距离和空间检测后置；首次本体伤害、撞墙额外伤害与控制需求保留。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "击退距离与地形空间算法",
+            "reason": "475击退距离和空间检测后置；首次本体伤害、撞墙额外伤害与控制需求保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "撞墙眩晕与法术护盾期限",
+            "reason": "眩晕1.5秒参数保留；当前PERSISTENT+TARGET状态不能配置非空法术护盾范围，不用null或APPLICATION绕过期限与阻挡。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "实际地形碰撞与追加伤害",
+            "reason": "直接实际命中规则只执行首次伤害；撞墙追加必须由真实地形碰撞确认，不能每次E自动追加，也不能把规则自身当碰撞事件。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    },
+    "vayne_r": {
+      "skillKey": "vayne_r",
+      "name": "终极时刻",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Vayne",
+        "rootPath": "Characters/Vayne/CharacterRecords/Root",
+        "spellPath": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+        "clientSha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+        "officialSha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711",
+        "currentBoundText": {
+          "binding": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VayneR_Name",
+              "key": "spell_vayner_name",
+              "text": "终极时刻"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_VayneR_Tooltip",
+              "key": "spell_vayner_tooltip",
+              "text": "薇恩获得<physicalDamage>@BonusAttackDamage@攻击力</physicalDamage>，持续@BaseDuration@秒，并且如果一个被薇恩所伤害的敌方英雄在@DamagedMarkerDuration@秒内死亡，那么持续时间会延长@DurationToAdd@秒。此外，在这段持续时间里：<li><spellName>暗夜猎手</spellName>会转而提供<speed>@MovementSpeed@移动速度</speed>。<li><spellName>闪避突袭</spellName>的冷却时间缩短@TumbleCDReduction@%，并提供持续@TumbleStealthDuration@秒的<keywordStealth>隐形</keywordStealth>。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VayneR_Summary",
+              "key": "spell_vayner_summary",
+              "text": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_VayneInquisition_TooltipExtendedBelowLine",
+              "key": "spell_vayneinquisition_tooltipextendedbelowline",
+              "text": "<rules>{{Reminder_Invisibility}}<br>这个技能的持续时间无法被提升至超过它的最大持续时间。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Vayne.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 100000,
+              "2": 85000,
+              "3": 70000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Vayne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 80,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "bonus_attack_damage",
+            "name": "终极时刻固定攻击力",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 35,
+              "2": 50,
+              "3": 65
+            },
+            "description": "客户端当前根绑定 DataValues.BonusAttackDamage 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "base_duration_ms",
+            "name": "终极时刻基础持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 8000,
+              "2": 10000,
+              "3": 12000
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDuration 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "night_hunter_replacement_move_speed",
+            "name": "R期间暗夜猎手替换移速",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MovementSpeed 取索引1至3。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "duration_extension_ms",
+            "name": "符合条件英雄死亡延长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DurationToAdd 取索引1至3。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "damage_marker_window_ms",
+            "name": "本人造成伤害后死亡判定窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DamagedMarkerDuration 取索引1至3。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "tumble_cooldown_reduction_ratio",
+            "name": "R期间Q冷却缩短比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.3,
+              "2": 0.4,
+              "3": 0.5
+            },
+            "description": "客户端当前根绑定 DataValues.TumbleCDReduction 取索引1至3。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "tumble_invisibility_ms",
+            "name": "R期间Q隐形持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.TumbleStealthDuration 取索引1至3。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "ordinary_night_hunter_move_speed",
+            "name": "P通常移速参考",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30,
+            "levelValues": null,
+            "description": "当前VayneP根MovementSpeed=30，用于说明R替换90相对普通增量，不再另加一份90。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "one",
+            "name": "原始冷却倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "冷却缩短后倍率为1减缩短比例。",
+            "sortOrder": 110
+          },
+          {
+            "parameterKey": "current_tumble_cooldown_ms",
+            "name": "当前Q等级未受本次R缩短的冷却输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "应由当前Q实际技能等级和合法冷却阶段提供；不是R自身冷却，不是Q当前剩余冷却，避免重复乘本次R缩短。当前尚未绑定。",
+            "sortOrder": 120
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "night_hunter_extra_over_base",
+            "name": "R期间P相对通常额外移速",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "SUBTRACT",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "night_hunter_replacement_move_speed"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ordinary_night_hunter_move_speed"
+                }
+              ]
+            },
+            "description": "90-30=60；只有同一P方向条件成立才可替换或加这个差额，不单独无条件加90。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "tumble_cooldown_during_final_hour",
+            "name": "R期间Q缩短后的冷却量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "current_tumble_cooldown_ms"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "SUBTRACT",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "tumble_cooldown_reduction_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "输入Q冷却×(1-.3/.4/.5)，只为独立数学关系；具体冷却阶段和施加方式未绑定，不把比例当作毫秒减少。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "bonus_attack_damage",
+            "name": "终极时刻自身攻击力",
+            "description": "普通基础期限内增加35/50/65攻击力，持续8/10/12秒；符合条件死亡延长与最大期限限制另配。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "base_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "终极时刻自身攻击力",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "attack_damage",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放终极时刻",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              },
+              {
+                "bindingKey": "bonus_attack_damage",
+                "effectKey": "bonus_attack_damage",
+                "moment": {
+                  "momentType": "STEP_COMPLETE",
+                  "stepKey": "start"
+                },
+                "sortOrder": 20
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            100000,
+            85000,
+            70000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "parameterKey": "bonus_attack_damage",
+          "source": "DataValues.BonusAttackDamage",
+          "raw": [
+            20,
+            35,
+            50,
+            65,
+            80,
+            95,
+            110
+          ],
+          "offset": 1,
+          "values": [
+            35,
+            50,
+            65
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "base_duration_ms",
+          "source": "DataValues.BaseDuration",
+          "raw": [
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            18
+          ],
+          "offset": 1,
+          "values": [
+            8000,
+            10000,
+            12000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "night_hunter_replacement_move_speed",
+          "source": "DataValues.MovementSpeed",
+          "raw": [
+            90,
+            90,
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "offset": 1,
+          "values": [
+            90,
+            90,
+            90
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "duration_extension_ms",
+          "source": "DataValues.DurationToAdd",
+          "raw": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "offset": 1,
+          "values": [
+            4000,
+            4000,
+            4000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "damage_marker_window_ms",
+          "source": "DataValues.DamagedMarkerDuration",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3000,
+            3000,
+            3000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "tumble_cooldown_reduction_ratio",
+          "source": "DataValues.TumbleCDReduction",
+          "raw": [
+            20,
+            30,
+            40,
+            50,
+            60,
+            70,
+            80
+          ],
+          "offset": 1,
+          "values": [
+            0.3,
+            0.4,
+            0.5
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "tumble_invisibility_ms",
+          "source": "DataValues.TumbleStealthDuration",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1000,
+            1000,
+            1000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "ordinary_night_hunter_move_speed",
+          "source": "vayne_p.DataValues.MovementSpeed",
+          "values": [
+            30
+          ]
+        },
+        {
+          "parameterKey": "one",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            1
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "标记因果、死亡续时与最大期限",
+          "reason": "必须是被薇恩伤害后3秒内死亡的敌方英雄，才增加4秒。扩展说明限制最大期限，但未明确独立最大数值和与剩余期限的精确组合，不能接任意KILL或无上限续时。"
+        },
+        {
+          "kind": "配置",
+          "component": "P替换与Q冷却缩短",
+          "reason": "P只有朝附近敌方英雄时由30改90；Q冷却输入必须是Q当前等级的合法口径而非R冷却或已经缩短过的值。独立公式未绑定，没有无条件90移速效果或比例当毫秒的冷却结果。"
+        },
+        {
+          "kind": "系统",
+          "component": "Q期间1秒隐形",
+          "reason": "隐形影响敌方选取与行动资格，不能以普通属性或纯视野说明代替；当前未具备完整隐形结果与动作门槛。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "标记因果、死亡续时与最大期限",
+            "reason": "必须是被薇恩伤害后3秒内死亡的敌方英雄，才增加4秒。扩展说明限制最大期限，但未明确独立最大数值和与剩余期限的精确组合，不能接任意KILL或无上限续时。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "Q期间1秒隐形",
+            "reason": "隐形影响敌方选取与行动资格，不能以普通属性或纯视野说明代替；当前未具备完整隐形结果与动作门槛。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "P替换与Q冷却缩短",
+            "reason": "P只有朝附近敌方英雄时由30改90；Q冷却输入必须是Q当前等级的合法口径而非R冷却或已经缩短过的值。独立公式未绑定，没有无条件90移速效果或比例当毫秒的冷却结果。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    }
+  }
+}

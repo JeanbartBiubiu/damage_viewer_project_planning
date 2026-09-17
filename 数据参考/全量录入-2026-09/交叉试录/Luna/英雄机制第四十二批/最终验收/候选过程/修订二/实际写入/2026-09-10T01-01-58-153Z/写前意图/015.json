@@ -1,0 +1,21 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "skillKey": "qiyana_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_q/parameters",
+    "stableKey": "rock_explosion_delay_ms",
+    "body": {
+      "parameterKey": "rock_explosion_delay_ms",
+      "name": "岩石爆炸原始延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "只记录原始0.4秒时序，不并入施法时间或伤害周期。",
+      "sortOrder": 100
+    }
+  }
+}

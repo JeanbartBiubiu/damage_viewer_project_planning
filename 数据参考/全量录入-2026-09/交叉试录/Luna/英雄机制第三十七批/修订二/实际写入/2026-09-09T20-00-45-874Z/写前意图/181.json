@@ -1,0 +1,23 @@
+{
+  "i": 180,
+  "intent": {
+    "sequence": 181,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/bleed_duration_seconds",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "bleed_duration_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bleed_duration_seconds",
+      "name": "猩红诅咒流血总时长（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前BleedDamageOverDurationTooltip直接乘BleedDuration=5秒；保留源秒数供总量公式使用。",
+      "sortOrder": 10
+    }
+  }
+}

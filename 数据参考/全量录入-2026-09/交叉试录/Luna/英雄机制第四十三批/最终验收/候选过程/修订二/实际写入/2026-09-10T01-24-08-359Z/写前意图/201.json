@@ -1,0 +1,24 @@
+{
+  "i": 200,
+  "intent": {
+    "sequence": 201,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_r/parameters",
+    "detailRoute": "/skills/zed_r/parameters/shadow_duration_displayed_ms",
+    "skillKey": "zed_r",
+    "kind": "parameters",
+    "stableKey": "shadow_duration_displayed_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shadow_duration_displayed_ms",
+      "name": "突进后分身显示持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 7500,
+      "levelValues": null,
+      "description": "官方正文显示7.5秒换位窗口边界，分身额外1.5秒另记。",
+      "sortOrder": 60
+    }
+  }
+}

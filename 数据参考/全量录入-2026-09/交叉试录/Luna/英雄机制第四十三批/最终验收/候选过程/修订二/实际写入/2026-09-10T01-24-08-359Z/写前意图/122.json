@@ -1,0 +1,30 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_q/parameters",
+    "detailRoute": "/skills/naafiri_q/parameters/second_cast_heal_base",
+    "skillKey": "naafiri_q",
+    "kind": "parameters",
+    "stableKey": "second_cast_heal_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "second_cast_heal_base",
+      "name": "第二刀对英雄自身治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 60,
+        "3": 75,
+        "4": 90,
+        "5": 105
+      },
+      "description": "对已流血英雄治疗基础值索引1至5：45/60/75/90/105。",
+      "sortOrder": 110
+    }
+  }
+}

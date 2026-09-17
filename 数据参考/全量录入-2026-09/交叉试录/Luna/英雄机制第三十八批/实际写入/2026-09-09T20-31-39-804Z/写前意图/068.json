@@ -1,0 +1,29 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/leesin_w/parameters",
+    "detailRoute": "/skills/leesin_w/parameters/omnivamp_ratio",
+    "skillKey": "leesin_w",
+    "kind": "parameters",
+    "stableKey": "omnivamp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "omnivamp_ratio",
+      "name": "铁布衫全能吸血比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.1,
+        "2": 0.14,
+        "3": 0.18,
+        "4": 0.22,
+        "5": 0.26
+      },
+      "description": "当前正文直接接LifestealAndSpellVamp百分号；原始10/14/18/22/26百分数点转为0.10至0.26比例。",
+      "sortOrder": 40
+    }
+  }
+}

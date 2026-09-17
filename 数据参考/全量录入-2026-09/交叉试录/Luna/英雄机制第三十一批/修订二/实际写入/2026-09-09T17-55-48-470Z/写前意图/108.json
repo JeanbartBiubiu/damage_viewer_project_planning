@@ -1,0 +1,29 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "method": "POST",
+    "route": "/skills/nami_q/parameters",
+    "detailRoute": "/skills/nami_q/parameters/base_damage",
+    "skillKey": "nami_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 90,
+        "2": 145,
+        "3": 200,
+        "4": 255,
+        "5": 310
+      },
+      "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位35。",
+      "sortOrder": 10
+    }
+  }
+}

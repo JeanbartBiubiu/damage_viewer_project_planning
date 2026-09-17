@@ -1,0 +1,23 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 121,
+    "method": "POST",
+    "route": "/skills/skarner_e/parameters",
+    "detailRoute": "/skills/skarner_e/parameters/charge_duration_ms",
+    "skillKey": "skarner_e",
+    "kind": "parameters",
+    "stableKey": "charge_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_duration_ms",
+      "name": "以绪塔尔冲击冲锋持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2750,
+      "levelValues": null,
+      "description": "当前ChargeDuration=2.75秒，转换为2750毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

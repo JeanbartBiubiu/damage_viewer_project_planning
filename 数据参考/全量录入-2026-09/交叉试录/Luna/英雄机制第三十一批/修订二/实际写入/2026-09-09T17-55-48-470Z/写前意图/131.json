@@ -1,0 +1,23 @@
+{
+  "i": 130,
+  "intent": {
+    "sequence": 131,
+    "method": "POST",
+    "route": "/skills/nami_e/parameters",
+    "detailRoute": "/skills/nami_e/parameters/slow_ap_ratio",
+    "skillKey": "nami_e",
+    "kind": "parameters",
+    "stableKey": "slow_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ap_ratio",
+      "name": "减速法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.05,
+      "levelValues": null,
+      "description": "客户端TotalSlow树消费SlowRatio=0.05。",
+      "sortOrder": 40
+    }
+  }
+}

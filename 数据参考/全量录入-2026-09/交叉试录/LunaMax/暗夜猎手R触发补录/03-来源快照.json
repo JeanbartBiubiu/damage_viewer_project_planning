@@ -1,0 +1,1008 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T17:24:41.942Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；归档候选只作来源证据，不覆盖实时接口现值。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "归档候选组成",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\完整候选.json",
+      "byteSize": 332093,
+      "sha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35"
+    },
+    {
+      "kind": "16.17客户端原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Vayne.json.gz",
+      "byteSize": 7753,
+      "sha256": "23cf52004d1015b09532d1575c5e9dc12538956015fa570b756c6b21766af343",
+      "decompressedByteSize": 51663,
+      "decompressedSha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8"
+    },
+    {
+      "kind": "16.17.1官方中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Vayne.json",
+      "byteSize": 14322,
+      "sha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711"
+    },
+    {
+      "kind": "归档来源冻结索引",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\来源冻结\\来源与哈希汇总.json",
+      "byteSize": 8255,
+      "sha256": "538058f5b171e4462bbd6a4c5e3b05d997b0c2a1fcc0653d66a9ceaca186038b"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\完整候选.json",
+    "fileSha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+    "revision": null,
+    "skill": {
+      "skillKey": "vayne_r",
+      "name": "终极时刻",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Vayne",
+        "rootPath": "Characters/Vayne/CharacterRecords/Root",
+        "spellPath": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+        "clientSha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8",
+        "officialSha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711",
+        "currentBoundText": {
+          "binding": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_VayneR_Name",
+              "key": "spell_vayner_name",
+              "text": "终极时刻"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_VayneR_Tooltip",
+              "key": "spell_vayner_tooltip",
+              "text": "薇恩获得<physicalDamage>@BonusAttackDamage@攻击力</physicalDamage>，持续@BaseDuration@秒，并且如果一个被薇恩所伤害的敌方英雄在@DamagedMarkerDuration@秒内死亡，那么持续时间会延长@DurationToAdd@秒。此外，在这段持续时间里：<li><spellName>暗夜猎手</spellName>会转而提供<speed>@MovementSpeed@移动速度</speed>。<li><spellName>闪避突袭</spellName>的冷却时间缩短@TumbleCDReduction@%，并提供持续@TumbleStealthDuration@秒的<keywordStealth>隐形</keywordStealth>。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_VayneR_Summary",
+              "key": "spell_vayner_summary",
+              "text": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_VayneInquisition_TooltipExtendedBelowLine",
+              "key": "spell_vayneinquisition_tooltipextendedbelowline",
+              "text": "<rules>{{Reminder_Invisibility}}<br>这个技能的持续时间无法被提升至超过它的最大持续时间。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Vayne.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 100000,
+              "2": 85000,
+              "3": 70000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Vayne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 80,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "bonus_attack_damage",
+            "name": "终极时刻固定攻击力",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 35,
+              "2": 50,
+              "3": 65
+            },
+            "description": "客户端当前根绑定 DataValues.BonusAttackDamage 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "base_duration_ms",
+            "name": "终极时刻基础持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 8000,
+              "2": 10000,
+              "3": 12000
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDuration 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "night_hunter_replacement_move_speed",
+            "name": "R期间暗夜猎手替换移速",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.MovementSpeed 取索引1至3。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "duration_extension_ms",
+            "name": "符合条件英雄死亡延长（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DurationToAdd 取索引1至3。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "damage_marker_window_ms",
+            "name": "本人造成伤害后死亡判定窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.DamagedMarkerDuration 取索引1至3。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "tumble_cooldown_reduction_ratio",
+            "name": "R期间Q冷却缩短比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.3,
+              "2": 0.4,
+              "3": 0.5
+            },
+            "description": "客户端当前根绑定 DataValues.TumbleCDReduction 取索引1至3。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "tumble_invisibility_ms",
+            "name": "R期间Q隐形持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.TumbleStealthDuration 取索引1至3。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "ordinary_night_hunter_move_speed",
+            "name": "P通常移速参考",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30,
+            "levelValues": null,
+            "description": "当前VayneP根MovementSpeed=30，用于说明R替换90相对普通增量，不再另加一份90。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "one",
+            "name": "原始冷却倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "冷却缩短后倍率为1减缩短比例。",
+            "sortOrder": 110
+          },
+          {
+            "parameterKey": "current_tumble_cooldown_ms",
+            "name": "当前Q等级未受本次R缩短的冷却输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "应由当前Q实际技能等级和合法冷却阶段提供；不是R自身冷却，不是Q当前剩余冷却，避免重复乘本次R缩短。当前尚未绑定。",
+            "sortOrder": 120
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "night_hunter_extra_over_base",
+            "name": "R期间P相对通常额外移速",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "SUBTRACT",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "night_hunter_replacement_move_speed"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ordinary_night_hunter_move_speed"
+                }
+              ]
+            },
+            "description": "90-30=60；只有同一P方向条件成立才可替换或加这个差额，不单独无条件加90。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "tumble_cooldown_during_final_hour",
+            "name": "R期间Q缩短后的冷却量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "current_tumble_cooldown_ms"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "SUBTRACT",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "tumble_cooldown_reduction_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "输入Q冷却×(1-.3/.4/.5)，只为独立数学关系；具体冷却阶段和施加方式未绑定，不把比例当作毫秒减少。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "bonus_attack_damage",
+            "name": "终极时刻自身攻击力",
+            "description": "普通基础期限内增加35/50/65攻击力，持续8/10/12秒；符合条件死亡延长与最大期限限制另配。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "base_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "终极时刻自身攻击力",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "attack_damage",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放终极时刻",
+            "activationType": "ACTIVE",
+            "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "start",
+                "name": "施放开始",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              },
+              {
+                "bindingKey": "bonus_attack_damage",
+                "effectKey": "bonus_attack_damage",
+                "moment": {
+                  "momentType": "STEP_COMPLETE",
+                  "stepKey": "start"
+                },
+                "sortOrder": 20
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            100000,
+            85000,
+            70000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "parameterKey": "bonus_attack_damage",
+          "source": "DataValues.BonusAttackDamage",
+          "raw": [
+            20,
+            35,
+            50,
+            65,
+            80,
+            95,
+            110
+          ],
+          "offset": 1,
+          "values": [
+            35,
+            50,
+            65
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "base_duration_ms",
+          "source": "DataValues.BaseDuration",
+          "raw": [
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            18
+          ],
+          "offset": 1,
+          "values": [
+            8000,
+            10000,
+            12000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "night_hunter_replacement_move_speed",
+          "source": "DataValues.MovementSpeed",
+          "raw": [
+            90,
+            90,
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "offset": 1,
+          "values": [
+            90,
+            90,
+            90
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "duration_extension_ms",
+          "source": "DataValues.DurationToAdd",
+          "raw": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "offset": 1,
+          "values": [
+            4000,
+            4000,
+            4000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "damage_marker_window_ms",
+          "source": "DataValues.DamagedMarkerDuration",
+          "raw": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "offset": 1,
+          "values": [
+            3000,
+            3000,
+            3000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "tumble_cooldown_reduction_ratio",
+          "source": "DataValues.TumbleCDReduction",
+          "raw": [
+            20,
+            30,
+            40,
+            50,
+            60,
+            70,
+            80
+          ],
+          "offset": 1,
+          "values": [
+            0.3,
+            0.4,
+            0.5
+          ],
+          "scale": 0.01
+        },
+        {
+          "parameterKey": "tumble_invisibility_ms",
+          "source": "DataValues.TumbleStealthDuration",
+          "raw": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "offset": 1,
+          "values": [
+            1000,
+            1000,
+            1000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "ordinary_night_hunter_move_speed",
+          "source": "vayne_p.DataValues.MovementSpeed",
+          "values": [
+            30
+          ]
+        },
+        {
+          "parameterKey": "one",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            1
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "标记因果、死亡续时与最大期限",
+          "reason": "必须是被薇恩伤害后3秒内死亡的敌方英雄，才增加4秒。扩展说明限制最大期限，但未明确独立最大数值和与剩余期限的精确组合，不能接任意KILL或无上限续时。"
+        },
+        {
+          "kind": "配置",
+          "component": "P替换与Q冷却缩短",
+          "reason": "P只有朝附近敌方英雄时由30改90；Q冷却输入必须是Q当前等级的合法口径而非R冷却或已经缩短过的值。独立公式未绑定，没有无条件90移速效果或比例当毫秒的冷却结果。"
+        },
+        {
+          "kind": "系统",
+          "component": "Q期间1秒隐形",
+          "reason": "隐形影响敌方选取与行动资格，不能以普通属性或纯视野说明代替；当前未具备完整隐形结果与动作门槛。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "标记因果、死亡续时与最大期限",
+            "reason": "必须是被薇恩伤害后3秒内死亡的敌方英雄，才增加4秒。扩展说明限制最大期限，但未明确独立最大数值和与剩余期限的精确组合，不能接任意KILL或无上限续时。"
+          }
+        ],
+        "系统缺口": [
+          {
+            "kind": "系统",
+            "component": "Q期间1秒隐形",
+            "reason": "隐形影响敌方选取与行动资格，不能以普通属性或纯视野说明代替；当前未具备完整隐形结果与动作门槛。"
+          }
+        ],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "P替换与Q冷却缩短",
+            "reason": "P只有朝附近敌方英雄时由30改90；Q冷却输入必须是Q当前等级的合法口径而非R冷却或已经缩短过的值。独立公式未绑定，没有无条件90移速效果或比例当毫秒的冷却结果。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    }
+  },
+  "client": {
+    "objectPath": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+    "found": true,
+    "objectName": "VayneInquisition",
+    "scriptName": "VayneInquisition",
+    "dataValues": [
+      {
+        "name": "BonusAttackDamage",
+        "values": [
+          20,
+          35,
+          50,
+          65,
+          80,
+          95,
+          110
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "BaseDuration",
+        "values": [
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "TumbleStealthDuration",
+        "values": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "MovementSpeed",
+        "values": [
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "DurationToAdd",
+        "values": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "DamagedMarkerDuration",
+        "values": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "TumbleCDReduction",
+        "values": [
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "__type": "SpellDataValue"
+      }
+    ],
+    "cooldownTime": [
+      100,
+      100,
+      85,
+      70,
+      70,
+      70,
+      70
+    ],
+    "cooldown": {
+      "values": [
+        100,
+        100,
+        85,
+        70,
+        70,
+        70,
+        70
+      ],
+      "__type": "{0a0eddc9}"
+    },
+    "mana": [
+      80,
+      80,
+      80,
+      80,
+      80,
+      80
+    ],
+    "manaValues": {
+      "values": [
+        80,
+        80,
+        80,
+        80,
+        80,
+        80
+      ],
+      "{0a3e0478}": 80,
+      "__type": "{630af303}"
+    },
+    "spellCastTime": 0.4043000042438507,
+    "spellTotalTime": 1.2461999654769897,
+    "castRange": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "castRangeValues": {
+      "values": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "{0a3e0478}": 1,
+      "__type": "{0a0eddc9}"
+    },
+    "castRadius": [
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100
+    ],
+    "missileSpeed": 20,
+    "spellTags": [
+      "Trait_Ultimate",
+      "Trait_AttackBuff_Duration"
+    ],
+    "targetingTypeData": {
+      "__type": "Self"
+    },
+    "spellCalculationKeys": []
+  },
+  "official": {
+    "pointer": "data/Vayne/spells[id=VayneInquisition]",
+    "found": true,
+    "spell": {
+      "id": "VayneInquisition",
+      "name": "终极时刻",
+      "description": "薇恩准备进行史诗般的对决，她的攻击力得到提高，能在闪避突袭期间进入隐形状态，闪避突袭的冷却时间缩短，并且暗夜猎手（被动）提供更多移动速度。",
+      "tooltip": "薇恩获得<physicalDamage>{{ bonusattackdamage }}攻击力</physicalDamage>，持续{{ baseduration }}秒，并且如果一个被薇恩所伤害的敌方英雄在{{ damagedmarkerduration }}秒内死亡，那么持续时间会延长{{ durationtoadd }}秒。此外，在这段持续时间里：<li><spellName>暗夜猎手</spellName>会转而提供<speed>{{ movementspeed }}移动速度</speed>。<li><spellName>闪避突袭</spellName>的冷却时间缩短{{ tumblecdreduction }}%，并提供持续{{ tumblestealthduration }}秒的<keywordStealth>隐形</keywordStealth>。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "冷却时间",
+          "持续时长",
+          "额外攻击力",
+          "闪避突袭冷却缩减"
+        ],
+        "effect": [
+          "{{ cooldown }} -> {{ cooldownNL }}",
+          "{{ baseduration }} -> {{ basedurationNL }}",
+          "{{ bonusattackdamage }} -> {{ bonusattackdamageNL }}",
+          "{{ tumblecdreduction }}% -> {{ tumblecdreductionNL }}%"
+        ]
+      },
+      "maxrank": 3,
+      "cooldown": [
+        100,
+        85,
+        70
+      ],
+      "cost": [
+        80,
+        80,
+        80
+      ],
+      "effect": [
+        null,
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "effectBurn": [
+        null,
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "image": {
+        "full": "VayneInquisition.png",
+        "sprite": "spell15.png",
+        "group": "spell",
+        "x": 240,
+        "y": 96,
+        "w": 48,
+        "h": 48
+      },
+      "resource": "{{ cost }} {{ abilityresourcename }}"
+    }
+  },
+  "sourceSemantic": {
+    "checks": {
+      "candidatePresent": true,
+      "sourceEffectKeys": true,
+      "sourceParameterKeys": true,
+      "sourceFormulaKeys": true,
+      "sourceProcessKeys": true,
+      "actionEffectSemantics": true,
+      "all": true
+    },
+    "effectChecks": {
+      "bonus_attack_damage": {
+        "effectPresent": true,
+        "exactlyOneResult": true,
+        "resultType": true,
+        "resultTarget": true,
+        "attributeKey": true,
+        "operation": true,
+        "modifierZoneKey": true,
+        "valueParameter": true,
+        "durationParameter": true
+      }
+    },
+    "componentKeys": {
+      "parameters": [
+        "cooldown_ms",
+        "mana_cost",
+        "bonus_attack_damage",
+        "base_duration_ms",
+        "night_hunter_replacement_move_speed",
+        "duration_extension_ms",
+        "damage_marker_window_ms",
+        "tumble_cooldown_reduction_ratio",
+        "tumble_invisibility_ms",
+        "ordinary_night_hunter_move_speed",
+        "one",
+        "current_tumble_cooldown_ms"
+      ],
+      "formulas": [
+        "night_hunter_extra_over_base",
+        "tumble_cooldown_during_final_hour"
+      ],
+      "effects": [
+        "mana_cost",
+        "bonus_attack_damage"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "internalStates": [],
+      "triggerRules": []
+    }
+  },
+  "archiveChecks": {
+    "candidateSkillPresent": true,
+    "clientPointerPresent": true,
+    "officialSpellPresent": true,
+    "clientVersionFixed": true,
+    "officialVersionFixed": true
+  },
+  "fixedFacts": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "skillKey": "vayne_r",
+    "ruleKey": "on_used",
+    "eventType": "SKILL_USED",
+    "useKind": "ACTIVE",
+    "actionEffectKeys": [
+      "bonus_attack_damage"
+    ],
+    "actionType": "START_PROCESS",
+    "processKey": "cast",
+    "actionResultTargets": {
+      "bonus_attack_damage": "SOURCE"
+    },
+    "deferred": [
+      "暗夜猎手被动的移速替换及普通移速差异可能参与 1V1 计算，本条暂缓接入。",
+      "闪避突袭相关冷却变化、隐身状态及隐身持续时间可能参与 1V1 计算，本条暂缓接入。",
+      "本人造成伤害后的击杀延长、最大持续时间和相关判定窗口可能参与 1V1 计算，本条暂缓接入。"
+    ]
+  }
+}

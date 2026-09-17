@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-09T12:36:29.830Z",
+  "method": "POST",
+  "skillKey": "ekko_q",
+  "kind": "parameters",
+  "stableKey": "return_base_damage",
+  "route": "/skills/ekko_q/parameters",
+  "readRoute": "/skills/ekko_q/parameters/return_base_damage",
+  "body": {
+    "parameterKey": "return_base_damage",
+    "name": "返程基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 40,
+      "2": 65,
+      "3": 90,
+      "4": 115,
+      "5": 140
+    },
+    "description": "客户端当前根绑定 DataValues.ReturnDamage 取索引1至5。与往程分开，不把两次命中加成总伤害。",
+    "sortOrder": 50
+  }
+}

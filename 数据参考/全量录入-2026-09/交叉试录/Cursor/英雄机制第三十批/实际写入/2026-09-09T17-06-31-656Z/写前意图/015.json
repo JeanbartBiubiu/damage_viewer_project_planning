@@ -1,0 +1,23 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "method": "POST",
+    "route": "/skills/yasuo_q/parameters",
+    "detailRoute": "/skills/yasuo_q/parameters/stack_duration_ms",
+    "skillKey": "yasuo_q",
+    "kind": "parameters",
+    "stableKey": "stack_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_duration_ms",
+      "name": "旋风烈斩层数持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6000,
+      "levelValues": null,
+      "description": "客户端GatheringStormDuration=6秒，当前中文正文显示层数持续时间，转换为6000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

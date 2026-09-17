@@ -1,0 +1,118 @@
+{
+  "at": "2026-09-09T19:38:33.141Z",
+  "batch": "英雄机制第三十五批",
+  "status": "本轮范围内来源明确组成已保存并独立回读、数值和代表页面验收；未知事件与阶段单列",
+  "skills": [
+    "braum_p",
+    "braum_q",
+    "braum_w",
+    "braum_e",
+    "braum_r",
+    "rell_p",
+    "rell_q",
+    "rell_w",
+    "rell_e",
+    "rell_r",
+    "taric_p",
+    "taric_q",
+    "taric_w",
+    "taric_e",
+    "taric_r",
+    "tahmkench_p",
+    "tahmkench_q",
+    "tahmkench_w",
+    "tahmkench_e",
+    "tahmkench_r"
+  ],
+  "heroes": [
+    "Braum",
+    "Rell",
+    "Taric",
+    "TahmKench"
+  ],
+  "newCounts": {
+    "parameters": 137,
+    "formulas": 32,
+    "effects": 2
+  },
+  "counts": {
+    "parameters": 165,
+    "formulas": 32,
+    "effects": 2
+  },
+  "created": 171,
+  "businessWrites": 171,
+  "reusedParameters": 28,
+  "currentTotalComponents": 199,
+  "candidateFile": "修订一/完整候选.json",
+  "candidateFileSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
+  "writePlan": "修订一/写前请求计划.json",
+  "writePlanSha256": "9f610f2d19b05ff34ff5e30c4246bd6a97c2405d28538e9678f1477b99589192",
+  "save": {
+    "GETs": 1140,
+    "POSTs": 171,
+    "confirmed": 171,
+    "file": "修订一/实际写入/2026-09-09T19-28-38-888Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 399,
+    "protectedPaths": 200,
+    "details": 199,
+    "reused": 28,
+    "new": 171,
+    "reader": "Luna Max独立只读脚本",
+    "file": "独立回读证据/实际回读/2026-09-09T19-35-24-473Z/独立全量GET.json"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 32,
+    "cases": 64,
+    "missing": 44,
+    "operationNodes": 77,
+    "parameterConstraintChecks": 165,
+    "integerParameters": 108,
+    "bounds": 7,
+    "file": "实际数学证据/实际数学核算/2026-09-09T19-35-48-848Z/实际数学核算.json",
+    "passed": true,
+    "explanation": "同一独立GET快照用于实际数学；165是全部参数的整数/毫秒适用性检查数，不表示全部为整数。"
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "修订一/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 1202,
+    "uniqueTools": 58,
+    "inputs": 23,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "布隆Q原候选和原数学都误用了目标最大生命，保存前已改为来源最大生命并以不同双方生命算例核对",
+    "布隆W未证护甲映射改无默认输入；塔里克P/W/E删除未经证明的属性阶段与时点断言",
+    "原独立审查误将塔里克W省略的mStatFormula描述成2，修订复核纠正，原报告保留为历史",
+    "仅显式移除效果仍显示持续时间取值控件",
+    "参数引用摘要未统一中文名称"
+  ],
+  "experienceIssues": [
+    {
+      "item": "仅显式移除效果仍显示持续时间取值控件",
+      "evidence": "芮尔W详情选择仅显式移除，但仍显示固定数值控件；可访问性树stepper Value为0且没有Details，该表现不能证明页面视觉值或数据库值是0，实际接口durationValue为null。",
+      "suggestion": "统一迭代时对仅显式移除显示无固定时长，隐藏不适用控件。"
+    },
+    {
+      "item": "参数引用摘要未统一中文名称",
+      "evidence": "塔姆E结果表格关键引用摘要显示current_grey_health，打开详情则显示当前灰色生命值（current_grey_health）。",
+      "suggestion": "统一迭代时摘要与详情使用相同的中文名称及稳定键。"
+    }
+  ],
+  "pending": [
+    "已知数值已录；未知等级曲线、真实属性阶段、资格和事件过程接线单独记录，未虚构默认值"
+  ],
+  "runtimeValidation": "未执行"
+}

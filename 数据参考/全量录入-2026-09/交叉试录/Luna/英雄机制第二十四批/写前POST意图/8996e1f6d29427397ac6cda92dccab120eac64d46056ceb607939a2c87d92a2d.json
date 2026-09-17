@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:38:12.680Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sejuani_q/parameters",
+  "detailRoute": "/skills/sejuani_q/parameters/base_damage",
+  "skillKey": "sejuani_q",
+  "kind": "parameters",
+  "stableKey": "base_damage",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "极寒突袭基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 90,
+      "2": 140,
+      "3": 190,
+      "4": 240,
+      "5": 290
+    },
+    "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+    "sortOrder": 40
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "i": 162,
+  "intent": {
+    "sequence": 163,
+    "method": "POST",
+    "route": "/skills/seraphine_r/parameters",
+    "detailRoute": "/skills/seraphine_r/parameters/base_damage",
+    "skillKey": "seraphine_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "舞台魅影基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 200,
+        "3": 250
+      },
+      "description": "当前R1BaseDamage技能等级1至3。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 212,
+  "intent": {
+    "sequence": 213,
+    "method": "POST",
+    "route": "/skills/briar_w/parameters",
+    "detailRoute": "/skills/briar_w/parameters/empowered_attack_missing_health_base_percent_points",
+    "skillKey": "briar_w",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_missing_health_base_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_missing_health_base_percent_points",
+      "name": "噬击目标已损生命基础百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 9,
+      "levelValues": null,
+      "description": "当前正文将AttackPercentMissingHealth直接接百分号，9是百分数点，不是0.09比例。",
+      "sortOrder": 60
+    }
+  }
+}

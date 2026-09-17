@@ -1,0 +1,24 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_w/parameters",
+    "detailRoute": "/skills/heimerdinger_w/parameters/missile_count",
+    "skillKey": "heimerdinger_w",
+    "kind": "parameters",
+    "stableKey": "missile_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missile_count",
+      "name": "导弹数量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前正文明确5颗；仅用于同一技能重复命中边界。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_q/parameters",
+    "detailRoute": "/skills/kindred_q/parameters/attack_speed_per_mark_ratio",
+    "skillKey": "kindred_q",
+    "kind": "parameters",
+    "stableKey": "attack_speed_per_mark_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_per_mark_ratio",
+      "name": "每层印记攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.050000001,
+      "levelValues": null,
+      "description": "TotalQAttackSpeed每层0.05。",
+      "sortOrder": 50
+    }
+  }
+}

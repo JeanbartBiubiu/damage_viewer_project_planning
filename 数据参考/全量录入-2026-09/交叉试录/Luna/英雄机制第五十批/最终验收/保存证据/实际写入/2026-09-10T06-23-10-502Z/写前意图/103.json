@@ -1,0 +1,24 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 103,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/storm_duration_ms",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "storm_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "storm_duration_ms",
+      "name": "风暴持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "BuffDuration=4秒，精确换算为4000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

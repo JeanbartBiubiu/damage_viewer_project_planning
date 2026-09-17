@@ -1,0 +1,23 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "method": "POST",
+    "route": "/skills/akshan_e/parameters",
+    "detailRoute": "/skills/akshan_e/parameters/second_cast_window_ms",
+    "skillKey": "akshan_e",
+    "kind": "parameters",
+    "stableKey": "second_cast_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "second_cast_window_ms",
+      "name": "骄行荡寇第二段施放时序窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前TimeToCastE2=2秒，转换为2000毫秒；不据此推导射击总数。",
+      "sortOrder": 70
+    }
+  }
+}

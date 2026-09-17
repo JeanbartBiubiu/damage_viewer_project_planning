@@ -1,0 +1,29 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "method": "POST",
+    "route": "/skills/akshan_e/parameters",
+    "detailRoute": "/skills/akshan_e/parameters/shot_base_damage",
+    "skillKey": "akshan_e",
+    "kind": "parameters",
+    "stableKey": "shot_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shot_base_damage",
+      "name": "骄行荡寇每发基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 8,
+        "2": 16,
+        "3": 24,
+        "4": 32,
+        "5": 40
+      },
+      "description": "当前DamageToDeal的BaseDamage技能等级1至5为8/16/24/32/40。",
+      "sortOrder": 10
+    }
+  }
+}

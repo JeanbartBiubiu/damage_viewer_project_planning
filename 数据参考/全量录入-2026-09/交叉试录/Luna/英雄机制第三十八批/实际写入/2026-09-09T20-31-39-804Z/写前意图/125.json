@@ -1,0 +1,23 @@
+{
+  "i": 124,
+  "intent": {
+    "sequence": 125,
+    "method": "POST",
+    "route": "/skills/skarner_e/parameters",
+    "detailRoute": "/skills/skarner_e/parameters/stun_duration_ms",
+    "skillKey": "skarner_e",
+    "kind": "parameters",
+    "stableKey": "stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_ms",
+      "name": "以绪塔尔冲击晕眩持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1100,
+      "levelValues": null,
+      "description": "当前正文明确撞墙晕眩1.1秒，转换为1100毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 159,
+  "intent": {
+    "sequence": 160,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_w/parameters",
+    "detailRoute": "/skills/viego_w/parameters/spell_cast_time_ms",
+    "skillKey": "viego_w",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_ms",
+      "name": "spellCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "spellCastTime=0为阶段字段，精确保留0毫秒，不代表无时序。",
+      "sortOrder": 130
+    }
+  }
+}

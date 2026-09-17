@@ -1,0 +1,23 @@
+{
+  "i": 193,
+  "intent": {
+    "sequence": 194,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/current_health_cost_ratio",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "current_health_cost_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_health_cost_ratio",
+      "name": "猩红诅咒技能当前生命消耗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.05,
+      "levelValues": null,
+      "description": "当前正文明确技能消耗5%当前生命值；不自动创建资源扣除。",
+      "sortOrder": 140
+    }
+  }
+}

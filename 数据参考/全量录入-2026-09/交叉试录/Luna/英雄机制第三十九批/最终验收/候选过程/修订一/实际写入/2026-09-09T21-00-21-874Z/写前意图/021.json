@@ -1,0 +1,24 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_w/parameters",
+    "detailRoute": "/skills/urgot_w/parameters/max_rank_toggle_mode",
+    "skillKey": "urgot_w",
+    "kind": "parameters",
+    "stableKey": "max_rank_toggle_mode",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_rank_toggle_mode",
+      "name": "净除满级开关模式",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "Duration满级25000表示可持续开关模式；1表示该模式存在，实际开启和停止时点待运行层接线。",
+      "sortOrder": 80
+    }
+  }
+}

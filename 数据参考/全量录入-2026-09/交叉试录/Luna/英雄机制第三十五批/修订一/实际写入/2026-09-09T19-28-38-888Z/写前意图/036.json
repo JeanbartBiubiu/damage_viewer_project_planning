@@ -1,0 +1,23 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 35,
+    "method": "POST",
+    "route": "/skills/braum_r/parameters",
+    "detailRoute": "/skills/braum_r/parameters/slow_debuff_duration_ms",
+    "skillKey": "braum_r",
+    "kind": "parameters",
+    "stableKey": "slow_debuff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_debuff_duration_ms",
+      "name": "离开地带减速残留时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "客户端SlowDebuffDuration=0.25秒；转换为250毫秒。",
+      "sortOrder": 70
+    }
+  }
+}

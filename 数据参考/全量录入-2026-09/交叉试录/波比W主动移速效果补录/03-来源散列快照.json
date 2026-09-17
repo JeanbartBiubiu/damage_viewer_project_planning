@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T08:34:57.903Z",
+  "sourceVersion": "16.17/16.17.1",
+  "files": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十八批/完整候选.json",
+      "bytes": 151968,
+      "sha256": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十八批/输入包/参考资料/客户端原文/Poppy.json.gz",
+      "bytes": 7928,
+      "sha256": "d4c54378c5b655493360cd3de9874336777982c69eed8ff4b48599f68490c040"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十八批/输入包/参考资料/官方中文/Poppy.json",
+      "bytes": 13592,
+      "sha256": "a5bcf3f83defabc4da303b3cea6fc30ccc17c07c7e611e6818a1bb9cd0187c52"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十八批/输入包/参考资料/官方英文/Poppy.json",
+      "bytes": 13017,
+      "sha256": "8ae480bf3bfef390e825cbf3d8e0bebbfabc8b2a2a765ebbd646f6323fcc7f89"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/赫卡里姆W双抗触发补录/07-独立GET回读.json",
+      "bytes": 3282,
+      "sha256": "2885cb2a2f3425e909ab49bc0aa04131d16e0728e6e79873147d78b435cd6796"
+    }
+  ],
+  "objectPath": "skills.poppy_w",
+  "objectSha256": "28b19790ed9e9531952a07bd03b7a70fe884a5b4b927c13f2cd0c014c0fe65e9",
+  "relevant": {
+    "binding": "Characters/Poppy/Spells/PoppyWAbility/PoppyW",
+    "summary": {
+      "sourceKey": "Spell_PoppyW_Summary",
+      "text": "波比被动获得护甲和魔法抗性。这个加成会在她生命值较低时得到提升。波比可以主动施放此技能来获得移动速度加成并中断附近敌人的突进。如果中断了一次突进，那么该敌人还会被减速和缚地。"
+    },
+    "tooltip": {
+      "sourceKey": "Spell_PoppyW_Tooltip",
+      "text": "<spellPassive>被动：</spellPassive>波比获得<scaleArmor>@BonusArmor@护甲</scaleArmor>和<scaleMR>@BonusMR@魔法抗性</scaleMR>。在波比低于@PassiveEmpoweredHealthPercent*100@%生命值时，这个加成会翻倍。<br><br><spellActive>主动：</spellActive>波比获得<speed>@Haste@%移动速度</speed>并投射出一个环绕自身的领域，持续@Duration@秒，该领域可中断敌人的冲刺。被领域中断的敌人们会受到持续@GroundingDuration@秒的<status>缚地</status>和@SlowAmount*-100@%<status>减速</status>，以及<magicDamage>@InterruptDamage@魔法伤害</magicDamage>。"
+    },
+    "valueParameter": {
+      "parameterKey": "active_haste_percent_points",
+      "name": "主动移动速度百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 40,
+      "levelValues": null,
+      "description": "当前根DataValues.Haste为40，正文以百分号显示；保留百分数点。",
+      "sortOrder": 60
+    },
+    "durationParameter": {
+      "parameterKey": "active_duration_ms",
+      "name": "主动领域持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前根DataValues.Duration为2秒，单位秒转毫秒。",
+      "sortOrder": 70
+    },
+    "proposedEffect": {
+      "effectKey": "active_move_speed",
+      "name": "坚定风采主动移动速度",
+      "description": "主动使用后自身获得40%移动速度，持续2000毫秒；这里只保存效果定义，主动施法事件与反突进领域仍未接线。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "active_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "move_speed_gain",
+          "name": "坚定风采主动移动速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "将40个百分数点乘0.01后固定增加到来源对象的移动速度比例。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "active_haste_percent_points"
+            },
+            "fixedMultiplier": 0.01,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    },
+    "pending": [
+      "双抗基准取应用前实际值；mStat1/mStat6的完整属性分派、自增反馈和低生命条件事件未证。",
+      "敌方突进资格、打断、同目标次数及减速/缚地应用时序未接线；本轮保留明确伤害和端点。"
+    ],
+    "excluded": [
+      "KnockupDuration虽有来源字段但当前正文未消费；不把它混入缚地或主动领域效果。"
+    ]
+  },
+  "boundary": "固定来源证明数值；现行接口同类效果另由写前基线核对。"
+}

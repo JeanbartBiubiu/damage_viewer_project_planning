@@ -1,0 +1,23 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 73,
+    "method": "POST",
+    "route": "/skills/leblanc_e/parameters",
+    "detailRoute": "/skills/leblanc_e/parameters/cast_time_ms",
+    "skillKey": "leblanc_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

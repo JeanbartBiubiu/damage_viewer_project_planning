@@ -1,0 +1,88 @@
+{
+  "sequence": 58,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 58,
+    "method": "POST",
+    "route": "/skills/blitzcrank_w/effects",
+    "detailRoute": "/skills/blitzcrank_w/effects/post_overdrive_slow",
+    "skillKey": "blitzcrank_w",
+    "kind": "effects",
+    "stableKey": "post_overdrive_slow",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "post_overdrive_slow",
+      "name": "过载运转结束后自身减速",
+      "description": "这是主持续窗口5000毫秒结束后才开始的独立减速，持续1500毫秒；结束自动衔接事件待接，不在本候选中自动触发。",
+      "sortOrder": 40,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "slow_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "过载运转结束后自身减速",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "slow_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "DECREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  },
+  "before": {
+    "sequence": 351,
+    "method": "GET",
+    "route": "/skills/blitzcrank_w/effects/post_overdrive_slow",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "post_overdrive_slow"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:48.033Z"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "sequence": 9,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 9,
+    "method": "POST",
+    "route": "/skills/alistar_q/parameters",
+    "detailRoute": "/skills/alistar_q/parameters/knockup_duration_ms",
+    "skillKey": "alistar_q",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "击飞持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前绑定DataValues.KnockupDuration=1秒，转换为1000毫秒；只保存控制持续。",
+      "sortOrder": 40
+    }
+  },
+  "before": {
+    "sequence": 204,
+    "method": "GET",
+    "route": "/skills/alistar_q/parameters/knockup_duration_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "knockup_duration_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:55:51.949Z"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/yasuo_q/parameters",
+    "detailRoute": "/skills/yasuo_q/parameters/knockup_duration_ms",
+    "skillKey": "yasuo_q",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "击飞持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "客户端KnockUpDurationTOOLTIPONLY=1秒且官方文字用于击飞持续，转换为1000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

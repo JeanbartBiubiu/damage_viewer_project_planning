@@ -1,0 +1,24 @@
+{
+  "i": 112,
+  "intent": {
+    "sequence": 113,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_w/parameters",
+    "detailRoute": "/skills/nilah_w/parameters/self_basic_attack_dodge_enabled",
+    "skillKey": "nilah_w",
+    "kind": "parameters",
+    "stableKey": "self_basic_attack_dodge_enabled",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_basic_attack_dodge_enabled",
+      "name": "轻纱飞漾自身躲避普通攻击",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确自身躲避即将到来的普通攻击；只保存资格事实，不创建拦截事件。",
+      "sortOrder": 40
+    }
+  }
+}

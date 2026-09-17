@@ -1,0 +1,54 @@
+{
+  "at": "2026-09-09T12:34:50.294Z",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "method": "POST",
+  "route": "/skills/rengar_q/formulas",
+  "detailRoute": "/skills/rengar_q/formulas/q_total_damage",
+  "skillKey": "rengar_q",
+  "kind": "formulas",
+  "id": "q_total_damage",
+  "body": {
+    "formulaKey": "q_total_damage",
+    "name": "残忍无情第一次攻击物理伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "QTotalDamage = BaseDamage + 1×来源总攻击力 + BaseADRatio×来源总攻击力。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "observedAt": "2026-09-07T15:26:51.644Z",
+  "reason": "冻结中文DDragon只写途经友军，不能声称它显式提供自护盾依据；只纠正来源措辞，业务字段不变。",
+  "before": {
+    "createdAt": "2026-09-07T14:59:18.841674Z",
+    "description": "独立普通自护盾：结果目标与实例范围为施法者。来源 DDragon 自我及队友护盾，本批仅保留自我。单次 40/55/70/85/100 + 0.4 法术强度，持续 2500 毫秒。施加时点与回程叠加未证实，不挂过程。",
+    "effectKey": "prismatic_shield",
+    "gameId": "lol",
+    "lifecycle": {
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      },
+      "expiryMode": "ALL_AT_ONCE",
+      "firstPeriodicExecution": null,
+      "instanceScope": "SOURCE",
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "periodicIntervalValue": null,
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "reapplicationStackMode": "KEEP"
+    },
+    "name": "曲光屏障自我护盾",
+    "results": [
+      {
+        "description": "单次自我护盾量；回程叠加与施加时点未证实，本批不猜测。",
+        "detail": {
+          "absorbedDamageTypeKey": null,
+          "decayMode": "NONE"
+        },
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "periodicExecutionMode": null,
+          "reapplicationValueMode": "REPLACE",
+          "stackValueMode": "SHARED",
+          "valueReadMode": "APPLICATION_SNAPSHOT"
+        },
+        "name": "曲光护盾",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "sortOrder": 10,
+        "spellShieldBlockScope": null,
+        "target": "SOURCE",
+        "valueRule": {
+          "fixedMaxValue": null,
+          "fixedMinValue": 0,
+          "fixedMultiplier": 1,
+          "value": {
+            "formulaKey": "shield",
+            "kind": "FORMULA"
+          }
+        }
+      }
+    ],
+    "skillKey": "lux_w",
+    "sortOrder": 20,
+    "updatedAt": "2026-09-07T14:59:18.841674Z"
+  },
+  "after": {
+    "createdAt": "2026-09-07T14:59:18.841674Z",
+    "description": "独立普通自护盾：结果目标与实例范围为施法者，本批按 1V1 范围保留自身部分。冻结客户端数值：单次 40/55/70/85/100 + 0.4 法术强度，持续 2500 毫秒。施加时点与回程叠加未证实，不挂过程。",
+    "effectKey": "prismatic_shield",
+    "gameId": "lol",
+    "lifecycle": {
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      },
+      "expiryMode": "ALL_AT_ONCE",
+      "firstPeriodicExecution": null,
+      "instanceScope": "SOURCE",
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "periodicIntervalValue": null,
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "reapplicationStackMode": "KEEP"
+    },
+    "name": "曲光屏障自我护盾",
+    "results": [
+      {
+        "description": "单次自我护盾量；回程叠加与施加时点未证实，本批不猜测。",
+        "detail": {
+          "absorbedDamageTypeKey": null,
+          "decayMode": "NONE"
+        },
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "periodicExecutionMode": null,
+          "reapplicationValueMode": "REPLACE",
+          "stackValueMode": "SHARED",
+          "valueReadMode": "APPLICATION_SNAPSHOT"
+        },
+        "name": "曲光护盾",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "sortOrder": 10,
+        "spellShieldBlockScope": null,
+        "target": "SOURCE",
+        "valueRule": {
+          "fixedMaxValue": null,
+          "fixedMinValue": 0,
+          "fixedMultiplier": 1,
+          "value": {
+            "formulaKey": "shield",
+            "kind": "FORMULA"
+          }
+        }
+      }
+    ],
+    "skillKey": "lux_w",
+    "sortOrder": 20,
+    "updatedAt": "2026-09-07T15:26:50.650297Z"
+  },
+  "onlyDescriptionChanged": true
+}

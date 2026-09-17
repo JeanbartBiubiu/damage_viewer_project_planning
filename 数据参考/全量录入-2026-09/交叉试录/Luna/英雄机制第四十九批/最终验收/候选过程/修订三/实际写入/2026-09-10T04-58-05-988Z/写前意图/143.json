@@ -1,0 +1,25 @@
+{
+  "i": 142,
+  "intent": {
+    "sequence": 143,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_r/parameters",
+    "detailRoute": "/skills/quinn_r/parameters/bonus_ad_ratio",
+    "skillKey": "quinn_r",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "结束攻击额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.349999994,
+      "levelValues": null,
+      "description": "ADRatio=0.35，mStatFormula=2表示额外攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

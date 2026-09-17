@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-09T12:38:01.359Z",
+  "method": "POST",
+  "skillKey": "fizz_e",
+  "kind": "formulas",
+  "stableKey": "damage",
+  "route": "/skills/fizz_e/formulas",
+  "readRoute": "/skills/fizz_e/formulas/damage",
+  "body": {
+    "formulaKey": "damage",
+    "name": "古灵精怪魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "EDamage = BaseDamage + 0.95×来源总法强。首次与再次施放共用该树；再次施放无减速。",
+    "sortOrder": 10
+  }
+}

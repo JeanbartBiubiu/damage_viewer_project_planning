@@ -1,0 +1,23 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 133,
+    "method": "POST",
+    "route": "/skills/pyke_q/parameters",
+    "detailRoute": "/skills/pyke_q/parameters/actual_mana_spent",
+    "skillKey": "pyke_q",
+    "kind": "parameters",
+    "stableKey": "actual_mana_spent",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_mana_spent",
+      "name": "透骨尖钉本次实际已消耗法力",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "返还比例乘本次真实已扣法力；不能默认使用公共基础法力参数。",
+      "sortOrder": 60
+    }
+  }
+}

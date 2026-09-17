@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev2",
+  "startedAt": "2026-09-12T15:25:20.674Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 1262,
+  "methods": {
+    "GET": 1262
+  },
+  "targets": [
+    {
+      "id": "ashe",
+      "skillKey": "ashe_r",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "1fff49982b8cc75465d7c8d6998e265ee030c3e3325617a23e54adc958fe6a66",
+      "frozenBodySha256": "1fff49982b8cc75465d7c8d6998e265ee030c3e3325617a23e54adc958fe6a66",
+      "normalizedStoredSkillHitUseKindNull": true,
+      "nonRuleSnapshotSha256": "f55d3921cc45e9a7feb2fcd67e7aebecde25c606be96065281fdc783d3a67dbb"
+    },
+    {
+      "id": "nasus",
+      "skillKey": "nasus_e",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "00e6dc6bdafadf5a0eb427ce4c0f65a53cf53b83032ffad4f5d81ba953d8478e",
+      "frozenBodySha256": "00e6dc6bdafadf5a0eb427ce4c0f65a53cf53b83032ffad4f5d81ba953d8478e",
+      "normalizedStoredSkillHitUseKindNull": true,
+      "nonRuleSnapshotSha256": "1bb85b13731d019b70bac7d3b287208f6a4cdbe950cde82012fae143a27da1b6"
+    },
+    {
+      "id": "rocket",
+      "skillKey": "item_3152_active",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "3731ce0847815484ae5f510a48bf1592adc3739d28904e63f073107f17f4be50",
+      "frozenBodySha256": "3731ce0847815484ae5f510a48bf1592adc3739d28904e63f073107f17f4be50",
+      "normalizedStoredSkillHitUseKindNull": true,
+      "nonRuleSnapshotSha256": "3f36d6a3cec4c73f40fa0b1f279d6449ab932326b878bd019b3a9d962af5c7c4"
+    },
+    {
+      "id": "riven",
+      "skillKey": "riven_e",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "0a256d96fab268a426a64ad7d35ca6f7ce7d70a4ed25fdc43bd774e94022b084",
+      "frozenBodySha256": "0a256d96fab268a426a64ad7d35ca6f7ce7d70a4ed25fdc43bd774e94022b084",
+      "normalizedStoredSkillHitUseKindNull": false,
+      "nonRuleSnapshotSha256": "8d7915a3523e7c2a99d585d6be473adfe9cbfc60c694121afd0311d46d83edfb"
+    }
+  ],
+  "global": {
+    "skillCount": 1062,
+    "ruleCount": 104,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_HIT": 54,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "SKILL_USED": 2,
+      "KILL": 2
+    },
+    "ruleKeysSha256": "0b26a19b47aa63d43975c5694a3ae2dc04b2ac74d9c90b5d8b927e8b90326fb2",
+    "oldRuleDetailsExact": true,
+    "newRulesExact": true
+  },
+  "error": null,
+  "completedAt": "2026-09-12T15:25:28.335Z"
+}

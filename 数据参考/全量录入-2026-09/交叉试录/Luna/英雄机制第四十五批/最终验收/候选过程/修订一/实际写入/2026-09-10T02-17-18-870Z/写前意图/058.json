@@ -1,0 +1,24 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 58,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_e/parameters",
+    "detailRoute": "/skills/shaco_e/parameters/passive_slow_duration_ms",
+    "skillKey": "shaco_e",
+    "kind": "parameters",
+    "stableKey": "passive_slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_slow_duration_ms",
+      "name": "被动减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "被动慢速持续2秒。",
+      "sortOrder": 70
+    }
+  }
+}

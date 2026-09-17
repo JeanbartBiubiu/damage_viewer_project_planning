@@ -1,0 +1,553 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保存当前四名英雄根绑定主技能的本地化键和中文正文；动态键缺失时保留缺失事实。",
+  "skills": {
+    "nunu_p": {
+      "binding": "Characters/Nunu/Spells/NunuPassiveAbility/NunuPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NunuPassive_Name",
+          "key": "spell_nunupassive_name",
+          "text": "弗雷尔卓德的召唤"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NunuPassive_Tooltip",
+          "key": "spell_nunupassive_tooltip",
+          "text": "当努努和威朗普对英雄、野怪或建筑物造成伤害时，他们和一名附近的友方英雄会获得<attackSpeed>@ASIncrease*100@%攻击速度</attackSpeed>和<speed>@MSIncrease*100@%移动速度</speed>，持续4秒。<br><br>当威朗普有这个增益时，威朗普的攻击会对附近的其他敌人造成额外的<physicalDamage>@CleaveDamage@物理伤害</physicalDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NunuPassive_Summary",
+          "key": "spell_nunupassive_summary",
+          "text": "努努提升威朗普和一名附近友军的攻击速度和移动速度，并使威朗普的普攻可以伤害目标周围的敌人。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_NunuPassive_TooltipExtendedBelowLine",
+          "key": "spell_nunupassive_tooltipextendedbelowline",
+          "text": "{{Spell_NunuPassive_Tooltip}}<br><br><rules>增益距离在对抗英雄和建筑物时会获得提升。<br>持续时间可叠加，但该效果每10秒内只会在每个目标上触发一次。<br>增益会尝试以最能利用它的英雄为目标。</rules>"
+        }
+      }
+    },
+    "nunu_q": {
+      "binding": "Characters/Nunu/Spells/NunuQAbility/NunuQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NunuQ_Name",
+          "key": "spell_nunuq_name",
+          "text": "吞噬"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_NunuQ_Cost",
+          "key": "spell_nunuq_cost",
+          "text": "@Cost@法力"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NunuQ_Tooltip",
+          "key": "spell_nunuq_tooltip",
+          "text": "努努请求威朗普撕咬一名敌人，造成<trueDamage>@MonsterMinionDamage@真实伤害</trueDamage>并在用来对抗小兵和野怪时回复<healing>@MonsterHealing@生命值</healing>。在对抗英雄时，它会转而造成<magicDamage>@TotalChampionDamage@魔法伤害</magicDamage>并回复<healing>@ChampionHealing@生命值</healing>。<br><br><healing>治疗效果</healing>会在努努和威朗普低于@LowHealthThreshhold*100@%生命值时提升@LowHealthHealingScalar*100@%。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NunuQ_Summary",
+          "key": "spell_nunuq_summary",
+          "text": "威朗普撕咬一个小兵、野怪或敌方英雄，造成巨大伤害并回复自己的生命值。"
+        }
+      }
+    },
+    "nunu_w": {
+      "binding": "Characters/Nunu/Spells/NunuWAbility/NunuW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NunuW_Name",
+          "key": "spell_nunuw_name",
+          "text": "史上最大雪球！"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NunuW_Tooltip",
+          "key": "spell_nunuw_tooltip",
+          "text": "努努和威朗普生成一团雪球，雪球会随着他们的滚动而获得体型与速度的增长。在滚雪球时，他们的转向会变慢，但可通过持续转向来提升转向速度。<br><br>雪球造成<magicDamage>@NoImpactSnowballDamage@</magicDamage>至<magicDamage>@MaximumSnowballDamage@魔法伤害</magicDamage>，并在碰撞英雄、大型野怪或墙体后造成@BaseKnockupDuration@到@MaximumStunDuration@秒的<status>击飞</status>。这些数值受益于已滚动的距离。<br><br>努努和威朗普可以<recast>再次施放</recast>来提前放走雪球。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NunuW_Summary",
+          "key": "spell_nunuw_summary",
+          "text": "威朗普滚起一个雪球，它的尺寸和速度将随着滚动时间而增长。雪球会伤害并击飞敌人。"
+        }
+      }
+    },
+    "nunu_e": {
+      "binding": "Characters/Nunu/Spells/NunuEAbility/NunuE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NunuE_Name",
+          "key": "spell_nunue_name",
+          "text": "雪球飞射"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NunuE_Tooltip",
+          "key": "spell_nunue_tooltip",
+          "text": "努努投掷3团雪球，每团雪球造成<magicDamage>@TotalSnowballDamage@魔法伤害</magicDamage>，并使被3团雪球都命中的敌人们遭受持续@SlowDuration@秒的@SlowAmount*-100@%<status>减速</status>。努努可以<recast>再次施放</recast>这个技能至多2次。<br><br>在@TotalSpellDuration@秒后，努努会使附近所有已被雪球<status>减速</status>的敌人们<status>禁锢</status>@RootDuration@秒并造成额外的<magicDamage>@TotalRootDamage@魔法伤害</magicDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NunuE_Summary",
+          "key": "spell_nunue_summary",
+          "text": "努努掷出多个雪球以伤害敌人。当他完成后，威朗普就会禁锢被雪球命中过的任何英雄或大型野怪。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_NunuE_TooltipExtendedBelowLine",
+          "key": "spell_nunue_tooltipextendedbelowline",
+          "text": "<rules>努努只能用这个技能使每个敌人<status>减速</status>一次。</rules>"
+        }
+      }
+    },
+    "nunu_r": {
+      "binding": "Characters/Nunu/Spells/NunuRAbility/NunuR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_NunuR_Name",
+          "key": "spell_nunur_name",
+          "text": "绝对零度"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NunuR_Tooltip",
+          "key": "spell_nunur_tooltip",
+          "text": "努努和威朗普引导一阵强力的暴风雪，至多引导@ChannelDuration@秒。其中的敌人们会被<status>减速</status>@SlowStartAmount*-100@%，在持续期间不断提升至@MaxSlowAmount*-100@%。努努和威朗普在引导期间也会获得<shield>@TotalShieldAmount@护盾值</shield>，在之后的@ShieldDecayDuration@秒里持续衰减。<br><br>当暴风雪结束时，它会爆炸，基于引导时间造成至多<magicDamage>@MaximumDamage@魔法伤害</magicDamage>。 努努和威朗普可以<recast>再次施放</recast>来使暴风雪提前结束。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NunuR_Summary",
+          "key": "spell_nunur_summary",
+          "text": "努努和威朗普在一个区域内创造一阵强大的暴风雪，来减速敌人并在结束时造成巨额伤害。"
+        }
+      }
+    },
+    "sejuani_p": {
+      "binding": "Characters/Sejuani/Spells/SejuaniPassiveAbility/SejuaniPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SejuaniPassive_Name",
+          "key": "spell_sejuanipassive_name",
+          "text": "北地之怒"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SejuaniPassive_Tooltip",
+          "key": "spell_sejuanipassive_tooltip",
+          "text": "在不承受来自英雄或大型野怪的伤害@FrostArmorOOC@秒后，瑟庄妮会免疫<status>减速</status>效果并获得<scaleArmor>@TotalArmorTooltip@护甲</scaleArmor>和<scaleMR>@TotalMRTooltip@魔法抗性</scaleMR>。<br><br>瑟庄妮对被她<status>晕眩</status>的敌人进行的第一次攻击会造成额外的<magicDamage>@PercentHPDamage@最大生命值的魔法伤害</magicDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SejuaniPassive_Summary",
+          "key": "spell_sejuanipassive_summary",
+          "text": "在脱离战斗后，瑟庄妮会获得冰霜护甲，冰川护甲可提供护甲、魔法抗性和免疫减速。当瑟庄妮受到伤害后，冰霜护甲会存留一小段时间。瑟庄妮可以伤害一名被晕眩的敌人来击碎它，从而造成巨量魔法伤害。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_SejuaniPassive_TooltipExtended",
+          "key": "spell_sejuanipassive_tooltipextended",
+          "text": "{{Spell_SejuaniPassive_Tooltip}}<br><br><rules>对史诗级野怪的百分比生命值伤害封顶值为@EpicMonsterCap@。<br>在受到来自英雄或大型野怪的伤害后，防御效果会存留@FrostArmorDuration@秒。</rules>"
+        }
+      }
+    },
+    "sejuani_q": {
+      "binding": "Characters/Sejuani/Spells/SejuaniQAbility/SejuaniQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SejuaniQ_Name",
+          "key": "spell_sejuaniq_name",
+          "text": "极寒突袭"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SejuaniQ_Summary",
+          "key": "spell_sejuaniq_summary",
+          "text": "瑟庄妮向前冲锋，将敌人击飞至空中。冲锋会在命中一名敌方英雄后停止。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SejuaniQ_Tooltip",
+          "key": "spell_sejuaniq_tooltip",
+          "text": "瑟庄妮冲锋，对敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>并<status>击飞</status>敌人@KnockupDurationTOOLTIPONLY@秒。该冲锋会在命中一名敌方英雄后停止。"
+        }
+      }
+    },
+    "sejuani_w": {
+      "binding": "Characters/Sejuani/Spells/SejuaniWAbility/SejuaniW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SejuaniW_Name",
+          "key": "spell_sejuaniw_name",
+          "text": "凛冬之怒"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SejuaniW_Summary",
+          "key": "spell_sejuaniw_summary",
+          "text": "瑟庄妮两次挥舞她的链枷，造成伤害、减速敌人并施加霜冻层数。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SejuaniW_Tooltip",
+          "key": "spell_sejuaniw_tooltip",
+          "text": "瑟庄妮挥击她的链枷，造成<physicalDamage>@FirstHitDamageTooltip@物理伤害</physicalDamage>并<status>击退</status>小兵和野怪。然后她会再次挥击，造成<physicalDamage>@SecondHitDamageTooltip@物理伤害</physicalDamage>并暂时<status>减速</status>目标。<br><br>两段挥击都会施加<spellName>永冻</spellName>效果。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_SejuaniW_TooltipExtended",
+          "key": "spell_sejuaniw_tooltipextended",
+          "text": "瑟庄妮挥击她的链枷，造成<physicalDamage>@FirstHitDamageTooltip@物理伤害</physicalDamage>并<status>击退</status>小兵和野怪。然后她会再次挥击，造成<physicalDamage>@SecondHitDamageTooltip@物理伤害</physicalDamage>并暂时<status>减速</status>目标@SlowAmount*100@%，持续@SlowDuration@秒。<br><br>两段挥击都会施加<spellName>永冻</spellName>效果。"
+        }
+      }
+    },
+    "sejuani_e": {
+      "binding": "Characters/Sejuani/Spells/SejuaniEAbility/SejuaniE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SejuaniE_Name",
+          "key": "spell_sejuanie_name",
+          "text": "永冻领域"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SejuaniE_Summary",
+          "key": "spell_sejuanie_summary",
+          "text": "瑟庄妮冻结并晕眩一名叠满了霜冻层数的敌方英雄。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SejuaniE_Tooltip",
+          "key": "spell_sejuanie_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>附近近战友方英雄的攻击会对英雄和野怪施加一层效果。<br><br><spellPassive>主动：</spellPassive>瑟庄妮对带有4层此效果的目标敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并使其<status>晕眩</status>@CCDuration@秒。 "
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SejuaniE_TooltipExtendedBelowLine",
+          "key": "spell_sejuanie_tooltipextendedbelowline",
+          "text": "<rules>被瑟庄妮<status>晕眩</status>的英雄在@PerChampionCD@秒内不会获得此效果。<br>被这个技能<status>晕眩</status>的敌人会被略微<status>击退</status>。<br>【永冻领域】将以距你鼠标指针最近的有效敌人选为目标(优先选择英雄)。<br>这个技能会使敌人<status>中断位移</status>。</rules>"
+        }
+      }
+    },
+    "sejuani_r": {
+      "binding": "Characters/Sejuani/Spells/SejuaniRAbility/SejuaniR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SejuaniR_Name",
+          "key": "spell_sejuanir_name",
+          "text": "极冰寒狱"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SejuaniR_Summary",
+          "key": "spell_sejuanir_summary",
+          "text": "瑟庄妮投出她的套索来冻结并击晕命中的第一名敌方英雄，并创造一次冰风暴来减速其它敌人。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SejuaniR_Tooltip",
+          "key": "spell_sejuanir_tooltip",
+          "text": "瑟庄妮扔出她的极冰套索，<status>晕眩</status>并显形命中的第一个敌方英雄@BaseStunDuration@秒并造成<magicDamage>@MinorDamageTooltip@魔法伤害</magicDamage>。<br><br>如果套索飞行了至少25%的最大距离，那么它会转而造成持续@EmpoweredStunDuration@秒<status>晕眩</status>和显形。它还会生成一团冰风暴来使目标附近的敌人<status>减速</status>@ExplosionSlowAmount@%，持续@ZoneDuration@秒。所有受影响的敌人都会受到<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SejuaniR_TooltipExtendedBelowLine",
+          "key": "spell_sejuanir_tooltipextendedbelowline",
+          "text": "<rules>被<status>晕眩</status>的敌人会立刻受到伤害，而风暴内的敌人会在风暴结束后受到伤害。风暴内的敌人还会被<status>减速</status>额外的1秒。</rules>"
+        }
+      }
+    },
+    "sion_p": {
+      "binding": "Characters/Sion/Spells/SionPassiveAbility/SionPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SionPassive_Name",
+          "key": "spell_sionpassive_name",
+          "text": "死亡荣耀"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SionPassive_Tooltip",
+          "key": "spell_sionpassive_tooltip",
+          "text": "在被击杀后，赛恩会回光返照一段时间，可以移动并攻击，但在回光返照时，他的生命值会急速衰减。他还会获得@Lifesteal*100@%生命偷取，攻击得超快，并且每次攻击会额外造成相当于目标<physicalDamage>@PercentMaxHP*100@%最大生命值的物理伤害</physicalDamage>。<br><br>他的所有技能都会被替换为【死亡冲动】，能为他提供爆发性的移动速度加成。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SionPassive_Summary",
+          "key": "spell_sionpassive_summary",
+          "text": "在被击杀后，赛恩会回光返照一段时间并且生命值会快速衰减。在此期间，他的攻击会变得超快，获得生命偷取，并且每次攻击会额外造成基于目标最大生命值的额外伤害。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_SionPassive_TooltipExtended",
+          "key": "spell_sionpassive_tooltipextended",
+          "text": "{{Spell_SionPassive_Tooltip}}<br><br><rules>对非英雄单位最多造成@NonChampCap@额外伤害。<br>赛恩在这个形态下对建筑物造成@StructureMod*100@%伤害。</rules>"
+        }
+      }
+    },
+    "sion_q": {
+      "binding": "Characters/Sion/Spells/SionQAbility/SionQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SionQ_Name",
+          "key": "spell_sionq_name",
+          "text": "残虐猛击"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SionQ_Summary",
+          "key": "spell_sionq_summary",
+          "text": "赛恩开始蓄力，并在释放时对他前方的一个区域进行一次强劲的猛击，对区域内的敌人造成伤害。如果他蓄力时间足够久，那么被命中的敌人还会受到击飞和晕眩效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SionQ_Tooltip",
+          "key": "spell_sionq_tooltip",
+          "text": "<charge>开始蓄力</charge>：赛恩开始为一次重型猛击蓄力，最多2秒。<br><br><release>释放</release>：赛恩将斧头重重砸下，暂时<status>减速</status>并基于蓄力时间造成<physicalDamage>@MinDamageTotal@到@MaxDamageTotal@物理伤害</physicalDamage>。如果赛恩蓄力了至少1秒，那么敌人还会被<status>击飞</status>，并基于蓄力时间被<status>晕眩</status>@BaseStunTime@到2.25秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SionQ_TooltipExtendedBelowLine",
+          "key": "spell_sionq_tooltipextendedbelowline",
+          "text": "<rules>对野怪造成@MonsterRatio@%伤害并对小兵造成@MinionRatio@%伤害。</rules>"
+        }
+      }
+    },
+    "sion_w": {
+      "binding": "Characters/Sion/Spells/SionWAbility/SionW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SionW_Name",
+          "key": "spell_sionw_name",
+          "text": "灵魂熔炉"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SionW_Summary",
+          "key": "spell_sionw_summary",
+          "text": "赛恩为自己套上护盾，并能在3秒后再次激活这个技能来对身边的敌人造成魔法伤害。在赛恩击杀敌人时，他会被动获得最大生命值。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SionW_Tooltip",
+          "key": "spell_sionw_tooltip",
+          "text": "<spellPassive>被动</spellPassive>：赛恩每击杀一个单位就会获得<scaleHealth>@HPPerKill@最大生命值</scaleHealth>，或在参与击杀英雄、击杀大型小兵或大型野怪后获得<scaleHealth>@HPPerChampKill@最大生命值</scaleHealth>。<br><br><spellActive>主动</spellActive>：赛恩获得<shield>@TotalShield@护盾值</shield>，持续6秒。在@DetonateRecastCooldown@秒后，如果护盾仍然存在，那么赛恩就能<recast>再次施放</recast>来引爆护盾，造成<magicDamage>@TotalDamage@外加@MaxHPDamageRatio@%最大生命值的魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_SionW_TooltipExtended",
+          "key": "spell_sionw_tooltipextended",
+          "text": "{{Spell_SionW_Tooltip}}<br><br>当前生命值加成：<statTracking>@f1@</statTracking>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SionW_TooltipExtendedBelowLine",
+          "key": "spell_sionw_tooltipextendedbelowline",
+          "text": "<rules>对小兵和野怪最多造成400额外伤害。</rules>"
+        }
+      }
+    },
+    "sion_e": {
+      "binding": "Characters/Sion/Spells/SionEAbility/SionE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SionE_Name",
+          "key": "spell_sione_name",
+          "text": "杀手怒吼"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SionE_Summary",
+          "key": "spell_sione_summary",
+          "text": "赛恩发射一个短程冲击波，来对命中的第一个敌人造成伤害、减速效果和破甲效果。如果冲击波命中的是小兵或者野怪，那么目标敌方单位还会被击退，对沿途的所有敌方单位造成伤害、减速和护甲击碎效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SionE_Tooltip",
+          "key": "spell_sione_tooltip",
+          "text": "赛恩发射一道冲击波，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>，并移除<scaleArmor>@ArmorShred@%护甲</scaleArmor>，持续@ArmorShredDuration@秒。被命中的非英雄单位会被<status>击退</status>。被<status>击退</status>的单位会在击中其他敌人时造成等额伤害和效果。"
+        }
+      }
+    },
+    "sion_r": {
+      "binding": "Characters/Sion/Spells/SionRAbility/SionR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SionR_Name",
+          "key": "spell_sionr_name",
+          "text": "蛮横冲撞"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SionR_Summary",
+          "key": "spell_sionr_summary",
+          "text": "赛恩朝着一个方向冲锋，持续提升移动速度。他可以朝着鼠标悬停处进行微小的转向。当他与一名敌人产生碰撞时，他会基于敌人们与碰撞点之间的距离造成伤害和击飞效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SionR_Tooltip",
+          "key": "spell_sionr_tooltip",
+          "text": "赛恩朝着一个方向不可阻挡地冲锋8秒，可用鼠标指针来调整方向。赛恩会在碰撞到一名敌方英雄或墙体后、或是<recast>再次施放</recast>此技能后停下。 <br><br>在冲锋结束时，赛恩基于行进距离造成<physicalDamage>@MinDamageTotal@到@MaxDamageTotal@物理伤害</physicalDamage>。紧靠着赛恩的敌人们会基于赛恩的行进距离被<status>晕眩</status>@MinStunDuration@到@MaxStunDuration@秒。更大范围内的敌人们会被<status>减速</status>@SlowAmount@%，持续3秒。"
+        }
+      }
+    },
+    "volibear_p": {
+      "binding": "Characters/Volibear/Spells/VolibearPAbility/VolibearP",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VolibearP_Name",
+          "key": "spell_volibearp_name",
+          "text": "狂雷渐起"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VolibearP_Tooltip",
+          "key": "spell_volibearp_tooltip",
+          "text": "沃利贝尔在每次用攻击或技能造成伤害时都会获得<attackSpeed>@AttackSpeedCalc@攻击速度</attackSpeed>，持续@BuffDuration@秒，至多可叠加5层。<br><br>叠满5层时，沃利贝尔的双爪会激荡闪电，使他的攻击对目标和相距最近的4名敌人造成额外的<magicDamage>@ChainLightningDamage@魔法伤害</magicDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VolibearP_Summary",
+          "key": "spell_volibearp_summary",
+          "text": "沃利贝尔的攻击和技能会提供攻击速度，并且最终使他的攻击对附近的敌人们造成额外魔法伤害。"
+        }
+      }
+    },
+    "volibear_q": {
+      "binding": "Characters/Volibear/Spells/VolibearQAbility/VolibearQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VolibearQ_Name",
+          "key": "spell_volibearq_name",
+          "text": "擂首一击"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VolibearQ_Tooltip",
+          "key": "spell_volibearq_tooltip",
+          "text": "沃利贝尔获得<speed>@MinSpeedCalc@移动速度</speed>，在朝着敌方英雄时翻倍至<speed>@MaxSpeedCalc@</speed>，持续@Duration@秒。在激活时，沃利贝尔的下次攻击会造成<physicalDamage>@CalculatedDamage@物理伤害</physicalDamage>并使目标<status>晕眩</status>@StunDuration@秒。<br><br>如果在沃利贝尔对一个目标造成<status>晕眩</status>效果前被敌人<status>定身</status>的话，那么他会因发怒而提前结束这个技能但刷新它的冷却时间。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VolibearQ_Summary",
+          "key": "spell_volibearq_summary",
+          "text": "沃利贝尔在朝着敌人时会获得移动速度，并且会对他攻击的第一个敌人造成<status>晕眩</status>和伤害。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VolibearQ_TooltipExtendedBelowLine",
+          "key": "spell_volibearq_tooltipextendedbelowline",
+          "text": "<rules>沃利贝尔的这次攻击获得@BonusRange@攻击距离。</rules>"
+        }
+      }
+    },
+    "volibear_w": {
+      "binding": "Characters/Volibear/Spells/VolibearWAbility/VolibearW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VolibearW_Name",
+          "key": "spell_volibearw_name",
+          "text": "暴怒撕咬"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VolibearW_Tooltip",
+          "key": "spell_volibearw_tooltip",
+          "text": "沃利贝尔猛拍一名敌人，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，并标记目标@MarkDuration@秒。<br><br>如果这个技能施放在一个被标记的目标身上，那么这个技能的伤害会提升至<physicalDamage>@EmpoweredDamage@</physicalDamage>，并且沃利贝尔会回复<healing>@BaseHeal@生命值+他@PercentMissingHealthHealingRatio@的已损失生命值</healing>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VolibearW_Summary",
+          "key": "spell_volibearw_summary",
+          "text": "沃利贝尔伤害一名敌人，施加攻击特效并将其标记。对相同目标再次施放这个技能，会造成额外伤害并治疗沃利贝尔。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VolibearW_TooltipExtendedBelowLine",
+          "key": "spell_volibearw_tooltipextendedbelowline",
+          "text": "<rules>强化版伤害受益于%i:scaleAD% (伤害乘数：@W2DamageMultiplier*100@% + @W2BonusADDamageMultiplier*10000@%)<br>这个技能可施加攻击特效。对抗小兵的治疗效果为@MinionAndMonsterMod*100@%效能。</rules><br>"
+        }
+      }
+    },
+    "volibear_e": {
+      "binding": "Characters/Volibear/Spells/VolibearEAbility/VolibearE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VolibearE_Name",
+          "key": "spell_volibeare_name",
+          "text": "霹天雳地"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VolibearE_Tooltip",
+          "key": "spell_volibeare_tooltip",
+          "text": "沃利贝尔在目标区域召唤一道闪电箭，造成<magicDamage>@TotalDamageTooltip@加上@PercentDamage*100@%最大生命值的魔法伤害</magicDamage>并使敌人<status>减速</status>@SlowAmount*100@%，持续@SlowDuration@秒。<br><br>如果沃利贝尔在闪电落点区域内，他还会获得一层<shield>@ShieldAPRatioTooltip@加上@ShieldAmount*100@%最大生命值的护盾</shield>，持续@ShieldDuration@秒。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VolibearE_Summary",
+          "key": "spell_volibeare_summary",
+          "text": "沃利贝尔在目标区域召唤一道闪电箭，对其中的敌人造成魔法伤害和减速效果，并且如果沃利贝尔在闪电落点区域内，他还会获得一层护盾。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VolibearE_TooltipExtendedBelowLine",
+          "key": "spell_volibeare_tooltipextendedbelowline",
+          "text": "<rules>对抗非英雄单位的伤害封顶值为<activeRank>@MonsterDamageCap@</activeRank>。</rules>"
+        }
+      }
+    },
+    "volibear_r": {
+      "binding": "Characters/Volibear/Spells/VolibearRAbility/VolibearR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VolibearR_Name",
+          "key": "spell_volibearr_name",
+          "text": "天声震落"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VolibearR_Tooltip",
+          "key": "spell_volibearr_tooltip",
+          "text": "沃利贝尔变换形态并跃向一个目标区域，获得<healing>@HealthAmount@生命值</healing>和@BonusAttackRange@攻击距离，持续@TransformDuration@秒。<br><br>在着陆时，附近的敌方防御塔会<status>失效</status>@TowerDisableDuration@秒，并受到<physicalDamage>@TowerDamageTooltip@物理伤害</physicalDamage>。附近的敌人会被<status>减速</status>@SlowAmount*100@%，减速效果会在1秒里持续衰减。被沃利贝尔直接压住的敌人们会受到<physicalDamage>@SweetSpotDamageTooltip@物理伤害</physicalDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VolibearR_Summary",
+          "key": "spell_volibearr_summary",
+          "text": "沃利贝尔跃向一个目标区域，对他身下的敌人们造成伤害和减速效果，同时获得额外生命值。在他着陆时，附近的敌方防御塔也会暂时失效。"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_nunupassive_name": "弗雷尔卓德的召唤",
+    "spell_nunupassive_tooltip": "当努努和威朗普对英雄、野怪或建筑物造成伤害时，他们和一名附近的友方英雄会获得<attackSpeed>@ASIncrease*100@%攻击速度</attackSpeed>和<speed>@MSIncrease*100@%移动速度</speed>，持续4秒。<br><br>当威朗普有这个增益时，威朗普的攻击会对附近的其他敌人造成额外的<physicalDamage>@CleaveDamage@物理伤害</physicalDamage>。",
+    "spell_nunupassive_summary": "努努提升威朗普和一名附近友军的攻击速度和移动速度，并使威朗普的普攻可以伤害目标周围的敌人。",
+    "spell_nunupassive_tooltipextendedbelowline": "{{Spell_NunuPassive_Tooltip}}<br><br><rules>增益距离在对抗英雄和建筑物时会获得提升。<br>持续时间可叠加，但该效果每10秒内只会在每个目标上触发一次。<br>增益会尝试以最能利用它的英雄为目标。</rules>",
+    "spell_nunuq_name": "吞噬",
+    "spell_nunuq_cost": "@Cost@法力",
+    "spell_nunuq_tooltip": "努努请求威朗普撕咬一名敌人，造成<trueDamage>@MonsterMinionDamage@真实伤害</trueDamage>并在用来对抗小兵和野怪时回复<healing>@MonsterHealing@生命值</healing>。在对抗英雄时，它会转而造成<magicDamage>@TotalChampionDamage@魔法伤害</magicDamage>并回复<healing>@ChampionHealing@生命值</healing>。<br><br><healing>治疗效果</healing>会在努努和威朗普低于@LowHealthThreshhold*100@%生命值时提升@LowHealthHealingScalar*100@%。",
+    "spell_nunuq_summary": "威朗普撕咬一个小兵、野怪或敌方英雄，造成巨大伤害并回复自己的生命值。",
+    "spell_nunuw_name": "史上最大雪球！",
+    "spell_nunuw_tooltip": "努努和威朗普生成一团雪球，雪球会随着他们的滚动而获得体型与速度的增长。在滚雪球时，他们的转向会变慢，但可通过持续转向来提升转向速度。<br><br>雪球造成<magicDamage>@NoImpactSnowballDamage@</magicDamage>至<magicDamage>@MaximumSnowballDamage@魔法伤害</magicDamage>，并在碰撞英雄、大型野怪或墙体后造成@BaseKnockupDuration@到@MaximumStunDuration@秒的<status>击飞</status>。这些数值受益于已滚动的距离。<br><br>努努和威朗普可以<recast>再次施放</recast>来提前放走雪球。",
+    "spell_nunuw_summary": "威朗普滚起一个雪球，它的尺寸和速度将随着滚动时间而增长。雪球会伤害并击飞敌人。",
+    "spell_nunue_name": "雪球飞射",
+    "spell_nunue_tooltip": "努努投掷3团雪球，每团雪球造成<magicDamage>@TotalSnowballDamage@魔法伤害</magicDamage>，并使被3团雪球都命中的敌人们遭受持续@SlowDuration@秒的@SlowAmount*-100@%<status>减速</status>。努努可以<recast>再次施放</recast>这个技能至多2次。<br><br>在@TotalSpellDuration@秒后，努努会使附近所有已被雪球<status>减速</status>的敌人们<status>禁锢</status>@RootDuration@秒并造成额外的<magicDamage>@TotalRootDamage@魔法伤害</magicDamage>。",
+    "spell_nunue_summary": "努努掷出多个雪球以伤害敌人。当他完成后，威朗普就会禁锢被雪球命中过的任何英雄或大型野怪。",
+    "spell_nunue_tooltipextendedbelowline": "<rules>努努只能用这个技能使每个敌人<status>减速</status>一次。</rules>",
+    "spell_nunur_name": "绝对零度",
+    "spell_nunur_tooltip": "努努和威朗普引导一阵强力的暴风雪，至多引导@ChannelDuration@秒。其中的敌人们会被<status>减速</status>@SlowStartAmount*-100@%，在持续期间不断提升至@MaxSlowAmount*-100@%。努努和威朗普在引导期间也会获得<shield>@TotalShieldAmount@护盾值</shield>，在之后的@ShieldDecayDuration@秒里持续衰减。<br><br>当暴风雪结束时，它会爆炸，基于引导时间造成至多<magicDamage>@MaximumDamage@魔法伤害</magicDamage>。 努努和威朗普可以<recast>再次施放</recast>来使暴风雪提前结束。",
+    "spell_nunur_summary": "努努和威朗普在一个区域内创造一阵强大的暴风雪，来减速敌人并在结束时造成巨额伤害。",
+    "spell_sejuanipassive_name": "北地之怒",
+    "spell_sejuanipassive_tooltip": "在不承受来自英雄或大型野怪的伤害@FrostArmorOOC@秒后，瑟庄妮会免疫<status>减速</status>效果并获得<scaleArmor>@TotalArmorTooltip@护甲</scaleArmor>和<scaleMR>@TotalMRTooltip@魔法抗性</scaleMR>。<br><br>瑟庄妮对被她<status>晕眩</status>的敌人进行的第一次攻击会造成额外的<magicDamage>@PercentHPDamage@最大生命值的魔法伤害</magicDamage>。",
+    "spell_sejuanipassive_summary": "在脱离战斗后，瑟庄妮会获得冰霜护甲，冰川护甲可提供护甲、魔法抗性和免疫减速。当瑟庄妮受到伤害后，冰霜护甲会存留一小段时间。瑟庄妮可以伤害一名被晕眩的敌人来击碎它，从而造成巨量魔法伤害。",
+    "spell_sejuanipassive_tooltipextended": "{{Spell_SejuaniPassive_Tooltip}}<br><br><rules>对史诗级野怪的百分比生命值伤害封顶值为@EpicMonsterCap@。<br>在受到来自英雄或大型野怪的伤害后，防御效果会存留@FrostArmorDuration@秒。</rules>",
+    "spell_sejuaniq_name": "极寒突袭",
+    "spell_sejuaniq_summary": "瑟庄妮向前冲锋，将敌人击飞至空中。冲锋会在命中一名敌方英雄后停止。",
+    "spell_sejuaniq_tooltip": "瑟庄妮冲锋，对敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>并<status>击飞</status>敌人@KnockupDurationTOOLTIPONLY@秒。该冲锋会在命中一名敌方英雄后停止。",
+    "spell_sejuaniw_name": "凛冬之怒",
+    "spell_sejuaniw_summary": "瑟庄妮两次挥舞她的链枷，造成伤害、减速敌人并施加霜冻层数。",
+    "spell_sejuaniw_tooltip": "瑟庄妮挥击她的链枷，造成<physicalDamage>@FirstHitDamageTooltip@物理伤害</physicalDamage>并<status>击退</status>小兵和野怪。然后她会再次挥击，造成<physicalDamage>@SecondHitDamageTooltip@物理伤害</physicalDamage>并暂时<status>减速</status>目标。<br><br>两段挥击都会施加<spellName>永冻</spellName>效果。",
+    "spell_sejuaniw_tooltipextended": "瑟庄妮挥击她的链枷，造成<physicalDamage>@FirstHitDamageTooltip@物理伤害</physicalDamage>并<status>击退</status>小兵和野怪。然后她会再次挥击，造成<physicalDamage>@SecondHitDamageTooltip@物理伤害</physicalDamage>并暂时<status>减速</status>目标@SlowAmount*100@%，持续@SlowDuration@秒。<br><br>两段挥击都会施加<spellName>永冻</spellName>效果。",
+    "spell_sejuanie_name": "永冻领域",
+    "spell_sejuanie_summary": "瑟庄妮冻结并晕眩一名叠满了霜冻层数的敌方英雄。",
+    "spell_sejuanie_tooltip": "<spellPassive>被动：</spellPassive>附近近战友方英雄的攻击会对英雄和野怪施加一层效果。<br><br><spellPassive>主动：</spellPassive>瑟庄妮对带有4层此效果的目标敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并使其<status>晕眩</status>@CCDuration@秒。 ",
+    "spell_sejuanie_tooltipextendedbelowline": "<rules>被瑟庄妮<status>晕眩</status>的英雄在@PerChampionCD@秒内不会获得此效果。<br>被这个技能<status>晕眩</status>的敌人会被略微<status>击退</status>。<br>【永冻领域】将以距你鼠标指针最近的有效敌人选为目标(优先选择英雄)。<br>这个技能会使敌人<status>中断位移</status>。</rules>",
+    "spell_sejuanir_name": "极冰寒狱",
+    "spell_sejuanir_summary": "瑟庄妮投出她的套索来冻结并击晕命中的第一名敌方英雄，并创造一次冰风暴来减速其它敌人。",
+    "spell_sejuanir_tooltip": "瑟庄妮扔出她的极冰套索，<status>晕眩</status>并显形命中的第一个敌方英雄@BaseStunDuration@秒并造成<magicDamage>@MinorDamageTooltip@魔法伤害</magicDamage>。<br><br>如果套索飞行了至少25%的最大距离，那么它会转而造成持续@EmpoweredStunDuration@秒<status>晕眩</status>和显形。它还会生成一团冰风暴来使目标附近的敌人<status>减速</status>@ExplosionSlowAmount@%，持续@ZoneDuration@秒。所有受影响的敌人都会受到<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。",
+    "spell_sejuanir_tooltipextendedbelowline": "<rules>被<status>晕眩</status>的敌人会立刻受到伤害，而风暴内的敌人会在风暴结束后受到伤害。风暴内的敌人还会被<status>减速</status>额外的1秒。</rules>",
+    "spell_sionpassive_name": "死亡荣耀",
+    "spell_sionpassive_tooltip": "在被击杀后，赛恩会回光返照一段时间，可以移动并攻击，但在回光返照时，他的生命值会急速衰减。他还会获得@Lifesteal*100@%生命偷取，攻击得超快，并且每次攻击会额外造成相当于目标<physicalDamage>@PercentMaxHP*100@%最大生命值的物理伤害</physicalDamage>。<br><br>他的所有技能都会被替换为【死亡冲动】，能为他提供爆发性的移动速度加成。",
+    "spell_sionpassive_summary": "在被击杀后，赛恩会回光返照一段时间并且生命值会快速衰减。在此期间，他的攻击会变得超快，获得生命偷取，并且每次攻击会额外造成基于目标最大生命值的额外伤害。",
+    "spell_sionpassive_tooltipextended": "{{Spell_SionPassive_Tooltip}}<br><br><rules>对非英雄单位最多造成@NonChampCap@额外伤害。<br>赛恩在这个形态下对建筑物造成@StructureMod*100@%伤害。</rules>",
+    "spell_sionq_name": "残虐猛击",
+    "spell_sionq_summary": "赛恩开始蓄力，并在释放时对他前方的一个区域进行一次强劲的猛击，对区域内的敌人造成伤害。如果他蓄力时间足够久，那么被命中的敌人还会受到击飞和晕眩效果。",
+    "spell_sionq_tooltip": "<charge>开始蓄力</charge>：赛恩开始为一次重型猛击蓄力，最多2秒。<br><br><release>释放</release>：赛恩将斧头重重砸下，暂时<status>减速</status>并基于蓄力时间造成<physicalDamage>@MinDamageTotal@到@MaxDamageTotal@物理伤害</physicalDamage>。如果赛恩蓄力了至少1秒，那么敌人还会被<status>击飞</status>，并基于蓄力时间被<status>晕眩</status>@BaseStunTime@到2.25秒。",
+    "spell_sionq_tooltipextendedbelowline": "<rules>对野怪造成@MonsterRatio@%伤害并对小兵造成@MinionRatio@%伤害。</rules>",
+    "spell_sionw_name": "灵魂熔炉",
+    "spell_sionw_summary": "赛恩为自己套上护盾，并能在3秒后再次激活这个技能来对身边的敌人造成魔法伤害。在赛恩击杀敌人时，他会被动获得最大生命值。",
+    "spell_sionw_tooltip": "<spellPassive>被动</spellPassive>：赛恩每击杀一个单位就会获得<scaleHealth>@HPPerKill@最大生命值</scaleHealth>，或在参与击杀英雄、击杀大型小兵或大型野怪后获得<scaleHealth>@HPPerChampKill@最大生命值</scaleHealth>。<br><br><spellActive>主动</spellActive>：赛恩获得<shield>@TotalShield@护盾值</shield>，持续6秒。在@DetonateRecastCooldown@秒后，如果护盾仍然存在，那么赛恩就能<recast>再次施放</recast>来引爆护盾，造成<magicDamage>@TotalDamage@外加@MaxHPDamageRatio@%最大生命值的魔法伤害</magicDamage>。",
+    "spell_sionw_tooltipextended": "{{Spell_SionW_Tooltip}}<br><br>当前生命值加成：<statTracking>@f1@</statTracking>",
+    "spell_sionw_tooltipextendedbelowline": "<rules>对小兵和野怪最多造成400额外伤害。</rules>",
+    "spell_sione_name": "杀手怒吼",
+    "spell_sione_summary": "赛恩发射一个短程冲击波，来对命中的第一个敌人造成伤害、减速效果和破甲效果。如果冲击波命中的是小兵或者野怪，那么目标敌方单位还会被击退，对沿途的所有敌方单位造成伤害、减速和护甲击碎效果。",
+    "spell_sione_tooltip": "赛恩发射一道冲击波，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>，并移除<scaleArmor>@ArmorShred@%护甲</scaleArmor>，持续@ArmorShredDuration@秒。被命中的非英雄单位会被<status>击退</status>。被<status>击退</status>的单位会在击中其他敌人时造成等额伤害和效果。",
+    "spell_sionr_name": "蛮横冲撞",
+    "spell_sionr_summary": "赛恩朝着一个方向冲锋，持续提升移动速度。他可以朝着鼠标悬停处进行微小的转向。当他与一名敌人产生碰撞时，他会基于敌人们与碰撞点之间的距离造成伤害和击飞效果。",
+    "spell_sionr_tooltip": "赛恩朝着一个方向不可阻挡地冲锋8秒，可用鼠标指针来调整方向。赛恩会在碰撞到一名敌方英雄或墙体后、或是<recast>再次施放</recast>此技能后停下。 <br><br>在冲锋结束时，赛恩基于行进距离造成<physicalDamage>@MinDamageTotal@到@MaxDamageTotal@物理伤害</physicalDamage>。紧靠着赛恩的敌人们会基于赛恩的行进距离被<status>晕眩</status>@MinStunDuration@到@MaxStunDuration@秒。更大范围内的敌人们会被<status>减速</status>@SlowAmount@%，持续3秒。",
+    "spell_volibearp_name": "狂雷渐起",
+    "spell_volibearp_tooltip": "沃利贝尔在每次用攻击或技能造成伤害时都会获得<attackSpeed>@AttackSpeedCalc@攻击速度</attackSpeed>，持续@BuffDuration@秒，至多可叠加5层。<br><br>叠满5层时，沃利贝尔的双爪会激荡闪电，使他的攻击对目标和相距最近的4名敌人造成额外的<magicDamage>@ChainLightningDamage@魔法伤害</magicDamage>。",
+    "spell_volibearp_summary": "沃利贝尔的攻击和技能会提供攻击速度，并且最终使他的攻击对附近的敌人们造成额外魔法伤害。",
+    "spell_volibearq_name": "擂首一击",
+    "spell_volibearq_tooltip": "沃利贝尔获得<speed>@MinSpeedCalc@移动速度</speed>，在朝着敌方英雄时翻倍至<speed>@MaxSpeedCalc@</speed>，持续@Duration@秒。在激活时，沃利贝尔的下次攻击会造成<physicalDamage>@CalculatedDamage@物理伤害</physicalDamage>并使目标<status>晕眩</status>@StunDuration@秒。<br><br>如果在沃利贝尔对一个目标造成<status>晕眩</status>效果前被敌人<status>定身</status>的话，那么他会因发怒而提前结束这个技能但刷新它的冷却时间。",
+    "spell_volibearq_summary": "沃利贝尔在朝着敌人时会获得移动速度，并且会对他攻击的第一个敌人造成<status>晕眩</status>和伤害。",
+    "spell_volibearq_tooltipextendedbelowline": "<rules>沃利贝尔的这次攻击获得@BonusRange@攻击距离。</rules>",
+    "spell_volibearw_name": "暴怒撕咬",
+    "spell_volibearw_tooltip": "沃利贝尔猛拍一名敌人，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，并标记目标@MarkDuration@秒。<br><br>如果这个技能施放在一个被标记的目标身上，那么这个技能的伤害会提升至<physicalDamage>@EmpoweredDamage@</physicalDamage>，并且沃利贝尔会回复<healing>@BaseHeal@生命值+他@PercentMissingHealthHealingRatio@的已损失生命值</healing>。",
+    "spell_volibearw_summary": "沃利贝尔伤害一名敌人，施加攻击特效并将其标记。对相同目标再次施放这个技能，会造成额外伤害并治疗沃利贝尔。",
+    "spell_volibearw_tooltipextendedbelowline": "<rules>强化版伤害受益于%i:scaleAD% (伤害乘数：@W2DamageMultiplier*100@% + @W2BonusADDamageMultiplier*10000@%)<br>这个技能可施加攻击特效。对抗小兵的治疗效果为@MinionAndMonsterMod*100@%效能。</rules><br>",
+    "spell_volibeare_name": "霹天雳地",
+    "spell_volibeare_tooltip": "沃利贝尔在目标区域召唤一道闪电箭，造成<magicDamage>@TotalDamageTooltip@加上@PercentDamage*100@%最大生命值的魔法伤害</magicDamage>并使敌人<status>减速</status>@SlowAmount*100@%，持续@SlowDuration@秒。<br><br>如果沃利贝尔在闪电落点区域内，他还会获得一层<shield>@ShieldAPRatioTooltip@加上@ShieldAmount*100@%最大生命值的护盾</shield>，持续@ShieldDuration@秒。",
+    "spell_volibeare_summary": "沃利贝尔在目标区域召唤一道闪电箭，对其中的敌人造成魔法伤害和减速效果，并且如果沃利贝尔在闪电落点区域内，他还会获得一层护盾。",
+    "spell_volibeare_tooltipextendedbelowline": "<rules>对抗非英雄单位的伤害封顶值为<activeRank>@MonsterDamageCap@</activeRank>。</rules>",
+    "spell_volibearr_name": "天声震落",
+    "spell_volibearr_tooltip": "沃利贝尔变换形态并跃向一个目标区域，获得<healing>@HealthAmount@生命值</healing>和@BonusAttackRange@攻击距离，持续@TransformDuration@秒。<br><br>在着陆时，附近的敌方防御塔会<status>失效</status>@TowerDisableDuration@秒，并受到<physicalDamage>@TowerDamageTooltip@物理伤害</physicalDamage>。附近的敌人会被<status>减速</status>@SlowAmount*100@%，减速效果会在1秒里持续衰减。被沃利贝尔直接压住的敌人们会受到<physicalDamage>@SweetSpotDamageTooltip@物理伤害</physicalDamage>。",
+    "spell_volibearr_summary": "沃利贝尔跃向一个目标区域，对他身下的敌人们造成伤害和减速效果，同时获得额外生命值。在他着陆时，附近的敌方防御塔也会暂时失效。"
+  }
+}

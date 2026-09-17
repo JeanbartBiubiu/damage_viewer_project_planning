@@ -1,0 +1,141 @@
+{
+  "capturedAt": "2026-09-12T06:19:32.107Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 237
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "passed": true,
+      "observed": "全量同步完成，本次接收 3279 条变化。"
+    },
+    {
+      "area": "伤害修正乘区",
+      "passed": true,
+      "total": 6,
+      "keys": [
+        "item_3047_basic_damage_reduction",
+        "item_3143_critical_damage_reduction"
+      ]
+    },
+    {
+      "area": "item_3047_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "铁板靴·镀板代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "effectKey": "plating_basic_damage_reduction",
+      "resultKey": "incoming_basic_damage_reduction",
+      "ruleKey": "initialize_plating_basic_damage_reduction",
+      "effectDetailObserved": true,
+      "resultDetailObserved": true,
+      "triggerDetailObserved": true
+    },
+    {
+      "area": "item_3143_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "兰顿之兆·复原力代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "effectKey": "resilience_critical_damage_reduction",
+      "resultKey": "incoming_critical_damage_reduction",
+      "ruleKey": "initialize_resilience_critical_damage_reduction",
+      "effectDetailObserved": true,
+      "resultDetailObserved": true,
+      "triggerDetailObserved": true
+    }
+  ],
+  "screenshots": [
+    "item_3047_passive-列表图片.png",
+    "item_3047_passive-结果详情.png",
+    "item_3047_passive-触发详情.png",
+    "item_3143_passive-列表图片.png",
+    "item_3143_passive-结果详情.png",
+    "item_3143_passive-触发详情.png",
+    "乘区列表.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": [
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/kogmaw_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/kled_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/item_6696_passive/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/rumble_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/item_6653_passive/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/item_3143_passive/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/item_6698_active/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/evelynn_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/elise_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/zoe_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/viego_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/illaoi_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示与只读交互。",
+  "scriptSha256": "6785511abab83cf1124d88c9697e798910ff9f0909f17fc74ec52c29141304b9"
+}

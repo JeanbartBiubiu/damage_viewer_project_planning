@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:26:53.448Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/graves_q/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "detonation_base_damage",
+    "name": "引爆基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 80,
+      "2": 125,
+      "3": 170,
+      "4": 215,
+      "5": 260
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDetonationDamage 取索引1至5。",
+    "sortOrder": 60
+  }
+}

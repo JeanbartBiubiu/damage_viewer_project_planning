@@ -1,0 +1,29 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "method": "POST",
+    "route": "/skills/evelynn_e/parameters",
+    "detailRoute": "/skills/evelynn_e/parameters/speed_bonus_ratio",
+    "skillKey": "evelynn_e",
+    "kind": "parameters",
+    "stableKey": "speed_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "speed_bonus_ratio",
+      "name": "E后自身移动速度加成比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.35,
+        "3": 0.4,
+        "4": 0.45,
+        "5": 0.5
+      },
+      "description": "当前SpeedAmount取索引1至5，正文按×100显示30%至50%。",
+      "sortOrder": 80
+    }
+  }
+}

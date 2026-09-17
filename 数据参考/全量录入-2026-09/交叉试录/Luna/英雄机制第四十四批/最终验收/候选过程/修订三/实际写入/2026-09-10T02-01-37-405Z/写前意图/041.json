@@ -1,0 +1,23 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "method": "POST",
+    "route": "/skills/monkeyking_p/formulas",
+    "detailRoute": "/skills/monkeyking_p/formulas/bonus_armor",
+    "skillKey": "monkeyking_p",
+    "kind": "formulas",
+    "stableKey": "bonus_armor",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bonus_armor",
+      "name": "金刚不坏护甲加成",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "bonus_armor_at_character_level"
+      },
+      "description": "角色等级护甲实际输入，不猜6至10之间的插值。",
+      "sortOrder": 10
+    }
+  }
+}

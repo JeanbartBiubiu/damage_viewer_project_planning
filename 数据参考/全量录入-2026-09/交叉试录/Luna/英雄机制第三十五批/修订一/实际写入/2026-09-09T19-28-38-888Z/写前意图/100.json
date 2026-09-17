@@ -1,0 +1,29 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 99,
+    "method": "POST",
+    "route": "/skills/taric_q/parameters",
+    "detailRoute": "/skills/taric_q/parameters/max_charge_count",
+    "skillKey": "taric_q",
+    "kind": "parameters",
+    "stableKey": "max_charge_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_charge_count",
+      "name": "最大充能层数",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5
+      },
+      "description": "当前MaxCharges取技能等级索引1至5的1/2/3/4/5。",
+      "sortOrder": 60
+    }
+  }
+}

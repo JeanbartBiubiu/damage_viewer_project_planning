@@ -1,0 +1,42 @@
+{
+  "i": 16,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_q/formulas",
+    "skillKey": "ornn_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "火山突堑物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+1.1×来源总攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 72,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_q/formulas",
+    "detailRoute": "/skills/kindred_q/formulas/total_attack_speed_ratio",
+    "skillKey": "kindred_q",
+    "kind": "formulas",
+    "stableKey": "total_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_attack_speed_ratio",
+      "name": "乱箭之舞自身攻击速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_attack_speed_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mark_count"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_speed_per_mark_ratio"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalQAttackSpeed=0.35+0.05×当前印记层数。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/senna_w/parameters",
+    "detailRoute": "/skills/senna_w/parameters/bonus_ad_ratio",
+    "skillKey": "senna_w",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "无尽厮守额外攻击力伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.89999998,
+      "levelValues": null,
+      "description": "当前Damage的mStat2无formula但根源值按窄口径核为额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

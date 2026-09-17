@@ -1,0 +1,34 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 44,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/formulas",
+    "detailRoute": "/skills/udyr_q/formulas/empowered_total_attack_speed_ratio",
+    "skillKey": "udyr_q",
+    "kind": "formulas",
+    "stableKey": "empowered_total_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_total_attack_speed_ratio",
+      "name": "狂暴爪击觉醒攻击速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "attack_speed_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_bonus_as_actual"
+          }
+        ]
+      },
+      "description": "EmpoweredTotalAS=AttackSpeedBase+角色等级觉醒攻速；觉醒段替代普通攻速段。",
+      "sortOrder": 40
+    }
+  }
+}

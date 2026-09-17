@@ -1,0 +1,23 @@
+{
+  "i": 215,
+  "intent": {
+    "sequence": 216,
+    "method": "POST",
+    "route": "/skills/twistedfate_r/parameters",
+    "detailRoute": "/skills/twistedfate_r/parameters/mana_cost",
+    "skillKey": "twistedfate_r",
+    "kind": "parameters",
+    "stableKey": "mana_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mana_cost",
+      "name": "命运基础法力消耗",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "当前根负责人按客户端与官方16.17.1核对为100；不采用后续数组噪声115/130/0。",
+      "sortOrder": 20
+    }
+  }
+}

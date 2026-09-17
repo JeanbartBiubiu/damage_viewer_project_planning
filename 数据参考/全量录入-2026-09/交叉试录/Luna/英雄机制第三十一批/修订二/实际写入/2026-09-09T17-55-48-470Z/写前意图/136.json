@@ -1,0 +1,45 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 136,
+    "method": "POST",
+    "route": "/skills/nami_e/formulas",
+    "detailRoute": "/skills/nami_e/formulas/bonus_magic_damage_per_hit",
+    "skillKey": "nami_e",
+    "kind": "formulas",
+    "stableKey": "bonus_magic_damage_per_hit",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bonus_magic_damage_per_hit",
+      "name": "唤潮之佑每次附加魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage = BaseDamage + DamageRatio×来源总法强；每次命中只给出单次量。",
+      "sortOrder": 10
+    }
+  }
+}

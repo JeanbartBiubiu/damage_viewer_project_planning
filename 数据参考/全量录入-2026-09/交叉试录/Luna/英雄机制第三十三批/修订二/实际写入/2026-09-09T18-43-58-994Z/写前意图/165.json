@@ -1,0 +1,27 @@
+{
+  "i": 164,
+  "intent": {
+    "sequence": 165,
+    "method": "POST",
+    "route": "/skills/seraphine_r/parameters",
+    "detailRoute": "/skills/seraphine_r/parameters/charm_duration_ms",
+    "skillKey": "seraphine_r",
+    "kind": "parameters",
+    "stableKey": "charm_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charm_duration_ms",
+      "name": "魅惑持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1250,
+        "2": 1500,
+        "3": 1750
+      },
+      "description": "当前RChannelDuration技能等级1至3对应1.25/1.5/1.75秒。",
+      "sortOrder": 30
+    }
+  }
+}

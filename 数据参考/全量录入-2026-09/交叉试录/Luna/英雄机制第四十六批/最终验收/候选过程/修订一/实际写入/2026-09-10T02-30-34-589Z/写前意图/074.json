@@ -1,0 +1,30 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/parameters",
+    "detailRoute": "/skills/hwei_q/parameters/qe_burst_base",
+    "skillKey": "hwei_q",
+    "kind": "parameters",
+    "stableKey": "qe_burst_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "qe_burst_base",
+      "name": "连皴山爆裂基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 35,
+        "3": 50,
+        "4": 65,
+        "5": 80
+      },
+      "description": "连皴山爆裂20/35/50/65/80。",
+      "sortOrder": 110
+    }
+  }
+}

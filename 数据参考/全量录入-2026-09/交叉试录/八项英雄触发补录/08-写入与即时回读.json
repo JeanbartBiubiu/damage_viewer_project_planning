@@ -1,0 +1,398 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev4",
+  "startedAt": "2026-09-12T16:39:36.728Z",
+  "status": "PASS",
+  "authorizationValueRecorded": false,
+  "approvedHashes": {
+    "批次配置.mjs": "ecfe3b6cd8cad6e953a4b6e2f19ff3ff5730bf65379c3d00d59dbf0bd23be447",
+    "00-独立语义评审.json": "d04bb9dc7371177efa2e1526cf7e1164a662e5f4e65247572cfecc4c1c34010a",
+    "README.md": "d3fef2a3072489e5dee7556140353b2f12fd58f7f9d12a25216fbb3b8596388f",
+    "01-合并方案.md": "62c454ef3a066c3c09e6683c48b09c127085e485b99aa811ad540c98f1fe7774",
+    "02-合并冻结请求.json": "431c7f2d549120e491b362e47a59d459a2b20fcaebd2e91ad557a952332ca807",
+    "03-来源散列快照.json": "e7495be67e882f2fb0e8c5722ec2bf12899879ade837b81d4417e107df8e7f3e",
+    "04-共享写前现值.json": "d8f12502b144964fc6eff9aba09b19967d930a6cdabafd4e0acc3a025e36f5f7",
+    "05-Cursor终审-首版脚本.json": "50a9ca565d3d3bdd2b276608367fdaee4440d20b9ca55dfdd696e8460a29e386",
+    "06-首次写入预检失败.json": "be9d0b7a458f2b465df671854166f08f8fbdba59c099893857785615f4d73769",
+    "受保护写入.mjs": "7501cdd79c7ea96343c96be0c5858bef2f3e0099bafc5e2c911e08886e6ab0e8",
+    "独立GET回读.mjs": "b47c66a2f8b9d74041e0dee9c6b7839b4d442027bf67c987ae828f19ee281862",
+    "只读页面验收.mjs": "aff408727c57c9b2da64baec3c8d6be44dde68022baea28738ec098fe2f9535b",
+    "07-Cursor独立评审.json": "372660bcc04a9ea25e8a90d121df758a2865c14dde9b6342da13f209d60a3ed1"
+  },
+  "cursorReview": {
+    "file": "07-Cursor独立评审.json",
+    "status": "READY",
+    "accepted": true,
+    "revision": "rev4",
+    "businessWrites": 0,
+    "approvedInputHashes": {
+      "批次配置.mjs": "ecfe3b6cd8cad6e953a4b6e2f19ff3ff5730bf65379c3d00d59dbf0bd23be447",
+      "00-独立语义评审.json": "d04bb9dc7371177efa2e1526cf7e1164a662e5f4e65247572cfecc4c1c34010a",
+      "README.md": "d3fef2a3072489e5dee7556140353b2f12fd58f7f9d12a25216fbb3b8596388f",
+      "01-合并方案.md": "62c454ef3a066c3c09e6683c48b09c127085e485b99aa811ad540c98f1fe7774",
+      "02-合并冻结请求.json": "431c7f2d549120e491b362e47a59d459a2b20fcaebd2e91ad557a952332ca807",
+      "03-来源散列快照.json": "e7495be67e882f2fb0e8c5722ec2bf12899879ade837b81d4417e107df8e7f3e",
+      "04-共享写前现值.json": "d8f12502b144964fc6eff9aba09b19967d930a6cdabafd4e0acc3a025e36f5f7",
+      "05-Cursor终审-首版脚本.json": "50a9ca565d3d3bdd2b276608367fdaee4440d20b9ca55dfdd696e8460a29e386",
+      "06-首次写入预检失败.json": "be9d0b7a458f2b465df671854166f08f8fbdba59c099893857785615f4d73769",
+      "受保护写入.mjs": "7501cdd79c7ea96343c96be0c5858bef2f3e0099bafc5e2c911e08886e6ab0e8",
+      "独立GET回读.mjs": "b47c66a2f8b9d74041e0dee9c6b7839b4d442027bf67c987ae828f19ee281862",
+      "只读页面验收.mjs": "aff408727c57c9b2da64baec3c8d6be44dde68022baea28738ec098fe2f9535b"
+    },
+    "writeAllowlistAudit": {
+      "auditAvailable": true,
+      "outsideScopeCount": 0,
+      "runDeltaOutsideScopeCount": 0,
+      "runDeltaCount": 0,
+      "diffBytes": 0
+    },
+    "toolEvents": {
+      "uniqueToolCallCount": 1,
+      "terminalStatuses": {
+        "call-64b01cdb-905d-4457-9884-adab5aa87fb6-0\nfc_16cb7f14-87ab-912a-a0ff-b502fe35f214_0": "completed"
+      },
+      "allTerminalCallsCompleted": true,
+      "anyTruncated": false
+    }
+  },
+  "priorFailure": {
+    "file": "06-首次写入预检失败.json",
+    "businessWrites": 0
+  },
+  "preflight": {
+    "rounds": [
+      {
+        "pass": "写入前第一轮",
+        "skillCount": 1062,
+        "ruleCount": 104,
+        "sourceInitializedCount": 24,
+        "ruleKeysSha256": "0b26a19b47aa63d43975c5694a3ae2dc04b2ac74d9c90b5d8b927e8b90326fb2"
+      },
+      {
+        "pass": "写入前第二轮",
+        "skillCount": 1062,
+        "ruleCount": 104,
+        "sourceInitializedCount": 24,
+        "ruleKeysSha256": "0b26a19b47aa63d43975c5694a3ae2dc04b2ac74d9c90b5d8b927e8b90326fb2"
+      }
+    ],
+    "targetRounds": [
+      {
+        "pass": "写入前第一轮",
+        "snapshots": [
+          {
+            "id": "garen",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "94acd013913bed3ebae33448506f2b1674f07d65e5cf893d8af071cadec82fdd"
+          },
+          {
+            "id": "vex",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "c0cbfb302542a7d5fbf9deecb8d20bd8623f9529f6077f0c24f47d8fb3b16fa2"
+          },
+          {
+            "id": "kassadin",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "d5445116b27d20a2ede4c40a971e6bd13a8ec1fab0b7d89e8fec8825b974e84a"
+          },
+          {
+            "id": "ivern",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "d86bebeb0d5f3173598a5da4feeae8c1698d91ec4eb1444758b9405c1df34ccd"
+          }
+        ]
+      },
+      {
+        "pass": "写入前第二轮",
+        "snapshots": [
+          {
+            "id": "garen",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "94acd013913bed3ebae33448506f2b1674f07d65e5cf893d8af071cadec82fdd"
+          },
+          {
+            "id": "vex",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "c0cbfb302542a7d5fbf9deecb8d20bd8623f9529f6077f0c24f47d8fb3b16fa2"
+          },
+          {
+            "id": "kassadin",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "d5445116b27d20a2ede4c40a971e6bd13a8ec1fab0b7d89e8fec8825b974e84a"
+          },
+          {
+            "id": "ivern",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "d86bebeb0d5f3173598a5da4feeae8c1698d91ec4eb1444758b9405c1df34ccd"
+          }
+        ]
+      }
+    ]
+  },
+  "writes": [
+    {
+      "id": "garen",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/garen_w/trigger-rules",
+      "detailRoute": "/skills/garen_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "5ef22f335786b92c1094b14959c64c4bbf79865d783d8de74ecddc2d39b29165",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/garen_w/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_upfront_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "upfront_shield"
+              },
+              "name": "执行勇气短时护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            },
+            {
+              "actionKey": "execute_upfront_tenacity",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "upfront_tenacity"
+              },
+              "name": "执行勇气短时韧性",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 20,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 garen_w 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 upfront_shield 和 upfront_tenacity。两个效果结果 target=SOURCE，均使用 upfront_duration_ms（750毫秒）；永久双抗、主动减伤和冷却不在本条规则中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "garen_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "勇气主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "vex",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/vex_w/trigger-rules",
+      "detailRoute": "/skills/vex_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "24af4666a301d860d92bcc50a47895d93d0f920500649b8ccb06b7920c688d51",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/vex_w/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_self_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "self_shield"
+              },
+              "name": "执行生人勿近自身护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 vex_w 主动使用；无条件在 CURRENT_TARGET 上执行已有 self_shield。self_shield 结果 target=SOURCE，只连接自身护盾，不表达范围伤害、暮气消费或资源消耗。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "vex_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "生人勿近主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "kassadin",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/kassadin_q/trigger-rules",
+      "detailRoute": "/skills/kassadin_q/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/kassadin_q/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_magic_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "magic_shield"
+              },
+              "name": "执行虚无法球魔法护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 kassadin_q 主动使用；无条件在 CURRENT_TARGET 上执行已有 magic_shield。magic_shield 结果 target=SOURCE 且只吸收 magic 魔法伤害，不表达目标伤害、引导打断或资源消耗。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "kassadin_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "虚无法球主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "ivern",
+      "ruleKey": "actual_hit",
+      "method": "POST",
+      "route": "/skills/ivern_q/trigger-rules",
+      "detailRoute": "/skills/ivern_q/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "bodySha256": "a5fbdbcfe2c0287bd069bf321d0c06ed406fa87040bbce015c47ea0d491167c7",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/ivern_q/trigger-rules/actual_hit",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "damage"
+              },
+              "name": "执行根深敌固命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "命中对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "仅消费宿主确认的 ivern_q 实际英雄命中，并在当前目标上执行已有的 damage；禁锢、再次施放突进、友军与非史诗级野怪分支、法力消耗和冷却不在本条规则中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ivern_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "命中英雄触发根深敌固伤害",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      }
+    }
+  ],
+  "finalReadback": {
+    "targetSnapshots": [
+      {
+        "id": "garen",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "94acd013913bed3ebae33448506f2b1674f07d65e5cf893d8af071cadec82fdd"
+      },
+      {
+        "id": "vex",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "c0cbfb302542a7d5fbf9deecb8d20bd8623f9529f6077f0c24f47d8fb3b16fa2"
+      },
+      {
+        "id": "kassadin",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "d5445116b27d20a2ede4c40a971e6bd13a8ec1fab0b7d89e8fec8825b974e84a"
+      },
+      {
+        "id": "ivern",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "d86bebeb0d5f3173598a5da4feeae8c1698d91ec4eb1444758b9405c1df34ccd"
+      }
+    ],
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24,
+    "ruleKeysSha256": "3a5eef1477b56b8493f70d2cdced2c3cbbcc1e51403b82ddb98869cffdea07ee",
+    "newRuleDetails": [
+      {
+        "id": "garen",
+        "status": 200,
+        "bodySha256": "5ef22f335786b92c1094b14959c64c4bbf79865d783d8de74ecddc2d39b29165"
+      },
+      {
+        "id": "vex",
+        "status": 200,
+        "bodySha256": "24af4666a301d860d92bcc50a47895d93d0f920500649b8ccb06b7920c688d51"
+      },
+      {
+        "id": "kassadin",
+        "status": 200,
+        "bodySha256": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6"
+      },
+      {
+        "id": "ivern",
+        "status": 200,
+        "bodySha256": "a5fbdbcfe2c0287bd069bf321d0c06ed406fa87040bbce015c47ea0d491167c7"
+      }
+    ]
+  },
+  "businessWriteCount": 4,
+  "getCount": 3847,
+  "error": null,
+  "completedAt": "2026-09-12T16:40:10.049Z"
+}

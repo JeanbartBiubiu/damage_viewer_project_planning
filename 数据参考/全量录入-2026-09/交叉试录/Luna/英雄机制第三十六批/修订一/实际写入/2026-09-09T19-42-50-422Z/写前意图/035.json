@@ -1,0 +1,77 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 35,
+    "method": "POST",
+    "route": "/skills/evelynn_e/formulas",
+    "detailRoute": "/skills/evelynn_e/formulas/empowered_magic_damage",
+    "skillKey": "evelynn_e",
+    "kind": "formulas",
+    "stableKey": "empowered_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_magic_damage",
+      "name": "强化鞭笞魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_points_to_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "empowered_percent_health_points"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "empowered_percent_ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "强化E = 基础伤害 + 0.01×(4 + 0.025×来源总法强)×目标最大生命；由恶魔魅影强化时使用，不能与普通E相加。",
+      "sortOrder": 20
+    }
+  }
+}

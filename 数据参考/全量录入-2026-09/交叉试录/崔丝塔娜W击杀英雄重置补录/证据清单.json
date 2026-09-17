@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-09-10T16:06:22.209Z",
+  "gameId": "lol",
+  "skillKey": "tristana_w",
+  "sourceVersion": "client 16.17 / current wiki revision 4007758",
+  "api": {
+    "writes": 1,
+    "writeStatus": 201,
+    "writerPreflightGets": 10,
+    "writerReadbackGets": 11,
+    "independentReadbackGets": 11,
+    "emptyListRecheckGets": 1
+  },
+  "browser": {
+    "pages": 1,
+    "apiWrites": 0
+  },
+  "contractFix": {
+    "backendCommit": "cc9ef07c",
+    "frontendCommit": "c9d840bc",
+    "planningCommit": "f9e3ec38",
+    "cursorReviewRun": "run-343f4b49-4f54-4975-9e6a-39456c40f0b0"
+  },
+  "evidenceCorrections": {
+    "internalStateEmptyList": "同批原始数据和当前HTTP均为[]；独立证据中的null为采集序列化失真。"
+  },
+  "files": [
+    {
+      "name": "01-来源与范围判定.md",
+      "bytes": 1841,
+      "sha256": "0cd5c896e7526fb08ca710cdf18e3dcd9fb3762f3bbf8d214eca928c9b8a963d"
+    },
+    {
+      "name": "02-作者契约修正与验证.md",
+      "bytes": 1367,
+      "sha256": "50556e63dd4c1d0302478dcc6765333499079416fdd7bdef456a139c6bbd368f"
+    },
+    {
+      "name": "03-写入前现值.json",
+      "bytes": 14808,
+      "sha256": "7c3d18fa520606754099a31836c7b7114fd02fc56a78ed5e058a7e929ec1153c"
+    },
+    {
+      "name": "04-写入与即时回读.json",
+      "bytes": 18249,
+      "sha256": "cd878153f3849906c758d945b79b878b10b746dfe8f59b3c998caaad4d06cf80"
+    },
+    {
+      "name": "05-Luna独立回读.json",
+      "bytes": 8088,
+      "sha256": "b669545076443d05647ab246ae2b5bba23a68c9f8757410d40cb8f467434bd2a"
+    },
+    {
+      "name": "06-页面验收.json",
+      "bytes": 1404,
+      "sha256": "2046e73a6761f1bf28bc17f6242c2f35c9e0870a55e0193f7f312e2e69b50191"
+    },
+    {
+      "name": "07-空列表观测复核.json",
+      "bytes": 1245,
+      "sha256": "e1f007630f713f7c7bbb8110c454231ec07c053100ff6603499b9e0d41a2b337"
+    },
+    {
+      "name": "README.md",
+      "bytes": 3006,
+      "sha256": "962655f8d5e64d38593dd3279bb37fcda00523b3cf81b161ffab5d07fc04f2a5"
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

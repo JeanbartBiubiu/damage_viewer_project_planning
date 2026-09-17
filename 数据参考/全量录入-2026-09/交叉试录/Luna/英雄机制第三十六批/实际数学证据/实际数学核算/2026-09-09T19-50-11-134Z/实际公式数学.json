@@ -1,0 +1,867 @@
+{
+  "generatedAt": "2026-09-09T19:50:11.135Z",
+  "batch": "英雄机制第三十六批",
+  "revision": "修订一",
+  "status": "PASS",
+  "complete": true,
+  "mode": "实际GET表达式独立数学核算",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "apiCalls": 0,
+  "apiWrites": 0,
+  "noBusinessWrites": true,
+  "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
+  "planSha256": "2241e69a53f9538a4135515251f063aa5df4a03120e33163f56648d5471ec91b",
+  "sourceBindingSha256": "9fe03948856d29d6c74d6f01c14a9be81d626dbf0f84d6e8991658ac7e606a13",
+  "getReportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero36-independent-review\\实际回读\\2026-09-09T19-49-46-310Z\\独立全量GET.json",
+  "getReportSha256": "f3b147550ea7ca62f7ef75947887d1eb5c5bb0a9f7844709f5d0988bf04104f5",
+  "formulas": {
+    "total": 31,
+    "scenariosPerFormula": 2,
+    "scenarioCases": 62,
+    "passed": 31,
+    "results": [
+      {
+        "skillKey": "evelynn_e",
+        "formulaKey": "empowered_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 140,
+            "expected": 139.99999895691872,
+            "delta": 0.000001043081283569336,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 528,
+            "expected": 527.9999964237213,
+            "delta": 0.0000035762786865234375,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "evelynn_e",
+        "formulaKey": "ordinary_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 102,
+            "expected": 101.99999879300594,
+            "delta": 0.0000012069940567016602,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 367.2,
+            "expected": 367.19999324083335,
+            "delta": 0.0000067591666379485105,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "evelynn_p",
+        "formulaKey": "healing_threshold",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 470,
+            "expected": 470,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 1,
+            "actual": 1190,
+            "expected": 1190,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "evelynn_q",
+        "formulaKey": "marked_bonus_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 35,
+            "expected": 35,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 135,
+            "expected": 135,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_q",
+        "formulaKey": "missile_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 45,
+            "expected": 45,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 125,
+            "expected": 125,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_r",
+        "formulaKey": "low_health_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 444,
+            "expected": 444.00001764297485,
+            "delta": -0.000017642974853515625,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 3,
+            "actual": 1476,
+            "expected": 1476.0000586509705,
+            "delta": -0.000058650970458984375,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "evelynn_r",
+        "formulaKey": "normal_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 185,
+            "expected": 185,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 3,
+            "actual": 615,
+            "expected": 615,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_e",
+        "formulaKey": "magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 110,
+            "expected": 110,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 370,
+            "expected": 370,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "formulaKey": "feared_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 80,
+            "expected": 80,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 655.1999999999999,
+            "expected": 655.2000135183334,
+            "delta": -0.000013518333503270696,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "fiddlesticks_q",
+        "formulaKey": "normal_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 40,
+            "expected": 40,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 327.59999999999997,
+            "expected": 327.6000067591667,
+            "delta": -0.000006759166751635348,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "formulaKey": "damage_done_single_tick",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 47.5,
+            "expected": 47.5,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 3,
+            "actual": 127.5,
+            "expected": 127.5,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "formulaKey": "damage_per_second",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 190,
+            "expected": 190,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 3,
+            "actual": 510,
+            "expected": 510,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_r",
+        "formulaKey": "total_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 950,
+            "expected": 950,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 3,
+            "actual": 2550,
+            "expected": 2550,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "formulaKey": "champion_heal_amount",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 70,
+            "expected": 70,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 797.5,
+            "expected": 797.5000000000001,
+            "delta": -1.1368683772161603e-13,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "formulaKey": "damage_per_second",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 96,
+            "expected": 95.99999904632568,
+            "delta": 9.5367431640625e-7,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 324,
+            "expected": 323.99999618530273,
+            "delta": 0.000003814697265625,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "fiddlesticks_w",
+        "formulaKey": "end_missing_health_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 38.4,
+            "expected": 38.4,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 385,
+            "expected": 385,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_e",
+        "formulaKey": "impact_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 100,
+            "expected": 100,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 320,
+            "expected": 320,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_p",
+        "formulaKey": "champion_heal_per_tick",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 5.5,
+            "expected": 5.500000059604645,
+            "delta": -5.960464477539063e-8,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 1,
+            "actual": 29,
+            "expected": 29.00000023841858,
+            "delta": -2.384185791015625e-7,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "lillia_p",
+        "formulaKey": "champion_heal_total",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 33,
+            "expected": 33.00000035762787,
+            "delta": -3.5762786865234375e-7,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 1,
+            "actual": 174,
+            "expected": 174.00000143051147,
+            "delta": -0.000001430511474609375,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "lillia_p",
+        "formulaKey": "dot_total_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 60,
+            "expected": 59.999998807907104,
+            "delta": 0.0000011920928955078125,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 1,
+            "actual": 216,
+            "expected": 215.99999660253522,
+            "delta": 0.000003397464780618975,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "lillia_q",
+        "formulaKey": "inner_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 63,
+            "expected": 62.99999952316284,
+            "delta": 4.76837158203125e-7,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 187,
+            "expected": 186.99999809265137,
+            "delta": 0.0000019073486328125,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "formulaKey": "move_speed_per_stack",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 0.05399999999999999,
+            "expected": 0.05400000046938658,
+            "delta": -4.693865851557177e-10,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 0.16599999999999998,
+            "expected": 0.16600000485777855,
+            "delta": -4.857778568290172e-9,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_q",
+        "formulaKey": "outer_true_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 63,
+            "expected": 62.99999952316284,
+            "delta": 4.76837158203125e-7,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 187,
+            "expected": 186.99999809265137,
+            "delta": 0.0000019073486328125,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_r",
+        "formulaKey": "break_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 132,
+            "expected": 132.00000047683716,
+            "delta": -4.76837158203125e-7,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 3,
+            "actual": 328,
+            "expected": 328.00000190734863,
+            "delta": -0.0000019073486328125,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "formulaKey": "magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 108,
+            "expected": 107.99999952316284,
+            "delta": 4.76837158203125e-7,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 272,
+            "expected": 271.99999809265137,
+            "delta": 0.0000019073486328125,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "lillia_w",
+        "formulaKey": "sweet_spot_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 324,
+            "expected": 323.9999985694885,
+            "delta": 0.000001430511474609375,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 816,
+            "expected": 815.9999942779541,
+            "delta": 0.0000057220458984375,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "formulaKey": "base_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 94,
+            "expected": 94.00000095367432,
+            "delta": -9.5367431640625e-7,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 266,
+            "expected": 266.00000381469727,
+            "delta": -0.000003814697265625,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "formulaKey": "max_health_magic_component",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 60,
+            "expected": 60,
+            "delta": 0,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 192,
+            "expected": 192,
+            "delta": 0,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "singed_e",
+        "formulaKey": "total_magic_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 154,
+            "expected": 154.00000095367432,
+            "delta": -9.5367431640625e-7,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 458,
+            "expected": 458.00000381469727,
+            "delta": -0.000003814697265625,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 2
+      },
+      {
+        "skillKey": "singed_q",
+        "formulaKey": "approximate_total_damage",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 256.5,
+            "expected": 256.500004529953,
+            "delta": -0.0000045299530029296875,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 931,
+            "expected": 931.000018119812,
+            "delta": -0.00001811981201171875,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      },
+      {
+        "skillKey": "singed_q",
+        "formulaKey": "damage_per_second",
+        "scenarios": [
+          {
+            "label": "低等级输入",
+            "requestedSkillLevel": 1,
+            "skillLevel": 1,
+            "actual": 54,
+            "expected": 54.000000953674316,
+            "delta": -9.5367431640625e-7,
+            "passed": true
+          },
+          {
+            "label": "高等级输入",
+            "requestedSkillLevel": 5,
+            "skillLevel": 5,
+            "actual": 196,
+            "expected": 196.00000381469727,
+            "delta": -0.000003814697265625,
+            "passed": true
+          }
+        ],
+        "missingLeavesChecked": 1
+      }
+    ]
+  },
+  "missingInputChecks": {
+    "total": 40,
+    "passed": 40,
+    "failures": []
+  },
+  "parameterConstraints": {
+    "total": 159,
+    "passed": 159,
+    "runtimeParameters": 5,
+    "integerParameters": 112,
+    "millisecondsParameters": 56,
+    "failures": []
+  },
+  "boundaryChecks": {
+    "total": 5,
+    "passed": 5,
+    "values": [
+      {
+        "name": "伊芙琳Q标记最多命中",
+        "skillKey": "evelynn_q",
+        "parameterKey": "marked_bonus_max_hits",
+        "expected": 3,
+        "actual": 3,
+        "passed": true
+      },
+      {
+        "name": "伊芙琳W魅惑蓄力毫秒",
+        "skillKey": "evelynn_w",
+        "parameterKey": "charm_charge_time_ms",
+        "expected": 2500,
+        "actual": 2500,
+        "passed": true
+      },
+      {
+        "name": "辛吉德Q每秒法力",
+        "skillKey": "singed_q",
+        "parameterKey": "mana_per_second",
+        "expected": 13,
+        "actual": 13,
+        "passed": true
+      },
+      {
+        "name": "费德提克R持续秒数",
+        "skillKey": "fiddlesticks_r",
+        "parameterKey": "full_duration_seconds",
+        "expected": 5,
+        "actual": 5,
+        "passed": true
+      },
+      {
+        "name": "莉莉娅Q舞步层数上限",
+        "skillKey": "lillia_q",
+        "parameterKey": "prance_max_stacks",
+        "expected": 4,
+        "actual": 4,
+        "passed": true
+      }
+    ],
+    "failures": []
+  },
+  "failures": {
+    "formula": [],
+    "missingInput": [],
+    "parameter": [],
+    "boundary": []
+  },
+  "note": "实际值来自独立全量GET中的公式和参数详情，期望值只读取冻结来源绑定的客户端DataValues与mSpellCalculations；缺值检查是真实调用求值器后的拒绝结果。本文件是验收核算器，不是战斗运行时。"
+}

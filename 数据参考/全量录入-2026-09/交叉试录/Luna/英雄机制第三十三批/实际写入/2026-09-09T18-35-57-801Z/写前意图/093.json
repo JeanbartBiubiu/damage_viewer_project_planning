@@ -1,0 +1,45 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "method": "POST",
+    "route": "/skills/karma_w/formulas",
+    "detailRoute": "/skills/karma_w/formulas/initial_magic_damage",
+    "skillKey": "karma_w",
+    "kind": "formulas",
+    "stableKey": "initial_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_magic_damage",
+      "name": "坚定不移首次单一敌方魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "只保存首次命中伤害；2秒后再次伤害依赖同一敌人连接事件。",
+      "sortOrder": 10
+    }
+  }
+}

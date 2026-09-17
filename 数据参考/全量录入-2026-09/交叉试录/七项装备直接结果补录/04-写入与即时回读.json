@@ -1,0 +1,3713 @@
+{
+  "startedAt": "2026-09-11T14:53:27.349Z",
+  "finishedAt": "2026-09-11T14:53:53.926Z",
+  "intent": {
+    "createdAt": "2026-09-11T14:42:05.731Z",
+    "scope": [
+      "item_2510_passive",
+      "item_3107_active",
+      "item_3137_passive",
+      "item_3152_active",
+      "item_3181_passive",
+      "item_3748_passive",
+      "item_3748_active"
+    ],
+    "planRevision": 1,
+    "planSha256": "50ff66ce50f0aa0d876470876207dd794ad0f6dc4ca4d818fa36a2a6c65936d4",
+    "frozenSha256": "9b726b52dcbef12319c32d1b02e7500c7f5db82d2d2a41976e36d7a6a3f73b16",
+    "baselineSha256": "e1a66fa281ecdbdce85aed3a8962a405dc19c313b3785117930d1fab6a99f445",
+    "writerSha256": "663eab8fd9800f641332fd238f3df0175f3656e5c38ba5e4eca057875ea038f6",
+    "plannedWrites": 12,
+    "writeOrder": [
+      "POST /skills/item_2510_passive/effects (spellblade_damage)",
+      "POST /skills/item_2510_passive/effects (spellblade_heal)",
+      "POST /skills/item_3107_active/effects (enemy_true_damage)",
+      "POST /skills/item_3137_passive/effects (self_heal)",
+      "POST /skills/item_3152_active/effects (firebolt_hit)",
+      "POST /skills/item_3181_passive/effects (melee_bonus_damage)",
+      "POST /skills/item_3181_passive/effects (ranged_bonus_damage)",
+      "POST /skills/item_3748_passive/effects (primary_on_hit_melee)",
+      "POST /skills/item_3748_passive/effects (primary_on_hit_ranged)",
+      "POST /skills/item_3748_active/effects (active_primary_melee)",
+      "POST /skills/item_3748_active/effects (active_primary_ranged)",
+      "PUT /skills/item_3107_active/formulas/enemy_true_damage"
+    ],
+    "noDelete": true,
+    "authorizationValueRecorded": false
+  },
+  "requestSummary": {
+    "GET": 256,
+    "writes": 12,
+    "plannedWrites": 12,
+    "preflightGET": 116,
+    "operations": 12
+  },
+  "assertions": {
+    "sevenSkillsHandled": true,
+    "twelveOperationsCompleted": true,
+    "elevenEffectsUnique": true,
+    "protectedSubjectsUnchanged": true,
+    "protectedParametersUnchanged": true,
+    "protectedFormulaStructureUnchanged": true,
+    "protectedRelationsUnchanged": true,
+    "protectedRepresentativeImagesUnchanged": true,
+    "processesRemainEmpty": true,
+    "internalStatesRemainEmpty": true,
+    "triggerRulesRemainEmpty": true,
+    "authorizationValueRecorded": false,
+    "runtimeValidation": "未执行"
+  },
+  "operations": [
+    {
+      "skillKey": "item_2510_passive",
+      "kind": "effect create",
+      "route": "/skills/item_2510_passive/effects/spellblade_damage",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "f28468ce29f5d04e24401c6a449c93ef8b48184279246a3c7e613b0efa8f6c23",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:28.56832Z",
+        "description": "使用现有咒刃伤害公式保存下一次普攻对当前目标的额外魔法伤害；施放后10秒资格、攻击消费、0.2秒重复攻击特效和1.5秒冷却尚未接线。",
+        "effectKey": "spellblade_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "咒刃额外魔法伤害",
+        "results": [
+          {
+            "description": "仅保存主目标单次额外伤害，不表示普攻触发已连接。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "咒刃额外魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "spellblade_damage_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_2510_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:53:28.56832Z"
+      }
+    },
+    {
+      "skillKey": "item_2510_passive",
+      "kind": "effect create",
+      "route": "/skills/item_2510_passive/effects/spellblade_heal",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "19660f0031f8405ab2d84c1c66ac7f2c2e29cdac18a9916bd6f5d41b41053410",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:31.624647Z",
+        "description": "使用现有咒刃治疗公式保存一次自身直接治疗；施放后攻击资格、攻击消费、重复攻击特效和冷却尚未接线。",
+        "effectKey": "spellblade_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "咒刃自身治疗",
+        "results": [
+          {
+            "description": "仅保存自身治疗数值，不表示触发时点已经连接。",
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "咒刃自身治疗",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "spellblade_healing_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_2510_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-11T14:53:31.624647Z"
+      }
+    },
+    {
+      "skillKey": "item_3107_active",
+      "kind": "effect create",
+      "route": "/skills/item_3107_active/effects/enemy_true_damage",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "429bf020a3e0f558c483a685aec44debf37ef61e456f94e25efcb7345f3ee58b",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:32.937336Z",
+        "description": "使用现有公式保存对当前敌方目标的真实伤害；2.5秒延迟、范围、相同目标衰减和90秒冷却尚未接线。",
+        "effectKey": "enemy_true_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "干涉敌方真实伤害",
+        "results": [
+          {
+            "description": "仅保存单个敌方目标的伤害数值；友方范围治疗不在本结果中。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "real",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "干涉敌方真实伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "enemy_true_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3107_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:53:32.937336Z"
+      }
+    },
+    {
+      "skillKey": "item_3137_passive",
+      "kind": "effect create",
+      "route": "/skills/item_3137_passive/effects/self_heal",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "32990128c3a503d1bbb677a1d3935f09c485da382a657f89e377e5bd6efce1e3",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:34.288208Z",
+        "description": "使用现有自身治疗公式保存一次自身直接治疗；参与击杀资格、3秒窗口、1.75秒新星、盟友范围和60秒冷却尚未接线。",
+        "effectKey": "self_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "死中焕生自身治疗",
+        "results": [
+          {
+            "description": "仅保存施法者自身治疗，不能代表范围内盟友目标。",
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "死中焕生自身治疗",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "self_healing",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3137_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:53:34.288208Z"
+      }
+    },
+    {
+      "skillKey": "item_3152_active",
+      "kind": "effect create",
+      "route": "/skills/item_3152_active/effects/firebolt_hit",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "4a35941c7099631a2919960025df82aca853efa2a49512145ef0aed8f7904351",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:35.600045Z",
+        "description": "使用现有火箭伤害公式保存一次对当前目标的魔法伤害；冲刺、弹道、每次施放只命中一次和冷却尚未接线。",
+        "effectKey": "firebolt_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "超音速火箭命中",
+        "results": [
+          {
+            "description": "仅保存单个目标的一次火箭伤害，不表示弹道或命中去重已经连接。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "超音速火箭命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "firebolt_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3152_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:53:35.600045Z"
+      }
+    },
+    {
+      "skillKey": "item_3181_passive",
+      "kind": "effect create",
+      "route": "/skills/item_3181_passive/effects/melee_bonus_damage",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "1bac32e6b6bcf812d6387b48ef59a8799f23df2a3ad3b5c80d8fe56967b32256",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:36.960703Z",
+        "description": "使用现有近战公式保存对当前主目标的额外物理伤害；攻击计数、满层消费和目标资格尚未接线。",
+        "effectKey": "melee_bonus_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "船长近战主目标附伤",
+        "results": [
+          {
+            "description": "仅保存近战分支，后续过程必须在近战与远程分支中选择一个。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "船长近战主目标附伤",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "melee_bonus_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3181_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:53:36.960703Z"
+      }
+    },
+    {
+      "skillKey": "item_3181_passive",
+      "kind": "effect create",
+      "route": "/skills/item_3181_passive/effects/ranged_bonus_damage",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "6a875b0fa01bed9f18e265bdc87c49992286205def33abc186ce398134e771cb",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:38.329048Z",
+        "description": "使用现有远程公式保存对当前主目标的额外物理伤害；攻击计数、满层消费和目标资格尚未接线。",
+        "effectKey": "ranged_bonus_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "船长远程主目标附伤",
+        "results": [
+          {
+            "description": "仅保存远程分支，后续过程必须在近战与远程分支中选择一个。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "船长远程主目标附伤",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "ranged_bonus_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3181_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-11T14:53:38.329048Z"
+      }
+    },
+    {
+      "skillKey": "item_3748_passive",
+      "kind": "effect create",
+      "route": "/skills/item_3748_passive/effects/primary_on_hit_melee",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "82530af4f43ee25e8a95959118707f1dbf407b3c884e8569d8b8e3ece01aaf7a",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:39.652237Z",
+        "description": "使用现有近战主目标公式保存一次普攻附加物理伤害；普通攻击触发与近远程选择尚未接线，次要锥形目标按一对一范围排除。",
+        "effectKey": "primary_on_hit_melee",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "顺劈近战主目标附伤",
+        "results": [
+          {
+            "description": "仅保存当前唯一主目标的近战分支。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "顺劈近战主目标附伤",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "primary_on_hit_damage_melee",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3748_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:53:39.652237Z"
+      }
+    },
+    {
+      "skillKey": "item_3748_passive",
+      "kind": "effect create",
+      "route": "/skills/item_3748_passive/effects/primary_on_hit_ranged",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "a3db1837fe4eff42b6e4ab0e901fed42fefd099e32d6bec4b4984edadfd88c0d",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:40.966023Z",
+        "description": "使用现有远程主目标公式保存一次普攻附加物理伤害；普通攻击触发与近远程选择尚未接线，次要锥形目标按一对一范围排除。",
+        "effectKey": "primary_on_hit_ranged",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "顺劈远程主目标附伤",
+        "results": [
+          {
+            "description": "仅保存当前唯一主目标的远程分支。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "顺劈远程主目标附伤",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "primary_on_hit_damage_ranged",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3748_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-11T14:53:40.966023Z"
+      }
+    },
+    {
+      "skillKey": "item_3748_active",
+      "kind": "effect create",
+      "route": "/skills/item_3748_active/effects/active_primary_melee",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "2956a1b3f33450a02354b8c43d930e5993fa1379618ddc4b9cf3631039e5cd00",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:42.304894Z",
+        "description": "使用现有近战主目标公式保存强化普攻的额外物理伤害；10秒准备窗口、攻击消费、冷却和近远程选择尚未接线，次要目标按一对一范围排除。",
+        "effectKey": "active_primary_melee",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "刚斩近战主目标附伤",
+        "results": [
+          {
+            "description": "仅保存当前唯一主目标的近战强化普攻分支。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "刚斩近战主目标附伤",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "active_primary_damage_melee",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3748_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:53:42.304894Z"
+      }
+    },
+    {
+      "skillKey": "item_3748_active",
+      "kind": "effect create",
+      "route": "/skills/item_3748_active/effects/active_primary_ranged",
+      "method": "POST",
+      "mode": "written",
+      "writeStatus": 201,
+      "desiredSha256": "60e9d0a8a3aa61ff4d05f46f00ba029ca078128ca520da599e3b5b285ec57c23",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-11T14:53:43.639337Z",
+        "description": "使用现有远程主目标公式保存强化普攻的额外物理伤害；10秒准备窗口、攻击消费、冷却和近远程选择尚未接线，次要目标按一对一范围排除。",
+        "effectKey": "active_primary_ranged",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "刚斩远程主目标附伤",
+        "results": [
+          {
+            "description": "仅保存当前唯一主目标的远程强化普攻分支。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "刚斩远程主目标附伤",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "active_primary_damage_ranged",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3748_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-11T14:53:43.639337Z"
+      }
+    },
+    {
+      "skillKey": "item_3107_active",
+      "kind": "formula description update",
+      "route": "/skills/item_3107_active/formulas/enemy_true_damage",
+      "method": "PUT",
+      "mode": "written",
+      "writeStatus": 200,
+      "desiredSha256": "3754f021c302b0740acb43ed026c9510d15d310c81ace59a8f37475566d8bfc5",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-09T09:30:49.301456Z",
+        "description": "0.1×当前敌方英雄最大生命值输入；独立真实伤害结果已组成，2.5秒延迟、范围、重复衰减和目标输入供值仍未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "enemy_true_damage_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_target_max_health"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "enemy_true_damage",
+        "gameId": "lol",
+        "name": "干涉敌方真实伤害值",
+        "skillKey": "item_3107_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:53:45.090499Z"
+      }
+    }
+  ],
+  "finalStates": [
+    {
+      "skillKey": "item_2510_passive",
+      "state": {
+        "subject": {
+          "method": "GET",
+          "route": "/skills/item_2510_passive",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T03:37:53.764993Z",
+            "description": "保留施放技能后下一次攻击的额外魔法伤害、治疗和额外攻击特效说明。伤害为0.75基础攻击力+0.1法强，自身治疗为0.1法强+0.03额外生命；属性口径已有同构建具名补证，攻击消费、重复攻击特效和治疗时点尚未接线。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "黄昏与黎明·咒刃",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_2510_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-09T04:49:44.755323Z"
+          }
+        },
+        "representativeImage": {
+          "method": "GET",
+          "route": "/skills/item_2510_passive/representative-image",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_2510",
+              "name": "item_2510"
+            }
+          }
+        },
+        "equipmentRelation": {
+          "method": "GET",
+          "route": "/equipment-skill-relations?equipmentKey=item_2510&skillKey=item_2510_passive",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_2510",
+                "equipmentName": "黄昏与黎明",
+                "gameId": "lol",
+                "skillKey": "item_2510_passive",
+                "skillName": "黄昏与黎明·咒刃",
+                "skillStatus": "ENABLED",
+                "sortOrder": 10
+              }
+            ],
+            "total": 1
+          }
+        },
+        "components": {
+          "parameters": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_2510_passive/parameters",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T03:37:54.585787Z",
+                  "description": "客户端SpellbladeCooldown与Cooldown均为1.5秒，换算为1500毫秒；冷却消费仍待接线。",
+                  "fixedValue": 1500,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃冷却",
+                  "parameterKey": "spellblade_cooldown_ms",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T03:37:54.585787Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T03:37:55.362593Z",
+                  "description": "当前SpellbladeDamage第一项mStat2/formula1，系数0.75；同构建具名补证确定为施法者基础攻击力。",
+                  "fixedValue": 0.75,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃基础攻击力伤害系数",
+                  "parameterKey": "spellblade_damage_mstat2_formula1_ratio",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T04:49:43.904073Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T03:37:56.85427Z",
+                  "description": "SpellbladeDamage第二项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+                  "fixedValue": 0.1,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃伤害第二缩放系数",
+                  "parameterKey": "spellblade_damage_default_ratio",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T03:37:56.85427Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T03:37:57.691182Z",
+                  "description": "SpellbladeHealing第一项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+                  "fixedValue": 0.1,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃治疗第一缩放系数",
+                  "parameterKey": "spellblade_healing_default_ratio",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 50,
+                  "updatedAt": "2026-09-09T03:37:57.691182Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T03:37:58.409458Z",
+                  "description": "同构建余震具名旁证证明mStat12、mStatFormula2为来源额外生命值；系数0.03。",
+                  "fixedValue": 0.03,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃额外生命治疗系数",
+                  "parameterKey": "spellblade_healing_mstat12_formula2_ratio",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 60,
+                  "updatedAt": "2026-09-09T03:37:58.409458Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_2510_passive/parameters/spellblade_cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T03:37:54.585787Z",
+                  "description": "客户端SpellbladeCooldown与Cooldown均为1.5秒，换算为1500毫秒；冷却消费仍待接线。",
+                  "fixedValue": 1500,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃冷却",
+                  "parameterKey": "spellblade_cooldown_ms",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T03:37:54.585787Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_2510_passive/parameters/spellblade_damage_mstat2_formula1_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T03:37:55.362593Z",
+                  "description": "当前SpellbladeDamage第一项mStat2/formula1，系数0.75；同构建具名补证确定为施法者基础攻击力。",
+                  "fixedValue": 0.75,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃基础攻击力伤害系数",
+                  "parameterKey": "spellblade_damage_mstat2_formula1_ratio",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T04:49:43.904073Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_2510_passive/parameters/spellblade_damage_default_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T03:37:56.85427Z",
+                  "description": "SpellbladeDamage第二项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+                  "fixedValue": 0.1,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃伤害第二缩放系数",
+                  "parameterKey": "spellblade_damage_default_ratio",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T03:37:56.85427Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_2510_passive/parameters/spellblade_healing_default_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T03:37:57.691182Z",
+                  "description": "SpellbladeHealing第一项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+                  "fixedValue": 0.1,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃治疗第一缩放系数",
+                  "parameterKey": "spellblade_healing_default_ratio",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 50,
+                  "updatedAt": "2026-09-09T03:37:57.691182Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_2510_passive/parameters/spellblade_healing_mstat12_formula2_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T03:37:58.409458Z",
+                  "description": "同构建余震具名旁证证明mStat12、mStatFormula2为来源额外生命值；系数0.03。",
+                  "fixedValue": 0.03,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "咒刃额外生命治疗系数",
+                  "parameterKey": "spellblade_healing_mstat12_formula2_ratio",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 60,
+                  "updatedAt": "2026-09-09T03:37:58.409458Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              }
+            ]
+          },
+          "formulas": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_2510_passive/formulas",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T03:37:59.081826Z",
+                  "description": "0.75×施法者基础攻击力+0.1×施法者总法术强度。mStat2/formula1按同构建两类具名补证读取基础攻击力；实际下一次攻击消费仍待接线。",
+                  "formulaKey": "spellblade_damage_value",
+                  "gameId": "lol",
+                  "name": "咒刃额外魔法伤害值",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T04:49:42.970656Z"
+                },
+                {
+                  "createdAt": "2026-09-09T03:37:59.875041Z",
+                  "description": "0.1×来源法术强度 + 0.03×来源额外生命值；额外生命口径由同构建余震具名文本证明。",
+                  "formulaKey": "spellblade_healing_value",
+                  "gameId": "lol",
+                  "name": "咒刃自身治疗值",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T03:37:59.875041Z"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_2510_passive/formulas/spellblade_damage_value",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T03:37:59.081826Z",
+                  "description": "0.75×施法者基础攻击力+0.1×施法者总法术强度。mStat2/formula1按同构建两类具名补证读取基础攻击力；实际下一次攻击消费仍待接线。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "spellblade_damage_mstat2_formula1_ratio"
+                          },
+                          {
+                            "attributeKey": "attack_damage",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "BASE",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "spellblade_damage_default_ratio"
+                          },
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  "formulaKey": "spellblade_damage_value",
+                  "gameId": "lol",
+                  "name": "咒刃额外魔法伤害值",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T04:49:42.970656Z"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_2510_passive/formulas/spellblade_healing_value",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T03:37:59.875041Z",
+                  "description": "0.1×来源法术强度 + 0.03×来源额外生命值；额外生命口径由同构建余震具名文本证明。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "spellblade_healing_default_ratio"
+                          },
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "spellblade_healing_mstat12_formula2_ratio"
+                          },
+                          {
+                            "attributeKey": "hp",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "BONUS",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  "formulaKey": "spellblade_healing_value",
+                  "gameId": "lol",
+                  "name": "咒刃自身治疗值",
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T03:37:59.875041Z"
+                }
+              }
+            ]
+          },
+          "effects": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_2510_passive/effects",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-11T14:53:28.56832Z",
+                  "description": "使用现有咒刃伤害公式保存下一次普攻对当前目标的额外魔法伤害；施放后10秒资格、攻击消费、0.2秒重复攻击特效和1.5秒冷却尚未接线。",
+                  "effectKey": "spellblade_damage",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "咒刃额外魔法伤害",
+                  "resultCount": 1,
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:28.56832Z"
+                },
+                {
+                  "createdAt": "2026-09-11T14:53:31.624647Z",
+                  "description": "使用现有咒刃治疗公式保存一次自身直接治疗；施放后攻击资格、攻击消费、重复攻击特效和冷却尚未接线。",
+                  "effectKey": "spellblade_heal",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "咒刃自身治疗",
+                  "resultCount": 1,
+                  "skillKey": "item_2510_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-11T14:53:31.624647Z"
+                }
+              ]
+            },
+            "details": []
+          },
+          "processes": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_2510_passive/processes",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "internal-states": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_2510_passive/internal-states",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "trigger-rules": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_2510_passive/trigger-rules",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          }
+        },
+        "desiredEffects": [
+          {
+            "method": "GET",
+            "route": "/skills/item_2510_passive/effects/spellblade_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:28.56832Z",
+              "description": "使用现有咒刃伤害公式保存下一次普攻对当前目标的额外魔法伤害；施放后10秒资格、攻击消费、0.2秒重复攻击特效和1.5秒冷却尚未接线。",
+              "effectKey": "spellblade_damage",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "咒刃额外魔法伤害",
+              "results": [
+                {
+                  "description": "仅保存主目标单次额外伤害，不表示普攻触发已连接。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "BASIC_ATTACK",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "咒刃额外魔法伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "spellblade_damage_value",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_2510_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-11T14:53:28.56832Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_2510_passive/effects/spellblade_heal",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:31.624647Z",
+              "description": "使用现有咒刃治疗公式保存一次自身直接治疗；施放后攻击资格、攻击消费、重复攻击特效和冷却尚未接线。",
+              "effectKey": "spellblade_heal",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "咒刃自身治疗",
+              "results": [
+                {
+                  "description": "仅保存自身治疗数值，不表示触发时点已经连接。",
+                  "detail": {},
+                  "lifecycleBehavior": null,
+                  "name": "咒刃自身治疗",
+                  "resultKey": "heal",
+                  "resultType": "DIRECT_HEAL",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "spellblade_healing_value",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_2510_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-11T14:53:31.624647Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3107_active",
+      "state": {
+        "subject": {
+          "method": "GET",
+          "route": "/skills/item_3107_active",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T09:30:39.522128Z",
+            "description": "保留干涉在2.5秒后对当前敌方英雄造成其最大生命值10%真实伤害的分支，同时保留友方治疗150/350端点和当前合资格友方英雄基础治疗运行时输入。友方治疗目标归属（含施法者自身）待补证；不创建治疗效果或中转公式。 当前绑定扩展说明：死亡期间也可主动使用；对相同目标的后续干涉效果降低50%。本次保存比例，重复时间窗和实际触发待核。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "救赎·干涉敌方伤害",
+            "skillCategoryKeys": [],
+            "skillKey": "item_3107_active",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-09T09:44:04.609627Z"
+          }
+        },
+        "representativeImage": {
+          "method": "GET",
+          "route": "/skills/item_3107_active/representative-image",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3107",
+              "name": "item_3107"
+            }
+          }
+        },
+        "equipmentRelation": {
+          "method": "GET",
+          "route": "/equipment-skill-relations?equipmentKey=item_3107&skillKey=item_3107_active",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_3107",
+                "equipmentName": "救赎",
+                "gameId": "lol",
+                "skillKey": "item_3107_active",
+                "skillName": "救赎·干涉敌方伤害",
+                "skillStatus": "ENABLED",
+                "sortOrder": 10
+              }
+            ],
+            "total": 1
+          }
+        },
+        "components": {
+          "parameters": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3107_active/parameters",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T09:30:40.474482Z",
+                  "description": "官方与客户端中文明确为敌方英雄最大生命值的10%真实伤害。",
+                  "fixedValue": 0.1,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉敌方真实伤害比例",
+                  "parameterKey": "enemy_true_damage_ratio",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:40.474482Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:41.495245Z",
+                  "description": "目标最大生命值作为运行时输入；不补默认值或未知属性枚举。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "当前敌方英雄最大生命值",
+                  "parameterKey": "actual_target_max_health",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:41.495245Z",
+                  "valueMode": "RUNTIME_INPUT",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:42.449924Z",
+                  "description": "官方与客户端中文明确2.5秒后生效。",
+                  "fixedValue": 2500,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉生效延迟",
+                  "parameterKey": "impact_delay_ms",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 30,
+                  "updatedAt": "2026-09-09T09:30:42.449924Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:43.459838Z",
+                  "description": "客户端AOESize=550；只作为当前敌人在区域内的条件参数。",
+                  "fixedValue": 550,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉区域半径",
+                  "parameterKey": "area_radius",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T09:30:43.459838Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:44.355122Z",
+                  "description": "客户端CastRange=5500。",
+                  "fixedValue": 5500,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉施法距离",
+                  "parameterKey": "cast_range",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 50,
+                  "updatedAt": "2026-09-09T09:30:44.355122Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:45.408966Z",
+                  "description": "客户端根Cooldown=90秒；只读根数据值。",
+                  "fixedValue": 90000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉冷却",
+                  "parameterKey": "active_cooldown_ms",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 60,
+                  "updatedAt": "2026-09-09T09:30:45.408966Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:46.384955Z",
+                  "description": "客户端HealMin=150；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+                  "fixedValue": 150,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "友方治疗下限",
+                  "parameterKey": "ally_heal_min",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 70,
+                  "updatedAt": "2026-09-09T09:30:46.384955Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:47.377293Z",
+                  "description": "客户端HealMax=350；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+                  "fixedValue": 350,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "友方治疗上限",
+                  "parameterKey": "ally_heal_max",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 80,
+                  "updatedAt": "2026-09-09T09:30:47.377293Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:48.415892Z",
+                  "description": "无默认值；当前合资格友方英雄的基础治疗值由运行时提供。HealAmount含ByCharLevelInterpolation，未知等级算法及施法者自身资格不补默认值。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "当前合资格友方英雄基础治疗输入",
+                  "parameterKey": "actual_qualified_ally_base_heal",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 90,
+                  "updatedAt": "2026-09-09T09:30:48.415892Z",
+                  "valueMode": "RUNTIME_INPUT",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T09:44:02.43169Z",
+                  "description": "当前绑定扩展说明后续效果降低50%；仅此数值，两种说法数值相同。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+                  "fixedValue": 0.5,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "重复干预效果保留比例",
+                  "parameterKey": "repeated_effect_ratio",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-09T09:44:02.43169Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/enemy_true_damage_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:40.474482Z",
+                  "description": "官方与客户端中文明确为敌方英雄最大生命值的10%真实伤害。",
+                  "fixedValue": 0.1,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉敌方真实伤害比例",
+                  "parameterKey": "enemy_true_damage_ratio",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:40.474482Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/actual_target_max_health",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:41.495245Z",
+                  "description": "目标最大生命值作为运行时输入；不补默认值或未知属性枚举。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "当前敌方英雄最大生命值",
+                  "parameterKey": "actual_target_max_health",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:41.495245Z",
+                  "valueMode": "RUNTIME_INPUT",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/impact_delay_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:42.449924Z",
+                  "description": "官方与客户端中文明确2.5秒后生效。",
+                  "fixedValue": 2500,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉生效延迟",
+                  "parameterKey": "impact_delay_ms",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 30,
+                  "updatedAt": "2026-09-09T09:30:42.449924Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/area_radius",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:43.459838Z",
+                  "description": "客户端AOESize=550；只作为当前敌人在区域内的条件参数。",
+                  "fixedValue": 550,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉区域半径",
+                  "parameterKey": "area_radius",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T09:30:43.459838Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/cast_range",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:44.355122Z",
+                  "description": "客户端CastRange=5500。",
+                  "fixedValue": 5500,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉施法距离",
+                  "parameterKey": "cast_range",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 50,
+                  "updatedAt": "2026-09-09T09:30:44.355122Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/active_cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:45.408966Z",
+                  "description": "客户端根Cooldown=90秒；只读根数据值。",
+                  "fixedValue": 90000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "干涉冷却",
+                  "parameterKey": "active_cooldown_ms",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 60,
+                  "updatedAt": "2026-09-09T09:30:45.408966Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/ally_heal_min",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:46.384955Z",
+                  "description": "客户端HealMin=150；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+                  "fixedValue": 150,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "友方治疗下限",
+                  "parameterKey": "ally_heal_min",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 70,
+                  "updatedAt": "2026-09-09T09:30:46.384955Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/ally_heal_max",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:47.377293Z",
+                  "description": "客户端HealMax=350；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+                  "fixedValue": 350,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "友方治疗上限",
+                  "parameterKey": "ally_heal_max",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 80,
+                  "updatedAt": "2026-09-09T09:30:47.377293Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/actual_qualified_ally_base_heal",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:48.415892Z",
+                  "description": "无默认值；当前合资格友方英雄的基础治疗值由运行时提供。HealAmount含ByCharLevelInterpolation，未知等级算法及施法者自身资格不补默认值。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "当前合资格友方英雄基础治疗输入",
+                  "parameterKey": "actual_qualified_ally_base_heal",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 90,
+                  "updatedAt": "2026-09-09T09:30:48.415892Z",
+                  "valueMode": "RUNTIME_INPUT",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/parameters/repeated_effect_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:44:02.43169Z",
+                  "description": "当前绑定扩展说明后续效果降低50%；仅此数值，两种说法数值相同。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+                  "fixedValue": 0.5,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "重复干预效果保留比例",
+                  "parameterKey": "repeated_effect_ratio",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-09T09:44:02.43169Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              }
+            ]
+          },
+          "formulas": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3107_active/formulas",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T09:30:49.301456Z",
+                  "description": "0.1×当前敌方英雄最大生命值输入；独立真实伤害结果已组成，2.5秒延迟、范围、重复衰减和目标输入供值仍未接线。",
+                  "formulaKey": "enemy_true_damage",
+                  "gameId": "lol",
+                  "name": "干涉敌方真实伤害值",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:45.090499Z"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3107_active/formulas/enemy_true_damage",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:49.301456Z",
+                  "description": "0.1×当前敌方英雄最大生命值输入；独立真实伤害结果已组成，2.5秒延迟、范围、重复衰减和目标输入供值仍未接线。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "enemy_true_damage_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_target_max_health"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  "formulaKey": "enemy_true_damage",
+                  "gameId": "lol",
+                  "name": "干涉敌方真实伤害值",
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:45.090499Z"
+                }
+              }
+            ]
+          },
+          "effects": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3107_active/effects",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-11T14:53:32.937336Z",
+                  "description": "使用现有公式保存对当前敌方目标的真实伤害；2.5秒延迟、范围、相同目标衰减和90秒冷却尚未接线。",
+                  "effectKey": "enemy_true_damage",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "干涉敌方真实伤害",
+                  "resultCount": 1,
+                  "skillKey": "item_3107_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:32.937336Z"
+                }
+              ]
+            },
+            "details": []
+          },
+          "processes": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3107_active/processes",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "internal-states": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3107_active/internal-states",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "trigger-rules": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3107_active/trigger-rules",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          }
+        },
+        "desiredEffects": [
+          {
+            "method": "GET",
+            "route": "/skills/item_3107_active/effects/enemy_true_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:32.937336Z",
+              "description": "使用现有公式保存对当前敌方目标的真实伤害；2.5秒延迟、范围、相同目标衰减和90秒冷却尚未接线。",
+              "effectKey": "enemy_true_damage",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "干涉敌方真实伤害",
+              "results": [
+                {
+                  "description": "仅保存单个敌方目标的伤害数值；友方范围治疗不在本结果中。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "real",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "干涉敌方真实伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "enemy_true_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3107_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-11T14:53:32.937336Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3137_passive",
+      "state": {
+        "subject": {
+          "method": "GET",
+          "route": "/skills/item_3137_passive",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T05:09:53.646383Z",
+            "description": "保留命中敌方英雄后3秒内阵亡触发的新星自身治疗100+0.2法强及60秒冷却；当前统计文案明确存在自我治疗，不能整项当作仅队友效果删除。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "蜕生·死中焕生",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3137_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-09T05:09:53.646383Z"
+          }
+        },
+        "representativeImage": {
+          "method": "GET",
+          "route": "/skills/item_3137_passive/representative-image",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3137",
+              "name": "item_3137"
+            }
+          }
+        },
+        "equipmentRelation": {
+          "method": "GET",
+          "route": "/equipment-skill-relations?equipmentKey=item_3137&skillKey=item_3137_passive",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_3137",
+                "equipmentName": "蜕生",
+                "gameId": "lol",
+                "skillKey": "item_3137_passive",
+                "skillName": "蜕生·死中焕生",
+                "skillStatus": "ENABLED",
+                "sortOrder": 10
+              }
+            ],
+            "total": 1
+          }
+        },
+        "components": {
+          "parameters": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3137_passive/parameters",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T05:09:54.586732Z",
+                  "description": "当前根BaseHeal明确数值。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "新星基础治疗",
+                  "parameterKey": "base_heal",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T05:09:54.586732Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T05:09:55.478076Z",
+                  "description": "当前根HealAPRatio明确数值。",
+                  "fixedValue": 0.2,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "新星法强治疗系数",
+                  "parameterKey": "ap_heal_ratio",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T05:09:55.478076Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T05:09:56.348623Z",
+                  "description": "当前根Cooldown明确数值，秒转成毫秒。",
+                  "fixedValue": 60000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "死中焕生冷却（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 30,
+                  "updatedAt": "2026-09-09T05:09:56.348623Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T05:09:57.243064Z",
+                  "description": "当前根TakedownWindow明确数值，秒转成毫秒。",
+                  "fixedValue": 3000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "伤害后目标阵亡窗口（毫秒）",
+                  "parameterKey": "takedown_window_ms",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T05:09:57.243064Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3137_passive/parameters/base_heal",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:54.586732Z",
+                  "description": "当前根BaseHeal明确数值。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "新星基础治疗",
+                  "parameterKey": "base_heal",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T05:09:54.586732Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3137_passive/parameters/ap_heal_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:55.478076Z",
+                  "description": "当前根HealAPRatio明确数值。",
+                  "fixedValue": 0.2,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "新星法强治疗系数",
+                  "parameterKey": "ap_heal_ratio",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T05:09:55.478076Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3137_passive/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:56.348623Z",
+                  "description": "当前根Cooldown明确数值，秒转成毫秒。",
+                  "fixedValue": 60000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "死中焕生冷却（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 30,
+                  "updatedAt": "2026-09-09T05:09:56.348623Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3137_passive/parameters/takedown_window_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:57.243064Z",
+                  "description": "当前根TakedownWindow明确数值，秒转成毫秒。",
+                  "fixedValue": 3000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "伤害后目标阵亡窗口（毫秒）",
+                  "parameterKey": "takedown_window_ms",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T05:09:57.243064Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            ]
+          },
+          "formulas": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3137_passive/formulas",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T05:09:58.081217Z",
+                  "description": "100+0.2法强；当前库存统计明确自我治疗，实际自身在新星内的资格不默认。",
+                  "formulaKey": "self_healing",
+                  "gameId": "lol",
+                  "name": "新星对自身治疗值",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T05:09:58.081217Z"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3137_passive/formulas/self_healing",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:58.081217Z",
+                  "description": "100+0.2法强；当前库存统计明确自我治疗，实际自身在新星内的资格不默认。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "base_heal"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ap_heal_ratio"
+                          },
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  "formulaKey": "self_healing",
+                  "gameId": "lol",
+                  "name": "新星对自身治疗值",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T05:09:58.081217Z"
+                }
+              }
+            ]
+          },
+          "effects": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3137_passive/effects",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-11T14:53:34.288208Z",
+                  "description": "使用现有自身治疗公式保存一次自身直接治疗；参与击杀资格、3秒窗口、1.75秒新星、盟友范围和60秒冷却尚未接线。",
+                  "effectKey": "self_heal",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "死中焕生自身治疗",
+                  "resultCount": 1,
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:34.288208Z"
+                }
+              ]
+            },
+            "details": []
+          },
+          "processes": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3137_passive/processes",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "internal-states": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3137_passive/internal-states",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "trigger-rules": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3137_passive/trigger-rules",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          }
+        },
+        "desiredEffects": [
+          {
+            "method": "GET",
+            "route": "/skills/item_3137_passive/effects/self_heal",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:34.288208Z",
+              "description": "使用现有自身治疗公式保存一次自身直接治疗；参与击杀资格、3秒窗口、1.75秒新星、盟友范围和60秒冷却尚未接线。",
+              "effectKey": "self_heal",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "死中焕生自身治疗",
+              "results": [
+                {
+                  "description": "仅保存施法者自身治疗，不能代表范围内盟友目标。",
+                  "detail": {},
+                  "lifecycleBehavior": null,
+                  "name": "死中焕生自身治疗",
+                  "resultKey": "heal",
+                  "resultType": "DIRECT_HEAL",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "self_healing",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3137_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-11T14:53:34.288208Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3152_active",
+      "state": {
+        "subject": {
+          "method": "GET",
+          "route": "/skills/item_3152_active",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T02:28:06.757539Z",
+            "description": "保留主动50秒冷却和魔法弹计算值100+0.1×施法者法术强度。当前FireboltDamage按同构建默认及本版具名交叉绑定法术强度；冲刺、魔法弹命中与无法穿过地形的规则保持未接线。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "海克斯科技火箭腰带·超音速",
+            "skillCategoryKeys": [],
+            "skillKey": "item_3152_active",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-09T02:54:24.700365Z"
+          }
+        },
+        "representativeImage": {
+          "method": "GET",
+          "route": "/skills/item_3152_active/representative-image",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3152",
+              "name": "item_3152"
+            }
+          }
+        },
+        "equipmentRelation": {
+          "method": "GET",
+          "route": "/equipment-skill-relations?equipmentKey=item_3152&skillKey=item_3152_active",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_3152",
+                "equipmentName": "海克斯科技火箭腰带",
+                "gameId": "lol",
+                "skillKey": "item_3152_active",
+                "skillName": "海克斯科技火箭腰带·超音速",
+                "skillStatus": "ENABLED",
+                "sortOrder": 20
+              }
+            ],
+            "total": 1
+          }
+        },
+        "components": {
+          "parameters": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3152_active/parameters",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T02:28:07.452998Z",
+                  "description": "当前Cooldown=50秒，换算50000毫秒；主动冷却数值已确定，冷却起点和消费仍待规则接线。",
+                  "fixedValue": 50000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "超音速主动冷却",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "item_3152_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T02:28:07.452998Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T02:28:08.269279Z",
+                  "description": "当前FireboltDamage第一项BaseDamage=100。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "超音速魔法弹基础伤害",
+                  "parameterKey": "firebolt_base_damage",
+                  "skillKey": "item_3152_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T02:28:08.269279Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T02:28:09.089938Z",
+                  "description": "当前APRatio=0.1；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+                  "fixedValue": 0.1,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "超音速法术强度缩放比例",
+                  "parameterKey": "firebolt_scaling_ratio",
+                  "skillKey": "item_3152_active",
+                  "sortOrder": 30,
+                  "updatedAt": "2026-09-09T02:54:23.720667Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3152_active/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T02:28:07.452998Z",
+                  "description": "当前Cooldown=50秒，换算50000毫秒；主动冷却数值已确定，冷却起点和消费仍待规则接线。",
+                  "fixedValue": 50000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "超音速主动冷却",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "item_3152_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T02:28:07.452998Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3152_active/parameters/firebolt_base_damage",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T02:28:08.269279Z",
+                  "description": "当前FireboltDamage第一项BaseDamage=100。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "超音速魔法弹基础伤害",
+                  "parameterKey": "firebolt_base_damage",
+                  "skillKey": "item_3152_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T02:28:08.269279Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3152_active/parameters/firebolt_scaling_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T02:28:09.089938Z",
+                  "description": "当前APRatio=0.1；属性口径按同构建具体类默认及本版具名交叉已核对，数值保持原来源。",
+                  "fixedValue": 0.1,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "超音速法术强度缩放比例",
+                  "parameterKey": "firebolt_scaling_ratio",
+                  "skillKey": "item_3152_active",
+                  "sortOrder": 30,
+                  "updatedAt": "2026-09-09T02:54:23.720667Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              }
+            ]
+          },
+          "formulas": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3152_active/formulas",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T02:28:10.733236Z",
+                  "description": "100 + 0.1 × 施法者法术强度；不表达魔法弹数量、命中和主动过程。",
+                  "formulaKey": "firebolt_damage",
+                  "gameId": "lol",
+                  "name": "超音速魔法弹伤害",
+                  "skillKey": "item_3152_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T02:54:22.957061Z"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3152_active/formulas/firebolt_damage",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T02:28:10.733236Z",
+                  "description": "100 + 0.1 × 施法者法术强度；不表达魔法弹数量、命中和主动过程。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "firebolt_base_damage"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "firebolt_scaling_ratio"
+                          },
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  "formulaKey": "firebolt_damage",
+                  "gameId": "lol",
+                  "name": "超音速魔法弹伤害",
+                  "skillKey": "item_3152_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T02:54:22.957061Z"
+                }
+              }
+            ]
+          },
+          "effects": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3152_active/effects",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-11T14:53:35.600045Z",
+                  "description": "使用现有火箭伤害公式保存一次对当前目标的魔法伤害；冲刺、弹道、每次施放只命中一次和冷却尚未接线。",
+                  "effectKey": "firebolt_hit",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "超音速火箭命中",
+                  "resultCount": 1,
+                  "skillKey": "item_3152_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:35.600045Z"
+                }
+              ]
+            },
+            "details": []
+          },
+          "processes": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3152_active/processes",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "internal-states": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3152_active/internal-states",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "trigger-rules": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3152_active/trigger-rules",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          }
+        },
+        "desiredEffects": [
+          {
+            "method": "GET",
+            "route": "/skills/item_3152_active/effects/firebolt_hit",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:35.600045Z",
+              "description": "使用现有火箭伤害公式保存一次对当前目标的魔法伤害；冲刺、弹道、每次施放只命中一次和冷却尚未接线。",
+              "effectKey": "firebolt_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "超音速火箭命中",
+              "results": [
+                {
+                  "description": "仅保存单个目标的一次火箭伤害，不表示弹道或命中去重已经连接。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "超音速火箭命中",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "firebolt_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3152_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-11T14:53:35.600045Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3181_passive",
+      "state": {
+        "subject": {
+          "method": "GET",
+          "route": "/skills/item_3181_passive",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T05:10:00.753856Z",
+            "description": "保留对当前英雄每第五次攻击附伤的独立公式：1.2自身基础攻击力+0.05自身最大生命，远程对整项乘0.7。属性口径沿同版具名窄补证；攻击计数、命中资格及伤害事件仍未接线。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "破舰者·船长",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3181_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-09T07:22:34.798429Z"
+          }
+        },
+        "representativeImage": {
+          "method": "GET",
+          "route": "/skills/item_3181_passive/representative-image",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3181",
+              "name": "item_3181"
+            }
+          }
+        },
+        "equipmentRelation": {
+          "method": "GET",
+          "route": "/equipment-skill-relations?equipmentKey=item_3181&skillKey=item_3181_passive",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_3181",
+                "equipmentName": "破舰者",
+                "gameId": "lol",
+                "skillKey": "item_3181_passive",
+                "skillName": "破舰者·船长",
+                "skillStatus": "ENABLED",
+                "sortOrder": 10
+              }
+            ],
+            "total": 1
+          }
+        },
+        "components": {
+          "parameters": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3181_passive/parameters",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T05:10:01.720672Z",
+                  "description": "当前根SkipperADRatio明确数值。",
+                  "fixedValue": 1.2,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "船长基础攻击力系数",
+                  "parameterKey": "base_ad_ratio",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T05:10:01.720672Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T05:10:02.555327Z",
+                  "description": "当前MaxStackDamageHPRatio=0.05；同版旧具名节点12/默认0且旧属性及所有者字段保持默认，读取自身最大生命。稳定参数键保留。",
+                  "fixedValue": 0.05,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "船长自身最大生命系数",
+                  "parameterKey": "mstat12_formula0_ratio",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T07:22:33.62931Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T05:10:04.163853Z",
+                  "description": "当前中文明确每第五次攻击。",
+                  "fixedValue": 5,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "触发所需攻击次数",
+                  "parameterKey": "attacks_required",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T05:10:04.163853Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                },
+                {
+                  "createdAt": "2026-09-09T05:10:05.002246Z",
+                  "description": "当前MaxStackDamage.mRangedMultiplier明确0.7；只表示给定远程资格分支。",
+                  "fixedValue": 0.7,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "远程分支整项伤害倍数",
+                  "parameterKey": "ranged_damage_multiplier",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 50,
+                  "updatedAt": "2026-09-09T05:10:05.002246Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3181_passive/parameters/base_ad_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:10:01.720672Z",
+                  "description": "当前根SkipperADRatio明确数值。",
+                  "fixedValue": 1.2,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "船长基础攻击力系数",
+                  "parameterKey": "base_ad_ratio",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T05:10:01.720672Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3181_passive/parameters/mstat12_formula0_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:10:02.555327Z",
+                  "description": "当前MaxStackDamageHPRatio=0.05；同版旧具名节点12/默认0且旧属性及所有者字段保持默认，读取自身最大生命。稳定参数键保留。",
+                  "fixedValue": 0.05,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "船长自身最大生命系数",
+                  "parameterKey": "mstat12_formula0_ratio",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T07:22:33.62931Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3181_passive/parameters/attacks_required",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:10:04.163853Z",
+                  "description": "当前中文明确每第五次攻击。",
+                  "fixedValue": 5,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "触发所需攻击次数",
+                  "parameterKey": "attacks_required",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T05:10:04.163853Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3181_passive/parameters/ranged_damage_multiplier",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:10:05.002246Z",
+                  "description": "当前MaxStackDamage.mRangedMultiplier明确0.7；只表示给定远程资格分支。",
+                  "fixedValue": 0.7,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "远程分支整项伤害倍数",
+                  "parameterKey": "ranged_damage_multiplier",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 50,
+                  "updatedAt": "2026-09-09T05:10:05.002246Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              }
+            ]
+          },
+          "formulas": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3181_passive/formulas",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T05:10:05.822611Z",
+                  "description": "1.2×自身基础攻击力+0.05×自身最大生命；沿16.17同类具名计算补证，当前近战分支。攻击计数与伤害资格仍未接线。",
+                  "formulaKey": "melee_bonus_damage",
+                  "gameId": "lol",
+                  "name": "近战第五次攻击额外伤害",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T07:22:31.77412Z"
+                },
+                {
+                  "createdAt": "2026-09-09T05:10:06.630216Z",
+                  "description": "完整近战表达式×0.7；生命读取自身最大生命，保留原远程作用顺序。",
+                  "formulaKey": "ranged_bonus_damage",
+                  "gameId": "lol",
+                  "name": "远程第五次攻击额外伤害",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T07:22:32.791118Z"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3181_passive/formulas/melee_bonus_damage",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:10:05.822611Z",
+                  "description": "1.2×自身基础攻击力+0.05×自身最大生命；沿16.17同类具名计算补证，当前近战分支。攻击计数与伤害资格仍未接线。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "base_ad_ratio"
+                          },
+                          {
+                            "attributeKey": "attack_damage",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "BASE",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "mstat12_formula0_ratio"
+                          },
+                          {
+                            "attributeKey": "hp",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  "formulaKey": "melee_bonus_damage",
+                  "gameId": "lol",
+                  "name": "近战第五次攻击额外伤害",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T07:22:31.77412Z"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3181_passive/formulas/ranged_bonus_damage",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:10:06.630216Z",
+                  "description": "完整近战表达式×0.7；生命读取自身最大生命，保留原远程作用顺序。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ranged_damage_multiplier"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "OPERATION",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "base_ad_ratio"
+                              },
+                              {
+                                "attributeKey": "attack_damage",
+                                "attributeOwner": "SOURCE",
+                                "attributeValueKind": "BASE",
+                                "nodeType": "ATTRIBUTE"
+                              }
+                            ],
+                            "operation": "MULTIPLY"
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "mstat12_formula0_ratio"
+                              },
+                              {
+                                "attributeKey": "hp",
+                                "attributeOwner": "SOURCE",
+                                "attributeValueKind": "TOTAL",
+                                "nodeType": "ATTRIBUTE"
+                              }
+                            ],
+                            "operation": "MULTIPLY"
+                          }
+                        ],
+                        "operation": "ADD"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  "formulaKey": "ranged_bonus_damage",
+                  "gameId": "lol",
+                  "name": "远程第五次攻击额外伤害",
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T07:22:32.791118Z"
+                }
+              }
+            ]
+          },
+          "effects": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3181_passive/effects",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-11T14:53:36.960703Z",
+                  "description": "使用现有近战公式保存对当前主目标的额外物理伤害；攻击计数、满层消费和目标资格尚未接线。",
+                  "effectKey": "melee_bonus_damage",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "船长近战主目标附伤",
+                  "resultCount": 1,
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:36.960703Z"
+                },
+                {
+                  "createdAt": "2026-09-11T14:53:38.329048Z",
+                  "description": "使用现有远程公式保存对当前主目标的额外物理伤害；攻击计数、满层消费和目标资格尚未接线。",
+                  "effectKey": "ranged_bonus_damage",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "船长远程主目标附伤",
+                  "resultCount": 1,
+                  "skillKey": "item_3181_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-11T14:53:38.329048Z"
+                }
+              ]
+            },
+            "details": []
+          },
+          "processes": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3181_passive/processes",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "internal-states": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3181_passive/internal-states",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "trigger-rules": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3181_passive/trigger-rules",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          }
+        },
+        "desiredEffects": [
+          {
+            "method": "GET",
+            "route": "/skills/item_3181_passive/effects/melee_bonus_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:36.960703Z",
+              "description": "使用现有近战公式保存对当前主目标的额外物理伤害；攻击计数、满层消费和目标资格尚未接线。",
+              "effectKey": "melee_bonus_damage",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "船长近战主目标附伤",
+              "results": [
+                {
+                  "description": "仅保存近战分支，后续过程必须在近战与远程分支中选择一个。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "physics",
+                    "deliveryKind": "BASIC_ATTACK",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "船长近战主目标附伤",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "melee_bonus_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3181_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-11T14:53:36.960703Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_3181_passive/effects/ranged_bonus_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:38.329048Z",
+              "description": "使用现有远程公式保存对当前主目标的额外物理伤害；攻击计数、满层消费和目标资格尚未接线。",
+              "effectKey": "ranged_bonus_damage",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "船长远程主目标附伤",
+              "results": [
+                {
+                  "description": "仅保存远程分支，后续过程必须在近战与远程分支中选择一个。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "physics",
+                    "deliveryKind": "BASIC_ATTACK",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "船长远程主目标附伤",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "ranged_bonus_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3181_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-11T14:53:38.329048Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3748_passive",
+      "state": {
+        "subject": {
+          "method": "GET",
+          "route": "/skills/item_3748_passive",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T09:30:15.439896Z",
+            "description": "保留攻击对当前唯一目标的顺劈物理伤害主目标分支；最新窄证覆盖的具名旧节点将mStat=12读取为SOURCE.hp.TOTAL（自身最大生命值）。目标身后的额外敌人支路范围外；目标资格与攻击触发尚未接线。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "巨型九头蛇·顺劈主目标",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3748_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-09T09:30:15.439896Z"
+          }
+        },
+        "representativeImage": {
+          "method": "GET",
+          "route": "/skills/item_3748_passive/representative-image",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3748",
+              "name": "item_3748"
+            }
+          }
+        },
+        "equipmentRelation": {
+          "method": "GET",
+          "route": "/equipment-skill-relations?equipmentKey=item_3748&skillKey=item_3748_passive",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_3748",
+                "equipmentName": "巨型九头蛇",
+                "gameId": "lol",
+                "skillKey": "item_3748_passive",
+                "skillName": "巨型九头蛇·顺劈主目标",
+                "skillStatus": "ENABLED",
+                "sortOrder": 10
+              }
+            ],
+            "total": 1
+          }
+        },
+        "components": {
+          "parameters": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_passive/parameters",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T09:30:16.527341Z",
+                  "description": "客户端OnHitDamageCalc和PrimaryTargetHPRatio均为0.01；不将mStat12无formula节点擅自映射为生命属性。",
+                  "fixedValue": 0.01,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "顺劈主目标生命比例",
+                  "parameterKey": "primary_target_hp_ratio",
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:16.527341Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:17.515308Z",
+                  "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+                  "fixedValue": 0.5,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "远程顺劈倍率",
+                  "parameterKey": "ranged_effectiveness",
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:17.515308Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3748_passive/parameters/primary_target_hp_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:16.527341Z",
+                  "description": "客户端OnHitDamageCalc和PrimaryTargetHPRatio均为0.01；不将mStat12无formula节点擅自映射为生命属性。",
+                  "fixedValue": 0.01,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "顺劈主目标生命比例",
+                  "parameterKey": "primary_target_hp_ratio",
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:16.527341Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3748_passive/parameters/ranged_effectiveness",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:17.515308Z",
+                  "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+                  "fixedValue": 0.5,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "远程顺劈倍率",
+                  "parameterKey": "ranged_effectiveness",
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:17.515308Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              }
+            ]
+          },
+          "formulas": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_passive/formulas",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T09:30:18.521247Z",
+                  "description": "0.01×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+                  "formulaKey": "primary_on_hit_damage_melee",
+                  "gameId": "lol",
+                  "name": "顺劈主目标近战伤害值",
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:18.521247Z"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:19.48181Z",
+                  "description": "0.01×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+                  "formulaKey": "primary_on_hit_damage_ranged",
+                  "gameId": "lol",
+                  "name": "顺劈主目标远程伤害值",
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:19.48181Z"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3748_passive/formulas/primary_on_hit_damage_melee",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:18.521247Z",
+                  "description": "0.01×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "primary_target_hp_ratio"
+                      },
+                      {
+                        "attributeKey": "hp",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  "formulaKey": "primary_on_hit_damage_melee",
+                  "gameId": "lol",
+                  "name": "顺劈主目标近战伤害值",
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:18.521247Z"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3748_passive/formulas/primary_on_hit_damage_ranged",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:19.48181Z",
+                  "description": "0.01×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "primary_target_hp_ratio"
+                          },
+                          {
+                            "attributeKey": "hp",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ranged_effectiveness"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  "formulaKey": "primary_on_hit_damage_ranged",
+                  "gameId": "lol",
+                  "name": "顺劈主目标远程伤害值",
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:19.48181Z"
+                }
+              }
+            ]
+          },
+          "effects": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_passive/effects",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-11T14:53:39.652237Z",
+                  "description": "使用现有近战主目标公式保存一次普攻附加物理伤害；普通攻击触发与近远程选择尚未接线，次要锥形目标按一对一范围排除。",
+                  "effectKey": "primary_on_hit_melee",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "顺劈近战主目标附伤",
+                  "resultCount": 1,
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:39.652237Z"
+                },
+                {
+                  "createdAt": "2026-09-11T14:53:40.966023Z",
+                  "description": "使用现有远程主目标公式保存一次普攻附加物理伤害；普通攻击触发与近远程选择尚未接线，次要锥形目标按一对一范围排除。",
+                  "effectKey": "primary_on_hit_ranged",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "顺劈远程主目标附伤",
+                  "resultCount": 1,
+                  "skillKey": "item_3748_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-11T14:53:40.966023Z"
+                }
+              ]
+            },
+            "details": []
+          },
+          "processes": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_passive/processes",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "internal-states": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_passive/internal-states",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "trigger-rules": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_passive/trigger-rules",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          }
+        },
+        "desiredEffects": [
+          {
+            "method": "GET",
+            "route": "/skills/item_3748_passive/effects/primary_on_hit_melee",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:39.652237Z",
+              "description": "使用现有近战主目标公式保存一次普攻附加物理伤害；普通攻击触发与近远程选择尚未接线，次要锥形目标按一对一范围排除。",
+              "effectKey": "primary_on_hit_melee",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "顺劈近战主目标附伤",
+              "results": [
+                {
+                  "description": "仅保存当前唯一主目标的近战分支。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "physics",
+                    "deliveryKind": "BASIC_ATTACK",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "顺劈近战主目标附伤",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "primary_on_hit_damage_melee",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3748_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-11T14:53:39.652237Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_3748_passive/effects/primary_on_hit_ranged",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:40.966023Z",
+              "description": "使用现有远程主目标公式保存一次普攻附加物理伤害；普通攻击触发与近远程选择尚未接线，次要锥形目标按一对一范围排除。",
+              "effectKey": "primary_on_hit_ranged",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "顺劈远程主目标附伤",
+              "results": [
+                {
+                  "description": "仅保存当前唯一主目标的远程分支。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "physics",
+                    "deliveryKind": "BASIC_ATTACK",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "顺劈远程主目标附伤",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "primary_on_hit_damage_ranged",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3748_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-11T14:53:40.966023Z"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "skillKey": "item_3748_active",
+      "state": {
+        "subject": {
+          "method": "GET",
+          "route": "/skills/item_3748_active",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T09:30:22.649593Z",
+            "description": "保留刚斩强化下一次顺劈时对当前唯一主目标的额外物理伤害比例、远程倍率和10秒冷却；最新窄证覆盖的具名旧节点将mStat=12读取为SOURCE.hp.TOTAL（自身最大生命值）。目标身后的额外伤害留在来源。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "巨型九头蛇·刚斩",
+            "skillCategoryKeys": [],
+            "skillKey": "item_3748_active",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-09T09:30:22.649593Z"
+          }
+        },
+        "representativeImage": {
+          "method": "GET",
+          "route": "/skills/item_3748_active/representative-image",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3748",
+              "name": "item_3748"
+            }
+          }
+        },
+        "equipmentRelation": {
+          "method": "GET",
+          "route": "/equipment-skill-relations?equipmentKey=item_3748&skillKey=item_3748_active",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_3748",
+                "equipmentName": "巨型九头蛇",
+                "gameId": "lol",
+                "skillKey": "item_3748_active",
+                "skillName": "巨型九头蛇·刚斩",
+                "skillStatus": "ENABLED",
+                "sortOrder": 20
+              }
+            ],
+            "total": 1
+          }
+        },
+        "components": {
+          "parameters": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_active/parameters",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T09:30:23.629383Z",
+                  "description": "客户端ActivePrimaryTargetHPRatio=0.04；mStat12属性仍由运行时提供。",
+                  "fixedValue": 0.04,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "刚斩主目标生命比例",
+                  "parameterKey": "active_primary_target_hp_ratio",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:23.629383Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:24.707168Z",
+                  "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+                  "fixedValue": 0.5,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "刚斩远程倍率",
+                  "parameterKey": "ranged_effectiveness",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:24.707168Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:25.894408Z",
+                  "description": "客户端根Cooldown=10秒；不使用主动对象的零值冷却数组。",
+                  "fixedValue": 10000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "刚斩冷却",
+                  "parameterKey": "active_cooldown_ms",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T09:30:25.894408Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3748_active/parameters/active_primary_target_hp_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:23.629383Z",
+                  "description": "客户端ActivePrimaryTargetHPRatio=0.04；mStat12属性仍由运行时提供。",
+                  "fixedValue": 0.04,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "刚斩主目标生命比例",
+                  "parameterKey": "active_primary_target_hp_ratio",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:23.629383Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3748_active/parameters/ranged_effectiveness",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:24.707168Z",
+                  "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+                  "fixedValue": 0.5,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "刚斩远程倍率",
+                  "parameterKey": "ranged_effectiveness",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:24.707168Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3748_active/parameters/active_cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:25.894408Z",
+                  "description": "客户端根Cooldown=10秒；不使用主动对象的零值冷却数组。",
+                  "fixedValue": 10000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "刚斩冷却",
+                  "parameterKey": "active_cooldown_ms",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T09:30:25.894408Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            ]
+          },
+          "formulas": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_active/formulas",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-09T09:30:26.927714Z",
+                  "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+                  "formulaKey": "active_primary_damage_melee",
+                  "gameId": "lol",
+                  "name": "刚斩主目标近战伤害值",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:26.927714Z"
+                },
+                {
+                  "createdAt": "2026-09-09T09:30:27.951746Z",
+                  "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+                  "formulaKey": "active_primary_damage_ranged",
+                  "gameId": "lol",
+                  "name": "刚斩主目标远程伤害值",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:27.951746Z"
+                }
+              ]
+            },
+            "details": [
+              {
+                "method": "GET",
+                "route": "/skills/item_3748_active/formulas/active_primary_damage_melee",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:26.927714Z",
+                  "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "active_primary_target_hp_ratio"
+                      },
+                      {
+                        "attributeKey": "hp",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  "formulaKey": "active_primary_damage_melee",
+                  "gameId": "lol",
+                  "name": "刚斩主目标近战伤害值",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T09:30:26.927714Z"
+                }
+              },
+              {
+                "method": "GET",
+                "route": "/skills/item_3748_active/formulas/active_primary_damage_ranged",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T09:30:27.951746Z",
+                  "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "active_primary_target_hp_ratio"
+                          },
+                          {
+                            "attributeKey": "hp",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ranged_effectiveness"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  "formulaKey": "active_primary_damage_ranged",
+                  "gameId": "lol",
+                  "name": "刚斩主目标远程伤害值",
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T09:30:27.951746Z"
+                }
+              }
+            ]
+          },
+          "effects": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_active/effects",
+              "status": 200,
+              "data": [
+                {
+                  "createdAt": "2026-09-11T14:53:42.304894Z",
+                  "description": "使用现有近战主目标公式保存强化普攻的额外物理伤害；10秒准备窗口、攻击消费、冷却和近远程选择尚未接线，次要目标按一对一范围排除。",
+                  "effectKey": "active_primary_melee",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "刚斩近战主目标附伤",
+                  "resultCount": 1,
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:42.304894Z"
+                },
+                {
+                  "createdAt": "2026-09-11T14:53:43.639337Z",
+                  "description": "使用现有远程主目标公式保存强化普攻的额外物理伤害；10秒准备窗口、攻击消费、冷却和近远程选择尚未接线，次要目标按一对一范围排除。",
+                  "effectKey": "active_primary_ranged",
+                  "gameId": "lol",
+                  "lifecycleEnabled": false,
+                  "name": "刚斩远程主目标附伤",
+                  "resultCount": 1,
+                  "skillKey": "item_3748_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-11T14:53:43.639337Z"
+                }
+              ]
+            },
+            "details": []
+          },
+          "processes": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_active/processes",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "internal-states": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_active/internal-states",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          },
+          "trigger-rules": {
+            "list": {
+              "method": "GET",
+              "route": "/skills/item_3748_active/trigger-rules",
+              "status": 200,
+              "data": []
+            },
+            "details": []
+          }
+        },
+        "desiredEffects": [
+          {
+            "method": "GET",
+            "route": "/skills/item_3748_active/effects/active_primary_melee",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:42.304894Z",
+              "description": "使用现有近战主目标公式保存强化普攻的额外物理伤害；10秒准备窗口、攻击消费、冷却和近远程选择尚未接线，次要目标按一对一范围排除。",
+              "effectKey": "active_primary_melee",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "刚斩近战主目标附伤",
+              "results": [
+                {
+                  "description": "仅保存当前唯一主目标的近战强化普攻分支。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "physics",
+                    "deliveryKind": "BASIC_ATTACK",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "刚斩近战主目标附伤",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "active_primary_damage_melee",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3748_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-11T14:53:42.304894Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_3748_active/effects/active_primary_ranged",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-11T14:53:43.639337Z",
+              "description": "使用现有远程主目标公式保存强化普攻的额外物理伤害；10秒准备窗口、攻击消费、冷却和近远程选择尚未接线，次要目标按一对一范围排除。",
+              "effectKey": "active_primary_ranged",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "刚斩远程主目标附伤",
+              "results": [
+                {
+                  "description": "仅保存当前唯一主目标的远程强化普攻分支。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "physics",
+                    "deliveryKind": "BASIC_ATTACK",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "刚斩远程主目标附伤",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "active_primary_damage_ranged",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3748_active",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-11T14:53:43.639337Z"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

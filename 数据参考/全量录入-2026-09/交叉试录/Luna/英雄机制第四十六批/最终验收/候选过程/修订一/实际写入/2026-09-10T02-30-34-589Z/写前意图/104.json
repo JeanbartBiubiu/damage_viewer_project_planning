@@ -1,0 +1,30 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/parameters",
+    "detailRoute": "/skills/hwei_w/parameters/we_mana_restore",
+    "skillKey": "hwei_w",
+    "kind": "parameters",
+    "stableKey": "we_mana_restore",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "we_mana_restore",
+      "name": "宿墨每次回蓝",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 50,
+        "3": 55,
+        "4": 60,
+        "5": 65
+      },
+      "description": "每次回蓝45/50/55/60/65。",
+      "sortOrder": 140
+    }
+  }
+}

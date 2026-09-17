@@ -1,0 +1,24 @@
+{
+  "i": 165,
+  "intent": {
+    "sequence": 166,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_p/parameters",
+    "detailRoute": "/skills/locke_p/parameters/actual_target_missing_health_ratio",
+    "skillKey": "locke_p",
+    "kind": "parameters",
+    "stableKey": "actual_target_missing_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_target_missing_health_ratio",
+      "name": "当前目标已损生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "中间血量插值算法未证，运行层提供实际目标已损生命比例，不设默认。",
+      "sortOrder": 100
+    }
+  }
+}

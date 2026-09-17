@@ -1,0 +1,23 @@
+{
+  "i": 128,
+  "intent": {
+    "sequence": 129,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/adjacent_note_delay_decay_ratio",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "adjacent_note_delay_decay_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "adjacent_note_delay_decay_ratio",
+      "name": "相邻音符延迟衰减比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.95,
+      "levelValues": null,
+      "description": "当前Decay=0.95；未把它猜作固定命中间隔。",
+      "sortOrder": 70
+    }
+  }
+}

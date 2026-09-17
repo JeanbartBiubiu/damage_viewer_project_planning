@@ -1,0 +1,23 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/yone_w/parameters",
+    "detailRoute": "/skills/yone_w/parameters/shield_bonus_attack_damage_ratio",
+    "skillKey": "yone_w",
+    "kind": "parameters",
+    "stableKey": "shield_bonus_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_bonus_attack_damage_ratio",
+      "name": "护盾额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.65,
+      "levelValues": null,
+      "description": "客户端ShieldbADRatio约0.65，WShield树为实际等级基础值+0.65×来源额外攻击力。",
+      "sortOrder": 50
+    }
+  }
+}

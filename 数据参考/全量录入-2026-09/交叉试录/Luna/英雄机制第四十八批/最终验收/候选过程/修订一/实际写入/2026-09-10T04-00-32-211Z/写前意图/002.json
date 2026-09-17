@@ -1,0 +1,30 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_q/parameters",
+    "detailRoute": "/skills/ivern_q/parameters/root_duration_ms",
+    "skillKey": "ivern_q",
+    "kind": "parameters",
+    "stableKey": "root_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "root_duration_ms",
+      "name": "禁锢持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1600,
+        "2": 1700,
+        "3": 1800,
+        "4": 1900,
+        "5": 2000
+      },
+      "description": "RootDuration源值为秒，逐等级精确转换为整数毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

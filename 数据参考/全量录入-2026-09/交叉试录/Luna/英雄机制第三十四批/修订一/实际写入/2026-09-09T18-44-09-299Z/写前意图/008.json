@@ -1,0 +1,67 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "method": "POST",
+    "route": "/skills/katarina_p/formulas",
+    "detailRoute": "/skills/katarina_p/formulas/dagger_magic_damage",
+    "skillKey": "katarina_p",
+    "kind": "formulas",
+    "stableKey": "dagger_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dagger_magic_damage",
+      "name": "贪婪匕首魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "character_level_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio_by_character_level"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage = 角色等级基础值 + 0.6×来源额外攻击力 + 角色等级法强比例×来源总法强；保留匕首唯一敌人伤害载体。",
+      "sortOrder": 10
+    }
+  }
+}

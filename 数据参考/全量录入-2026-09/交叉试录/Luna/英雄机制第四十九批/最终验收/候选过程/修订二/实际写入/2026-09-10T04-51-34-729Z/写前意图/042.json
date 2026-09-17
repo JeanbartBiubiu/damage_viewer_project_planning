@@ -1,0 +1,25 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_e/parameters",
+    "detailRoute": "/skills/gnar_e/parameters/slow_ratio",
+    "skillKey": "gnar_e",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "落点减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.800000012,
+      "levelValues": null,
+      "description": "源值为负0.8，按正文80%减速记录正比例。",
+      "sortOrder": 50
+    }
+  }
+}

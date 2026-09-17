@@ -1,0 +1,29 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/soraka_q/parameters",
+    "detailRoute": "/skills/soraka_q/parameters/self_move_speed_ratio",
+    "skillKey": "soraka_q",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_ratio",
+      "name": "流星坠落自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.225,
+        "3": 0.25,
+        "4": 0.275,
+        "5": 0.3
+      },
+      "description": "当前MoveSpeedHaste技能等级1至5。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,430 @@
+{
+  "generatedAt": "2026-09-10T00:48:44.850Z",
+  "batch": "第四十四批俄洛伊孙悟空妮蔻悠米",
+  "revision": "hero44-source-v1-luna-candidate",
+  "status": "候选阶段，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceInputSha256": "38242a877de30423e80332dcce95aa9684295d39ce59a6ded085a52ff835e9f5",
+  "sourceBindingSha256": "5176d182b8888aac57b433c52671dc4461c1ebd9077e01a58634097861c55742",
+  "principalSourceNoteSha256": "1a809a887704633d685b879d8e74894ff302b5f72e510d4d0965121480a146c7",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero44-cursor-review-run-20260910/Cursor来源复核结论.md",
+    "conclusionSha256": "46e15f00f7e44ec7a70bdee7e040056c7b0249479a2ea05134904f2d93b0decf",
+    "auditFile": ".agents/artifacts/hero44-cursor-review-run-20260910/主负责人执行审计.json",
+    "auditSha256": "24f84be14e08be37fbb2d63c29668241e4f549313bd5d5f56b359dfe5f764674",
+    "inputManifestFile": ".agents/artifacts/hero44-cursor-review-run-20260910/path-signatures-before.json",
+    "inputManifestSha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "verdict": "READY",
+    "runId": "run-412ea285-ba9d-4b27-bbdc-cd4a671449d7",
+    "requestId": "52a13d5f-3af3-45a1-aa41-44bce0818cba",
+    "events": 4618,
+    "uniqueTools": 62,
+    "inputsChecked": 23,
+    "apiWrites": 0,
+    "gitDelta": [],
+    "reviewedPlanRev": "hero44-source-v1"
+  },
+  "included": [
+    "俄洛伊P/Q/W/E/R：本体触手载体、最低值与目标最大生命伤害、灵魂来源比例、R本体伤害和自身治疗。",
+    "孙悟空P/Q/W/E/R：本体护甲和回复、同敌人附加伤害、隐身突进、当前敌人伤害、攻速、R同敌人每跳/整段伤害和移速。",
+    "妮蔻P/Q/W/E/R：跳过完整伪装，保留本体种子重复、第三击、移速、首个目标禁锢和R本体控制/伤害。",
+    "悠米P/Q/W/E/R：自身治疗、Q六级普通/强化来源、第三友军资格拆分、W附身映射、E自身护盾攻移速和R同敌人五波伤害/来源治疗。"
+  ],
+  "excluded": [
+    "经验金币、纯兵野结果、额外敌人、独立触手/分身/完整变形、第三友军执行结果、旧未消费护盾/禁锢/法穿字段。",
+    "不创建DAMAGE、DIRECT_HEAL、MOMENT_EVALUATION、过程、内部状态或触发规则；伤害与治疗以公式和来源参数保存。"
+  ],
+  "unknown": [
+    "角色等级插值中间曲线、目标/友军资格、周期事件、冲突施法字段、悠米护盾寿命联动、波纹减速叠层起算"
+  ],
+  "perSkill": {
+    "illaoi_p": {
+      "excluded": [
+        {
+          "item": "独立触手生成、单位选取和自主猛击",
+          "reason": "按主负责人说明跳过独立召唤单位模型；本体Q/W/R载体另行保留。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "生成周期和触手事件链",
+          "reason": "SpawnCD为角色等级插值，独立单位时序未证；不造18级曲线。"
+        }
+      ]
+    },
+    "illaoi_q": {
+      "excluded": [
+        {
+          "item": "独立触手单位的自主猛击结果",
+          "reason": "主动Q本体伤害保留；独立触手单位链跳过。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "9至180角色等级中间曲线",
+          "reason": "插值算法未证，使用无默认实际输入。"
+        },
+        {
+          "item": "mCastTime与spellCastTime冲突",
+          "reason": "0.75秒和0.25秒同时存在，不任选。"
+        }
+      ]
+    },
+    "illaoi_w": {
+      "excluded": [
+        {
+          "item": "附近触手自动猛击",
+          "reason": "独立触手单位链跳过。"
+        },
+        {
+          "item": "野怪伤害封顶300",
+          "reason": "兵野专用分支排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "位移速度与目标资格",
+          "reason": "350位移、显示400和DashSpeed树并存；属性/时序不扩展。"
+        },
+        {
+          "item": "mCastTime缺失与spellCastTime冲突",
+          "reason": "只保留来源文本和数值，施法字段不任选。"
+        }
+      ]
+    },
+    "illaoi_e": {
+      "excluded": [
+        {
+          "item": "灵魂替身独立单位、伤害转移执行和触手链",
+          "reason": "主负责人明确按独立单位范围跳过；仅保存来源比例和公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "减速独立效果",
+          "reason": "减速依赖灵魂结束链，不能创建无前提效果。"
+        },
+        {
+          "item": "匿名角色等级树",
+          "reason": "未消费的5/4/3树不展开。"
+        }
+      ]
+    },
+    "illaoi_r": {
+      "excluded": [
+        {
+          "item": "触手生成、不可选取和加快猛击链",
+          "reason": "触手是独立单位属性，不能当作俄洛伊无敌或本体结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "mCastTime与spellCastTime冲突",
+          "reason": "0.5秒和0.375秒并存，不任选。"
+        }
+      ]
+    },
+    "monkeyking_p": {
+      "excluded": [
+        {
+          "item": "野怪命中、分身命中和额外单位资格",
+          "reason": "本轮只保留本体对英雄命中的可核数值；野怪与分身分支排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "6至10护甲中间等级曲线",
+          "reason": "插值算法未证，RUNTIME_INPUT无默认。"
+        },
+        {
+          "item": "基础层与额外层触发时序",
+          "reason": "本体事件待接；参数已明确最高6倍基础。"
+        }
+      ]
+    },
+    "monkeyking_q": {
+      "excluded": [
+        {
+          "item": "分身独立攻击结果",
+          "reason": "本体Q数值保留；分身复制攻击链排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护甲降低作用对象和同次命中减冷却时序",
+          "reason": "来源数值明确，目标资格与事件层待接。"
+        },
+        {
+          "item": "mCastTime与spellCastTime冲突",
+          "reason": "0.5秒和0.25秒并存，不任选。"
+        }
+      ]
+    },
+    "monkeyking_w": {
+      "excluded": [
+        {
+          "item": "独立分身、分身攻击和模拟终极技能",
+          "reason": "自主分身整体跳过；本体隐身和突进保留。"
+        },
+        {
+          "item": "分身持续4秒、40%至60%伤害、几何范围",
+          "reason": "仅属于被排除分身/路径支路。"
+        }
+      ],
+      "pending": []
+    },
+    "monkeyking_e": {
+      "excluded": [
+        {
+          "item": "额外敌人分配和分身突进",
+          "reason": "本轮唯一敌方场景只保留本体当前敌人。"
+        },
+        {
+          "item": "野怪伤害倍率",
+          "reason": "兵野专用分支排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "攻速效果实际应用对象",
+          "reason": "来源文本同时写本体和分身；分身排除后保留本体效果，事件层待接。"
+        }
+      ]
+    },
+    "monkeyking_r": {
+      "excluded": [
+        {
+          "item": "额外敌人和野怪封顶",
+          "reason": "本轮只保留同一敌人；野怪上限支路排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "每跳与击飞事件的命中时序",
+          "reason": "完整数值已拆为每秒、每跳和整段公式，事件层待接。"
+        },
+        {
+          "item": "根施法字段",
+          "reason": "来源未提供可选施法字段，不从0推断。"
+        }
+      ]
+    },
+    "neeko_p": {
+      "excluded": [
+        {
+          "item": "完整伪装、属性复制和形态变形",
+          "reason": "自主完整变形范围跳过。"
+        },
+        {
+          "item": "客户端旧20%法穿、4秒、2秒字段",
+          "reason": "主负责人确认未消费，不录候选参数。"
+        }
+      ],
+      "pending": []
+    },
+    "neeko_q": {
+      "excluded": [
+        {
+          "item": "兵野额外伤害和旧40%减速字段",
+          "reason": "兵野专用及未消费字段排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "命中或击杀后的重复事件",
+          "reason": "同一敌人重复数值保留，目标仍在范围和事件层待接。"
+        }
+      ]
+    },
+    "neeko_w": {
+      "excluded": [
+        {
+          "item": "独立分身、镜像施法和兵野额外伤害",
+          "reason": "完整分身单位和兵野分支跳过；本体隐身、第三击和移速保留。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "第三击触发和隐身可选取规则",
+          "reason": "数值和本体效果已保存，事件层待接。"
+        }
+      ]
+    },
+    "neeko_e": {
+      "excluded": [
+        {
+          "item": "额外敌人强化禁锢1.8至3秒",
+          "reason": "主负责人确认需先前额外敌人，本轮唯一敌方场景排除该支路。"
+        },
+        {
+          "item": "旧BaseRootDuration0.5秒",
+          "reason": "当前正文未消费为首个目标结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "沿途控制和命中事件",
+          "reason": "首个目标伤害与最小禁锢保留，事件层待接。"
+        }
+      ]
+    },
+    "neeko_r": {
+      "excluded": [
+        {
+          "item": "额外敌人范围、护盾及按人数放大",
+          "reason": "主负责人确认当前正文未消费护盾树，不录ShieldAmount/ShieldPerChampion支路。"
+        },
+        {
+          "item": "伪装隐藏前摇",
+          "reason": "依赖已排除的完整伪装链。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "Duration2.5秒字段",
+          "reason": "当前正文没有把它作为控制时长，保留原始摘要不转成控制。"
+        },
+        {
+          "item": "击飞到落地的事件时序",
+          "reason": "延迟和眩晕数值保留，事件层待接。"
+        }
+      ]
+    },
+    "yuumi_p": {
+      "excluded": [
+        {
+          "item": "附身友军治疗转移和友谊成长",
+          "reason": "第三友方资格与自动触发链排除；不一概含或不含自身。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "20秒起点、14级断点后的冷却曲线",
+          "reason": "原树断点后算法未证，RUNTIME_INPUT无默认。"
+        },
+        {
+          "item": "治疗发生时点",
+          "reason": "自身立即治疗和友军4秒窗口来源明确，自动触发事件待接。"
+        }
+      ]
+    },
+    "yuumi_q": {
+      "excluded": [
+        {
+          "item": "挚友对第三友军附加伤害、暴击增幅",
+          "reason": "第三友军资格排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "附身导引和强化飞弹资格",
+          "reason": "当前文本将导引/强化放在附身条件中，不能按旧摘要无条件启用。"
+        },
+        {
+          "item": "普通减速持续1秒",
+          "reason": "源字段明确但正文未消费，保留范围说明不创建独立时序。"
+        }
+      ]
+    },
+    "yuumi_w": {
+      "excluded": [
+        {
+          "item": "附身主动链、不可选取和第三友军治疗",
+          "reason": "本槽附身依赖第三友军；不凭空构造友军为自身常驻效果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "挚友治疗护盾强度作用目标",
+          "reason": "自我收益与第三友军资格需事件层核对，当前只保存比例。"
+        },
+        {
+          "item": "DashSpeed、范围和解除附身时序",
+          "reason": "附身路径几何与对象资格不扩展。"
+        }
+      ]
+    },
+    "yuumi_e": {
+      "excluded": [
+        {
+          "item": "附身后第三友军护盾、攻速、移速和回蓝",
+          "reason": "第三友军资格排除；不把附身分支混入自身效果。"
+        },
+        {
+          "item": "弹药/充能18至14秒",
+          "reason": "与官方10秒不一致，未录为冷却或弹药参数。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾寿命与移速结束联动",
+          "reason": "当前3秒只明确攻速持续，护盾生命周期未证。"
+        },
+        {
+          "item": "根施法0",
+          "reason": "只作施法字段来源，不推断护盾寿命或弹道时点。"
+        }
+      ]
+    },
+    "yuumi_r": {
+      "excluded": [
+        {
+          "item": "WavesToRoot三波禁锢",
+          "reason": "主负责人确认当前中文只减速，旧WavesToRoot未消费；不采纳三波禁锢。"
+        },
+        {
+          "item": "挚友第三友军治疗和溢出护盾",
+          "reason": "第三友军资格未证，独立场景不创建治疗/护盾结果。"
+        },
+        {
+          "item": "额外1.5秒护盾持续",
+          "reason": "未消费字段，不猜。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "减速叠层起算",
+          "reason": "源值和文本方向明确，但第一波是否即加成待消费资格核对。"
+        },
+        {
+          "item": "引导期间移动、E和波纹锁定方向",
+          "reason": "行为时序待接；根施法0不推断瞬发。"
+        },
+        {
+          "item": "AllyHealingPerc角色等级13级后曲线",
+          "reason": "断点后斜率未证，运行输入无默认。"
+        }
+      ]
+    }
+  },
+  "counts": {
+    "newParameters": 144,
+    "newFormulas": 39,
+    "newEffects": 24,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 207,
+    "reusedPublicParameters": 26,
+    "plannedTotalIncludingReused": 233,
+    "protectedCurrentCompositionLists": 120
+  },
+  "requestCount": 207,
+  "publicReuse": 26,
+  "protectedSummary": {
+    "GETs": 198,
+    "subjects": 20,
+    "currentCompositionSkillSlots": 20,
+    "currentCompositionLists": 120,
+    "reusedPublicParameters": 26,
+    "images": 20,
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "dictionaries": 4
+  },
+  "noApiCalls": true
+}

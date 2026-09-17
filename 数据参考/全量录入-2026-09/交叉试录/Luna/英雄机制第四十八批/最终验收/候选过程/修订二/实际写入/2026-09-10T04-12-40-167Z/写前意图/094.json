@@ -1,0 +1,52 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_w/effects",
+    "detailRoute": "/skills/kayn_w/effects/damage",
+    "skillKey": "kayn_w",
+    "kind": "effects",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "damage",
+      "name": "利刃纵贯物理伤害",
+      "description": "当前未变形本体伤害；减速和形态击飞排除/待接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "利刃纵贯物理伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "physical_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

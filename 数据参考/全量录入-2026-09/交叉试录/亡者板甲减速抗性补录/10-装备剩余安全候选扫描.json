@@ -1,0 +1,61 @@
+{
+  "auditedAt": "2026-09-12",
+  "purpose": "确认成熟效果能否扩大批量，并区分进度瓶颈来自并发还是系统表达能力。",
+  "policy": {
+    "included": "普通模式、与一对一伤害或生存相关、来源数值明确、当前系统可完整表达、所需参数或公式已存在的未录效果。",
+    "excluded": [
+      "竞技场或特殊模式专属",
+      "击杀或助攻后收益",
+      "金币或经验",
+      "召唤物或纯第三方队友效果",
+      "缺少触发、分支、计时、状态、范围或修正语义的半成品",
+      "已经完整表达的效果"
+    ]
+  },
+  "partitions": [
+    {
+      "agent": "equipment_safe_batch_low",
+      "model": "Luna Max",
+      "range": "item id < 4000",
+      "skillsScanned": 107,
+      "getAttemptsAtLeast": 677,
+      "writes": 0,
+      "safeNewCandidates": 0,
+      "closestBlocked": [
+        { "skillKey": "item_3145_passive", "gap": "敌方英雄筛选、伤害触发和全局冷却" },
+        { "skillKey": "item_3144_passive", "gap": "触发、目标筛选和攻击减少冷却" },
+        { "skillKey": "item_3065_passive", "gap": "受到治疗和护盾的完整修正语义" },
+        { "skillKey": "item_3110_passive", "gap": "范围光环和敌方目标应用" },
+        { "skillKey": "item_3116_passive", "gap": "减速状态目录和施加链路" },
+        { "skillKey": "item_3143_passive", "gap": "暴击伤害修正乘区" }
+      ]
+    },
+    {
+      "agent": "equipment_safe_batch_high",
+      "model": "Luna Max",
+      "range": "item id >= 4000",
+      "ordinaryItems": 40,
+      "skillsWithRoots": 36,
+      "getAttempts": 570,
+      "successfulGETs": 569,
+      "expectedFailures": 1,
+      "writes": 0,
+      "safeNewCandidates": 0,
+      "closestBlocked": [
+        { "skillKey": "item_6673_passive", "gap": "等级分段护盾公式、致命伤害前触发和冷却判断" },
+        { "skillKey": "item_6657_passive", "gap": "受伤回蓝、资源消耗治疗和持续技能限额" },
+        { "skillKey": "item_6694_passive", "gap": "减速状态和生命阈值触发" },
+        { "skillKey": "item_6675_passive", "gap": "基础技能范围和普攻命中触发" },
+        { "skillKey": "item_4401_passive", "gap": "受伤叠层、时序和属性结果" },
+        { "skillKey": "item_4645_passive", "gap": "生命阈值和暴击伤害修正" },
+        { "skillKey": "item_8020_passive", "gap": "距离判断和魔法伤害修正" }
+      ]
+    }
+  ],
+  "conclusion": {
+    "largerSafeBatchAvailable": false,
+    "paceFinding": "剩余候选的主要瓶颈是当前系统缺少可复用的状态、条件、计时、范围和伤害或治疗修正能力，继续单纯提高并发不能产生正确的大批录入。",
+    "nextAction": "完成本批后先按解锁数量选择一个高复用缺口做最小系统迭代，再回到批量录入。"
+  },
+  "authorizationValueRecorded": false
+}

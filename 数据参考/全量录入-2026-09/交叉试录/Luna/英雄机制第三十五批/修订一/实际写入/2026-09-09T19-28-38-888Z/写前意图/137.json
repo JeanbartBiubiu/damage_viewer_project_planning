@@ -1,0 +1,29 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 136,
+    "method": "POST",
+    "route": "/skills/tahmkench_q/parameters",
+    "detailRoute": "/skills/tahmkench_q/parameters/self_heal_missing_hp_ratio",
+    "skillKey": "tahmkench_q",
+    "kind": "parameters",
+    "stableKey": "self_heal_missing_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_heal_missing_hp_ratio",
+      "name": "巨舌鞭笞已损生命治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.05,
+        "2": 0.055,
+        "3": 0.06,
+        "4": 0.065,
+        "5": 0.07
+      },
+      "description": "当前正文显示PercentHealthHealing×100%已损生命，取技能等级索引1至5的0.05至0.07比例。",
+      "sortOrder": 70
+    }
+  }
+}

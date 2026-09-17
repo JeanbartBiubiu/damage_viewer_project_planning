@@ -1,0 +1,23 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/rell_p/parameters",
+    "detailRoute": "/skills/rell_p/parameters/on_hit_armor_ratio",
+    "skillKey": "rell_p",
+    "kind": "parameters",
+    "stableKey": "on_hit_armor_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "on_hit_armor_ratio",
+      "name": "普攻额外伤害护甲比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.05,
+      "levelValues": null,
+      "description": "当前OnHitDamage第一项为0.05×来源总护甲。",
+      "sortOrder": 70
+    }
+  }
+}

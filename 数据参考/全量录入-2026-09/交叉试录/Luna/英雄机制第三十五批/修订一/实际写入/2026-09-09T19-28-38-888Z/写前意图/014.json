@@ -1,0 +1,29 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "method": "POST",
+    "route": "/skills/braum_q/parameters",
+    "detailRoute": "/skills/braum_q/parameters/base_damage",
+    "skillKey": "braum_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "寒冬之咬基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 75,
+        "2": 120,
+        "3": 165,
+        "4": 210,
+        "5": 255
+      },
+      "description": "客户端DataValues.BaseDamage取技能等级索引1至5的75/120/165/210/255。",
+      "sortOrder": 10
+    }
+  }
+}

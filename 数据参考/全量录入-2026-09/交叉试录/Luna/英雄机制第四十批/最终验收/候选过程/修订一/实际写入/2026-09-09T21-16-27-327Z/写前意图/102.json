@@ -1,0 +1,29 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "method": "POST",
+    "route": "/skills/thresh_e/parameters",
+    "detailRoute": "/skills/thresh_e/parameters/active_slow_ratio",
+    "skillKey": "thresh_e",
+    "kind": "parameters",
+    "stableKey": "active_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_slow_ratio",
+      "name": "厄运钟摆主动减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.25,
+        "3": 0.3,
+        "4": 0.35,
+        "5": 0.4
+      },
+      "description": "当前ActiveSlowPercentage原值20/25/30/35/40为百分数点，按正文换算为0.2/0.25/0.3/0.35/0.4。",
+      "sortOrder": 60
+    }
+  }
+}

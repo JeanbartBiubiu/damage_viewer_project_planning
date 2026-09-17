@@ -1,0 +1,45 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/leblanc_e/formulas",
+    "detailRoute": "/skills/leblanc_e/formulas/initial_magic_damage",
+    "skillKey": "leblanc_e",
+    "kind": "formulas",
+    "stableKey": "initial_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_magic_damage",
+      "name": "幻影锁链首段魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "initial_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "initial_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "InitialDamage = BaseInitialDamage + InitialAPRatio×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

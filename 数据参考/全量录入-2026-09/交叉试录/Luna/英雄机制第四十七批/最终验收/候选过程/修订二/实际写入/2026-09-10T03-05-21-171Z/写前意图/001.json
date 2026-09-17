@@ -1,0 +1,30 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_q/parameters",
+    "detailRoute": "/skills/elise_q/parameters/base_damage",
+    "skillKey": "elise_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "人类形态基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 70,
+        "3": 100,
+        "4": 130,
+        "5": 160
+      },
+      "description": "当前根DataValue.BaseDamage索引1至5为40/70/100/130/160；索引0=10不作技能1级。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T09:54:28.401Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_r/parameters/subsequent_burst_base_damage",
+  "id": "subsequent_burst_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "subsequent_burst_base_damage",
+    "name": "后续爆发基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 65,
+      "2": 105,
+      "3": 145
+    },
+    "description": "客户端当前根绑定 DataValues.SubsequentBurstBaseDamage 取索引1至3。",
+    "sortOrder": 50
+  }
+}

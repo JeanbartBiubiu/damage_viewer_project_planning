@@ -1,0 +1,23 @@
+{
+  "i": 127,
+  "intent": {
+    "sequence": 128,
+    "method": "POST",
+    "route": "/skills/singed_p/parameters",
+    "detailRoute": "/skills/singed_p/parameters/per_target_cooldown_ms",
+    "skillKey": "singed_p",
+    "kind": "parameters",
+    "stableKey": "per_target_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "per_target_cooldown_ms",
+      "name": "每目标冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "description": "当前PerTargetCD=8秒，转换为8000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

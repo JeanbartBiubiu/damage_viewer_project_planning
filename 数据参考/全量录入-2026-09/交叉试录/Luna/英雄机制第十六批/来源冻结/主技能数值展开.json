@@ -1,0 +1,2765 @@
+{
+  "generatedAt": "2026-09-09T08:57:10.828Z",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整原始计算树保留在本批证据。资料来自规划工作树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Malzahar",
+      "chineseName": "虚空先知",
+      "rootPath": "Characters/Malzahar/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Malzahar.json.gz",
+        "sha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+        "compressedSha256": "6e3f8020a3fb1e4e2f0c617cf493771bf2cda721353461d89c4af6d6b96622eb",
+        "byteSize": 57674,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/malzahar/malzahar.bin.json",
+        "fetchedAt": "2026-09-06T14:26:26.689Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Malzahar.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Malzahar.json",
+        "fetchedAt": "2026-09-06T14:12:49.613Z",
+        "byteSize": 14092,
+        "sha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "malzahar_p",
+          "binding": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+          "name": "虚空穿越",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "玛尔扎哈如果近期没有受到伤害或控制效果，就会获得巨幅伤害减免和免疫控制的效果，并且这个效果在受到伤害后还会残留一小段时间。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "DRPercent",
+              "values": [
+                90,
+                90,
+                90,
+                90,
+                90,
+                90,
+                90
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "LingerDuration",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "ShieldCooldown": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 30,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": -6,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": -6,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 16,
+                      "mAdditionalBonusAtThisLevel": -6,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "malzahar_q",
+          "binding": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "name": "虚空召唤",
+          "maxrank": 5,
+          "officialCooldown": [
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "officialCost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "玛尔扎哈开启两扇通向虚空的传送门。在短暂的延迟后，两扇门之间会有虚空能量对流而过，造成魔法伤害并沉默敌方英雄。",
+          "officialTooltip": "玛尔扎哈开启两扇通往虚空的传送门，在短暂的延迟后，能量就会从虚空之中喷发，并且在两道传送门之间对流，对击中的敌人造成<magicDamage>{{ totaldamagetooltip }}魔法伤害</magicDamage>并使其<status>沉默</status>{{ silenceduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            80
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              80
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                70,
+                70,
+                105,
+                140,
+                175,
+                210,
+                245
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SilenceDuration",
+              "values": [
+                1,
+                1,
+                1.25,
+                1.5,
+                1.75,
+                2,
+                2.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DelayPostCast",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamageTooltip": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.550000011920929,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "malzahar_w",
+          "binding": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "name": "虚空虫群",
+          "maxrank": 5,
+          "officialCooldown": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "officialCost": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "玛尔扎哈召唤虚灵去攻击附近的敌人。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>玛尔扎哈的其它技能在施放时会为他提供一层效果(最多可叠到{{ stackcap }}层)。<br /><br /><spellActive>主动：</spellActive>玛尔扎哈召唤一个虚灵，并且每层效果会额外召唤一个虚灵。虚灵持续{{ voidlingduration }}秒并且每次命中造成<magicDamage>{{ voidlingbonusdamagetooltip }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mana": [
+            40,
+            45,
+            50,
+            55,
+            60,
+            60
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              45,
+              50,
+              55,
+              60,
+              60
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "VoidlingDuration",
+              "values": [
+                8,
+                8,
+                8,
+                9,
+                9,
+                10,
+                8
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "VoidlingBaseDamage",
+              "values": [
+                10,
+                12,
+                14,
+                16,
+                18,
+                20,
+                22
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "LaneMinionMod",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "EpicMonsterMod",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StackCap",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SummonDelay",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StackDuration",
+              "values": [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxStacks",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "{c2505620}": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 5,
+                  "mEndValue": 64.5,
+                  "mScaleByStatProgressionMultiplier": true,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "VoidlingBonusDamageTooltip": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "VoidlingBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStartValue": 5,
+                  "mEndValue": 64.5,
+                  "mScaleByStatProgressionMultiplier": true,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "malzahar_e",
+          "binding": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "name": "煞星幻象",
+          "maxrank": 5,
+          "officialCooldown": [
+            11,
+            10,
+            9,
+            8,
+            7
+          ],
+          "officialCost": [
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "玛尔扎哈将目标的惨死幻象侵入目标的意识中，造成持续伤害。玛尔扎哈对目标使用其它技能时会刷新幻象的持续时间。<br><br>如果目标在感染幻象期间死亡，那么幻象会传到附近的一个敌人身上，并且玛尔扎哈会回复法力值。玛尔扎哈的虚灵会优先攻击感染了幻象的单位。",
+          "officialTooltip": "玛尔扎哈给目标造成可怕的幻象，在{{ duration }}秒里对一名敌人持续造成共<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。在此期间，对目标使用<spellName>虚空召唤</spellName>或<spellName>冥府之握</spellName>会刷新幻象的持续时间。<br /><br />如果目标被击杀，玛尔扎哈会获得<scaleMana>{{ manarestore }}法力</scaleMana>并且幻象会传播给相距最近的敌人。<br /><br /><rules>煞星幻象会处决低于{{ minionexecutethreshold }}生命值的小兵。</rules>{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            11,
+            11,
+            10,
+            9,
+            8,
+            7,
+            7
+          ],
+          "mana": [
+            60,
+            70,
+            80,
+            90,
+            100,
+            110
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              70,
+              80,
+              90,
+              100,
+              110
+            ],
+            "{0a3e0478}": 60,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                45,
+                80,
+                115,
+                150,
+                185,
+                220,
+                255
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SecondsPerTick",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Duration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "UnnamedEffectAmount2",
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.800000011920929,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ManaRestore": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mCoefficient": 0.019999999552965164,
+                  "__type": "AbilityResourceByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinionExecuteThreshold": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 10,
+                  "mInitialBonusPerLevel": 2,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 12,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "malzahar_r",
+          "binding": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "name": "冥府之握",
+          "maxrank": 3,
+          "officialCooldown": [
+            140,
+            110,
+            80
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "玛尔扎哈引导虚空的精萃来把一名敌方英雄压制在一个充满伤害的负能量地带上。",
+          "officialTooltip": "玛尔扎哈<status>压制</status>一名敌方英雄并在{{ ccduration }}秒里持续造成共<magicDamage>{{ totaldamagetooltip }}魔法伤害</magicDamage>。一个负能量地带会在他目标周围生成，在{{ poolduration }}秒里持续造成共<magicDamage>{{ zonedamagetooltip }}最大生命值的魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            140,
+            140,
+            110,
+            80,
+            80,
+            80,
+            80
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.004999995231628418,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BeamDamage",
+              "values": [
+                50,
+                125,
+                200,
+                275,
+                350,
+                425,
+                500
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BeamAPRatio",
+              "values": [
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BeamDamageTicks",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SuppressDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "NeutralMonsterDamageCap",
+              "values": [
+                120,
+                120,
+                120,
+                120,
+                120,
+                120,
+                120
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ZoneDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxHealthDamage",
+              "values": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxHealthRatio",
+              "values": [
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291,
+                0.004999999888241291
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BeamTetherRange",
+              "values": [
+                1250,
+                1250,
+                1250,
+                1250,
+                1250,
+                1250,
+                1250
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PoolDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CCDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "ZoneDamageTooltip": {
+              "mMultiplier": {
+                "mNumber": 0.05000000074505806,
+                "__type": "NumberCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MaxHealthDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "MaxHealthRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "TotalDamageTooltip": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BeamDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "BeamAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Anivia",
+      "chineseName": "冰晶凤凰",
+      "rootPath": "Characters/Anivia/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Anivia.json.gz",
+        "sha256": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+        "compressedSha256": "37e37a373bd879781d91c124a27f3ca4fa43783432c15b87924deca32cd8cca6",
+        "byteSize": 44857,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/anivia/anivia.bin.json",
+        "fetchedAt": "2026-09-06T14:26:12.381Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Anivia.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Anivia.json",
+        "fetchedAt": "2026-09-06T14:12:44.366Z",
+        "byteSize": 13951,
+        "sha256": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "anivia_p",
+          "binding": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+          "name": "寒霜涅槃",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "在受到致命伤害后，艾尼维亚将化身为凤凰蛋，然后满血复活。",
+          "officialTooltip": null,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "Cooldown",
+              "values": [
+                240,
+                240,
+                240,
+                240,
+                240,
+                240,
+                240
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "BonusResists": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": -40,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 5,
+                      "mAdditionalBonusAtThisLevel": 15,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 8,
+                      "mAdditionalBonusAtThisLevel": 15,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 12,
+                      "mAdditionalBonusAtThisLevel": 15,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 15,
+                      "mAdditionalBonusAtThisLevel": 15,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BonusResistsTooltip": {
+              "mMultiplier": {
+                "mNumber": -1,
+                "__type": "NumberCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mExpandedTooltipCalculationDisplay": 1,
+              "mModifiedGameCalculation": "BonusResists",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "anivia_q",
+          "binding": "Characters/Anivia/Spells/FlashFrostAbility/FlashFrost",
+          "name": "寒冰闪耀",
+          "maxrank": 5,
+          "officialCooldown": [
+            11,
+            10,
+            9,
+            8,
+            7
+          ],
+          "officialCost": [
+            80,
+            85,
+            90,
+            95,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "艾尼维亚挥动翅膀聚集空气，制造一枚冰晶向目标区域施放，冰冻并伤害路径上的所有敌人。当冰晶爆裂时，它会晕眩并伤害一定范围内的所有敌人。",
+          "officialTooltip": "艾尼维亚发射出一个巨型冰块，造成<magicDamage>{{ totalpassthroughdamage }}魔法伤害</magicDamage>并<keywordMajor>冰冻</keywordMajor>敌人{{ slowduration }}秒，使其<status>减速</status>{{ spell.glacialstorm:slowamount }}%。在到达距离终点时，冰块会爆炸，<status>晕眩</status>敌人{{ stunduration }}秒并造成<magicDamage>{{ totalexplosiondamage }}魔法伤害</magicDamage>。<br /><br />艾尼维亚可以在冰块飞行途中<recast>再次施放</recast>这个技能来将其提前引爆。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            11,
+            11,
+            10,
+            9,
+            8,
+            7,
+            7
+          ],
+          "mana": [
+            80,
+            85,
+            90,
+            95,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              80,
+              85,
+              90,
+              95,
+              100,
+              100
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "PassthroughBaseDamage",
+              "values": [
+                30,
+                50,
+                70,
+                90,
+                110,
+                130,
+                150
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ExplosionBaseDamage",
+              "values": [
+                25,
+                60,
+                95,
+                130,
+                165,
+                200,
+                235
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StunDuration",
+              "values": [
+                1,
+                1.100000023841858,
+                1.2000000476837158,
+                1.2999999523162842,
+                1.399999976158142,
+                1.5,
+                1.600000023841858
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalPassthroughDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "PassthroughBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.25,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalExplosionDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ExplosionBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.44999998807907104,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "anivia_w",
+          "binding": "Characters/Anivia/Spells/CrystallizeAbility/Crystallize",
+          "name": "寒冰屏障",
+          "maxrank": 5,
+          "officialCooldown": [
+            17,
+            17,
+            17,
+            17,
+            17
+          ],
+          "officialCost": [
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "艾尼维亚利用空气中的湿气，召唤出一道不可穿越的冰之墙来阻挡所有移动。该墙持续很短一段时间后就会融化。",
+          "officialTooltip": "艾尼维亚召唤出一道宽{{ wallwidth }}码的无法通过的冰墙。冰墙会在融化前持续{{ wallduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17
+          ],
+          "mana": [
+            70,
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "manaValues": {
+            "values": [
+              70,
+              70,
+              70,
+              70,
+              70,
+              70
+            ],
+            "{0a3e0478}": 70,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "WallDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "WallWidth",
+              "values": [
+                300,
+                400,
+                500,
+                600,
+                700,
+                800,
+                900
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "WallChunks",
+              "values": [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ChampPushDistance",
+              "values": [
+                120,
+                120,
+                120,
+                120,
+                120,
+                120,
+                120
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "NonChampPushDistance",
+              "values": [
+                250,
+                250,
+                250,
+                250,
+                250,
+                250,
+                250
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "E",
+          "skillKey": "anivia_e",
+          "binding": "Characters/Anivia/Spells/FrostbiteAbility/Frostbite",
+          "name": "霜寒刺骨",
+          "maxrank": 5,
+          "officialCooldown": [
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "艾尼维亚扇动双翅，朝她的目标喷射出一股刺骨的强风，造成伤害。如果目标近期已被【Q寒冰闪耀】所命中或被一个完全形成的【R冰川风暴】所伤害，那么将会受到该技能双倍的伤害。",
+          "officialTooltip": "艾尼维亚用一阵刺骨的寒风冲击一名敌人，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。如果目标身上带有<keywordMajor>冰冻</keywordMajor>效果，则艾尼维亚会转而造成<magicDamage>{{ empowereddamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "mana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                55,
+                80,
+                105,
+                130,
+                155,
+                180
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.550000011920929,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpoweredDamage": {
+              "mMultiplier": {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "anivia_r",
+          "binding": "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm",
+          "name": "冰川风暴",
+          "maxrank": 3,
+          "officialCooldown": [
+            4,
+            3,
+            2
+          ],
+          "officialCost": [
+            60,
+            60,
+            60
+          ],
+          "officialResource": "{{ cost }}+{{ manacostpersecond }}法力/秒",
+          "officialDescription": "艾尼维亚召唤出一朵夹杂着冰块和冰雹的雨云，对敌人造成伤害，并使其减速。",
+          "officialTooltip": "<toggle>激活：</toggle>艾尼维亚在目标区域召唤出一阵夹杂着冰与雹的强雨，来使敌人<status>减速</status>{{ slowamount }}%并每秒造成<magicDamage>{{ totaldamagepersecond }}魔法伤害</magicDamage>。风暴会在{{ growthtime }}秒里持续提升规模。<br /><br />当风暴完全形成后，它会施加<keywordMajor>冰冻</keywordMajor>效果，使敌人<status>减速</status>{{ slowpercentempoweredtt }}%，并且每秒造成<magicDamage>{{ empowereddamagepersecondtooltiponly }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            4,
+            4,
+            3,
+            2,
+            2,
+            2,
+            2
+          ],
+          "mana": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "{0a3e0478}": 60,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "DamagePerSecond",
+              "values": [
+                15,
+                30,
+                45,
+                60,
+                75,
+                90,
+                105
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BonusMultiplier",
+              "values": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ManaCostPerSecond",
+              "values": [
+                25,
+                35,
+                45,
+                55,
+                65,
+                75,
+                85
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TickRate",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                20,
+                20,
+                30,
+                40,
+                50,
+                60,
+                70
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ChillDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "GrowthTime",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AdditionalSlowPercentAtMax",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowDurationAtMaxMultiplier",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "LeashWarning",
+              "values": [
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "LeashBreak",
+              "values": [
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowPercentEmpoweredTT",
+              "values": [
+                15,
+                30,
+                45,
+                60,
+                75,
+                90,
+                105
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinCooldown",
+              "values": [
+                0,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamagePerSecond": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "DamagePerSecond",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.125,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EnhancedSlow": {
+              "mMultiplier": {
+                "mSubparts": [
+                  {
+                    "mSubparts": [
+                      {
+                        "mDataValue": "AdditionalSlowPercentAtMax",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      {
+                        "mNumber": 1,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SlowAmount",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpoweredDamagePerSecondTooltipOnly": {
+              "mMultiplier": {
+                "mNumber": 3,
+                "__type": "NumberCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "TotalDamagePerSecond",
+              "__type": "GameCalculationModified"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Lissandra",
+      "chineseName": "冰霜女巫",
+      "rootPath": "Characters/Lissandra/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Lissandra.json.gz",
+        "sha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+        "compressedSha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b",
+        "byteSize": 67303,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/lissandra/lissandra.bin.json",
+        "fetchedAt": "2026-09-06T14:26:25.749Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Lissandra.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lissandra.json",
+        "fetchedAt": "2026-09-06T14:12:49.495Z",
+        "byteSize": 13742,
+        "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "lissandra_p",
+          "binding": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+          "name": "冰脉驱役",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "当一名敌方英雄在丽桑卓附近阵亡时，该英雄会变成一个冰封奴仆。冰封奴仆会寻找活着的敌人，使身边敌人的移动速度减少。在一段延迟后，冰封奴仆会从极度冰寒中粉碎，对附近目标造成魔法伤害。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "MoveSpeedMod",
+              "values": [
+                -0.25,
+                -0.25,
+                -0.25,
+                -0.25,
+                -0.25,
+                -0.25,
+                -0.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ExplosionDelay",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Range",
+              "values": [
+                1350,
+                1350,
+                1350,
+                1350,
+                1350,
+                1350,
+                1350
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Radius",
+              "values": [
+                450,
+                450,
+                450,
+                450,
+                450,
+                450,
+                450
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 120,
+                  "mInitialBonusPerLevel": 20,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 13,
+                      "mBonusPerLevelAtAndAfter": 30,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "lissandra_q",
+          "binding": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+          "name": "寒冰碎片",
+          "maxrank": 5,
+          "officialCooldown": [
+            7,
+            6,
+            5,
+            4,
+            3
+          ],
+          "officialCost": [
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "掷出一杆冰矛，冰矛会在命中敌人时碎裂，造成魔法伤害和减速效果。碎裂会穿过目标，对被冰矛命中的其他敌人造成等量伤害。",
+          "officialTooltip": "丽桑卓扔出一杆冰矛，冰矛会在命中第一个敌人后碎裂，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>、持续{{ slowduration }}秒的{{ slowpercentage*-100 }}%<status>减速</status>，并且还会对该敌人身后的敌人们造成伤害和减速。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            8,
+            7,
+            6,
+            5,
+            4,
+            3,
+            3
+          ],
+          "mana": [
+            55,
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "manaValues": {
+            "values": [
+              55,
+              60,
+              65,
+              70,
+              75,
+              80
+            ],
+            "{0a3e0478}": 55,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "damage",
+              "values": [
+                45,
+                80,
+                115,
+                150,
+                185,
+                220,
+                255
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "slowDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "slowPercentage",
+              "values": [
+                -0.1599999964237213,
+                -0.20000000298023224,
+                -0.23999999463558197,
+                -0.2800000011920929,
+                -0.3199999928474426,
+                -0.36000001430511475,
+                -0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowPercentage",
+              "values": [
+                -0.1599999964237213,
+                -0.20000000298023224,
+                -0.23999999463558197,
+                -0.2800000011920929,
+                -0.3199999928474426,
+                -0.36000001430511475,
+                -0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.75,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "lissandra_w",
+          "binding": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+          "name": "冰霜之环",
+          "maxrank": 5,
+          "officialCooldown": [
+            10,
+            9.5,
+            9,
+            8.5,
+            8
+          ],
+          "officialCost": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。",
+          "officialTooltip": "丽桑卓生成一个冰封领域，<status>禁锢</status>附近的敌人们{{ snareduration }}秒并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            10,
+            10,
+            9.5,
+            9,
+            8.5,
+            8,
+            8
+          ],
+          "mana": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "{0a3e0478}": 40,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                70,
+                105,
+                140,
+                175,
+                210,
+                245
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SnareDuration",
+              "values": [
+                1.25,
+                1.25,
+                1.350000023841858,
+                1.4500000476837158,
+                1.5499999523162842,
+                1.649999976158142,
+                1.649999976158142
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TargetsToHit",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "FreeCastCD",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.699999988079071,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "lissandra_e",
+          "binding": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+          "name": "冰川之径",
+          "maxrank": 5,
+          "officialCooldown": [
+            24,
+            21,
+            18,
+            15,
+            12
+          ],
+          "officialCost": [
+            80,
+            85,
+            90,
+            95,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "丽桑卓召唤一个寒冰魔爪来造成魔法伤害。再次激活这个技能，可以让丽桑卓传送到寒冰魔爪的当前位置上。",
+          "officialTooltip": "丽桑卓向前放出一个冰爪，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。丽桑卓可以在冰爪飞行时<recast>再次施放</recast>来传送到它所在的位置。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            27,
+            24,
+            21,
+            18,
+            15,
+            12,
+            12
+          ],
+          "mana": [
+            80,
+            85,
+            90,
+            95,
+            100,
+            105
+          ],
+          "manaValues": {
+            "values": [
+              80,
+              85,
+              90,
+              95,
+              100,
+              105
+            ],
+            "{0a3e0478}": 80,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                25,
+                70,
+                105,
+                140,
+                175,
+                210,
+                245
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6000000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "lissandra_r",
+          "binding": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+          "name": "冰封陵墓",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            100,
+            80
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "如果对敌方英雄施放，那么会冻结目标，对目标造成晕眩效果，如果对丽桑卓自己施放，那么她会暂时用暗黑之冰裹住自己，治疗自身并免疫任何伤害且不可被选取，但也无法进行任何动作。暗黑之冰可以从目标处放射寒芒对敌人造成魔法伤害和减速效果。",
+          "officialTooltip": "丽桑卓将她自身或一名敌方英雄裹进黑冰之中。敌人会被<status>晕眩</status>{{ enemycastduration }}秒。在自我施放时，丽桑卓进入凝滞状态{{ selfcastduration }}秒并回复<healing>{{ healamount }}生命值</healing>，每{{ selfcastmissinghpperabove }}%已损失生命值会使回复量提升{{ selfcastmissinghpratio }}%。<br /><br />之后，黑冰会从目标处开始蔓延，造成<magicDamage>{{ calculateddamage }}魔法伤害</magicDamage>。黑冰存在{{ slowduration }}秒，会使敌人<status>减速</status>{{ slowamount*-100 }}%。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            10,
+            120,
+            100,
+            80,
+            10,
+            10,
+            10
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "APRatio",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                50,
+                150,
+                250,
+                350,
+                450,
+                550,
+                650
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                -0.30000001192092896,
+                -0.44999998807907104,
+                -0.6000000238418579,
+                -0.75,
+                -0.8999999761581421,
+                -1.0499999523162842,
+                -1.2000000476837158
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "EnemyCastDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SelfCastDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SelfCastFlatHeal",
+              "values": [
+                50,
+                100,
+                150,
+                200,
+                250,
+                300,
+                350
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SelfCastMissingHPRatio",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SelfCastMissingHPPerAbove",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StartingAoESize",
+              "values": [
+                292,
+                292,
+                292,
+                292,
+                292,
+                292,
+                292
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PercentMissingHPRatio",
+              "values": [
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929,
+                0.550000011920929
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "CalculatedDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "HealAmount": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SelfCastFlatHeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "PercentMissingHPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Karthus",
+      "chineseName": "死亡颂唱者",
+      "rootPath": "Characters/Karthus/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Karthus.json.gz",
+        "sha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+        "compressedSha256": "8c12afb5ba6e8ec7f8fd547a8aee38c4a03bce86e55615516cf3cb289265036b",
+        "byteSize": 72809,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/karthus/karthus.bin.json",
+        "fetchedAt": "2026-09-06T14:26:22.753Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Karthus.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Karthus.json",
+        "fetchedAt": "2026-09-06T14:12:48.761Z",
+        "byteSize": 11486,
+        "sha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "karthus_p",
+          "binding": "Characters/Karthus/Spells/KarthusDeathDefiedAbility/KarthusDeathDefied",
+          "name": "死亡契约",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "在死亡时，卡尔萨斯会化为一个灵体，能够继续施放技能。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "PassiveDuration",
+              "values": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                7,
+                7
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "Q",
+          "skillKey": "karthus_q",
+          "binding": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+          "name": "荒芜",
+          "maxrank": 5,
+          "officialCooldown": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialCost": [
+            20,
+            25,
+            30,
+            35,
+            40
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "卡尔萨斯在目标区域释放一次有延迟的爆炸魔法，对区域内的所有敌人造成伤害。对孤立无援的敌人造成提升过的伤害。",
+          "officialTooltip": "卡尔萨斯生成一道魔法爆裂，造成<magicDamage>{{ qdamage }}魔法伤害</magicDamage>。如果爆裂仅命中了一名敌人，它会转而造成<magicDamage>{{ qsingletargetdamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": [
+            20,
+            25,
+            30,
+            35,
+            40,
+            45
+          ],
+          "manaValues": {
+            "values": [
+              20,
+              25,
+              30,
+              35,
+              40,
+              45
+            ],
+            "{0a3e0478}": 20,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": 0.25,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "MonsterMod",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                21,
+                40,
+                59,
+                78,
+                97,
+                116,
+                135
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "QDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "QSingleTargetDamage": {
+              "mMultiplier": {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              },
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "QDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "karthus_w",
+          "binding": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain",
+          "name": "痛苦之墙",
+          "maxrank": 5,
+          "officialCooldown": [
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "officialCost": [
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "卡尔萨斯创造一道可通过的魔能之墙。所有穿过墙体的敌方单位都会被暂时降低移动速度和魔法抗性。",
+          "officialTooltip": "卡尔萨斯生成一个持续{{ wallduration }}秒的墙体。穿过它的敌人们会受到持续{{ debuffduration }}秒的<scaleMR>{{ magicresistshred }}%魔法抗性</scaleMR>削减，以及在此期间持续衰减的{{ slowpercent }}%<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "mana": [
+            70,
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "manaValues": {
+            "values": [
+              70,
+              70,
+              70,
+              70,
+              70,
+              70
+            ],
+            "{0a3e0478}": 70,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "MagicResistShred",
+              "values": [
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TT_WallWidth",
+              "values": [
+                700,
+                800,
+                900,
+                1000,
+                1100,
+                1200,
+                1300
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowPercent",
+              "values": [
+                30,
+                40,
+                50,
+                60,
+                70,
+                80,
+                90
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "WallDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DebuffDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "E",
+          "skillKey": "karthus_e",
+          "binding": "Characters/Karthus/Spells/KarthusDefileAbility/KarthusDefile",
+          "name": "亵渎",
+          "maxrank": 5,
+          "officialCooldown": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "officialCost": [
+            30,
+            42,
+            54,
+            66,
+            78
+          ],
+          "officialResource": "每秒{{ cost }}法力",
+          "officialDescription": "卡尔萨斯被动地从他的猎物那里窃取法力，每杀死一个敌人就会获得法力。卡尔萨斯也可以转化这种力量，用猎物的灵魂环绕自身，对附近的敌人造成伤害，但会急速消耗他自己的法力。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive>卡尔萨斯击杀一个单位时，回复<scaleMana>{{ manarestoreonkill }}法力值</scaleMana>。<br /><br /><toggle>激活：</toggle>卡尔萨斯生成一个死灵光环，每秒对附近敌人造成<magicDamage>{{ totaldps }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "mana": [
+            30,
+            42,
+            54,
+            66,
+            78,
+            90
+          ],
+          "manaValues": {
+            "values": [
+              30,
+              42,
+              54,
+              66,
+              78,
+              90
+            ],
+            "{0a3e0478}": 30,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "DamagePerSecond",
+              "values": [
+                10,
+                30,
+                50,
+                70,
+                90,
+                110,
+                130
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatioPerSecond",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ManaRestoreOnKill",
+              "values": [
+                0,
+                10,
+                20,
+                30,
+                40,
+                50,
+                60
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDPS": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "DamagePerSecond",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatioPerSecond",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{57456bbc}": {
+              "mMultiplier": {
+                "mNumber": 0.25,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDPS",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "karthus_r",
+          "binding": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne",
+          "name": "安魂曲",
+          "maxrank": 3,
+          "officialCooldown": [
+            200,
+            180,
+            160
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "在引导3秒后，卡尔萨斯就会对所有敌方英雄造成伤害。",
+          "officialTooltip": "卡尔萨斯引导3秒，然后对敌方英雄们造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>，无视距离。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            200,
+            200,
+            180,
+            160,
+            180,
+            180,
+            200
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                50,
+                200,
+                350,
+                500,
+                650,
+                800,
+                950
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

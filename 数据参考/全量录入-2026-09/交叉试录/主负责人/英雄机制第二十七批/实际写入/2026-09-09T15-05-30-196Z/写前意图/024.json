@@ -1,0 +1,20 @@
+{
+  "i": 23,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_w/parameters",
+    "skillKey": "gragas_w",
+    "kind": "parameters",
+    "stableKey": "defense_duration_ms",
+    "body": {
+      "parameterKey": "defense_duration_ms",
+      "name": "减伤持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前根DataValues.DefenseDuration取索引1至5，秒转为整数毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

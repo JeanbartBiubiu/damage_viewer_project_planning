@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/braum_p/parameters",
+    "detailRoute": "/skills/braum_p/parameters/stack_window_ms",
+    "skillKey": "braum_p",
+    "kind": "parameters",
+    "stableKey": "stack_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_window_ms",
+      "name": "震荡猛击层数窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "客户端DataValues.StackDuration=4秒；转换为4000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

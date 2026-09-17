@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:39:23.057Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_w/parameters",
+  "detailRoute": "/skills/sion_w/parameters/shield_max_hp_ratio",
+  "skillKey": "sion_w",
+  "kind": "parameters",
+  "stableKey": "shield_max_hp_ratio",
+  "body": {
+    "parameterKey": "shield_max_hp_ratio",
+    "name": "灵魂熔炉护盾最大生命值比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.08,
+      "2": 0.1,
+      "3": 0.12,
+      "4": 0.14,
+      "5": 0.16
+    },
+    "description": "当前根TotalShield的mStat=12无mStatFormula；正文明确最大生命值，绑定来源总生命值。",
+    "sortOrder": 40
+  }
+}

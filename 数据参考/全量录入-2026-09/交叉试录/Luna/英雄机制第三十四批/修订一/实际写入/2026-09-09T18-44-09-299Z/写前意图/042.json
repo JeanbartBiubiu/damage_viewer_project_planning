@@ -1,0 +1,85 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 44,
+    "method": "POST",
+    "route": "/skills/katarina_r/formulas",
+    "detailRoute": "/skills/katarina_r/formulas/total_physical_damage",
+    "skillKey": "katarina_r",
+    "kind": "formulas",
+    "stableKey": "total_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_physical_damage",
+      "name": "死亡莲华同一目标总物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ticks_per_second"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "duration_seconds"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "attack_speed_coefficient"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_attack_speed_ratio"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalADDamageCalc = TicksPerSecond×Duration×ADDamageCalc；当前目标上限、攻击时点与攻速输入待接。",
+      "sortOrder": 40
+    }
+  }
+}

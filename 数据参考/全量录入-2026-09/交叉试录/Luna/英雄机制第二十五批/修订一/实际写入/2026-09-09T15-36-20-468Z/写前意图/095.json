@@ -1,0 +1,45 @@
+{
+  "sequence": 95,
+  "intent": {
+    "sequence": 95,
+    "method": "POST",
+    "route": "/skills/tryndamere_w/parameters",
+    "detailRoute": "/skills/tryndamere_w/parameters/slow_ratio",
+    "skillKey": "tryndamere_w",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "背对目标减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.35,
+        "3": 0.4,
+        "4": 0.45,
+        "5": 0.5
+      },
+      "description": "客户端原始SlowPotency为-0.3至-0.5，当前正文使用SlowPotency*-100显示；候选保存正的0.3至0.5并使用DECREASE。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 487,
+    "method": "GET",
+    "route": "/skills/tryndamere_w/parameters/slow_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "slow_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:13.629Z"
+  }
+}

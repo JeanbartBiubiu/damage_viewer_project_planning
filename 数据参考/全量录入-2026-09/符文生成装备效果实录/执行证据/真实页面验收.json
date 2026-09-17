@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-10T13:54:00+08:00",
+  "status": "通过",
+  "browser": "Codex内置浏览器，原有标签3",
+  "apiWrites": 0,
+  "browserGETCount": "未单独计量",
+  "checks": [
+    {"route":"#/equipment","object":"item_2422","result":"列表显示有点神奇之鞋代表图片；装备属性显示move_speed=25；关联技能中只有item_2422_passive，启用，排序10"},
+    {"route":"#/skills","object":"item_2422_passive","result":"列表显示技能代表图；已保存magical_footwear_additional_speed，额外移速取additional_move_speed参数，增加移动速度、属性固定加算、持续生效、施加时留存、共享数值、重复覆盖；父实例按来源对象，保留一层，仅显式移除"},
+    {"route":"#/skills","object":"rune_8304_passive","result":"技能主体和代表图片仍存在；效果与结果显示暂无效果，不再保留重复移速效果"},
+    {"route":"#/skills","object":"item_2010_consume","result":"列表显示饼干技能代表图；permanent_health_gain结果读取累计永久生命公式，作用自身hp，增加、属性固定加算、持续生效、施加时留存、共享数值、重复覆盖；说明明确实际已消费或出售数量与自身贡献边界"},
+    {"route":"#/skills","object":"item_2150_consume","result":"技能合剂参数skill_points_granted为整数1，主体与代表图片可见"},
+    {"route":"#/skills","object":"item_2152_consume","result":"原力合剂参数adaptive_force_amount为整数25，duration_ms为整数60000"}
+  ],
+  "boundary": "页面仅实际读取，没有新增保存。全字段及关系保护另由102次独立GET证明；没有执行消耗、升级继承、适应之力选择或战斗运行。"
+}

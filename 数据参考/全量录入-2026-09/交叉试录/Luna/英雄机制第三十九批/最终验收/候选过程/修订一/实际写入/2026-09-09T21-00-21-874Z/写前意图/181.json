@@ -1,0 +1,30 @@
+{
+  "i": 180,
+  "intent": {
+    "sequence": 181,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_w/parameters",
+    "detailRoute": "/skills/smolder_w/parameters/explosion_damage_base",
+    "skillKey": "smolder_w",
+    "kind": "parameters",
+    "stableKey": "explosion_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "explosion_damage_base",
+      "name": "阿嚏英雄爆炸基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 35,
+        "3": 60,
+        "4": 85,
+        "5": 110
+      },
+      "description": "ExplosionBaseDamage取索引1至5的10/35/60/85/110；索引0=-15是占位。",
+      "sortOrder": 30
+    }
+  }
+}

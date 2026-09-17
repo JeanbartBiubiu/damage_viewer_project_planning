@@ -1,0 +1,23 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/senna_r/parameters",
+    "detailRoute": "/skills/senna_r/parameters/damage_ap_ratio",
+    "skillKey": "senna_r",
+    "kind": "parameters",
+    "stableKey": "damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_ap_ratio",
+      "name": "暗影燎原法强伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.69999999,
+      "levelValues": null,
+      "description": "当前TotalDamage消费DamageAPRatio×来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

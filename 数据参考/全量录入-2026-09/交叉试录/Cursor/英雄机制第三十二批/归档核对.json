@@ -1,0 +1,63 @@
+{
+  "at": "2026-09-09T17:33:40.394Z",
+  "batch": "英雄机制第三十二批",
+  "sourceArtifacts": {
+    "candidate": ".agents\\artifacts\\hero32-luna-candidate",
+    "independentReview": ".agents\\artifacts\\hero32-independent-review",
+    "actualMath": ".agents\\artifacts\\hero32-root-math",
+    "independentSourceMath": ".agents\\artifacts\\hero32-independent-source-math",
+    "cursorAudit": ".agents\\artifacts\\hero32-cursor-review-run-20260910"
+  },
+  "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
+  "planSha256": "4250c6cf97965f7f83fa64f89089487f52ede37f83adcb2df15c0051a97e9c46",
+  "sourceExpectedModuleSha256": "b6e7f97242ca77dc11f9fa9b9af35892dc11987d1e0b7efe54f23d7704efce1e",
+  "actualWrite": {
+    "POST": 206,
+    "GET": 1284,
+    "status": "COMPLETED"
+  },
+  "independentReadback": {
+    "GET": 407,
+    "protectedPaths": 201,
+    "details": 235,
+    "status": "PASS"
+  },
+  "actualMath": {
+    "extraGET": 206,
+    "formulas": 41,
+    "cases": 82,
+    "missingInputRejects": 41,
+    "boundaries": 34,
+    "sourceSeries": 15,
+    "status": "通过"
+  },
+  "pageAcceptance": {
+    "pages": 4,
+    "GET": 24,
+    "mathCases": 20,
+    "status": "PASS"
+  },
+  "cursorReadonlyAudit": {
+    "verdict": "READY",
+    "events": 1368,
+    "gitDelta": []
+  },
+  "hashes": {
+    "完整候选.json": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
+    "写前请求计划.json": "4250c6cf97965f7f83fa64f89089487f52ede37f83adcb2df15c0051a97e9c46",
+    "源值解析.json": "72474e8cad1f7b9eb929f18d2a243c25c56acd3507604de542ac8f7efedc18f9",
+    "来源哈希汇总.json": "74a322d6b4914c4ee54b5cba09bdffb89adf0917276512b220d0f85c79262b34",
+    "严格数学.json": "273762d3d9b3104dcce398ca2c2145aafc727ffd2d2507f7d659e604970eac37",
+    "实际写入/2026-09-09T17-28-39-952Z/执行结果.json": "d004faa8deded25dc02ce085804c10d95707c021f68c778053b2091662fea7d0",
+    "独立验收/实际回读/2026-09-09T17-34-20-634Z/执行结果.json": "a4b3532319b1aa4591161537bc701138611c9277039234fe45e3226e9b8ffd46",
+    "独立验收/实际回读/2026-09-09T17-34-20-634Z/独立全量回读.json": "168598b894fb9416097ae0befa076c1a44d703342024990c84dff7e289d44373",
+    "实际公式核算/2026-09-09T17-50-20-637Z/实际GET数学.json": "35603d1578ec7e97e4488f1b03fc743828b60781d06b8821b711870a710bb0bd",
+    "实际公式核算/实际GET数学.mjs": "bfae03e313d84aa31329924aa91f69e3755ebbfb67a8a39864d000f94596afd1",
+    "独立源值数学/source-expected.mjs": "b6e7f97242ca77dc11f9fa9b9af35892dc11987d1e0b7efe54f23d7704efce1e",
+    "页面验收.json": "a7eca9b0c496151172939d49afc9f00a370a040ce35f83f5b91d92c4326e54f2",
+    "Cursor来源审计/Cursor来源复核结论.md": "46e671a332ebe7a719818f5522f0e8757234c9be8297a5baf625a4f3abf5e1a4",
+    "Cursor来源审计/主负责人执行审计.json": "1dc814a894188cec62a3b251d3e4050a765d888e380f7c78b0632dd403de138d",
+    "Cursor来源审计/events.jsonl": "24eb3162b9dc941d15db07ed6f551e478e736eda9c55c2dd06def93ae952cfab"
+  },
+  "noBusinessWriteDuringFinalize": true
+}

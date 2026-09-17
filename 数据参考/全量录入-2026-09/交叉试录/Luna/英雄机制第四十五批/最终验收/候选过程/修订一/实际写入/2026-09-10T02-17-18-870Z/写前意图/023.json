@@ -1,0 +1,24 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_e/parameters",
+    "detailRoute": "/skills/teemo_e/parameters/tick_ap_ratio",
+    "skillKey": "teemo_e",
+    "kind": "parameters",
+    "stableKey": "tick_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tick_ap_ratio",
+      "name": "每秒法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.100000001,
+      "levelValues": null,
+      "description": "TickCalculatedDamage中的TickAPRatio。",
+      "sortOrder": 50
+    }
+  }
+}

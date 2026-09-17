@@ -1,0 +1,23 @@
+{
+  "i": 195,
+  "intent": {
+    "sequence": 196,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/missing_health_heal_display_multiplier",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "missing_health_heal_display_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_health_heal_display_multiplier",
+      "name": "猩红诅咒已损生命治疗显示倍率",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "当前TotalHealPerMissingHPPercentTooltip外层Number=100；只作显示口径倍率。",
+      "sortOrder": 160
+    }
+  }
+}

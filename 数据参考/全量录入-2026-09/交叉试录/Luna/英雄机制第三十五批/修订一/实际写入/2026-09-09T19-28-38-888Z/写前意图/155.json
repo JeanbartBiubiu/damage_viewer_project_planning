@@ -1,0 +1,23 @@
+{
+  "i": 154,
+  "intent": {
+    "sequence": 154,
+    "method": "POST",
+    "route": "/skills/tahmkench_e/parameters",
+    "detailRoute": "/skills/tahmkench_e/parameters/current_grey_health",
+    "skillKey": "tahmkench_e",
+    "kind": "parameters",
+    "stableKey": "current_grey_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_grey_health",
+      "name": "当前灰色生命值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "主动护盾和脱战治疗均读取当前实际灰色生命值；运行输入无默认，范围不能超过最终灰色生命上限。",
+      "sortOrder": 50
+    }
+  }
+}

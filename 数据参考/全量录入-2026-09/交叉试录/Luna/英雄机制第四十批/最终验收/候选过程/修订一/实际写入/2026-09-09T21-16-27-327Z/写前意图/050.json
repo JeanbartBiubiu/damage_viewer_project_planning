@@ -1,0 +1,23 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "method": "POST",
+    "route": "/skills/senna_e/parameters",
+    "detailRoute": "/skills/senna_e/parameters/movement_speed_ratio",
+    "skillKey": "senna_e",
+    "kind": "parameters",
+    "stableKey": "movement_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "movement_speed_ratio",
+      "name": "黑雾咒附基础移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "当前MovementSpeedPercent=0.2，正文按百分数显示。",
+      "sortOrder": 20
+    }
+  }
+}

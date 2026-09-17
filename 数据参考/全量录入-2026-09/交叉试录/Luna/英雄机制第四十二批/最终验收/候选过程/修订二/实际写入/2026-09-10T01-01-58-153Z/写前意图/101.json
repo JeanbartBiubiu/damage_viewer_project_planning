@@ -1,0 +1,27 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "skillKey": "mel_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_q/parameters",
+    "stableKey": "explosion_count",
+    "body": {
+      "parameterKey": "explosion_count",
+      "name": "耀光飞弹数量",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6,
+        "2": 7,
+        "3": 8,
+        "4": 9,
+        "5": 10
+      },
+      "description": "索引1至5为6/7/8/9/10。",
+      "sortOrder": 10
+    }
+  }
+}

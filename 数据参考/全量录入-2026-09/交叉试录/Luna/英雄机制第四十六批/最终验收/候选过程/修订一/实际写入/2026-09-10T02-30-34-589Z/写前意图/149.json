@@ -1,0 +1,24 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_r/parameters",
+    "detailRoute": "/skills/hwei_r/parameters/slow_stack_percent_points",
+    "skillKey": "hwei_r",
+    "kind": "parameters",
+    "stableKey": "slow_stack_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_stack_percent_points",
+      "name": "每周期减速百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 10,
+      "levelValues": null,
+      "description": "每0.25秒增加10百分数点；不把周期当伤害跳率。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-09T04:27:37.756Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/jinx_q/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "rocket_mana_cost",
+    "name": "每发火箭法力消耗",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 20,
+    "levelValues": null,
+    "description": "官方cost与当前mana均20；当前keyCost明确每发火箭，mDoesNotConsumeMana=true表示切换不扣这笔法力。",
+    "sortOrder": 80
+  }
+}

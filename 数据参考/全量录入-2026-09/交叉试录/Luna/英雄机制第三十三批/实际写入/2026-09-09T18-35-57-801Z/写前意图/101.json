@@ -1,0 +1,23 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/mantra_window_ms",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "mantra_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mantra_window_ms",
+      "name": "梵咒强化窗口",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "description": "当前R窗口8秒，R是四级槽而非五级。",
+      "sortOrder": 10
+    }
+  }
+}

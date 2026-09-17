@@ -1,0 +1,54 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/formulas",
+    "detailRoute": "/skills/udyr_q/formulas/lightning_bounce_multiplier",
+    "skillKey": "udyr_q",
+    "kind": "formulas",
+    "stableKey": "lightning_bounce_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "lightning_bounce_multiplier",
+      "name": "狂暴爪击落单闪电总倍率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bounce_multiplier_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "lightning_bounce_count"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bounce_count_subtract_one"
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "repeat_bounce_penalty"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "EmpoweredLightningBonusMax的倍率为1+(Bounces−1)×RepeatBouncePenalty；落单为6倍单次，不扩为两次攻击。",
+      "sortOrder": 60
+    }
+  }
+}

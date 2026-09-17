@@ -1,0 +1,24 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/active_crit_ratio",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "active_crit_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_crit_ratio",
+      "name": "主动暴击伤害效能",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.600000024,
+      "levelValues": null,
+      "description": "TotalDamage根mStat8分支ActiveCritMod=0.6，乘完整主动段。",
+      "sortOrder": 30
+    }
+  }
+}

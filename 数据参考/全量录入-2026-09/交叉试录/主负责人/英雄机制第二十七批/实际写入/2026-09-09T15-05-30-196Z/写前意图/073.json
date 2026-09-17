@@ -1,0 +1,40 @@
+{
+  "i": 72,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_w/formulas",
+    "skillKey": "hecarim_w",
+    "kind": "formulas",
+    "stableKey": "self_healing_from_damage",
+    "body": {
+      "formulaKey": "self_healing_from_damage",
+      "name": "自身实际伤害对应回复量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_damage_heal_percent_points"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_point_ratio"
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_self_damage_dealt"
+          }
+        ]
+      },
+      "description": "当前LeechAmount只取25；回复=.25×来自自身的实际伤害，不自动触发治疗。",
+      "sortOrder": 20
+    }
+  }
+}

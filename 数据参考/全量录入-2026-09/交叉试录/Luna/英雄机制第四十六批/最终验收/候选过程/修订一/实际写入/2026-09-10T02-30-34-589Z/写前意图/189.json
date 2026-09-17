@@ -1,0 +1,46 @@
+{
+  "i": 188,
+  "intent": {
+    "sequence": 189,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/formulas",
+    "detailRoute": "/skills/locke_q/formulas/mark_magic_damage",
+    "skillKey": "locke_q",
+    "kind": "formulas",
+    "stableKey": "mark_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "mark_magic_damage",
+      "name": "伏魔三钉每层印记魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mark_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mark_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "每层=18至50+0.25至0.35×法强。",
+      "sortOrder": 190
+    }
+  }
+}

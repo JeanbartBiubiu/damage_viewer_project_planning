@@ -1,0 +1,370 @@
+{
+  "generatedAt": "2026-09-09T19:37:40.613Z",
+  "batch": "英雄机制第三十七批",
+  "revision": "hero37-source-v1-revision1",
+  "basedOn": {
+    "candidateFile": "原版完整候选.json",
+    "candidateFileSha256": "1277bcbe7d820837adbe49c6979a676d40466b30d22db758c073d27e6c432d26",
+    "planFile": "原版写前请求计划.json",
+    "planFileSha256": "4af9721ece9702c460676a1438c596138a2afa04c1daf8c6bc5908fa4089bb76"
+  },
+  "final": {
+    "candidateFile": "完整候选.json",
+    "candidateFileSha256": "080badac1f40e51d1953f0eb0e9f1ffe247bff66b07a23161f222bef9bc4bf54",
+    "planFile": "写前请求计划.json",
+    "planFileSha256": "003170189232374c49723f67ae647458fd6b10cb864fa3190924fd550ece1450"
+  },
+  "counts": {
+    "old": {
+      "newParameters": 196,
+      "newFormulas": 40,
+      "newEffects": 7,
+      "newProcesses": 0,
+      "newInternalStates": 0,
+      "newTriggerRules": 0,
+      "newTotal": 243,
+      "reusedPublicParameters": 24,
+      "plannedTotalIncludingReused": 267,
+      "protectedCurrentCompositionLists": 120
+    },
+    "new": {
+      "newParameters": 191,
+      "newFormulas": 40,
+      "newEffects": 7,
+      "newProcesses": 0,
+      "newInternalStates": 0,
+      "newTriggerRules": 0,
+      "newTotal": 238,
+      "reusedPublicParameters": 24,
+      "plannedTotalIncludingReused": 262,
+      "protectedCurrentCompositionLists": 120
+    }
+  },
+  "changes": [
+    {
+      "skillKey": "ambessa_q",
+      "kind": "removedParameter",
+      "parameterKey": "other_target_damage_ratio",
+      "old": {
+        "parameterKey": "other_target_damage_ratio",
+        "name": "暗袭/裂斩其他敌人伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前其他敌人比例为50%；本轮额外目标排除，仅保留来源证据。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "skillKey": "aurora_p",
+      "kind": "addedParameter",
+      "parameterKey": "max_hit_count",
+      "new": {
+        "parameterKey": "max_hit_count",
+        "name": "驱灵奇术单一敌人触发所需命中次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前正文明确对一个敌人造成3次伤害后驱灵；命中事件由事件层接线。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "skillKey": "aurora_q",
+      "kind": "removedParameter",
+      "parameterKey": "additional_hit_damage_ratio",
+      "old": {
+        "parameterKey": "additional_hit_damage_ratio",
+        "name": "飞去来咒首次命中后续伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前正文明确第一次命中后的伤害降低至20%，按比例保存。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "skillKey": "aurora_w",
+      "kind": "changedParameter",
+      "parameterKey": "move_speed_bonus_ratio",
+      "old": {
+        "parameterKey": "move_speed_bonus_ratio",
+        "name": "灵纱洞开移动速度加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30,
+          "4": 35,
+          "5": 40
+        },
+        "description": "当前MoveSpeedBonus技能等级1至5为20%/25%/30%/35%/40%，按比例保存。",
+        "sortOrder": 20
+      },
+      "new": {
+        "parameterKey": "move_speed_bonus_ratio",
+        "name": "灵纱洞开移动速度加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "description": "当前MoveSpeedBonus技能等级1至5的原始值为20/25/30/35/40百分数点；正文直接接%后换算为0.2/0.25/0.3/0.35/0.4比例。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "skillKey": "briar_w",
+      "kind": "removedParameter",
+      "parameterKey": "attack_heal_stat12_value",
+      "old": {
+        "parameterKey": "attack_heal_stat12_value",
+        "name": "噬击治疗mStat12实际输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前AttackMaxHPHeal使用mStat12×0.05，mStat12属性枚举未窄证；运行层提供实际值，无默认。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "skillKey": "briar_w",
+      "kind": "removedParameter",
+      "parameterKey": "aoe_attack_radius",
+      "old": {
+        "parameterKey": "aoe_attack_radius",
+        "name": "血莽攻击范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 275,
+        "levelValues": null,
+        "description": "当前AoEAttackRadius=275；额外目标分支不展开。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "skillKey": "briar_w",
+      "kind": "changedParameter",
+      "parameterKey": "attack_heal_stat12_ratio",
+      "old": {
+        "parameterKey": "attack_heal_stat12_ratio",
+        "name": "噬击治疗mStat12比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "当前AttackMaxHPHeal为mStat12×0.05；不把mStat12默认成最大生命。",
+        "sortOrder": 100
+      },
+      "new": {
+        "parameterKey": "attack_heal_stat12_ratio",
+        "name": "噬击治疗来源总生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "当前AttackMaxHPHeal为无选择器mStat12×0.05；按主负责人同版窄证读取SOURCE.hp.TOTAL。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "skillKey": "briar_e",
+      "kind": "removedParameter",
+      "parameterKey": "max_health_heal_stat12_value",
+      "old": {
+        "parameterKey": "max_health_heal_stat12_value",
+        "name": "惊吼蓄力治疗mStat12实际输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前PercentMaxHPHeal使用mStat12×HealHPPercent，mStat12属性枚举未窄证；运行层提供实际值，无默认。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "skillKey": "briar_e",
+      "kind": "addedParameter",
+      "parameterKey": "wall_stun_duration_ms",
+      "new": {
+        "parameterKey": "wall_stun_duration_ms",
+        "name": "惊吼撞墙晕眩持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前正文明确完全蓄力撞墙后晕眩1.5秒，转换为1500毫秒；撞墙事件待接。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "skillKey": "briar_r",
+      "kind": "removedParameter",
+      "parameterKey": "fear_duration_ms",
+      "old": {
+        "parameterKey": "fear_duration_ms",
+        "name": "毙除非猎物恐惧持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前FearDuration=1.5秒；该控制只针对周围其他敌人，保留来源时长。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "skillKey": "briar_r",
+      "kind": "removedParameter",
+      "parameterKey": "flee_slow_ratio",
+      "old": {
+        "parameterKey": "flee_slow_ratio",
+        "name": "毙除非猎物减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.34999999,
+        "levelValues": null,
+        "description": "当前FleeSlowPercent=0.35；其他敌人控制分支不展开。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "skillKey": "briar_r",
+      "kind": "changedParameter",
+      "parameterKey": "aoe_radius",
+      "old": {
+        "parameterKey": "aoe_radius",
+        "name": "毙除着陆范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 575,
+        "levelValues": null,
+        "description": "当前AoERadius=575；周围其他敌人分支不展开。",
+        "sortOrder": 50
+      },
+      "new": {
+        "parameterKey": "aoe_radius",
+        "name": "毙除猎物着陆范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 575,
+        "levelValues": null,
+        "description": "当前正文写着陆时对附近一切造成伤害，AoERadius=575用于包含猎物的着陆范围；额外敌人控制不展开。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "skillKey": "briar_w",
+      "kind": "changedFormula",
+      "formulaKey": "empowered_attack_heal_base",
+      "old": {
+        "formulaKey": "empowered_attack_heal_base",
+        "name": "噬击治疗平坦部分",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_heal_stat12_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_heal_stat12_value"
+            }
+          ]
+        },
+        "description": "当前AttackMaxHPHeal=0.05×mStat12；mStat12保持无默认运行输入。",
+        "sortOrder": 30
+      },
+      "new": {
+        "formulaKey": "empowered_attack_heal_base",
+        "name": "噬击治疗平坦部分",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_heal_stat12_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "当前AttackMaxHPHeal为mStat12×0.05；按主负责人同版窄证将无选择器mStat12读取为来源总生命，治疗事件另行接线。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "skillKey": "briar_e",
+      "kind": "changedFormula",
+      "formulaKey": "max_health_heal_value",
+      "old": {
+        "formulaKey": "max_health_heal_value",
+        "name": "惊吼蓄力最大生命治疗值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_health_heal_stat12_value"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_health_heal_ratio"
+            }
+          ]
+        },
+        "description": "当前PercentMaxHPHeal=mStat12×HealHPPercent；属性输入未知，不默认最大生命。",
+        "sortOrder": 30
+      },
+      "new": {
+        "formulaKey": "max_health_heal_value",
+        "name": "惊吼蓄力最大生命治疗值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_health_heal_ratio"
+            }
+          ]
+        },
+        "description": "当前PercentMaxHPHeal为mStat12×HealHPPercent；按主负责人同版窄证将无选择器mStat12读取为来源总生命，治疗事件另行接线。",
+        "sortOrder": 30
+      }
+    }
+  ],
+  "sourceFacts": [
+    "AuroraW MoveSpeedBonus原始20/25/30/35/40由正文直接接%转换为0.2/0.25/0.3/0.35/0.4比例。",
+    "AuroraP正文明确单一敌人三次伤害触发，补max_hit_count=3。",
+    "BriarE正文明确完全蓄力撞墙后WallStunDuration=1.5秒，补1500毫秒参数。",
+    "BriarW/E无选择器mStat12按主负责人同版窄证读取SOURCE.hp.TOTAL；BriarP的mStat12/formula2仍保留无默认实际输入。",
+    "AmbessaQ其他敌人50%、AuroraQ后续命中20%、BriarW额外目标范围、BriarR非猎物恐惧/减速已转为排除证据；BriarR AoERadius保留为正文附近范围中包含猎物的原值。"
+  ],
+  "apiWrites": 0,
+  "noBusinessWrites": true
+}

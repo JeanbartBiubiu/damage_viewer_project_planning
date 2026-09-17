@@ -1,0 +1,52 @@
+{
+  "i": 142,
+  "intent": {
+    "sequence": 143,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/effects",
+    "detailRoute": "/skills/viego_q/effects/on_hit_damage",
+    "skillKey": "viego_q",
+    "kind": "effects",
+    "stableKey": "on_hit_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "on_hit_damage",
+      "name": "破败王剑普通攻击特效当前生命伤害",
+      "description": "普通攻击特效效果；与暴击攻击特效互斥，每次实际命中重新读取目标当前生命，最低伤害已由MAX公式取大。",
+      "sortOrder": 30,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "破败王剑普通攻击特效当前生命伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "on_hit_current_health_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

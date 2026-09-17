@@ -1,0 +1,23 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 120,
+    "method": "POST",
+    "route": "/skills/tahmkench_p/parameters",
+    "detailRoute": "/skills/tahmkench_p/parameters/max_stack_count",
+    "skillKey": "tahmkench_p",
+    "kind": "parameters",
+    "stableKey": "max_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_stack_count",
+      "name": "培养品味最大层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "客户端MaxStacks=3。",
+      "sortOrder": 20
+    }
+  }
+}

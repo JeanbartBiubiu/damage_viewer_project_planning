@@ -1,0 +1,23 @@
+{
+  "i": 182,
+  "intent": {
+    "sequence": 183,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/bleed_tick_interval_ms",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "bleed_tick_interval_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bleed_tick_interval_ms",
+      "name": "猩红诅咒流血节拍（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前BleedTickRate=0.5秒，转换为500毫秒；不创建周期过程。",
+      "sortOrder": 30
+    }
+  }
+}

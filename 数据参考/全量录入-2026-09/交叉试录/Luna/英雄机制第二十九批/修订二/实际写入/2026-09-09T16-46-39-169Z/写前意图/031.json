@@ -1,0 +1,42 @@
+{
+  "i": 30,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_w/formulas",
+    "skillKey": "ornn_w",
+    "kind": "formulas",
+    "stableKey": "damage_per_tick",
+    "body": {
+      "formulaKey": "damage_per_tick",
+      "name": "风箱炎息单次英雄伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MAX",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "minimum_damage_per_tick"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "target_max_health_ratio_per_tick"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "单次英雄伤害=MAX(每次下限，目标最大生命×每次比例)。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 78,
+    "method": "POST",
+    "route": "/skills/lulu_w/formulas",
+    "detailRoute": "/skills/lulu_w/formulas/ally_move_speed_ratio",
+    "skillKey": "lulu_w",
+    "kind": "formulas",
+    "stableKey": "ally_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "ally_move_speed_ratio",
+      "name": "奇思妙想友方移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_move_speed_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "move_speed_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalMS = BaseMS + 0.0005×来源总法强；只表达友方增益数值，未把变形当作技能替换。",
+      "sortOrder": 10
+    }
+  }
+}

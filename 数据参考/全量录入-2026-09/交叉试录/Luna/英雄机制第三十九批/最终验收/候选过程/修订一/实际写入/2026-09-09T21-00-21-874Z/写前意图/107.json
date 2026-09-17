@@ -1,0 +1,96 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/formulas",
+    "detailRoute": "/skills/nilah_q/formulas/physical_damage_with_crit_scaling",
+    "skillKey": "nilah_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage_with_crit_scaling",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage_with_crit_scaling",
+      "name": "游刃万变含暴击属性缩放的单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "critical_multiplier_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_mstat8_value"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_scaling"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "SUBTRACT",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "actual_mstat9_value"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "critical_multiplier_base"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamageCalc完整树=[BaseDamage+1×来源总攻击力]×[1+mStat8×0.7×(mStat9-1)]；不能拆成无暴击基础伤害后漏掉根倍率。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T08:43:58.604Z",
+  "status": "PASS",
+  "sourceVersion": "16.17/16.17.1",
+  "target": {
+    "skillKey": "poppy_w",
+    "effectKey": "active_move_speed",
+    "resultKey": "move_speed_gain",
+    "conclusion": "已录入坚定风采主动自身40%移速、持续2000毫秒的效果定义；触发和反突进等分支仍暂缓。"
+  },
+  "frozen": {
+    "batchSha256": "3483b292cd3ada6929ee311a9a92136859705a1a2dd006cc63559cb4324b53ff",
+    "bodySha256": "433994799fe772e04b5a42a8ae5dc4e2ff544ce0b422127a4e4ebdd1dbe9619e",
+    "sourceSnapshotSha256": "03a7683270531708cdcb45627feca8069de1ac86a8cc91e5247e6ceeccaffa94",
+    "baselineSha256": "642e065a5bad6fb56304c6fd5d54b96d5368ed318cf25e052cfe20ffcda9aad2",
+    "allowedOperations": [
+      {
+        "method": "POST",
+        "route": "/skills/poppy_w/effects"
+      }
+    ]
+  },
+  "preparation": {
+    "getCount": 37,
+    "businessWrites": 0,
+    "candidateStatus": 404,
+    "existingEffectKeys": [
+      "mana_cost"
+    ],
+    "repeatedFullBaselineCount": 0
+  },
+  "writer": {
+    "getCount": 39,
+    "postCount": 1,
+    "replayedWrites": 0,
+    "recoveryReadPerformed": false,
+    "bodySha256": "433994799fe772e04b5a42a8ae5dc4e2ff544ce0b422127a4e4ebdd1dbe9619e"
+  },
+  "independentReadback": {
+    "getCount": 1231,
+    "businessWrites": 0,
+    "skillCount": 1062,
+    "ruleCount": 131,
+    "sourceInitializedCount": 24,
+    "ruleCheckpointUnchanged": true,
+    "effectKeys": [
+      "active_move_speed",
+      "mana_cost"
+    ],
+    "newEffectSha256": "433994799fe772e04b5a42a8ae5dc4e2ff544ce0b422127a4e4ebdd1dbe9619e",
+    "protectedKindsUnchanged": [
+      "parameters",
+      "formulas",
+      "processes",
+      "internal-states",
+      "trigger-rules"
+    ]
+  },
+  "browser": {
+    "browser": "Playwright Chromium 真实页面",
+    "methods": {
+      "GET": 150
+    },
+    "businessWrites": 0,
+    "screenshots": [
+      "poppy_w-active_move_speed-move_speed_gain.png",
+      "poppy_w-列表图片.png"
+    ],
+    "diagnostics": {
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requestFailures": [],
+      "errorResponses": [],
+      "expectedCancelledImageReads": []
+    },
+    "passed": true
+  },
+  "sourceObjectSha256": "28b19790ed9e9531952a07bd03b7a70fe884a5b4b927c13f2cd0c014c0fe65e9",
+  "writeBeforeTargetSha256": "1244def0bd30df7f6100689f9397ecd6f9133abc83fc455243d4e4c429c77f5d",
+  "files": [
+    {
+      "relativePath": "README.md",
+      "role": "批次入口与恢复顺序",
+      "sha256": "26fc4f60f026493ab8ffa4135885efb8dc1ec1bea983bcec44ca9f2b8fb56bce"
+    },
+    {
+      "relativePath": "01-补录方案.md",
+      "role": "主负责人语义方案",
+      "sha256": "66c79942065bcd9326fc8eadff5b7bb5d8e133d072f7fddd935a1b7d1f5d24bc"
+    },
+    {
+      "relativePath": "批次配置.mjs",
+      "role": "唯一请求与页面目标配置",
+      "sha256": "9254e25522c7484b62ec72cb328c52a2e3219d0f5db2ac655eec474bb25e37f9"
+    },
+    {
+      "relativePath": "批次执行.mjs",
+      "role": "纯GET预检与受保护单次写入",
+      "sha256": "a7ed06174ef246cd2e0cf78c87de4aca6b8f526858f666d9d16ba4bc340efd66"
+    },
+    {
+      "relativePath": "02-冻结请求.json",
+      "role": "完整冻结请求及散列",
+      "sha256": "7aec50caf39266baa7a8f1c0d0dd95390cc5bbe5e2ab2692a2be0ec660130272"
+    },
+    {
+      "relativePath": "03-来源散列快照.json",
+      "role": "固定来源与上一规则检查点",
+      "sha256": "b9c094abca194052fe92c4c460a1b8178bc7986c7e68f057f2fac8c95772e4ac"
+    },
+    {
+      "relativePath": "04-写入前现值.json",
+      "role": "目标完整写前基线",
+      "sha256": "7d0c6bfcf1186a4903dcc32d80d5b38189fbec135db039913a0526fb98a23d16"
+    },
+    {
+      "relativePath": "05-只读准备报告.json",
+      "role": "纯GET预检结果",
+      "sha256": "6e038db0c7f8e934e5d3dce4c1d9178a68a8c979ece6075084983d8d224f2d93"
+    },
+    {
+      "relativePath": "06-写入与即时回读.json",
+      "role": "一次POST及即时回读",
+      "sha256": "29fc87080897c27af7989b86dea041e544b34af48a3d73be822f1c880aec14f4"
+    },
+    {
+      "relativePath": "独立GET回读.mjs",
+      "role": "新代理独立只读检查器",
+      "sha256": "e902db65d4f0ffd1a2820f4646825ed205accb9d586a903ec8a5f515cf1a92c3"
+    },
+    {
+      "relativePath": "07-独立GET回读.json",
+      "role": "全量规则与目标最终回读",
+      "sha256": "31f00994c0545402710260892c18c5bfddba2eac80a310ad43875d2b51375064"
+    },
+    {
+      "relativePath": "只读页面验收.mjs",
+      "role": "冻结目标生成的页面检查",
+      "sha256": "9c93ef6e6517777b8762ab67e0ff4eaff8890d4029951b8d0642638ea5847b11"
+    },
+    {
+      "relativePath": "08-页面验收.json",
+      "role": "真实浏览器只读验收",
+      "sha256": "dbed4e5382b30a4d670ed8ac5bb275b71ebbff3e44fe6e85200964e12e1a31b0"
+    },
+    {
+      "relativePath": "录入体验报告.md",
+      "role": "操作成本、歧义与恢复",
+      "sha256": "799278a9d9da9a43bfc6b2364f48e5c7ae97e9f498cf5af3bd1d2d1d80702abd"
+    },
+    {
+      "relativePath": "生成证据清单.mjs",
+      "role": "证据完整性生成器",
+      "sha256": "dbc0411e878487f02e15925454e4e64f69ce46ae1afd8c69f5c44d3a5a93406e"
+    },
+    {
+      "relativePath": "页面截图/poppy_w-active_move_speed-move_speed_gain.png",
+      "role": "真实浏览器截图",
+      "sha256": "ec60516f0ad0a2feb1729496c23397db39423e00493681a7992eb3bd5347fb26"
+    },
+    {
+      "relativePath": "页面截图/poppy_w-列表图片.png",
+      "role": "真实浏览器截图",
+      "sha256": "b9eee88fc3ff823765d5cd361c29c9afc02341a202de723338af7cab55bdcbb5"
+    }
+  ],
+  "boundaries": {
+    "managementSaved": true,
+    "apiReadback": true,
+    "browserValidated": true,
+    "wasmInputAssembled": false,
+    "hostEventProduced": false,
+    "runtimeValidated": false,
+    "combatValidated": false
+  }
+}

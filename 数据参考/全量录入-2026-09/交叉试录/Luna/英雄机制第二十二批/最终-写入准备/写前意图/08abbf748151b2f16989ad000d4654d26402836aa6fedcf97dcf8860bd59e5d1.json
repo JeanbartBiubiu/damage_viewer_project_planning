@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T13:45:38.830Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_e/parameters",
+  "detailRoute": "/skills/nautilus_e/parameters/slow_ratio",
+  "skillKey": "nautilus_e",
+  "kind": "parameters",
+  "stableKey": "slow_ratio",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "暗流涌动减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.3,
+      "2": 0.35,
+      "3": 0.4,
+      "4": 0.45,
+      "5": 0.5
+    },
+    "description": "当前根SlowPercent已是0至1比例，正文使用*100显示；保留比例。",
+    "sortOrder": 30
+  }
+}

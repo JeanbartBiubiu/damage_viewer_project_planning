@@ -1,0 +1,30 @@
+{
+  "i": 33,
+  "intent": {
+    "sequence": 34,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/parameters",
+    "detailRoute": "/skills/belveth_e/parameters/damage_per_hit_base",
+    "skillKey": "belveth_e",
+    "kind": "parameters",
+    "stableKey": "damage_per_hit_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_hit_base",
+      "name": "每击基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 12,
+        "3": 14,
+        "4": 16,
+        "5": 18
+      },
+      "description": "每击10/12/14/16/18。",
+      "sortOrder": 20
+    }
+  }
+}

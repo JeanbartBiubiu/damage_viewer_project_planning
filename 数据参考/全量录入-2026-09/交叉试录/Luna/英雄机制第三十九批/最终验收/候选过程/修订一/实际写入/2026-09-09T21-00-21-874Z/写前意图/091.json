@@ -1,0 +1,30 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/parameters",
+    "detailRoute": "/skills/nilah_q/parameters/base_damage",
+    "skillKey": "nilah_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "游刃万变基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0,
+        "2": 10,
+        "3": 20,
+        "4": 30,
+        "5": 40
+      },
+      "description": "BaseDamage取索引1至5的0/10/20/30/40；索引0=-10是占位。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 182,
+  "intent": {
+    "sequence": 183,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/parameters",
+    "detailRoute": "/skills/locke_q/parameters/two_mark_stack_count",
+    "skillKey": "locke_q",
+    "kind": "parameters",
+    "stableKey": "two_mark_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "two_mark_stack_count",
+      "name": "两层印记层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "源正文两层增强包含2层印记；先累计两层单层伤害，再乘20%整段增强。",
+      "sortOrder": 145
+    }
+  }
+}

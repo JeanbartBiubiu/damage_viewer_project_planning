@@ -1,0 +1,94 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 103,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_e/formulas",
+    "detailRoute": "/skills/kindred_e/formulas/corrected_missing_health_ratio",
+    "skillKey": "kindred_e",
+    "kind": "formulas",
+    "stableKey": "corrected_missing_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "corrected_missing_health_ratio",
+      "name": "横生惧意修正已损生命比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_baseline"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "critical_stat8"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_mod"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "critical_stat9"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "minus_one"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_missing_health_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mark_count"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "missing_health_per_mark_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "已损生命比例也整体乘同一当前消费暴击修正。",
+      "sortOrder": 50
+    }
+  }
+}

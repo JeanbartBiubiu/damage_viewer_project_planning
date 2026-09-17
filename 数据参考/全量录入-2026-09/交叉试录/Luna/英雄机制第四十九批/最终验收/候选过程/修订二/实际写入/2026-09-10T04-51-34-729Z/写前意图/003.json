@@ -1,0 +1,25 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/parameters",
+    "detailRoute": "/skills/gnar_p/parameters/move_speed_bonus_at_and_after_breakpoint",
+    "skillKey": "gnar_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_bonus_at_and_after_breakpoint",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_bonus_at_and_after_breakpoint",
+      "name": "断点后每级移速增量",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "TotalMS源树断点后的每级增量。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "i": 149,
+  "intent": {
+    "sequence": 150,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_r/parameters",
+    "detailRoute": "/skills/quinn_r/parameters/non_minion_damage_removal_duration_ms",
+    "skillKey": "quinn_r",
+    "kind": "parameters",
+    "stableKey": "non_minion_damage_removal_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "non_minion_damage_removal_duration_ms",
+      "name": "非小兵受伤移除加速时长（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "QuinnR SlowDuration=3秒；非小兵伤害移除R移速的资格时长，不是R冷却；触发与恢复事件仍待接线。",
+      "sortOrder": 95
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "i": 91,
+  "intent": {
+    "sequence": 92,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_r/parameters",
+    "detailRoute": "/skills/heimerdinger_r/parameters/rw_total_base_damage",
+    "skillKey": "heimerdinger_r",
+    "kind": "parameters",
+    "stableKey": "rw_total_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rw_total_base_damage",
+      "name": "强化W当前最大伤害基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 503,
+        "2": 697.5,
+        "3": 892
+      },
+      "description": "WUltTotalDamage消费WUltTotalBaseDamage索引1至3为503/697.5/892。",
+      "sortOrder": 40
+    }
+  }
+}

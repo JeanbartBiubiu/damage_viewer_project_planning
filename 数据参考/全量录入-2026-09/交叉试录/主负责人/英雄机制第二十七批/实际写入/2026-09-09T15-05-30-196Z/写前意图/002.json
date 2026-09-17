@@ -1,0 +1,20 @@
+{
+  "i": 1,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_p/parameters",
+    "skillKey": "gragas_p",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "被动冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "HealCooldown为匿名等级求值类，12秒及6/11/16级各-2断点保留来源，未猜完整求值。实际输入无默认。",
+      "sortOrder": 20
+    }
+  }
+}

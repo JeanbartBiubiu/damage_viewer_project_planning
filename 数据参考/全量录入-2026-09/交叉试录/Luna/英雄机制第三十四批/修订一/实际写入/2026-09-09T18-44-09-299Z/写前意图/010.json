@@ -1,0 +1,23 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "method": "POST",
+    "route": "/skills/katarina_q/parameters",
+    "detailRoute": "/skills/katarina_q/parameters/bounce_offset",
+    "skillKey": "katarina_q",
+    "kind": "parameters",
+    "stableKey": "bounce_offset",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bounce_offset",
+      "name": "弹射偏移距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 350,
+      "levelValues": null,
+      "description": "客户端BounceOffset取索引1；仅保留弹射几何参数。",
+      "sortOrder": 20
+    }
+  }
+}

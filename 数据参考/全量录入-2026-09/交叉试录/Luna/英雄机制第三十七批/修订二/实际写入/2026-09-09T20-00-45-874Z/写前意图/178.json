@@ -1,0 +1,23 @@
+{
+  "i": 177,
+  "intent": {
+    "sequence": 178,
+    "method": "POST",
+    "route": "/skills/aurora_r/parameters",
+    "detailRoute": "/skills/aurora_r/parameters/exit_slow_ratio",
+    "skillKey": "aurora_r",
+    "kind": "parameters",
+    "stableKey": "exit_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "exit_slow_ratio",
+      "name": "双界合一进出区域减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前ExitSlowPercent原值-0.5，正文以负号转为50%减速；保存正幅度。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/senna_e/parameters",
+    "detailRoute": "/skills/senna_e/parameters/smoke_radius",
+    "skillKey": "senna_e",
+    "kind": "parameters",
+    "stableKey": "smoke_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "smoke_radius",
+      "name": "黑雾咒附烟雾半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 150,
+      "levelValues": null,
+      "description": "当前SmokeRadius=150；只保存范围来源值。",
+      "sortOrder": 80
+    }
+  }
+}

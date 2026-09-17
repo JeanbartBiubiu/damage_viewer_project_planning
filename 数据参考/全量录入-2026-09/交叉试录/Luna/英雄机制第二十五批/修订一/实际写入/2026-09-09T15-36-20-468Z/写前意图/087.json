@@ -1,0 +1,45 @@
+{
+  "sequence": 87,
+  "intent": {
+    "sequence": 87,
+    "method": "POST",
+    "route": "/skills/tryndamere_q/parameters",
+    "detailRoute": "/skills/tryndamere_q/parameters/maximum_bonus_attack_damage",
+    "skillKey": "tryndamere_q",
+    "kind": "parameters",
+    "stableKey": "maximum_bonus_attack_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "maximum_bonus_attack_damage",
+      "name": "最高额外攻击力",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 35,
+        "3": 50,
+        "4": 65,
+        "5": 80
+      },
+      "description": "客户端当前根绑定 DataValues.MaximumBonusAD，等级1至5取索引1至5；只记录最高端点。",
+      "sortOrder": 50
+    }
+  },
+  "before": {
+    "sequence": 463,
+    "method": "GET",
+    "route": "/skills/tryndamere_q/parameters/maximum_bonus_attack_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "maximum_bonus_attack_damage"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:05.386Z"
+  }
+}

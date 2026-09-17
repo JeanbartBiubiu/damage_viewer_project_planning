@@ -1,0 +1,29 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "method": "POST",
+    "route": "/skills/jarvaniv_q/parameters",
+    "detailRoute": "/skills/jarvaniv_q/parameters/base_damage",
+    "skillKey": "jarvaniv_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "巨龙撞击基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 90,
+        "2": 130,
+        "3": 170,
+        "4": 210,
+        "5": 250
+      },
+      "description": "客户端当前根绑定DataValues.BaseDamage取技能等级索引1至5；索引0的50不是1级候选值。",
+      "sortOrder": 10
+    }
+  }
+}

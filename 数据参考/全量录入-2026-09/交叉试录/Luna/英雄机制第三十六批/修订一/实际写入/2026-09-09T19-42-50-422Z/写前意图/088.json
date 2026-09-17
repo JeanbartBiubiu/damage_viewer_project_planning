@@ -1,0 +1,23 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 88,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_p/parameters",
+    "detailRoute": "/skills/fiddlesticks_p/parameters/self_stationary_duration_ms",
+    "skillKey": "fiddlesticks_p",
+    "kind": "parameters",
+    "stableKey": "self_stationary_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_stationary_duration_ms",
+      "name": "本体冒充草间人所需静止（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前正文明确本体2秒内没有移动即可冒充草间人；这是Q被动资格，不是自主召唤物。",
+      "sortOrder": 10
+    }
+  }
+}

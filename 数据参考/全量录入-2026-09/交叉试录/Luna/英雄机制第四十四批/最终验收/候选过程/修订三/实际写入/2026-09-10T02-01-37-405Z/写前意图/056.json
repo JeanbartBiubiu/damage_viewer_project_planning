@@ -1,0 +1,29 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/monkeyking_w/parameters",
+    "detailRoute": "/skills/monkeyking_w/parameters/stealth_duration_ms",
+    "skillKey": "monkeyking_w",
+    "kind": "parameters",
+    "stableKey": "stealth_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stealth_duration_ms",
+      "name": "本体隐身持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1000,
+        "2": 1000,
+        "3": 1000,
+        "4": 1000,
+        "5": 1000
+      },
+      "description": "来源1秒转毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

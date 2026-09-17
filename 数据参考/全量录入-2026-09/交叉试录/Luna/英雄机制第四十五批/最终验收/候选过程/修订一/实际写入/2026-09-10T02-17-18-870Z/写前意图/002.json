@@ -1,0 +1,24 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_p/parameters",
+    "detailRoute": "/skills/teemo_p/parameters/attack_speed_duration_ms",
+    "skillKey": "teemo_p",
+    "kind": "parameters",
+    "stableKey": "attack_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_duration_ms",
+      "name": "离开隐形后攻速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前DataValue为5秒；不采用摘要中的旧3秒。",
+      "sortOrder": 20
+    }
+  }
+}

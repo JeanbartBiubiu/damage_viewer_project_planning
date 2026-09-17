@@ -1,0 +1,46 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_e/formulas",
+    "detailRoute": "/skills/nidalee_e/formulas/total_healing",
+    "skillKey": "nidalee_e",
+    "kind": "formulas",
+    "stableKey": "total_healing",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_healing",
+      "name": "野性奔腾最小治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_heal"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalHealing=基础治疗+0.35×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "i": 31,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_p/parameters",
+    "skillKey": "poppy_p",
+    "kind": "parameters",
+    "stableKey": "actual_passive_magic_damage",
+    "body": {
+      "parameterKey": "actual_passive_magic_damage",
+      "name": "圆盾实际魔法伤害（实际角色等级值外供）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "根TotalDamage为20至180角色等级插值，完整求值未证；实际输入无默认，不把端点展平成曲线。",
+      "sortOrder": 30
+    }
+  }
+}

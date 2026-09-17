@@ -1,0 +1,24 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 145,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_p/parameters",
+    "detailRoute": "/skills/smolder_p/parameters/e_stacks_per_attack",
+    "skillKey": "smolder_p",
+    "kind": "parameters",
+    "stableKey": "e_stacks_per_attack",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "e_stacks_per_attack",
+      "name": "E每增加一发所需层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "当前正文明确每100层获得一个额外弹体；只保存增加条件，不把小数层数当弹体次数。",
+      "sortOrder": 40
+    }
+  }
+}

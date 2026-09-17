@@ -1,0 +1,24 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_p/parameters",
+    "detailRoute": "/skills/udyr_p/parameters/ult_cd_breakpoint_11_ms",
+    "skillKey": "udyr_p",
+    "kind": "parameters",
+    "stableKey": "ult_cd_breakpoint_11_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ult_cd_breakpoint_11_ms",
+      "name": "11级觉醒冷却断点增量（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": -10000,
+      "levelValues": null,
+      "description": "UltCD断点在角色11级额外减少10秒。",
+      "sortOrder": 100
+    }
+  }
+}

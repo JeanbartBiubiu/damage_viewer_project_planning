@@ -1,0 +1,28 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/rq_field_damage",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "rq_field_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rq_field_damage",
+      "name": "梵咒Q爆炸基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 130,
+        "3": 220,
+        "4": 310
+      },
+      "description": "RQDetonationDamage按R技能等级1至4。",
+      "sortOrder": 40
+    }
+  }
+}

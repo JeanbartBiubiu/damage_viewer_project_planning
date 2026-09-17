@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:13.935Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "renekton",
+    "name": "雷克顿 R",
+    "skillKey": "renekton_r",
+    "ownerKey": "champion_renekton",
+    "acceptedEvent": {
+      "sourceSkillKey": "renekton_r",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "start_cast",
+        "name": "启动终极统治施放过程",
+        "actionType": "START_PROCESS",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "processKey": "cast"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": {
+      "processKey": "cast",
+      "activationType": "ACTIVE",
+      "cooldownParameterKey": "cooldown_ms",
+      "steps": [
+        {
+          "stepKey": "start",
+          "stepType": "IMMEDIATE",
+          "sortOrder": 10
+        }
+      ],
+      "effectBindings": [
+        {
+          "bindingKey": "dominance_health",
+          "effectKey": "dominance_health",
+          "momentType": "STEP_COMPLETE",
+          "stepKey": "start",
+          "sortOrder": 20
+        }
+      ]
+    },
+    "effectChecks": [
+      {
+        "effectKey": "dominance_health",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "maximum_health_gain",
+        "durationParameterKey": "duration_ms"
+      }
+    ],
+    "omitted": [
+      "当前生命随最大生命变更",
+      "施放及周期怒气",
+      "周期范围伤害"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第六批/完整候选.json",
+      "sha256": "a593bd1f49c1ab6f424bd76b7ad4dbef1e0e7154f00d0347dc90c7c1e39126ac",
+      "bytes": 342255
+    }
+  ]
+}

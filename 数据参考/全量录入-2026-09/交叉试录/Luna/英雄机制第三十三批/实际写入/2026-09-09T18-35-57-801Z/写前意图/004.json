@@ -1,0 +1,23 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/sona_p/parameters",
+    "detailRoute": "/skills/sona_p/parameters/accelerando_stack_cap",
+    "skillKey": "sona_p",
+    "kind": "parameters",
+    "stableKey": "accelerando_stack_cap",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "accelerando_stack_cap",
+      "name": "渐入佳音层数上限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 120,
+      "levelValues": null,
+      "description": "由60/0.5得出的整数层数上限，供边界核对，不展开成长曲线。",
+      "sortOrder": 40
+    }
+  }
+}

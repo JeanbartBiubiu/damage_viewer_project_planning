@@ -1,0 +1,5969 @@
+{
+  "generatedAt": "2026-09-10T00:48:44.842Z",
+  "batch": "第四十四批俄洛伊孙悟空妮蔻悠米",
+  "revision": "hero44-source-v1-luna-candidate",
+  "status": "独立原始源值摘要；未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceInputSha256": "38242a877de30423e80332dcce95aa9684295d39ce59a6ded085a52ff835e9f5",
+  "sourceBindingSha256": "5176d182b8888aac57b433c52671dc4461c1ebd9077e01a58634097861c55742",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero44-cursor-review-run-20260910/Cursor来源复核结论.md",
+    "conclusionSha256": "46e15f00f7e44ec7a70bdee7e040056c7b0249479a2ea05134904f2d93b0decf",
+    "auditFile": ".agents/artifacts/hero44-cursor-review-run-20260910/主负责人执行审计.json",
+    "auditSha256": "24f84be14e08be37fbb2d63c29668241e4f549313bd5d5f56b359dfe5f764674",
+    "inputManifestFile": ".agents/artifacts/hero44-cursor-review-run-20260910/path-signatures-before.json",
+    "inputManifestSha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "verdict": "READY",
+    "runId": "run-412ea285-ba9d-4b27-bbdc-cd4a671449d7",
+    "requestId": "52a13d5f-3af3-45a1-aa41-44bce0818cba",
+    "events": 4618,
+    "uniqueTools": 62,
+    "inputsChecked": 23,
+    "apiWrites": 0,
+    "gitDelta": [],
+    "reviewedPlanRev": "hero44-source-v1"
+  },
+  "inputIntegrity": {
+    "参考资料/lol-16.17-zh_CN.stringtable.json.gz": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+    "参考资料/客户端原文/Illaoi.json.gz": "d0b8bab5e946bac20ac776c997b96e5ab0508f997754859f50cd307e1f480669",
+    "参考资料/官方中文/Illaoi.json": "1ba374b6fbf1144c94e55bfe1bf315aa7481b7fc11480015e548dff025623e31",
+    "参考资料/官方英文/Illaoi.json": "6e7ff1ca83e22fc940270547c854163d095293fbef9cdf896815af763e7a72f2",
+    "参考资料/客户端原文/MonkeyKing.json.gz": "f0406a90c97c51154377fb79a1f1a0ea8f8beb179dbd11cbcf5274a7a0d0e872",
+    "参考资料/官方中文/MonkeyKing.json": "f4974e58b61e7e610960cace54a0c678c89a3698c7bbf24b7c8b0a5117721570",
+    "参考资料/官方英文/MonkeyKing.json": "e886cdcc0bf354e9b828d4a04861d937b27c7e1e2bfb108016b8411e2b55543b",
+    "参考资料/客户端原文/Neeko.json.gz": "1f65e7a0cc866b9c65e0829c0355109afea3e09c0c427c5ad51ff23b9a2660fc",
+    "参考资料/官方中文/Neeko.json": "98533225e4396aecb5740906cff6dfa1dff4ab56fbc22f05454ab0a822043fe3",
+    "参考资料/官方英文/Neeko.json": "de6adfb1b9c6d0d31cf682d0f092993959f91f7bb0a77d6f17c89862f28b3ef0",
+    "参考资料/客户端原文/Yuumi.json.gz": "5ad7c101383e336cb5d4c076fbe2d4ecb537d8c737c5d6a2d78945a760e63245",
+    "参考资料/官方中文/Yuumi.json": "36eb6c2a08ac84827f25edbf64d700aa8bc5300ac6eb5cd267f76481c65ba7bc",
+    "参考资料/官方英文/Yuumi.json": "62ff6b4dbbb41595dec794d46121ce51aa39af72c63c0e5452eeff4f5ec0411a",
+    "参考资料/属性默认与边界.json": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+    "参考资料/接口载荷样例.json": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+    "来源绑定与当前文本.json": "5176d182b8888aac57b433c52671dc4461c1ebd9077e01a58634097861c55742",
+    "输入版本.json": "38242a877de30423e80332dcce95aa9684295d39ce59a6ded085a52ff835e9f5",
+    "主负责人范围与核对要求.md": "6b36df9049520411cea4ecc04819fc11f96db89cb8c953761aaf9a1be566fee1",
+    "主负责人源值核对说明.md": "1a809a887704633d685b879d8e74894ff302b5f72e510d4d0965121480a146c7",
+    "参考资料/当前20槽保护快照.json": "e07e74dd94de45d3d4c4cb88a120bd5a0b4228c4e3f10ea7d9459050f737e9fb"
+  },
+  "principalSourceNoteSha256": "1a809a887704633d685b879d8e74894ff302b5f72e510d4d0965121480a146c7",
+  "selectedValues": {
+    "illaoi_p": {
+      "binding": "Characters/Illaoi/Spells/IllaoiPassiveAbility/IllaoiPassive",
+      "officialMaxRank": 1,
+      "rawDataValues": {
+        "MissingHPPercentHeal": [
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806
+        ],
+        "TentacleDisabledLifetime": [
+          30,
+          30,
+          30,
+          30,
+          30,
+          30,
+          30
+        ],
+        "SpawnRadius": [
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200
+        ],
+        "SpawnDensity": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "PassiveTentacleLength": [
+          925,
+          925,
+          925,
+          925,
+          925,
+          925,
+          925
+        ],
+        "PassiveTentacleWidth": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": null,
+        "spellTotalTime": null,
+        "cooldownTime": null,
+        "mana": null,
+        "manaValues": null,
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": null
+      },
+      "calculations": {
+        "SpawnCD": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 18,
+              "mEndValue": 7,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "missing_hp_heal_ratio",
+          "name": "已损失生命治疗比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0500000007,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tentacle_disabled_lifetime_ms",
+          "name": "触手离开范围后的消散时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 30000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tentacle_second_hit_multiplier",
+          "name": "同时命中第二条触手伤害倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tentacle_subsequent_hit_multiplier",
+          "name": "同时命中后续触手伤害倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slam_min_enemy_champions",
+          "name": "触手治疗所需敌方英雄数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "missing_hp_at_slam",
+          "name": "猛击时已损失生命值（实际输入）",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "self_missing_health_heal",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "missing_hp_heal_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "missing_hp_at_slam"
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "独立触手生成、单位选取和自主猛击",
+          "reason": "按主负责人说明跳过独立召唤单位模型；本体Q/W/R载体另行保留。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "生成周期和触手事件链",
+          "reason": "SpawnCD为角色等级插值，独立单位时序未证；不造18级曲线。"
+        }
+      ]
+    },
+    "illaoi_q": {
+      "binding": "Characters/Illaoi/Spells/IllaoiQAbility/IllaoiQ",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "TentacleDamageAmp": [
+          0,
+          0.10000000149011612,
+          0.15000000596046448,
+          0.20000000298023224,
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355
+        ],
+        "TotalADRatio": [
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858
+        ],
+        "APRatio": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "TentacleLength": [
+          800,
+          800,
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "TentacleWidth": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": 0.75,
+        "spellCastTime": 0.25,
+        "spellTotalTime": 1,
+        "cooldownTime": [
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          6
+        ],
+        "mana": [
+          40,
+          45,
+          50,
+          55,
+          60,
+          65
+        ],
+        "manaValues": {
+          "values": [
+            40,
+            45,
+            50,
+            55,
+            60,
+            65
+          ],
+          "{0a3e0478}": 40,
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "Location"
+        }
+      },
+      "calculations": {
+        "TentacleDamageTotal": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mDataValue": "TentacleDamageAmp",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mStartValue": 9,
+              "mEndValue": 180,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "TotalADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "DamageIncreaseTooltip": {
+          "mMultiplier": {
+            "mDataValue": "TentacleDamageAmp",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mStartValue": 9,
+              "mEndValue": 162,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "TotalADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "tentacle_damage_amp",
+          "name": "触手伤害提升比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.1000000015,
+            "2": 0.150000006,
+            "3": 0.200000003,
+            "4": 0.25,
+            "5": 0.3000000119
+          }
+        },
+        {
+          "parameterKey": "total_ad_ratio",
+          "name": "总攻击力倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.1000000238,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "法强倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.400000006,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tentacle_damage_base_at_character_level",
+          "name": "角色等级触手基础伤害（实际输入）",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "damage_increase_base_at_character_level",
+          "name": "展示树角色等级基础伤害（实际输入）",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tentacle_damage_base_start",
+          "name": "完整放大树基础起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 9,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tentacle_damage_base_end",
+          "name": "完整放大树基础终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 180,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "damage_increase_base_start",
+          "name": "展示树基础起点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 9,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "damage_increase_base_end",
+          "name": "展示树基础终点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 162,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "one",
+          "name": "单位一",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "tentacle_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "tentacle_damage_base_at_character_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "total_ad_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "attack_damage",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "tentacle_damage_amp"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "damage_increase_tooltip",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "tentacle_damage_amp"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_increase_base_at_character_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "total_ad_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "attack_damage",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "独立触手单位的自主猛击结果",
+          "reason": "主动Q本体伤害保留；独立触手单位链跳过。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "9至180角色等级中间曲线",
+          "reason": "插值算法未证，使用无默认实际输入。"
+        },
+        {
+          "item": "mCastTime与spellCastTime冲突",
+          "reason": "0.75秒和0.25秒同时存在，不任选。"
+        }
+      ]
+    },
+    "illaoi_w": {
+      "binding": "Characters/Illaoi/Spells/IllaoiWAbility/IllaoiW",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "WMinDamage": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60,
+          70
+        ],
+        "HealthPercentDamage": [
+          2.5,
+          3,
+          3.5,
+          4,
+          4.5,
+          5,
+          5.5
+        ],
+        "HealthDamageADRatio": [
+          0.03500000014901161,
+          0.03500000014901161,
+          0.03500000014901161,
+          0.03500000014901161,
+          0.03500000014901161,
+          0.03500000014901161,
+          0.03500000014901161
+        ],
+        "CooldownDuringR": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "MonsterDamageCap": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "BuffDuration": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "DashSpeedBonus": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": [
+          {
+            "__type": "SpellEffectAmount"
+          },
+          {
+            "value": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "__type": "SpellEffectAmount"
+          },
+          {
+            "__type": "SpellEffectAmount"
+          },
+          {
+            "__type": "SpellEffectAmount"
+          },
+          {
+            "__type": "SpellEffectAmount"
+          },
+          {
+            "__type": "SpellEffectAmount"
+          },
+          {
+            "__type": "SpellEffectAmount"
+          },
+          {
+            "__type": "SpellEffectAmount"
+          },
+          {
+            "__type": "SpellEffectAmount"
+          },
+          {
+            "__type": "SpellEffectAmount"
+          }
+        ],
+        "mCastTime": null,
+        "spellCastTime": 0.25,
+        "spellTotalTime": 1,
+        "cooldownTime": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "mana": [
+          30,
+          30,
+          30,
+          30,
+          30,
+          30
+        ],
+        "manaValues": {
+          "values": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ],
+          "{0a3e0478}": 30,
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "Self"
+        }
+      },
+      "calculations": {
+        "HealthPercentTotal": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "HealthPercentDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "HealthDamageADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "DashSpeed": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "DashSpeedBonus",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 7,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "w_min_damage",
+          "name": "强化普攻百分比伤害最低值",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 20,
+            "2": 30,
+            "3": 40,
+            "4": 50,
+            "5": 60
+          }
+        },
+        {
+          "parameterKey": "health_percent_damage_points",
+          "name": "最大生命伤害百分数点",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 3,
+            "2": 3.5,
+            "3": 4,
+            "4": 4.5,
+            "5": 5
+          }
+        },
+        {
+          "parameterKey": "health_damage_ad_ratio",
+          "name": "最大生命伤害攻击力比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0350000001,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "percent_point_scale",
+          "name": "百分数点转比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cooldown_during_r_ms",
+          "name": "R期间强化普攻冷却（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "name": "强化窗口（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "health_percent_ratio",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_point_scale"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "health_percent_damage_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "health_damage_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "minimum_damage",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "w_min_damage"
+          }
+        },
+        {
+          "formulaKey": "damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MAX",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "w_min_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "TARGET",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "percent_point_scale"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "health_percent_damage_points"
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operation": "MULTIPLY",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "health_damage_ad_ratio"
+                              },
+                              {
+                                "nodeType": "ATTRIBUTE",
+                                "attributeOwner": "SOURCE",
+                                "attributeKey": "attack_damage",
+                                "attributeValueKind": "TOTAL"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "附近触手自动猛击",
+          "reason": "独立触手单位链跳过。"
+        },
+        {
+          "item": "野怪伤害封顶300",
+          "reason": "兵野专用分支排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "位移速度与目标资格",
+          "reason": "350位移、显示400和DashSpeed树并存；属性/时序不扩展。"
+        },
+        {
+          "item": "mCastTime缺失与spellCastTime冲突",
+          "reason": "只保留来源文本和数值，施法字段不任选。"
+        }
+      ]
+    },
+    "illaoi_e": {
+      "binding": "Characters/Illaoi/Spells/IllaoiEAbility/IllaoiE",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "BaseDamageTransferPercent": [
+          0.20000000298023224,
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355,
+          0.4000000059604645,
+          0.44999998807907104,
+          0.5
+        ],
+        "VesselDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "SpiritDuration": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "SlowDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "SlowAmount": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "EchoTADScalar": [
+          0.0007999999797903001,
+          0.0007999999797903001,
+          0.0007999999797903001,
+          0.0007999999797903001,
+          0.0007999999797903001,
+          0.0007999999797903001,
+          0.0007999999797903001
+        ],
+        "GraceBeforeDormantAfterELand": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "Density": [
+          700,
+          700,
+          700,
+          700,
+          700,
+          700,
+          700
+        ],
+        "SpiritLeashRange": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": 0.25,
+        "spellCastTime": 0.25,
+        "spellTotalTime": 1,
+        "cooldownTime": [
+          16,
+          16,
+          15,
+          14,
+          13,
+          12,
+          11
+        ],
+        "mana": [
+          35,
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "manaValues": {
+          "values": [
+            35,
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "{0a3e0478}": 35,
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "Location"
+        }
+      },
+      "calculations": {
+        "TimeBetweenVesselTentacleSlams": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 4,
+              "mBreakpoints": [
+                {
+                  "mLevel": 7,
+                  "mAdditionalBonusAtThisLevel": -0.5,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "mAdditionalBonusAtThisLevel": -0.5,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "EchoPercent": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamageTransferPercent",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "EchoTADScalar",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "{87aff6dd}": {
+          "mSimpleTooltipCalculationDisplay": 1,
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 5,
+              "mBreakpoints": [
+                {
+                  "mLevel": 7,
+                  "mAdditionalBonusAtThisLevel": -1,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "mAdditionalBonusAtThisLevel": -1,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          }
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 35,
+            "2": 40,
+            "3": 45,
+            "4": 50,
+            "5": 55
+          }
+        },
+        {
+          "parameterKey": "damage_transfer_ratio",
+          "name": "灵魂伤害转移比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.25,
+            "2": 0.3000000119,
+            "3": 0.349999994,
+            "4": 0.400000006,
+            "5": 0.4499999881
+          }
+        },
+        {
+          "parameterKey": "echo_ad_ratio",
+          "name": "伤害转移攻击力比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0008,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "vessel_duration_ms",
+          "name": "躯壳标记持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "spirit_duration_ms",
+          "name": "灵魂持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 7000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "name": "标记减速持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "name": "标记减速比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.8000000119,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "grace_before_dormant_ms",
+          "name": "落地后进入休眠宽限（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tentacle_spawn_density",
+          "name": "触手生成密度",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 700,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "spirit_leash_range",
+          "name": "灵魂牵引距离",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slam_interval_ms_at_character_level",
+          "name": "躯壳触手猛击间隔（角色等级，毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "CHARACTER_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 4000,
+            "2": 4000,
+            "3": 4000,
+            "4": 4000,
+            "5": 4000,
+            "6": 4000,
+            "7": 3500,
+            "8": 3500,
+            "9": 3500,
+            "10": 3500,
+            "11": 3500,
+            "12": 3500,
+            "13": 3000,
+            "14": 3000,
+            "15": 3000,
+            "16": 3000,
+            "17": 3000,
+            "18": 3000
+          }
+        },
+        {
+          "parameterKey": "spirit_damage_value",
+          "name": "灵魂已承受伤害（实际输入）",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "echo_transfer_ratio",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_transfer_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "echo_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "echo_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "spirit_damage_value"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_transfer_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "echo_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "灵魂替身独立单位、伤害转移执行和触手链",
+          "reason": "主负责人明确按独立单位范围跳过；仅保存来源比例和公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "减速独立效果",
+          "reason": "减速依赖灵魂结束链，不能创建无前提效果。"
+        },
+        {
+          "item": "匿名角色等级树",
+          "reason": "未消费的5/4/3树不展开。"
+        }
+      ]
+    },
+    "illaoi_r": {
+      "binding": "Characters/Illaoi/Spells/IllaoiRAbility/IllaoiR",
+      "officialMaxRank": 3,
+      "rawDataValues": {
+        "BaseDamage": [
+          50,
+          150,
+          250,
+          350,
+          450,
+          550,
+          650
+        ],
+        "BuffRadius": [
+          500,
+          500,
+          500,
+          500,
+          500,
+          500,
+          500
+        ],
+        "Duration": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": 0.5,
+        "spellCastTime": 0.375,
+        "spellTotalTime": 1,
+        "cooldownTime": [
+          120,
+          120,
+          95,
+          70,
+          70,
+          70,
+          70
+        ],
+        "mana": [
+          100,
+          100,
+          100,
+          0,
+          0,
+          0
+        ],
+        "manaValues": {
+          "values": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "AreaClamped"
+        }
+      },
+      "calculations": {
+        "DamageCalc": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.5,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "name": "本体大招基础物理伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150,
+            "2": 250,
+            "3": 350
+          }
+        },
+        {
+          "parameterKey": "buff_radius",
+          "name": "强化范围",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "name": "强化持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "name": "额外攻击力倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "触手生成、不可选取和加快猛击链",
+          "reason": "触手是独立单位属性，不能当作俄洛伊无敌或本体结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "mCastTime与spellCastTime冲突",
+          "reason": "0.5秒和0.375秒并存，不任选。"
+        }
+      ]
+    },
+    "monkeyking_p": {
+      "binding": "Characters/MonkeyKing/Spells/MonkeyKingPassiveAbility/MonkeyKingPassive",
+      "officialMaxRank": 1,
+      "rawDataValues": {
+        "CombatDuration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "StackDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "MaxStacks": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "StackMultiplier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "HealthPercentPer5": [
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187,
+          0.0035000001080334187
+        ],
+        "TooltipMult": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "TooltipMaxHealthPercentPer5": [
+          2.0999999046325684,
+          2.0999999046325684,
+          2.0999999046325684,
+          2.0999999046325684,
+          2.0999999046325684,
+          2.0999999046325684,
+          2.0999999046325684
+        ],
+        "FallOffRate": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": null,
+        "spellTotalTime": null,
+        "cooldownTime": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "mana": null,
+        "manaValues": null,
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": null
+      },
+      "calculations": {
+        "BonusArmor": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 6,
+              "mEndValue": 10,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TooltipMaxArmor": {
+          "mMultiplier": {
+            "mDataValue": "TooltipMult",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "BonusArmor",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "bonus_armor_at_character_level",
+          "name": "等级护甲加成（实际输入）",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "health_percent_per_5_ratio",
+          "name": "每5秒最大生命回复比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0035000001,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stack_duration_ms",
+          "name": "额外层持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_extra_stacks",
+          "name": "最多额外层数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stack_multiplier",
+          "name": "每额外层基础倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "combat_duration_ms",
+          "name": "战斗窗口（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tooltip_multiplier",
+          "name": "展示护甲倍率",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "health_regen_interval_ms",
+          "name": "生命回复间隔（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "bonus_armor",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_armor_at_character_level"
+          }
+        },
+        {
+          "formulaKey": "tooltip_max_armor",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_armor_at_character_level"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "tooltip_multiplier"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "health_regen_per_tick",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_percent_per_5_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "野怪命中、分身命中和额外单位资格",
+          "reason": "本轮只保留本体对英雄命中的可核数值；野怪与分身分支排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "6至10护甲中间等级曲线",
+          "reason": "插值算法未证，RUNTIME_INPUT无默认。"
+        },
+        {
+          "item": "基础层与额外层触发时序",
+          "reason": "本体事件待接；参数已明确最高6倍基础。"
+        }
+      ]
+    },
+    "monkeyking_q": {
+      "binding": "Characters/MonkeyKing/Spells/MonkeyKingDoubleAttackAbility/MonkeyKingDoubleAttack",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "BaseDamage": [
+          -5,
+          20,
+          45,
+          70,
+          95,
+          120,
+          145
+        ],
+        "ADRatio": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "ArmorShredPercent": [
+          0.05000000074505806,
+          0.10000000149011612,
+          0.15000000596046448,
+          0.20000000298023224,
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355
+        ],
+        "ShredDuration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "BuffDuration": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "AttackRangeBonus": [
+          125,
+          135,
+          145,
+          155,
+          165,
+          175,
+          185
+        ],
+        "CooldownDecrease": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": 0.5,
+        "spellCastTime": 0.25,
+        "spellTotalTime": 1,
+        "cooldownTime": [
+          8,
+          8,
+          7.5,
+          7,
+          6.5,
+          6,
+          6
+        ],
+        "mana": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "manaValues": {
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "{0a3e0478}": 20,
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "Self"
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BonusDamageTT": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "name": "额外物理伤害基础值",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 20,
+            "2": 45,
+            "3": 70,
+            "4": 95,
+            "5": 120
+          }
+        },
+        {
+          "parameterKey": "ad_ratio",
+          "name": "总攻击力倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "armor_shred_ratio",
+          "name": "目标护甲降低比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.1000000015,
+            "2": 0.150000006,
+            "3": 0.200000003,
+            "4": 0.25,
+            "5": 0.3000000119
+          }
+        },
+        {
+          "parameterKey": "shred_duration_ms",
+          "name": "护甲降低持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "name": "强化攻击窗口（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "attack_range_bonus",
+          "name": "额外攻击距离",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 135,
+            "2": 145,
+            "3": 155,
+            "4": 165,
+            "5": 175
+          }
+        },
+        {
+          "parameterKey": "cooldown_decrease_ms",
+          "name": "命中后冷却减少（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "armor_shred_ratio",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "armor_shred_ratio"
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "分身独立攻击结果",
+          "reason": "本体Q数值保留；分身复制攻击链排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护甲降低作用对象和同次命中减冷却时序",
+          "reason": "来源数值明确，目标资格与事件层待接。"
+        },
+        {
+          "item": "mCastTime与spellCastTime冲突",
+          "reason": "0.5秒和0.25秒并存，不任选。"
+        }
+      ]
+    },
+    "monkeyking_w": {
+      "binding": "Characters/MonkeyKing/Spells/MonkeyKingDecoyAbility/MonkeyKingDecoy",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "CloneDamageMod": [
+          0.3499999940395355,
+          0.4000000059604645,
+          0.44999998807907104,
+          0.5,
+          0.550000011920929,
+          0.6000000238418579,
+          0.6499999761581421
+        ],
+        "StealthDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "CloneDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "DashSpeed": [
+          900,
+          900,
+          900,
+          900,
+          900,
+          900,
+          900
+        ],
+        "RangeClamp": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "MinRange": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": 0.25,
+        "spellTotalTime": 1,
+        "cooldownTime": [
+          22,
+          22,
+          21,
+          20,
+          19,
+          18,
+          18
+        ],
+        "mana": [
+          60,
+          55,
+          50,
+          45,
+          40,
+          40
+        ],
+        "manaValues": {
+          "values": [
+            60,
+            55,
+            50,
+            45,
+            40,
+            40
+          ],
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "LocationClamped"
+        }
+      },
+      "calculations": {},
+      "selectedParameters": [
+        {
+          "parameterKey": "stealth_duration_ms",
+          "name": "本体隐身持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 1000,
+            "2": 1000,
+            "3": 1000,
+            "4": 1000,
+            "5": 1000
+          }
+        },
+        {
+          "parameterKey": "dash_speed",
+          "name": "本体突进速度",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 900,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "根施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulas": [],
+      "excluded": [
+        {
+          "item": "独立分身、分身攻击和模拟终极技能",
+          "reason": "自主分身整体跳过；本体隐身和突进保留。"
+        },
+        {
+          "item": "分身持续4秒、40%至60%伤害、几何范围",
+          "reason": "仅属于被排除分身/路径支路。"
+        }
+      ],
+      "pending": []
+    },
+    "monkeyking_e": {
+      "binding": "Characters/MonkeyKing/Spells/MonkeyKingNimbusAbility/MonkeyKingNimbus",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "BaseDamage": [
+          40,
+          80,
+          120,
+          160,
+          200,
+          240,
+          280
+        ],
+        "AttackSpeed": [
+          0.3499999940395355,
+          0.4000000059604645,
+          0.44999998807907104,
+          0.5,
+          0.550000011920929,
+          0.6000000238418579,
+          0.6499999761581421
+        ],
+        "AttackSpeedDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "DashSpeed": [
+          1050,
+          1050,
+          1050,
+          1050,
+          1050,
+          1050,
+          1050
+        ],
+        "EndPointOffsetDistance": [
+          75,
+          75,
+          75,
+          75,
+          75,
+          75,
+          75
+        ],
+        "ExtraTargets": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ExtraTargetRange": [
+          700,
+          700,
+          700,
+          700,
+          700,
+          700,
+          700
+        ],
+        "MonsterDamageRatio": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": null,
+        "spellTotalTime": null,
+        "cooldownTime": [
+          10,
+          10,
+          9.25,
+          8.5,
+          7.75,
+          7,
+          7
+        ],
+        "mana": [
+          30,
+          35,
+          40,
+          45,
+          50,
+          50
+        ],
+        "manaValues": {
+          "values": [
+            30,
+            35,
+            40,
+            45,
+            50,
+            50
+          ],
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": null
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalDamageMonsters": {
+          "mMultiplier": {
+            "mDataValue": "MonsterDamageRatio",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalDamage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_damage",
+          "name": "当前敌人基础魔法伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 80,
+            "2": 120,
+            "3": 160,
+            "4": 200,
+            "5": 240
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "法强倍率",
+          "valueType": 1,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "attack_speed_ratio",
+          "name": "自身攻击速度增加比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.400000006,
+            "2": 0.4499999881,
+            "3": 0.5,
+            "4": 0.5500000119,
+            "5": 0.6000000238
+          }
+        },
+        {
+          "parameterKey": "attack_speed_duration_ms",
+          "name": "攻击速度持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "attack_speed_ratio",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "attack_speed_ratio"
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "额外敌人分配和分身突进",
+          "reason": "本轮唯一敌方场景只保留本体当前敌人。"
+        },
+        {
+          "item": "野怪伤害倍率",
+          "reason": "兵野专用分支排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "攻速效果实际应用对象",
+          "reason": "来源文本同时写本体和分身；分身排除后保留本体效果，事件层待接。"
+        }
+      ]
+    },
+    "monkeyking_r": {
+      "binding": "Characters/MonkeyKing/Spells/MonkeyKingSpinToWinAbility/MonkeyKingSpinToWin",
+      "officialMaxRank": 3,
+      "rawDataValues": {
+        "KnockupDuration": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "SpinDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "MoveSpeed": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "BasePercentMaxHPDmgPerSec": [
+          0.019999999552965164,
+          0.03999999910593033,
+          0.05999999865889549,
+          0.07999999821186066,
+          0.10000000149011612,
+          0.11999999731779099,
+          0.14000000059604645
+        ],
+        "SecondsPerTick": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "RecastWindow": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "LockoutTimeBetweenCasts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ADRatioPerSecond": [
+          1.375,
+          1.375,
+          1.375,
+          1.375,
+          1.375,
+          1.375,
+          1.375
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": null,
+        "spellTotalTime": null,
+        "cooldownTime": [
+          10,
+          130,
+          110,
+          90,
+          90,
+          90,
+          10
+        ],
+        "mana": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          0
+        ],
+        "manaValues": {
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            0
+          ],
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "SelfAoe"
+        }
+      },
+      "calculations": {
+        "DamagePerSecondTotal": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mStat": 2,
+              "mDataValue": "ADRatioPerSecond",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{26c20668}": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BasePercentMaxHPDmgPerSec",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "MonsterCap": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 200,
+              "mBreakpoints": [
+                {
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": 200,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 16,
+                  "mAdditionalBonusAtThisLevel": 200,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalDamageTT": {
+          "mMultiplier": {
+            "mDataValue": "SpinDuration",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "DamagePerSecondTotal",
+          "__type": "GameCalculationModified"
+        },
+        "PercentHPDamageTT": {
+          "mMultiplier": {
+            "mDataValue": "SpinDuration",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mExpandedTooltipCalculationDisplay": 5,
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "{26c20668}",
+          "__type": "GameCalculationModified"
+        },
+        "MonsterCapTT": {
+          "mMultiplier": {
+            "mDataValue": "SpinDuration",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "MonsterCap",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "knockup_duration_ms",
+          "name": "击飞持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 600,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "spin_duration_ms",
+          "name": "旋转持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "move_speed_ratio",
+          "name": "自身移动速度增加比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.200000003,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_hp_damage_per_second_ratio",
+          "name": "目标最大生命每秒伤害比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.0399999991,
+            "2": 0.0599999987,
+            "3": 0.0799999982
+          }
+        },
+        {
+          "parameterKey": "tick_interval_ms",
+          "name": "每次伤害间隔（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "recast_window_ms",
+          "name": "重放窗口（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "recast_lockout_ms",
+          "name": "重放锁定间隔（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "ad_ratio_per_second",
+          "name": "每秒总攻击力倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.375,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "seconds_to_ms_inverse",
+          "name": "毫秒转秒比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.001,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage_per_second",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "max_hp_damage_per_second_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "TARGET",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ad_ratio_per_second"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "damage_per_tick",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "max_hp_damage_per_second_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "TARGET",
+                        "attributeKey": "hp",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ad_ratio_per_second"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "tick_interval_ms"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "seconds_to_ms_inverse"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "full_spin_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "max_hp_damage_per_second_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "TARGET",
+                        "attributeKey": "hp",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ad_ratio_per_second"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "spin_duration_ms"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "seconds_to_ms_inverse"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "额外敌人和野怪封顶",
+          "reason": "本轮只保留同一敌人；野怪上限支路排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "每跳与击飞事件的命中时序",
+          "reason": "完整数值已拆为每秒、每跳和整段公式，事件层待接。"
+        },
+        {
+          "item": "根施法字段",
+          "reason": "来源未提供可选施法字段，不从0推断。"
+        }
+      ]
+    },
+    "neeko_p": {
+      "binding": "Characters/Neeko/Spells/NeekoPassiveAbility/NeekoPassive",
+      "officialMaxRank": 1,
+      "rawDataValues": {
+        "MagicPen": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "MagicPenDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "ChargeTime": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "PassiveCooldown": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": null,
+        "spellTotalTime": null,
+        "cooldownTime": null,
+        "mana": null,
+        "manaValues": null,
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": null
+      },
+      "calculations": {},
+      "selectedParameters": [],
+      "formulas": [],
+      "excluded": [
+        {
+          "item": "完整伪装、属性复制和形态变形",
+          "reason": "自主完整变形范围跳过。"
+        },
+        {
+          "item": "客户端旧20%法穿、4秒、2秒字段",
+          "reason": "主负责人确认未消费，不录候选参数。"
+        }
+      ],
+      "pending": []
+    },
+    "neeko_q": {
+      "binding": "Characters/Neeko/Spells/NeekoQAbility/NeekoQ",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "SlowAmount": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "SlowDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ZoneDamage": [
+          10,
+          60,
+          110,
+          160,
+          210,
+          260,
+          310
+        ],
+        "SecondaryDamage": [
+          10,
+          35,
+          60,
+          85,
+          110,
+          135,
+          160
+        ],
+        "RepeatDelay": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "MonsterBonus": [
+          20,
+          35,
+          50,
+          65,
+          80,
+          95,
+          110
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": 0.25,
+        "spellTotalTime": null,
+        "cooldownTime": [
+          9,
+          9,
+          8.5,
+          8,
+          7.5,
+          7,
+          7
+        ],
+        "mana": [
+          50,
+          60,
+          70,
+          80,
+          90,
+          85
+        ],
+        "manaValues": {
+          "values": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            85
+          ],
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "LocationClamped"
+        }
+      },
+      "calculations": {
+        "ExplosionDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "ZoneDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "SecondDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "SecondaryDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.25,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "zone_damage_base",
+          "name": "首段基础魔法伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 110,
+            "3": 160,
+            "4": 210,
+            "5": 260
+          }
+        },
+        {
+          "parameterKey": "secondary_damage_base",
+          "name": "后续绽放基础魔法伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 35,
+            "2": 60,
+            "3": 85,
+            "4": 110,
+            "5": 135
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "首段法强倍率",
+          "valueType": 0.6000000238,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "secondary_ap_ratio",
+          "name": "后续法强倍率",
+          "valueType": 0.25,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "repeat_delay_ms",
+          "name": "后续绽放间隔（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 750,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_additional_blooms",
+          "name": "最多额外绽放次数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "根施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "first_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "zone_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "repeat_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "secondary_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "secondary_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "兵野额外伤害和旧40%减速字段",
+          "reason": "兵野专用及未消费字段排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "命中或击杀后的重复事件",
+          "reason": "同一敌人重复数值保留，目标仍在范围和事件层待接。"
+        }
+      ]
+    },
+    "neeko_w": {
+      "binding": "Characters/Neeko/Spells/NeekoWAbility/NeekoW",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "CloneDuration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "StealthDuration": [
+          0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "CloneDamageTimer": [
+          0,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "Haste": [
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45
+        ],
+        "HasteDuration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "PassiveDamage": [
+          -5,
+          30,
+          65,
+          100,
+          135,
+          170,
+          205
+        ],
+        "PassiveHaste": [
+          2.5,
+          10,
+          17.5,
+          25,
+          32.5,
+          40,
+          47.5
+        ],
+        "PassiveHasteDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "MonsterBonus": [
+          75,
+          75,
+          75,
+          75,
+          75,
+          75,
+          75
+        ],
+        "APRatio": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": null,
+        "spellTotalTime": null,
+        "cooldownTime": [
+          16,
+          16,
+          15,
+          14,
+          13,
+          12,
+          12
+        ],
+        "mana": null,
+        "manaValues": null,
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "Direction"
+        }
+      },
+      "calculations": {
+        "PassiveBonusDamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "PassiveDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0
+          }
+        },
+        {
+          "parameterKey": "passive_damage_base",
+          "name": "第三次攻击基础魔法伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 30,
+            "2": 65,
+            "3": 100,
+            "4": 135,
+            "5": 170
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "被动伤害法强倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6000000238,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_move_speed_points",
+          "name": "被动移速百分数点",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10,
+            "2": 17.5,
+            "3": 25,
+            "4": 32.5,
+            "5": 40
+          }
+        },
+        {
+          "parameterKey": "passive_percent_scale",
+          "name": "被动移速百分数点转比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_move_speed_duration_ms",
+          "name": "被动移速持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "active_move_speed_points",
+          "name": "主动移速百分数点",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 20,
+            "2": 25,
+            "3": 30,
+            "4": 35,
+            "5": 40
+          }
+        },
+        {
+          "parameterKey": "active_percent_scale",
+          "name": "主动移速百分数点转比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "active_move_speed_duration_ms",
+          "name": "主动移速持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stealth_duration_ms",
+          "name": "本体隐身持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "passive_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "passive_move_speed",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_percent_scale"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_move_speed_points"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "active_move_speed",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_percent_scale"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_move_speed_points"
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "独立分身、镜像施法和兵野额外伤害",
+          "reason": "完整分身单位和兵野分支跳过；本体隐身、第三击和移速保留。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "第三击触发和隐身可选取规则",
+          "reason": "数值和本体效果已保存，事件层待接。"
+        }
+      ]
+    },
+    "neeko_e": {
+      "binding": "Characters/Neeko/Spells/NeekoEAbility/NeekoE",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "Damage": [
+          35,
+          70,
+          105,
+          140,
+          175,
+          210,
+          245
+        ],
+        "BaseRootDuration": [
+          0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "MinRootDuration": [
+          0.5,
+          0.699999988079071,
+          0.8999999761581421,
+          1.100000023841858,
+          1.2999999523162842,
+          1.5,
+          1.7000000476837158
+        ],
+        "TargetsRequiredForMaxValue": [
+          0,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "MaxRootDuration": [
+          1.5,
+          1.7999999523162842,
+          2.0999999046325684,
+          2.4000000953674316,
+          2.700000047683716,
+          3,
+          3.299999952316284
+        ],
+        "EmpoweredWidth": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "EmpoweredSpeed": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": 0.25,
+        "spellTotalTime": 1,
+        "cooldownTime": [
+          12,
+          12,
+          11.5,
+          11,
+          10.5,
+          10,
+          10
+        ],
+        "mana": [
+          60,
+          65,
+          70,
+          75,
+          80,
+          60
+        ],
+        "manaValues": {
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            60
+          ],
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "Direction"
+        }
+      },
+      "calculations": {
+        "BaseDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.6499999761581421,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "damage_base",
+          "name": "首个目标基础魔法伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 70,
+            "2": 105,
+            "3": 140,
+            "4": 175,
+            "5": 210
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "法强倍率",
+          "valueType": 0.6499999762,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "min_root_duration_ms",
+          "name": "首个目标禁锢持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 700,
+            "2": 900,
+            "3": 1100,
+            "4": 1300,
+            "5": 1500
+          }
+        },
+        {
+          "parameterKey": "targets_required_for_empower",
+          "name": "强化所需前序目标数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_root_duration_ms",
+          "name": "强化后续目标禁锢持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 1800,
+            "2": 2100,
+            "3": 2400,
+            "4": 2700,
+            "5": 3000
+          }
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "根施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "first_target_root_duration",
+          "expression": {
+            "nodeType": "PARAMETER",
+            "parameterKey": "min_root_duration_ms"
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "额外敌人强化禁锢1.8至3秒",
+          "reason": "主负责人确认需先前额外敌人，本轮唯一敌方场景排除该支路。"
+        },
+        {
+          "item": "旧BaseRootDuration0.5秒",
+          "reason": "当前正文未消费为首个目标结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "沿途控制和命中事件",
+          "reason": "首个目标伤害与最小禁锢保留，事件层待接。"
+        }
+      ]
+    },
+    "neeko_r": {
+      "binding": "Characters/Neeko/Spells/NeekoRAbility/NeekoR",
+      "officialMaxRank": 3,
+      "rawDataValues": {
+        "Damage": [
+          -50,
+          150,
+          350,
+          550,
+          750,
+          950,
+          1150
+        ],
+        "Duration": [
+          0,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5
+        ],
+        "StunDuration": [
+          0,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "ShieldAmount": [
+          50,
+          75,
+          100,
+          125,
+          150,
+          175,
+          200
+        ],
+        "ShieldDuration": [
+          0,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "DelayUntilReveal": [
+          0,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25
+        ],
+        "DelayUntilExplosion": [
+          0,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "ShieldPerChampion": [
+          20,
+          40,
+          60,
+          80,
+          100,
+          120,
+          140
+        ],
+        "SlowAmount": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "DelayBeforePassiveRemoval": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": null,
+        "spellTotalTime": 0,
+        "cooldownTime": [
+          120,
+          120,
+          105,
+          90,
+          90,
+          90,
+          90
+        ],
+        "mana": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "manaValues": {
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "{0a3e0478}": 100,
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "SelfAoe"
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 1.2000000476837158,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BaseShield": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "ShieldAmount",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.75,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ShieldMultiplier": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "ShieldPerChampion",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.4000000059604645,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "damage_base",
+          "name": "本体基础魔法伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150,
+            "2": 350,
+            "3": 550
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "法强倍率",
+          "valueType": 1.2000000477,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "delay_until_explosion_ms",
+          "name": "落地前击飞延迟（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 600,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stun_duration_ms",
+          "name": "落地眩晕持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 750,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_removal_delay_ms",
+          "name": "施放后解除伪装延迟（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "额外敌人范围、护盾及按人数放大",
+          "reason": "主负责人确认当前正文未消费护盾树，不录ShieldAmount/ShieldPerChampion支路。"
+        },
+        {
+          "item": "伪装隐藏前摇",
+          "reason": "依赖已排除的完整伪装链。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "Duration2.5秒字段",
+          "reason": "当前正文没有把它作为控制时长，保留原始摘要不转成控制。"
+        },
+        {
+          "item": "击飞到落地的事件时序",
+          "reason": "延迟和眩晕数值保留，事件层待接。"
+        }
+      ]
+    },
+    "yuumi_p": {
+      "binding": "Characters/Yuumi/Spells/YuumiPAbility/YuumiP",
+      "officialMaxRank": 1,
+      "rawDataValues": {
+        "TakedownCompanionship": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "HealDelayTime": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "MinionKillCompanionship": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "PityTimer": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": null,
+        "spellTotalTime": null,
+        "cooldownTime": null,
+        "mana": null,
+        "manaValues": null,
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "Self"
+        }
+      },
+      "calculations": {
+        "PassiveCooldown": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 20,
+              "mInitialBonusPerLevel": -1,
+              "mBreakpoints": [
+                {
+                  "mLevel": 14,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{656dde8a}": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 50,
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "HealAmount": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 20,
+              "mEndValue": 110,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mCoefficient": 0.30000001192092896,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "heal_base_at_character_level",
+          "name": "命中治疗角色等级基础值（实际输入）",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "friend_heal_window_ms",
+          "name": "附身友军治疗转移窗口（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "pity_timer_ms",
+          "name": "友谊保底计时（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "heal_ap_ratio",
+          "name": "治疗法强倍率",
+          "valueType": 0.3000000119,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_cooldown_at_character_level",
+          "name": "被动冷却角色等级值（实际输入）",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_cooldown_level1_ms",
+          "name": "被动冷却一级值（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20000,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "heal_amount",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_base_at_character_level"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "附身友军治疗转移和友谊成长",
+          "reason": "第三友方资格与自动触发链排除；不一概含或不含自身。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "20秒起点、14级断点后的冷却曲线",
+          "reason": "原树断点后算法未证，RUNTIME_INPUT无默认。"
+        },
+        {
+          "item": "治疗发生时点",
+          "reason": "自身立即治疗和友军4秒窗口来源明确，自动触发事件待接。"
+        }
+      ]
+    },
+    "yuumi_q": {
+      "binding": "Characters/Yuumi/Spells/YuumiQAbility/YuumiQ",
+      "officialMaxRank": 6,
+      "rawDataValues": {
+        "MissileDamage": [
+          25,
+          60,
+          95,
+          130,
+          165,
+          200,
+          235
+        ],
+        "SlowAmount": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "SlowDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "TimeToAfterburners": [
+          1.350000023841858,
+          1.350000023841858,
+          1.350000023841858,
+          1.350000023841858,
+          1.350000023841858,
+          1.350000023841858,
+          1.350000023841858
+        ],
+        "MissileLifetime": [
+          1.850000023841858,
+          1.850000023841858,
+          1.850000023841858,
+          1.850000023841858,
+          1.850000023841858,
+          1.850000023841858,
+          1.850000023841858
+        ],
+        "StartingSpeed": [
+          650,
+          650,
+          650,
+          650,
+          650,
+          650,
+          650
+        ],
+        "AfterburnerSpeed": [
+          950,
+          950,
+          950,
+          950,
+          950,
+          950,
+          950
+        ],
+        "InitialTimeDelay": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "MissileStartingOffset": [
+          75,
+          75,
+          75,
+          75,
+          75,
+          75,
+          75
+        ],
+        "EmpoweredSlowAmount": [
+          47,
+          50,
+          53,
+          56,
+          59,
+          62,
+          65
+        ],
+        "EmpoweredSlowDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "EmpoweredMissileDamage": [
+          25,
+          80,
+          135,
+          190,
+          245,
+          300,
+          355
+        ],
+        "OnHitBase": [
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20
+        ],
+        "AllyCritChanceMaxAmp": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "BuffDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "APRatio": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "EmpoweredAPRatio": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": 0,
+        "spellTotalTime": 0,
+        "cooldownTime": [
+          6.5,
+          6.5,
+          6.5,
+          6.5,
+          6.5,
+          6.5,
+          6.5
+        ],
+        "mana": [
+          50,
+          55,
+          60,
+          65,
+          70,
+          75
+        ],
+        "manaValues": {
+          "values": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "{0a3e0478}": 50,
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "Location"
+        }
+      },
+      "calculations": {
+        "TotalMissileDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MissileDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalMissileDamageEmpowered": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "EmpoweredMissileDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "EmpoweredAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "OnHitDamageCalc": {
+          "mFormulaParts": [
+            {
+              "mCoefficient": 0.05000000074505806,
+              "__type": "StatByCoefficientCalculationPart"
+            },
+            {
+              "mDataValue": "OnHitBase",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "missile_damage_base",
+          "name": "普通飞弹基础魔法伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 95,
+            "3": 130,
+            "4": 165,
+            "5": 200,
+            "6": 235
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "普通飞弹法强倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.200000003,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "empowered_damage_base",
+          "name": "强化飞弹基础魔法伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 80,
+            "2": 135,
+            "3": 190,
+            "4": 245,
+            "5": 300,
+            "6": 355
+          }
+        },
+        {
+          "parameterKey": "empowered_ap_ratio",
+          "name": "强化飞弹法强倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3000000119,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_percent_points",
+          "name": "普通减速百分数点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "empowered_slow_percent_points",
+          "name": "强化减速百分数点",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 53,
+            "3": 56,
+            "4": 59,
+            "5": 62,
+            "6": 65
+          }
+        },
+        {
+          "parameterKey": "empowered_slow_duration_ms",
+          "name": "强化减速持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "afterburner_time_ms",
+          "name": "提速前导引时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1350,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "missile_lifetime_ms",
+          "name": "飞弹寿命（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1850,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "根施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 0,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "normal_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "missile_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "empowered_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "empowered_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "empowered_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "挚友对第三友军附加伤害、暴击增幅",
+          "reason": "第三友军资格排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "附身导引和强化飞弹资格",
+          "reason": "当前文本将导引/强化放在附身条件中，不能按旧摘要无条件启用。"
+        },
+        {
+          "item": "普通减速持续1秒",
+          "reason": "源字段明确但正文未消费，保留范围说明不创建独立时序。"
+        }
+      ]
+    },
+    "yuumi_w": {
+      "binding": "Characters/Yuumi/Spells/YuumiWAbility/YuumiW",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "DashSpeed": [
+          1250,
+          1300,
+          1350,
+          1400,
+          1450,
+          1500,
+          1550
+        ],
+        "CastForgivenessRange": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "CastRange": [
+          700,
+          700,
+          700,
+          700,
+          700,
+          700,
+          700
+        ],
+        "MaxBonusHealShieldPower": [
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448
+        ],
+        "BaseHealthOnHit": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "HealAndShieldPower": [
+          0.029999999329447746,
+          0.03999999910593033,
+          0.05000000074505806,
+          0.05999999865889549,
+          0.07000000029802322,
+          0.07999999821186066,
+          0.09000000357627869
+        ],
+        "MinBonusHealShieldPower": [
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.05000000074505806
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": 0,
+        "spellTotalTime": 0,
+        "cooldownTime": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mana": null,
+        "manaValues": null,
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "TargetOrLocation"
+        }
+      },
+      "calculations": {
+        "AttachCooldown": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 10,
+              "mBreakpoints": [
+                {
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": -5,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": -5,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CCAttachLockout": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mNumber": 5,
+              "__type": "NumberCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "HealthOnHit": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseHealthOnHit",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.029999999329447746,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0
+          }
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0
+          }
+        },
+        {
+          "parameterKey": "attach_cooldown_ms_at_character_level",
+          "name": "附身冷却（角色等级，毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "CHARACTER_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10000,
+            "2": 10000,
+            "3": 10000,
+            "4": 10000,
+            "5": 10000,
+            "6": 5000,
+            "7": 5000,
+            "8": 5000,
+            "9": 5000,
+            "10": 5000,
+            "11": 0,
+            "12": 0,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          }
+        },
+        {
+          "parameterKey": "cc_attach_lockout_ms",
+          "name": "定身后的附身锁定（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "heal_shield_power_ratio",
+          "name": "挚友附身治疗护盾强度比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.0399999991,
+            "2": 0.0500000007,
+            "3": 0.0599999987,
+            "4": 0.0700000003,
+            "5": 0.0799999982
+          }
+        },
+        {
+          "parameterKey": "health_on_hit_base",
+          "name": "附身友军命中治疗基础值",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "health_on_hit_ap_ratio",
+          "name": "附身友军命中治疗法强倍率",
+          "valueType": 0.0299999993,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "health_on_hit",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_on_hit_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "health_on_hit_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "附身主动链、不可选取和第三友军治疗",
+          "reason": "本槽附身依赖第三友军；不凭空构造友军为自身常驻效果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "挚友治疗护盾强度作用目标",
+          "reason": "自我收益与第三友军资格需事件层核对，当前只保存比例。"
+        },
+        {
+          "item": "DashSpeed、范围和解除附身时序",
+          "reason": "附身路径几何与对象资格不扩展。"
+        }
+      ]
+    },
+    "yuumi_e": {
+      "binding": "Characters/Yuumi/Spells/YuumiEAbility/YuumiE",
+      "officialMaxRank": 5,
+      "rawDataValues": {
+        "MSDuration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "MSAmount": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "AttackSpeedAmount": [
+          22.5,
+          25,
+          27.5,
+          30,
+          32.5,
+          35,
+          37.5
+        ],
+        "BaseShielding": [
+          40,
+          65,
+          90,
+          115,
+          140,
+          165,
+          190
+        ],
+        "ManaRestore": [
+          16,
+          20,
+          24,
+          28,
+          32,
+          36,
+          40
+        ],
+        "MaxManaPercIncrease": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "APRatio": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": 0,
+        "spellTotalTime": 0,
+        "cooldownTime": null,
+        "mana": [
+          80,
+          90,
+          100,
+          110,
+          120,
+          130
+        ],
+        "manaValues": {
+          "values": [
+            80,
+            90,
+            100,
+            110,
+            120,
+            130
+          ],
+          "{0a3e0478}": 80,
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mAmmoRechargeTime": [
+          19,
+          18,
+          17,
+          16,
+          15,
+          14,
+          13
+        ],
+        "mTargetingTypeData": {
+          "__type": "Self"
+        }
+      },
+      "calculations": {
+        "TotalShielding": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseShielding",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalAttackSpeed": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "AttackSpeedAmount",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.07999999821186066,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10000,
+            "2": 10000,
+            "3": 10000,
+            "4": 10000,
+            "5": 10000
+          }
+        },
+        {
+          "parameterKey": "shield_base",
+          "name": "自身基础护盾",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 65,
+            "2": 90,
+            "3": 115,
+            "4": 140,
+            "5": 165
+          }
+        },
+        {
+          "parameterKey": "shield_ap_ratio",
+          "name": "护盾法强倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.400000006,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "attack_speed_points",
+          "name": "攻击速度百分数点",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 25,
+            "2": 27.5,
+            "3": 30,
+            "4": 32.5,
+            "5": 35
+          }
+        },
+        {
+          "parameterKey": "attack_speed_percent_scale",
+          "name": "攻击速度百分数点转比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "move_speed_points",
+          "name": "移动速度百分数点",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "move_speed_percent_scale",
+          "name": "移动速度百分数点转比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "attack_speed_duration_ms",
+          "name": "攻速持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "attack_speed_ap_points_ratio",
+          "name": "攻击速度法强百分数点倍率",
+          "valueType": 0.0799999982,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "shield_value",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "attack_speed_ratio",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_speed_percent_scale"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "attack_speed_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "attack_speed_ap_points_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "move_speed_ratio",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "move_speed_percent_scale"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "move_speed_points"
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "附身后第三友军护盾、攻速、移速和回蓝",
+          "reason": "第三友军资格排除；不把附身分支混入自身效果。"
+        },
+        {
+          "item": "弹药/充能18至14秒",
+          "reason": "与官方10秒不一致，未录为冷却或弹药参数。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾寿命与移速结束联动",
+          "reason": "当前3秒只明确攻速持续，护盾生命周期未证。"
+        },
+        {
+          "item": "根施法0",
+          "reason": "只作施法字段来源，不推断护盾寿命或弹道时点。"
+        }
+      ]
+    },
+    "yuumi_r": {
+      "binding": "Characters/Yuumi/Spells/YuumiRAbility/YuumiR",
+      "officialMaxRank": 3,
+      "rawDataValues": {
+        "UltLength": [
+          1300,
+          1300,
+          1300,
+          1300,
+          1300,
+          1300,
+          1300
+        ],
+        "BaseMissileDamage": [
+          25,
+          75,
+          125,
+          175,
+          225,
+          275,
+          325
+        ],
+        "MultiMissileReduction": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "CCDuration": [
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25
+        ],
+        "UltDuration": [
+          3.5,
+          3.5,
+          3.5,
+          3.5,
+          3.5,
+          3.5,
+          3.5
+        ],
+        "NumberOfWaves": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "WavesToRoot": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "TimeBetweenWaves": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "MissileSlowPercent": [
+          -0.4000000059604645,
+          -0.4000000059604645,
+          -0.4000000059604645,
+          -0.4000000059604645,
+          -0.4000000059604645,
+          -0.4000000059604645,
+          -0.4000000059604645
+        ],
+        "SpaceBehindWave": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "BaseHealPerWave": [
+          10,
+          30,
+          50,
+          70,
+          90,
+          110,
+          130
+        ],
+        "BaseSlow": [
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612
+        ],
+        "BonusSlowPerWave": [
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612
+        ],
+        "OvershieldBonusDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "DegreesPerTick": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ]
+      },
+      "rawFields": {
+        "mEffectAmount": null,
+        "mCastTime": null,
+        "spellCastTime": 0,
+        "spellTotalTime": 0,
+        "cooldownTime": [
+          120,
+          120,
+          110,
+          100,
+          100,
+          100,
+          100
+        ],
+        "mana": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "manaValues": {
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "{0a3e0478}": 100,
+          "__type": "{630af303}"
+        },
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mTargetingTypeData": {
+          "__type": "Location"
+        }
+      },
+      "calculations": {
+        "TotalMissileDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseMissileDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.25,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalSingleTargetDamage": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mPart1": {
+                  "mSubparts": [
+                    {
+                      "mDataValue": "NumberOfWaves",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "mPart2": {
+                  "mDataValue": "MultiMissileReduction",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalMissileDamage",
+          "__type": "GameCalculationModified"
+        },
+        "MultiMissileTotal": {
+          "mMultiplier": {
+            "mDataValue": "MultiMissileReduction",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mModifiedGameCalculation": "TotalMissileDamage",
+          "__type": "GameCalculationModified"
+        },
+        "TotalHealPerWave": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseHealPerWave",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.11999999731779099,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "EnhancedHealPerWave": {
+          "mMultiplier": {
+            "mSpellCalculationKey": "AllyHealingPerc",
+            "__type": "{f3cbe7b2}"
+          },
+          "mModifiedGameCalculation": "TotalHealPerWave",
+          "__type": "GameCalculationModified"
+        },
+        "AllyHealingPerc": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 1.2999999523162842,
+              "mBreakpoints": [
+                {
+                  "mLevel": 7,
+                  "mBonusPerLevelAtAndAfter": 0.05000000074505806,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameters": [
+        {
+          "parameterKey": "base_missile_damage",
+          "name": "首波基础魔法伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 75,
+            "2": 125,
+            "3": 175
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "name": "波纹法强倍率",
+          "valueType": 0.25,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "subsequent_wave_multiplier",
+          "name": "后续波纹伤害倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "name": "减速持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1250,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "channel_duration_ms",
+          "name": "引导持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "wave_count",
+          "name": "波纹数量",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "wave_interval_ms",
+          "name": "波纹间隔（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 750,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "heal_base_per_wave",
+          "name": "每波基础治疗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 30,
+            "2": 50,
+            "3": 70
+          }
+        },
+        {
+          "parameterKey": "heal_ap_ratio",
+          "name": "每波治疗法强倍率",
+          "valueType": 0.1199999973,
+          "valueMode": "FIXED",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "base_slow_ratio",
+          "name": "首波减速源比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": -0.1000000015,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_slow_per_wave_ratio",
+          "name": "每后续波减速增加源比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": -0.1000000015,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "ally_healing_multiplier_at_character_level",
+          "name": "挚友治疗倍率（实际输入）",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_source_sign",
+          "name": "减速源值转正符号",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": -1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "one",
+          "name": "单位一",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "missile_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_missile_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "subsequent_wave_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_missile_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "subsequent_wave_multiplier"
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "single_target_total_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_missile_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "SUBTRACT",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "wave_count"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "one"
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "subsequent_wave_multiplier"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "heal_per_wave",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_base_per_wave"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "enhanced_heal_per_wave",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ally_healing_multiplier_at_character_level"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_base_per_wave"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "heal_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "excluded": [
+        {
+          "item": "WavesToRoot三波禁锢",
+          "reason": "主负责人确认当前中文只减速，旧WavesToRoot未消费；不采纳三波禁锢。"
+        },
+        {
+          "item": "挚友第三友军治疗和溢出护盾",
+          "reason": "第三友军资格未证，独立场景不创建治疗/护盾结果。"
+        },
+        {
+          "item": "额外1.5秒护盾持续",
+          "reason": "未消费字段，不猜。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "减速叠层起算",
+          "reason": "源值和文本方向明确，但第一波是否即加成待消费资格核对。"
+        },
+        {
+          "item": "引导期间移动、E和波纹锁定方向",
+          "reason": "行为时序待接；根施法0不推断瞬发。"
+        },
+        {
+          "item": "AllyHealingPerc角色等级13级后曲线",
+          "reason": "断点后斜率未证，运行输入无默认。"
+        }
+      ]
+    }
+  },
+  "noApiCalls": true
+}

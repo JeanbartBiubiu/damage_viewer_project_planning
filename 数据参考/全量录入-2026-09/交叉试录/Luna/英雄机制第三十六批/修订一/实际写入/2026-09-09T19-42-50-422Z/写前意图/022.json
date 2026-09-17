@@ -1,0 +1,23 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "method": "POST",
+    "route": "/skills/evelynn_w/parameters",
+    "detailRoute": "/skills/evelynn_w/parameters/mr_shred_duration_ms",
+    "skillKey": "evelynn_w",
+    "kind": "parameters",
+    "stableKey": "mr_shred_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mr_shred_duration_ms",
+      "name": "魔抗削减持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前ShredDuration=4秒，转换为4000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

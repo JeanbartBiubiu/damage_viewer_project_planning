@@ -1,0 +1,23 @@
+{
+  "i": 128,
+  "intent": {
+    "sequence": 129,
+    "method": "POST",
+    "route": "/skills/xayah_e/parameters",
+    "detailRoute": "/skills/xayah_e/parameters/feather_root_threshold",
+    "skillKey": "xayah_e",
+    "kind": "parameters",
+    "stableKey": "feather_root_threshold",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "feather_root_threshold",
+      "name": "禁锢所需羽毛根数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文明确至少3根命中才禁锢。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T16:13:30.7742024+08:00",
+  "status": "REVIEWED_DEFERRED",
+  "verdict": "DEFERRED_ONLY",
+  "methodPolicy": "GET_ONLY",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "fileWrites": 2,
+  "gitWriteOperations": 0,
+  "fullSkillBaselineGETs": 0,
+  "fullRuleBaselineGETs": 0,
+  "unreadFullBaseline": true,
+  "runtimeValidation": "未执行",
+  "browserValidation": "未执行",
+  "candidateCounts": {
+    "ready": 0,
+    "deferred": 4,
+    "excluded": 0
+  },
+  "scope": {
+    "onlySkills": [
+      "rune_8304_passive",
+      "rune_8429_passive",
+      "rune_8232_passive",
+      "rune_8008_passive"
+    ],
+    "notExpandedToOtherRunes": true,
+    "noTriggerWriteRequestsGenerated": true
+  },
+  "fixedSources": [
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文机制盘点/逐项机器清单.json",
+      "sha256": "419c74a3a22f88f7be5d6499f788914d838712c2c95c61012f168cca9878668b",
+      "role": "四项范围、分支、已确认事实和缺口；entries[16]、entries[43]、entries[60]、entries[25]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第三批/冻结来源.json",
+      "sha256": "f8545f8b63ef3276c3dc95c2c17107ec24b49efb8d67dd51652dbd2ccfa32332",
+      "role": "8304 entries[2]、8429 entries[8] 的冻结来源"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第三批/最终请求.json",
+      "sha256": "536dc79da589dd4e36a7c229a4c983aecf20c720a8be4947047719855ca13623",
+      "role": "第三批冻结请求；8304 requests[11..16,79]，8429 requests[44..55,85]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第四批/冻结来源.json",
+      "sha256": "91f4d81e86bc07e1c294afc0ad5e300db4b476b2f3fd7728fa6eb1e7cfc5fb5b",
+      "role": "8232 entries[11] 的冻结来源"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第四批/最终请求.json",
+      "sha256": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
+      "role": "第四批冻结请求；8232 requests[112..119,131]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第五批/冻结来源.json",
+      "sha256": "878fd1147a277282f6bacd04ecddafe55e980e729a67d4469b31b2ff93d492a7",
+      "role": "8008 entries[1] 的冻结来源"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第五批/最终请求.json",
+      "sha256": "1b03784e003fa63675b4665eac66f772b93f770dffd8c0b128888a3043384f44",
+      "role": "第五批冻结请求；8008 requests[11..28,163]"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备符文/官方原始资料/runesReforged-16.17.1-zh_CN.json",
+      "sha256": "a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0",
+      "role": "四项官方中文原文"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备符文/客户端提取资料/perks-16.17-zh_CN.json",
+      "sha256": "be0bb4eedde39f3a8e1dc245f9b4382379d87674c2fdc62b2650b6af4d9f565b",
+      "role": "四项客户端中文原文"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文客户端数值补证/perks-16.17.cdtb.bin.json.gz",
+      "sha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac",
+      "rawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+      "role": "四项客户端数值对象和计算树"
+    }
+  ],
+  "sourceBindings": {
+    "rune_8304_passive": {
+      "machinePointer": "/entries/16",
+      "batch": "符文效果第三批",
+      "freezePointer": "/entries/2",
+      "officialPointer": "/1/slots/1/runes/1",
+      "clientPointer": "/71",
+      "clientNumericPath": "Perks/Styles/Inspiration/MagicalFootwear",
+      "sourceFields": ["official.longDesc", "client.longDesc", "client.numeric.mEffectAmount.GiveBootsAtMinute", "client.numeric.mEffectAmount.SecondsSoonerPerTakedown", "client.numeric.mEffectAmount.AdditionalMovementSpeed"]
+    },
+    "rune_8429_passive": {
+      "machinePointer": "/entries/43",
+      "batch": "符文效果第三批",
+      "freezePointer": "/entries/8",
+      "officialPointer": "/3/slots/2/runes/0",
+      "clientPointer": "/91",
+      "clientNumericPath": "Perks/Styles/Resolve/Conditioning",
+      "sourceFields": ["official.longDesc", "client.longDesc", "client.numeric.mEffectAmount.ArmorBase", "client.numeric.mEffectAmount.MRBase", "client.numeric.mEffectAmount.ExtraResist", "client.numeric.mEffectAmount.MinutesRequired", "client.numeric.mCalculations.ArmorCalcTooltip", "client.numeric.mCalculations.MagicResistCalcTooltip"]
+    },
+    "rune_8232_passive": {
+      "machinePointer": "/entries/60",
+      "batch": "符文效果第四批",
+      "freezePointer": "/entries/11",
+      "officialPointer": "/4/slots/3/runes/1",
+      "clientPointer": "/5",
+      "clientNumericPath": "Perks/Styles/Sorcery/Waterwalking",
+      "sourceFields": ["official.longDesc", "client.longDesc", "client.numeric.mEffectAmount.MovementSpeed", "client.numeric.mEffectAmount.MinAdaptive", "client.numeric.mEffectAmount.MaxAdaptive", "client.numeric.mCalculations.AdaptiveForceCalc"]
+    },
+    "rune_8008_passive": {
+      "machinePointer": "/entries/25",
+      "batch": "符文效果第五批",
+      "freezePointer": "/entries/1",
+      "officialPointer": "/2/slots/0/runes/1",
+      "clientPointer": "/22",
+      "clientNumericPath": "Perks/Styles/Precision/LethalTempo",
+      "sourceFields": ["official.longDesc", "client.longDesc", "client.numeric.mEffectAmount", "client.numeric.mCalculations.NoteDamage", "client.numeric.mCalculations.ASPerStack"]
+    }
+  },
+  "candidates": [
+    {
+      "id": "rune_8304_passive",
+      "runeKey": "rune_8304",
+      "name": "神奇之鞋",
+      "status": "DEFERRED",
+      "scope": "混合保留",
+      "sourceFacts": {
+        "officialLong": "你在12分钟时获得免费的有点神奇之鞋，但你在之前不能购买鞋子。你每参与一次击杀，就会使获得鞋子的时间点提前45秒。有点神奇之鞋可为你提供额外的10移动速度。",
+        "clientNumeric": {
+          "GiveBootsAtMinute": 12,
+          "SecondsSoonerPerTakedown": 45,
+          "AdditionalMovementSpeed": 10,
+          "unknownValue": "{c07791e4}=300"
+        }
+      },
+      "currentComposition": {
+        "skill": 200,
+        "parameters": 3,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentFields": {
+        "parameters": [
+          "additional_move_speed=10 FIXED",
+          "base_grant_time_ms=720000 FIXED",
+          "earlier_per_takedown_ms=45000 FIXED"
+        ],
+        "effects": [],
+        "relations": {"forward": 1, "reverse": 1},
+        "representativeImages": {"rune": "rune_8304 ENABLED", "skill": "rune_8304 ENABLED"}
+      },
+      "dependencyEvidence": {
+        "equipment": "GET /equipment/item_2422 -> 200",
+        "equipmentAttributes": "GET /equipment/item_2422/attributes -> 200",
+        "equipmentSkillRelation": "GET /equipment-skill-relations?equipmentKey=item_2422 -> 200; item_2422_passive",
+        "interpretation": "旧效果已迁移到item_2422_passive；rune_8304_passive当前空效果是现状，不生成恢复写请求。目录挂载不等于运行时实际持有。"
+      },
+      "qualificationGap": [
+        "不能在未确认持有item_2422时用SOURCE_INITIALIZED初始化",
+        "缺少物品持有、取得时点、参与击杀提前状态和移除/升级继承语义",
+        "缺少与item_2422直接25移动速度及旧被动的去重约束"
+      ],
+      "eventSkeleton": {"frozen": false, "event": null, "conditions": null, "actions": null, "missing": ["物品持有条件", "绝对游戏时间/提前后的取得时点", "实际拥有状态"]},
+      "writeRequest": {"created": false, "requestCount": 0}
+    },
+    {
+      "id": "rune_8429_passive",
+      "runeKey": "rune_8429",
+      "name": "调节",
+      "status": "DEFERRED",
+      "scope": "范围内",
+      "sourceFacts": {
+        "officialLong": "在12分钟后获得+8护甲和+8魔抗，并使你的护甲和魔抗提升3%。",
+        "clientNumeric": {"ArmorBase": 8, "MRBase": 8, "ExtraResist": 0.029999999329447746, "MinutesRequired": 12, "Range": 800}
+      },
+      "currentComposition": {
+        "skill": 200,
+        "parameters": 6,
+        "formulas": 2,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentFields": {
+        "parameters": ["flat_armor=8 FIXED", "flat_magic_resistance=8 FIXED", "resistance_ratio=0.03 FIXED", "activation_game_time_ms=720000 FIXED", "confirmed_armor_basis=null RUNTIME_INPUT", "confirmed_magic_resistance_basis=null RUNTIME_INPUT"],
+        "formulas": ["armor_tooltip_amount=flat_armor+confirmed_armor_basis*resistance_ratio", "magic_resistance_tooltip_amount=flat_magic_resistance+confirmed_magic_resistance_basis*resistance_ratio"],
+        "effects": ["flat_armor_component -> SOURCE armor +8, attribute_flat_add", "flat_magic_resistance_component -> SOURCE magic_resistance +8, attribute_flat_add"],
+        "relations": {"forward": 1, "reverse": 1},
+        "representativeImages": {"rune": "rune_8429 ENABLED", "skill": "rune_8429 ENABLED"}
+      },
+      "qualificationGap": [
+        "缺少绝对游戏时间达到720000毫秒的事件和一次激活状态",
+        "固定+8与3%提升的先后顺序未确认；提示公式不能替代执行顺序",
+        "护甲/魔抗基数是否已包含本符文加成及跨来源组合未确认"
+      ],
+      "eventSkeleton": {"frozen": false, "event": null, "conditions": null, "actions": null, "missing": ["绝对游戏时间事件", "固定与百分比顺序", "属性基数采样语义"]},
+      "writeRequest": {"created": false, "requestCount": 0}
+    },
+    {
+      "id": "rune_8232_passive",
+      "runeKey": "rune_8232",
+      "name": "水上行走",
+      "status": "DEFERRED",
+      "scope": "范围内",
+      "sourceFacts": {
+        "officialLong": "在河道时，获得10移动速度并获得13 - 30适应之力(基于等级)。",
+        "clientLong": "在河道时，获得10移动速度并获得13 - 30适应之力(基于等级)。",
+        "clientNumeric": {"MovementSpeed": 10, "MinAdaptive": 13, "MaxAdaptive": 30, "AdaptiveForceCalc": "ByCharLevelInterpolationCalculationPart 13 -> 30"}
+      },
+      "currentComposition": {
+        "skill": 200,
+        "parameters": 4,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentFields": {
+        "parameters": ["confirmed_adaptive_force_source_start=13 FIXED", "confirmed_adaptive_force_source_end=30 FIXED", "confirmed_adaptive_force=null RUNTIME_INPUT", "river_flat_move_speed=10 FIXED"],
+        "formula": "adaptive_force_amount=confirmed_adaptive_force",
+        "effect": "river_flat_move_speed_component -> SOURCE move_speed +10, attribute_flat_add, EXPLICIT_ONLY",
+        "relations": {"forward": 1, "reverse": 1},
+        "representativeImages": {"rune": "rune_8232 ENABLED", "skill": "rune_8232 ENABLED"}
+      },
+      "qualificationGap": [
+        "缺少河道进入事件和离开事件，不能无条件常驻",
+        "缺少河道状态保存、进入时施加和离开时移除时序",
+        "缺少13至30等级曲线、适应之力转换及攻击力/法术强度选择"
+      ],
+      "eventSkeleton": {"frozen": false, "event": null, "conditions": null, "actions": null, "missing": ["河道进入/退出事件", "地形状态", "等级曲线与自适应选择"]},
+      "writeRequest": {"created": false, "requestCount": 0}
+    },
+    {
+      "id": "rune_8008_passive",
+      "runeKey": "rune_8008",
+      "name": "致命节奏",
+      "status": "DEFERRED",
+      "scope": "范围内",
+      "sourceFacts": {
+        "officialLong": "攻击一个敌方英雄会为你提供持续6秒的[6%近战 || 4%远程]攻击速度，至多至6层。在满层时，攻击还会附带[9 - 30近战 || 6 - 24远程]额外自适应伤害，每1%额外攻击速度都会使其提升1%。",
+        "clientNumeric": {"Duration": 6, "MaxStacks": 6, "TTASPerStackMelee": 0.05999999865889549, "TTASPerStackRanged": 0.03999999910593033, "TTMinNoteDamageMelee": 9, "TTMaxNoteDamageMelee": 30, "TTMinNoteDamageRanged": 6, "TTMaxNoteDamageRanged": 24, "PerfectlyTimedForgivance": 0.25}
+      },
+      "currentComposition": {
+        "skill": 200,
+        "parameters": 11,
+        "formulas": 4,
+        "effects": 1,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "currentFields": {
+        "parameters": ["buff_duration_ms=6000 FIXED", "max_stacks=6 FIXED", "melee_as_per_stack=0.06 FIXED", "actual_stacks=null RUNTIME_INPUT", "confirmed_ranged_as_per_stack=null RUNTIME_INPUT", "confirmed_melee_level_damage=null RUNTIME_INPUT", "confirmed_ranged_level_damage=null RUNTIME_INPUT", "confirmed_bonus_attack_speed_ratio=null RUNTIME_INPUT", "one=1 FIXED"],
+        "formulas": ["melee_attack_speed_amount=melee_as_per_stack*MIN(actual_stacks,max_stacks)", "ranged_attack_speed_amount=confirmed_ranged_as_per_stack*MIN(actual_stacks,max_stacks)", "melee_full_stack_damage=confirmed_melee_level_damage*(one+confirmed_bonus_attack_speed_ratio)", "ranged_full_stack_damage=confirmed_ranged_level_damage*(one+confirmed_bonus_attack_speed_ratio)"],
+        "effect": "melee_current_attack_speed -> SOURCE bonus_attack_speed_percent, duration 6000ms, REFRESH_ALL, ALL_AT_ONCE, value replaced; no full-stack damage result",
+        "relations": {"forward": 1, "reverse": 1},
+        "representativeImages": {"rune": "rune_8008 ENABLED", "skill": "rune_8008 ENABLED"}
+      },
+      "qualificationGap": [
+        "缺少攻击敌方英雄事件、实际命中条件和近远程分类",
+        "缺少攻击层数内部状态、每次合格攻击加一、上限6和持续6秒刷新/过期时序",
+        "缺少满层攻击特效、远程攻速效果和满层额外伤害效果",
+        "远程攻速来源0.04与计算树0.048冲突，远程附伤6至24与计算树约6.003至20.01冲突",
+        "缺少等级附伤、额外攻速比例和自适应伤害的合法运行时输入"
+      ],
+      "eventSkeleton": {"frozen": false, "event": null, "conditions": null, "actions": null, "missing": ["敌方英雄攻击事件", "近远程分支", "层数状态", "满层与刷新时序", "满层攻击额外伤害"]},
+      "writeRequest": {"created": false, "requestCount": 0}
+    }
+  ],
+  "affectedDirectoryEvidence": [
+    {"path": "/attributes/move_speed", "status": 200, "state": "ENABLED", "valueType": "DECIMAL"},
+    {"path": "/attributes/armor", "status": 200, "state": "ENABLED", "valueType": "DECIMAL"},
+    {"path": "/attributes/magic_resistance", "status": 200, "state": "ENABLED", "valueType": "DECIMAL"},
+    {"path": "/attributes/bonus_attack_speed_percent", "status": 200, "state": "ENABLED", "valueType": "DECIMAL"},
+    {"path": "/modifier-zones/attribute_flat_add", "status": 200, "state": "ENABLED", "calculationMode": "FLAT_ADD"},
+    {"path": "/skill-categories/passive", "status": 200, "state": "ENABLED"}
+  ],
+  "getEvidence": {
+    "canonicalRun": {
+      "methodPolicy": "GET_ONLY",
+      "total": 96,
+      "statusSummary": "目标技能、子资源、关系、代表图、受影响目录和item_2422依赖均按清单读取；无非200异常纳入核心运行",
+      "byCandidate": {
+        "rune_8304_passive": {"total": 16, "skill": 1, "runeAndPath": 2, "collections": 6, "details": 3, "relations": 2, "images": 2},
+        "rune_8429_passive": {"total": 23, "skill": 1, "runeAndPath": 2, "collections": 6, "details": 10, "relations": 2, "images": 2},
+        "rune_8232_passive": {"total": 19, "skill": 1, "runeAndPath": 2, "collections": 6, "details": 6, "relations": 2, "images": 2},
+        "rune_8008_passive": {"total": 29, "skill": 1, "runeAndPath": 2, "collections": 6, "details": 16, "relations": 2, "images": 2}
+      },
+      "affectedDirectories": 6,
+      "item2422Dependency": 3,
+      "collections": ["parameters", "formulas", "effects", "processes", "internal-states", "trigger-rules"],
+      "minimumRecheckGETs": [
+        "/runes/{runeKey}",
+        "/rune-paths/{pathKey}",
+        "/skills/{skillKey}",
+        "/skills/{skillKey}/{parameters|formulas|effects|processes|internal-states|trigger-rules}",
+        "/skills/{skillKey}/{resource}/{currentKey}",
+        "/rune-skill-relations?runeKey={runeKey}&skillKey={skillKey}",
+        "/rune-skill-relations?skillKey={skillKey}",
+        "/runes/{runeKey}/representative-image",
+        "/skills/{skillKey}/representative-image",
+        "/attributes/{move_speed|armor|magic_resistance|bonus_attack_speed_percent}",
+        "/modifier-zones/attribute_flat_add",
+        "/skill-categories/passive",
+        "/equipment/item_2422",
+        "/equipment/item_2422/attributes",
+        "/equipment-skill-relations?equipmentKey=item_2422"
+      ]
+    },
+    "repeatedExplorationGETs": 42,
+    "repeatedExplorationBreakdown": {
+      "initialSkillProbe": 1,
+      "fourSkillCollectionProbe": 24,
+      "effectShapeProbe": 1,
+      "expectedOld8304EffectProbe": 4,
+      "8232FocusedDetailProbe": 12
+    },
+    "totalObservedGETsIncludingRepeatedExploration": 138,
+    "notIncludedInCanonicalCount": "重复探针均为GET；未产生业务写入，也未读取全量技能或规则基线。",
+    "notableCurrentResponses": {
+      "rune_8304_effectList": "200 []",
+      "rune_8304_expectedOldEffect": "GET /skills/rune_8304_passive/effects/magical_footwear_additional_speed -> 404",
+      "allFourTriggerRuleLists": "200 []",
+      "allFourInternalStateLists": "200 []",
+      "allFourProcessLists": "200 []"
+    }
+  },
+  "manualSearchLocations": [
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文机制盘点/逐项机器清单.json",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第三批/冻结来源.json",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第三批/最终请求.json",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第四批/冻结来源.json",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第四批/最终请求.json",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第五批/冻结来源.json",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第五批/最终请求.json"
+  ],
+  "apiScriptSuitability": {
+    "readOnlyAudit": "适合Node.js只读脚本和定点GET；资源列表与详情可按稳定键复核。",
+    "automaticWrite": "不适合当前四项；事件、条件、动态输入或时序仍缺，不生成恢复或触发规则写请求。",
+    "browserAndRuntime": "需另行执行页面、战斗运行或Wasm验证；本批没有这些证据。"
+  }
+}

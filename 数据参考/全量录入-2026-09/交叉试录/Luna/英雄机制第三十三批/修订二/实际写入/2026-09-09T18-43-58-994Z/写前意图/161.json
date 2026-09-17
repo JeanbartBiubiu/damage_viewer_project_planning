@@ -1,0 +1,23 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "method": "POST",
+    "route": "/skills/seraphine_e/parameters",
+    "detailRoute": "/skills/seraphine_e/parameters/status_replacement_stage",
+    "skillKey": "seraphine_e",
+    "kind": "parameters",
+    "stableKey": "status_replacement_stage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "status_replacement_stage",
+      "name": "状态替换阶段",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "减速目标才可转禁锢、禁锢目标才可转晕眩，阶段由事件层提供，不默认任一状态。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,614 @@
+{
+  "startedAt": "2026-09-09T07:32:11.110Z",
+  "planSha256": "9eedde869856eaf7fd119d4b1ad192fa4cba7509ddc6b9a8571ac7c261ee89d9",
+  "reads": [
+    {
+      "at": "2026-09-09T07:32:11.185Z",
+      "method": "GET",
+      "route": "/skills/rune_8010_passive/formulas/adaptive_force_amount",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:36:12.816752Z",
+        "description": "适应属性选择尚未连接，不默认AD=0.6×适应之力。 实际层数通过MIN与max_stacks比较，明确上限进入最终数值；缺层数或其他必要输入仍不得默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_adaptive_per_stack"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_stacks"
+                }
+              ],
+              "operation": "MIN"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "adaptive_force_amount",
+        "gameId": "lol",
+        "name": "当前层数适应之力",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T07:30:32.935927Z"
+      }
+    },
+    {
+      "at": "2026-09-09T07:32:11.281Z",
+      "method": "GET",
+      "route": "/skills/rune_8010_passive/parameters/confirmed_adaptive_per_stack",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:36:05.333714Z",
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认每层适应之力",
+        "parameterKey": "confirmed_adaptive_per_stack",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:36:05.333714Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T07:32:11.325Z",
+      "method": "GET",
+      "route": "/skills/rune_8010_passive/parameters/actual_stacks",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:36:10.95731Z",
+        "description": "已确认0至12的整数，不默认满层。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际征服者层数",
+        "parameterKey": "actual_stacks",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T05:36:10.95731Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T07:32:11.384Z",
+      "method": "GET",
+      "route": "/skills/rune_8010_passive/parameters/max_stacks",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:36:06.138472Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 12,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大层数",
+        "parameterKey": "max_stacks",
+        "skillKey": "rune_8010_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:36:06.138472Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T07:32:11.430Z",
+      "method": "GET",
+      "route": "/skills/rune_8008_passive/formulas/melee_attack_speed_amount",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:35:57.986015Z",
+        "description": "仅当前近战分支及已确认层数；输出比例，不能直接加算到每秒攻击次数属性。 实际层数通过MIN与max_stacks比较，明确上限进入最终数值；缺层数或其他必要输入仍不得默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_as_per_stack"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_stacks"
+                }
+              ],
+              "operation": "MIN"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "melee_attack_speed_amount",
+        "gameId": "lol",
+        "name": "近战当前层数额外攻速比例",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T07:30:34.055304Z"
+      }
+    },
+    {
+      "at": "2026-09-09T07:32:11.476Z",
+      "method": "GET",
+      "route": "/skills/rune_8008_passive/parameters/melee_as_per_stack",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:35:50.453309Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 0.06,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近战每层额外攻速比例",
+        "parameterKey": "melee_as_per_stack",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:35:50.453309Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T07:32:11.516Z",
+      "method": "GET",
+      "route": "/skills/rune_8008_passive/parameters/actual_stacks",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:35:51.281697Z",
+        "description": "仅已确认0至6的整数；不默认满层。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际层数",
+        "parameterKey": "actual_stacks",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:35:51.281697Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T07:32:11.581Z",
+      "method": "GET",
+      "route": "/skills/rune_8008_passive/parameters/max_stacks",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:35:49.658716Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "层数上限",
+        "parameterKey": "max_stacks",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:35:49.658716Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T07:32:11.644Z",
+      "method": "GET",
+      "route": "/skills/rune_8008_passive/formulas/ranged_attack_speed_amount",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:35:58.737956Z",
+        "description": "远程源冲突数值必须由后续已核实来源供值；输出比例。 实际层数通过MIN与max_stacks比较，明确上限进入最终数值；缺层数或其他必要输入仍不得默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_ranged_as_per_stack"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_stacks"
+                }
+              ],
+              "operation": "MIN"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "ranged_attack_speed_amount",
+        "gameId": "lol",
+        "name": "远程当前层数额外攻速比例",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T07:30:35.056654Z"
+      }
+    },
+    {
+      "at": "2026-09-09T07:32:11.686Z",
+      "method": "GET",
+      "route": "/skills/rune_8008_passive/parameters/confirmed_ranged_as_per_stack",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:35:52.152482Z",
+        "description": "来源冲突：当前ASPerStack计算0.06×0.8=0.048，长说明TTASPerStackRanged=0.04；本批不选择任一值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认远程每层攻速比例",
+        "parameterKey": "confirmed_ranged_as_per_stack",
+        "skillKey": "rune_8008_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:35:52.152482Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    }
+  ],
+  "math": [
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 0
+      },
+      "actual": 0,
+      "expected": 0,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 6
+      },
+      "actual": 18,
+      "expected": 18,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 12
+      },
+      "actual": 36,
+      "expected": 36,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 13
+      },
+      "actual": 36,
+      "expected": 36,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 100
+      },
+      "actual": 36,
+      "expected": 36,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "缺层数",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3
+      },
+      "actual": "缺输入 actual_stacks",
+      "expected": "缺输入 actual_stacks",
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": "独立求值器按必要输入与整数域拒绝；不冒充后端战斗执行"
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "缺每层来源值",
+      "supplied": {
+        "actual_stacks": 12
+      },
+      "actual": "缺输入 confirmed_adaptive_per_stack",
+      "expected": "缺输入 confirmed_adaptive_per_stack",
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": "独立求值器按必要输入与整数域拒绝；不冒充后端战斗执行"
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 0
+      },
+      "actual": 0,
+      "expected": 0,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 3
+      },
+      "actual": 0.18,
+      "expected": 0.18,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 6
+      },
+      "actual": 0.36,
+      "expected": 0.36,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 7
+      },
+      "actual": 0.36,
+      "expected": 0.36,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 20
+      },
+      "actual": 0.36,
+      "expected": 0.36,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "缺层数",
+      "supplied": {},
+      "actual": "缺输入 actual_stacks",
+      "expected": "缺输入 actual_stacks",
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": "独立求值器按必要输入与整数域拒绝；不冒充后端战斗执行"
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_attack_speed_amount",
+      "label": "测试注入0.05只验上限，不判定本版远程冲突值",
+      "supplied": {
+        "confirmed_ranged_as_per_stack": 0.05,
+        "actual_stacks": 3
+      },
+      "actual": 0.15000000000000002,
+      "expected": 0.15,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_attack_speed_amount",
+      "label": "测试注入0.05只验上限，不判定本版远程冲突值",
+      "supplied": {
+        "confirmed_ranged_as_per_stack": 0.05,
+        "actual_stacks": 6
+      },
+      "actual": 0.30000000000000004,
+      "expected": 0.3,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_attack_speed_amount",
+      "label": "测试注入0.05只验上限，不判定本版远程冲突值",
+      "supplied": {
+        "confirmed_ranged_as_per_stack": 0.05,
+        "actual_stacks": 7
+      },
+      "actual": 0.30000000000000004,
+      "expected": 0.3,
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": null
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_attack_speed_amount",
+      "label": "远程冲突未解决不能补值",
+      "supplied": {
+        "actual_stacks": 6
+      },
+      "actual": "缺输入 confirmed_ranged_as_per_stack",
+      "expected": "缺输入 confirmed_ranged_as_per_stack",
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": "独立求值器按必要输入与整数域拒绝；不冒充后端战斗执行"
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "负数不靠封顶修正",
+      "supplied": {
+        "actual_stacks": -1
+      },
+      "actual": "违反非负输入域 actual_stacks",
+      "expected": "违反非负输入域",
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": "独立求值器按必要输入与整数域拒绝；不冒充后端战斗执行"
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "小数层数不能通过资格",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 1.5
+      },
+      "actual": "违反整数输入域 actual_stacks",
+      "expected": "违反整数输入域",
+      "passed": true,
+      "inputSource": "本次实际3公式7参数GET",
+      "negativeCheckBoundary": "独立求值器按必要输入与整数域拒绝；不冒充后端战斗执行"
+    }
+  ],
+  "businessWrites": 0,
+  "summary": {
+    "passed": true,
+    "actualGET": 10,
+    "actualFormulas": 3,
+    "actualParameters": 7,
+    "independentCases": 19,
+    "preservedStaticQualificationCases": 6,
+    "businessWrites": 0
+  },
+  "staticQualificationEvidence": {
+    "caseCount": 6,
+    "source": "可审查请求.json/branchChecks",
+    "cases": [
+      {
+        "id": 8010,
+        "formulaKey": "melee_self_heal",
+        "suppliedRealStacks": 11,
+        "supplied": {
+          "actual_damage_dealt_to_champion": 100
+        },
+        "actual": "未满层不得进入此分支",
+        "expected": "未满层不得进入此分支",
+        "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+        "passed": true
+      },
+      {
+        "id": 8010,
+        "formulaKey": "melee_self_heal",
+        "suppliedRealStacks": 12,
+        "supplied": {
+          "actual_damage_dealt_to_champion": 100
+        },
+        "actual": 8,
+        "expected": 8,
+        "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+        "passed": true
+      },
+      {
+        "id": 8010,
+        "formulaKey": "ranged_self_heal",
+        "suppliedRealStacks": 12,
+        "supplied": {
+          "actual_damage_dealt_to_champion": 100
+        },
+        "actual": 5,
+        "expected": 5,
+        "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+        "passed": true
+      },
+      {
+        "id": 8010,
+        "formulaKey": "melee_self_heal",
+        "suppliedRealStacks": null,
+        "supplied": {
+          "actual_damage_dealt_to_champion": 100
+        },
+        "actual": "缺真实整数层数",
+        "expected": "缺真实整数层数",
+        "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+        "passed": true
+      },
+      {
+        "id": 8008,
+        "formulaKey": "melee_full_stack_damage",
+        "suppliedRealStacks": 5,
+        "supplied": {
+          "confirmed_melee_level_damage": 20,
+          "confirmed_bonus_attack_speed_ratio": 0.5
+        },
+        "actual": "未满层不得进入此分支",
+        "expected": "未满层不得进入此分支",
+        "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+        "passed": true
+      },
+      {
+        "id": 8008,
+        "formulaKey": "melee_full_stack_damage",
+        "suppliedRealStacks": 6,
+        "supplied": {
+          "confirmed_melee_level_damage": 20,
+          "confirmed_bonus_attack_speed_ratio": 0.5
+        },
+        "actual": 30,
+        "expected": 30,
+        "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+        "passed": true
+      }
+    ],
+    "boundary": "保留6项写前静态资格案例；不声称其条件已进入当前公式或已有自动运行入口。写后44路由另证对应未改公式/动作仍同值。"
+  },
+  "finishedAt": "2026-09-09T07:32:11.687Z"
+}

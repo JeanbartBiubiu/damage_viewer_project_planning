@@ -1,0 +1,55 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/soraka_r/formulas",
+    "detailRoute": "/skills/soraka_r/formulas/self_low_health_heal",
+    "skillKey": "soraka_r",
+    "kind": "formulas",
+    "stableKey": "self_low_health_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_low_health_heal",
+      "name": "祈愿自身低生命治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "low_health_multiplier"
+          }
+        ]
+      },
+      "description": "目标低于40%生命时按完整治疗式乘1.5；不能把两个阶段同时叠加。",
+      "sortOrder": 20
+    }
+  }
+}

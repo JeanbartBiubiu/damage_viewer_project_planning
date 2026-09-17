@@ -1,0 +1,49 @@
+{
+  "sequence": 82,
+  "intent": {
+    "sequence": 82,
+    "method": "POST",
+    "route": "/skills/tryndamere_p/formulas",
+    "detailRoute": "/skills/tryndamere_p/formulas/crit_chance_from_fury",
+    "skillKey": "tryndamere_p",
+    "kind": "formulas",
+    "stableKey": "crit_chance_from_fury",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "crit_chance_from_fury",
+      "name": "怒气提供的暴击几率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crit_chance_per_fury_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_fury"
+          }
+        ]
+      },
+      "description": "每点怒气提供0.5百分数点暴击几率，换算为0.005比例后乘实际怒气；不默认满怒。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 448,
+    "method": "GET",
+    "route": "/skills/tryndamere_p/formulas/crit_chance_from_fury",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "crit_chance_from_fury"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:59.455Z"
+  }
+}

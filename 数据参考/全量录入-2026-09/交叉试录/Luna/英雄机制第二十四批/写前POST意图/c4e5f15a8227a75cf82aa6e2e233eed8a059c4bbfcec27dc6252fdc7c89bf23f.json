@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:39:20.837Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_w/parameters",
+  "detailRoute": "/skills/sion_w/parameters/mana_cost",
+  "skillKey": "sion_w",
+  "kind": "parameters",
+  "stableKey": "mana_cost",
+  "body": {
+    "parameterKey": "mana_cost",
+    "name": "基础法力消耗",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 75,
+      "2": 80,
+      "3": 85,
+      "4": 90,
+      "5": 95
+    },
+    "description": "官方cost与当前根manaValues逐级一致；法力值；未包含持续资源。",
+    "sortOrder": 20
+  }
+}

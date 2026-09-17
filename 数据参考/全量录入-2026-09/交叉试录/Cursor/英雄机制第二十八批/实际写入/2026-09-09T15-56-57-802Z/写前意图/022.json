@@ -1,0 +1,24 @@
+{
+  "i": 21,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_r/parameters",
+    "skillKey": "maokai_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 225,
+        "3": 300
+      },
+      "description": "当前根DataValues.BaseDamage取技能等级1至3。",
+      "sortOrder": 10
+    }
+  }
+}

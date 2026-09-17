@@ -1,0 +1,23 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "method": "POST",
+    "route": "/skills/yuumi_r/parameters",
+    "detailRoute": "/skills/yuumi_r/parameters/bonus_slow_per_wave_ratio",
+    "skillKey": "yuumi_r",
+    "kind": "parameters",
+    "stableKey": "bonus_slow_per_wave_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_slow_per_wave_ratio",
+      "name": "每后续波减速增加源比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": -0.1000000015,
+      "levelValues": null,
+      "description": "来源-0.1；文本转正显示每波10%。",
+      "sortOrder": 110
+    }
+  }
+}

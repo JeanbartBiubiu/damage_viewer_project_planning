@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "generatedAt": "2026-09-13T13:24:01.418Z",
+  "status": "PASS",
+  "source": "冻结请求与独立GET回读自动交集",
+  "targetCount": 6,
+  "targets": [
+    {
+      "id": "trundle_q_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_trundle",
+      "skillKey": "trundle_q",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动利齿撕咬施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动利齿撕咬施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "trundle_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_trundle",
+      "skillKey": "trundle_e",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动寒冰之柱施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动寒冰之柱施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "trundle_r_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_trundle",
+      "skillKey": "trundle_r",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动强权至上施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动强权至上施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "warwick_r_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_warwick",
+      "skillKey": "warwick_r",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动无尽束缚施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动无尽束缚施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "jax_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_jax",
+      "skillKey": "jax_w",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动蓄力一击施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动蓄力一击施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "nocturne_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_nocturne",
+      "skillKey": "nocturne_e",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动无言恐惧施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动无言恐惧施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    }
+  ],
+  "boundary": "只包含已写入且独立回读通过的六项过程入口；未接攻击、伤害、治疗、控制、地形和状态分支不进入页面目标。",
+  "targetSha256": "ea153c2c1e6d3f4caa1447f8fd48afd73eda28941261b76f2e56af0f313d1408"
+}

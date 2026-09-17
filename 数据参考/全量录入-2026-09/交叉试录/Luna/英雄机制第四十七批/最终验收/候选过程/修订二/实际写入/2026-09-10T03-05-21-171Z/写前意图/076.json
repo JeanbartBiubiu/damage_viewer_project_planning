@@ -1,0 +1,66 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_e/formulas",
+    "detailRoute": "/skills/nidalee_e/formulas/maximum_healing",
+    "skillKey": "nidalee_e",
+    "kind": "formulas",
+    "stableKey": "maximum_healing",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "maximum_healing",
+      "name": "野性奔腾最大治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_heal_base_multiplier"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_heal_multiplier_bonus"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "最大治疗=完整最小治疗式×(1+MaxHealMult)；已损生命中间曲线由运行层按待核规则提供。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "title": "生命值资源变化载荷同类证据",
+  "status": "第七批Olaf E已有成功保存并实际回读；只证明资源枚举与载荷形状可用，不证明第二十三批已写入。",
+  "sourceFiles": [
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json",
+      "sha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+      "kind": "静态候选"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/执行记录/2026-09-08T17-37-02-064Z/最终全量回读.json",
+      "sha256": "e9007dc790147525ae096c959c7c87bcb32cf66dbc4e84aaa7084aca3cdc6f4e",
+      "kind": "实际回读"
+    },
+    {
+      "path": "C:/project/damage_web_dev/db/game_manage/schema.sql",
+      "sha256": "a699175d47b1a49c88bbfe59ea1da5bf2fcdcc7a966848f3a8e9210f3fa102b1",
+      "kind": "后端结构"
+    },
+    {
+      "path": "C:/project/damage_web_dev/db/game_manage/triggers.sql",
+      "sha256": "b6384be07e20faf8ba02f5b2494ee250c15aca3cec0b49e0f740b91377937928",
+      "kind": "后端形状约束"
+    }
+  ],
+  "observedCandidate": [
+    {
+      "path": "$.skills.olaf_e.write.effects[1].results[0]",
+      "resultType": "RESOURCE_CHANGE",
+      "target": "SOURCE",
+      "valueRule": {
+        "value": {
+          "kind": "FORMULA",
+          "formulaKey": "health_cost"
+        },
+        "fixedMultiplier": 1,
+        "fixedMinValue": 0,
+        "fixedMaxValue": null
+      },
+      "detail": {
+        "attributeKey": "hp",
+        "operation": "CONSUME"
+      }
+    }
+  ],
+  "observedReadback": [
+    {
+      "path": "$.snapshot.readbacks[106].actual.results[0]",
+      "resultType": "RESOURCE_CHANGE",
+      "target": "SOURCE",
+      "valueRule": {
+        "fixedMaxValue": null,
+        "fixedMinValue": 0,
+        "fixedMultiplier": 1,
+        "value": {
+          "formulaKey": "health_cost",
+          "kind": "FORMULA"
+        }
+      },
+      "detail": {
+        "attributeKey": "hp",
+        "operation": "CONSUME"
+      }
+    },
+    {
+      "path": "$.snapshot.skills.olaf_e.effects[1].results[0]",
+      "resultType": "RESOURCE_CHANGE",
+      "target": "SOURCE",
+      "valueRule": {
+        "fixedMaxValue": null,
+        "fixedMinValue": 0,
+        "fixedMultiplier": 1,
+        "value": {
+          "formulaKey": "health_cost",
+          "kind": "FORMULA"
+        }
+      },
+      "detail": {
+        "attributeKey": "hp",
+        "operation": "CONSUME"
+      }
+    }
+  ],
+  "payloadShape": {
+    "resultType": "RESOURCE_CHANGE",
+    "target": "SOURCE",
+    "valueRule": {
+      "value": {
+        "kind": "FORMULA",
+        "formulaKey": "health_cost"
+      },
+      "fixedMultiplier": 1,
+      "fixedMinValue": 0,
+      "fixedMaxValue": null
+    },
+    "detail": {
+      "attributeKey": "hp",
+      "operation": "CONSUME"
+    }
+  },
+  "backendNotes": [
+    "后端结构允许RESOURCE_CHANGE结果类型，资源详情的operation枚举包含CONSUME。",
+    "后端形状约束要求资源变化结果使用单一值和单一资源详情；同类实际回读符合该形状。"
+  ],
+  "hero23Use": [
+    "zac_q/health_cost",
+    "zac_w/health_cost",
+    "zac_e/health_cost"
+  ],
+  "hero23Status": "本批只生成上述载荷的POST意图，apiWrites=0。"
+}

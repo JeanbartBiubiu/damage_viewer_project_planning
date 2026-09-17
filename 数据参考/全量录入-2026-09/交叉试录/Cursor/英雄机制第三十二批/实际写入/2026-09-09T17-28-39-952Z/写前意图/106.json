@@ -1,0 +1,29 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "method": "POST",
+    "route": "/skills/xayah_q/parameters",
+    "detailRoute": "/skills/xayah_q/parameters/base_damage",
+    "skillKey": "xayah_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "单把匕首基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 60,
+        "3": 75,
+        "4": 90,
+        "5": 105
+      },
+      "description": "客户端TotalDamage树BaseDamage取等级1至5，为45/60/75/90/105。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 130,
+  "intent": {
+    "sequence": 131,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/note_character_level_base_damage",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "note_character_level_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "note_character_level_base_damage",
+      "name": "音符等级基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "AutoDamage有等级曲线起止值，完整中间等级未证，按实际等级值外供。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-09-13T11:09:33.459Z",
+  "status": "FROZEN",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十批/最终验收/候选过程/修订一/完整候选.json",
+      "sha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
+      "byteSize": 493555
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json",
+      "sha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+      "byteSize": 458473
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十三批/修订二/完整候选.json",
+      "sha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
+      "byteSize": 411321
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十三批/最终验收/候选过程/修订二/完整候选.json",
+      "sha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
+      "byteSize": 599725
+    }
+  ],
+  "scriptFiles": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "3edc77b519348f18bf471ef9da3966bf4f59a637226bc7dcae4b5902e0960714",
+      "byteSize": 851
+    },
+    {
+      "name": "README.md",
+      "sha256": "e26fb731a9b29065d5e985e07785695a40a16a0c5e09ee185b7946dc9ada557a",
+      "byteSize": 683
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "64765079a8f9786cc0b4f7958cfd2b7f727fd33c046dee20053600cb9e5951c9",
+      "byteSize": 5680
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "01a15cebde0449a87510a7c5cf498b18f676c50a32e9e45d592f94efd62db98d",
+      "byteSize": 18602
+    },
+    {
+      "name": "独立GET回读.mjs",
+      "sha256": "8991f59641943be316170908c9ced341ec08ffecccafac6c6b7afad062c1f94b",
+      "byteSize": 8588
+    },
+    {
+      "name": "生成页面目标.mjs",
+      "sha256": "be5cb06f1aace5a339514f91a00aff2a0f7ba4d4fedfcca12dafef54484689bd",
+      "byteSize": 2093
+    },
+    {
+      "name": "生成证据清单.mjs",
+      "sha256": "591de59a4532d4903a3b69e2a35a93c85c1362e1569628cf2ee892f4772a7291",
+      "byteSize": 4383
+    }
+  ],
+  "scope": [
+    {
+      "skillKey": "twistedfate_e",
+      "ruleKey": "initialize_permanent_attack_speed",
+      "effectKeys": [
+        "permanent_attack_speed"
+      ]
+    },
+    {
+      "skillKey": "skarner_r",
+      "ruleKey": "actual_champion_hit",
+      "effectKeys": [
+        "self_move_speed"
+      ]
+    },
+    {
+      "skillKey": "seraphine_w",
+      "ruleKey": "on_used",
+      "effectKeys": [
+        "self_shield"
+      ]
+    },
+    {
+      "skillKey": "naafiri_w",
+      "ruleKey": "on_used",
+      "effectKeys": [
+        "self_attack_damage",
+        "self_move_speed"
+      ]
+    }
+  ]
+}

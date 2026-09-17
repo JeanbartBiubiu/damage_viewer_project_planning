@@ -1,0 +1,45 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "method": "POST",
+    "route": "/skills/lillia_p/formulas",
+    "detailRoute": "/skills/lillia_p/formulas/champion_heal_per_tick",
+    "skillKey": "lillia_p",
+    "kind": "formulas",
+    "stableKey": "champion_heal_per_tick",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "champion_heal_per_tick",
+      "name": "对英雄每跳治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_champion_heal_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "champion_heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ChampionHeal = 当前角色等级实际基础值 + 0.05×来源总法强；算法由运行时提供实际基础值。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type {
@@ -46,6 +47,7 @@ import {
   groupConditionSummary,
   isFailProcessLast,
   isSpellShieldEventEffect,
+  isTriggerRuleDraftDirty,
   lifecycleEventEffects,
   moveActionDrafts,
   nextDraftKey,
@@ -72,6 +74,14 @@ import {
 } from './triggerRuleForm';
 
 const EVENT_CAPABILITY_ROWS = [
+  {
+    eventType: 'SOURCE_INITIALIZED',
+    label: '来源对象初始化完成',
+    currentTargetBinding: '当前目标与事件来源对象均为完成初始化的来源对象自身，不指向战斗对手。',
+    hasEventSource: true,
+    requiredCatalogs: [],
+    detailFields: []
+  },
   {
     eventType: 'SKILL_USED',
     label: '技能被主动或消耗使用',
@@ -166,7 +176,7 @@ const EVENT_CAPABILITY_ROWS = [
     currentTargetBinding: 'subject 指定的生命属性变化对象。',
     hasEventSource: false,
     requiredCatalogs: ['attributes', 'formulas'],
-    detailFields: ['subject', 'attributeKey', 'thresholdFormulaKey', 'direction']
+    detailFields: ['subject', 'attributeKey', 'thresholdValue', 'direction']
   },
   {
     eventType: 'INTERNAL_STATE_CHANGED',
@@ -301,7 +311,7 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
             attributeKey: 'hp',
             attributeValueKind: 'CURRENT_RATIO',
             comparator: 'LTE',
-            comparisonFormulaKey: 'low_health_ratio'
+            comparisonValue: formulaValue("low_health_ratio")
           }
         },
         {
@@ -315,7 +325,7 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
             sourceEffectKey: null,
             sourceResultKey: null,
             comparator: null,
-            comparisonFormulaKey: null
+            comparisonValue: null
           }
         }
       ]
@@ -335,7 +345,7 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
             optionKey: null,
             expectedBoolean: true,
             comparator: null,
-            comparisonFormulaKey: null
+            comparisonValue: null
           }
         },
         {
@@ -345,7 +355,7 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
           detail: {
             eventValueKey: 'HIT_INDEX',
             comparator: 'EQ',
-            comparisonFormulaKey: 'one'
+            comparisonValue: formulaValue("one")
           }
         }
       ]
@@ -400,15 +410,15 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
     }
   ],
   perTargetCooldown: {
-    durationFormulaKey: 'per_target_cooldown_ms',
+    durationValue: formulaValue("per_target_cooldown_ms"),
     targetContext: 'CURRENT_TARGET'
   },
   maxTriggersPerProcess: null
 };
 
 describe('trigger event member set and capability table', () => {
-  it('exposes exactly 21 frozen events with labels, current-target, event-source and catalogs', () => {
-    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(21);
+  it('exposes exactly 22 frozen events with labels, current-target, event-source and catalogs', () => {
+    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(22);
     expect([...SKILL_TRIGGER_EVENT_TYPES]).toEqual(EVENT_CAPABILITY_ROWS.map((row) => row.eventType));
     expect(Object.keys(SKILL_TRIGGER_EVENT_CAPABILITIES)).toEqual([...SKILL_TRIGGER_EVENT_TYPES]);
 
@@ -431,6 +441,10 @@ describe('trigger event member set and capability table', () => {
 
   it('creates type-specific empty event details and never carries foreign fields', () => {
     expect(emptyEventDetail()).toEqual({});
+    expect(createEmptyEventSource('SOURCE_INITIALIZED')).toEqual({
+      eventType: 'SOURCE_INITIALIZED',
+      detail: {}
+    });
     expect(createEmptyEventSource('SKILL_USED')).toEqual({
       eventType: 'SKILL_USED',
       detail: { sourceSkillKey: null, useKind: 'ANY' }
@@ -480,6 +494,7 @@ describe('trigger event member set and capability table', () => {
       'CHARGE_DURATION_MS',
       'RECAST_COUNT',
       'HIT_INDEX',
+      'SKILL_HIT_SPELL_SHIELD_BLOCKED',
       'LIFECYCLE_STACKS',
       'PERIOD_INDEX',
       'REMAINING_MS',
@@ -510,9 +525,10 @@ describe('trigger event member set and capability table', () => {
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.KILLED).toBe('INTEGER');
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.LINK_INDEX).toBe('INTEGER');
 
+    expect(allowedEventValuesFor(createEmptyEventSource('SOURCE_INITIALIZED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_USED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('BASIC_ATTACK_HIT'))).toEqual(['HIT_INDEX']);
-    expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX']);
+    expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED']);
     expect(allowedEventValuesFor(createEmptyEventSource('RESULT_AVAILABLE'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_TAKEN'))).toEqual([
       'RAW_DAMAGE',
@@ -640,14 +656,14 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
       effectKey: 'focus_mark',
       name: '专注标记',
       lifecycle: {
-        durationFormulaKey: 'mark_duration_ms',
-        maxStacksFormulaKey: 'five',
-        applicationStacksFormulaKey: 'one',
+        durationValue: formulaValue("mark_duration_ms"),
+        maxStacksValue: formulaValue("five"),
+        applicationStacksValue: formulaValue("one"),
         instanceScope: 'SOURCE_TARGET',
         reapplicationStackMode: 'INCREASE',
         reapplicationDurationMode: 'REFRESH_ALL',
         expiryMode: 'ALL_AT_ONCE',
-        periodicIntervalFormulaKey: null,
+        periodicIntervalValue: null,
         firstPeriodicExecution: null
       }
     };
@@ -657,14 +673,14 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
 
   it('selects spell-shield events from complete eligible effect details only', () => {
     const lifecycle = {
-      durationFormulaKey: null,
-      maxStacksFormulaKey: 'one',
-      applicationStacksFormulaKey: 'one',
+      durationValue: null,
+      maxStacksValue: formulaValue("one"),
+      applicationStacksValue: formulaValue("one"),
       instanceScope: 'SOURCE_TARGET' as const,
       reapplicationStackMode: 'KEEP' as const,
       reapplicationDurationMode: null,
       expiryMode: 'EXPLICIT_ONLY' as const,
-      periodicIntervalFormulaKey: null,
+      periodicIntervalValue: null,
       firstPeriodicExecution: null
     };
     const eligible: SkillEffect = {
@@ -711,10 +727,13 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
 });
 
 describe('condition, action and runtime-source conversion with stale-field cleanup', () => {
-  it('uses exactly four conditions, three actions and four runtime sources', () => {
+  it('uses exactly seven conditions, three actions and five runtime sources', () => {
     expect([...SKILL_TRIGGER_CONDITION_TYPES]).toEqual([
       'ATTRIBUTE_COMPARE',
       'STATUS_CHECK',
+      'LIFECYCLE_CHECK',
+      'TARGET_CATEGORY_CHECK',
+      'EXPLICIT_TARGET_IS_SOURCE',
       'INTERNAL_STATE_CHECK',
       'EVENT_VALUE_COMPARE'
     ]);
@@ -727,6 +746,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       'INTERNAL_STATE',
       'COMBAT_STATUS',
       'EVENT_VALUE',
+      'SOURCE_CAST_RESOURCE_COST',
       'PRIOR_ACTION_RESULT'
     ]);
   });
@@ -738,7 +758,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       attributeKey: '',
       attributeValueKind: 'CURRENT',
       comparator: 'LTE',
-      comparisonFormulaKey: ''
+      comparisonValue: { kind: 'FIXED', value: Number.NaN }
     });
     const status = switchConditionType(attribute, 'STATUS_CHECK');
     expect(status.conditionKey).toBe(attribute.conditionKey);
@@ -755,7 +775,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       sourceEffectKey: '',
       sourceResultKey: '',
       comparator: 'GTE',
-      comparisonFormulaKey: ''
+      comparisonValue: { kind: 'FIXED', value: Number.NaN }
     });
     expect(rebuildStatusCheckDetail(stacks, 'PRESENT')).toEqual({
       subject: 'CURRENT_TARGET',
@@ -764,7 +784,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       sourceEffectKey: null,
       sourceResultKey: null,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     });
 
     const valueCheck = createEmptyConditionDraft([], 'INTERNAL_STATE_CHECK');
@@ -775,7 +795,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       optionKey: '',
       expectedBoolean: null,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     });
     const enabledCheck = rebuildInternalStateCheckDetail(optionCheck, 'ENABLED');
     expect(enabledCheck).toEqual({
@@ -784,7 +804,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       optionKey: null,
       expectedBoolean: true,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     });
   });
 
@@ -879,7 +899,7 @@ describe('detail to draft create/update round-trip', () => {
     expect(draft.sortOrder).toBe('20');
     expect(draft.eventSource).toEqual(RICH_DETAIL.eventSource);
     expect(draft.perTargetCooldownEnabled).toBe(true);
-    expect(draft.perTargetCooldownDurationFormulaKey).toBe('per_target_cooldown_ms');
+    expect(draft.perTargetCooldownDurationValue).toEqual(formulaValue('per_target_cooldown_ms'));
     expect(draft.maxTriggersPerProcessEnabled).toBe(false);
 
     const created = toCreateRequest(draft);
@@ -943,20 +963,54 @@ describe('detail to draft create/update round-trip', () => {
       perTargetCooldown: null,
       maxTriggersPerProcess: {
         processKey: 'charge_cast',
-        limitFormulaKey: 'max_triggers'
+        limitValue: formulaValue("max_triggers")
       }
     };
     const created = toCreateRequest(fromDetail(detail));
     expect(created.ruleKey).toBe('charge_cap');
     expect(created.maxTriggersPerProcess).toEqual({
       processKey: 'charge_cast',
-      limitFormulaKey: 'max_triggers'
+      limitValue: formulaValue("max_triggers")
     });
     expect(toUpdateRequest(fromDetail(detail))).not.toHaveProperty('ruleKey');
   });
 });
 
 describe('condition group ordering and OR/AND summaries', () => {
+  it('keeps independent draft identities when editable group keys and sort order change', () => {
+    const first = createEmptyGroupDraft([]);
+    const second = createEmptyGroupDraft([first.groupKey]);
+    expect(first.draftId).toBeTruthy();
+    expect(second.draftId).not.toBe(first.draftId);
+    const renamed = { ...first, groupKey: 'z_target' };
+    expect(sortGroupDrafts([renamed, second]).map((group) => group.draftId)).toEqual([second.draftId, first.draftId]);
+    const reordered = sortGroupDrafts([{ ...renamed, sortOrder: '0' }, second]);
+    expect(reordered.map((group) => group.draftId)).toEqual([first.draftId, second.draftId]);
+    expect(reordered[0].groupKey).toBe('z_target');
+    expect(reordered[1].groupKey).toBe(second.groupKey);
+  });
+
+  it('ignores reloaded draft identities for dirty checks while retaining business changes', () => {
+    const baseline = fromDetail(RICH_DETAIL);
+    const reloaded = fromDetail(RICH_DETAIL);
+    expect(reloaded.conditionGroups[0].draftId).not.toBe(baseline.conditionGroups[0].draftId);
+    expect(isTriggerRuleDraftDirty(reloaded, baseline)).toBe(false);
+    const changed = { ...reloaded, conditionGroups: reloaded.conditionGroups.map((group, index) => index === 0 ? { ...group, name: '已修改名称' } : group) };
+    expect(isTriggerRuleDraftDirty(changed, baseline)).toBe(true);
+    expect(isTriggerRuleDraftDirty({ ...reloaded, conditionGroups: reloaded.conditionGroups.map((group, index) => index === 0 ? { ...group, groupKey: 'renamed' } : group) }, baseline)).toBe(true);
+    expect(isTriggerRuleDraftDirty({ ...reloaded, conditionGroups: reloaded.conditionGroups.map((group, index) => index === 0 ? { ...group, sortOrder: '900' } : group) }, baseline)).toBe(true);
+  });
+
+  it('omits draft identities from create and update payloads and preserves them through cleanup', () => {
+    const draft = fromDetail(RICH_DETAIL);
+    for (const request of [toCreateRequest(draft), toUpdateRequest(draft)]) {
+      expect(JSON.stringify(request)).not.toContain('draftId');
+      expect(Object.keys(request.conditionGroups[0]).sort()).toEqual(['conditions', 'groupKey', 'name', 'sortOrder']);
+    }
+    const cleaned = applyEventSwitchCleanup(draft, createEmptyEventSource('SKILL_USED'));
+    expect(cleaned.conditionGroups.map((group) => group.draftId)).toEqual(draft.conditionGroups.map((group) => group.draftId));
+  });
+
   it('sorts groups and conditions by sortOrder then stable key, and summarizes AND within a group', () => {
     expect(SKILL_TRIGGER_CONDITION_GROUP_HINT).toBe(
       '不添加条件时直接触发；多个条件组满足任意一组即可，同一组内必须全部满足。'
@@ -985,7 +1039,7 @@ describe('condition group ordering and OR/AND summaries', () => {
           attributeKey: 'hp',
           attributeValueKind: 'CURRENT',
           comparator: 'LTE',
-          comparisonFormulaKey: 'threshold'
+          comparisonValue: formulaValue("threshold")
         }
       },
       {
@@ -999,7 +1053,7 @@ describe('condition group ordering and OR/AND summaries', () => {
           sourceEffectKey: null,
           sourceResultKey: null,
           comparator: null,
-          comparisonFormulaKey: null
+          comparisonValue: null
         }
       }
     ];
@@ -1031,6 +1085,52 @@ describe('condition group ordering and OR/AND summaries', () => {
 });
 
 describe('action ordering, FAIL_PROCESS last and source-action binding cleanup', () => {
+  it('persists moved action order through the update request and detail readback', () => {
+    const execute = executeAction({ actionKey: 'apply_damage', name: '造成伤害', sortOrder: '10' });
+    const start: SkillTriggerActionDraft = {
+      ...createEmptyActionDraft([], 'START_PROCESS'), actionKey: 'start_cast', name: '启动过程',
+      sortOrder: '20', detail: { processKey: 'cast' }
+    };
+    const moved = moveActionDrafts([execute, start], 0, 1);
+    const request = toUpdateRequest({ ...createEmptyRuleDraft(), actions: moved });
+    expect(request.actions.map((action) => [action.actionKey, action.sortOrder])).toEqual([
+      ['start_cast', 10], ['apply_damage', 20]
+    ]);
+    const readback = fromDetail({ ruleKey: 'reordered', ...request });
+    expect(readback.actions.map((action) => [action.actionKey, action.sortOrder])).toEqual([
+      ['start_cast', '10'], ['apply_damage', '20']
+    ]);
+    expect([execute.sortOrder, start.sortOrder]).toEqual(['10', '20']);
+  });
+
+  it('assigns persisted positions when existing tied sort values would undo a move', () => {
+    const first = executeAction({ actionKey: 'b_first', sortOrder: '10' });
+    const second = executeAction({ actionKey: 'c_second', sortOrder: '10' });
+    const third = executeAction({ actionKey: 'a_third', sortOrder: '20' });
+    const moved = moveActionDrafts([first, second, third], 1, 1);
+    expect(toUpdateRequest({ ...createEmptyRuleDraft(), actions: moved }).actions.map((action) => [action.actionKey, action.sortOrder]))
+      .toEqual([['b_first', 10], ['a_third', 20], ['c_second', 30]]);
+    const movedTie = moveActionDrafts([first, second], 0, 1);
+    expect(sortActionDrafts(movedTie).map((action) => action.actionKey)).toEqual(['c_second', 'b_first']);
+  });
+
+  it('keeps numeric action sort edits unchanged in the saved order', () => {
+    const first = executeAction({ actionKey: 'first', sortOrder: '30' });
+    const second = executeAction({ actionKey: 'second', sortOrder: '20' });
+    const request = toUpdateRequest({ ...createEmptyRuleDraft(), actions: ensureFailProcessLast([first, second]) });
+    expect(request.actions.map((action) => [action.actionKey, action.sortOrder])).toEqual([['second', 20], ['first', 30]]);
+  });
+
+  it('does not move FAIL_PROCESS before another action even when their numeric orders are tied', () => {
+    const execute = executeAction({ actionKey: 'a_execute', sortOrder: '10' });
+    const fail: SkillTriggerActionDraft = {
+      ...createEmptyActionDraft([], 'FAIL_PROCESS'), actionKey: 'z_fail', sortOrder: '10',
+      detail: { processKey: 'cast', failureReason: 'CONTROLLED' }
+    };
+    expect(canMoveAction([execute, fail], 1, -1)).toEqual({ ok: false, message: SKILL_TRIGGER_FAIL_PROCESS_LAST_MESSAGE });
+    expect(moveActionDrafts([execute, fail], 0, 1)).toEqual([execute, fail]);
+  });
+
   it('keeps FAIL_PROCESS last and blocks moving it earlier', () => {
     const execute = executeAction({ actionKey: 'apply_damage', sortOrder: '10' });
     const start = createEmptyActionDraft([], 'START_PROCESS');
@@ -1142,8 +1242,8 @@ describe('process moment step lookup', () => {
           sortOrder: 10,
           stepType: 'CHARGE',
           detail: {
-            minimumChargeFormulaKey: 'min_charge_ms',
-            maximumChargeFormulaKey: 'max_charge_ms',
+            minimumChargeValue: formulaValue("min_charge_ms"),
+            maximumChargeValue: formulaValue("max_charge_ms"),
             releaseAtMaximum: true
           }
         }
@@ -1201,7 +1301,7 @@ describe('hit-link and attack-link events', () => {
         detail: {
           eventValueKey: 'HIT_INDEX',
           comparator: 'EQ',
-          comparisonFormulaKey: 'one'
+          comparisonValue: formulaValue("one")
         }
       }]
     }];
@@ -1213,6 +1313,6 @@ describe('hit-link and attack-link events', () => {
     expect(draft.conditionGroups[0]?.conditions[0]?.conditionType).toBe('EVENT_VALUE_COMPARE');
     const cleaned = applyEventSwitchCleanup(draft, next);
     expect(cleaned.eventSource.eventType).toBe('HIT_LINK_APPLIED');
-    expect(cleaned.conditionGroups[0]?.conditions).toEqual([]);
+    expect(cleaned.conditionGroups).toEqual([]);
   });
 });

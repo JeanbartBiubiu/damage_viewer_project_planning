@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/second_attack_ad_ratio",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "second_attack_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "second_attack_ad_ratio",
+      "name": "额外射击总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前SecondAutoDamage的mStat=2且未给formula，按同版窄证读取来源总攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

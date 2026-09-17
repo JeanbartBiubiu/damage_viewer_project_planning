@@ -1,3 +1,4 @@
+import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type {
@@ -55,6 +56,7 @@ import {
   mapSkillEffectFieldIssues,
   normalizeEffectDraftForDirtyComparison,
   skillEffectResultToDraft,
+  skillEffectToCopyDraft,
   skillEffectToDraft,
   sortResultDrafts,
   isSpellShieldBlockScopeVisible,
@@ -133,7 +135,7 @@ const EFFECT: SkillEffect = {
       spellShieldBlockScope: null,
       lifecycleBehavior: NULL_BEHAVIOR,
       valueRule: {
-        formulaKey: 'damage',
+        value: formulaValue("damage"),
         fixedMultiplier: 1,
         fixedMinValue: null,
         fixedMaxValue: null
@@ -142,7 +144,7 @@ const EFFECT: SkillEffect = {
         damageTypeKey: 'physical',
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
-        critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+        critical: { mode: 'DISALLOWED', multiplierValue: null },
         vampRules: []
       }
     },
@@ -156,7 +158,7 @@ const EFFECT: SkillEffect = {
       spellShieldBlockScope: null,
       lifecycleBehavior: NULL_BEHAVIOR,
       valueRule: {
-        formulaKey: 'cooldown_reduction_ms',
+        value: formulaValue("cooldown_reduction_ms"),
         fixedMultiplier: 1,
         fixedMinValue: 0,
         fixedMaxValue: null
@@ -180,7 +182,7 @@ function validDamageDraft(overrides: Partial<SkillEffectResultDraft> = {}): Skil
     name: '造成物理伤害',
     target: 'TARGET',
     sortOrder: '10',
-    formulaKey: 'damage',
+    value: formulaValue('damage'),
     fixedMultiplier: '1',
     damageTypeKey: 'physical',
     ...overrides
@@ -207,14 +209,14 @@ function validEffectDraft(
 
 function validLifecycle(): SkillEffectLifecycle {
   return {
-    durationFormulaKey: 'poison_duration_ms',
-    maxStacksFormulaKey: 'one',
-    applicationStacksFormulaKey: 'one',
+    durationValue: formulaValue("poison_duration_ms"),
+    maxStacksValue: formulaValue("one"),
+    applicationStacksValue: formulaValue("one"),
     instanceScope: 'SOURCE_TARGET',
     reapplicationStackMode: 'KEEP',
     reapplicationDurationMode: 'REFRESH_ALL',
     expiryMode: 'ALL_AT_ONCE',
-    periodicIntervalFormulaKey: null,
+    periodicIntervalValue: null,
     firstPeriodicExecution: null
   };
 }
@@ -255,6 +257,43 @@ function expectValid(draft: SkillEffectDraft, includeEffectKey = true) {
 }
 
 describe('skill effect form defaults and conversion', () => {
+  it('copies independent business data and requires a new key without inheriting edit locks', () => {
+    const source = structuredClone(EFFECT);
+    source.lifecycle = validLifecycle();
+    const draft = skillEffectToCopyDraft(source);
+    expect(draft.effectKey).toBe('');
+    expect(draft.lifecycleEnabled).toBe(true);
+    expect(isInstanceScopeLocked(draft)).toBe(false);
+    expect(draft.originalInstanceScope).toBe('');
+    expect(draft.results[0].originalResultType).toBeNull();
+    expect(draft.results[0].originalDamageTypeKey).toBeNull();
+    expect(draft.results[1].originalAffectedSkillKeys).toEqual([]);
+    expect(draft.results[1].affectedSkillScope.skillKeys).toEqual(['ezreal_q']);
+    draft.results[1].affectedSkillScope.skillKeys.push('ezreal_w');
+    const value = draft.results[0].value;
+    if (value?.kind !== 'FORMULA') throw new Error('expected formula value');
+    value.formulaKey = 'heal';
+    expect(source).toEqual({ ...EFFECT, lifecycle: validLifecycle() });
+    expect(validateSkillEffectDraft(draft, { includeEffectKey: true, catalog: CATALOG }).ok).toBe(false);
+  });
+
+  it('validates copied references as new selections instead of retaining disabled references', () => {
+    const source = structuredClone(EFFECT);
+    source.results = [source.results[0]];
+    const detail = source.results[0].detail;
+    if (!('damageTypeKey' in detail)) throw new Error('expected damage detail');
+    detail.damageTypeKey = 'true';
+    expectValid(skillEffectToDraft(source));
+    const draft = skillEffectToCopyDraft(source);
+    draft.effectKey = 'copied_hit';
+    expect(validateSkillEffectDraft(draft, { includeEffectKey: true, catalog: CATALOG }).ok).toBe(false);
+    draft.results[0].damageTypeKey = 'physical';
+    const request = buildCreateSkillEffectRequest(expectValid(draft));
+    expect(request.effectKey).toBe('copied_hit');
+    expect(request.results[0].valueRule).toEqual(source.results[0].valueRule);
+    expect(request.results[0].resultKey).toBe('damage');
+  });
+
   it('creates empty effect and result drafts with stable defaults', () => {
     expect(createEmptyEffectDraft()).toEqual({
       effectKey: '',
@@ -263,14 +302,14 @@ describe('skill effect form defaults and conversion', () => {
       sortOrder: '0',
       lifecycleEnabled: false,
       lifecycle: {
-        durationFormulaKey: '',
-        maxStacksFormulaKey: '',
-        applicationStacksFormulaKey: '',
+        durationValue: null,
+        maxStacksValue: null,
+        applicationStacksValue: null,
         instanceScope: '',
         reapplicationStackMode: '',
         reapplicationDurationMode: '',
         expiryMode: '',
-        periodicIntervalFormulaKey: '',
+        periodicIntervalValue: null,
         firstPeriodicExecution: ''
       },
       originalLifecycleEnabled: false,
@@ -322,7 +361,7 @@ describe('skill effect form defaults and conversion', () => {
         skillCategoryKeys: []
       },
       originalAffectedSkillKeys: ['ezreal_q'],
-      formulaKey: 'cooldown_reduction_ms',
+      value: formulaValue('cooldown_reduction_ms'),
       fixedMinValue: '0'
     });
   });
@@ -356,7 +395,7 @@ describe('skill effect form normalization and request building', () => {
           spellShieldBlockScope: null,
           lifecycleBehavior: null,
           valueRule: {
-            formulaKey: 'damage',
+            value: formulaValue("damage"),
             fixedMultiplier: 1,
             fixedMinValue: null,
             fixedMaxValue: null
@@ -365,7 +404,7 @@ describe('skill effect form normalization and request building', () => {
             damageTypeKey: 'physical',
             deliveryKind: 'SKILL',
             originKind: 'DIRECT',
-            critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+            critical: { mode: 'DISALLOWED', multiplierValue: null },
             vampRules: []
           }
         }
@@ -395,33 +434,33 @@ describe('skill effect form normalization and request building', () => {
     const heal = createEmptyResultDraft('DIRECT_HEAL');
     heal.resultKey = 'heal';
     heal.name = '直接治疗';
-    heal.formulaKey = 'heal';
+    heal.value = formulaValue('heal');
     heal.damageTypeKey = 'should_not_leak';
     heal.statusKey = 'poison';
 
     const shield = createEmptyResultDraft('NORMAL_SHIELD');
     shield.resultKey = 'shield';
     shield.name = '普通护盾';
-    shield.formulaKey = 'heal';
+    shield.value = formulaValue('heal');
 
     const attribute = createEmptyResultDraft('ATTRIBUTE_CHANGE');
     attribute.resultKey = 'slow';
     attribute.name = '减少移速';
-    attribute.formulaKey = 'damage';
+    attribute.value = formulaValue('damage');
     attribute.attributeKey = 'move_speed';
     attribute.attributeOperation = 'DECREASE';
 
     const resource = createEmptyResultDraft('RESOURCE_CHANGE');
     resource.resultKey = 'mana';
     resource.name = '恢复法力';
-    resource.formulaKey = 'heal';
+    resource.value = formulaValue('heal');
     resource.attributeKey = 'mana';
     resource.resourceOperation = 'RESTORE';
 
     const cooldown = createEmptyResultDraft('COOLDOWN_CHANGE');
     cooldown.resultKey = 'cdr';
     cooldown.name = '减少冷却';
-    cooldown.formulaKey = 'cooldown_reduction_ms';
+    cooldown.value = formulaValue('cooldown_reduction_ms');
     cooldown.affectedSkillScope = {
       mode: 'SKILLS',
       skillKeys: ['ezreal_q', 'ezreal_w'],
@@ -440,7 +479,7 @@ describe('skill effect form normalization and request building', () => {
     status.name = '施加中毒';
     status.statusKey = 'poison';
     status.statusOperation = 'APPLY';
-    status.formulaKey = 'damage';
+    status.value = formulaValue('damage');
     status.fixedMultiplier = '2';
 
     const normalized = expectValid(
@@ -476,7 +515,7 @@ describe('skill effect form normalization and request building', () => {
       spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: {
-        formulaKey: 'heal',
+        value: formulaValue("heal"),
         fixedMultiplier: 1,
         fixedMinValue: null,
         fixedMaxValue: null
@@ -495,7 +534,7 @@ describe('skill effect form normalization and request building', () => {
       spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: {
-        formulaKey: 'damage',
+        value: formulaValue("damage"),
         fixedMultiplier: 1,
         fixedMinValue: null,
         fixedMaxValue: null
@@ -508,7 +547,7 @@ describe('skill effect form normalization and request building', () => {
     });
     expect(normalized.results[5]).toMatchObject({
       resultType: 'COOLDOWN_CHANGE',
-      valueRule: { formulaKey: 'cooldown_reduction_ms', fixedMultiplier: 1 },
+      valueRule: { value: formulaValue("cooldown_reduction_ms"), fixedMultiplier: 1 },
       detail: {
         affectedSkillScope: {
           mode: 'SKILLS',
@@ -560,12 +599,12 @@ describe('skill effect form validation', () => {
         {
           vampType: 'OMNIVAMP',
           basisOutputKind: 'POST_DEFENSE_DAMAGE',
-          efficiencyFormulaKey: 'heal'
+          efficiencyValue: formulaValue("heal")
         },
         {
           vampType: 'OMNIVAMP',
           basisOutputKind: 'ACTUAL_HP_LOSS',
-          efficiencyFormulaKey: 'damage'
+          efficiencyValue: formulaValue("damage")
         }
       ]
     })]), { includeEffectKey: true, catalog: CATALOG });
@@ -578,12 +617,12 @@ describe('skill effect form validation', () => {
       vampRules: [{
         vampType: 'SPELL_VAMP',
         basisOutputKind: 'ACTUAL_HP_LOSS',
-        efficiencyFormulaKey: ''
+        efficiencyValue: null
       }]
     })]), { includeEffectKey: true, catalog: CATALOG });
     expect(missingFormula.ok).toBe(false);
     if (!missingFormula.ok) {
-      expect(missingFormula.resultErrors[0]?.fieldErrors.vampRules).toBe('请选择吸血效率公式。');
+      expect(missingFormula.resultErrors[0]?.fieldErrors.vampRules).toBe('请选择吸血效率取值。');
     }
   });
 
@@ -618,6 +657,67 @@ describe('skill effect form validation', () => {
     heal.spellShieldBlockScope = 'RESULT';
     expect(clearHiddenResultFields(heal).spellShieldBlockScope).toBe('');
     expect(isSpellShieldBlockScopeVisible(heal)).toBe(false);
+  });
+
+  it('preserves only result scope for persistent target status application through save and readback', () => {
+    const status = withBehavior(createEmptyResultDraft('STATUS_OPERATION'), { moment: 'PERSISTENT' });
+    status.resultKey = 'poison';
+    status.name = '施加中毒';
+    status.statusKey = 'poison';
+    status.spellShieldBlockScope = 'RESULT';
+    expect(isSpellShieldBlockScopeVisible(status)).toBe(true);
+    expect(listSpellShieldBlockScopeOptions(status)).toEqual(['RESULT']);
+    expect(clearHiddenResultFields(status).spellShieldBlockScope).toBe('RESULT');
+    expect(clearHiddenLifecycleBehaviorFields(status).spellShieldBlockScope).toBe('RESULT');
+    const saved = expectValid(lifecycleEnabledDraft([status])).results[0];
+    expect(saved).toMatchObject({
+      target: 'TARGET', resultType: 'STATUS_OPERATION', spellShieldBlockScope: 'RESULT',
+      detail: { operation: 'APPLY', statusKey: 'poison' },
+      lifecycleBehavior: { moment: 'PERSISTENT', stackValueMode: null, reapplicationValueMode: null }
+    });
+    expect(clearHiddenResultFields(skillEffectResultToDraft(saved)).spellShieldBlockScope).toBe('RESULT');
+    expect(expectValid(lifecycleEnabledDraft([{ ...status, spellShieldBlockScope: '' }])).results[0]
+      .spellShieldBlockScope).toBeNull();
+
+    for (const scope of ['SKILL', 'EFFECT', 'DAMAGE_INSTANCE'] as const) {
+      const invalid = { ...status, spellShieldBlockScope: scope };
+      expect(clearHiddenResultFields(invalid).spellShieldBlockScope).toBe('');
+      expect(clearHiddenLifecycleBehaviorFields(invalid).spellShieldBlockScope).toBe('');
+      expect(expectValid(lifecycleEnabledDraft([invalid])).results[0].spellShieldBlockScope).toBeNull();
+    }
+    for (const ineligible of [
+      { ...status, target: 'SOURCE' as const },
+      { ...status, statusOperation: 'REMOVE' as const },
+      { ...status, resultType: 'ATTRIBUTE_CHANGE' as const },
+      { ...status, resultType: 'DAMAGE' as const }
+    ]) {
+      expect(isSpellShieldBlockScopeVisible(ineligible)).toBe(false);
+      expect(listSpellShieldBlockScopeOptions(ineligible)).toEqual([]);
+      expect(clearHiddenLifecycleBehaviorFields(ineligible).spellShieldBlockScope).toBe('');
+    }
+  });
+
+  it('lets a valid child result enter an unfinished parent draft while final parent save stays strict', () => {
+    const parent = {
+      ...validEffectDraft([validDamageDraft()]), name: '', description: '长'.repeat(2001), sortOrder: '-1'
+    };
+    const childOptions = {
+      includeEffectKey: false, catalog: CATALOG,
+      skipLifecycleShapeValidation: true, skipEffectMetadataValidation: true
+    };
+    expect(validateSkillEffectDraft(parent, childOptions).ok).toBe(true);
+    const final = validateSkillEffectDraft(parent, { includeEffectKey: true, catalog: CATALOG });
+    expect(final.ok).toBe(false);
+    if (!final.ok) {
+      expect(final.fieldErrors.name).toBe('效果名称不能为空。');
+      expect(final.fieldErrors.description).toBe('说明不能超过 2000 个字符。');
+      expect(final.fieldErrors.sortOrder).toBeTruthy();
+    }
+    const badChild = validateSkillEffectDraft({
+      ...parent, results: [{ ...validDamageDraft(), name: '' }]
+    }, childOptions);
+    expect(badChild.ok).toBe(false);
+    if (!badChild.ok) expect(badChild.resultErrors[0]?.fieldErrors.name).toBe('结果名称不能为空。');
   });
 
   it('builds a persistent spell-shield result with no value or block scope', () => {
@@ -682,7 +782,7 @@ describe('skill effect form validation', () => {
     const cooldown = createEmptyResultDraft('COOLDOWN_CHANGE');
     cooldown.resultKey = 'reduce_abilities';
     cooldown.name = '减少技能冷却';
-    cooldown.formulaKey = 'cooldown_reduction_ms';
+    cooldown.value = formulaValue('cooldown_reduction_ms');
 
     const all = validateSkillEffectDraft(validEffectDraft([cooldown]), {
       includeEffectKey: true,
@@ -728,12 +828,12 @@ describe('skill effect form validation', () => {
 
   it('requires value rules for numeric results and rejects min greater than max', () => {
     const missingFormula = validateSkillEffectDraft(
-      validEffectDraft([validDamageDraft({ formulaKey: '' })]),
+      validEffectDraft([validDamageDraft({ value: null })]),
       { includeEffectKey: true, catalog: CATALOG }
     );
     expect(missingFormula.ok).toBe(false);
     if (missingFormula.ok) throw new Error('expected invalid');
-    expect(missingFormula.resultErrors[0]?.fieldErrors.formulaKey).toBe('请选择数值公式。');
+    expect(missingFormula.resultErrors[0]?.fieldErrors.value).toBe('请配置取值来源。');
 
     const negativeMultiplier = validateSkillEffectDraft(
       validEffectDraft([validDamageDraft({ fixedMultiplier: '-1' })]),
@@ -761,13 +861,13 @@ describe('skill effect form validation', () => {
     expect(switched).toMatchObject({
       resultType: 'STATUS_OPERATION',
       damageTypeKey: '',
-      formulaKey: '',
+      value: null,
       fixedMultiplier: '',
       statusOperation: 'APPLY'
     });
     expect(isValueRuleVisible(switched)).toBe(false);
-    expect(clearHiddenResultFields({ ...switched, formulaKey: 'damage', damageTypeKey: 'physical' })).toMatchObject({
-      formulaKey: '',
+    expect(clearHiddenResultFields({ ...switched, value: formulaValue('damage'), damageTypeKey: 'physical' })).toMatchObject({
+      value: null,
       damageTypeKey: '',
       statusKey: ''
     });
@@ -776,7 +876,7 @@ describe('skill effect form validation', () => {
     reduce.cooldownOperation = 'REDUCE';
     expect(cooldownChangeAmountHint(reduce)).toBe(COOLDOWN_CHANGE_AMOUNT_HINT);
     const reset = applyCooldownOperationChange(reduce, 'RESET');
-    expect(reset.formulaKey).toBe('');
+    expect(reset.value).toBeNull();
     expect(reset.fixedMultiplier).toBe('');
     expect(isValueRuleVisible(reset)).toBe(false);
     expect(cooldownChangeAmountHint(reset)).toBeNull();
@@ -808,7 +908,7 @@ describe('skill effect catalog refs', () => {
     const newParentCooldown = createEmptyResultDraft('COOLDOWN_CHANGE');
     newParentCooldown.resultKey = 'self_cd';
     newParentCooldown.name = '自身冷却';
-    newParentCooldown.formulaKey = 'cooldown_reduction_ms';
+    newParentCooldown.value = formulaValue('cooldown_reduction_ms');
     newParentCooldown.affectedSkillScope = {
       mode: 'SKILLS',
       skillKeys: ['ezreal_q'],
@@ -879,12 +979,12 @@ describe('skill effect catalog refs', () => {
     expect(isCatalogOptionSelectable(missing!)).toBe(false);
 
     const blocked = validateSkillEffectDraft(
-      validEffectDraft([validDamageDraft({ formulaKey: 'missing_formula' })]),
+      validEffectDraft([validDamageDraft({ value: formulaValue('missing_formula') })]),
       { includeEffectKey: true, catalog: CATALOG }
     );
     expect(blocked.ok).toBe(false);
     if (blocked.ok) throw new Error('expected invalid');
-    expect(blocked.resultErrors[0]?.fieldErrors.formulaKey).toBe(INCOMPLETE_CATALOG_MESSAGE);
+    expect(blocked.resultErrors[0]?.fieldErrors.value).toBe(INCOMPLETE_CATALOG_MESSAGE);
 
     const failedCatalog = validateSkillEffectDraft(validEffectDraft(), {
       includeEffectKey: true,
@@ -922,11 +1022,11 @@ describe('skill effect API field issue mapping', () => {
       fieldIssues: [
         { field: 'effectKey', code: 'FORMAT_INVALID', message: ' 效果标识不合法 ' },
         { field: 'name', code: 'LENGTH_INVALID', message: '效果名称不能超过 100 个字符' },
-        { field: 'results[0].valueRule.formulaKey', code: 'UNKNOWN_FORMULA', message: '公式不存在' },
+        { field: 'results[0].valueRule.value', code: 'UNKNOWN_FORMULA', message: '公式不存在' },
         { field: 'results[0].detail.damageTypeKey', code: 'UNKNOWN_DAMAGE_TYPE', message: '伤害类型不存在' },
         { field: 'results[0].detail.originKind', code: 'ENUM_INVALID', message: '来源性质不合法' },
-        { field: 'results[0].detail.critical.multiplierFormulaKey', code: 'UNKNOWN_FORMULA', message: '暴击公式不存在' },
-        { field: 'results[0].detail.vampRules[1].efficiencyFormulaKey', code: 'UNKNOWN_FORMULA', message: '吸血公式不存在' },
+        { field: 'results[0].detail.critical.multiplierValue', code: 'UNKNOWN_FORMULA', message: '暴击公式不存在' },
+        { field: 'results[0].detail.vampRules[1].efficiencyValue', code: 'UNKNOWN_FORMULA', message: '吸血公式不存在' },
         { field: 'results[1].detail.operation', code: 'ENUM_INVALID', message: '操作不合法' },
         { field: 'results[1].resultType', code: 'IMMUTABLE', message: '结果种类不可修改' },
         { field: 'results[2].detail.affectedSkillScope.skillKeys[1]', code: 'UNKNOWN_SKILL', message: '技能不存在' },
@@ -944,10 +1044,10 @@ describe('skill effect API field issue mapping', () => {
         {
           index: 0,
           fieldErrors: {
-            formulaKey: '公式不存在',
+            value: '公式不存在',
             damageTypeKey: '伤害类型不存在',
             damageOriginKind: '来源性质不合法',
-            criticalMultiplierFormulaKey: '暴击公式不存在',
+            criticalMultiplierValue: "暴击公式不存在",
             vampRules: '吸血公式不存在'
           }
         },
@@ -1080,17 +1180,17 @@ describe('skill effect draft sorting', () => {
   it('builds critical and fixed-order vamp details without empty rows', () => {
     const normalized = expectValid(validEffectDraft([validDamageDraft({
       criticalMode: 'SOURCE_CRIT_CHANCE',
-      criticalMultiplierFormulaKey: 'heal',
+      criticalMultiplierValue: formulaValue("heal"),
       vampRules: [
         {
           vampType: 'OMNIVAMP',
           basisOutputKind: 'ACTUAL_HP_LOSS',
-          efficiencyFormulaKey: 'heal'
+          efficiencyValue: formulaValue("heal")
         },
         {
           vampType: 'LIFE_STEAL',
           basisOutputKind: 'POST_DEFENSE_DAMAGE',
-          efficiencyFormulaKey: 'damage'
+          efficiencyValue: formulaValue("damage")
         }
       ]
     })]));
@@ -1100,10 +1200,10 @@ describe('skill effect draft sorting', () => {
       detail: {
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
-        critical: { mode: 'SOURCE_CRIT_CHANCE', multiplierFormulaKey: 'heal' },
+        critical: { mode: 'SOURCE_CRIT_CHANCE', multiplierValue: formulaValue("heal") },
         vampRules: [
-          { vampType: 'LIFE_STEAL', efficiencyFormulaKey: 'damage' },
-          { vampType: 'OMNIVAMP', efficiencyFormulaKey: 'heal' }
+          { vampType: 'LIFE_STEAL', efficiencyValue: formulaValue("damage") },
+          { vampType: 'OMNIVAMP', efficiencyValue: formulaValue("heal") }
         ]
       }
     });
@@ -1114,7 +1214,7 @@ describe('skill effect draft sorting', () => {
     Object.assign(shield, {
       resultKey: 'shield',
       name: '普通护盾',
-      formulaKey: 'heal',
+      value: formulaValue('heal'),
       fixedMultiplier: '1',
       absorbedDamageTypeKey: 'physical',
       shieldDecayMode: 'LINEAR_TO_ZERO',
@@ -1158,7 +1258,7 @@ describe('skill effect result conversion coverage', () => {
         description: 'desc',
         sortOrder: 1,
         lifecycleBehavior: null,
-        valueRule: { formulaKey: 'heal', fixedMultiplier: 1.5, fixedMinValue: 1, fixedMaxValue: 9 },
+        valueRule: { value: formulaValue("heal"), fixedMultiplier: 1.5, fixedMinValue: 1, fixedMaxValue: 9 },
         detail: {}
       },
       {
@@ -1169,7 +1269,7 @@ describe('skill effect result conversion coverage', () => {
         description: null,
         sortOrder: 2,
         lifecycleBehavior: null,
-        valueRule: { formulaKey: 'heal', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        valueRule: { value: formulaValue("heal"), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
         detail: {}
       },
       {
@@ -1180,7 +1280,7 @@ describe('skill effect result conversion coverage', () => {
         description: null,
         sortOrder: 3,
         lifecycleBehavior: null,
-        valueRule: { formulaKey: 'damage', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        valueRule: { value: formulaValue("damage"), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
         detail: { attributeKey: 'old_attr', operation: 'SET' }
       },
       {
@@ -1191,7 +1291,7 @@ describe('skill effect result conversion coverage', () => {
         description: null,
         sortOrder: 4,
         lifecycleBehavior: null,
-        valueRule: { formulaKey: 'heal', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        valueRule: { value: formulaValue("heal"), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
         detail: { attributeKey: 'mana', operation: 'CONSUME' }
       },
       {
@@ -1223,7 +1323,7 @@ describe('skill effect result conversion coverage', () => {
 
     const drafts = results.map(skillEffectResultToDraft);
     expect(drafts[0]).toMatchObject({
-      formulaKey: 'heal',
+      value: formulaValue('heal'),
       fixedMultiplier: '1.5',
       fixedMinValue: '1',
       fixedMaxValue: '9',
@@ -1235,13 +1335,13 @@ describe('skill effect result conversion coverage', () => {
     });
     expect(drafts[4]).toMatchObject({
       cooldownOperation: 'RESET',
-      formulaKey: '',
+      value: null,
       originalAffectedSkillKeys: ['ezreal_w']
     });
     expect(drafts[5]).toMatchObject({
       statusOperation: 'REMOVE',
       originalStatusKey: 'old_poison',
-      formulaKey: ''
+      value: null
     });
 
     const retained = validateSkillEffectDraft(
@@ -1260,14 +1360,14 @@ function lifecycleEnabledDraft(
   return {
     ...enabled,
     lifecycle: {
-      durationFormulaKey: 'poison_duration_ms',
-      maxStacksFormulaKey: 'one',
-      applicationStacksFormulaKey: 'one',
+      durationValue: formulaValue("poison_duration_ms"),
+      maxStacksValue: formulaValue("one"),
+      applicationStacksValue: formulaValue("one"),
       instanceScope: 'SOURCE_TARGET',
       reapplicationStackMode: 'KEEP',
       reapplicationDurationMode: 'REFRESH_ALL',
       expiryMode: 'ALL_AT_ONCE',
-      periodicIntervalFormulaKey: '',
+      periodicIntervalValue: null,
       firstPeriodicExecution: '',
       ...lifecycleOverrides
     }
@@ -1361,7 +1461,7 @@ describe('skill effect lifecycle drafts', () => {
     );
     expect(periodic.ok).toBe(false);
     if (periodic.ok) throw new Error('expected invalid');
-    expect(periodic.fieldErrors.periodicIntervalFormulaKey).toBe('请选择周期间隔公式。');
+    expect(periodic.fieldErrors.periodicIntervalValue).toBe('请选择周期间隔取值。');
     expect(periodic.fieldErrors.firstPeriodicExecution).toBe('请选择首次周期。');
 
     const complete = expectValid(lifecycleEnabledDraft(
@@ -1373,12 +1473,12 @@ describe('skill effect lifecycle drafts', () => {
         })
       ],
       {
-        periodicIntervalFormulaKey: 'poison_tick_interval_ms',
+        periodicIntervalValue: formulaValue("poison_tick_interval_ms"),
         firstPeriodicExecution: 'AFTER_INTERVAL'
       }
     ));
     expect(complete.lifecycle).toMatchObject({
-      periodicIntervalFormulaKey: 'poison_tick_interval_ms',
+      periodicIntervalValue: formulaValue("poison_tick_interval_ms"),
       firstPeriodicExecution: 'AFTER_INTERVAL'
     });
   });
@@ -1415,7 +1515,7 @@ describe('skill effect lifecycle drafts', () => {
     const shield = createEmptyResultDraft('NORMAL_SHIELD');
     shield.resultKey = 'shield';
     shield.name = '护盾';
-    shield.formulaKey = 'heal';
+    shield.value = formulaValue('heal');
     const persistentShield = applyStackValueModeChange(
       withBehavior(shield, { moment: 'PERSISTENT' }),
       'SHARED'
@@ -1425,7 +1525,7 @@ describe('skill effect lifecycle drafts', () => {
     const attribute = createEmptyResultDraft('ATTRIBUTE_CHANGE');
     attribute.resultKey = 'slow';
     attribute.name = '减速';
-    attribute.formulaKey = 'damage';
+    attribute.value = formulaValue('damage');
     attribute.attributeKey = 'move_speed';
     attribute.attributeOperation = 'DECREASE';
     const persistentAttr = applyStackValueModeChange(
@@ -1461,7 +1561,7 @@ describe('skill effect lifecycle drafts', () => {
     const damageModifier = createEmptyResultDraft('DAMAGE_MODIFIER');
     damageModifier.resultKey = 'damage_taken_reduction';
     damageModifier.name = '受到伤害降低';
-    damageModifier.formulaKey = 'damage';
+    damageModifier.value = formulaValue('damage');
     damageModifier.modifierDirection = 'TAKEN';
     damageModifier.modifierOperation = 'DECREASE';
     damageModifier.damageTypeKey = 'physical';
@@ -1474,7 +1574,7 @@ describe('skill effect lifecycle drafts', () => {
     const healingModifier = createEmptyResultDraft('HEALING_MODIFIER');
     healingModifier.resultKey = 'vamp_received_reduction';
     healingModifier.name = '受到吸血治疗降低';
-    healingModifier.formulaKey = 'heal';
+    healingModifier.value = formulaValue('heal');
     healingModifier.healingModifierDirection = 'RECEIVED';
     healingModifier.modifierOperation = 'DECREASE';
     healingModifier.healingKind = 'VAMP';
@@ -1491,7 +1591,7 @@ describe('skill effect lifecycle drafts', () => {
     const healthFloor = createEmptyResultDraft('HEALTH_FLOOR');
     healthFloor.resultKey = 'health_floor';
     healthFloor.name = '生命下限';
-    healthFloor.formulaKey = 'heal';
+    healthFloor.value = formulaValue('heal');
     healthFloor.attributeKey = 'move_speed';
     const sharedHealthFloor = applyStackValueModeChange(healthFloor, 'SHARED');
     sharedHealthFloor.lifecycleBehavior.reapplicationValueMode = 'KEEP';
@@ -1520,7 +1620,7 @@ describe('skill effect lifecycle drafts', () => {
           periodicExecutionMode: null
         },
         valueRule: {
-          formulaKey: 'damage',
+          value: formulaValue("damage"),
           fixedMultiplier: 1,
           fixedMinValue: null,
           fixedMaxValue: null
@@ -1551,7 +1651,7 @@ describe('skill effect lifecycle drafts', () => {
           periodicExecutionMode: null
         },
         valueRule: {
-          formulaKey: 'heal',
+          value: formulaValue("heal"),
           fixedMultiplier: 1,
           fixedMinValue: null,
           fixedMaxValue: null
@@ -1601,7 +1701,7 @@ describe('skill effect lifecycle drafts', () => {
           periodicExecutionMode: null
         },
         valueRule: {
-          formulaKey: 'heal',
+          value: formulaValue("heal"),
           fixedMultiplier: 1,
           fixedMinValue: null,
           fixedMaxValue: null
@@ -1615,7 +1715,7 @@ describe('skill effect lifecycle drafts', () => {
     const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
     modifier.resultKey = 'dynamic_damage';
     modifier.name = '动态伤害修正';
-    modifier.formulaKey = 'damage';
+    modifier.value = formulaValue('damage');
     modifier.modifierZoneKey = 'damage_ratio';
     modifier.lifecycleBehavior.stackValueMode = 'SHARED';
     modifier.lifecycleBehavior.reapplicationValueMode = 'KEEP';
@@ -1635,7 +1735,7 @@ describe('skill effect lifecycle drafts', () => {
     const shield = createEmptyResultDraft('NORMAL_SHIELD');
     shield.resultKey = 'dynamic_shield';
     shield.name = '动态护盾';
-    shield.formulaKey = 'heal';
+    shield.value = formulaValue('heal');
     const persistentShield = withBehavior(shield, {
       moment: 'PERSISTENT',
       valueReadMode: 'MOMENT_EVALUATION',
@@ -1653,7 +1753,7 @@ describe('skill effect lifecycle drafts', () => {
     const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
     modifier.resultKey = 'damage_modifier';
     modifier.name = '伤害修正';
-    modifier.formulaKey = 'damage';
+    modifier.value = formulaValue('damage');
     const withoutLifecycle = validateSkillEffectDraft(
       validEffectDraft([applyStackValueModeChange(modifier, 'PER_STACK')]),
       { includeEffectKey: true, catalog: CATALOG }
@@ -1666,7 +1766,7 @@ describe('skill effect lifecycle drafts', () => {
     const healthFloor = createEmptyResultDraft('HEALTH_FLOOR');
     healthFloor.resultKey = 'health_floor';
     healthFloor.name = '生命下限';
-    healthFloor.formulaKey = 'heal';
+    healthFloor.value = formulaValue('heal');
     healthFloor.attributeKey = 'move_speed';
     const perStack = applyStackValueModeChange(healthFloor, 'PER_STACK');
     const invalidPerStack = validateSkillEffectDraft(
@@ -1694,7 +1794,7 @@ describe('skill effect lifecycle drafts', () => {
     const attribute = createEmptyResultDraft('ATTRIBUTE_CHANGE');
     attribute.resultKey = 'set_speed';
     attribute.name = '覆盖移速';
-    attribute.formulaKey = 'damage';
+    attribute.value = formulaValue('damage');
     attribute.attributeKey = 'move_speed';
     attribute.attributeOperation = 'SET';
     const stacked = applyStackValueModeChange(
@@ -1731,7 +1831,7 @@ describe('skill effect lifecycle drafts', () => {
     const adjust = createEmptyResultDraft('LIFECYCLE_OPERATION');
     adjust.resultKey = 'consume_trap';
     adjust.name = '消耗陷阱';
-    adjust.formulaKey = 'one';
+    adjust.value = formulaValue('one');
     adjust.targetEffectKey = 'toxic_trap';
     adjust.lifecycleOperation = 'CONSUME';
 
@@ -1739,7 +1839,7 @@ describe('skill effect lifecycle drafts', () => {
       { ...adjust, resultKey: 'refresh_trap', name: '刷新陷阱' },
       'REFRESH'
     );
-    expect(refresh.formulaKey).toBe('');
+    expect(refresh.value).toBeNull();
     expect(isValueRuleVisible(refresh)).toBe(false);
 
     const normalized = expectValid(
@@ -1756,7 +1856,7 @@ describe('skill effect lifecycle drafts', () => {
       spellShieldBlockScope: null,
       lifecycleBehavior: null,
       valueRule: {
-        formulaKey: 'one',
+        value: formulaValue("one"),
         fixedMultiplier: 1,
         fixedMinValue: null,
         fixedMaxValue: null
@@ -1786,7 +1886,7 @@ describe('skill effect lifecycle drafts', () => {
   it('maps lifecycle field paths and keeps unmatched result indexes generic', () => {
     const error = new ApiRequestError('效果信息不合法', 400, '400.VALIDATION_FAILED', {
       fieldIssues: [
-        { field: 'lifecycle.durationFormulaKey', code: 'REFRESH_OPERATION_IN_USE', message: '仍被刷新占用' },
+        { field: 'lifecycle.durationValue', code: 'REFRESH_OPERATION_IN_USE', message: '仍被刷新占用' },
         { field: 'lifecycle.instanceScope', code: 'IMMUTABLE', message: '实例范围不可修改' },
         { field: 'results[0].lifecycleBehavior.moment', code: 'ENUM_INVALID', message: '时点不合法' },
         { field: 'results[0].detail.targetEffectKey', code: 'TARGET_EFFECT_HAS_NO_DURATION', message: '目标没有持续时间' },
@@ -1797,7 +1897,7 @@ describe('skill effect lifecycle drafts', () => {
       { resultType: 'LIFECYCLE_OPERATION' }
     ])).toEqual({
       fieldErrors: {
-        durationFormulaKey: '仍被刷新占用',
+        durationValue: "仍被刷新占用",
         instanceScope: '实例范围不可修改'
       },
       resultErrors: [
@@ -1839,16 +1939,16 @@ describe('execute, hit-link and attack-link results', () => {
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.HIT_LINK_APPLICATION).toBe('命中联动应用');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.ATTACK_LINK_APPLICATION).toBe('攻击联动应用');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.SKILL_HASTE_MODIFIER).toBe('技能急速修正');
-    expect(valueFormulaLabelFor('EXECUTE')).toBe('斩杀阈值公式');
-    expect(valueFormulaLabelFor('HIT_LINK_APPLICATION')).toBe('命中联动次数公式');
-    expect(valueFormulaLabelFor('ATTACK_LINK_APPLICATION')).toBe('攻击联动次数公式');
+    expect(valueFormulaLabelFor('EXECUTE')).toBe('斩杀阈值取值');
+    expect(valueFormulaLabelFor('HIT_LINK_APPLICATION')).toBe('命中联动次数取值');
+    expect(valueFormulaLabelFor('ATTACK_LINK_APPLICATION')).toBe('攻击联动次数取值');
   });
 
   it('maps execute attribute drafts and empty link details, including discrete moments', () => {
     const execute = createEmptyResultDraft('EXECUTE');
     execute.resultKey = 'collect_execute';
     execute.name = '斩杀';
-    execute.formulaKey = 'heal';
+    execute.value = formulaValue('heal');
     execute.attributeKey = 'mana';
     execute.spellShieldBlockScope = 'RESULT';
     const normalizedExecute = expectValid(validEffectDraft([execute]));
@@ -1862,7 +1962,7 @@ describe('execute, hit-link and attack-link results', () => {
       spellShieldBlockScope: 'RESULT',
       lifecycleBehavior: null,
       valueRule: {
-        formulaKey: 'heal',
+        value: formulaValue("heal"),
         fixedMultiplier: 1,
         fixedMinValue: null,
         fixedMaxValue: null
@@ -1872,7 +1972,7 @@ describe('execute, hit-link and attack-link results', () => {
     expect(skillEffectResultToDraft(normalizedExecute.results[0]!)).toMatchObject({
       resultType: 'EXECUTE',
       attributeKey: 'mana',
-      formulaKey: 'heal',
+      value: formulaValue('heal'),
       modifierZoneKey: '',
       spellShieldBlockScope: 'RESULT'
     });
@@ -1880,21 +1980,21 @@ describe('execute, hit-link and attack-link results', () => {
     const hitLink = createEmptyResultDraft('HIT_LINK_APPLICATION');
     hitLink.resultKey = 'on_hit_link';
     hitLink.name = '命中联动';
-    hitLink.formulaKey = 'one';
+    hitLink.value = formulaValue('one');
     const attackLink = withBehavior(createEmptyResultDraft('ATTACK_LINK_APPLICATION'), {
       moment: 'APPLICATION',
       valueReadMode: 'APPLICATION_SNAPSHOT'
     });
     attackLink.resultKey = 'on_attack_link';
     attackLink.name = '攻击联动';
-    attackLink.formulaKey = 'one';
+    attackLink.value = formulaValue('one');
     const periodic = withBehavior(hitLink, {
       moment: 'PERIODIC',
       valueReadMode: 'APPLICATION_SNAPSHOT',
       periodicExecutionMode: 'ONCE_PER_INSTANCE'
     });
     const normalizedLinks = expectValid(lifecycleEnabledDraft([periodic, attackLink], {
-      periodicIntervalFormulaKey: 'poison_tick_interval_ms',
+      periodicIntervalValue: formulaValue("poison_tick_interval_ms"),
       firstPeriodicExecution: 'AFTER_INTERVAL'
     }));
     expect(normalizedLinks.results[0]).toMatchObject({
@@ -1907,12 +2007,12 @@ describe('execute, hit-link and attack-link results', () => {
         reapplicationValueMode: null,
         periodicExecutionMode: 'ONCE_PER_INSTANCE'
       },
-      valueRule: { formulaKey: 'one', fixedMultiplier: 1 }
+      valueRule: { value: formulaValue("one"), fixedMultiplier: 1 }
     });
     expect(normalizedLinks.results[1]).toMatchObject({
       resultType: 'ATTACK_LINK_APPLICATION',
       detail: {},
-      valueRule: { formulaKey: 'one', fixedMultiplier: 1 }
+      valueRule: { value: formulaValue("one"), fixedMultiplier: 1 }
     });
   });
 
@@ -1920,7 +2020,7 @@ describe('execute, hit-link and attack-link results', () => {
     const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
     modifier.resultKey = 'taken_reduction';
     modifier.name = '受到伤害降低';
-    modifier.formulaKey = 'damage';
+    modifier.value = formulaValue('damage');
     modifier.modifierZoneKey = 'damage_ratio';
     modifier.modifierDirection = 'TAKEN';
     modifier.modifierOperation = 'DECREASE';
@@ -1935,7 +2035,7 @@ describe('execute, hit-link and attack-link results', () => {
     const hitLink = createEmptyResultDraft('HIT_LINK_APPLICATION');
     hitLink.resultKey = 'on_hit_link';
     hitLink.name = '命中联动';
-    hitLink.formulaKey = 'one';
+    hitLink.value = formulaValue('one');
     hitLink.spellShieldBlockScope = 'DAMAGE_INSTANCE';
     const invalidScope = validateSkillEffectDraft(validEffectDraft([hitLink]), {
       includeEffectKey: true,
@@ -1967,7 +2067,7 @@ describe('execute, hit-link and attack-link results', () => {
     const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
     modifier.resultKey = 'dynamic_taken';
     modifier.name = '动态减伤';
-    modifier.formulaKey = 'damage';
+    modifier.value = formulaValue('damage');
     modifier.modifierZoneKey = 'damage_ratio';
     modifier.lifecycleBehavior.stackValueMode = 'SHARED';
     modifier.lifecycleBehavior.valueReadMode = 'MOMENT_EVALUATION';
@@ -1979,7 +2079,7 @@ describe('execute, hit-link and attack-link results', () => {
     });
     execute.resultKey = 'execute_hp';
     execute.name = '斩杀';
-    execute.formulaKey = 'heal';
+    execute.value = formulaValue('heal');
     execute.attributeKey = 'mana';
     execute.spellShieldBlockScope = 'SKILL';
 
@@ -2020,7 +2120,7 @@ describe('execute, hit-link and attack-link results', () => {
     const error = new ApiRequestError('效果信息不合法', 400, '400.VALIDATION_FAILED', {
       fieldIssues: [
         { field: 'results[0].detail.attributeKey', code: 'UNKNOWN_ATTRIBUTE', message: '属性不存在' },
-        { field: 'results[0].valueRule.formulaKey', code: 'UNKNOWN_FORMULA', message: '公式不存在' },
+        { field: 'results[0].valueRule.value', code: 'UNKNOWN_FORMULA', message: '公式不存在' },
         { field: 'results[0].spellShieldBlockScope', code: 'ENUM_INVALID', message: '阻挡范围不合法' }
       ]
     });
@@ -2030,7 +2130,7 @@ describe('execute, hit-link and attack-link results', () => {
         index: 0,
         fieldErrors: {
           attributeKey: '属性不存在',
-          formulaKey: '公式不存在',
+          value: '公式不存在',
           spellShieldBlockScope: '阻挡范围不合法'
         }
       }],
@@ -2045,7 +2145,7 @@ describe('affected skill scope and skill haste', () => {
     const cooldown = createEmptyResultDraft('COOLDOWN_CHANGE');
     cooldown.resultKey = 'cdr';
     cooldown.name = '冷却';
-    cooldown.formulaKey = 'cooldown_reduction_ms';
+    cooldown.value = formulaValue('cooldown_reduction_ms');
     cooldown.affectedSkillScope = {
       mode: 'SKILLS',
       skillKeys: ['ezreal_w', 'ezreal_w'],
@@ -2097,7 +2197,7 @@ describe('affected skill scope and skill haste', () => {
     const all = createEmptyResultDraft('COOLDOWN_CHANGE');
     all.resultKey = 'all_cd';
     all.name = '全部冷却';
-    all.formulaKey = 'cooldown_reduction_ms';
+    all.value = formulaValue('cooldown_reduction_ms');
     expect(expectValid(validEffectDraft([all])).results[0]?.detail).toMatchObject({
       affectedSkillScope: { mode: 'ALL', skillKeys: [], skillCategoryKeys: [] }
     });
@@ -2105,7 +2205,7 @@ describe('affected skill scope and skill haste', () => {
     const categories = createEmptyResultDraft('COOLDOWN_CHANGE');
     categories.resultKey = 'cat_cd';
     categories.name = '分类冷却';
-    categories.formulaKey = 'cooldown_reduction_ms';
+    categories.value = formulaValue('cooldown_reduction_ms');
     categories.affectedSkillScope = {
       mode: 'CATEGORIES',
       skillKeys: [],
@@ -2187,7 +2287,7 @@ describe('affected skill scope and skill haste', () => {
 
     haste.resultKey = 'displacement_haste';
     haste.name = '位移急速';
-    haste.formulaKey = 'one';
+    haste.value = formulaValue('one');
     haste.affectedSkillScope = {
       mode: 'CATEGORIES',
       skillKeys: [],
@@ -2220,7 +2320,7 @@ describe('affected skill scope and skill haste', () => {
         periodicExecutionMode: null
       },
       valueRule: {
-        formulaKey: 'one',
+        value: formulaValue("one"),
         fixedMultiplier: 1,
         fixedMinValue: null,
         fixedMaxValue: null

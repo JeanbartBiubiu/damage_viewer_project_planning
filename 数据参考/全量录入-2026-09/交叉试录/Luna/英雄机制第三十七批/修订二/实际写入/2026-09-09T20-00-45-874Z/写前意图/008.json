@@ -1,0 +1,23 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/move_speed_base_at_character_level",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_base_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_base_at_character_level",
+      "name": "取消射击角色等级移动速度基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前ASModdedMS先消费MS角色等级插值，再乘1+额外攻击速度；中间等级曲线未证，无默认值。",
+      "sortOrder": 80
+    }
+  }
+}

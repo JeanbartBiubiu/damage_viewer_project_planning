@@ -1,0 +1,99 @@
+{
+  "at": "2026-09-09T08:50:36.365Z",
+  "status": "CANDIDATE_INSPECTED",
+  "candidateDirectory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十五批",
+  "artifactDirectory": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero15-recover",
+  "apiWrites": 0,
+  "scope": {
+    "gameId": "lol",
+    "sourceVersions": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "heroes": [
+      "Viktor",
+      "Orianna",
+      "Syndra",
+      "Taliyah"
+    ],
+    "skillKeys": [
+      "viktor_p",
+      "viktor_q",
+      "viktor_w",
+      "viktor_e",
+      "viktor_r",
+      "orianna_p",
+      "orianna_q",
+      "orianna_w",
+      "orianna_e",
+      "orianna_r",
+      "syndra_p",
+      "syndra_q",
+      "syndra_w",
+      "syndra_e",
+      "syndra_r",
+      "taliyah_p",
+      "taliyah_q",
+      "taliyah_w",
+      "taliyah_e",
+      "taliyah_r"
+    ],
+    "exclusions": [
+      "独立召唤",
+      "完整变形",
+      "Sylas",
+      "Aphelios"
+    ],
+    "targetRule": "普通范围按唯一敌方目标；自身收益保留；奥莉安娜球不按名称当作独立召唤。"
+  },
+  "files": {
+    "完整候选.json": {
+      "bytes": 398043,
+      "sha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7"
+    },
+    "候选版本.json": {
+      "bytes": 10808,
+      "sha256": "fe82f744fd44ac8cf238ba5af50ca4f165e2f0406962e1c1694ebd99d6e4b86e"
+    },
+    "写前现值.json": {
+      "bytes": 191060,
+      "sha256": "79142b374fba9a9b5f099dda33525788ca1071ea35bc668b5998721cabe8f834"
+    },
+    "当前20技能组成核对.json": {
+      "bytes": 499,
+      "sha256": "1978a3e4a73099aef1b9028ed34a1ccf0a1b6f5db0cdb65579805388d0133859"
+    },
+    "根绑定与数值证据.json": {
+      "bytes": 351457,
+      "sha256": "90222e15f6e62b2854eb8a3b3260cedf94f08137b0c672e36457a7c5cda42f0a"
+    },
+    "来源冻结/来源与哈希汇总.json": {
+      "bytes": 8907,
+      "sha256": "517f95b240a9ad93b0b30a92af971611b5a129a29614119f3a76ab23f4ac40fd"
+    },
+    "补充文本证据.json": {
+      "bytes": 45904,
+      "sha256": "16e93cc9d6104ce263fbc3d248a1eb821c813f8575a8142f6687031e4c6d0d0b"
+    },
+    "独立源值与算例.json": {
+      "bytes": 61385,
+      "sha256": "4193033527a2a31b2ab00cab5b9f9ee89f7e7585293e5296f2921cd3f3cd4c03"
+    }
+  },
+  "counts": {
+    "skillCount": 20,
+    "candidate": {
+      "parameters": 170,
+      "formulas": 36,
+      "effects": 20,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "reusedPublicParameters": 28,
+    "beforeGETs": 172,
+    "beforeCompositionCount": 28,
+    "beforeErrors": 0,
+    "beforeDuplicates": 0
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/temporary_attack_speed_duration_ms",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "temporary_attack_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "temporary_attack_speed_duration_ms",
+      "name": "临时攻击速度持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "正文明确3秒。",
+      "sortOrder": 100
+    }
+  }
+}

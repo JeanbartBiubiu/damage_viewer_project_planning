@@ -1,0 +1,131 @@
+{
+  "generatedAt": "2026-09-09T05:01:12.599Z",
+  "success": true,
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidate": {
+    "file": "完整候选.json",
+    "fileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+    "objectSha256": "32550e330bafe6d0783f38bcbbf62656aed3ac70d2b5bd9a2d53cd9d92e583a1"
+  },
+  "actual": {
+    "subjects": 20,
+    "representativeImages": 20,
+    "characterRelations": 4,
+    "catalogs": 4,
+    "compositionLists": 120,
+    "existingProtected": 29,
+    "newCreated": 206,
+    "totalComponents": 235,
+    "byKind": {
+      "parameters": 175,
+      "formulas": 44,
+      "effects": 16,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "postRequests": 206,
+    "post201": 206,
+    "confirmed": 206,
+    "failedSkills": []
+  },
+  "preflight": {
+    "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/执行记录/2026-09-09T04-53-12-060Z/写前组件现值.json",
+    "sha256": "54435bc2794ea73e535ff9615b3ebb28b696bca633b4496c5c8206b0040dca41",
+    "pass": true,
+    "missingByKind": {
+      "parameters": 146,
+      "formulas": 44,
+      "effects": 16,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "conflicts": 0,
+    "protectionConflicts": [],
+    "catalogReferenceCount": 63
+  },
+  "final": {
+    "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/执行记录/2026-09-09T04-53-12-060Z/最终全量组件现值.json",
+    "sha256": "d186d0d9a8b13b1518877cb59198f1142d3cf1a5d9b404deb041d46d195ba527",
+    "details": 235,
+    "allStatus200": true,
+    "missing": 0,
+    "conflicts": 0,
+    "protectionDrift": 0
+  },
+  "journal": {
+    "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/执行记录/2026-09-09T04-53-12-060Z/HTTP流水.jsonl",
+    "sha256": "b174b7acf91b6a30f235c09125ffa0edfe9b2d2b94eae3d98bd09136c7fb7efc",
+    "requests": 1218,
+    "lines": 2436,
+    "methods": {
+      "GET": 1012,
+      "POST": 206
+    },
+    "statuses": {
+      "200": 806,
+      "201": 206,
+      "404": 206
+    },
+    "paired": true,
+    "containsCredential": false
+  },
+  "evidence": {
+    "runDir": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/执行记录/2026-09-09T04-53-12-060Z",
+    "executionReport": {
+      "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/执行记录/2026-09-09T04-53-12-060Z/执行结果.json",
+      "sha256": "6b8db31fb9bfc7b99a421d2cd595756035f212eb07b5deee9d7ee1931047a0ea"
+    },
+    "writeReport": {
+      "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/执行记录/2026-09-09T04-53-12-060Z/实际写入结果.json",
+      "sha256": "5fe3d1fd16675fc213608253f029e940f385684637e71a2afdb36c5c08d21d27"
+    },
+    "beforeProtection": {
+      "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/执行记录/2026-09-09T04-53-12-060Z/写前保护.json",
+      "sha256": "79aa819dcb2603816daca1e1c5c4bf6e4178718ecf25ef18cbd7cafab00119a2"
+    },
+    "afterProtection": {
+      "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/执行记录/2026-09-09T04-53-12-060Z/写后保护.json",
+      "sha256": "79aa819dcb2603816daca1e1c5c4bf6e4178718ecf25ef18cbd7cafab00119a2"
+    },
+    "independentFormula": {
+      "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/实值独立核算.json",
+      "sha256": "160dfbabbaa9fcfc32a93920199b4f435519b4001e64f3f815e16d761bda03b1",
+      "pass": true,
+      "checks": 748,
+      "formulaCount": 44,
+      "arithmeticCases": 12
+    },
+    "experienceReport": {
+      "file": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/实际录入体验报告.md",
+      "sha256": "970637efce433e7cde2808d663e9c07e315f74fb164005d2be899a48019911d3"
+    }
+  },
+  "reviewCopies": {
+    "独立审查-历史候选.mjs": "1c684bf8bc9f5fb7ca76ab0708d631febfdd1690a480b38e91b198cffbe7284a",
+    "独立审查-历史候选.json": "8944cfb9bfa8cfaf278a3b572e2ac6f30f8bfbad4f46daeea9349b82dd92a6c7",
+    "独立审查-历史候选报告.md": "b46d5c1f4b0b28ec2915bd69b88ec524e0196e41d539b8a37dccfcd4d52f6f47",
+    "菲奥娜R最终差异复核.mjs": "5f6fbc87790d19d7c7630d59242534f08fa2355b5d4d2834d30b5b1e3455041f",
+    "菲奥娜R最终差异复核.json": "b68e86e5ac03117d17ebca175db7527dae560c3a56f681fb08fd5c8f18fd17ef",
+    "菲奥娜R最终差异复核报告.md": "d0aa81f0b85ea47ca920c80f51184091a07e60be9bfcedd6958a9f0cdc3366d8"
+  },
+  "historicalReview": {
+    "oldCandidateFileSha256": "36bf395af31e0365b3f69d9eaf31600e58ae6ab7d9aa8b0713a55456693c5aa2",
+    "oldReviewFile": "独立审查-历史候选.json",
+    "historicalBlocker": "旧候选曾遗漏菲奥娜R本人持续治疗；最终候选已补上并由菲奥娜R最终差异复核覆盖48项。",
+    "finalDeltaReviewPass": true
+  },
+  "fioraR": {
+    "formula": "self_healing_per_second",
+    "bonusAttackDamage": 100,
+    "rankValues": [
+      135,
+      160,
+      185
+    ],
+    "sourceDurationMs": 5000,
+    "automaticFiveSecondDurationClaim": false
+  },
+  "boundary": "已完成管理接口实际写入、完整详情回读和44个公式实值核算；未宣称触发、命中时序、运行时接线、战斗运行或页面验收。"
+}

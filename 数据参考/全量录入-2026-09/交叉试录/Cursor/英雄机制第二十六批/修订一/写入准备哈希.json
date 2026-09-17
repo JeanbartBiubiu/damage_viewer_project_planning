@@ -1,0 +1,180 @@
+{
+  "generatedAt": "2026-09-09T16:07:19.058Z",
+  "status": "第26批修订一实际录入与独立回读核验已完成",
+  "scope": "仅阿利斯塔、布里茨10个技能槽的新增组件；不更新既有公共参数，不写主体、六类分类、角色关系或图片",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "counts": {
+    "parameters": 57,
+    "formulas": 10,
+    "effects": 11,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "requestCount": 78,
+    "reusedPublicParameters": 13
+  },
+  "frozen": {
+    "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+    "planSha256": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+    "sourceValuesSha256": "0c3ac5c7057860c5135c1b3825094c16e9acefa75675ed73df910082c680a9bd",
+    "sourceManifestSha256": "b4296bf9678e4057fff6ea5469bfda62d4e95538a84bbcac40f52605828785e5",
+    "strictMathSha256": "86f0d92cac6aaab12b45977a2382ae9042ae91f8c11bd42a2a6e99e7db61e4c6",
+    "freezeSha256": "d553d208c25e63a0a50cab5ce659f414b91557434035615a5320314a6ef4efc4",
+    "inputVersionSha256": "cc8492f70028c0d53133d870560b250b0a281b8eccf68eafbd5b05a336c79c0e",
+    "bindingSha256": "ff84880596ebc5c44a1a881e7bfa8659572b1ab72c7d9741ae8842b3d81b3349",
+    "snapshotSha256": "bd549959bc5c976dfc4f2209df6c2edee7c98fc0643a7cc192356f2e72e51d19",
+    "reuseSha256": "634c0691885e306d831dcdc7b6e239315601e4963fd0aebda45f07a205343fd7",
+    "freezeCandidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230"
+  },
+  "scripts": {
+    "writer": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\受保护写入器.mjs",
+      "sha256": "379ca88bb7f9d0a800097c081a167051b9729c836da9868c4a350bd90eeab206",
+      "command": "node \".agents/artifacts/hero26-luna-recovery/修订一/受保护写入器.mjs\""
+    },
+    "reader": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\独立全量回读.mjs",
+      "sha256": "af6d3abe5b09676e5dacfa5e132bea881fc5d7f14bcc06e81a2328e69d211ad8",
+      "command": "node \".agents/artifacts/hero26-luna-recovery/修订一/独立全量回读.mjs --expect-present\""
+    },
+    "actualMath": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\实际GET读后数学.mjs",
+      "sha256": "34cf7aa0203c217aa89a3b949a631279001ca2398584e661aa1bcdf134b7a795",
+      "command": "node \".agents/artifacts/hero26-luna-recovery/修订一/实际GET读后数学.mjs\""
+    }
+  },
+  "readonlyPreflight": {
+    "runId": "2026-09-09T15-53-13-991Z",
+    "outputDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\只读预检\\2026-09-09T15-53-13-991Z",
+    "mode": "readonly",
+    "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+    "apiWrites": 0,
+    "noBusinessWrites": true,
+    "calls": {
+      "total": 179,
+      "methods": {
+        "GET": 179
+      },
+      "statuses": {
+        "200": 101,
+        "404": 78
+      }
+    },
+    "staticChecksFailed": 0,
+    "protection": {
+      "checked": 101,
+      "passed": 101,
+      "failures": 0
+    },
+    "candidateDetails": {
+      "checked": 78,
+      "passed": 78,
+      "failures": 0
+    }
+  },
+  "independentFreshReadback": {
+    "runId": "2026-09-09T15-58-17-510Z",
+    "outputDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\独立回读\\2026-09-09T15-58-17-510Z",
+    "mode": "独立fresh-GET",
+    "expectation": "present",
+    "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+    "apiWrites": 0,
+    "noBusinessWrites": true,
+    "counts": {
+      "GET": 179,
+      "baselineRoutes": 101,
+      "candidateDetailRoutes": 78,
+      "totalFreshGET": 179,
+      "catalogs": 4,
+      "characters": 2,
+      "relations": 2,
+      "subjects": 10,
+      "images": 10,
+      "lists": 60,
+      "existingDetails": 13,
+      "candidateDetailsPresent": 78,
+      "candidateDetailsMissing": 0
+    },
+    "baseline": {
+      "checked": 101,
+      "passed": 101,
+      "failures": 0
+    },
+    "candidates": {
+      "checked": 78,
+      "passed": 78,
+      "failures": 0,
+      "state": "allPresent"
+    },
+    "passed": true
+  },
+  "actualApply": {
+    "lockPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\实际录入锁.json",
+    "lockSha256": "a691f1f0e4b4d74ab545360afda0d9d0a848974899a198df8cb27aff916b5df3",
+    "status": "COMPLETED",
+    "runId": "2026-09-09T15-55-31-844Z",
+    "reportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\实际写入\\2026-09-09T15-55-31-844Z\\执行结果.json",
+    "reportSha256": "5cb217262a94465978b5119e555869eadbb3f276d2a47461b4c6e14263266ebc",
+    "success": true,
+    "apiWrites": 78,
+    "postAttempts": 78,
+    "successfulPosts": 78,
+    "confirmed": 78,
+    "noBusinessWrites": false,
+    "calls": {
+      "total": 592,
+      "methods": {
+        "GET": 514,
+        "POST": 78
+      },
+      "statuses": {
+        "200": 358,
+        "201": 78,
+        "404": 156
+      }
+    }
+  },
+  "actualGetMath": {
+    "runId": "2026-09-09T16-06-30-901Z",
+    "outputDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero26-luna-recovery\\修订一\\实际GET数学\\2026-09-09T16-06-30-901Z",
+    "mode": "独立fresh-GET后数学",
+    "freshGET": {
+      "count": 78,
+      "routes": 78,
+      "statuses": {
+        "200": 78
+      }
+    },
+    "counts": {
+      "formulas": 10,
+      "formulaCases": 20,
+      "rejectionCases": 10,
+      "boundaryCases": 10,
+      "sourceSeriesChecks": 3,
+      "checks": 51,
+      "failures": 0
+    },
+    "structural": {
+      "operationNodes": 20,
+      "operationArityFailures": [],
+      "runtimeDefaultsFailures": [],
+      "integerTypeFailures": [],
+      "formulaCount": 10,
+      "parameterCount": 57
+    },
+    "apiWrites": 0,
+    "noBusinessWrites": true,
+    "passed": true
+  },
+  "handoff": {
+    "applyOwner": "根负责人",
+    "applyRequiredEnvironment": "HERO26_APPLY_CONFIRM=CONFIRM_HERO26_COMPONENT_POSTS",
+    "applyCommand": "$env:HERO26_APPLY_CONFIRM='CONFIRM_HERO26_COMPONENT_POSTS'; & node \".agents/artifacts/hero26-luna-recovery/修订一/受保护写入器.mjs\" --apply",
+    "postCount": 78,
+    "writePolicy": "逐项写前GET必须404，POST必须201，POST后逐项GET核对；任一异常先GET后停写；不更新、不删除、不重放既有对象"
+  }
+}

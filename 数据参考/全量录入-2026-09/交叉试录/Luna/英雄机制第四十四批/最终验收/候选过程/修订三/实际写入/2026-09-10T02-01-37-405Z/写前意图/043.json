@@ -1,0 +1,35 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/monkeyking_p/formulas",
+    "detailRoute": "/skills/monkeyking_p/formulas/health_regen_per_tick",
+    "skillKey": "monkeyking_p",
+    "kind": "formulas",
+    "stableKey": "health_regen_per_tick",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "health_regen_per_tick",
+      "name": "金刚不坏每次生命回复",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "health_percent_per_5_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "每5秒回复0.35%最大生命；触发事件待接。",
+      "sortOrder": 30
+    }
+  }
+}

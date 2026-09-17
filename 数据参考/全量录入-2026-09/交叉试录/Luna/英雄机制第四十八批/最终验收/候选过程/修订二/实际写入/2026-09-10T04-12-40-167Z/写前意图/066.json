@@ -1,0 +1,24 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_e/parameters",
+    "detailRoute": "/skills/yorick_e/parameters/spell_cast_time_ms",
+    "skillKey": "yorick_e",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_ms",
+      "name": "spellCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒。",
+      "sortOrder": 110
+    }
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 2,
+  "capturedAt": "2026-09-12T15:26:18.346Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 263
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "ashe_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "艾希·魔法水晶箭代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "hit_damage",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "hit_damage",
+        "resultKey": "damage",
+        "effectExpectedTextsVisible": true,
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "nasus_e",
+      "passed": true,
+      "representativeImage": {
+        "alt": "内瑟斯·灵魂烈焰代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "initial_damage",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "initial_damage",
+        "resultKey": "damage",
+        "effectExpectedTextsVisible": true,
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_initial_hit",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "item_3152_active",
+      "passed": true,
+      "representativeImage": {
+        "alt": "海克斯科技火箭腰带·超音速代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "firebolt_damage",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "firebolt_hit",
+        "resultKey": "damage",
+        "effectExpectedTextsVisible": true,
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "riven_e",
+      "passed": true,
+      "representativeImage": {
+        "alt": "锐雯·勇往直前代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "total_shield",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "shield",
+        "resultKey": "shield",
+        "effectExpectedTextsVisible": true,
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "on_used",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "screenshots": [
+    "ashe_r-actual_hit规则.png",
+    "ashe_r-damage结果.png",
+    "ashe_r-hit_damage公式.png",
+    "ashe_r-列表图片.png",
+    "item_3152_active-actual_hit规则.png",
+    "item_3152_active-damage结果.png",
+    "item_3152_active-firebolt_damage公式.png",
+    "item_3152_active-列表图片.png",
+    "nasus_e-actual_initial_hit规则.png",
+    "nasus_e-damage结果.png",
+    "nasus_e-initial_damage公式.png",
+    "nasus_e-列表图片.png",
+    "riven_e-on_used规则.png",
+    "riven_e-shield结果.png",
+    "riven_e-total_shield公式.png",
+    "riven_e-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "d80e95aed0f7e43faadfb235a016b1c8d65d05615dd867388277d92df4d600cc"
+}

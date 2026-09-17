@@ -1,0 +1,23 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/bonus_on_hit_ad_ratio",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "bonus_on_hit_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_on_hit_ad_ratio",
+      "name": "普攻额外伤总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "BonusOnHitDamage仅有mStat2与0.2系数；按当前根核对采用来源总攻击力。",
+      "sortOrder": 80
+    }
+  }
+}

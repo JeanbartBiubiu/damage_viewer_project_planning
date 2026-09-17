@@ -1,0 +1,26 @@
+{
+  "i": 46,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_q/parameters",
+    "skillKey": "hecarim_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "无叠层基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 90,
+        "3": 120,
+        "4": 150,
+        "5": 180
+      },
+      "description": "当前根DataValues.BaseDamage取索引1至5。",
+      "sortOrder": 10
+    }
+  }
+}

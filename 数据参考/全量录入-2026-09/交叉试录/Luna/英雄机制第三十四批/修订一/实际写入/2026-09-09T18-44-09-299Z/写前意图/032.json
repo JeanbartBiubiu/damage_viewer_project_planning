@@ -1,0 +1,27 @@
+{
+  "i": 31,
+  "intent": {
+    "sequence": 34,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/grievous_amount_ratio",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "grievous_amount_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "grievous_amount_ratio",
+      "name": "重伤效果比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.4,
+        "2": 0.4,
+        "3": 0.4
+      },
+      "description": "客户端GrievousAmount取索引1至3；正文按比例×100显示百分数。",
+      "sortOrder": 60
+    }
+  }
+}
