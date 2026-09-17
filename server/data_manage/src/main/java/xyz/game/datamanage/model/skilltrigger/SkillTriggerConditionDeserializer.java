@@ -24,6 +24,7 @@ public final class SkillTriggerConditionDeserializer extends JsonDeserializer<Sk
                 case INTERNAL_STATE_CHECK -> SkillTriggerInternalStateConditionDetail.class;
                 case LIFECYCLE_CHECK -> SkillTriggerLifecycleConditionDetail.class;
                 case TARGET_CATEGORY_CHECK -> SkillTriggerTargetCategoryConditionDetail.class;
+                case EXPLICIT_TARGET_IS_SOURCE -> SkillTriggerExplicitTargetIsSourceConditionDetail.class;
                 case EVENT_VALUE_COMPARE -> SkillTriggerEventValueConditionDetail.class;
             };
             detail = codec.treeToValue(detailNode, detailClass);

@@ -70,6 +70,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerExplicitTargetIsSourceConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerFailProcessActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthThresholdEventDetail;
@@ -117,6 +118,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.support.authoring.SkillExplicitTargetIsSourceConditionSemantics;
 import xyz.game.datamanage.support.authoring.SkillLifecycleConditionSemantics;
 import xyz.game.datamanage.support.authoring.SkillTargetCategoryConditionSemantics;
 
@@ -1218,6 +1220,13 @@ public class SkillTriggerRuleService {
                 }
                 issues.addAll(SkillTargetCategoryConditionSemantics.shapeIssues(detail, prefix + ".detail"));
             }
+            case EXPLICIT_TARGET_IS_SOURCE -> {
+                if (!(condition.detail() instanceof SkillTriggerExplicitTargetIsSourceConditionDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "显式自施目标条件明细形状不合法"));
+                    return;
+                }
+                issues.addAll(SkillExplicitTargetIsSourceConditionSemantics.shapeIssues(detail, prefix + ".detail"));
+            }
             case INTERNAL_STATE_CHECK -> {
                 if (!(condition.detail() instanceof SkillTriggerInternalStateConditionDetail detail)) {
                     issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "内部状态检查条件明细形状不合法"));
@@ -1730,6 +1739,11 @@ public class SkillTriggerRuleService {
     ) {
         if (condition.conditionType() == SkillTriggerConditionType.TARGET_CATEGORY_CHECK) {
             issues.addAll(SkillTargetCategoryConditionSemantics.eventIssues(eventSource.eventType(), prefix + ".detail"));
+        }
+        if (condition.conditionType() == SkillTriggerConditionType.EXPLICIT_TARGET_IS_SOURCE) {
+            issues.addAll(SkillExplicitTargetIsSourceConditionSemantics.eventIssues(
+                eventSource.eventType(), prefix + ".detail"
+            ));
         }
         if (condition.conditionType() == SkillTriggerConditionType.LIFECYCLE_CHECK
             && condition.detail() instanceof SkillTriggerLifecycleConditionDetail detail) {
@@ -2310,6 +2324,7 @@ public class SkillTriggerRuleService {
                 }
             }
             case TARGET_CATEGORY_CHECK -> { /* 固定类别不引用技能目录或执行对象。 */ }
+            case EXPLICIT_TARGET_IS_SOURCE -> { /* 显式目标身份检查不引用技能目录或执行对象。 */ }
             case INTERNAL_STATE_CHECK -> {
                 SkillTriggerInternalStateConditionDetail detail =
                     (SkillTriggerInternalStateConditionDetail) condition.detail();
