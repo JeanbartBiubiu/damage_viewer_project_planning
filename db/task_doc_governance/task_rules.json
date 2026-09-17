@@ -9,6 +9,44 @@
   ],
   "tasks": [
     {
+      "task_key": "planning-full-data-entry",
+      "title": "英雄装备符文全量实录与问题盘点",
+      "module": "planning",
+      "feature": "full_data_entry",
+      "status": "进行中",
+      "priority": 1,
+      "owner_model": "GPT-6 Astra 主负责人 + 有界资料整理",
+      "docs": ["文档记录/详细设计/项目/英雄装备符文全量实录.md", "文档记录/详细设计/项目/符文基础管理详细设计.md"]
+    },
+    {
+      "task_key": "planning-authoring-simplification-implementation",
+      "title": "系统精简与角色录入流程实施",
+      "module": "planning",
+      "feature": "authoring_simplification_implementation",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-6 Astra 主负责人 + 有界实现与独立评审",
+      "completed_at": "2026-09-06",
+      "completion_note": "原库91张业务逻辑表已收敛为24张；直接取值、生命周期条件、来源施放消耗、目标类别、命中护盾值、效果复制和只读角色检查均已实现并分批提交。真实浏览器完成伊泽瑞尔接线，原库限定整理为52参数6公式，最终完整数据对照、14个配置算术样例、角色零结构问题及独立复核通过。发布取消；机制人工核对与战斗运行验证边界保留，不代表完整英雄运行验收。",
+      "docs": ["文档记录/详细设计/项目/系统精简实施说明.md"]
+    },
+    {
+      "task_key": "planning-authoring-simplification",
+      "title": "实录驱动的精简设计与录入流程",
+      "module": "planning",
+      "feature": "authoring_simplification",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-6 Astra 主负责人 + 有界实现与独立评审",
+      "completed_at": "2026-09-06",
+      "completion_note": "首轮完成伊泽瑞尔真实页面补录、角色入口与触发草稿排序修复、独立读回复核及24表目标设计和标准流程。该首轮完成时实库为91张业务表；后续存储迁移与录入契约已由planning-authoring-simplification-implementation完成，当前设计和流程文档同步为实施后的现状。发布取消，运行验证独立。",
+      "docs": [
+        "文档记录/概要设计/项目/实录驱动的系统精简设计.md",
+        "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+        "文档记录/测试记录/项目/实录与系统精简验收记录-2026-09-06.md"
+      ]
+    },
+    {
       "task_key": "planning-background-scope",
       "title": "项目背景与范围澄清",
       "module": "planning",
@@ -689,7 +727,7 @@
       "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5",
-      "completion_note": "项目负责人于2026-09-05确认共享契约并授权开发；阶段8后端、前端、真实数据库、真实接口和真实页面技术验收均已完成，等待负责人决定是否进入阶段9。",
+      "completion_note": "项目负责人于2026-09-05确认共享契约并授权开发；阶段8后端、前端、真实数据库、真实接口和真实页面技术验收均已完成，并于2026-09-06确认进入阶段9详细设计。",
       "completed_at": "2026-09-05",
       "docs": [
         "文档记录/详细设计/项目/图片管理详细设计.md",
@@ -722,6 +760,47 @@
       "completed_at": "2026-09-05",
       "docs": [
         "文档记录/详细设计/web/图片管理前端详细设计.md"
+      ]
+    },
+    {
+      "task_key": "planning-relation-management",
+      "title": "阶段9关联管理共享契约",
+      "module": "planning",
+      "feature": "relation_management",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "GPT-6 Astra 主负责人 + 三个执行代理 + 独立评审",
+      "completed_at": "2026-09-06",
+      "completion_note": "共享契约、前后端、真实数据库和页面技术验收完成；负责人已转入实录与精简阶段并取消发布，不再等待阶段10进入确认。",
+      "docs": [
+        "文档记录/详细设计/项目/关联管理详细设计.md",
+        "文档记录/测试记录/项目/阶段9关联管理技术验收记录-2026-09-06.md"
+      ]
+    },
+    {
+      "task_key": "server-relation-management",
+      "title": "阶段9关联管理后端实现",
+      "module": "server",
+      "feature": "relation_management",
+      "status": "完成",
+      "priority": 1,
+      "completed_at": "2026-09-06",
+      "completion_note": "538项后端测试、打包、实库迁移、真实接口与页面操作、编辑日志回读和最终完整性检查通过。",
+      "docs": [
+        "文档记录/详细设计/server/game_manage/关联管理后端详细设计.md"
+      ]
+    },
+    {
+      "task_key": "web-relation-management",
+      "title": "阶段9关联管理前端实现",
+      "module": "web",
+      "feature": "relation_management",
+      "status": "完成",
+      "priority": 1,
+      "completed_at": "2026-09-06",
+      "completion_note": "技能双向挂载与七类代表图片完成；业务页面直接上传并自动关联，六类管理表格显示图片。345项单测、构建、53项完整桌面回归、最终7项布局回归及真实上传/图片列验收通过，测试数据已精确清理。",
+      "docs": [
+        "文档记录/详细设计/web/关联管理前端详细设计.md"
       ]
     },
     {
