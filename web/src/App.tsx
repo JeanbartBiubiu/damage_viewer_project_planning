@@ -128,7 +128,8 @@ export default function App() {
   const [route, setRoute] = useState<RouteId>(() => readRouteFromHash());
   const [apiBaseDraft, setApiBaseDraft] = useState(initialApiBaseUrl);
   const [apiBaseUrl, setApiBaseUrl] = useState(initialApiBaseUrl);
-  const [adminToken, setAdminToken] = useState(() => readStoredValue(ADMIN_TOKEN_STORAGE_KEY, ''));
+  // 先默认一个就行了
+  const [adminToken, setAdminToken] = useState(() => readStoredValue(ADMIN_TOKEN_STORAGE_KEY, 'test'));
   const [games, setGames] = useState<GameSummary[]>([]);
   const [gamesStatus, setGamesStatus] = useState<LoadState>('loading');
   const [gamesError, setGamesError] = useState<string | null>(null);
